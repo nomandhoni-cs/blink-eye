@@ -5,6 +5,19 @@ import time
 from tkinter import PhotoImage
 import webbrowser
 from plyer import notification
+import sys
+import os
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+Logo = resource_path("logo.png")
 
 class BlinkEyeApp:
     def __init__(self):
@@ -13,14 +26,14 @@ class BlinkEyeApp:
         self.root.attributes("-fullscreen", True)
         self.root.configure(bg='black')
 
-        icon_path = "./logo.png"
+        icon_path = resource_path("logo.png")
         window_icon = PhotoImage(file=icon_path)
         self.root.iconphoto(True, window_icon)
 
-        logo_path = "./logo.png"
+        logo_path = resource_path("logo.png")
         self.logo_image = PhotoImage(file=logo_path)
 
-        button_image_path = "./reminder-btn.png"
+        button_image_path = resource_path("reminder-btn.png")
         self.button_image = PhotoImage(file=button_image_path)
 
         self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 96), fg='white', bg='black')
@@ -47,7 +60,7 @@ class BlinkEyeApp:
         notification.notify(
             title="Blink Eye",
             message=message,
-            app_icon='./logo.ico',
+            app_icon=resource_path("logo.ico"),
             timeout=10,
         )
 
