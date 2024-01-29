@@ -42,7 +42,7 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
 
 ## Contact
 
-For inquiries and support, please contact [Your Name]:
+For inquiries and support, please contact Noman Dhoni:
 
 - Email: [alnoman.dhoni@gmail.com]
 - Twitter: [@nomandhoni]
