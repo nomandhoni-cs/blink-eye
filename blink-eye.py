@@ -31,13 +31,13 @@ class BlinkEyeApp:
         self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0)
         self.skip_button.place(relx=0.5, rely=0.9, anchor='center')
 
-        self.donate_button = tk.Button(self.root, text="Donate", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://donate-link.com"))
+        self.donate_button = tk.Button(self.root, text="Donate", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://www.buymeacoffee.com/nomandhoni"))
         self.donate_button.place(relx=0.45, rely=0.95, anchor='center')
 
-        self.github_button = tk.Button(self.root, text="Github", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://github.com/your-username"))
+        self.github_button = tk.Button(self.root, text="Github", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://github.com/nomandhoni-cs/blink-eye"))
         self.github_button.place(relx=0.50, rely=0.95, anchor='center')
 
-        self.website_button = tk.Button(self.root, text="Website", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://your-website.com"))
+        self.website_button = tk.Button(self.root, text="Website", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://blinkeye.vercel.app"))
         self.website_button.place(relx=0.55, rely=0.95, anchor='center')
 
         self.muted = False

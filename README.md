@@ -10,7 +10,7 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
 - Full-screen popups with a 20-second countdown to prompt users to look away.
 - Audio mute during reminders to enhance focus.
 - Quick access links for easy navigation:
-  - [Donate](https://github.com/nomandhoni-cs/blink-eye)
+  - [Donate](https://www.buymeacoffee.com/nomandhoni)
   - [GitHub Repository](https://github.com/nomandhoni-cs/blink-eye)
   - [Official Website](https://blinkeye.vercel.app/)
 
