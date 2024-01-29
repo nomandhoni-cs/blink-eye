@@ -4,6 +4,7 @@ import threading
 import time
 from tkinter import PhotoImage
 import webbrowser
+from plyer import notification
 
 class BlinkEyeApp:
     def __init__(self):
@@ -25,7 +26,7 @@ class BlinkEyeApp:
         self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 96), fg='white', bg='black')
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
-        self.quote_label = tk.Label(self.root, text="Look 20ft far to save your eyes", font=("Helvetica", 16), fg='white', bg='black')
+        self.quote_label = tk.Label(self.root, text="Look 20 feet far away to save your eyes", font=("Helvetica", 16), fg='white', bg='black')
         self.quote_label.place(relx=0.5, rely=0.8, anchor='center')
 
         self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0)
@@ -41,6 +42,14 @@ class BlinkEyeApp:
         self.website_button.place(relx=0.55, rely=0.95, anchor='center')
 
         self.muted = False
+
+    def show_notification(self, message):
+        notification.notify(
+            title="Blink Eye",
+            message=message,
+            app_icon='./logo.ico',
+            timeout=10,
+        )
 
     def skip_reminder(self):
         self.root.withdraw()
