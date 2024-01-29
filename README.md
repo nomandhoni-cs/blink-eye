@@ -1,6 +1,7 @@
-# Blink Eye
-
-![Blink Eye Logo](./logo.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/logo.png" alt="Twinkle Tray brightness slider logo">
+</p>
+<h1 align="center">Blink Eye</h1>
 
 Blink Eye is a minimalist eye care reminder app designed to reduce eye strain during extended screen usage. It provides customizable timers, full-screen popups, audio mute functionalityfor a seamless user experience.
 
