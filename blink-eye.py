@@ -8,16 +8,12 @@ from plyer import notification
 import sys
 import os
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS2
     except Exception:
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-
-Logo = resource_path("logo.png")
 
 class BlinkEyeApp:
     def __init__(self):
@@ -55,14 +51,6 @@ class BlinkEyeApp:
         self.website_button.place(relx=0.55, rely=0.95, anchor='center')
 
         self.muted = False
-
-    def show_notification(self, message):
-        notification.notify(
-            title="Blink Eye",
-            message=message,
-            app_icon=resource_path("logo.ico"),
-            timeout=10,
-        )
 
     def skip_reminder(self):
         self.root.withdraw()
