@@ -6,6 +6,7 @@ from plyer import notification
 import webbrowser
 import sys
 import os
+from datetime import datetime
 
 # Global variable to track if the program has just been launched
 launchedTime = 0
@@ -34,10 +35,13 @@ class BlinkEyeApp:
         button_image_path = resource_path("reminder-btn.png")
         self.button_image = PhotoImage(file=button_image_path)
 
-        self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 96), fg='white', bg='black')
+        self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 160), fg='white', bg='black')
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
-        self.quote_label = tk.Label(self.root, text="Look 20 feet far away to protect your eyes", font=("Helvetica", 16), fg='white', bg='black')
+        self.time_label = tk.Label(self.root, text="", font=("Helvetica", 24), fg='white', bg='black')
+        self.time_label.place(relx=0.5, rely=0.7, anchor='center')
+
+        self.quote_label = tk.Label(self.root, text="Look 20 feet far away to protect your eyes", font=("Helvetica", 32), fg='white', bg='black')
         self.quote_label.place(relx=0.5, rely=0.8, anchor='center')
 
         self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0, relief=tk.FLAT, activebackground='black', activeforeground='black')
@@ -61,7 +65,9 @@ class BlinkEyeApp:
             self.root.attributes("-topmost", True)
 
             for i in range(20, -1, -1):
+                current_time = datetime.now().strftime("%I:%M:%S %p")
                 self.counter_label.config(text=str(i) + "s")
+                self.time_label.config(text=current_time)
                 time.sleep(1)
 
             self.root.withdraw()

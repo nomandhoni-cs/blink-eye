@@ -2,15 +2,15 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Blink Eye"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.2"
 #define MyAppPublisher "Noman Dhoni"
-#define MyAppURL "https://blinkeye.vercel.app"
+#define MyAppURL "https://blinkeye.vercel.app/"
 #define MyAppExeName "BlinkEye.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{20148192-D3BB-4BFD-ACD6-E96DF5E4E50D}
+AppId={{63B54945-8F59-4E5A-A170-A446A28BF68A}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -20,11 +20,11 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\Abdullah\Desktop\blink-eye\dist\LICENSE.txt
+LicenseFile=C:\Users\Abdullah\Desktop\blink-eye\LICENSE.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\Users\Abdullah\Desktop\New folder
-OutputBaseFilename=Blink_Eye_Windows_64_V1.1
+OutputBaseFilename=Blink_Eye_Windows_64_V1.2
 SetupIconFile=C:\Users\Abdullah\Desktop\blink-eye\logo.ico
 Compression=lzma
 SolidCompression=yes
