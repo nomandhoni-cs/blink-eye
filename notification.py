@@ -21,4 +21,4 @@ def show_notification(title, message):
     )
 
 if __name__ == "__main__":
-    show_notification("Program Started", "Your program has started running.")
+    show_notification("Blink Eye", "Your program has started running.")

@@ -1,18 +1,19 @@
 import tkinter as tk
-import ctypes
 import threading
 import time
 from tkinter import PhotoImage
 import webbrowser
-from plyer import notification
 import sys
 import os
+
+# Global variable to track if the program has just been launched
+launchedTime = 0
+
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS2
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
 
 class BlinkEyeApp:
@@ -35,10 +36,10 @@ class BlinkEyeApp:
         self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 96), fg='white', bg='black')
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
-        self.quote_label = tk.Label(self.root, text="Look 20 feet far away to save your eyes", font=("Helvetica", 16), fg='white', bg='black')
+        self.quote_label = tk.Label(self.root, text="Look 20 feet far away to protect your eyes", font=("Helvetica", 16), fg='white', bg='black')
         self.quote_label.place(relx=0.5, rely=0.8, anchor='center')
 
-        self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0)
+        self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0, relief=tk.FLAT, activebackground='black', activeforeground='black')
         self.skip_button.place(relx=0.5, rely=0.9, anchor='center')
 
         self.donate_button = tk.Button(self.root, text="Donate", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://www.buymeacoffee.com/nomandhoni"))
@@ -50,12 +51,8 @@ class BlinkEyeApp:
         self.website_button = tk.Button(self.root, text="Website", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://blinkeye.vercel.app"))
         self.website_button.place(relx=0.55, rely=0.95, anchor='center')
 
-        self.muted = False
-
     def skip_reminder(self):
         self.root.withdraw()
-        if self.muted:
-            self.toggle_mute()
 
     def show_timer_popup(self):
         while True:
@@ -67,26 +64,18 @@ class BlinkEyeApp:
                 time.sleep(1)
 
             self.root.withdraw()
-
-            if self.muted:
-                self.toggle_mute()
-
             # Wait for 20 minutes before showing the next popup
             time.sleep(1200)
-
-    def toggle_mute(self):
-        # Toggle audio mute/unmute using ctypes
-        if not self.muted:
-            ctypes.windll.user32.WaveOutSetVolume(0, 0)
-        else:
-            ctypes.windll.user32.WaveOutSetVolume(0, 0xFFFF)
-
-        self.muted = not self.muted
 
     def open_link(self, link):
         webbrowser.open(link)
 
     def run(self):
+        global launchedTime
+        if launchedTime == 0:
+            # Wait for 20 minutes before showing the first popup
+            time.sleep(1200)
+            launchedTime += 1
         threading.Thread(target=self.show_timer_popup).start()
         self.root.mainloop()
 
