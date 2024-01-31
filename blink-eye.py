@@ -2,6 +2,7 @@ import tkinter as tk
 import threading
 import time
 from tkinter import PhotoImage
+from plyer import notification
 import webbrowser
 import sys
 import os
@@ -73,6 +74,12 @@ class BlinkEyeApp:
     def run(self):
         global launchedTime
         if launchedTime == 0:
+            notification.notify(
+                title="Blink Eye",
+                message="Your program has started running.",
+                app_icon=resource_path("logo.ico"),
+                timeout=3
+            )
             # Wait for 20 minutes before showing the first popup
             time.sleep(1200)
             launchedTime += 1
