@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/logo.png" alt="Twinkle Tray brightness slider logo">
+  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/blink-eye-logo.png" alt="Blink Eye App logo">
 </p>
 <h1 align="center">Blink Eye</h1>
 
@@ -22,7 +22,11 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
     ```bash
     git clone https://github.com/nomandhoni-cs/blink-eye.git
 
-2. Run the Application
+2. Install the dependencies
+
+    ```bash
+    pip install -r REQUIREMENTS.txt
+3. Run the Application
 
     ```bash
     python blink_eye.py
