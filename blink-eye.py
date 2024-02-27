@@ -25,14 +25,14 @@ class BlinkEyeApp:
         self.root.attributes("-fullscreen", True)
         self.root.configure(bg='black')
 
-        icon_path = resource_path("logo.png")
+        icon_path = resource_path("blink-eye-logo.png")
         window_icon = PhotoImage(file=icon_path)
         self.root.iconphoto(True, window_icon)
 
-        logo_path = resource_path("logo.png")
+        logo_path = resource_path("blink-eye-logo.png")
         self.logo_image = PhotoImage(file=logo_path)
 
-        button_image_path = resource_path("reminder-btn.png")
+        button_image_path = resource_path("blink-eye-reminder-btn.png")
         self.button_image = PhotoImage(file=button_image_path)
 
         self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 160), fg='white', bg='black')
@@ -83,7 +83,7 @@ class BlinkEyeApp:
             notification.notify(
                 title="Blink Eye",
                 message="Your program has started running.",
-                app_icon=resource_path("logo.ico"),
+                app_icon=resource_path("blink-eye-logo.ico"),
                 timeout=3
             )
             # Wait for 20 minutes before showing the first popup
