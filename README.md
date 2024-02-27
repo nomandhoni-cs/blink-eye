@@ -31,6 +31,10 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
     ```bash
     python blink_eye.py
 
+## If You want to make ```.exe``` by yourself
+
+  ```pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py```
+
 ## Usage
 
 - The app will display a full-screen popup every 2 minutes with a 20-second countdown to remind you to look away and reduce eye strain.
