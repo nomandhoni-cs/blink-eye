@@ -1,5 +1,5 @@
 #define MyAppName "Blink Eye"
-#define MyAppVersion "1.3"
+#define MyAppVersion "1.4"
 #define MyAppPublisher "Noman Dhoni"
 #define MyAppURL "https://blinkeye.vercel.app/"
 #define MyAppExeName "BlinkEye.exe"
@@ -21,7 +21,7 @@ LicenseFile=C:\Users\Abdullah\Desktop\blink-eye\LICENSE.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\Users\Abdullah\Desktop\New folder
-OutputBaseFilename=Blink_Eye_Windows_64_V1.3
+OutputBaseFilename=Blink_Eye_Windows_64_V1.4
 SetupIconFile=C:\Users\Abdullah\Desktop\blink-eye\blink-eye-logo.ico
 Compression=lzma
 SolidCompression=yes
