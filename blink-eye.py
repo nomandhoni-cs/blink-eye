@@ -7,34 +7,35 @@ import webbrowser
 import sys
 import os
 from datetime import datetime
-
-# Global variable to track if the program has just been launched
-launchedTime = 0
-
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS2
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+import pystray
+from pystray import MenuItem as item
+from PIL import Image
 
 class BlinkEyeApp:
     def __init__(self):
         self.root = tk.Tk()
+        self.launched_time = 0
+        self.setup_window()
+
+    def setup_window(self):
         self.root.title("Blink Eye")
         self.root.attributes("-fullscreen", True)
         self.root.configure(bg='black')
+        self.load_images()
+        self.create_widgets()
 
-        icon_path = resource_path("blink-eye-logo.png")
-        window_icon = PhotoImage(file=icon_path)
-        self.root.iconphoto(True, window_icon)
+    def load_images(self):
+        self.logo_image = tk.PhotoImage(file=self.resource_path("blink-eye-logo.png"))
+        self.button_image = tk.PhotoImage(file=self.resource_path("blink-eye-reminder-btn.png"))
 
-        logo_path = resource_path("blink-eye-logo.png")
-        self.logo_image = PhotoImage(file=logo_path)
+    def resource_path(self, relative_path):
+        try:
+            base_path = sys._MEIPASS2
+        except Exception:
+            base_path = os.path.abspath(".")
+        return os.path.join(base_path, relative_path)
 
-        button_image_path = resource_path("blink-eye-reminder-btn.png")
-        self.button_image = PhotoImage(file=button_image_path)
-
+    def create_widgets(self):
         self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 160), fg='white', bg='black')
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
@@ -47,14 +48,17 @@ class BlinkEyeApp:
         self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0, relief=tk.FLAT, activebackground='black', activeforeground='black')
         self.skip_button.place(relx=0.5, rely=0.9, anchor='center')
 
-        self.donate_button = tk.Button(self.root, text="Donate", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://www.buymeacoffee.com/nomandhoni"))
-        self.donate_button.place(relx=0.45, rely=0.95, anchor='center')
+        self.create_navigation_buttons()
 
-        self.github_button = tk.Button(self.root, text="Github", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://github.com/nomandhoni-cs/blink-eye"))
-        self.github_button.place(relx=0.50, rely=0.95, anchor='center')
-
-        self.website_button = tk.Button(self.root, text="Website", font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda: self.open_link("https://blinkeye.vercel.app"))
-        self.website_button.place(relx=0.55, rely=0.95, anchor='center')
+    def create_navigation_buttons(self):
+        buttons = [
+            ("Donate", "https://www.buymeacoffee.com/nomandhoni"),
+            ("Github", "https://github.com/nomandhoni-cs/blink-eye"),
+            ("Website", "https://blinkeye.vercel.app")
+        ]
+        for i, (text, link) in enumerate(buttons, start=1):
+            button = tk.Button(self.root, text=text, font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda l=link: self.open_link(l))
+            button.place(relx=0.4 + 0.05 * i, rely=0.95, anchor='center')
 
     def skip_reminder(self):
         self.root.withdraw()
@@ -78,20 +82,32 @@ class BlinkEyeApp:
         webbrowser.open(link)
 
     def run(self):
-        global launchedTime
-        if launchedTime == 0:
+        if self.launched_time == 0:
             notification.notify(
                 title="Blink Eye",
                 message="Your program has started running.",
-                app_icon=resource_path("blink-eye-logo.ico"),
+                app_icon=self.resource_path("blink-eye-logo.ico"),
                 timeout=3
             )
             # Wait for 20 minutes before showing the first popup
             time.sleep(1200)
-            launchedTime += 1
+            self.launched_time += 1
         threading.Thread(target=self.show_timer_popup).start()
         self.root.mainloop()
 
+def exit_action(icon, item):
+    icon.stop()
+    os._exit(0)
+
+def run_icon():
+    image = Image.open("blink-eye-logo.png")
+    icon = pystray.Icon("name", image, "Blink Eye", menu=pystray.Menu(item('Exit', exit_action)))
+    icon.run()
+
 if __name__ == "__main__":
-    eye_care_app = BlinkEyeApp()
-    eye_care_app.run()
+    threading.Thread(target=run_icon).start()
+    try:
+        eye_care_app = BlinkEyeApp()
+        eye_care_app.run()
+    except KeyboardInterrupt:
+        pass
