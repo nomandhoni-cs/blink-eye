@@ -5,6 +5,9 @@ export const SEO = {
   keywords: [
     "blink eye",
     "blink eye for windows",
+    "Noman Dhoni",
+    "Noman Dhoni Made App",
+    "nomandhoni",
     "eye care app for windows",
     "20 20 20 rule app for windows",
     "eye care",
