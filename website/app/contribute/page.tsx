@@ -1,3 +1,4 @@
+import Contributors from "@/components/contributors";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ const Contribute = () => {
       <p className="text-lg mt-4">
         Thank you for your interest in contributing to Blink Eye!
       </p>
+      <Contributors />
     </div>
   );
 };
