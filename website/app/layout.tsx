@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SEO.url),
-  title: { absolute: SEO.title, template: `%s // ${SEO.title}` },
+  title: { absolute: SEO.title, template: `%s -  ${SEO.title}` },
   applicationName: SEO.title,
   description: SEO.description,
   keywords: SEO.keywords,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/thumb.png",
+        url: "https://repository-images.githubusercontent.com/749625079/db502010-82d3-4004-8e01-283d20915ee0",
         width: 1200,
         height: 630,
         alt: SEO.description,
@@ -55,13 +55,14 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={fontSans.variable}>
+        <meta
+          name="google-site-verification"
+          content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
+        />
         <Providers>
           <Header />
-
           <main className="flex flex-1 flex-col">{children}</main>
-
           <Footer />
-
           <MediaQueriesDebug />
         </Providers>
       </body>
