@@ -57,7 +57,8 @@ export const SEO = {
     "eye health app",
     "20 20 20 rule app",
   ],
-  thumb: "/images/thumb.png",
-  url: "http://blinkeye.verel.app",
+  thumb:
+    "https://repository-images.githubusercontent.com/749625079/db502010-82d3-4004-8e01-283d20915ee0",
+  url: "https://blinkeye.verel.app",
   twitter: "@nomandhoni",
 };
