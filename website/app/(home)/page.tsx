@@ -1,4 +1,4 @@
-import Contributors from "@/components/contributors";
+// import Contributors from "@/components/contributors";
 import DownloadApp from "@/components/download-app";
 import OpenSource from "@/components/open-source";
 
@@ -15,10 +15,10 @@ const RootPage = () => {
         popups.
       </p>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-32">
         <DownloadApp />
         <OpenSource />
-        <Contributors />
+        {/* <Contributors /> */}
       </div>
     </section>
   );
