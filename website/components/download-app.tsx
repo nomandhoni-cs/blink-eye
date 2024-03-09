@@ -1,17 +1,10 @@
-import { ChromeIcon, DownloadIcon } from "lucide-react";
+import { DownloadIcon } from "lucide-react";
 import { CONFIG } from "@/configs/site";
 import { Button } from "./ui/button";
 import Link from "next/link";
-interface Asset {
-  name: string;
-  published_at: string;
-  browser_download_url: string;
-}
-
-interface ReleaseData {
-  tag_name: string;
-  assets: Asset[];
-}
+import { Badge } from "./ui/badge";
+import VersionTolatDownloads from "./version-total-downloads";
+import { ReleaseData } from "@/utils/github-fetch-types";
 
 const fetchReleaseData = async (): Promise<ReleaseData> => {
   const res = await fetch(
@@ -50,22 +43,28 @@ const DownloadApp = async () => {
   }
 
   return (
-    <div className="flex items-center justify-center space-x-2 ">
-      <div className="flex items-center justify-center h-10 w-40 bg-muted border border-muted rounded-md">
+    <div className="flex flex-col justify-center items-center space-y-4 space-x-0">
+      <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-5 rounded-md">
         <Button asChild>
           <Link href={downloadLink} className="flex items-center space-x-2">
             <DownloadIcon name="download" className="w-5 h-5" />
-            <span className="text-sm">Download App {tag_name}</span>
+            <span className="text-sm">Download for Windows</span>
           </Link>
         </Button>
+        <Button disabled>
+          <div className="flex items-center space-x-2">
+            <DownloadIcon name="download" className="w-5 h-5" />
+            <span className="text-sm">Mac (Soon)</span>
+          </div>
+        </Button>
+        <Button disabled>
+          <div className="flex items-center space-x-2">
+            <DownloadIcon name="download" className="w-5 h-5" />
+            <span className="text-sm">Linux (Soon)</span>
+          </div>
+        </Button>
       </div>
-      <div className="flex items-center">
-        <div className="h-4 w-4 border-y-8 border-l-0 border-r-8 border-solid border-muted border-y-transparent"></div>
-        <div className="flex h-10 items-center rounded-md border border-muted bg-muted px-4 font-medium">
-          {" "}
-          Available on Windows
-        </div>
-      </div>
+      <VersionTolatDownloads tag_name={tag_name} />
     </div>
   );
 };

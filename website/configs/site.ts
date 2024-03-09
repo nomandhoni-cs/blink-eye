@@ -1,5 +1,5 @@
 export const CONFIG = {
-  twitter: "https://twitter.com/nomandhoni",
+  twitter: "https://twitter.com/blinkeyeapp",
   github: "https://github.com/nomandhoni-cs/blink-eye",
   repository: "https://github.com/nomandhoni-cs/blink-eye",
   documentation: "https://github.com/nomandhoni-cs/blink-eye",

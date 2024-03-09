@@ -1,12 +1,30 @@
 import { CONFIG } from "@/configs/site";
 import { getCurrentYear } from "@/utils/year";
 import Image from "next/image";
-
+import Link from "next/link";
+const routes = [
+  "/about",
+  "/contribute",
+  "/features",
+  "/howtouse",
+  "/privacy",
+  "/goodbye",
+];
 export const Footer = () => {
   const currentYear = getCurrentYear();
   return (
-    <footer className="container">
-      <div className="flex  flex-col items-center justify-between gap-4 border-t py-10 md:h-24 md:flex-row md:py-0">
+    <footer className="container border-t">
+      <div className="text-center grid grid-cols-2 gap-4 md:grid-cols-3 lg:flex lg:justify-center lg:mt-4">
+        {routes.map((route, index) => (
+          <Link href={route} key={index}>
+            <span className="mx-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+              {route}
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
         <p className="text-center text-sm leading-loose md:text-left">
           © {currentYear}{" "}
           <a

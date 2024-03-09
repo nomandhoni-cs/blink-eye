@@ -1,5 +1,5 @@
 import { CONFIG } from "@/configs/site";
-import { Github, Twitter } from "lucide-react";
+import { Github, TwitterIcon } from "lucide-react";
 import Link from "next/link";
 import logo from "../../../blink-eye-logo.png";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -18,7 +18,7 @@ export const Header = () => {
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-1">
+          <nav className="flex items-center space-x-0 sm:space-x-1">
             <Button variant="ghost" size="icon" asChild>
               <Link
                 href={CONFIG.github}
@@ -37,10 +37,9 @@ export const Header = () => {
                 rel="noreferrer noopener nofollow"
               >
                 <span className="sr-only">Visit Twitter</span>
-                <Twitter />
+                <TwitterIcon />
               </Link>
             </Button>
-
             <ThemeToggle />
           </nav>
         </div>

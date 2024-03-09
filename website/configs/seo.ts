@@ -60,5 +60,5 @@ export const SEO = {
   thumb:
     "https://repository-images.githubusercontent.com/749625079/db502010-82d3-4004-8e01-283d20915ee0",
   url: "https://blinkeye.verel.app",
-  twitter: "@nomandhoni",
+  twitter: "@blinkeyeapp",
 };

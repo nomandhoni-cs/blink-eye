@@ -1,4 +1,5 @@
 import { CopyButton } from "@/components/copy-button";
+import { CONFIG } from "@/configs/site";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +9,7 @@ const HowToUse = () => {
   return (
     <div className="mb-8 container mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-4">How to Use</h2>
-      <ol className="list-decimal ml-6 py-5 flex flex-col gap-10">
+      <ol className="list-decimal ml-6 py-5 flex flex-col gap-8">
         <li>Clone the repository.</li>
         <pre className="hidden h-11 overflow-y-hidden items-center justify-between space-x-2 overflow-x-auto rounded border pl-6 pr-2 md:flex">
           <code className="font-mono text-sm font-semibold">
@@ -38,14 +39,10 @@ const HowToUse = () => {
         <li>If you want to make .exe by yourself.</li>
         <pre className="hidden h-11 overflow-y-hidden items-center justify-between space-x-2 overflow-x-auto rounded border pl-6 pr-2 md:flex">
           <code className="font-mono text-sm font-semibold">
-            pyinstaller --name BlinkEye --onefile --windowed
-            --icon=blink-eye-logo.ico --hidden-import
-            plyer.platforms.win.notification blink-eye.py
+            {CONFIG.command}
           </code>
 
-          <CopyButton
-            value={`pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py`}
-          />
+          <CopyButton value={CONFIG.command} />
         </pre>
       </ol>
     </div>
