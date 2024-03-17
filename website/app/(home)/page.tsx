@@ -1,5 +1,11 @@
 import DownloadApp from "@/components/download-app";
 import OpenSource from "@/components/open-source";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import Link from "next/link";
 
 const RootPage = () => {
   return (
@@ -21,9 +27,26 @@ const RootPage = () => {
           <span className="font-bold text-[#FE4C55]"> Blink Eye </span> A
           minimalist eye care reminder app.
         </h1>
-        <p className="max-w-[850px] mt-2 text-center text-lg text-muted-foreground sm:text-xl">
+        <p className="max-w-[900px] mt-2 text-center text-lg text-muted-foreground sm:text-xl">
           To reduce eye strain, featuring reminder with timers, full-screen
-          popups. Based on 20-20-20 rule.
+          popups. Based on{" "}
+          <HoverCard>
+            <HoverCardTrigger>
+              {" "}
+              <span className="text-[#FE4C55] cursor-help">20-20-20 </span>
+            </HoverCardTrigger>
+            <HoverCardContent>
+              by
+              <Link
+                href="https://www.aao.org/eye-health/tips-prevention/computer-usage#:~:text=Take%20regular%20breaks%20using%20the,for%20at%20least%2020%20seconds."
+                target="_blank"
+              >
+                {" "}
+                American Academy of Ophthalmology
+              </Link>
+            </HoverCardContent>
+          </HoverCard>
+          rule.
         </p>
         <div
           className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
