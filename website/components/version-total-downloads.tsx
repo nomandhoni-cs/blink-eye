@@ -1,5 +1,4 @@
 import { ReleaseData } from "@/utils/github-fetch-types";
-import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { Clock, DownloadIcon } from "lucide-react";
 const fetchDownloadAmounts = async (): Promise<ReleaseData[]> => {
