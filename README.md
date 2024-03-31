@@ -93,3 +93,5 @@ For inquiries and support, please contact Noman Dhoni:
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
+
+Follow the [CONTRIBUTING.md](https://github.com/nomandhoni-cs/blink-eye/blob/website/CONTRIBUTING.md) for the instruction
