@@ -15,6 +15,18 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
   - [GitHub Repository](https://github.com/nomandhoni-cs/blink-eye)
   - [Official Website](https://blinkeye.vercel.app/)
 
+## The 20-20-20 Rule
+
+The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at screens for extended periods. It suggests that for every **20 minutes** spent looking at a screen, you should take a **20-second break** and focus your eyes on something at least **20 feet away**.
+
+### Benefits:
+
+- **Reduces Eye Strain:** Regular breaks help prevent eye fatigue and strain caused by prolonged screen time.
+- **Improves Focus:** Taking short breaks can help maintain focus and productivity throughout the day.
+- **Prevents Dry Eyes:** Looking away from the screen allows your eyes to blink more frequently, reducing the risk of dry eyes.
+- **Promotes Eye Health:** Focusing on distant objects helps relax eye muscles and reduce the risk of developing vision-related issues.
+
+
 ## Building the app
 
 ### Using Script
@@ -25,13 +37,13 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
-1. Create and activate a virtual environment (optional):
+2. Create and activate a virtual environment (optional):
 
     ```command
     python -m venv .venv && .\.venv\Scripts\Activate.bat
     ```
 
-1. Run the build script:
+3. Run the build script:
 
     ```command
     build_windows.bat
