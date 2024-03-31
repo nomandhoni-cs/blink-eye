@@ -1,5 +1,5 @@
 @echo off
-title=Blink Eyes for Windows Build Script
+title=Blink Eye for Windows Build Script
 echo Installing Inno Setup...
 winget install --id=JRSoftware.InnoSetup -e -s winget
 echo Installing Dependencies...
