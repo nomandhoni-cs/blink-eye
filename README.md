@@ -15,7 +15,29 @@ Blink Eye is a minimalist eye care reminder app designed to reduce eye strain du
   - [GitHub Repository](https://github.com/nomandhoni-cs/blink-eye)
   - [Official Website](https://blinkeye.vercel.app/)
 
-## Installation
+## Building the app
+
+### Using Script
+
+1. Clone the repository:
+
+    ```command
+    git clone https://github.com/nomandhoni-cs/blink-eye.git
+    ```
+
+1. Create and activate a virtual environment (optional):
+
+    ```command
+    python -m venv .venv && .\.venv\Scripts\Activate.bat
+    ```
+
+1. Run the build script:
+
+    ```command
+    build_windows.bat
+    ```
+
+### Manually
 
 1. Clone the repository:
 
