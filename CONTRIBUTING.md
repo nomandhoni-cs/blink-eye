@@ -44,4 +44,24 @@ Feel free to reach out if you have any questions or need further assistance!
 
 If anyone wants to contribute to the website, go to the `/website` directory.
 
-We're using Next.js 14, Tailwind CSS, and ShadCn for the website development.
+#### Technologies Used in this website
+
+- Radix
+- Tailwind 
+- Lucide icons
+- Dark mode ready
+- Storybook
+- Biome
+- Husky + lint-staged
+- [shadcn/ui](https://ui.shadcn.com/) components
+
+##### Class Merging
+
+The `cn` util handles conditional classes and class merging.
+
+##### Input
+
+```ts
+cn("px-2 bg-neutral-100 py-2 bg-neutral-200");
+// Outputs `p-2 bg-neutral-200`
+```
