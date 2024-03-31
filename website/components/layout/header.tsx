@@ -22,6 +22,7 @@ export const Header = () => {
             <Link
               href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
               target="_blank"
+              className="invisible sm:visible"
             >
               <img
                 src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=445267&theme=light"

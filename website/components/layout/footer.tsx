@@ -27,26 +27,26 @@ export const Footer = () => {
       <div className="flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
         <p className="text-center text-sm leading-loose md:text-left">
           © {currentYear}{" "}
-          <a
+          <Link
             href={CONFIG.website}
             target="_blank"
             rel="noreferrer noopener nofollow"
             className="font-medium underline underline-offset-4"
           >
             Blink Eye™
-          </a>{" "}
+          </Link>{" "}
           All Rights Reserved | Made by{" "}
-          <a
+          <Link
             href={CONFIG.twitter}
             target="_blank"
             rel="noreferrer noopener nofollow"
             className="font-medium underline underline-offset-4"
           >
             Noman Dhoni
-          </a>
+          </Link>
         </p>
         <p className="text-right text-sm leading-loose md:text-right">
-          <a href={CONFIG.buymecoffee} target="_blank">
+          <Link href={CONFIG.buymecoffee} target="_blank">
             <Image
               className="w-auto"
               src={
@@ -56,7 +56,20 @@ export const Footer = () => {
               width={200}
               height={50}
             />
-          </a>
+          </Link>
+          <Link
+            href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
+            target="_blank"
+            className="sm:invisible"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=445267&theme=light"
+              alt="Blink&#0032;Eye - A&#0032;minimalist&#0032;eye&#0032;care&#0032;reminder&#0032;app&#0032;based&#0032;on&#0032;20&#0045;20&#0045;20&#0032;rule&#0046; | Product Hunt"
+              style={{ width: "250px", height: "54px" }}
+              width="250"
+              height="54"
+            />
+          </Link>
         </p>
       </div>
     </footer>
