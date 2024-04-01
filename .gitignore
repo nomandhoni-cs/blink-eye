@@ -2,5 +2,6 @@
 /dist
 /blinkEye.exe
 /blinkEye.spec
+/BlinkEye.spec
 /ExecutableFile
 .venv
