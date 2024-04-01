@@ -8,7 +8,7 @@ interface ContributorData {
 const fromApi = async () => {
   const res = await fetch(
     "https://api.github.com/repos/nomandhoni-cs/blink-eye/contributors",
-    { next: { revalidate: 86400 } }
+    { next: { revalidate: 3600 } }
   );
   const data: ContributorData[] = await res.json();
   return data;
