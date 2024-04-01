@@ -31,6 +31,8 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 ### Using Script
 
+#### Windows
+
 1. Clone the repository:
 
     ```command
@@ -49,7 +51,27 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
     build_windows.bat
     ```
 
-### Manually
+#### Linux (Fedora Workstation)
+
+1. Clone the repository:
+
+    ```command
+    git clone https://github.com/nomandhoni-cs/blink-eye.git
+    ```
+
+2. Create and activate a virtual environment (optional):
+
+    ```command
+    python -m venv .venv --system-site-packages && source ./.venv/bin/activate
+    ```
+
+3. Run the build script:
+
+    ```command
+    bash ./build_fedora.sh
+    ```
+
+### Manually (Windows only)
 
 1. Clone the repository:
 
