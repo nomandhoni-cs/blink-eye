@@ -1,7 +1,8 @@
-/build
-/dist
-/blinkEye.exe
-/blinkEye.spec
-/BlinkEye.spec
-/ExecutableFile
+build/
+dist/
+BlinkEye.spec
+blinkEye.exe
+blinkEye.spec
+BlinkEye.spec
+ExecutableFile
 .venv
