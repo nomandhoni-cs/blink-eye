@@ -41,16 +41,21 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
-2. Create and activate a virtual environment (optional):
+2. Change Directory
+
+    ```console
+    cd blink-eye/application
+    ```
+3. Create and activate a virtual environment (optional):
 
     ```console
     python -m venv .venv && .\.venv\Scripts\Activate.bat
     ```
 
-3. Run the build script:
+4. Run the build script:
 
     ```console
-    cd blink-eye && cd application && build_windows.bat
+    build_windows.bat
     ```
 
 </details>
