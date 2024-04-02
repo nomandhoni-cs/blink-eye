@@ -11,6 +11,17 @@ import pystray
 from pystray import MenuItem as item
 from PIL import Image
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS2
+    except Exception:
+        dirlist = os.listdir(os.path.abspath("."))
+        if "Assets" in dirlist:
+            base_path = os.path.abspath("./Assets")
+        elif "application" in dirlist:
+            base_path = os.path.abspath("./application/Assets")
+    return os.path.join(base_path, relative_path)
+
 class BlinkEyeApp:
     def __init__(self):
         self.root = tk.Tk()
@@ -21,19 +32,13 @@ class BlinkEyeApp:
         self.root.title("Blink Eye")
         self.root.attributes("-fullscreen", True)
         self.root.configure(bg='black')
+        self.root.attributes('-alpha', 0.0)
         self.load_images()
         self.create_widgets()
 
     def load_images(self):
-        self.logo_image = tk.PhotoImage(file=self.resource_path("blink-eye-logo.png"))
-        self.button_image = tk.PhotoImage(file=self.resource_path("blink-eye-reminder-btn.png"))
-
-    def resource_path(self, relative_path):
-        try:
-            base_path = sys._MEIPASS2
-        except Exception:
-            base_path = os.path.abspath(".")
-        return os.path.join(base_path, relative_path)
+        self.logo_image = tk.PhotoImage(file=resource_path("blink-eye-logo.png"))
+        self.button_image = tk.PhotoImage(file=resource_path("blink-eye-reminder-btn.png"))
 
     def create_widgets(self):
         self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 160), fg='white', bg='black')
@@ -63,18 +68,36 @@ class BlinkEyeApp:
     def skip_reminder(self):
         self.root.withdraw()
 
+    def fade_to_black(self, return_to_main: bool = False):
+        if not return_to_main:
+            for alphavalue in [i / 10 for i in range(11)]:
+                self.root.attributes('-alpha', alphavalue)
+                time.sleep(0.1)
+        else:
+            values = [i / 10 for i in range(11)]
+            values.reverse()
+            for alphavalue in values:
+                self.root.attributes('-alpha', alphavalue)
+                time.sleep(0.1)
+            self.root.withdraw()
+            
     def show_timer_popup(self):
         while True:
             self.root.deiconify()
             self.root.attributes("-topmost", True)
+            
+            current_time = datetime.now().strftime("%I:%M:%S %p")
+            self.counter_label.config(text="20s")
+            self.time_label.config(text=current_time)
+            self.fade_to_black()
 
-            for i in range(20, -1, -1):
+            for i in range(19, 0, -1):
                 current_time = datetime.now().strftime("%I:%M:%S %p")
                 self.counter_label.config(text=str(i) + "s")
                 self.time_label.config(text=current_time)
                 time.sleep(1)
 
-            self.root.withdraw()
+            self.fade_to_black(return_to_main=True)
             # Wait for 20 minutes before showing the next popup
             time.sleep(1200)
 
@@ -86,7 +109,7 @@ class BlinkEyeApp:
             notification.notify(
                 title="Blink Eye",
                 message="Your program has started running.",
-                app_icon=self.resource_path("blink-eye-logo.ico"),
+                app_icon=resource_path("blink-eye-logo.ico"),
                 timeout=3
             )
             # Wait for 20 minutes before showing the first popup
@@ -100,7 +123,7 @@ def exit_action(icon, item):
     os._exit(0)
 
 def run_icon():
-    image = Image.open("blink-eye-logo.png")
+    image = Image.open(resource_path(relative_path='blink-eye-logo.png'))
     icon = pystray.Icon("name", image, "Blink Eye", menu=pystray.Menu(item('Exit', exit_action)))
     icon.run()
 
