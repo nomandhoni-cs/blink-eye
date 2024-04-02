@@ -6,3 +6,4 @@ blinkEye.spec
 BlinkEye.spec
 ExecutableFile
 .venv
+__pycache__/
