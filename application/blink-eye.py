@@ -13,11 +13,6 @@ from PIL import Image
 from typing import List
 
 
-POPUP_INTERVAL = 1200  # 20 minutes
-FADE_INTERVAL = 0.1  # 100 milliseconds
-FADE_VALUES = [i / 10 for i in range(11)]
-
-
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS2
@@ -31,6 +26,10 @@ def resource_path(relative_path):
 
 
 class BlinkEyeApp:
+    POPUP_INTERVAL = 1200  # 20 minutes
+    FADE_INTERVAL = 0.1  # 100 milliseconds
+    FADE_VALUES = [i / 10 for i in range(11)]
+
     def __init__(self):
         self.root = tk.Tk()
         self.launched_time = 0
@@ -110,13 +109,13 @@ class BlinkEyeApp:
     def fade(self, values: List[int]):
         for alphavalue in values:
             self.root.attributes("-alpha", alphavalue)
-            time.sleep(FADE_INTERVAL)
+            time.sleep(self.FADE_INTERVAL)
 
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
-            self.fade(FADE_VALUES)
+            self.fade(self.FADE_VALUES)
         else:
-            self.fade(reversed(FADE_VALUES))
+            self.fade(reversed(self.FADE_VALUES))
             self.root.withdraw()
 
     def show_timer_popup(self):
@@ -134,7 +133,7 @@ class BlinkEyeApp:
 
             self.fade_to_black(return_to_main=True)
             # Wait for 20 minutes before showing the next popup
-            time.sleep(POPUP_INTERVAL)
+            time.sleep(self.POPUP_INTERVAL)
 
     def open_link(self, link):
         webbrowser.open(link)
@@ -148,16 +147,16 @@ class BlinkEyeApp:
                 timeout=3,
             )
             # Wait for 20 minutes before showing the first popup
-            time.sleep(POPUP_INTERVAL)
+            time.sleep(self.POPUP_INTERVAL)
             self.launched_time += 1
 
         threading.Thread(target=self.show_timer_popup).start()
         self.root.mainloop()
 
 
-def exit_action(self, icon, item):
+def exit_action(icon, _):
     icon.stop()
-    sys.exit(0)
+    os._exit(0) # immediate exit
 
 
 def run_icon():
