@@ -17,13 +17,13 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=LICENSE.txt
+LicenseFile=..\LICENSE.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 ; Other setup configurations...
 OutputDir=.\ExecutableFile
 OutputBaseFilename=Blink_Eye_Windows_64_V1.4
-SetupIconFile=blink-eye-logo.ico
+SetupIconFile=.\Assets\blink-eye-logo.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -41,9 +41,7 @@ Name: "autostarticon"; Description: "{cm:AutoStartProgram,{#MyAppName}}"; GroupD
 
 [Files]
 Source: "dist\BlinkEye.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "blink-eye-logo.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "blink-eye-logo.png"; DestDir: "{app}"; Flags: ignoreversion
-Source: "blink-eye-reminder-btn.png"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\Assets\*"; DestDir: "{app}\Assets\"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
