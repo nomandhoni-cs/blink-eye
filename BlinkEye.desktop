@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=BlinkEye
+Exec=/usr/bin/BlinkEye
+Icon=/usr/share/icons/BlinkEye.png
+Type=Application
+Terminal=true

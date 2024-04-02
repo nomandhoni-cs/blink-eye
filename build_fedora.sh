@@ -14,4 +14,5 @@ rpmdev-setuptree
 cp -r ./* ~/rpmbuild/BUILD
 rpmbuild -bb ./BlinkEye_Fedora.spec
 rm -rf ~/rpmbuild/BUILD
-mv ~/rpmbuild/RPMS/x86_64/BlinkEye-$ver-1.fc39.x86_64.rpm ./ExecutableFile/BlinkEye-$ver-1.fc39.x86_64.rpm
+mkdir -p ./ExecutableFile/
+mv ~/rpmbuild/RPMS/x86_64/BlinkEye-$ver-1.fc39.x86_64.rpm ./ExecutableFile/
