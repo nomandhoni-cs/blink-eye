@@ -33,6 +33,8 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 #### Windows
 
+> Run the commands in the Command Prompt (CMD). Not in PowerShell.
+
 1. Clone the repository:
 
     ```command
