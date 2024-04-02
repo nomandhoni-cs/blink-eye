@@ -91,7 +91,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 4. If you want to make ```.exe``` by yourself
 
     ```bash
-    pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py
+    pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink_eye.py
 
 
 ## Usage
