@@ -19,7 +19,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %{_bindir}/%{name}
-%license ../LICENSE.txt
+%license LICENSE.txt
 
 %changelog
 * Mon Apr 01 2024 Moheshwar Amarnath Biswas
