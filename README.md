@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/blink-eye-logo.png" alt="Blink Eye App logo">
+  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/application/Assets/blink-eye-logo.png" alt="Blink Eye App logo">
 </p>
 <h1 align="center">Blink Eye</h1>
 
@@ -29,74 +29,96 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 ## Building the app
 
-### Using Script
+### Windows
 
-#### Windows
+<details open>
+
+<summary><b>Using Script</b></summary></h4>
 
 > Run the commands in the Command Prompt (CMD). Not in PowerShell.
 
 1. Clone the repository:
 
-    ```command
+    ```console
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
-2. Create and activate a virtual environment (optional):
+2. Change Directory
 
-    ```command
+    ```console
+    cd blink-eye/application
+    ```
+3. Create and activate a virtual environment (optional):
+
+    ```console
     python -m venv .venv && .\.venv\Scripts\Activate.bat
     ```
 
-3. Run the build script:
+4. Run the build script:
 
-    ```command
+    ```console
     build_windows.bat
     ```
+
+</details>
+
+
+<details>
+
+<summary><b>Manually</b></summary></h4>
+
+1. Clone the repository:
+
+    ```console
+    git clone https://github.com/nomandhoni-cs/blink-eye.git
+    ```
+
+3. Navigate to the application directory:
+    ```console
+    cd blink-eye && cd application
+    ```
+    
+3. Install the dependencies
+
+    ```console
+    pip install -r REQUIREMENTS.txt
+4. Run the Application
+
+    ```console
+    python blink_eye.py
+5. If you want to make `.exe` by yourself
+
+    ```console
+    pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py
+    ```
+
+</details>
 
 #### Linux (Fedora Workstation)
 
 1. Clone the repository:
 
-    ```command
+    ```console
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
 2. Create and activate a virtual environment (optional):
 
-    ```command
+    ```console
     python -m venv .venv --system-site-packages && source ./.venv/bin/activate
     ```
 
 3. Run the build script:
 
-    ```command
+
+    ```console
     bash ./build_fedora.sh
     ```
-
-### Manually (Windows only)
-
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/nomandhoni-cs/blink-eye.git
-
-2. Install the dependencies
-
-    ```bash
-    pip install -r REQUIREMENTS.txt
-3. Run the Application
-
-    ```bash
-    python blink_eye.py
-4. If you want to make ```.exe``` by yourself
-
-    ```bash
-    pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink_eye.py
 
 
 ## Usage
 
-- The app will display a full-screen popup every 2 minutes with a 20-second countdown to remind you to look away and reduce eye strain.
+- The app will display a full-screen popup every 20 minutes with a 20-second countdown to remind you to look away and reduce eye strain.
 
 - Click the "Skip Reminder" button to close the popup for the current session.
 
@@ -111,8 +133,8 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 For inquiries and support, please contact Noman Dhoni:
 
-- Email: [alnoman.dhoni@gmail.com]
-- Twitter: [@nomandhoni]
+- Email: [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com)
+- Twitter: [@nomandhoni](https://twitter.com/nomandhoni/)
 
 ## Contributing
 
