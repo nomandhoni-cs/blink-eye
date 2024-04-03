@@ -71,9 +71,9 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
-3. Navigate to the application directory:
+2. Change directory:
     ```console
-    cd blink-eye && cd application
+    cd blink-eye/application
     ```
     
 3. Install the dependencies

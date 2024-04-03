@@ -1,7 +1,6 @@
-import tkinter as tk
+import customtkinter as ctk
 import threading
 import time
-from tkinter import PhotoImage
 from plyer import notification
 import webbrowser
 import sys
@@ -10,6 +9,12 @@ from datetime import datetime
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
+
+ctk.set_appearance_mode("system")
+
+ALPHA_VALUES = [i / 10 for i in range(11)]
+BREAK_INTERVAL = 5 # 20 Minutes
+
 
 def resource_path(relative_path):
     try:
@@ -22,12 +27,16 @@ def resource_path(relative_path):
             base_path = os.path.abspath("./application/Assets")
     return os.path.join(base_path, relative_path)
 
+
+
 class BlinkEyeApp:
     def __init__(self):
-        self.root = tk.Tk()
+        self.root = ctk.CTk()
         self.launched_time = 0
+        self.skipped = False
+        self.openned_links = []
         self.setup_window()
-
+    
     def setup_window(self):
         self.root.title("Blink Eye")
         self.root.attributes("-fullscreen", True)
@@ -37,21 +46,21 @@ class BlinkEyeApp:
         self.create_widgets()
 
     def load_images(self):
-        self.logo_image = tk.PhotoImage(file=resource_path("blink-eye-logo.png"))
-        self.button_image = tk.PhotoImage(file=resource_path("blink-eye-reminder-btn.png"))
+        self.logo_image = ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")))
+        self.button_image = ctk.CTkImage(Image.open(resource_path("blink-eye-reminder-btn.png")), Image.open(resource_path("blink-eye-reminder-btn.png")), (155, 38))
 
     def create_widgets(self):
-        self.counter_label = tk.Label(self.root, text="", font=("Helvetica", 160), fg='white', bg='black')
+        self.counter_label = ctk.CTkLabel(self.root, text="", font=("Segoe UI", 160))
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
-        self.time_label = tk.Label(self.root, text="", font=("Helvetica", 24), fg='white', bg='black')
-        self.time_label.place(relx=0.5, rely=0.7, anchor='center')
+        self.time_label = ctk.CTkLabel(self.root, text="", font=("Segoe UI", 24))
+        self.time_label.place(relx=0.5, rely=0.6, anchor='center')
 
-        self.quote_label = tk.Label(self.root, text="Look 20 feet far away to protect your eyes", font=("Helvetica", 32), fg='white', bg='black')
-        self.quote_label.place(relx=0.5, rely=0.8, anchor='center')
+        self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("Segoe UI", 32))
+        self.look_away_msg.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.skip_button = tk.Button(self.root, image=self.button_image, command=self.skip_reminder, cursor='hand2', borderwidth=0, highlightthickness=0, relief=tk.FLAT, activebackground='black', activeforeground='black')
-        self.skip_button.place(relx=0.5, rely=0.9, anchor='center')
+        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#fb4e54", "#fb4e54"), font=("Helvetica", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (25, 25)), height=32, width=180, hover_color=("#a42621", "#a42621"), corner_radius=50)
+        self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
 
         self.create_navigation_buttons()
 
@@ -62,47 +71,64 @@ class BlinkEyeApp:
             ("Website", "https://blinkeye.vercel.app")
         ]
         for i, (text, link) in enumerate(buttons, start=1):
-            button = tk.Button(self.root, text=text, font=("Helvetica", 12), fg='white', bg='black', bd=0, cursor='hand2', command=lambda l=link: self.open_link(l))
-            button.place(relx=0.4 + 0.05 * i, rely=0.95, anchor='center')
+            button = ctk.CTkLabel(self.root, text=text, fg_color="transparent", width=100, font=("Consolas", 12), cursor='hand2')
+            button.bind("<Button-1>", lambda e, b=button, l=link: self.open_link(b, l))
+            button.place(relx=0.15 + 0.17 * i, rely=0.95, anchor='center')
+
+    def hold_the_program(self):
+        for _ in range(BREAK_INTERVAL):
+            time.sleep(1)
 
     def skip_reminder(self):
-        self.root.withdraw()
+        self.fade_to_black(True)
+        self.skipped = True
 
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
-            for alphavalue in [i / 10 for i in range(11)]:
+            for alphavalue in ALPHA_VALUES:
                 self.root.attributes('-alpha', alphavalue)
                 time.sleep(0.1)
         else:
-            values = [i / 10 for i in range(11)]
+            for c in self.root.winfo_children()[::-1][:3]:
+                c.configure(text=c.cget('text').replace(' (Opened)', ''), cursor='hand2')
+
+            values = ALPHA_VALUES.copy()
             values.reverse()
             for alphavalue in values:
                 self.root.attributes('-alpha', alphavalue)
                 time.sleep(0.1)
+
             self.root.withdraw()
             
     def show_timer_popup(self):
         while True:
+            self.root.update()
+
             self.root.deiconify()
             self.root.attributes("-topmost", True)
             
             current_time = datetime.now().strftime("%I:%M:%S %p")
-            self.counter_label.config(text="20s")
-            self.time_label.config(text=current_time)
+            self.counter_label.configure(text="20s")
+            self.time_label.configure(text=current_time)
             self.fade_to_black()
 
             for i in range(19, 0, -1):
+                if self.skipped:
+                    self.skipped = False
+                    break
                 current_time = datetime.now().strftime("%I:%M:%S %p")
-                self.counter_label.config(text=str(i) + "s")
-                self.time_label.config(text=current_time)
+                self.counter_label.configure(text=str(i) + "s")
+                self.time_label.configure(text=current_time)
                 time.sleep(1)
-
+            
             self.fade_to_black(return_to_main=True)
-            # Wait for 20 minutes before showing the next popup
-            time.sleep(1200)
+            self.hold_the_program()
 
-    def open_link(self, link):
-        webbrowser.open(link)
+    def open_link(self, label: ctk.CTkLabel, link: str):
+        if link not in self.openned_links:
+            webbrowser.open(link)
+            label.configure(text=f"{label.cget('text')} (Opened)", cursor="")
+
 
     def run(self):
         if self.launched_time == 0:
@@ -113,7 +139,7 @@ class BlinkEyeApp:
                 timeout=3
             )
             # Wait for 20 minutes before showing the first popup
-            time.sleep(1200)
+            self.hold_the_program()
             self.launched_time += 1
         threading.Thread(target=self.show_timer_popup).start()
         self.root.mainloop()
