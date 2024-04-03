@@ -156,7 +156,7 @@ class BlinkEyeApp:
 
 def exit_action(icon, _):
     icon.stop()
-    os._exit(0) # immediate exit
+    os._exit(0)  # immediate exit
 
 
 def run_icon():
