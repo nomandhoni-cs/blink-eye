@@ -9,10 +9,16 @@ from datetime import datetime
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
-from ctypes import cast, POINTER
-import comtypes
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+import platform
+
+
+isWindows = False
+if platform.system().lower() == "windows":
+    isWindows = True
+    from ctypes import cast, POINTER
+    import comtypes
+    from comtypes import CLSCTX_ALL
+    from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 ctk.set_appearance_mode("system")
 
@@ -42,33 +48,42 @@ class BlinkEyeApp:
         self.setup_window()
 
     def get_volume(self) -> float:
-        comtypes.CoInitialize()
-        devices = AudioUtilities.GetSpeakers()
-        interface = devices.Activate(
-            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-        volume_interface = cast(interface, POINTER(IAudioEndpointVolume))
-        return volume_interface.GetMasterVolumeLevelScalar()
+        if isWindows:
+            comtypes.CoInitialize()
+            devices = AudioUtilities.GetSpeakers()
+            interface = devices.Activate(
+                IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+            volume_interface = cast(interface, POINTER(IAudioEndpointVolume))
+            return volume_interface.GetMasterVolumeLevelScalar()
+        else:
+            return None
 
     def set_volume(self, volume) -> None:
-        if volume is None:
-            return
-        comtypes.CoInitialize()
-        devices = AudioUtilities.GetSpeakers()
-        interface = devices.Activate(
-            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-        volume_interface = cast(interface, POINTER(IAudioEndpointVolume))
-        volume_interface.SetMasterVolumeLevelScalar(volume, None)
-        return None
+        if isWindows:
+            if volume is None:
+                return
+            comtypes.CoInitialize()
+            devices = AudioUtilities.GetSpeakers()
+            interface = devices.Activate(
+                IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+            volume_interface = cast(interface, POINTER(IAudioEndpointVolume))
+            volume_interface.SetMasterVolumeLevelScalar(volume, None)
+            return None
+        else:
+            return None
         
     def fade_volume_sequence(self, restore: bool=False):
-        if restore:
-            volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
-            self.original_volume = 0.0
-            return volume_fade_values
+        if isWindows:
+            if restore:
+                volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
+                self.original_volume = 0.0
+                return volume_fade_values
+            else:
+                self.original_volume = self.get_volume()
+                volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
+                return volume_fade_values[::-1]
         else:
-            self.original_volume = self.get_volume()
-            volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
-            return volume_fade_values[::-1]
+            return []
         
     def setup_window(self):
         self.root.title("Blink Eye")
