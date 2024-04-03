@@ -9,11 +9,15 @@ from datetime import datetime
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
+from ctypes import cast, POINTER
+import comtypes
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 ctk.set_appearance_mode("system")
 
 ALPHA_VALUES = [i / 10 for i in range(11)]
-BREAK_INTERVAL = 5 # 20 Minutes
+BREAK_INTERVAL = 1200 # 20 Minutes
 
 
 def resource_path(relative_path):
@@ -28,20 +32,50 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-
 class BlinkEyeApp:
     def __init__(self):
         self.root = ctk.CTk()
         self.launched_time = 0
         self.skipped = False
         self.openned_links = []
+        self.original_volume = 0.0
         self.setup_window()
-    
+
+    def get_volume(self) -> float:
+        comtypes.CoInitialize()
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(
+            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume_interface = cast(interface, POINTER(IAudioEndpointVolume))
+        return volume_interface.GetMasterVolumeLevelScalar()
+
+    def set_volume(self, volume) -> None:
+        if volume is None:
+            return
+        comtypes.CoInitialize()
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(
+            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume_interface = cast(interface, POINTER(IAudioEndpointVolume))
+        volume_interface.SetMasterVolumeLevelScalar(volume, None)
+        return None
+        
+    def fade_volume_sequence(self, restore: bool=False):
+        if restore:
+            volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
+            self.original_volume = 0.0
+            return volume_fade_values
+        else:
+            self.original_volume = self.get_volume()
+            volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
+            return volume_fade_values[::-1]
+        
     def setup_window(self):
         self.root.title("Blink Eye")
         self.root.attributes("-fullscreen", True)
         self.root.configure(bg='black')
         self.root.attributes('-alpha', 0.0)
+        self.root.iconbitmap(resource_path("blink-eye-logo.ico"))
         self.load_images()
         self.create_widgets()
 
@@ -85,23 +119,28 @@ class BlinkEyeApp:
 
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
-            for alphavalue in ALPHA_VALUES:
+            volume_fade_values = self.fade_volume_sequence()
+            for i, alphavalue in enumerate(ALPHA_VALUES):
                 self.root.attributes('-alpha', alphavalue)
+                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
         else:
             for c in self.root.winfo_children()[::-1][:3]:
                 c.configure(text=c.cget('text').replace(' (Opened)', ''), cursor='hand2')
 
+            volume_fade_values = self.fade_volume_sequence(True)
             values = ALPHA_VALUES.copy()
             values.reverse()
-            for alphavalue in values:
+            for i, alphavalue in enumerate(values):
                 self.root.attributes('-alpha', alphavalue)
+                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
 
             self.root.withdraw()
             
     def show_timer_popup(self):
         while True:
+            skiiped_iter = False
             self.root.update()
 
             self.root.deiconify()
@@ -115,13 +154,15 @@ class BlinkEyeApp:
             for i in range(19, 0, -1):
                 if self.skipped:
                     self.skipped = False
+                    skiiped_iter = True
                     break
                 current_time = datetime.now().strftime("%I:%M:%S %p")
                 self.counter_label.configure(text=str(i) + "s")
                 self.time_label.configure(text=current_time)
                 time.sleep(1)
             
-            self.fade_to_black(return_to_main=True)
+            if not skiiped_iter:
+                self.fade_to_black(return_to_main=True)
             self.hold_the_program()
 
     def open_link(self, label: ctk.CTkLabel, link: str):
