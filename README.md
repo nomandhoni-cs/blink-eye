@@ -35,6 +35,8 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 <summary><b>Using Script</b></summary></h4>
 
+> Run the commands in the Command Prompt (CMD). Not in PowerShell.
+
 1. Clone the repository:
 
     ```console
@@ -107,6 +109,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
     ```
 
 3. Run the build script:
+
 
     ```console
     bash ./build_fedora.sh
