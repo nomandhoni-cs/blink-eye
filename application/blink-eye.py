@@ -25,7 +25,6 @@ ctk.set_appearance_mode("system")
 ALPHA_VALUES = [i / 10 for i in range(11)]
 BREAK_INTERVAL = 1200 # 20 Minutes
 
-
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS2
@@ -96,19 +95,21 @@ class BlinkEyeApp:
 
     def load_images(self):
         self.logo_image = ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")))
-        self.button_image = ctk.CTkImage(Image.open(resource_path("blink-eye-reminder-btn.png")), Image.open(resource_path("blink-eye-reminder-btn.png")), (155, 38))
 
     def create_widgets(self):
-        self.counter_label = ctk.CTkLabel(self.root, text="", font=("Segoe UI", 160))
+        self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (40, 40)), compound="left", font=(resource_path("NotoSans-ExtraBold"), 25, "bold"))
+        self.logo_label.place(relx=0.91, rely=0.05, anchor='center')
+
+        self.counter_label = ctk.CTkLabel(self.root, text="", font=(resource_path("NotoSans-Regular.ttf"), 160))
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
-        self.time_label = ctk.CTkLabel(self.root, text="", font=("Segoe UI", 24))
+        self.time_label = ctk.CTkLabel(self.root, text="", font=(resource_path("NotoSans-Regular.ttf"), 24))
         self.time_label.place(relx=0.5, rely=0.6, anchor='center')
 
-        self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("Segoe UI", 32))
+        self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=(resource_path("NotoSans-ExtraBold"), 32))
         self.look_away_msg.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#fb4e54", "#fb4e54"), font=("Helvetica", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (25, 25)), height=32, width=180, hover_color=("#a42621", "#a42621"), corner_radius=50)
+        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#fb4e54", "#fb4e54"), font=(resource_path("NotoSans-Regular.ttf"), 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (25, 25)), height=32, width=180, hover_color=("#a42621", "#a42621"), corner_radius=50)
         self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
 
         self.create_navigation_buttons()
@@ -120,7 +121,7 @@ class BlinkEyeApp:
             ("Website", "https://blinkeye.vercel.app")
         ]
         for i, (text, link) in enumerate(buttons, start=1):
-            button = ctk.CTkLabel(self.root, text=text, fg_color="transparent", width=100, font=("Consolas", 12), cursor='hand2')
+            button = ctk.CTkLabel(self.root, text=text, fg_color="transparent", width=100, font=(resource_path("Consolas.ttf"), 12), cursor='hand2')
             button.bind("<Button-1>", lambda e, b=button, l=link: self.open_link(b, l))
             button.place(relx=0.15 + 0.17 * i, rely=0.95, anchor='center')
 
@@ -190,7 +191,7 @@ class BlinkEyeApp:
         if self.launched_time == 0:
             notification.notify(
                 title="Blink Eye",
-                message="Your program has started running.",
+                message="Blink Eye has started running in the background and can be found on the system tray.",
                 app_icon=resource_path("blink-eye-logo.ico"),
                 timeout=3
             )
