@@ -22,9 +22,6 @@ if platform.system().lower() == "windows":
 
 ctk.set_appearance_mode("system")
 
-customtkinter.FontManager.load_font("NotoSans-Regular.ttf")
-customtkinter.FontManager.load_font("Consolas.ttf")
-
 ALPHA_VALUES = [i / 10 for i in range(11)]
 BREAK_INTERVAL = 1200 # 20 Minutes
 
@@ -38,6 +35,10 @@ def resource_path(relative_path):
         elif "application" in dirlist:
             base_path = os.path.abspath("./application/Assets")
     return os.path.join(base_path, relative_path)
+
+
+customtkinter.FontManager.load_font(resource_path("NotoSans-Regular.ttf"))
+customtkinter.FontManager.load_font(resource_path("Consolas.ttf"))
 
 
 class BlinkEyeApp:
