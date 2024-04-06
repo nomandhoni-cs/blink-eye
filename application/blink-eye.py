@@ -37,7 +37,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-customtkinter.FontManager.load_font(resource_path("NotoSans-Regular.ttf"))
+ctk.FontManager.load_font(resource_path("NotoSans-Regular.ttf"))
 customtkinter.FontManager.load_font(resource_path("Consolas.ttf"))
 
 
