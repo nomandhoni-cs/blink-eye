@@ -23,7 +23,7 @@ if platform.system().lower() == "windows":
 ctk.set_appearance_mode("system")
 
 ALPHA_VALUES = [i / 10 for i in range(11)]
-BREAK_INTERVAL = 1200 # 20 Minutes
+BREAK_INTERVAL = 10 # 20 Minutes
 
 def resource_path(relative_path):
     try:
@@ -113,7 +113,7 @@ class BlinkEyeApp:
         self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("NotoSans-Regular", 32))
         self.look_away_msg.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#fb4e54", "#fb4e54"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (25, 25)), height=32, width=180, hover_color=("#a42621", "#a42621"), corner_radius=50)
+        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, width=180, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
         self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
 
         self.create_navigation_buttons()
