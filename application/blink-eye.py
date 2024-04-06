@@ -38,7 +38,7 @@ def resource_path(relative_path):
 
 
 ctk.FontManager.load_font(resource_path("NotoSans-Regular.ttf"))
-customtkinter.FontManager.load_font(resource_path("Consolas.ttf"))
+ctk.FontManager.load_font(resource_path("Consolas.ttf"))
 
 
 class BlinkEyeApp:
