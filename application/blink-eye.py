@@ -23,7 +23,7 @@ if platform.system().lower() == "windows":
 ctk.set_appearance_mode("system")
 
 ALPHA_VALUES = [i / 10 for i in range(11)]
-BREAK_INTERVAL = 10 # 20 Minutes
+BREAK_INTERVAL = 1200 # 20 Minutes
 
 def resource_path(relative_path):
     try:
