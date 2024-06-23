@@ -48,6 +48,7 @@ class BlinkEyeApp:
         self.skipped = False
         self.openned_links = []
         self.original_volume = 0.0
+        self.unmuted_sound = False
         self.setup_window()
 
     def get_volume(self) -> float:
@@ -113,8 +114,11 @@ class BlinkEyeApp:
         self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("NotoSans-Regular", 32))
         self.look_away_msg.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, width=180, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
-        self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
+        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
+        self.skip_button.place(relx=0.42, rely=0.8, anchor='center')
+
+        self.unmute_button = ctk.CTkButton(self.root, text=f"Unmute Sound{' (Unmuted)' if self.unmuted_sound else ''}", command=self.unmute_sound, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("sound icon light.png")), Image.open(resource_path("sound icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
+        self.unmute_button.place(relx=0.58, rely=0.8, anchor='center')
 
         self.create_navigation_buttons()
 
@@ -137,12 +141,23 @@ class BlinkEyeApp:
         self.fade_to_black(True)
         self.skipped = True
 
+    def unmute_sound(self):
+        if not self.unmuted_sound:
+            self.unmuted_sound = True
+            self.unmute_button.configure(text=f"Unmute Sound{' (Unmuted)' if self.unmuted_sound else ''}")
+            self.unmute_button.place_configure(relx=0.6)
+            volume_fade_values = self.fade_volume_sequence(True)
+            for i in range(len(volume_fade_values)):
+                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+                time.sleep(0.1)
+
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
             volume_fade_values = self.fade_volume_sequence()
             for i, alphavalue in enumerate(ALPHA_VALUES):
                 self.root.attributes('-alpha', alphavalue)
-                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+                if not self.unmuted_sound:
+                    self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
         else:
             for c in self.root.winfo_children()[::-1][:3]:
@@ -153,7 +168,8 @@ class BlinkEyeApp:
             values.reverse()
             for i, alphavalue in enumerate(values):
                 self.root.attributes('-alpha', alphavalue)
-                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+                if not self.unmuted_sound:
+                    self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
 
             self.root.withdraw()
@@ -169,6 +185,9 @@ class BlinkEyeApp:
             current_time = datetime.now().strftime("%I:%M:%S %p")
             self.counter_label.configure(text="20s")
             self.time_label.configure(text=current_time)
+            self.unmuted_sound = False
+            self.unmute_button.configure(text=f"Unmute Sound{' (Unmuted)' if self.unmuted_sound else ''}")
+            self.unmute_button.place(relx=0.58, rely=0.8, anchor='center')
             self.fade_to_black()
 
             for i in range(19, 0, -1):
