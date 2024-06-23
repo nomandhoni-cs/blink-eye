@@ -1,5 +1,5 @@
 #define MyAppName "Blink Eye"
-#define MyAppVersion "1.4"
+#define MyAppVersion "1.5"
 #define MyAppPublisher "Noman Dhoni"
 #define MyAppURL "https://blinkeye.vercel.app/"
 #define MyAppExeName "BlinkEye.exe"
@@ -22,7 +22,7 @@ LicenseFile=..\LICENSE.txt
 ;PrivilegesRequired=lowest
 ; Other setup configurations...
 OutputDir=.\ExecutableFile
-OutputBaseFilename=Blink_Eye_Windows_64_V1.4
+OutputBaseFilename=Blink_Eye_Windows_64_V1.5
 SetupIconFile=.\Assets\blink-eye-logo.ico
 Compression=lzma
 SolidCompression=yes
