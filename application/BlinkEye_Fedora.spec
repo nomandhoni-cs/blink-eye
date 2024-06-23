@@ -1,5 +1,5 @@
 Name:           BlinkEye
-Version:        1.4.0
+Version:        1.5.0
 Release:        1%{?dist}
 Summary:        Blink Eye is a minimalist eye care reminder app designed to reduce eye strain during extended screen usage.
 
