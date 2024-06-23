@@ -41,7 +41,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
-2. Change Directory
+2. Change working directory
 
     ```console
     cd blink-eye/application
@@ -71,23 +71,30 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
     git clone https://github.com/nomandhoni-cs/blink-eye.git
     ```
 
-3. Navigate to the application directory:
+2. Change working directory:
     ```console
-    cd blink-eye && cd application
+    cd blink-eye/application
     ```
-    
-3. Install the dependencies
+
+3. Create and activate a virtual environment (optional):
+    ```console
+    python -m venv .venv && .\.venv\Scripts\Activate.bat
+    ```
+
+4. Install the dependencies
 
     ```console
     pip install -r REQUIREMENTS.txt
-4. Run the Application
+    
+5. Run the Application
 
     ```console
-    python blink_eye.py
-5. If you want to make `.exe` by yourself
+    python blink-eye.py
+
+6. If you want to make `.exe` by yourself
 
     ```console
-    pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py
+    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --hidden-import plyer.platforms.win.notification --clean blink-eye.py
     ```
 
 </details>
