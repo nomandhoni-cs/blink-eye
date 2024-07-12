@@ -23,7 +23,7 @@ if platform.system().lower() == "windows":
 ctk.set_appearance_mode("system")
 
 ALPHA_VALUES = [i / 10 for i in range(11)]
-BREAK_INTERVAL = 1200 # 20 Minutes
+BREAK_INTERVAL = 1200 # 20 Minutes = 1200 Seconds
 
 def resource_path(relative_path):
     try:
@@ -48,6 +48,7 @@ class BlinkEyeApp:
         self.skipped = False
         self.openned_links = []
         self.original_volume = 0.0
+        self.unmuted_sound = False
         self.setup_window()
 
     def get_volume(self) -> float:
@@ -101,8 +102,8 @@ class BlinkEyeApp:
         self.logo_image = ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")))
 
     def create_widgets(self):
-        self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (40, 40)), compound="left", font=("NotoSans-Regular", 25, "bold"))
-        self.logo_label.place(relx=0.91, rely=0.05, anchor='center')
+        self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (30, 30)), compound="left", font=("NotoSans-Regular", 20, "bold"))
+        self.logo_label.place(relx=0.93, rely=0.05, anchor='center')
 
         self.counter_label = ctk.CTkLabel(self.root, text="", font=("NotoSans-Regular", 160))
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
@@ -113,8 +114,14 @@ class BlinkEyeApp:
         self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("NotoSans-Regular", 32))
         self.look_away_msg.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, width=180, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
-        self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
+        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
+        
+        if isWindows:
+            self.skip_button.place(relx=0.45, rely=0.8, anchor='center')
+
+            self.sound_button = ctk.CTkButton(self.root, text=f"", width=10, command=self.toggle_sound, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=100)
+        else:
+            self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
 
         self.create_navigation_buttons()
 
@@ -137,12 +144,35 @@ class BlinkEyeApp:
         self.fade_to_black(True)
         self.skipped = True
 
+    def toggle_sound(self):
+        if not self.unmuted_sound:
+            self.unmute_sound()
+        elif self.unmuted_sound:
+            self.mute_sound()
+
+    def unmute_sound(self):
+        self.unmuted_sound = True
+        self.sound_button.configure(text=f"", image=ctk.CTkImage(Image.open(resource_path("mute icon light.png")), Image.open(resource_path("mute icon dark.png")), (13, 13)))
+        volume_fade_values = self.fade_volume_sequence(True)
+        for i in range(len(volume_fade_values)):
+            self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+            time.sleep(0.1)
+    
+    def mute_sound(self):
+        self.unmuted_sound = False
+        self.sound_button.configure(text=f"", image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)))
+        volume_fade_values = self.fade_volume_sequence()
+        for i in range(len(volume_fade_values)):
+            self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+            time.sleep(0.1)
+
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
             volume_fade_values = self.fade_volume_sequence()
             for i, alphavalue in enumerate(ALPHA_VALUES):
                 self.root.attributes('-alpha', alphavalue)
-                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+                if not self.unmuted_sound:
+                    self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
         else:
             for c in self.root.winfo_children()[::-1][:3]:
@@ -153,7 +183,8 @@ class BlinkEyeApp:
             values.reverse()
             for i, alphavalue in enumerate(values):
                 self.root.attributes('-alpha', alphavalue)
-                self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
+                if not self.unmuted_sound:
+                    self.set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
 
             self.root.withdraw()
@@ -169,6 +200,10 @@ class BlinkEyeApp:
             current_time = datetime.now().strftime("%I:%M:%S %p")
             self.counter_label.configure(text="20s")
             self.time_label.configure(text=current_time)
+            self.unmuted_sound = False
+            if isWindows:
+                self.sound_button.configure(text=f"")
+                self.sound_button.place(relx=0.54, rely=0.8, anchor='center')
             self.fade_to_black()
 
             for i in range(19, 0, -1):
