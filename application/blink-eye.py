@@ -117,7 +117,7 @@ class BlinkEyeApp:
         self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
         
         if isWindows:
-            self.skip_button.place(relx=0.45, rely=0.8, anchor='center')
+            self.skip_button.place(relx=0.49, rely=0.8, anchor='center')
 
             self.sound_button = ctk.CTkButton(self.root, text=f"", width=10, command=self.toggle_sound, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=100)
         else:
@@ -203,7 +203,7 @@ class BlinkEyeApp:
             self.unmuted_sound = False
             if isWindows:
                 self.sound_button.configure(text=f"")
-                self.sound_button.place(relx=0.54, rely=0.8, anchor='center')
+                self.sound_button.place(relx=0.55, rely=0.8, anchor='center')
             self.fade_to_black()
 
             for i in range(19, 0, -1):
