@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ver="1.4.0"
+ver="1.5.0"
 
 echo Installing Dependencies...
 sudo dnf install -y rpmdevtools rpmlint python3-devel python3-pip
