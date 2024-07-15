@@ -1,16 +1,16 @@
 import customtkinter as ctk
 import threading
 import time
-from plyer import notification
 import webbrowser
 import sys
+import winotify
 import os
 from datetime import datetime
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
 import platform
-
+import json
 
 isWindows = False
 if platform.system().lower() == "windows":
@@ -23,25 +23,45 @@ if platform.system().lower() == "windows":
 ctk.set_appearance_mode("system")
 
 ALPHA_VALUES = [i / 10 for i in range(11)]
-BREAK_INTERVAL = 1200 # 20 Minutes = 1200 Seconds
 
-def resource_path(relative_path):
+def resource_path(relative_path, data: bool = False):
     try:
         base_path = sys._MEIPASS2
     except Exception:
         dirlist = os.listdir(os.path.abspath("."))
+        if data:
+            if "data" in dirlist:
+                base_path = os.path.abspath("./data")
+            elif "application" in dirlist:
+                base_path = os.path.abspath("./application/data")
+            return os.path.join(base_path, relative_path)
+            
         if "Assets" in dirlist:
             base_path = os.path.abspath("./Assets")
         elif "application" in dirlist:
             base_path = os.path.abspath("./application/Assets")
     return os.path.join(base_path, relative_path)
 
+def get_data(key: str):
+    with open(resource_path("data.json", data=True), 'r') as f:
+        data = json.load(f)
+    return data[key]
 
-ctk.FontManager.load_font(resource_path("NotoSans-Regular.ttf"))
+def set_data(key: str, value: str):
+    with open(resource_path("data.json", data=True), 'r') as f:
+        data = json.load(f)
+    
+    data[key] = value
+
+    with open(resource_path("data.json", data=True), 'w') as f:
+        json.dump(data, f, indent=4)
+
+ctk.FontManager.load_font(resource_path("Noto Sans.ttf"))
 ctk.FontManager.load_font(resource_path("Consolas.ttf"))
 
+open_dash = threading.Condition()
 
-class BlinkEyeApp:
+class BlinkEyeNotifier:
     def __init__(self):
         self.root = ctk.CTk()
         self.launched_time = 0
@@ -50,7 +70,10 @@ class BlinkEyeApp:
         self.original_volume = 0.0
         self.unmuted_sound = False
         self.setup_window()
-
+        self.off = False if get_data("status") == 'on' else True
+        self.SCREEN_BREAK_INTERVAL = int(get_data("sbi"))
+        self.FOCUS_BREAK = int(get_data("fb"))
+        
     def get_volume(self) -> float:
         if isWindows:
             comtypes.CoInitialize()
@@ -95,31 +118,27 @@ class BlinkEyeApp:
         self.root.configure(bg='black')
         self.root.attributes('-alpha', 0.0)
         self.root.overrideredirect(True)
-        self.load_images()
         self.create_widgets()
 
-    def load_images(self):
-        self.logo_image = ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")))
-
     def create_widgets(self):
-        self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (30, 30)), compound="left", font=("NotoSans-Regular", 20, "bold"))
+        self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (30, 30)), compound="left", font=("Noto Sans", 20, "bold"))
         self.logo_label.place(relx=0.93, rely=0.05, anchor='center')
 
-        self.counter_label = ctk.CTkLabel(self.root, text="", font=("NotoSans-Regular", 160))
+        self.counter_label = ctk.CTkLabel(self.root, text="", font=("Noto Sans", 160))
         self.counter_label.place(relx=0.5, rely=0.4, anchor='center')
 
-        self.time_label = ctk.CTkLabel(self.root, text="", font=("NotoSans-Regular", 24))
+        self.time_label = ctk.CTkLabel(self.root, text="", font=("Noto Sans", 24))
         self.time_label.place(relx=0.5, rely=0.6, anchor='center')
 
-        self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("NotoSans-Regular", 32))
+        self.look_away_msg = ctk.CTkLabel(self.root, text="Look 20 feet far away to protect your eyes", font=("Noto Sans", 32))
         self.look_away_msg.place(relx=0.5, rely=0.7, anchor='center')
 
-        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
+        self.skip_button = ctk.CTkButton(self.root, text="Skip this time", command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("Noto Sans", 18), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
         
         if isWindows:
-            self.skip_button.place(relx=0.49, rely=0.8, anchor='center')
+            self.skip_button.place(relx=0.45, rely=0.8, anchor='center')
 
-            self.sound_button = ctk.CTkButton(self.root, text=f"", width=10, command=self.toggle_sound, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("NotoSans-Regular", 18), image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=100)
+            self.sound_button = ctk.CTkButton(self.root, text=f"", width=10, command=self.toggle_sound, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=("Noto Sans", 18), image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=100)
         else:
             self.skip_button.place(relx=0.5, rely=0.8, anchor='center')
 
@@ -137,7 +156,9 @@ class BlinkEyeApp:
             button.place(relx=0.15 + 0.17 * i, rely=0.95, anchor='center')
 
     def hold_the_program(self):
-        for _ in range(BREAK_INTERVAL):
+        for _ in range(self.SCREEN_BREAK_INTERVAL):
+            if self.off:
+                sys.exit(0)
             time.sleep(1)
 
     def skip_reminder(self):
@@ -203,10 +224,10 @@ class BlinkEyeApp:
             self.unmuted_sound = False
             if isWindows:
                 self.sound_button.configure(text=f"")
-                self.sound_button.place(relx=0.55, rely=0.8, anchor='center')
+                self.sound_button.place(relx=0.54, rely=0.8, anchor='center')
             self.fade_to_black()
 
-            for i in range(19, 0, -1):
+            for i in range(self.FOCUS_BREAK - 1, 0, -1):
                 if self.skipped:
                     self.skipped = False
                     skiiped_iter = True
@@ -227,32 +248,217 @@ class BlinkEyeApp:
 
 
     def run(self):
-        if self.launched_time == 0:
-            notification.notify(
-                title="Blink Eye",
-                message="Blink Eye has started running in the background and can be found on the system tray.",
-                app_icon=resource_path("blink-eye-logo.ico"),
-                timeout=3
-            )
-            # Wait for 20 minutes before showing the first popup
-            self.hold_the_program()
-            self.launched_time += 1
-        threading.Thread(target=self.show_timer_popup).start()
+        if not self.off:
+            threading.Thread(target=run_icon).start()
+
+            if self.launched_time == 0:
+                toast = winotify.Notification(app_id="Blink Eye",
+                        title="Blink Eye",
+                        msg="Blink Eye has started running in the background and can be found on the system tray.",
+                        icon=resource_path("blink-eye-logo.ico"),
+                        duration="short")
+                toast.show()
+
+                self.hold_the_program()
+                self.launched_time += 1
+                
+            threading.Thread(target=self.show_timer_popup).start()
+            self.root.mainloop()
+
+
+
+class BlinkEyeDashboard:
+    def __init__(self) -> None:
+        self.notifier = BlinkEyeNotifier()
+        threading.Thread(target=self.notifier.run, daemon=True).start()
+    
+        self.root = ctk.CTkTop()
+        self.root.title("Blink Eye")
+        self.root.iconbitmap(resource_path("blink-eye-logo.ico"))
+        self.root.geometry("700x400")
+
+        # if get_data('status') == 'on':
+            # self.root.withdraw()
+
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+        threading.Thread(target=self.on_signal_to_open).start()
+        self.create()
+
+    def on_signal_to_open(self):
+        while True:
+            with open_dash:
+                open_dash.wait()
+                self.root.deiconify()
+
+    def on_close(self):
+        if not self.notifier.off:
+            self.root.withdraw()
+        else:
+            os._exit(0)
+        
+    def validate_int(self, new_value):
+        if new_value.isdigit() or new_value == "":
+            return True
+        return False
+
+    def update_data(self, data):
+        with open(resource_path("data.json", True), 'r') as f:
+            old_data = json.load(f)
+
+        if data != old_data:
+            with open(resource_path("data.json", True), 'w') as f:
+                json.dump(data, f, indent=4)
+
+            self.save_button.configure(text="Saving...")
+            self.save_button.configure(state="disabled")
+            self.notifier.off = True
+            time.sleep(1.5)
+            threading.Thread(target=self.notifier.run, daemon=True).start()
+            self.save_button.configure(text="Save", state="normal", width=40, height=25)
+
+    def gather_data(self):
+        """
+        Gathers all data from all different inputs
+        """
+        prepared_data = {}
+        data = self.data_objects
+        for key in data:
+            if data[key]['obj'] == ctk.CTkSwitch:
+                prepared_data['status'] = data[key]['data_var'].get()
+            d = data[key]['obj'].get()
+            if d == "" or d == "0":
+                data[key]['obj'].delete(0, 'end')
+                if key == 'sbi':
+                    d = "1200"
+                    data[key]['obj'].insert(0, "20")
+                elif key == "fb":
+                    d = "20"
+                    data[key]['obj'].insert(0, "20")
+            prepared_data[key] = d
+        self.update_data(prepared_data)
+
+    def create(self):
+        self.logo_label = ctk.CTkLabel(self.root, text="Blink Eye", font=("Noto Sans", 30, "bold"))
+        self.logo_label.pack(pady=5, anchor='center')
+
+        self.main_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        self.main_frame.pack(pady=10, padx=5, anchor='center', fill=ctk.BOTH, expand=True)
+        
+        self.data_objects = {
+            "status": {
+                "name": "Status",
+                "obj": None,
+                "data_var": None
+            },
+            "sbi": {
+                "name": "Screen Break Interval",
+                "obj": None
+            },
+            "fb": {
+                "name": "Focus Break",
+                "obj": None
+            }
+        }
+
+        # ========== Frame: 1 (Status) ==========
+        def switch_event(boot: bool=False):
+            switch.configure(text="  ON" if switch_var.get() == "on" else "  OFF", text_color="#008000" if switch_var.get() == "on" else "#ff0000")
+            if switch_var.get() != get_data('status'):
+                if switch_var.get() == "off":
+                    for frame in self.main_frame.winfo_children()[1:]:
+                        for c in frame.winfo_children():
+                            c.configure(state="disabled")
+                    self.notifier.off = True
+                    icon.stop()
+                else:
+                    for frame in self.main_frame.winfo_children()[1:]:
+                        for c in frame.winfo_children():
+                            c.configure(state="normal")
+                    self.notifier.off = False
+                    threading.Thread(target=self.notifier.run, daemon=True).start()
+                set_data("status", switch_var.get())
+            if boot:
+                if get_data('status') == "off":
+                    for frame in self.main_frame.winfo_children()[1:]:
+                        for c in frame.winfo_children():
+                            c.configure(state="disabled")
+                else:
+                    for frame in self.main_frame.winfo_children()[1:]:
+                        for c in frame.winfo_children():
+                            c.configure(state="normal")
+
+        f1 = ctk.CTkFrame(self.main_frame)
+        f1.pack(pady=1.25, anchor='center', fill=ctk.X)
+        f1.grid_rowconfigure(0, weight=1)
+        f1.grid_columnconfigure(0, weight=0)
+        f1.grid_columnconfigure(1, weight=1)
+        
+        ctk.CTkLabel(f1, text="Enable Blink Eye", anchor="w", font=("Noto Sans", 13)).grid(row=0, column=0, sticky="e", pady=2.5, padx=10)
+
+        switch_var = ctk.StringVar(f1, value=get_data('status'))
+        switch = ctk.CTkSwitch(f1, text="  ON" if switch_var.get() == "on" else "  OFF", text_color="#008000" if switch_var.get() == "on" else "#ff0000", variable=switch_var, command=switch_event, onvalue="on", offvalue="off", font=("Noto Sans", 13))
+        switch.grid(row=0, column=1, sticky="e", pady=2.5)
+        self.data_objects['status']['obj'] = switch
+        self.data_objects['status']['data_var'] = switch_var
+
+        # ========== Frame: 2 (Screen Break Interval) ==========
+        f2 = ctk.CTkFrame(self.main_frame)
+        f2.pack(pady=1.25, anchor='center', fill=ctk.X)
+
+        ctk.CTkLabel(f2, text="Screen Break Interval", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="e", side='left')
+        sbi_var = ctk.StringVar(f2, value=get_data("sbi"))
+        ctk.CTkLabel(f2, text="minutes", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="w", side='right')
+        sentry = ctk.CTkEntry(f2, font=("Noto Sans", 13), width=50, height=8, textvariable=sbi_var, validate='key', validatecommand=(self.root.register(self.validate_int), '%P'))
+        sentry.pack(padx=2, pady=1.25, anchor="w", side='right')
+        self.data_objects['sbi']['obj'] = sentry
+
+        # ========== Frame: 3 (Focus Break) ==========
+        f3 = ctk.CTkFrame(self.main_frame)
+        f3.pack(pady=1.25, anchor='center', fill=ctk.X)
+
+        ctk.CTkLabel(f3, text="Focus Break", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="e", side='left')
+        fb_var = ctk.StringVar(f3, value=get_data("fb"))
+        ctk.CTkLabel(f3, text="seconds", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="w", side='right')
+        sentry = ctk.CTkEntry(f3, font=("Noto Sans", 13), width=50, height=8, textvariable=fb_var, validate='key', validatecommand=(self.root.register(self.validate_int), '%P'))
+        sentry.pack(padx=2, pady=1.25, anchor="w", side='right')
+        self.data_objects['fb']['obj'] = sentry
+
+        switch_event(True)
+        self.save_button = ctk.CTkButton(self.main_frame, text="Save", width=40, height=25, font=("Noto Sans", 13), command=lambda: threading.Thread(target=self.gather_data, daemon=True).start())
+        self.save_button.pack(anchor="se", pady=5, padx=5, side="bottom")
+
+    def run(self):
         self.root.mainloop()
 
 def exit_action(icon, item):
     icon.stop()
     os._exit(0)
 
+def open_settings(icon, item):
+    with open_dash:
+        open_dash.notify()
+
+icon = None
 def run_icon():
+    global icon
+
     image = Image.open(resource_path(relative_path='blink-eye-logo.png'))
-    icon = pystray.Icon("name", image, "Blink Eye", menu=pystray.Menu(item('Exit', exit_action)))
+    icon = pystray.Icon(
+        "name", 
+        image, 
+        "Blink Eye", 
+        menu=pystray.Menu(
+            item("Settings", open_settings, default=True),
+            pystray.Menu.SEPARATOR,
+            item('Exit', exit_action)
+            )
+    )
+
     icon.run()
 
 if __name__ == "__main__":
-    threading.Thread(target=run_icon).start()
     try:
-        eye_care_app = BlinkEyeApp()
-        eye_care_app.run()
+        dashboard = BlinkEyeDashboard()
+        dashboard.run()
     except KeyboardInterrupt:
         pass
