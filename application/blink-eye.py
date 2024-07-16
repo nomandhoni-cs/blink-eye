@@ -11,6 +11,7 @@ from pystray import MenuItem as item
 from PIL import Image
 import platform
 import json
+import multiprocessing
 
 isWindows = False
 if platform.system().lower() == "windows":
@@ -70,7 +71,7 @@ class BlinkEyeNotifier:
         self.original_volume = 0.0
         self.unmuted_sound = False
         self.setup_window()
-        self.off = False if get_data("status") == 'on' else True
+        # self.off = False if get_data("status") == 'on' else True
         self.SCREEN_BREAK_INTERVAL = int(get_data("sbi"))
         self.FOCUS_BREAK = int(get_data("fb"))
         
@@ -157,8 +158,7 @@ class BlinkEyeNotifier:
 
     def hold_the_program(self):
         for _ in range(self.SCREEN_BREAK_INTERVAL):
-            if self.off:
-                sys.exit(0)
+            sys.exit(0)
             time.sleep(1)
 
     def skip_reminder(self):
@@ -219,7 +219,7 @@ class BlinkEyeNotifier:
             self.root.attributes("-topmost", True)
             
             current_time = datetime.now().strftime("%I:%M:%S %p")
-            self.counter_label.configure(text="20s")
+            self.counter_label.configure(text=f"{self.FOCUS_BREAK}s")
             self.time_label.configure(text=current_time)
             self.unmuted_sound = False
             if isWindows:
@@ -246,56 +246,44 @@ class BlinkEyeNotifier:
             webbrowser.open(link)
             label.configure(text=f"{label.cget('text')} (Opened)", cursor="")
 
-
     def run(self):
-        if not self.off:
-            threading.Thread(target=run_icon).start()
+        threading.Thread(target=run_icon).start()
 
-            if self.launched_time == 0:
-                toast = winotify.Notification(app_id="Blink Eye",
-                        title="Blink Eye",
-                        msg="Blink Eye has started running in the background and can be found on the system tray.",
-                        icon=resource_path("blink-eye-logo.ico"),
-                        duration="short")
-                toast.show()
+        if self.launched_time == 0:
+            toast = winotify.Notification(app_id="Blink Eye",
+                    title="Blink Eye",
+                    msg="Blink Eye has started running in the background and can be found on the system tray.",
+                    icon=resource_path("blink-eye-logo.ico"),
+                    duration="short")
+            toast.show()
 
-                self.hold_the_program()
-                self.launched_time += 1
-                
-            threading.Thread(target=self.show_timer_popup).start()
-            self.root.mainloop()
+            self.hold_the_program()
+            self.launched_time += 1
 
+        threading.Thread(target=self.show_timer_popup).start()
+        self.root.mainloop()
 
+notifier = None
+def start_notifier():
+    global notifier
+
+    notifier = BlinkEyeNotifier()
+    notifier.run()
 
 class BlinkEyeDashboard:
     def __init__(self) -> None:
-        self.notifier = BlinkEyeNotifier()
-        threading.Thread(target=self.notifier.run, daemon=True).start()
-    
-        self.root = ctk.CTkTop()
+        if get_data('status') == "on":
+            self.start_notifier_process()
+        self.root = ctk.CTk()
         self.root.title("Blink Eye")
         self.root.iconbitmap(resource_path("blink-eye-logo.ico"))
         self.root.geometry("700x400")
-
-        # if get_data('status') == 'on':
-            # self.root.withdraw()
-
-        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
-        threading.Thread(target=self.on_signal_to_open).start()
         self.create()
 
-    def on_signal_to_open(self):
-        while True:
-            with open_dash:
-                open_dash.wait()
-                self.root.deiconify()
+    def start_notifier_process(self):
+        self.notifier_process = multiprocessing.Process(target=start_notifier)
+        self.notifier_process.start()
 
-    def on_close(self):
-        if not self.notifier.off:
-            self.root.withdraw()
-        else:
-            os._exit(0)
-        
     def validate_int(self, new_value):
         if new_value.isdigit() or new_value == "":
             return True
@@ -311,9 +299,9 @@ class BlinkEyeDashboard:
 
             self.save_button.configure(text="Saving...")
             self.save_button.configure(state="disabled")
-            self.notifier.off = True
-            time.sleep(1.5)
-            threading.Thread(target=self.notifier.run, daemon=True).start()
+            self.notifier_process.terminate()
+            time.sleep(1)
+            self.start_notifier_process()
             self.save_button.configure(text="Save", state="normal", width=40, height=25)
 
     def gather_data(self):
@@ -368,24 +356,26 @@ class BlinkEyeDashboard:
                     for frame in self.main_frame.winfo_children()[1:]:
                         for c in frame.winfo_children():
                             c.configure(state="disabled")
-                    self.notifier.off = True
-                    icon.stop()
+                    self.save_button.configure(cursor='arrow', hover=False)
+                    self.notifier_process.terminate()
                 else:
                     for frame in self.main_frame.winfo_children()[1:]:
                         for c in frame.winfo_children():
                             c.configure(state="normal")
-                    self.notifier.off = False
-                    threading.Thread(target=self.notifier.run, daemon=True).start()
+                    self.save_button.configure(cursor='hand2', hover=True)
+                    self.start_notifier_process()
                 set_data("status", switch_var.get())
             if boot:
                 if get_data('status') == "off":
                     for frame in self.main_frame.winfo_children()[1:]:
                         for c in frame.winfo_children():
                             c.configure(state="disabled")
+                    self.save_button.configure(cursor='arrow', hover=False)
                 else:
                     for frame in self.main_frame.winfo_children()[1:]:
                         for c in frame.winfo_children():
                             c.configure(state="normal")
+                    self.save_button.configure(cursor='hand2', hover=True)
 
         f1 = ctk.CTkFrame(self.main_frame)
         f1.pack(pady=1.25, anchor='center', fill=ctk.X)
@@ -423,9 +413,10 @@ class BlinkEyeDashboard:
         sentry.pack(padx=2, pady=1.25, anchor="w", side='right')
         self.data_objects['fb']['obj'] = sentry
 
-        switch_event(True)
         self.save_button = ctk.CTkButton(self.main_frame, text="Save", width=40, height=25, font=("Noto Sans", 13), command=lambda: threading.Thread(target=self.gather_data, daemon=True).start())
         self.save_button.pack(anchor="se", pady=5, padx=5, side="bottom")
+        switch_event(True)
+
 
     def run(self):
         self.root.mainloop()

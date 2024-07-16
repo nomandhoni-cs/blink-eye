@@ -1,5 +1,5 @@
 {
-    "status": "on",
-    "sbi": "10",
+    "status": "off",
+    "sbi": "1200",
     "fb": "20"
 }
