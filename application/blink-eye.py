@@ -272,14 +272,18 @@ def start_notifier():
     notifier.run()
 
 class BlinkEyeDashboard:
-    def __init__(self) -> None:
-        if get_data('status') == "on":
-            self.start_notifier_process()
+    def __init__(self, reopen: bool = False) -> None:
+        self.reopen = reopen
         self.root = ctk.CTk()
         self.root.title("Blink Eye")
         self.root.iconbitmap(resource_path("blink-eye-logo.ico"))
         self.root.geometry("700x400")
+        if get_data('status') == "on" and not reopen:
+            self.root.withdraw()
         self.create()
+
+    def reopen(self):
+        self.root.deiconify()
 
     def start_notifier_process(self):
         self.notifier_process = multiprocessing.Process(target=start_notifier)
@@ -420,15 +424,18 @@ class BlinkEyeDashboard:
 
 
     def run(self):
+        if get_data('status') == "on" and not self.reopen:
+            self.start_notifier_process()
         self.root.mainloop()
+
+dashboard = None
 
 def exit_action(icon, item):
     icon.stop()
     os._exit(0)
 
 def open_settings(icon, item):
-    with open_dash:
-        open_dash.notify()
+    BlinkEyeDashboard(True).run()
 
 icon = None
 def run_icon():
