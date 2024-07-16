@@ -255,6 +255,7 @@ class BlinkEyeNotifier:
                     msg="Blink Eye has started running in the background and can be found on the system tray.",
                     icon=resource_path("blink-eye-logo.ico"),
                     duration="short")
+            toast.set_audio(winotify.audio.Default, loop=False)
             toast.show()
 
             self.hold_the_program()
