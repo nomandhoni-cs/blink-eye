@@ -42,6 +42,7 @@ Name: "autostarticon"; Description: "{cm:AutoStartProgram,{#MyAppName}}"; GroupD
 [Files]
 Source: "dist\BlinkEye.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\Assets\*"; DestDir: "{app}\Assets\"; Flags: ignoreversion
+Source: ".\data\*"; DestDir: "{app}\data\"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
