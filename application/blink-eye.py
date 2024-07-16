@@ -158,7 +158,6 @@ class BlinkEyeNotifier:
 
     def hold_the_program(self):
         for _ in range(self.SCREEN_BREAK_INTERVAL):
-            sys.exit(0)
             time.sleep(1)
 
     def skip_reminder(self):
