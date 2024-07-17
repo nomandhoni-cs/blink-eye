@@ -1,5 +1,6 @@
 {
     "status": "on",
-    "sbi": "10",
-    "fb": "19"
+    "sbi": "1200",
+    "fb": "20",
+    "notifier_pid": 0
 }

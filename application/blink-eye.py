@@ -11,6 +11,7 @@ from pystray import MenuItem as item
 from PIL import Image
 import platform
 import json
+import signal
 import multiprocessing
 
 isWindows = False
@@ -245,8 +246,8 @@ class BlinkEyeNotifier:
             webbrowser.open(link)
             label.configure(text=f"{label.cget('text')} (Opened)", cursor="")
 
-    def run(self):
-        threading.Thread(target=run_icon).start()
+    def run(self, signal_queue: multiprocessing.Queue):
+        threading.Thread(target=run_icon, args=(signal_queue, )).start()
 
         if self.launched_time == 0:
             toast = winotify.Notification(app_id="Blink Eye",
@@ -264,29 +265,55 @@ class BlinkEyeNotifier:
         self.root.mainloop()
 
 notifier = None
-def start_notifier():
+def start_notifier(signal_queue: multiprocessing.Queue):
     global notifier
 
     notifier = BlinkEyeNotifier()
-    notifier.run()
+    notifier.run(signal_queue)
 
 class BlinkEyeDashboard:
-    def __init__(self, reopen: bool = False) -> None:
-        self.reopen = reopen
+    def __init__(self) -> None:
+        self.signal_queue = multiprocessing.Queue()
         self.root = ctk.CTk()
         self.root.title("Blink Eye")
         self.root.iconbitmap(resource_path("blink-eye-logo.ico"))
-        self.root.geometry("700x400")
-        if get_data('status') == "on" and not reopen:
+        self.root.geometry(f"700x400+{int(self.root.winfo_screenwidth()/2 - 700/2)}+{int(self.root.winfo_screenheight()/2 - 400/2) - 50}")
+        if get_data('status') == "on":
             self.root.withdraw()
+        threading.Thread(target=self.check_queue, daemon=True).start()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
         self.create()
 
-    def reopen(self):
-        self.root.deiconify()
+    def on_close(self):
+        if get_data('status') == 'on' and get_data('notifier_pid') != 0:
+            self.root.withdraw()
+        else:
+            self.root.destroy()
+            self.root.quit()
+            sys.exit(0)
+
+    def check_queue(self):
+        while True:
+            if not self.signal_queue.empty():
+                msg = self.signal_queue.get()
+                if msg == "open dash":
+                    self.refresh_data()
+                    self.root.geometry(f"700x400+{int(self.root.winfo_screenwidth()/2 - 700/2)}+{int(self.root.winfo_screenheight()/2 - 400/2) - 50}")
+                    self.root.deiconify()
+                elif msg == "closing notifier":
+                    if self.root.winfo_viewable() == 0:
+                        self.on_close()
+
+            time.sleep(0.5)
 
     def start_notifier_process(self):
-        self.notifier_process = multiprocessing.Process(target=start_notifier)
+        self.notifier_process = multiprocessing.Process(target=start_notifier, args=(self.signal_queue, ))
         self.notifier_process.start()
+        set_data('notifier_pid', self.notifier_process.pid)
+
+    def kill_notifier_process(self):
+        os.kill(get_data("notifier_pid"), signal.SIGTERM)
+        set_data("notifier_pid", 0)
 
     def validate_int(self, new_value):
         if new_value.isdigit() or new_value == "":
@@ -303,10 +330,11 @@ class BlinkEyeDashboard:
 
             self.save_button.configure(text="Saving...")
             self.save_button.configure(state="disabled")
-            self.notifier_process.terminate()
+            self.kill_notifier_process()
             time.sleep(1)
             self.start_notifier_process()
             self.save_button.configure(text="Save", state="normal", width=40, height=25)
+            self.root.focus_force()
 
     def gather_data(self):
         """
@@ -329,10 +357,24 @@ class BlinkEyeDashboard:
             if key == 'sbi':
                 d = str(int(d) * 60)
             prepared_data[key] = d
+        prepared_data['notifier_pid'] = get_data("notifier_pid")
         self.update_data(prepared_data)
 
+    def refresh_data(self):
+        temp_dict = self.data_objects.copy()
+        temp_dict.pop('status')
+        for key in temp_dict:
+            if key == "sbi":
+                d = str(int(get_data(key)) / 60 if int(get_data(key)) % 60 != 0 else int(int(get_data(key)) / 60))
+                temp_dict[key]['textvar'].set(d)
+            else:
+                d = get_data(key)
+                temp_dict[key]['textvar'].set(d)
+            temp_dict[key]['obj'].delete(0, 'end')
+            temp_dict[key]['obj'].insert(0, d)
+    
     def create(self):
-        self.logo_label = ctk.CTkLabel(self.root, text="Blink Eye", font=("Noto Sans", 30, "bold"))
+        self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (30, 30)), compound='left', font=("Noto Sans", 30, "bold"))
         self.logo_label.pack(pady=5, anchor='center')
 
         self.main_frame = ctk.CTkFrame(self.root, fg_color="transparent")
@@ -363,7 +405,7 @@ class BlinkEyeDashboard:
                         for c in frame.winfo_children():
                             c.configure(state="disabled")
                     self.save_button.configure(cursor='arrow', hover=False)
-                    self.notifier_process.terminate()
+                    self.kill_notifier_process()
                 else:
                     for frame in self.main_frame.winfo_children()[1:]:
                         for c in frame.winfo_children():
@@ -402,10 +444,11 @@ class BlinkEyeDashboard:
         f2.pack(pady=1.25, anchor='center', fill=ctk.X)
 
         ctk.CTkLabel(f2, text="Screen Break Interval", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="e", side='left')
-        sbi_var = ctk.StringVar(f2, value=get_data("sbi"))
+        sbi_var = ctk.StringVar(f2, value=str(int(get_data("sbi")) / 60 if int(get_data("sbi")) % 60 != 0 else int(int(get_data("sbi")) / 60)))
         ctk.CTkLabel(f2, text="minutes", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="w", side='right')
         sentry = ctk.CTkEntry(f2, font=("Noto Sans", 13), width=50, height=8, textvariable=sbi_var, validate='key', validatecommand=(self.root.register(self.validate_int), '%P'))
         sentry.pack(padx=2, pady=1.25, anchor="w", side='right')
+        self.data_objects['sbi']['textvar'] = sbi_var
         self.data_objects['sbi']['obj'] = sentry
 
         # ========== Frame: 3 (Focus Break) ==========
@@ -417,6 +460,7 @@ class BlinkEyeDashboard:
         ctk.CTkLabel(f3, text="seconds", anchor="w", font=("Noto Sans", 13)).pack(padx=10, pady=1.25, anchor="w", side='right')
         sentry = ctk.CTkEntry(f3, font=("Noto Sans", 13), width=50, height=8, textvariable=fb_var, validate='key', validatecommand=(self.root.register(self.validate_int), '%P'))
         sentry.pack(padx=2, pady=1.25, anchor="w", side='right')
+        self.data_objects['fb']['textvar'] = fb_var
         self.data_objects['fb']['obj'] = sentry
 
         self.save_button = ctk.CTkButton(self.main_frame, text="Save", width=40, height=25, font=("Noto Sans", 13), command=lambda: threading.Thread(target=self.gather_data, daemon=True).start())
@@ -425,21 +469,23 @@ class BlinkEyeDashboard:
 
 
     def run(self):
-        if get_data('status') == "on" and not self.reopen:
+        if get_data('status') == "on":
             self.start_notifier_process()
         self.root.mainloop()
 
 dashboard = None
 
-def exit_action(icon, item):
+def exit_action(icon, item, queue: multiprocessing.Queue):
+    queue.put("closing notifier")
     icon.stop()
+    set_data("notifier_pid", 0)
     os._exit(0)
 
-def open_settings(icon, item):
-    BlinkEyeDashboard(True).run()
+def open_settings(icon, item, queue: multiprocessing.Queue):
+    queue.put("open dash")
 
 icon = None
-def run_icon():
+def run_icon(queue: multiprocessing.Queue):
     global icon
 
     image = Image.open(resource_path(relative_path='blink-eye-logo.png'))
@@ -448,9 +494,9 @@ def run_icon():
         image, 
         "Blink Eye", 
         menu=pystray.Menu(
-            item("Settings", open_settings, default=True),
+            item("Settings", lambda i, item: open_settings(i, item, queue), default=True),
             pystray.Menu.SEPARATOR,
-            item('Exit', exit_action)
+            item('Exit', lambda i, item: exit_action(i, item, queue))
             )
     )
 
