@@ -13,9 +13,6 @@ import platform
 import json
 import signal
 import multiprocessing
-import logging
-
-logging.basicConfig(filename='./blink_eye.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 isWindows = False
 if platform.system().lower() == "windows":
@@ -33,21 +30,21 @@ def resource_path(relative_path, data: bool = False):
     try:
         base_path = sys._MEIPASS
     except AttributeError:
-        dirlist = os.listdir(os.path.abspath("."))
-        
+        base_path = os.path.abspath(".")
     dirlist = os.listdir(base_path)
-
     if data:
         if "data" in dirlist:
-            base_path = os.path.abspath("./data")
+            base_path = os.path.join(base_path, 'data')
         elif "application" in dirlist:
-            base_path = os.path.abspath("./application/data")
+            base_path = os.path.join(base_path, 'application')
+            base_path = os.path.join(base_path, 'data')
         return os.path.join(base_path, relative_path)
         
     if "Assets" in dirlist:
-        base_path = os.path.abspath("./Assets")
+        base_path = os.path.join(base_path, 'Assets')
     elif "application" in dirlist:
-        base_path = os.path.abspath("./application/Assets")
+        base_path = os.path.join(base_path, 'application')
+        base_path = os.path.join(base_path, 'Assets')
 
     return os.path.join(base_path, relative_path)
 
