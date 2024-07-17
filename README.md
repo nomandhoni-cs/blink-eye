@@ -94,7 +94,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 6. If you want to make `.exe` by yourself
 
     ```console
-    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --hidden-import plyer.platforms.win.notification --clean blink-eye.py
+    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --add-data="./data/*;./data" --clean blink-eye.py
     ```
 
 </details>
@@ -131,7 +131,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 ## License
 
 - **MIT License:** Open-source use. [MIT License Details](./LICENSE.txt)
-- **Commercial License:** For business purposes. Contact Noman Dhoni at alnoman.dhoni@gmail.com for licensing options.
+- **Commercial License:** For business purposes. Contact Noman Dhoni at [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com) for licensing options.
 
 ## Contact
 
@@ -144,4 +144,4 @@ For inquiries and support, please contact Noman Dhoni:
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
-Follow the [CONTRIBUTING.md](https://github.com/nomandhoni-cs/blink-eye/blob/website/CONTRIBUTING.md) for the instruction
+Follow the [CONTRIBUTING.md](./CONTRIBUTING.md) for the instruction
