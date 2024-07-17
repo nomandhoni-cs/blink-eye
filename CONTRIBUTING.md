@@ -34,7 +34,7 @@ Here's how to get started with Blink Eye:
     ```
 4. **Optional: Build .exe file**:
     ```bash
-    pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py
+    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --add-data="./data/*;./data" --clean blink-eye.py
     ```
     This will create an executable file for Blink Eye.
 
