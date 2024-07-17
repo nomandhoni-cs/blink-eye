@@ -34,6 +34,8 @@ def resource_path(relative_path, data: bool = False):
         base_path = sys._MEIPASS
     except AttributeError:
         dirlist = os.listdir(os.path.abspath("."))
+        
+    dirlist = os.listdir(base_path)
 
     if data:
         if "data" in dirlist:
@@ -77,7 +79,6 @@ class BlinkEyeNotifier:
         self.original_volume = 0.0
         self.unmuted_sound = False
         self.setup_window()
-        # self.off = False if get_data("status") == 'on' else True
         self.SCREEN_BREAK_INTERVAL = int(get_data("sbi"))
         self.FOCUS_BREAK = int(get_data("fb"))
         
