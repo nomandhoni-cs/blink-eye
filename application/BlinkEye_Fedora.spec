@@ -22,5 +22,5 @@ rm -rf $RPM_BUILD_ROOT
 %license LICENSE.txt
 
 %changelog
-* Mon Apr 01 2024 Moheshwar Amarnath Biswas
-- First Linux Version
+* Tue Jul 16 2024 Sayad Uddin Tahsin
+- First implementation of Blink Eye Dashboard
