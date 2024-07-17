@@ -131,13 +131,13 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 ## License
 
 - **MIT License:** Open-source use. [MIT License Details](./LICENSE.txt)
-- **Commercial License:** For business purposes. Contact Noman Dhoni at [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com) for licensing options.
+- **Commercial License:** For business purposes. Contact Noman Dhoni at [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com?subject=Blink%20Eye:%20) for licensing options.
 
 ## Contact
 
 For inquiries and support, please contact Noman Dhoni:
 
-- Email: [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com)
+- Email: [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com?subject=Blink%20Eye:%20)
 - Twitter: [@nomandhoni](https://twitter.com/nomandhoni/)
 
 ## Contributing
