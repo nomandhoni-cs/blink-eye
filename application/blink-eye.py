@@ -27,21 +27,18 @@ ctk.set_appearance_mode("system")
 ALPHA_VALUES = [i / 10 for i in range(11)]
 
 def resource_path(relative_path, data: bool = False):
-    try:
-        base_path = sys._MEIPASS2
-    except Exception:
-        dirlist = os.listdir(os.path.abspath("."))
-        if data:
-            if "data" in dirlist:
-                base_path = os.path.abspath("./data")
-            elif "application" in dirlist:
-                base_path = os.path.abspath("./application/data")
-            return os.path.join(base_path, relative_path)
-            
-        if "Assets" in dirlist:
-            base_path = os.path.abspath("./Assets")
+    dirlist = os.listdir(os.path.abspath("."))
+    if data:
+        if "data" in dirlist:
+            base_path = os.path.abspath("./data")
         elif "application" in dirlist:
-            base_path = os.path.abspath("./application/Assets")
+            base_path = os.path.abspath("./application/data")
+        return os.path.join(base_path, relative_path)
+        
+    if "Assets" in dirlist:
+        base_path = os.path.abspath("./Assets")
+    elif "application" in dirlist:
+        base_path = os.path.abspath("./application/Assets")
     return os.path.join(base_path, relative_path)
 
 def get_data(key: str):
@@ -264,15 +261,15 @@ class BlinkEyeNotifier:
         threading.Thread(target=self.show_timer_popup).start()
         self.root.mainloop()
 
-notifier = None
 def start_notifier(signal_queue: multiprocessing.Queue):
-    global notifier
-
     notifier = BlinkEyeNotifier()
     notifier.run(signal_queue)
 
 class BlinkEyeDashboard:
     def __init__(self) -> None:
+        self.safe_init()
+
+    def safe_init(self):
         self.signal_queue = multiprocessing.Queue()
         self.root = ctk.CTk()
         self.root.title("Blink Eye")
@@ -307,7 +304,7 @@ class BlinkEyeDashboard:
             time.sleep(0.5)
 
     def start_notifier_process(self):
-        self.notifier_process = multiprocessing.Process(target=start_notifier, args=(self.signal_queue, ))
+        self.notifier_process = multiprocessing.Process(target=start_notifier, args=(self.signal_queue, ), daemon=True)
         self.notifier_process.start()
         set_data('notifier_pid', self.notifier_process.pid)
 
@@ -467,12 +464,6 @@ class BlinkEyeDashboard:
         self.save_button.pack(anchor="se", pady=5, padx=5, side="bottom")
         switch_event(True)
 
-
-    def run(self):
-        if get_data('status') == "on":
-            self.start_notifier_process()
-        self.root.mainloop()
-
 dashboard = None
 
 def exit_action(icon, item, queue: multiprocessing.Queue):
@@ -484,10 +475,7 @@ def exit_action(icon, item, queue: multiprocessing.Queue):
 def open_settings(icon, item, queue: multiprocessing.Queue):
     queue.put("open dash")
 
-icon = None
 def run_icon(queue: multiprocessing.Queue):
-    global icon
-
     image = Image.open(resource_path(relative_path='blink-eye-logo.png'))
     icon = pystray.Icon(
         "name", 
@@ -503,8 +491,13 @@ def run_icon(queue: multiprocessing.Queue):
     icon.run()
 
 if __name__ == "__main__":
+    if isWindows:
+        multiprocessing.freeze_support()
+
     try:
         dashboard = BlinkEyeDashboard()
-        dashboard.run()
+        if get_data('status') == "on":
+            dashboard.start_notifier_process()
+        dashboard.root.mainloop()
     except KeyboardInterrupt:
         pass
