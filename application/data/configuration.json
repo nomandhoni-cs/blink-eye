@@ -1,0 +1,122 @@
+{
+    "font" : {
+        "english": {
+            "filename": "NotoSans-Regular.ttf",
+            "fontname": "Noto Sans",
+            "relsize": 1
+        },
+        "বাংলা": {
+            "filename": "Kalpurush.ttf",
+            "fontname": "Kalpurush",
+            "relsize": 1.15
+        }
+    },
+    "dashboard": {
+        "timings": {
+            "english": "Timings",
+            "বাংলা": "সময় সম্পর্কিত"
+        },
+        "ebe": {
+            "english": "Enable Blink Eye",
+            "বাংলা": "ব্লিঙ্ক আই চালু করুন"
+        },
+        "status": {
+            "english": "Status",
+            "বাংলা": "অবস্থা"
+        },
+        "sbi": {
+            "english": "Screen Break Interval",
+            "বাংলা": "স্ক্রিন ব্রেক ইন্টারভাল"
+        },
+        "fb": {
+            "english": "Focus Break",
+            "বাংলা": "ফোকাস ব্রেক"
+        },
+        "preferences": {
+            "english": "Preferences",
+            "বাংলা": "প্রেফারেন্সেস"
+        },
+        "fbsft": {
+            "english": "Focus Break Screen Fade Transition",
+            "বাংলা": "ফোকাস ব্রেক সস্ক্রিন ফেড ট্রাঞ্জিশন"
+        },
+        "betheme": {
+            "english": "Blink Eye Theme",
+            "বাংলা": "ব্লিঙ্ক আই থিম"
+        },
+        "lang": {
+            "english": "Language",
+            "বাংলা": "ভাষা"
+        },
+        "save": {
+            "english": "Save",
+            "বাংলা": "সেভ"
+        },
+        "min": {
+            "english": "Minutes",
+            "বাংলা": "মিনিট"
+        },
+        "sec": {
+            "english": "Seconds",
+            "বাংলা": "সেকেন্ড"
+        },
+        "on": {
+            "english": "On",
+            "বাংলা": "অন"
+        },
+        "off": {
+            "english": "Off",
+            "বাংলা": "অফ"
+        },
+        "system": {
+            "english": "System",
+            "বাংলা": "সিস্টেম"
+        },
+        "light": {
+            "english": "Light",
+            "বাংলা": "লাইট"
+        },
+        "dark": {
+            "english": "Dark",
+            "বাংলা": "ডার্ক"
+        }
+    },
+    "notifier": {
+        "20-ft-msg": {
+            "english": "Look 20 feet far away to protect your eyes",
+            "বাংলা": "চোখ রক্ষার্থে ২০ ফিট দূরে তাকান"
+        },
+        "skip-msg": {
+            "english": "Skip this time",
+            "বাংলা": "এইবার বাদ দিন"
+        },
+        "donate": {
+            "english": "Donate",
+            "বাংলা": "অনুদান"
+        },
+        "website": {
+            "english": "Website",
+            "বাংলা": "ওয়েবসাইট"
+        },
+        "github": {
+            "english": "GitHub",
+            "বাংলা": "গিটহাব"
+        },
+        "dash": {
+            "english": "Dashboard",
+            "বাংলা": "ড্যাশবোর্ড"
+        },
+        "numberings": {
+            "english": {"1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9", "0": "0"},
+            "বাংলা": {"1": "১", "2": "২", "3": "৩", "4": "৪", "5": "৫", "6": "৬", "7": "৭", "8": "৮", "9": "৯", "0": "০"}
+        },
+        "am": {
+            "english": "AM",
+            "বাংলা": "এএম"
+        },
+        "pm": {
+            "english": "PM",
+            "বাংলা": "পিএম"
+        }
+    }
+}
