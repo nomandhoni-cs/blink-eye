@@ -34,6 +34,12 @@ class BlinkEyeDashboard:
         self.load_language_pack()
         self.create()
 
+    def available_languages(self):
+        with open(resource_path("configuration.json", True), 'r', encoding="utf-8") as f:
+            data = json.load(f)
+
+        return data['languages']
+    
     def load_language_pack(self):
         with open(resource_path("configuration.json", True), 'r', encoding="utf-8") as f:
             data = json.load(f)
@@ -337,7 +343,7 @@ class BlinkEyeDashboard:
         ctk.CTkLabel(f5, text=self.get_language_sentence("lang"), anchor="w", font=(self.FONTNAME, float(13 * self.RELATIVESIZE))).grid(row=0, column=0, sticky="e", pady=2.5, padx=10)
 
         lang_var = ctk.StringVar(f5, value=get_data('lang'))
-        lang_switch = ctk.CTkOptionMenu(f5, values=["English", "বাংলা"], variable=lang_var, font=(self.FONTNAME, float(13 * self.RELATIVESIZE)), fg_color=("#F9F9FA", "#343638"), button_color=("#F9F9FA", "#343638"), button_hover_color=("#979DA2", "#565B5E"))
+        lang_switch = ctk.CTkOptionMenu(f5, values=self.available_languages(), variable=lang_var, font=(self.FONTNAME, float(13 * self.RELATIVESIZE)), fg_color=("#F9F9FA", "#343638"), button_color=("#F9F9FA", "#343638"), button_hover_color=("#979DA2", "#565B5E"))
         lang_switch.grid(row=0, column=1, sticky="e", pady=2.5)
         self.data_objects['lang']['obj'] = [lang_switch]
         self.data_objects['lang']['datavar'] = lang_var

@@ -147,3 +147,4 @@ dmypy.json
 /BlinkEye.spec
 /ExecutableFile
 .venv
+not-for-production

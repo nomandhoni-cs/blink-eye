@@ -1,4 +1,5 @@
 {
+    "languages": ["English", "বাংলা", "Español"],
     "font": {
         "english": {
             "filename": "NotoSans-Regular.ttf",
@@ -9,114 +10,178 @@
             "filename": "Kalpurush.ttf",
             "fontname": "Kalpurush",
             "relsize": 1.15
+        },
+        "español": {
+            "filename": "NotoSans-Regular.ttf",
+            "fontname": "Noto Sans",
+            "relsize": 1
         }
     },
     "dashboard": {
         "timings": {
             "english": "Timings",
-            "বাংলা": "সময়"
+            "বাংলা": "সময়",
+            "español": "Temporización"
         },
         "ebe": {
             "english": "Enable Blink Eye",
-            "বাংলা": "ব্লিঙ্ক আই চালু করুন"
+            "বাংলা": "ব্লিঙ্ক আই চালু করুন",
+            "español": "Habilitar Blink Eye"
         },
         "status": {
             "english": "Status",
-            "বাংলা": "অবস্থা"
+            "বাংলা": "অবস্থা",
+            "español": "Estado"
         },
         "sbi": {
             "english": "Screen Break Interval",
-            "বাংলা": "স্ক্রিন বিরতির সময়কাল"
+            "বাংলা": "স্ক্রিন বিরতির সময়কাল",
+            "español": "Intervalo de Pausa de Pantalla"
         },
         "fb": {
             "english": "Focus Break",
-            "বাংলা": "ফোকাস বিরতি"
+            "বাংলা": "ফোকাস বিরতি",
+            "español": "Descanso de Enfoque"
         },
         "preferences": {
             "english": "Preferences",
-            "বাংলা": "পছন্দ"
+            "বাংলা": "পছন্দ",
+            "español": "Preferencias"
         },
         "fbsft": {
             "english": "Focus Break Screen Transition",
-            "বাংলা": "ফোকাস বিরতির স্ক্রিন ট্রানজিশন"
+            "বাংলা": "ফোকাস বিরতির স্ক্রিন ট্রানজিশন",
+            "español": "Transición de Pantalla de Descanso de Enfoque"
         },
         "betheme": {
             "english": "Blink Eye Theme",
-            "বাংলা": "ব্লিঙ্ক আই থিম"
+            "বাংলা": "ব্লিঙ্ক আই থিম",
+            "español": "Tema Blink Eye"
         },
         "lang": {
             "english": "Language",
-            "বাংলা": "ভাষা"
+            "বাংলা": "ভাষা",
+            "español": "Idioma"
         },
         "save": {
             "english": "Save",
-            "বাংলা": "সংরক্ষণ করুন"
+            "বাংলা": "সংরক্ষণ করুন",
+            "español": "Guardar"
         },
         "min": {
             "english": "Minutes",
-            "বাংলা": "মিনিট"
+            "বাংলা": "মিনিট",
+            "español": "Minutos"
         },
         "sec": {
             "english": "Seconds",
-            "বাংলা": "সেকেন্ড"
+            "বাংলা": "সেকেন্ড",
+            "español": "Segundos"
         },
         "on": {
             "english": "On",
-            "বাংলা": "চালু"
+            "বাংলা": "চালু",
+            "español": "Encendido"
         },
         "off": {
             "english": "Off",
-            "বাংলা": "বন্ধ"
+            "বাংলা": "বন্ধ",
+            "español": "Apagado"
         },
         "system": {
             "english": "System",
-            "বাংলা": "সিস্টেম"
+            "বাংলা": "System",
+            "español": "System"
         },
         "light": {
             "english": "Light",
-            "বাংলা": "Light"
+            "বাংলা": "Light",
+            "español": "Light"
         },
         "dark": {
             "english": "Dark",
-            "বাংলা": "Dark"
+            "বাংলা": "Dark",
+            "español": "Dark"
         }
     },
     "notifier": {
         "20-ft-msg": {
             "english": "Look 20 feet far away to protect your eyes",
-            "বাংলা": "চোখের সুরক্ষার জন্য ২০ ফুট দূরে তাকান"
+            "বাংলা": "চোখের সুরক্ষার জন্য ২০ ফুট দূরে তাকান",
+            "español": "Mira a 20 pies de distancia para proteger tus ojos"
         },
         "skip-msg": {
             "english": "Skip this time",
-            "বাংলা": "এইবার এড়িয়ে যান"
+            "বাংলা": "এইবার এড়িয়ে যান",
+            "español": "Saltar esta vez"
         },
         "donate": {
             "english": "Donate",
-            "বাংলা": "অনুদান দিন"
+            "বাংলা": "অনুদান দিন",
+            "español": "Donar"
         },
         "website": {
             "english": "Website",
-            "বাংলা": "ওয়েবসাইট"
+            "বাংলা": "ওয়েবসাইট",
+            "español": "Sitio web"
         },
         "github": {
             "english": "GitHub",
-            "বাংলা": "গিটহাব"
+            "বাংলা": "গিটহাব",
+            "español": "GitHub"
         },
         "dash": {
             "english": "Dashboard",
-            "বাংলা": "ড্যাশবোর্ড"
+            "বাংলা": "ড্যাশবোর্ড",
+            "español": "Panel de control"
         },
         "numberings": {
-            "english": {"1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9", "0": "0"},
-            "বাংলা": {"1": "১", "2": "২", "3": "৩", "4": "৪", "5": "৫", "6": "৬", "7": "৭", "8": "৮", "9": "৯", "0": "০"}
+            "english": {
+                "1": "1",
+                "2": "2",
+                "3": "3",
+                "4": "4",
+                "5": "5",
+                "6": "6",
+                "7": "7",
+                "8": "8",
+                "9": "9",
+                "0": "0"
+            },
+            "বাংলা": {
+                "1": "১",
+                "2": "২",
+                "3": "৩",
+                "4": "৪",
+                "5": "৫",
+                "6": "৬",
+                "7": "৭",
+                "8": "৮",
+                "9": "৯",
+                "0": "০"
+            },
+            "español": {
+                "1": "1",
+                "2": "2",
+                "3": "3",
+                "4": "4",
+                "5": "5",
+                "6": "6",
+                "7": "7",
+                "8": "8",
+                "9": "9",
+                "0": "0"
+            }
         },
         "am": {
             "english": "AM",
-            "বাংলা": "এএম"
+            "বাংলা": "এএম",
+            "español": "AM"
         },
         "pm": {
             "english": "PM",
-            "বাংলা": "পিএম"
+            "বাংলা": "পিএম",
+            "español": "PM"
         }
     }
 }
