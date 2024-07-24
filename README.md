@@ -25,6 +25,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 - **Improves Focus:** Taking short breaks can help maintain focus and productivity throughout the day.
 - **Prevents Dry Eyes:** Looking away from the screen allows your eyes to blink more frequently, reducing the risk of dry eyes.
 - **Promotes Eye Health:** Focusing on distant objects helps relax eye muscles and reduce the risk of developing vision-related issues.
+- **Customizability:** Blink Eye customizability with the Dashboard to meet your preferences.
 
 
 ## Building the app
@@ -99,7 +100,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 </details>
 
-#### Linux (Fedora Workstation)
+### Linux (Fedora Workstation)
 
 1. Clone the repository:
 

@@ -1,5 +1,5 @@
 {
-    "font" : {
+    "font": {
         "english": {
             "filename": "NotoSans-Regular.ttf",
             "fontname": "Noto Sans",
@@ -14,7 +14,7 @@
     "dashboard": {
         "timings": {
             "english": "Timings",
-            "বাংলা": "সময় সম্পর্কিত"
+            "বাংলা": "সময়"
         },
         "ebe": {
             "english": "Enable Blink Eye",
@@ -26,19 +26,19 @@
         },
         "sbi": {
             "english": "Screen Break Interval",
-            "বাংলা": "স্ক্রিন ব্রেক ইন্টারভাল"
+            "বাংলা": "স্ক্রিন বিরতির সময়কাল"
         },
         "fb": {
             "english": "Focus Break",
-            "বাংলা": "ফোকাস ব্রেক"
+            "বাংলা": "ফোকাস বিরতি"
         },
         "preferences": {
             "english": "Preferences",
-            "বাংলা": "প্রেফারেন্সেস"
+            "বাংলা": "পছন্দ"
         },
         "fbsft": {
-            "english": "Focus Break Screen Fade Transition",
-            "বাংলা": "ফোকাস ব্রেক সস্ক্রিন ফেড ট্রাঞ্জিশন"
+            "english": "Focus Break Screen Transition",
+            "বাংলা": "ফোকাস বিরতির স্ক্রিন ট্রানজিশন"
         },
         "betheme": {
             "english": "Blink Eye Theme",
@@ -50,7 +50,7 @@
         },
         "save": {
             "english": "Save",
-            "বাংলা": "সেভ"
+            "বাংলা": "সংরক্ষণ করুন"
         },
         "min": {
             "english": "Minutes",
@@ -62,11 +62,11 @@
         },
         "on": {
             "english": "On",
-            "বাংলা": "অন"
+            "বাংলা": "চালু"
         },
         "off": {
             "english": "Off",
-            "বাংলা": "অফ"
+            "বাংলা": "বন্ধ"
         },
         "system": {
             "english": "System",
@@ -74,29 +74,29 @@
         },
         "light": {
             "english": "Light",
-            "বাংলা": "লাইট"
+            "বাংলা": "Light"
         },
         "dark": {
             "english": "Dark",
-            "বাংলা": "ডার্ক"
+            "বাংলা": "Dark"
         }
     },
     "notifier": {
         "20-ft-msg": {
             "english": "Look 20 feet far away to protect your eyes",
-            "বাংলা": "চোখ রক্ষার্থে ২০ ফিট দূরে তাকান"
+            "বাংলা": "চোখের সুরক্ষার জন্য ২০ ফুট দূরে তাকান"
         },
         "skip-msg": {
             "english": "Skip this time",
-            "বাংলা": "এইবার বাদ দিন"
+            "বাংলা": "এইবার এড়িয়ে যান"
         },
         "donate": {
             "english": "Donate",
-            "বাংলা": "অনুদান"
+            "বাংলা": "অনুদান দিন"
         },
         "website": {
             "english": "Website",
-            "বাংলা": "ওয়েবসাইট"
+            "বাংলা": "ওয়েবসাইট"
         },
         "github": {
             "english": "GitHub",
