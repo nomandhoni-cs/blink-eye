@@ -3,13 +3,15 @@
 </p>
 <h1 align="center">Blink Eye</h1>
 
-Blink Eye is a minimalist eye care reminder app designed to reduce eye strain during extended screen usage. It provides customizable timers, full-screen popups, audio mute functionalityfor a seamless user experience.
+Blink Eye is a minimalist eye care reminder app designed to reduce eye strain during extended screen usage. It provides customizable timers, full-screen popups, audio mute functionality for a seamless user experience.
 
 ## Features
 
 - Customizable reminder timers.
 - Full-screen popups with a 20-second countdown to prompt users to look away.
 - Audio mute during reminders to enhance focus.
+- Customizable dashboard for settings and preferences
+- Multilingual support
 - Quick access links for easy navigation:
   - [Donate](https://www.buymeacoffee.com/nomandhoni)
   - [GitHub Repository](https://github.com/nomandhoni-cs/blink-eye)
@@ -25,7 +27,6 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 - **Improves Focus:** Taking short breaks can help maintain focus and productivity throughout the day.
 - **Prevents Dry Eyes:** Looking away from the screen allows your eyes to blink more frequently, reducing the risk of dry eyes.
 - **Promotes Eye Health:** Focusing on distant objects helps relax eye muscles and reduce the risk of developing vision-related issues.
-- **Customizability:** Blink Eye customizability with the Dashboard to meet your preferences.
 
 
 ## Building the app
@@ -128,6 +129,8 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 - Click the "Skip Reminder" button to close the popup for the current session.
 
 - Audio will be automatically muted during reminders and restored afterward.
+  
+- 
 
 ## License
 
@@ -144,5 +147,7 @@ For inquiries and support, please contact Noman Dhoni:
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
+
+- Contributions for improving the dashboard, enhancing customizability, and adding new languages for multilingual support are particularly appreciated.
 
 Follow the [CONTRIBUTING.md](./CONTRIBUTING.md) for the instruction
