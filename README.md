@@ -131,8 +131,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 - Click the "Skip Reminder" button to close the popup for the current session.
 
 - Audio will be automatically muted during reminders and restored afterward.
-  
-- 
+
 
 ## License
 
