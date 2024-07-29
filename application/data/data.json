@@ -1,11 +1,11 @@
 {
     "status": "on",
-    "sbi": "10",
+    "sbi": "1200",
     "fb": "20",
     "mus": "on",
     "betheme": "system",
-    "lang": "हिन्दी",
-    "sound_restore_type": "specific",
-    "sound_level": "50",
+    "lang": "English",
+    "sound_restore_type": "restore",
+    "sound_level": "80",
     "notifier_pid": 0
 }
