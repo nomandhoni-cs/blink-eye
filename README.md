@@ -87,16 +87,19 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
     ```console
     pip install -r REQUIREMENTS.txt
+    ```
     
 5. Run the Application
 
     ```console
     python blink-eye.py
+    ```
 
 6. If you want to make `.exe` by yourself
 
     ```console
-    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" 
+    --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
     ```
 
 </details>

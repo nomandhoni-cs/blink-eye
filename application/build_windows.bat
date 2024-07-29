@@ -7,6 +7,6 @@ python -m pip install wheel
 python -m pip install -r REQUIREMENTS.txt
 python -m pip install pyinstaller
 echo Building the executable...
-pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
 echo Building the installer...
 "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" BuildFileForInnoSetup.iss

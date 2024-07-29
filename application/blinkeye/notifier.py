@@ -28,7 +28,7 @@ class BlinkEyeNotifier:
         self.unmuted_sound = False
         self.SCREEN_BREAK_INTERVAL = int(get_data("sbi"))
         self.FOCUS_BREAK = int(get_data("fb"))
-        self.ISTRANSITION = True if get_data("fbsft") == 'on' else False
+        self.SOUNDMUTE = True if get_data("mus") == 'on' else False
         self.THEME = get_data("betheme")
         self.load_language_pack()
         self.setup_window()
@@ -55,6 +55,7 @@ class BlinkEyeNotifier:
         if isWindows:
             if restore:
                 if self.original_volume is not None:
+                    print(self.original_volume)
                     volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
                     self.original_volume = 0.0
                     return volume_fade_values
@@ -63,6 +64,8 @@ class BlinkEyeNotifier:
                 self.original_volume = get_volume()
                 if self.original_volume is not None:
                     volume_fade_values = [i / 10 for i in range(int((self.original_volume + 0.1) * 10))]
+                    if str(get_data("sound_restore_type")) != "restore":
+                        self.original_volume = float(get_data("sound_level")) / 100
                     return volume_fade_values[::-1]
                 return []
         else:
@@ -101,7 +104,7 @@ class BlinkEyeNotifier:
         self.button_frame.pack(pady=(30, 50), anchor='center')
         self.skip_button = ctk.CTkButton(self.button_frame, text=self.get_language_sentence("skip-msg"), command=self.skip_reminder, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=(self.FONTNAME, int(18 * self.RELATIVESIZE)), image=ctk.CTkImage(Image.open(resource_path("skip icon light.png")), Image.open(resource_path("skip icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=50)
         
-        if isWindows:
+        if isWindows and self.SOUNDMUTE:
             self.skip_button.pack(anchor='center', side="left", padx=5)
 
             self.sound_button = ctk.CTkButton(self.button_frame, text=f"", width=10, command=self.toggle_sound, text_color=('gray10', '#DCE4EE'), compound='right', fg_color=("#FE4C55", "#FE4C55"), font=(self.FONTNAME, int(18 * self.RELATIVESIZE)), image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)), height=32, hover_color=("#dc4c56", "#dc4c56"), corner_radius=100)
@@ -158,13 +161,11 @@ class BlinkEyeNotifier:
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
             volume_fade_values = self.fade_volume_sequence()
-            if not self.ISTRANSITION:
-                self.root.attributes('-alpha', 1)
+            self.root.attributes('-alpha', 1)
 
             for i, alphavalue in enumerate(ALPHA_VALUES):
-                if self.ISTRANSITION:
-                    self.root.attributes('-alpha', alphavalue)
-                if not self.unmuted_sound and isWindows:
+                self.root.attributes('-alpha', alphavalue)
+                if not self.unmuted_sound and isWindows and self.SOUNDMUTE:
                     set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
         else:
@@ -174,13 +175,11 @@ class BlinkEyeNotifier:
             volume_fade_values = self.fade_volume_sequence(True)
             values = ALPHA_VALUES.copy()
             values.reverse()
-            if not self.ISTRANSITION:
-                self.root.attributes('-alpha', 0)
+            self.root.attributes('-alpha', 0)
 
             for i, alphavalue in enumerate(values):
-                if self.ISTRANSITION:
-                    self.root.attributes('-alpha', alphavalue)
-                if not self.unmuted_sound and isWindows:
+                self.root.attributes('-alpha', alphavalue)
+                if not self.unmuted_sound and isWindows and self.SOUNDMUTE:
                     set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
             self.root.withdraw()
@@ -200,11 +199,12 @@ class BlinkEyeNotifier:
             
             current_time = datetime.now().strftime("%I:%M:%S %p")
             self.counter_label.configure(text=f"{self.constract_number(self.FOCUS_BREAK)}")
+
             current_time, meridian = current_time.split(" ")
             hour, minute, second = current_time.split(":")
             self.time_label.configure(text=f"{self.constract_number(hour)}:{self.constract_number(minute)}:{self.constract_number(second)} {self.get_language_sentence(meridian.lower())}")
             self.unmuted_sound = False
-            if isWindows:
+            if isWindows and self.SOUNDMUTE:
                 self.sound_button.configure(text=f"")
                 self.sound_button.pack(anchor='center', side="right", padx=5)
             self.fade_to_black()

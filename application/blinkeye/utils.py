@@ -57,3 +57,4 @@ def set_data(key: str, value: str):
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
+ctk.FontManager.load_font(resource_path("NotoSans-Regular.ttf", font=True))
