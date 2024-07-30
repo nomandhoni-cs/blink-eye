@@ -1,6 +1,0 @@
-Pillow==10.2.0
-winotify==1.1.0
-pystray==0.19.5
-customtkinter==5.2.2
-pycaw==20240210;
-comtypes==1.4.4;
