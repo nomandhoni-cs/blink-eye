@@ -1,7 +1,8 @@
 {
-  "productName": "blink-eye",
-  "version": "0.0.0",
-  "identifier": "com.tauri.dev",
+  "productName": "Blink Eye",
+  "version": "0.1.0",
+  "identifier": "com.blink.eye",
+  "publisher": "Noman Dhoni",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -11,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "blink-eye",
+        "title": "Blink Eye",
         "width": 800,
         "height": 600
       }
