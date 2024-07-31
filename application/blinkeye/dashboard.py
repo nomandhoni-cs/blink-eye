@@ -5,7 +5,7 @@ import json
 import multiprocessing
 import customtkinter as ctk
 import tkinter.messagebox
-from PIL import Image
+from PIL import Image, ImageTk
 import os
 import signal
 try:
