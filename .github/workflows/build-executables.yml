@@ -1,0 +1,92 @@
+name: Build Executables for different Operating Systems
+
+on:
+  workflow_dispatch
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        working-directory: application
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r REQUIREMENTS.txt
+
+      - name: Build Windows executable (64-bit)
+        working-directory: application
+        run: |
+          pyinstaller --name BlinkEye --onefile --windowed --icon="./assets/blink-eye-logo.ico" --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlinkEye-Windows
+          path: application/dist/
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        working-directory: application
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r REQUIREMENTS.txt
+
+      - name: Build macOS executable
+        working-directory: application
+        run: |
+          pyinstaller --name BlinkEye --onefile --windowed --icon="./assets/blink-eye-logo.icns" --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+
+      - name: Upload macOS executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlinkEye-macOS
+          path: application/dist/
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        working-directory: application
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r REQUIREMENTS.txt
+
+      - name: Build Linux executable
+        working-directory: application
+        run: |
+          pyinstaller --name BlinkEye --onefile --windowed --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+
+      - name: Upload Linux executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlinkEye-Linux
+          path: application/dist/

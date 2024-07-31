@@ -24,7 +24,8 @@ class BlinkEyeDashboard:
         self.signal_queue = multiprocessing.Queue()
         self.root = ctk.CTk()
         self.root.title("Blink Eye")
-        self.root.iconbitmap(resource_path("blink-eye-logo.ico"))
+        self.root.wm_iconbitmap()
+        self.root.iconphoto(False, ImageTk.PhotoImage(Image.open(resource_path("blink-eye-logo.png"))))
         self.root.geometry(f"750x440+{int(self.root.winfo_screenwidth()/2 - 750/2)}+{int(self.root.winfo_screenheight()/2 - 440/2) - 50}")
         if get_data('status') == "on":
             self.root.withdraw()
