@@ -54,7 +54,7 @@ jobs:
       - name: Build macOS executable
         working-directory: application
         run: |
-          pyinstaller --name BlinkEye --onefile --windowed --icon="./assets/blink-eye-logo.icns" --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+          pyinstaller --name BlinkEye --onefile --windowed --icon="./assets/blink-eye-logo.icns" --add-data="./assets/*:./assets" --add-data="./font/*:./font" --add-data="./data/*:./data" --hidden-import plyer.platforms.win.notification --clean main.py
 
       - name: Upload macOS executable
         uses: actions/upload-artifact@v4
@@ -83,7 +83,7 @@ jobs:
       - name: Build Linux executable
         working-directory: application
         run: |
-          pyinstaller --name BlinkEye --onefile --windowed --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
+          pyinstaller --name BlinkEye --onefile --windowed --add-data="./assets/*:./assets" --add-data="./font/*:./font" --add-data="./data/*:./data" --hidden-import plyer.platforms.win.notification --clean main.py
 
       - name: Upload Linux executable
         uses: actions/upload-artifact@v4
