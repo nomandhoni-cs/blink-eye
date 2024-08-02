@@ -8,14 +8,19 @@ import tkinter.messagebox
 from PIL import Image, ImageTk
 import os
 import signal
+import logging
+
 try:
-    from blinkeye.utils import resource_path, get_data, set_data
+    from blinkeye.utils import resource_path, get_data, set_data, current_function_name, FileNameFilter
     from blinkeye.notifier import start_notifier
 except ModuleNotFoundError as e:
     # Handle error caused by an attempt to run the file independently
     if str(e) == "No module named 'blinkeye'":
         raise Exception("\033[93mPlease run the application from 'main.py' and use 'import blinkeye.dashboard' to access the attributes and functions\033[0m")
-    
+
+logger = logging.getLogger('BlinkEyeLogger')
+logger.addFilter(FileNameFilter(__file__))
+
 class BlinkEyeDashboard:
     def __init__(self) -> None:
         self.safe_init()
@@ -35,6 +40,7 @@ class BlinkEyeDashboard:
         ctk.set_appearance_mode(get_data("betheme"))
         self.load_language_pack()
         self.create()
+        logger.info(f"[{current_function_name()}] Initialized!")
 
     def available_languages(self):
         with open(resource_path("configuration.json", True), 'r', encoding="utf-8") as f:
@@ -55,6 +61,7 @@ class BlinkEyeDashboard:
         self.LANGUAGE_DATA = {}
         for key in data:
             self.LANGUAGE_DATA[key] = data[key][language]
+        logger.info(f"[{current_function_name()}] `{language.capitalize()}` Language loaded!")
         return None
     
     def get_language_sentence(self, key: str):
@@ -68,20 +75,28 @@ class BlinkEyeDashboard:
         return lang_number
     
     def reload_dashboard(self):
+        logger.info(f"[{current_function_name()}] Reloading Dashboard...")
         for c in self.root.winfo_children():
             c.destroy()
         self.load_language_pack()
         self.create()
+        logger.info(f"[{current_function_name()}] Dashboard reloaded!")
     
     def on_close(self):
         if self.is_updated(self.gather_data()):
+            logger.info(f"[{current_function_name()}] Unsaved modifications pop up...")
             if tkinter.messagebox.askyesno("Unsaved modifications", "Do you want to save the modifications?"):
+                logger.info(f"[{current_function_name()}] Saving modifications after pop up...")
                 self.update_data()
+                logger.info(f"[{current_function_name()}] Saved modifications!")
         if get_data('status') == 'on' and get_data('notifier_pid') != 0:
             self.root.withdraw()
+            logger.info(f"=========> Dashboard Closed <=========")
         else:
+            logger.info(f"=========> Closing Software <=========")
             self.root.destroy()
             self.root.quit()
+            logger.info(f"=========> Software Closed <=========")
             sys.exit(0)
 
     def check_queue(self):
@@ -92,6 +107,7 @@ class BlinkEyeDashboard:
                     self.refresh_data()
                     self.root.geometry(f"700x400+{int(self.root.winfo_screenwidth()/2 - 700/2)}+{int(self.root.winfo_screenheight()/2 - 400/2) - 50}")
                     self.root.deiconify()
+                    logger.info(f"=========> Dashboard Opened <=========")
                 elif msg == "closing notifier":
                     if self.root.winfo_viewable() == 0:
                         self.on_close()
@@ -99,15 +115,19 @@ class BlinkEyeDashboard:
             time.sleep(0.5)
 
     def start_notifier_process(self):
+        logger.info(f"=========> Starting Notifier <=========")
         self.notifier_process = multiprocessing.Process(target=start_notifier, args=(self.signal_queue, ), daemon=True)
         self.notifier_process.start()
+        logger.info(f"=========> Successfully Notifier Started! PID: {self.notifier_process.pid} <=========")
         set_data('notifier_pid', self.notifier_process.pid)
 
     def kill_notifier_process(self):
+        logger.info(f"=========> Killing Notifier <=========")
         try:
             os.kill(get_data("notifier_pid"), signal.SIGTERM)
+            logger.info(f"=========> Notifier Killed Successfully <=========")
         except OSError:
-            pass
+            logger.info(f"=========> Unable to kill Notifier! [Already Killed] <=========")
         set_data("notifier_pid", 0)
 
     def validate_int(self, new_value):
@@ -140,6 +160,7 @@ class BlinkEyeDashboard:
                 self.start_notifier_process()
             self.save_button.configure(text=self.get_language_sentence("save"), state="normal", width=40, height=25)
             self.root.focus_force()
+            logger.info(f"[{current_function_name()}] Updated data with modifications")
 
     def gather_data(self):
         """
@@ -179,6 +200,7 @@ class BlinkEyeDashboard:
         return prepared_data
 
     def refresh_data(self):
+        logger.info(f"[{current_function_name()}] Refreshing data...")
         temp_dict = self.data_objects.copy()
         temp_dict.pop('status')
         for key in temp_dict:
@@ -204,13 +226,16 @@ class BlinkEyeDashboard:
             if isinstance(temp_dict[key]['obj'][0], ctk.CTkEntry):
                 temp_dict[key]['obj'][0].delete(0, 'end')
                 temp_dict[key]['obj'][0].insert(0, d)
+        logger.info(f"[{current_function_name()}] Data refreshed successfully!")
         
     def change_theme(self):
         if self.data_objects['betheme']['datavar'].get() != get_data("betheme"):
             ctk.set_appearance_mode(self.data_objects['betheme']['datavar'].get())
+            logger.info(f"[{current_function_name()}] Changed software theme! (`{get_data('betheme')}` -> `{self.data_objects['betheme']['datavar'].get()}`)")
             set_data("betheme", self.data_objects['betheme']['datavar'].get())
 
     def create(self):
+        logger.info(f"[{current_function_name()}] Creating elements of Dashboard")
         self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (30, 30)), compound='left', font=("Noto Sans", 30, "bold"))
         self.logo_label.pack(pady=5, anchor='center')
 
@@ -444,3 +469,4 @@ class BlinkEyeDashboard:
         self.save_button = ctk.CTkButton(self.main_frame, text=self.get_language_sentence("save"), width=40, height=25, font=(self.FONTNAME, float(13 * self.RELATIVESIZE)), command=lambda: threading.Thread(target=self.update_data, daemon=True).start())
         self.save_button.pack(anchor="se", pady=5, padx=5, side="bottom")
         status_switch_event(True)
+        logger.info(f"[{current_function_name()}] Created elements successfully!")

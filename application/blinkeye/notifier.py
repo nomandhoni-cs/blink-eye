@@ -9,14 +9,17 @@ import pystray
 from PIL import Image
 from plyer import notification
 import json
-
+import logging
 try:
-    from blinkeye.utils import isWindows, resource_path, get_data, set_data, ALPHA_VALUES
+    from blinkeye.utils import isWindows, resource_path, get_data, set_data, ALPHA_VALUES, current_function_name, FileNameFilter
     from blinkeye.audio import get_volume, set_volume
 except ModuleNotFoundError as e:
     # Handle error caused by an attempt to run the file independently
     if str(e) == "No module named 'blinkeye'":
         raise Exception("\033[93mPlease run the application from 'main.py' and use 'import blinkeye.notifier' to access the attributes and functions\033[0m")
+
+logger = logging.getLogger('BlinkEyeLogger')
+logger.addFilter(FileNameFilter(__file__))
 
 class BlinkEyeNotifier:
     def __init__(self):
@@ -32,6 +35,7 @@ class BlinkEyeNotifier:
         self.THEME = get_data("betheme")
         self.load_language_pack()
         self.setup_window()
+        logger.info(f"[{current_function_name()}] Initialized!")
         
     def load_language_pack(self):
         with open(resource_path("configuration.json", True), 'r', encoding="utf-8") as f:
@@ -46,6 +50,7 @@ class BlinkEyeNotifier:
         for key in data:
             self.LANGUAGE_DATA[key] = data[key][language]
         self.LANGUAGE_NUMBERINGS = self.LANGUAGE_DATA['numberings']
+        logger.info(f"[{current_function_name()}] `{language.capitalize()}` Language loaded!")
         return None
     
     def get_language_sentence(self, key: str):
@@ -72,6 +77,7 @@ class BlinkEyeNotifier:
             return []
         
     def setup_window(self):
+        logger.info(f"[{current_function_name()}] Setting up window...")
         self.root.title("Blink Eye")
         self.root.attributes("-fullscreen", True)
         self.root.configure(bg='black')
@@ -79,6 +85,7 @@ class BlinkEyeNotifier:
         self.root.overrideredirect(True)
         ctk.set_appearance_mode(self.THEME)
         self.create_widgets()
+        logger.info(f"[{current_function_name()}] Window setup completed!")
 
     def constract_number(self, num: int):
         number = list(str(num))
@@ -88,6 +95,7 @@ class BlinkEyeNotifier:
         return lang_number
 
     def create_widgets(self):
+        logger.info(f"[{current_function_name()}] Creating Widgets...")
         self.logo_label = ctk.CTkLabel(self.root, text="  Blink Eye", image=ctk.CTkImage(Image.open(resource_path("blink-eye-logo.png")), Image.open(resource_path("blink-eye-logo.png")), (30, 30)), compound="left", font=("Noto Sans", 20, "bold"))
         self.logo_label.pack(pady=20, padx=20, anchor="e")
 
@@ -112,8 +120,10 @@ class BlinkEyeNotifier:
             self.skip_button.pack(anchor='center')
 
         self.create_navigation_buttons()
+        logger.info(f"[{current_function_name()}] Created widgets successfully!")
 
     def create_navigation_buttons(self):
+        logger.info(f"[{current_function_name()}] Creating Navigation Buttons...")
         self.nav_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         self.nav_frame.pack(pady=20, anchor='center', side="bottom")
         buttons = [
@@ -126,20 +136,25 @@ class BlinkEyeNotifier:
             button = ctk.CTkLabel(self.nav_frame, text=text, fg_color="transparent", font=(self.FONTNAME, int(12 * self.RELATIVESIZE)), cursor='hand2')
             button.bind("<Button-1>", lambda e, b=button, c=cmd: self.redirect(b, c))
             button.pack(anchor='center', side="left", padx=80)
+        logger.info(f"[{current_function_name()}] Navigation Buttons created successfully!")
 
     def hold_the_program(self):
         for _ in range(self.SCREEN_BREAK_INTERVAL):
             time.sleep(1)
 
     def skip_reminder(self):
+        logger.info(f"[{current_function_name()}] Skipping reminder...")
         self.fade_to_black(True)
         self.root.withdraw()
         self.skipped = True
+        logger.info(f"[{current_function_name()}] Reminder skipped!")
 
     def toggle_sound(self):
         if not self.unmuted_sound:
+            logger.info(f"[{current_function_name()}] Sound toggled (`mute` -> `unmute`)")
             self.unmute_sound()
         elif self.unmuted_sound:
+            logger.info(f"[{current_function_name()}] Sound toggled (`unmute` -> `mute`)")
             self.mute_sound()
 
     def unmute_sound(self):
@@ -160,6 +175,7 @@ class BlinkEyeNotifier:
 
     def fade_to_black(self, return_to_main: bool = False):
         if not return_to_main:
+            logger.info(f"[{current_function_name()}] Fading to break screen...")
             volume_fade_values = self.fade_volume_sequence()
             self.root.attributes('-alpha', 1)
 
@@ -168,7 +184,9 @@ class BlinkEyeNotifier:
                 if not self.unmuted_sound and isWindows and self.SOUNDMUTE:
                     set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
+            logger.info(f"[{current_function_name()}] Successfully executed faded to break screen!")
         else:
+            logger.info(f"[{current_function_name()}] Unfading from break screen...")
             for c in self.nav_frame.winfo_children()[::-1][:3]:
                 c.configure(state="normal", cursor='hand2')
 
@@ -182,11 +200,15 @@ class BlinkEyeNotifier:
                 if not self.unmuted_sound and isWindows and self.SOUNDMUTE:
                     set_volume(volume_fade_values[i] if len(volume_fade_values) >= i + 1 else None)
                 time.sleep(0.1)
+            logger.info(f"[{current_function_name()}] Set volume level: {volume_fade_values[-1]}")
+            
             self.root.withdraw()
+            logger.info(f"[{current_function_name()}] Unfaded from break screen and successfully withdrawn notifier window!")
         
             
     def show_timer_popup(self):
         while True:
+            logger.info(f"[{current_function_name()}] ---------> Showing reminder <---------")
             skiiped_iter = False
             self.root.update()
             theme = get_data("betheme")
@@ -207,6 +229,7 @@ class BlinkEyeNotifier:
             if isWindows and self.SOUNDMUTE:
                 self.sound_button.configure(text=f"")
                 self.sound_button.pack(anchor='center', side="right", padx=5)
+                self.sound_button.configure(image=ctk.CTkImage(Image.open(resource_path("unmute icon light.png")), Image.open(resource_path("unmute icon dark.png")), (13, 13)))
             self.fade_to_black()
 
             for i in range(self.FOCUS_BREAK - 1, 0, -1):
@@ -231,12 +254,15 @@ class BlinkEyeNotifier:
             if cmd.startswith("open "):
                 prefix, link = cmd.split(" ", 1)
                 webbrowser.open(link)
+                logger.info(f"[{current_function_name()}] Opened link ({link}) in the background executed from navigation button")
             elif cmd == "dashboard":
                 open_settings(self.signal_queue)
+                logger.info(f"[{current_function_name()}] Opened dashboard in the background executed from navigation buttion")
             self.openned_cmds.append(cmd)
             label.configure(state="disabled", cursor="")
 
     def run(self, signal_queue: multiprocessing.Queue):
+        logger.info(f"========> Starting Notifier <=========")
         self.signal_queue = signal_queue
         threading.Thread(target=run_icon, args=(self.signal_queue, )).start()
 
@@ -254,21 +280,27 @@ class BlinkEyeNotifier:
         threading.Thread(target=self.show_timer_popup).start()
         self.root.mainloop()
 
+def exit_action(icon, item, queue: multiprocessing.Queue):
+    logger.info(f"========> Closing Notifier <=========")
+    queue.put("closing notifier")
+    logger.info("=========> Stopping System-Tray Icon <=========")
+    icon.stop()
+    logger.info("=========> System-Tray Icon Stopped <=========")
+    set_data("notifier_pid", 0)
+    time.sleep(0.5)
+    logger.info(f"========> Notifier Closed <=========")
+    os._exit(0)
+
 def start_notifier(signal_queue: multiprocessing.Queue):
     notifier = BlinkEyeNotifier()
     notifier.run(signal_queue)
-
-def exit_action(icon, item, queue: multiprocessing.Queue):
-    queue.put("closing notifier")
-    icon.stop()
-    set_data("notifier_pid", 0)
-    time.sleep(0.5)
-    os._exit(0)
 
 def open_settings(queue: multiprocessing.Queue, icon=None, item=None):
     queue.put("open dash")
 
 def run_icon(queue: multiprocessing.Queue):
+    logger.info(f"========> Starting System-Tray Icon <=========")
+    
     image = Image.open(resource_path(relative_path='blink-eye-logo.png'))
     icon = pystray.Icon(
         "name", 
