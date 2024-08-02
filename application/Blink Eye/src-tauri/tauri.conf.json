@@ -2,7 +2,6 @@
   "productName": "Blink Eye",
   "version": "0.1.0",
   "identifier": "com.blink.eye",
-  "publisher": "Noman Dhoni",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
