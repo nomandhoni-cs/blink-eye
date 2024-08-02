@@ -40,6 +40,79 @@ Here's how to get started with Blink Eye:
 
 Feel free to reach out if you have any questions or need further assistance!
 
+## Contributing with Translation 
+### Adding or Improving Translations
+
+If you want to contribute by adding or improving the translation of a new or existing language, please head to `/application/data/configuration.json`.
+
+#### Guide for Adding a New Language
+
+1. **Use Native Language Names**:
+    - Ensure you use the actual name of the language in its native script, not in English.
+      
+2. **Update the Languages List**: 
+    - Add the new language name in its native script to the `languages` array.
+    
+    ```json
+    {
+        "languages": ["English", "বাংলা", "Español", "LanguageNativeName"]
+    }
+    ```
+
+3. **Upload the Font File**:
+    - Upload the font file for the new language to the `/application/font` directory.
+
+4. **Add Font Information**:
+    - Define the proper font settings for the new language in the `font` section.
+    
+    ```json
+    "font": {
+        "LanguageNativeName": {
+            "filename": "YourFontFile.ttf",
+            "fontname": "Your Font Name",
+            "relsize": 1.0
+        }
+    }
+    ```
+    
+    #### What is the difference between `filename` and `fontname`?
+   
+   - **filename**: This is the name of your font file that you uploaded into the font directory.
+   - **fontname**: This is the name of the font itself, which can be seen when you open the .ttf file and look for the `Name` at the very top.
+
+   #### What is `relsize`?
+   
+   - **relsize**: Relative Size, in short `relsize`, is used to maintain the font size globally in the software. A `relsize` of `1` means the original default size for any language. However, in many cases, `1` might feel smaller or bigger for different languages or fonts. It is recommended to adjust this value appropriately for your language.
+
+5. **Add Translations**:
+    - Add the translations for Dashboard elements in the `dashboard` section.
+    
+    ```json
+    "dashboard": {
+        "timings": {
+            "english": "Timings",
+            "বাংলা": "সময়",
+            "español": "Temporización",
+            "languagenativename": "Translation"
+        },
+        ...
+    }
+    
+    ```
+
+    - Add the translations for Notifier elements in the `notifier` section.
+    ```json
+    "notifier": {
+        "20-ft-msg": {
+          "english": "Look 20 feet far away to protect your eyes",
+          "বাংলা": "চোখের সুরক্ষার জন্য ২০ ফুট দূরে তাকান",
+          "español": "Mira a 20 pies de distancia para proteger tus ojos",
+          "languagenativename": "Translation"
+        },
+       ...
+    }
+    ```
+    
 ## Contributing to the Website
 
 If anyone wants to contribute to the website, go to the `/website` directory.
