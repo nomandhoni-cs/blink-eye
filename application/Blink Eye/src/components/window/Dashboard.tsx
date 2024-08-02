@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import toast, { Toaster } from "react-hot-toast";
 
 const store = new Store(".settings.dat");
 
@@ -65,6 +66,10 @@ function Dashboard() {
     await store.set("blinkEyeReminderInterval", interval);
     await store.set("blinkEyeReminderDuration", duration);
     await store.save();
+    toast.success("Successfully Saved the settings!", {
+      duration: 2000,
+      position: "bottom-right",
+    });
     console.log("Saved settings:", { interval, duration });
   };
 
@@ -97,6 +102,7 @@ function Dashboard() {
       <Button onClick={openReminderWindow} className="mt-4">
         Open Reminder Window
       </Button>
+      <Toaster />
     </div>
   );
 }
