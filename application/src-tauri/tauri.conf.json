@@ -21,6 +21,7 @@
     }
   },
   "bundle": {
+    "publisher": "Noman Dhoni",
     "active": true,
     "targets": "all",
     "icon": [
