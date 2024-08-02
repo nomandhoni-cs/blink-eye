@@ -3,7 +3,8 @@
   "identifier": "default",
   "description": "Capability for the main window",
   "windows": [
-    "main", "ReminderWindow"
+    "main",
+    "ReminderWindow"
   ],
   "permissions": [
     "path:default",
@@ -23,6 +24,10 @@
     "store:allow-set",
     "store:allow-save",
     "store:allow-load",
-    "store:default"
+    "store:default",
+    "autostart:default",
+    "autostart:allow-enable",
+    "autostart:allow-disable",
+    "autostart:allow-is-enabled"
   ]
 }

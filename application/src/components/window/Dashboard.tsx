@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Store } from "@tauri-apps/plugin-store";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
+import { Store } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast, { Toaster } from "react-hot-toast";
 
 const store = new Store(".settings.dat");
@@ -11,12 +13,32 @@ const store = new Store(".settings.dat");
 function Dashboard() {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
+  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
+
+  // Check the initial state when the component mounts
+  useEffect(() => {
+    const checkAutoStartStatus = async () => {
+      const status = await isEnabled();
+      setIsAutoStartEnabled(status);
+    };
+    checkAutoStartStatus();
+  }, []);
+
+  const handleCheckboxChange = async (checked: boolean) => {
+    if (checked) {
+      await enable();
+    } else {
+      await disable();
+    }
+    setIsAutoStartEnabled(checked);
+  };
 
   const openReminderWindow = () => {
     console.log("Clicked");
     const webview = new WebviewWindow("ReminderWindow", {
       url: "/reminder",
       fullscreen: true,
+      alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",
     });
     webview.once("tauri://created", () => {
@@ -74,9 +96,9 @@ function Dashboard() {
   };
 
   return (
-    <div className="container">
+    <div className="container p-8">
       <h1 className="text-4xl font-bold mb-6">Dashboard</h1>
-      <div className="space-y-4 max-w-sm">
+      <div className="space-y-6 max-w-sm">
         <div className="space-y-2">
           <Label htmlFor="interval-time">Reminder Interval</Label>
           <Input
@@ -96,6 +118,26 @@ function Dashboard() {
             value={duration}
             onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
           />
+        </div>
+        <div className="space-y-2">
+          <div className="items-top flex space-x-2">
+            <Checkbox
+              id="autostart"
+              checked={isAutoStartEnabled}
+              onCheckedChange={handleCheckboxChange}
+            />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="autostart"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Run Blink Eye on startup.
+              </label>
+              <p className="text-sm text-muted-foreground">
+                Turn this on for best usage.
+              </p>
+            </div>
+          </div>
         </div>
         <Button onClick={handleSave}>Save Settings</Button>
       </div>
