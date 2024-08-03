@@ -1,7 +1,5 @@
+import { SystemTrayContext } from "@/context/context";
 import React, { useContext } from "react";
-import "../view/App.css";
-import { SystemTrayContext } from "../context";
-import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const { notifications } = useContext(SystemTrayContext);
@@ -9,9 +7,10 @@ export default function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <p className="text-3xl">Blink Eye</p>
+        <p>Tauri Tray App</p>
         <p>
-          <Button
+          <button
+            type="button"
             onClick={() =>
               notifications.send({
                 title: "Notification From Tauri",
@@ -20,7 +19,7 @@ export default function Home() {
             }
           >
             notify me about something!
-          </Button>
+          </button>
         </p>
       </header>
     </div>
