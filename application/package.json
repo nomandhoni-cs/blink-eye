@@ -1,6 +1,7 @@
 {
   "name": "tray-app",
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -24,6 +25,6 @@
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.4.5",
-    "vite": "^5.2.7"
+    "vite": "^5.3.1"
   }
 }
