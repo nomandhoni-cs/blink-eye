@@ -1,35 +1,63 @@
 {
-  "productName": "Blink Eye",
+  "identifier": "com.tauri.dev",
+  "productName": "tray-app",
   "version": "0.1.0",
-  "identifier": "com.blinkeye.dev",
   "build": {
-    "beforeDevCommand": "bun run dev",
-    "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "bun run build",
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
     "frontendDist": "../dist"
   },
   "app": {
+    "security": {
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'; connect-src ipc: http://ipc.localhost ipc: http://ipc.localhost ipc: http://ipc.localhost"
+    },
     "windows": [
       {
-        "title": "Blink Eye",
-        "width": 800,
-        "height": 600
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Tauri Tray",
+        "decorations": false,
+        "alwaysOnTop": true,
+        "center": true,
+        "width": 300,
+        "height": 400,
+        "visible": false
       }
-    ],
-    "security": {
-      "csp": null
-    }
+    ]
   },
   "bundle": {
-    "publisher": "Noman Dhoni",
     "active": true,
-    "targets": "all",
+    "category": "DeveloperTool",
+    "copyright": "",
+    "externalBin": [],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "longDescription": "",
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "minimumSystemVersion": "",
+      "signingIdentity": null
+    },
+    "resources": [],
+    "shortDescription": "",
+    "targets": "all",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    }
   }
 }
