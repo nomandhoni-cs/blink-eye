@@ -1,11 +1,11 @@
 {
-  "identifier": "com.tauri.dev",
-  "productName": "tray-app",
+  "productName": "Blink Eye",
   "version": "0.1.0",
+  "identifier": "com.blinkeye.dev",
   "build": {
-    "beforeBuildCommand": "npm run build",
-    "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "bun run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist"
   },
   "app": {
