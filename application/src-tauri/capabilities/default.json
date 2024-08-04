@@ -4,12 +4,16 @@
   "description": "Capability for the main window",
   "windows": [
     "main",
-    "ReminderWindow"
+    "ReminderWindow", "DashboardWindow"
   ],
   "permissions": [
     "core:path:default",
     "core:event:default",
     "core:window:default",
+    "core:window:allow-close",
+    "core:window:allow-create",
+    "core:webview:allow-create-webview-window",
+    "core:webview:allow-webview-close",
     "core:app:default",
     "core:resources:default",
     "autostart:default",
@@ -37,7 +41,12 @@
     "global-shortcut:allow-register",
     "global-shortcut:allow-unregister",
     "global-shortcut:default",
-    "notification:default"
+    "notification:default",
+    "store:default",
+    "store:allow-get",
+    "store:allow-set",
+    "store:allow-save",
+    "store:allow-load"
   ],
   "platforms": [
     "linux",
