@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { setupGlobalShortcuts } from "../app-api/setupShortcuts";
 import { setupTray } from "../app-api/setupTray";
 import {
@@ -16,7 +16,7 @@ export function useTauri(menuItems: MenuItemOptions[]) {
 
   useEffect(() => {
     async function effectUsed() {
-      const initialTray = await setupTray({ tooltip: "personal tray app" });
+      const initialTray = await setupTray({ tooltip: "Blink Eye" });
       setTray(initialTray);
 
       for (const menuItem of menuItems) {

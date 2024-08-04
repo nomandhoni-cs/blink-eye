@@ -1,5 +1,5 @@
 import { register } from "@tauri-apps/plugin-global-shortcut";
-import { getCurrent } from "@tauri-apps/api/window";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 
 export const setupGlobalShortcuts = async () => {
   // command shortcuts are a combination
@@ -9,15 +9,15 @@ export const setupGlobalShortcuts = async () => {
   //   - based on this spec: https://w3c.github.io/uievents-key/#keys-modifier
   // list of key codes: https://docs.rs/global-hotkey/0.2.1/global_hotkey/hotkey/enum.Code.html
 
-  const window = getCurrent();
+  const window = getCurrentWindow();
 
-  await getCurrent().onFocusChanged(({ payload: focused }) => {
+  await getCurrentWindow().onFocusChanged(({ payload: focused }) => {
     if (!focused) window.hide();
   });
 
   await register("Ctrl+Alt+Space", async () => {
     console.log("Shortcut triggered");
-    const window = getCurrent();
+    const window = getCurrentWindow();
     // uses the default window size and centers
     await window.center();
     await window.show();

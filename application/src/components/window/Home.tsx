@@ -1,5 +1,5 @@
-import { SystemTrayContext } from "@/context/context";
-import React, { useContext } from "react";
+import { SystemTrayContext } from "@/context";
+import { useContext } from "react";
 
 export default function Home() {
   const { notifications } = useContext(SystemTrayContext);

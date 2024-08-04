@@ -3,39 +3,40 @@ import { TrayIcon, TrayIconEvent } from "@tauri-apps/api/tray";
 import {
   LogicalPosition,
   LogicalSize,
-  getCurrent,
+  getCurrentWindow,
 } from "@tauri-apps/api/window";
 
 export const setupTray = async ({ tooltip }: { tooltip?: string }) => {
   const action = async (event: TrayIconEvent) => {
-    const { clickType } = event;
-    const window = getCurrent();
+    const { click } = event;
+    const window = getCurrentWindow();
 
     // The mini-pop-up window should automatically
     //  hide once you stop giving it focus
-    await getCurrent().onFocusChanged(({ payload: focused }) => {
+    await getCurrentWindow().onFocusChanged(({ payload: focused }) => {
       if (!focused) window.hide();
     });
 
-    if (clickType === "Right") {
+    if (click.button === "Right") {
       await window.hide();
-    } else {
-      console.log(event);
+    } else if (click.button === "Left") {
+      console.log(click);
       await window.show();
-      const size = new LogicalSize(300, 400);
+      const size = new LogicalSize(400, 600);
       await window.setSize(size);
-      const iconOffset = 30;
+      const iconOffset = 40;
       const position = new LogicalPosition(
-        event.position.x - size.width,
-        event.position.y - size.height - iconOffset
+        click.position.x - size.width,
+        click.position.y - size.height - iconOffset
       );
-      const positioned = await window.setPosition(position);
+      console.log(position);
+      await window.setPosition(position);
       await window.setFocus();
     }
   };
-  const tray = await TrayIcon.new({ id: "js_tray_icon", action });
+  const tray = await TrayIcon.new({ id: "main", action });
   if (tooltip) tray.setTooltip(tooltip);
-  await tray.setIcon("icons/icon.png");
+  await tray.setIcon("icons/icon.ico");
   const menu = await Menu.new();
   await tray.setMenu(menu);
   return menu;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "../view/App.css";
 import { SystemTrayContext } from "../context";
 import { Button } from "@/components/ui/button";
@@ -14,8 +14,9 @@ export default function Home() {
           <Button
             onClick={() =>
               notifications.send({
-                title: "Notification From Tauri",
-                body: "This is a notification from Tauri!",
+                title: "Blink Eye",
+                body: "The started in the background and It can be found in the Tray.",
+                icon: "icons/icon.ico",
               })
             }
           >

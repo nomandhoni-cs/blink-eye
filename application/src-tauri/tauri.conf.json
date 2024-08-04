@@ -16,12 +16,12 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Tauri Tray",
+        "title": "Blink Eye",
         "decorations": false,
         "alwaysOnTop": true,
         "center": true,
-        "width": 300,
-        "height": 400,
+        "width": 400,
+        "height": 600,
         "visible": false
       }
     ]
@@ -29,7 +29,7 @@
   "bundle": {
     "active": true,
     "category": "DeveloperTool",
-    "copyright": "",
+    "copyright": "Noman Dhoni",
     "externalBin": [],
     "icon": [
       "icons/32x32.png",
