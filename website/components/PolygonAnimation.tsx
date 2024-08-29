@@ -33,7 +33,7 @@ const PolygonAnimation: React.FC = () => {
     updateCanvasSize(); // Set initial canvas size
 
     // Generate a random blob path with 16 points
-    const blobPath: Point[] = generateRandomBlobPath(16);
+    const blobPath: Point[] = generateRandomBlobPath(8);
 
     const drawBlob = (scale: number, offsetX: number, offsetY: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -105,7 +105,7 @@ const PolygonAnimation: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10"
+      className="fixed inset-0 -z-10 transform-gpu overflow-hidden blur-3xl"
       aria-hidden="true"
     />
   );
