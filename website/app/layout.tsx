@@ -3,7 +3,6 @@ import { Inter as FontSans } from "next/font/google";
 import { SEO } from "@/configs/seo";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
-
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -64,9 +63,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
         <Providers>
           <Header />
-          <main className="flex flex-1 flex-col">
-            <div className="relative isolate">
-              <PolygonAnimation /> {/* Use the animated polygon component here */}
+          <main className="relative flex flex-1 flex-col">
+            <PolygonAnimation />
+            <div className="relative z-10">
               {children}
             </div>
           </main>

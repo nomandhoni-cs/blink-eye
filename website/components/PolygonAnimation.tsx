@@ -1,56 +1,111 @@
-"use client"
-import React, { useEffect, useState } from 'react';
+"use client";
+import React, { useEffect, useRef } from 'react';
 
-const AnimatedPolygon: React.FC = () => {
-  const [keyframes, setKeyframes] = useState('');
+// Function to generate a random blob path
+const generateRandomBlobPath = (numPoints: number) => {
+  const path = [];
+  for (let i = 0; i < numPoints; i++) {
+    const x = Math.random() * 100; // Random x coordinate (0 to 100%)
+    const y = Math.random() * 100; // Random y coordinate (0 to 100%)
+    path.push([x, y]);
+  }
+  return path;
+};
+
+const PolygonAnimation: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const generateRandomKeyframes = () => {
-      const randomPosition = () => `${Math.random() * 100}% ${Math.random() * 100}%`;
-      const randomTransform = () => `translate(${Math.random() * 100 - 50}%, ${Math.random() * 100 - 50}%) rotate(${Math.random() * 360}deg)`;
-      const randomScale = () => `scale(${1 + Math.random() * 1.5})`;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-      return `
-        @keyframes movePolygon {
-          0% { transform: ${randomTransform()}; }
-          25% { transform: ${randomTransform()}; }
-          50% { transform: ${randomTransform()}; }
-          75% { transform: ${randomTransform()}; }
-          100% { transform: ${randomTransform()}; }
-        }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-        @keyframes expandShrink {
-          0%, 100% { transform: ${randomScale()}; }
-          50% { transform: ${randomScale()}; }
-        }
-      `;
+    const updateCanvasSize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
 
-    setKeyframes(generateRandomKeyframes());
+    updateCanvasSize(); // Set initial canvas size
+
+    // Generate a random blob path with 16 points
+    const blobPath = generateRandomBlobPath(16);
+
+    const drawBlob = (scale: number, offsetX: number, offsetY: number) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.scale(scale, scale);
+      ctx.translate(-canvas.width / 2 + offsetX, -canvas.height / 2 + offsetY);
+
+      ctx.beginPath();
+      ctx.moveTo(blobPath[0][0] / 100 * canvas.width, blobPath[0][1] / 100 * canvas.height);
+      blobPath.forEach(([x, y]) => {
+        ctx.lineTo(x / 100 * canvas.width, y / 100 * canvas.height);
+      });
+      ctx.closePath();
+
+      // Apply gradient
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, '#FE4C55');
+      gradient.addColorStop(1, '#FEF4E2');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.stroke();
+
+      ctx.restore();
+    };
+
+    const animate = () => {
+      let scale = 1;
+      let offsetX = 0;
+      let offsetY = 0;
+      let time = 0;
+
+      const animateBlob = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Adjust these values to slow down the animation
+        const scaleFactor = 0.5;
+        const offsetRange = 50;
+        const timeSpeed = 0.01; // Slower animation
+
+        // Scale and offset calculations
+        scale = 1 + Math.sin(time) * scaleFactor;
+        offsetX = Math.sin(time * 0.2) * offsetRange;
+        offsetY = Math.cos(time * 0.2) * offsetRange;
+        time += timeSpeed;
+
+        drawBlob(scale, offsetX, offsetY);
+        requestAnimationFrame(animateBlob);
+      };
+
+      animateBlob();
+    };
+
+    animate();
+
+    // Resize canvas on window resize
+    const handleResize = () => {
+      updateCanvasSize();
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
-    <div className="relative isolate">
-      <div
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        aria-hidden="true"
-      >
-        <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#FE4C55] to-[#FEF4E2] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-          style={{
-            clipPath:
-              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            animation: 'movePolygon 10s ease-in-out infinite, expandShrink 8s ease-in-out infinite',
-          }}
-        />
-      </div>
-      <style>{keyframes}</style>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 -z-10 transform-gpu overflow-hidden blur-3xl"
+      aria-hidden="true"
+    />
   );
 };
-
-const PolygonAnimation = () => (
-  <AnimatedPolygon />
-);
 
 export default PolygonAnimation;
