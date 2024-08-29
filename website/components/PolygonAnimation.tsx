@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 
+// Define the type for a point in the blob path
+type Point = [number, number];
+
 // Function to generate a random blob path
-const generateRandomBlobPath = (numPoints: number) => {
-  const path = [];
+const generateRandomBlobPath = (numPoints: number): Point[] => {
+  const path: Point[] = [];
   for (let i = 0; i < numPoints; i++) {
     const x = Math.random() * 100; // Random x coordinate (0 to 100%)
     const y = Math.random() * 100; // Random y coordinate (0 to 100%)
@@ -30,7 +33,7 @@ const PolygonAnimation: React.FC = () => {
     updateCanvasSize(); // Set initial canvas size
 
     // Generate a random blob path with 16 points
-    const blobPath = generateRandomBlobPath(16);
+    const blobPath: Point[] = generateRandomBlobPath(16);
 
     const drawBlob = (scale: number, offsetX: number, offsetY: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -102,7 +105,7 @@ const PolygonAnimation: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10 transform-gpu overflow-hidden blur-3xl"
+      className="fixed inset-0 -z-10"
       aria-hidden="true"
     />
   );
