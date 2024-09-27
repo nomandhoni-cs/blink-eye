@@ -24,7 +24,7 @@ pub fn run() {
                 app.handle().plugin(
                     tauri_plugin_autostart::init(
                         MacosLauncher::LaunchAgent,
-                        Some(vec!["--minimized"]), // Corrected: Removed trailing space
+                        Some(vec!["--minimized"]),
                     )
                 ).expect("Failed to initialize autostart plugin");
             }
@@ -32,6 +32,8 @@ pub fn run() {
         })
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![greet, check_minimized_argument])
+        .plugin(tauri_plugin_store::Builder::new().build())
+        .plugin(tauri_plugin_notification::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

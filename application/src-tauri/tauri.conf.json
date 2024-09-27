@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0-rc",
   "productName": "Blink Eye",
-  "version": "0.1.0",
-  "identifier": "com.blink-eye.app",
+  "version": "1.6.0",
+  "identifier": "com.blinkeye.app",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",

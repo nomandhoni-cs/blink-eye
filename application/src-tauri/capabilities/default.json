@@ -3,7 +3,9 @@
   "identifier": "default",
   "description": "Capability for the main window",
   "windows": [
-    "main"
+    "main",
+    "ReminderWindow",
+    "DashboardWindow"
   ],
   "permissions": [
     "core:default",
@@ -11,6 +13,10 @@
     "autostart:allow-enable",
     "autostart:allow-disable",
     "autostart:allow-is-enabled",
+    "store:allow-get",
+    "store:allow-set",
+    "store:allow-save",
+    "store:allow-load",
     "core:window:default",
     "core:window:allow-close",
     "core:window:allow-create",
@@ -25,6 +31,10 @@
     "core:window:allow-set-position",
     "core:window:allow-set-focus",
     "core:window:allow-minimize",
-    "core:window:allow-maximize"
+    "core:window:allow-maximize",
+    "core:webview:allow-create-webview-window",
+    "core:webview:allow-webview-close",
+    "notification:default",
+    "notification:allow-notify"
   ]
 }
