@@ -1,5 +1,4 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import "./App.css";
@@ -7,45 +6,51 @@ import "./App.css";
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
+  const [startupState, setStartupState] = useState("fullScreen");
+
+  useEffect(() => {
+    // Check if the app was launched with --minimized
+    async function checkStartupState() {
+      try {
+        const result = await invoke<string>("check_minimized_argument");
+        setStartupState(result); // Set the startup state to "minimized" or "full"
+        console.log(`App startup state: ${result}`);
+      } catch (error) {
+        console.error("Error checking startup state:", error);
+      }
+    }
+    checkStartupState();
+  }, []);
 
   async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name }));
   }
 
   return (
     <div className="container">
       <h1>Welcome to Tauri!</h1>
-      <div>
-        {/* Check enable state */}
-        {/* Button for enable autostart */}
-        <button
-          onClick={async () => {
-            await enable();
-            console.log(`registered for autostart? ${await isEnabled()}`);
-          }}
-        >
-          Enable Autostart
-        </button>
-        {/* Button for disable autostart */}
-        <button
-          onClick={async () => {
-            await disable();
-            console.log(`registered for autostart? ${await isEnabled()}`);
-          }}
-        >
-          Disable Autostart
-        </button>
-      </div>
-      <div className="row">
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+
+      {/* Display the startup state */}
+      <p>App startup state: {startupState}</p>
+
+      {/* Buttons for autostart */}
+      <button
+        onClick={async () => {
+          await enable();
+          console.log(`Autostart enabled: ${await isEnabled()}`);
+        }}
+      >
+        Enable Autostart
+      </button>
+      <button
+        onClick={async () => {
+          await disable();
+          console.log(`Autostart disabled: ${await isEnabled()}`);
+        }}
+      >
+        Disable Autostart
+      </button>
+
       <form
         className="row"
         onSubmit={(e) => {
@@ -60,6 +65,7 @@ function App() {
         />
         <button type="submit">Greet</button>
       </form>
+
       <p>{greetMsg}</p>
     </div>
   );

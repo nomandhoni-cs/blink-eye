@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0-rc",
-  "productName": "blink-eye",
+  "productName": "Blink Eye",
   "version": "0.1.0",
   "identifier": "com.blink-eye.app",
   "build": {
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "blink-eye",
-        "width": 800,
-        "height": 600
+        "title": "Blink Eye",
+        "width": 400,
+        "height": 700
       }
     ],
     "security": {

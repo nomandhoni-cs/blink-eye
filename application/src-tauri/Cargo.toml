@@ -22,5 +22,4 @@ serde_json = "1"
 tauri-plugin-autostart = "2.0.0-rc.1"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
-tauri-plugin-autostart = "2.0.0-rc"
 
