@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import "./App.css";
+
+const appWindow = getCurrentWindow();
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -15,6 +18,9 @@ function App() {
         const result = await invoke<string>("check_minimized_argument");
         setStartupState(result); // Set the startup state to "minimized" or "full"
         console.log(`App startup state: ${result}`);
+        if (result === "minimized") {
+          appWindow.minimize(); // Minimize the window
+        }
       } catch (error) {
         console.error("Error checking startup state:", error);
       }
