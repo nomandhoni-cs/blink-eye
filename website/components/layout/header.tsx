@@ -1,7 +1,7 @@
 import { CONFIG } from "@/configs/site";
 import { Github, TwitterIcon } from "lucide-react";
 import Link from "next/link";
-import logo from "../../../application/Assets/blink-eye-logo.png";
+import logo from "../..assets/icon.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "../ui/button";
 import Image from "next/image";
