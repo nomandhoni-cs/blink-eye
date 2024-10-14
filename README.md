@@ -3,13 +3,15 @@
 </p>
 <h1 align="center">Blink Eye</h1>
 
-Blink Eye is a minimalist eye care reminder app designed to reduce eye strain during extended screen usage. It provides customizable timers, full-screen popups, audio mute functionalityfor a seamless user experience.
+Blink Eye is a minimalist eye care reminder app designed to reduce eye strain during extended screen usage. It provides customizable timers, full-screen popups, audio mute functionality for a seamless user experience.
 
 ## Features
 
 - Customizable reminder timers.
 - Full-screen popups with a 20-second countdown to prompt users to look away.
 - Audio mute during reminders to enhance focus.
+- Customizable dashboard for settings and preferences
+- Multilingual support
 - Quick access links for easy navigation:
   - [Donate](https://www.buymeacoffee.com/nomandhoni)
   - [GitHub Repository](https://github.com/nomandhoni-cs/blink-eye)
@@ -85,21 +87,23 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
     ```console
     pip install -r REQUIREMENTS.txt
+    ```
     
 5. Run the Application
 
     ```console
     python blink-eye.py
+    ```
 
 6. If you want to make `.exe` by yourself
 
     ```console
-    pyinstaller --name BlinkEye --onefile --windowed --icon="./Assets/blink-eye-logo.ico" --add-data="./Assets/*;./Assets" --add-data="./data/*;./data" --clean main.py
+    pyinstaller --name BlinkEye --onefile --windowed --icon="./assets/blink-eye-logo.ico" --add-data="./assets/*;./assets" --add-data="./font/*;./font" --add-data="./data/*;./data" --hidden-import plyer.platforms.win.notification --clean main.py
     ```
 
 </details>
 
-#### Linux (Fedora Workstation)
+### Linux (Fedora Workstation)
 
 1. Clone the repository:
 
@@ -128,6 +132,7 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 
 - Audio will be automatically muted during reminders and restored afterward.
 
+
 ## License
 
 - **MIT License:** Open-source use. [MIT License Details](./LICENSE.txt)
@@ -143,5 +148,7 @@ For inquiries and support, please contact Noman Dhoni:
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
+
+- Contributions for improving the dashboard, enhancing customizability, and adding new languages for multilingual support are particularly appreciated.
 
 Follow the [CONTRIBUTING.md](./CONTRIBUTING.md) for the instruction

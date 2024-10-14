@@ -2,5 +2,10 @@
     "status": "on",
     "sbi": "1200",
     "fb": "20",
+    "mus": "on",
+    "betheme": "system",
+    "lang": "English",
+    "sound_restore_type": "restore",
+    "sound_level": "80",
     "notifier_pid": 0
 }

@@ -8,7 +8,7 @@ pip install wheel
 pip install -r REQUIREMENTS.txt
 pip install pyinstaller
 echo Building the executable...
-pyinstaller --name BlinkEye --onefile --windowed --add-data="./Assets/*;./Assets" --add-data="./data/*; ./data" --clean main.py
+pyinstaller --name BlinkEye --onefile --windowed --add-data="./assets/*:./assets" --add-data="./font/*:./font" --add-data="./data/*:./data" --hidden-import plyer.platforms.win.notification --clean main.py
 echo Building the installer...
 rpmdev-setuptree
 cp -r ./* ~/rpmbuild/BUILD
