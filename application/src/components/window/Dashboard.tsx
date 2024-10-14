@@ -40,6 +40,7 @@ function Dashboard() {
       fullscreen: true,
       alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",
+      skipTaskbar: true,
     });
     webview.once("tauri://created", () => {
       console.log("Webview created");
