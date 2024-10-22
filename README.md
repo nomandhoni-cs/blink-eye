@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/application/Assets/blink-eye-logo.png" alt="Blink Eye App logo">
+  <img src="https://raw.githubusercontent.com/nomandhoni-cs/blink-eye/master/application/assets/blink-eye-logo.png" alt="Blink Eye App logo">
 </p>
 <h1 align="center">Blink Eye</h1>
 
