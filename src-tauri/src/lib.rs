@@ -34,6 +34,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![greet, check_minimized_argument])
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_notification::init())
+        .plugin(tauri_plugin_process::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
