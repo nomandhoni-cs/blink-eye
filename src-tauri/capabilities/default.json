@@ -35,6 +35,7 @@
     "core:webview:allow-create-webview-window",
     "core:webview:allow-webview-close",
     "notification:default",
-    "notification:allow-notify"
+    "notification:allow-notify",
+    "core:app:allow-default-window-icon"
   ]
 }
