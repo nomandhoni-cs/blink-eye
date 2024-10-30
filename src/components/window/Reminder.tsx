@@ -5,12 +5,12 @@ import { load } from "@tauri-apps/plugin-store";
 
 const appWindow = getCurrentWebviewWindow();
 
-const store = await load("store.json", { autoSave: false });
 const Reminder = () => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
 
   useEffect(() => {
     const fetchDuration = async () => {
+      const store = await load("store.json", { autoSave: false });
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
