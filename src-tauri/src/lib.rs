@@ -1,4 +1,4 @@
-use tauri_plugin_autostart::MacosLauncher;
+// use tauri_plugin_autostart::MacosLauncher;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -21,12 +21,7 @@ pub fn run() {
         .setup(|app| {
             #[cfg(desktop)]
             {
-                app.handle().plugin(
-                    tauri_plugin_autostart::init(
-                        MacosLauncher::LaunchAgent,
-                        Some(vec!["--minimized"]),
-                    )
-                ).expect("Failed to initialize autostart plugin");
+            app.handle().plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--minimized"])));
             }
             Ok(())
         })
@@ -37,3 +32,10 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+// #[cfg(desktop)]
+// {
+//     app.handle().plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+//             Some(vec!["--minimized"]),
+//         )
+//     ).expect("Failed to initialize autostart plugin");
+// }
