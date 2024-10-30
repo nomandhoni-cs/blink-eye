@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { Store } from "@tauri-apps/plugin-store";
+import { load } from "@tauri-apps/plugin-store";
 
 const appWindow = getCurrentWebviewWindow();
-const store = new Store(".settings.dat");
 
+const store = await load("store.json", { autoSave: false });
 const Reminder = () => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
 

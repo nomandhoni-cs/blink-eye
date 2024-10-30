@@ -9,8 +9,7 @@ import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast, { Toaster } from "react-hot-toast";
 
 const store = await load("store.json", { autoSave: false });
-
-function Dashboard() {
+const Dashboard = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(true);
@@ -148,6 +147,6 @@ function Dashboard() {
       <Toaster />
     </div>
   );
-}
+};
 
 export default Dashboard;

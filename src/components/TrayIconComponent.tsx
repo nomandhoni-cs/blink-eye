@@ -10,7 +10,7 @@ const TrayIconComponent: React.FC = () => {
 
   useEffect(() => {
     const initializeTray = async () => {
-      if (isTrayIconCreated === false) {
+      if (!isTrayIconCreated) {
         const menu = await Menu.new({
           items: [
             {
@@ -49,13 +49,15 @@ const TrayIconComponent: React.FC = () => {
           ],
         });
 
+        const iconData = await defaultWindowIcon();
         const options = {
-          icon: await defaultWindowIcon(),
           menu,
           menuOnLeftClick: true,
           tooltip: "Blink Eye",
         };
-        await TrayIcon.new(options);
+
+        const trayIcon = await TrayIcon.new(options);
+        trayIcon.setIcon(iconData);
         setIsTrayIconCreated(true);
       }
     };
