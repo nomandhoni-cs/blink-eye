@@ -3,18 +3,18 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
-import { Store } from "@tauri-apps/plugin-store";
+import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast, { Toaster } from "react-hot-toast";
 
-const store = new Store(".settings.dat");
+const store = await load("store.json", { autoSave: false });
 
 function Dashboard() {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
-  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
-
+  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(true);
+  console.log(interval, duration, isAutoStartEnabled);
   // Check the initial state when the component mounts
   useEffect(() => {
     const checkAutoStartStatus = async () => {

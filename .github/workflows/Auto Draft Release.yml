@@ -1,11 +1,8 @@
-name: Blink Eye Final Release
+name: Blink Eye Auto Draft Release
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to release'
-        required: true
-        default: 'main'
+  pull_request:
+    branches: [ master ]
+
 jobs:
   build:
     permissions:
