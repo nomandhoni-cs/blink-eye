@@ -1,14 +1,19 @@
 import { invoke } from "@tauri-apps/api/core";
-import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { getAllWindows } from "@tauri-apps/api/window";
 import { useEffect } from "react";
-const windows = await getAllWindows();
-const appWindow = windows.find((win) => win.label === "main");
 
 const AutoStart = () => {
   useEffect(() => {
     async function checkStartupState() {
       try {
+        const windows = await getAllWindows();
+        const appWindow = windows.find((win) => win.label === "main");
+
+        if (!appWindow) {
+          console.error("Main window not found");
+          return;
+        }
+
         const result = await invoke<string>("check_minimized_argument");
         console.log(`App startup state: ${result}`);
 

@@ -37,6 +37,8 @@ pub fn run() {
              use tauri_plugin_notification::NotificationExt;
             app.notification()
                 .builder()
+                .icon("icons/icon.png")
+                .large_icon("icons/icon.png")
                 .title("Blink Eye")
                 .body("Blink Eye has started running in the background and can be found on the system tray.")
                 .show()
