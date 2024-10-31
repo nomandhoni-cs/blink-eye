@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 const Dashboard = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
+  const [reminderText, setReminderText] = useState<string>("");
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(true);
 
   useEffect(() => {
@@ -56,6 +57,12 @@ const Dashboard = () => {
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
+      const storedReminderText = await store.get<string>(
+        "blinkEyeReminderScreenText"
+      );
+      if (typeof storedReminderText === "string") {
+        setReminderText(storedReminderText);
+      }
       if (typeof storedInterval === "number") {
         setInterval(storedInterval);
       }
@@ -86,6 +93,8 @@ const Dashboard = () => {
     const store = await load("store.json", { autoSave: false });
     await store.set("blinkEyeReminderInterval", interval);
     await store.set("blinkEyeReminderDuration", duration);
+    await store.set("blinkEyeReminderScreenText", reminderText);
+
     await store.save();
     toast.success("Successfully Saved the settings!", {
       duration: 2000,
@@ -116,6 +125,16 @@ const Dashboard = () => {
             placeholder="Enter the Reminder duration (sec)"
             value={duration}
             onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="reminder-duration">Reminder Screen Text</Label>
+          <Input
+            type="text"
+            id="reminder_screen_text"
+            placeholder="Look 20 feet far away to protect your eyes."
+            value={reminderText}
+            onChange={(e) => setReminderText(e.target.value)}
           />
         </div>
         <div className="space-y-2">

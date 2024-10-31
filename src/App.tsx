@@ -9,8 +9,8 @@ function App() {
     <Router>
       <Routes>
         <Route index path="/" element={<Dashboard />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/reminder" element={<Reminder />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </Router>
   );
