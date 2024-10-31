@@ -9,8 +9,25 @@ const AutoStart = () => {
       try {
         const result = await invoke<string>("check_minimized_argument");
         console.log(`App startup state: ${result}`);
-        if (result === "minimized") {
-          appWindow.minimize();
+
+        // Switch statement for different startup states
+        switch (result) {
+          case "minimized":
+            await appWindow.minimize();
+            appWindow.onCloseRequested(async () => {
+              await appWindow.setSkipTaskbar(true);
+              await appWindow.minimize(); // Keep minimized
+            });
+            break;
+          case "fullScreen":
+            appWindow.onCloseRequested(async () => {
+              await appWindow.setSkipTaskbar(true);
+              await appWindow.minimize(); // Minimize on close request
+            });
+            break;
+          default:
+            console.warn(`Unknown startup state: ${result}`);
+            break;
         }
       } catch (error) {
         console.error("Error checking startup state:", error);
