@@ -53,7 +53,7 @@ pub fn run() {
                             let _ = window.unminimize();
                             let _ = window.set_skip_taskbar(false);
                             let _ = window.set_focus();
-                            // print the window title 
+                            // print the window title
                             println!("window title: {}", window.title().unwrap());
                         }
                     }
@@ -74,11 +74,12 @@ pub fn run() {
                     }
                     "dashboard" => {
                         // in this example, let's show and focus the main window when the tray is clicked
-                        // let app = tray.app_handle();
-                        // if let Some(window) = app.get_webview_window("main") {
-                        //     let _ = window.show();
-                        //     let _ = window.set_focus();
-                        // }
+                        if let Some(window) = app.get_webview_window("main") {
+                            let _ = window.show();
+                            let _ = window.unminimize();
+                            let _ = window.set_skip_taskbar(false);
+                            let _ = window.set_focus();
+                        }
                     }
                     _ => {
                         println!("menu item {:?} not handled", event.id);
