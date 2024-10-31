@@ -15,7 +15,7 @@ const useTimeCount = (): TimeCount => {
     hours: 0,
     minutes: 0,
   });
-
+  
   const dateRef = useRef(new Date().toISOString().split("T")[0]);
   const startTimeRef = useRef(Date.now());
 
@@ -23,57 +23,37 @@ const useTimeCount = (): TimeCount => {
     return new Date().toISOString().split("T")[0];
   }, []);
 
-  const initializeNewDate = useCallback(async (date: string) => {
+  const initializeNewDate = useCallback(async (date: string): Promise<TimeCount> => {
     const store = await load("store.json", { autoSave: false });
     const storedTimeData: TimeData = (await store.get("timeData")) || {};
-
+    
     // If this date doesn't exist in the store, initialize it
     if (!storedTimeData[date]) {
       storedTimeData[date] = { hours: 0, minutes: 0 };
       await store.set("timeData", storedTimeData);
       await store.save();
     }
-
+    
     return storedTimeData[date];
   }, []);
 
-  const loadTimeData = useCallback(
-    async (date: string) => {
-      const store = await load("store.json", { autoSave: false });
-      const storedTimeData: TimeData | undefined = await store.get("timeData");
+  const saveTimeData = useCallback(async (date: string, newTimeCount: TimeCount) => {
+    const store = await load("store.json", { autoSave: false });
+    const storedTimeData: TimeData = (await store.get("timeData")) || {};
+    
+    storedTimeData[date] = {
+      hours: newTimeCount.hours,
+      minutes: newTimeCount.minutes
+    };
 
-      // If we don't have any data for this date, initialize it
-      if (!storedTimeData?.[date]) {
-        return initializeNewDate(date);
-      }
-
-      return storedTimeData[date];
-    },
-    [initializeNewDate]
-  );
-
-  const saveTimeData = useCallback(
-    async (date: string, newTimeCount: TimeCount) => {
-      const store = await load("store.json", { autoSave: false });
-      const storedTimeData: TimeData = (await store.get("timeData")) || {};
-
-      // Update the time for the specific date
-      storedTimeData[date] = {
-        hours: newTimeCount.hours,
-        minutes: newTimeCount.minutes,
-      };
-
-      await store.set("timeData", storedTimeData);
-      await store.save();
-    },
-    []
-  );
+    await store.set("timeData", storedTimeData);
+    await store.save();
+  }, []);
 
   // Initialize time data when the component mounts
   useEffect(() => {
     const initializeTimeData = async () => {
       const currentDate = getCurrentDate();
-      // Initialize the current date if it's new
       const currentDateData = await initializeNewDate(currentDate);
       setTimeCount(currentDateData);
       dateRef.current = currentDate;
@@ -87,11 +67,11 @@ const useTimeCount = (): TimeCount => {
   useEffect(() => {
     const interval = setInterval(async () => {
       const currentDate = getCurrentDate();
-
+      
       // Check if date has changed (midnight crossed)
       if (currentDate !== dateRef.current) {
-        console.log("Date changed from", dateRef.current, "to", currentDate);
-
+        console.log('Date changed from', dateRef.current, 'to', currentDate);
+        
         // Initialize the new date
         const newDateData = await initializeNewDate(currentDate);
         setTimeCount(newDateData);
@@ -101,15 +81,13 @@ const useTimeCount = (): TimeCount => {
       }
 
       // Calculate elapsed time for current date
-      const elapsedTime = Math.floor(
-        (Date.now() - startTimeRef.current) / 1000
-      );
+      const elapsedTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
       const currentHours = Math.floor(elapsedTime / 3600);
       const currentMinutes = Math.floor((elapsedTime % 3600) / 60);
-
+      
       const newTimeCount = {
         hours: currentHours,
-        minutes: currentMinutes,
+        minutes: currentMinutes
       };
 
       setTimeCount(newTimeCount);
@@ -118,17 +96,6 @@ const useTimeCount = (): TimeCount => {
 
     return () => clearInterval(interval);
   }, [getCurrentDate, initializeNewDate, saveTimeData]);
-
-  // Debug: Log stored data
-  useEffect(() => {
-    const logStoredData = async () => {
-      const store = await load("store.json", { autoSave: false });
-      const storedTimeData: TimeData = (await store.get("timeData")) || {};
-      console.log("Stored time data:", storedTimeData);
-    };
-
-    logStoredData();
-  }, [timeCount]);
 
   return timeCount;
 };
