@@ -4,7 +4,6 @@ use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
 };
-
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
@@ -23,6 +22,7 @@ fn check_minimized_argument() -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_notification::init())
         .setup(|app| {
             #[cfg(desktop)]
             {
@@ -33,6 +33,15 @@ pub fn run() {
                     ))
                     .expect("Failed to initialize autostart plugin");
             }
+            // Send Notification
+             use tauri_plugin_notification::NotificationExt;
+            app.notification()
+                .builder()
+                .title("Blink Eye")
+                .body("Blink Eye has started running in the background and can be found on the system tray.")
+                .show()
+                .unwrap();
+            // Create Tray Icon with menu
             let dashboard_i = MenuItem::with_id(app, "dashboard", "Dashboard", true, None::<&str>)?;
             let relaunch_i = MenuItem::with_id(app, "relaunch", "Relaunch", true, None::<&str>)?;
             let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
@@ -49,7 +58,6 @@ pub fn run() {
                         // in this example, let's show and focus the main window when the tray is clicked
                         let app = tray.app_handle();
                         if let Some(window) = app.get_webview_window("main") {
-                            let _ = window.show();
                             let _ = window.unminimize();
                             let _ = window.set_skip_taskbar(false);
                             let _ = window.set_focus();
@@ -75,7 +83,6 @@ pub fn run() {
                     "dashboard" => {
                         // in this example, let's show and focus the main window when the tray is clicked
                         if let Some(window) = app.get_webview_window("main") {
-                            let _ = window.show();
                             let _ = window.unminimize();
                             let _ = window.set_skip_taskbar(false);
                             let _ = window.set_focus();

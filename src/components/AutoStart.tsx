@@ -1,8 +1,10 @@
 import { invoke } from "@tauri-apps/api/core";
-import { getCurrentWindow } from "@tauri-apps/api/window";
+import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { getAllWindows } from "@tauri-apps/api/window";
 import { useEffect } from "react";
+const windows = await getAllWindows();
+const appWindow = windows.find((win) => win.label === "main");
 
-const appWindow = getCurrentWindow();
 const AutoStart = () => {
   useEffect(() => {
     async function checkStartupState() {
@@ -14,18 +16,25 @@ const AutoStart = () => {
         switch (result) {
           case "minimized":
             await appWindow.minimize();
-            appWindow.onCloseRequested(async () => {
+            appWindow.onCloseRequested(async (event) => {
+              event.preventDefault(); // Prevent the window from closing
               await appWindow.setSkipTaskbar(true);
               await appWindow.minimize(); // Keep minimized
             });
             break;
           case "fullScreen":
-            appWindow.onCloseRequested(async () => {
+            appWindow.onCloseRequested(async (event) => {
+              event.preventDefault(); // Prevent the window from closing
               await appWindow.setSkipTaskbar(true);
               await appWindow.minimize(); // Minimize on close request
             });
             break;
           default:
+            appWindow.onCloseRequested(async (event) => {
+              event.preventDefault(); // Prevent the window from closing
+              await appWindow.setSkipTaskbar(true);
+              await appWindow.minimize(); // Minimize on close request
+            });
             console.warn(`Unknown startup state: ${result}`);
             break;
         }
