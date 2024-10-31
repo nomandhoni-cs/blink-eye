@@ -100,7 +100,8 @@ const Dashboard = () => {
       duration: 2000,
       position: "bottom-right",
     });
-    console.log("Saved settings:", { interval, duration });
+    const timeData = await store.get("timeData");
+    console.log("Saved settings:", { interval, duration }, timeData);
   };
 
   return (

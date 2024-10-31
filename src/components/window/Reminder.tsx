@@ -3,10 +3,19 @@ import { Button } from "../ui/button";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { load } from "@tauri-apps/plugin-store";
 import CurrentTime from "../CurrentTime";
+import ScreenOnTime from "../ScreenOnTime";
 
 const appWindow = getCurrentWebviewWindow();
+interface TimeCount {
+  hours: number;
+  minutes: number;
+}
 
-const Reminder = () => {
+interface ReminderProps {
+  timeCount: TimeCount;
+}
+
+const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
 
@@ -57,7 +66,7 @@ const Reminder = () => {
       <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-8">
         <div className="flex justify-center items-center space-x-4">
           <CurrentTime />
-          {/* <CurrentTime />  */}
+          <ScreenOnTime timeCount={timeCount} />
         </div>
         <div className="text-5xl font-semibold text-center px-4">
           {reminderText
