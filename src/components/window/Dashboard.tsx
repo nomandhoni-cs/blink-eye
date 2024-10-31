@@ -3,19 +3,17 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
-import { Store } from "@tauri-apps/plugin-store";
+import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast, { Toaster } from "react-hot-toast";
 
-const store = new Store(".settings.dat");
-
-function Dashboard() {
+const Dashboard = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
-  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
+  const [reminderText, setReminderText] = useState<string>("");
+  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(true);
 
-  // Check the initial state when the component mounts
   useEffect(() => {
     const checkAutoStartStatus = async () => {
       const status = await isEnabled();
@@ -52,12 +50,19 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchSettings = async () => {
+      const store = await load("store.json", { autoSave: false });
       const storedInterval = await store.get<number>(
         "blinkEyeReminderInterval"
       );
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
+      const storedReminderText = await store.get<string>(
+        "blinkEyeReminderScreenText"
+      );
+      if (typeof storedReminderText === "string") {
+        setReminderText(storedReminderText);
+      }
       if (typeof storedInterval === "number") {
         setInterval(storedInterval);
       }
@@ -68,7 +73,6 @@ function Dashboard() {
     fetchSettings();
   }, []);
 
-  // Creating Reminder Window
   useEffect(() => {
     let timer: number | null = null;
 
@@ -86,14 +90,18 @@ function Dashboard() {
   }, [interval]);
 
   const handleSave = async () => {
+    const store = await load("store.json", { autoSave: false });
     await store.set("blinkEyeReminderInterval", interval);
     await store.set("blinkEyeReminderDuration", duration);
+    await store.set("blinkEyeReminderScreenText", reminderText);
+
     await store.save();
     toast.success("Successfully Saved the settings!", {
       duration: 2000,
       position: "bottom-right",
     });
-    console.log("Saved settings:", { interval, duration });
+    const timeData = await store.get("timeData");
+    console.log("Saved settings:", { interval, duration }, timeData);
   };
 
   return (
@@ -118,6 +126,16 @@ function Dashboard() {
             placeholder="Enter the Reminder duration (sec)"
             value={duration}
             onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="reminder-duration">Reminder Screen Text</Label>
+          <Input
+            type="text"
+            id="reminder_screen_text"
+            placeholder="Look 20 feet far away to protect your eyes."
+            value={reminderText}
+            onChange={(e) => setReminderText(e.target.value)}
           />
         </div>
         <div className="space-y-2">
@@ -148,6 +166,6 @@ function Dashboard() {
       <Toaster />
     </div>
   );
-}
+};
 
 export default Dashboard;
