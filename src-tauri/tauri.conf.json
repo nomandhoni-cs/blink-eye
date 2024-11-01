@@ -13,11 +13,13 @@
     "windows": [
       {
         "title": "Blink Eye",
-        "width": 450,
+        "width": 500,
         "height": 850,
         "center": true,
         "maxHeight": 850,
-        "maxWidth": 450
+        "maxWidth": 500,
+        "minHeight": 850,
+        "minWidth": 500
       }
     ],
     "security": {
