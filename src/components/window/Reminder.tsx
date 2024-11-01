@@ -7,6 +7,7 @@ import ScreenOnTime from "../ScreenOnTime";
 import PolygonAnimation from "../backgrounds/PolygonAnimation";
 import ParticleBackground from "../backgrounds/ParticleBackground";
 import CanvasShapes from "../backgrounds/ParticleAnimation";
+import { Progress } from "../ui/progress";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -22,6 +23,7 @@ interface ReminderProps {
 const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(20);
+  const [reminderDuration, setReminderDuration] = useState<number>(0);
   const [reminderText, setStoredReminderText] = useState<string>("");
 
   useEffect(() => {
@@ -44,6 +46,7 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
         setStoredReminderText(storedReminderText);
       }
       if (typeof storedDuration === "number") {
+        setReminderDuration(storedDuration);
         setTimeLeft(storedDuration);
       }
     };
@@ -76,13 +79,16 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
         return null;
     }
   };
-
+  const progressPercentage = (timeLeft / reminderDuration) * 100;
   return (
     <div className="relative h-screen w-screen overflow-hidden flex items-center justify-center">
       {renderBackground()}
       {/* Centered timer display */}
       <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">
         <div className="text-[240px] font-semibold">{timeLeft}s</div>
+        <div className="w-96 -mt-10">
+          <Progress value={progressPercentage} />
+        </div>
       </div>
       {/* Positioned at 50% to 70% height */}
       <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-8">
