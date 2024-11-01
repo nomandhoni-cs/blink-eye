@@ -2,37 +2,17 @@ import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Checkbox } from "../ui/checkbox";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast, { Toaster } from "react-hot-toast";
 import { ModeToggle } from "../ThemeToggle";
 import ReminderStyles from "../ReminderStyles";
-// import logo from "../../assets/icon.png";
+import AutoStartToggle from "../AutoStartToggle";
 
 const Dashboard = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
-  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(true);
-
-  useEffect(() => {
-    const checkAutoStartStatus = async () => {
-      const status = await isEnabled();
-      setIsAutoStartEnabled(status);
-    };
-    checkAutoStartStatus();
-  }, []);
-
-  const handleCheckboxChange = async (checked: boolean) => {
-    if (checked) {
-      await enable();
-    } else {
-      await disable();
-    }
-    setIsAutoStartEnabled(checked);
-  };
 
   const openReminderWindow = () => {
     console.log("Clicked");
@@ -122,7 +102,7 @@ const Dashboard = () => {
             id="interval-time"
             placeholder="Enter the Reminder interval"
             value={interval}
-            onChange={(e) => setInterval(parseInt(e.target.value, 10) || 0)}
+            onChange={(e) => setInterval(parseInt(e.target.value, 10) || 1)}
           />
         </div>
         <div className="space-y-2">
@@ -132,7 +112,7 @@ const Dashboard = () => {
             id="reminder-duration"
             placeholder="Enter the Reminder duration (sec)"
             value={duration}
-            onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
+            onChange={(e) => setDuration(parseInt(e.target.value, 10) || 1)}
           />
         </div>
         <div className="space-y-2">
@@ -146,24 +126,7 @@ const Dashboard = () => {
           />
         </div>
         <div className="space-y-2">
-          <div className="items-top flex space-x-2">
-            <Checkbox
-              id="autostart"
-              checked={isAutoStartEnabled}
-              onCheckedChange={handleCheckboxChange}
-            />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                htmlFor="autostart"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Run Blink Eye on startup.
-              </label>
-              <p className="text-sm text-muted-foreground">
-                Turn this on for best usage.
-              </p>
-            </div>
-          </div>
+          <AutoStartToggle />
         </div>
         <Button onClick={handleSave}>Save Settings</Button>
       </div>
