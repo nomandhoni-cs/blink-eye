@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { getAllWindows } from "@tauri-apps/api/window";
 import { useEffect } from "react";
 
-const AutoStart = () => {
+const DefaultStartMinimize = () => {
   useEffect(() => {
     async function checkStartupState() {
       try {
@@ -53,4 +53,4 @@ const AutoStart = () => {
   return <></>;
 };
 
-export default AutoStart;
+export default DefaultStartMinimize;
