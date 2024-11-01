@@ -8,6 +8,7 @@ import PolygonAnimation from "../backgrounds/PolygonAnimation";
 import ParticleBackground from "../backgrounds/ParticleBackground";
 import CanvasShapes from "../backgrounds/ParticleAnimation";
 import { Progress } from "../ui/progress";
+import DefaultBackground from "../backgrounds/DefaultBackground";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -69,14 +70,16 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   // Render the selected background component based on backgroundType
   const renderBackground = () => {
     switch (backgroundStyle) {
+      case "default":
+        return <DefaultBackground />;
       case "polygonAnimation":
         return <PolygonAnimation />;
       case "canvasShapes":
-        return <CanvasShapes shape="circle" speed={8} numberOfItems={100} />;
+        return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
       default:
-        return null;
+        return <DefaultBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;

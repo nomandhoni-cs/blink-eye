@@ -28,6 +28,7 @@ const ReminderStyles = () => {
 
   // Define the background style options
   const styles = [
+    { value: "default", label: "Default" },
     { value: "polygonAnimation", label: "Polygon Animation" },
     { value: "canvasShapes", label: "Canvas Shapes" },
     { value: "particleBackground", label: "Particle Background" },
