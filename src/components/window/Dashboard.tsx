@@ -7,6 +7,9 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast, { Toaster } from "react-hot-toast";
+import { ModeToggle } from "../ThemeToggle";
+import ReminderStyles from "../ReminderStyles";
+// import logo from "../../assets/icon.png";
 
 const Dashboard = () => {
   const [interval, setInterval] = useState<number>(20);
@@ -106,7 +109,11 @@ const Dashboard = () => {
 
   return (
     <div className="container p-8">
-      <h1 className="text-4xl font-bold mb-6">Dashboard</h1>
+      <div className="flex justify-between items-center border-b pb-4 mb-4">
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <ModeToggle />
+      </div>
+      <ReminderStyles />
       <div className="space-y-6 max-w-sm">
         <div className="space-y-2">
           <Label htmlFor="interval-time">Reminder Interval</Label>

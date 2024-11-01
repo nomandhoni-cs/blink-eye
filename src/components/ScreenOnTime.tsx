@@ -10,8 +10,8 @@ interface TimeDisplayProps {
 const ScreenOnTime: React.FC<TimeDisplayProps> = ({ timeCount }) => {
   const { hours, minutes } = timeCount;
   return (
-    <div className="text-xl text-white">
-      <span className="text-white">
+    <div className="text-xl ">
+      <span className="">
         Screen On Time: {hours}h {minutes}m
       </span>
     </div>

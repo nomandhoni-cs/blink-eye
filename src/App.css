@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add this to your Tailwind CSS configuration or in a global CSS file */
+#particle-canvas {
+  pointer-events: auto;
+  /* Allow pointer events */
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

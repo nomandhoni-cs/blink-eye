@@ -28,8 +28,8 @@ const CurrentTime = () => {
   }, []);
 
   return (
-    <div className="text-xl text-white">
-      Current Time: <span className="text-white">{time}</span>
+    <div className="text-xl ">
+      Current Time: <span className="">{time}</span>
     </div>
   );
 };
