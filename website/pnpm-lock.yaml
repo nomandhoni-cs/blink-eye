@@ -50,6 +50,9 @@ dependencies:
   zod:
     specifier: ^3.22.4
     version: 3.22.4
+  @vercel/analytics:
+    specifier: ^1.3.2
+    version: 1.3.2
 
 devDependencies:
   '@biomejs/biome':
