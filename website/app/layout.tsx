@@ -3,7 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import { SEO } from "@/configs/seo";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
-
+import { Analytics } from "@vercel/analytics/react";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
