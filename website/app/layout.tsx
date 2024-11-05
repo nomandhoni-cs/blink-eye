@@ -4,7 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SEO } from "@/configs/seo";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -60,7 +60,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           name="google-site-verification"
           content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
         />
-        <Analytics />
+        {/* <Analytics /> */}
         <Providers>
           <Header />
           <main className="flex flex-1 flex-col">
