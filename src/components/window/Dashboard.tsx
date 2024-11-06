@@ -5,8 +5,10 @@ import { ModeToggle } from "../ThemeToggle";
 import { Separator } from "../ui/seperator";
 import Settings from "./Settings";
 import { Button } from "../ui/button";
+import useUpdater from "../../hooks/useUpdater";
 
 const Dashboard = () => {
+  useUpdater();
   return (
     <div className="container p-8">
       <Tabs defaultValue="settings" className="w-full">

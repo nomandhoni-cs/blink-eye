@@ -85,6 +85,7 @@ jobs:
         releaseBody: 'See the assets to download this version and install.'
         releaseDraft: true
         prerelease: false
+        includeUpdaterJson: true
         args: ${{ matrix.args }}
 
     - name: Upload release artifacts
