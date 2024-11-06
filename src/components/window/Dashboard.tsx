@@ -1,168 +1,48 @@
-import { useState, useEffect } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+
+import { Toaster } from "react-hot-toast";
+import { ModeToggle } from "../ThemeToggle";
+import { Separator } from "../ui/seperator";
+import Settings from "./Settings";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Checkbox } from "../ui/checkbox";
-import { load } from "@tauri-apps/plugin-store";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
-import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
-  const [interval, setInterval] = useState<number>(20);
-  const [duration, setDuration] = useState<number>(20);
-  const [reminderText, setReminderText] = useState<string>("");
-  const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(true);
-
-  useEffect(() => {
-    const checkAutoStartStatus = async () => {
-      const status = await isEnabled();
-      setIsAutoStartEnabled(status);
-    };
-    checkAutoStartStatus();
-  }, []);
-
-  const handleCheckboxChange = async (checked: boolean) => {
-    if (checked) {
-      await enable();
-    } else {
-      await disable();
-    }
-    setIsAutoStartEnabled(checked);
-  };
-
-  const openReminderWindow = () => {
-    console.log("Clicked");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
-      fullscreen: true,
-      alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
-      skipTaskbar: true,
-    });
-    webview.once("tauri://created", () => {
-      console.log("Webview created");
-    });
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating webview:", e);
-    });
-  };
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      const store = await load("store.json", { autoSave: false });
-      const storedInterval = await store.get<number>(
-        "blinkEyeReminderInterval"
-      );
-      const storedDuration = await store.get<number>(
-        "blinkEyeReminderDuration"
-      );
-      const storedReminderText = await store.get<string>(
-        "blinkEyeReminderScreenText"
-      );
-      if (typeof storedReminderText === "string") {
-        setReminderText(storedReminderText);
-      }
-      if (typeof storedInterval === "number") {
-        setInterval(storedInterval);
-      }
-      if (typeof storedDuration === "number") {
-        setDuration(storedDuration);
-      }
-    };
-    fetchSettings();
-  }, []);
-
-  useEffect(() => {
-    let timer: number | null = null;
-
-    const startTimer = () => {
-      timer = window.setInterval(() => {
-        openReminderWindow();
-      }, interval * 60 * 1000);
-    };
-
-    startTimer();
-
-    return () => {
-      if (timer !== null) window.clearInterval(timer);
-    };
-  }, [interval]);
-
-  const handleSave = async () => {
-    const store = await load("store.json", { autoSave: false });
-    await store.set("blinkEyeReminderInterval", interval);
-    await store.set("blinkEyeReminderDuration", duration);
-    await store.set("blinkEyeReminderScreenText", reminderText);
-
-    await store.save();
-    toast.success("Successfully Saved the settings!", {
-      duration: 2000,
-      position: "bottom-right",
-    });
-    const timeData = await store.get("timeData");
-    console.log("Saved settings:", { interval, duration }, timeData);
-  };
-
   return (
     <div className="container p-8">
-      <h1 className="text-4xl font-bold mb-6">Dashboard</h1>
-      <div className="space-y-6 max-w-sm">
-        <div className="space-y-2">
-          <Label htmlFor="interval-time">Reminder Interval</Label>
-          <Input
-            type="number"
-            id="interval-time"
-            placeholder="Enter the Reminder interval"
-            value={interval}
-            onChange={(e) => setInterval(parseInt(e.target.value, 10) || 0)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Reminder Duration</Label>
-          <Input
-            type="number"
-            id="reminder-duration"
-            placeholder="Enter the Reminder duration (sec)"
-            value={duration}
-            onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Reminder Screen Text</Label>
-          <Input
-            type="text"
-            id="reminder_screen_text"
-            placeholder="Look 20 feet far away to protect your eyes."
-            value={reminderText}
-            onChange={(e) => setReminderText(e.target.value)}
-          />
-        </div>
-        <div className="space-y-2">
-          <div className="items-top flex space-x-2">
-            <Checkbox
-              id="autostart"
-              checked={isAutoStartEnabled}
-              onCheckedChange={handleCheckboxChange}
-            />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                htmlFor="autostart"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      <Tabs defaultValue="settings" className="w-full">
+        <div className="flex justify-between items-center pb-2">
+          <TabsList>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="usagetime">Usage Time</TabsTrigger>
+          </TabsList>
+          <div className="flex items-center space-x-2">
+            <ModeToggle />
+            <Button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6"
               >
-                Run Blink Eye on startup.
-              </label>
-              <p className="text-sm text-muted-foreground">
-                Turn this on for best usage.
-              </p>
-            </div>
+                <path
+                  fillRule="evenodd"
+                  d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                  clipRule="evenodd"
+                />
+              </svg>{" "}
+              Get Premium
+            </Button>
           </div>
         </div>
-        <Button onClick={handleSave}>Save Settings</Button>
-      </div>
-      <Button onClick={openReminderWindow} className="mt-4">
-        Open Reminder Window
-      </Button>
+        <Separator />
+        <TabsContent value="settings">
+          <Settings />
+        </TabsContent>
+        <TabsContent value="usagetime">
+          {" "}
+          <span>Usage Time Comming Soon!</span>
+        </TabsContent>
+      </Tabs>
       <Toaster />
     </div>
   );
