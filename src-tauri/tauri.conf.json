@@ -76,7 +76,7 @@
   },
     "plugins": {
       "updater": {
-        "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU4N0RBRTIwMkM2RTcxQzYKUldUR2NXNHNJSzU5NkdyeWZnRGpSaDRRZGQvbVg4citSWVhEME9kRmFVUEZlamMyb0d4N2ptVGkK",
+        "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQwOTIzMUVGMEMyRTA3OTIKUldTU0J5NE03ekdTMEovWHlmMzY2dncrWU4rMG9yMGpzSHA3SjFtdGNiVXZhMmJYUjVBaHFoMU4K",
         "endpoints": [
           "https://github.com/nomandhoni-cs/blink-eye/releases/latest/download/latest.json"
         ]
