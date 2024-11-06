@@ -5,10 +5,12 @@ import { ModeToggle } from "../ThemeToggle";
 import { Separator } from "../ui/seperator";
 import Settings from "./Settings";
 import { Button } from "../ui/button";
+import { UpdateDialog } from "../BlinkEyeUpdater";
 
 const Dashboard = () => {
   return (
     <div className="container p-8">
+      <UpdateDialog />
       <Tabs defaultValue="settings" className="w-full">
         <div className="flex justify-between items-center pb-2">
           <TabsList>
