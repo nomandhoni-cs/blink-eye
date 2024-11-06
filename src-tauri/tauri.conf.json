@@ -27,6 +27,7 @@
     }
   },
   "bundle": {
+    "createUpdaterArtifacts": true,
     "active": true,
     "targets": "all",
     "icon": [
@@ -71,6 +72,14 @@
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
       "timestampUrl": ""
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU4N0RBRTIwMkM2RTcxQzYKUldUR2NXNHNJSzU5NkdyeWZnRGpSaDRRZGQvbVg4citSWVhEME9kRmFVUEZlamMyb0d4N2ptVGkK",
+      "endpoints": [
+        "https://github.com/mdajmanhossain/blink-eye/releases/latest/download/latest.json"
+      ]
     }
   }
 }
