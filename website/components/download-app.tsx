@@ -77,9 +77,9 @@ const DownloadApp = async () => {
     console.error("Error fetching release data:", error);
   }
 
-  if (!downloadLink) {
-    downloadLink = `${CONFIG.repository}/releases`;
-  }
+  // if (!downloadLinks) {
+  //   downloadLinks:string = `${CONFIG.repository}/releases`;
+  // }
 
   return (
     <div className="flex flex-col justify-center items-center space-y-4 space-x-0">
