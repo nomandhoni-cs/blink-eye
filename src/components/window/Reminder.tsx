@@ -9,6 +9,8 @@ import ParticleBackground from "../backgrounds/ParticleBackground";
 import CanvasShapes from "../backgrounds/ParticleAnimation";
 import { Progress } from "../ui/progress";
 import DefaultBackground from "../backgrounds/DefaultBackground";
+import { join, resourceDir } from "@tauri-apps/api/path";
+import { convertFileSrc } from "@tauri-apps/api/core";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -52,6 +54,19 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
     };
     fetchReminderScreenInfo();
   }, []);
+
+  const handlePlayAudio = async () => {
+    try {
+      const resourceDirPath = await resourceDir();
+      const filePath = await join(resourceDirPath, "assets/done.mp3");
+      const audioUrl = convertFileSrc(filePath);
+      const audioElement = new Audio(audioUrl);
+      await audioElement.play();
+    } catch (error) {
+      console.error("Error playing audio:", error);
+    }
+  };
+
   useEffect(() => {
     if (timeLeft <= 0) {
       appWindow.close();
@@ -59,7 +74,11 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
     }
 
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+      setTimeLeft((prevTime) => {
+        // Play audio when timeLeft is 2
+        if (prevTime === 3) handlePlayAudio();
+        return prevTime - 1;
+      });
     }, 1000);
 
     return () => clearInterval(timer);
