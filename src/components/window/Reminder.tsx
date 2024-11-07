@@ -24,7 +24,7 @@ interface ReminderProps {
 const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(20);
-  const [reminderDuration, setReminderDuration] = useState<number>(0);
+  const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
 
   useEffect(() => {
