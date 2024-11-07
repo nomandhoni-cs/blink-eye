@@ -88,7 +88,9 @@ const Settings = () => {
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
-          <Label htmlFor="interval-time">Reminder Interval</Label>
+          <Label htmlFor="interval-time">
+            Break after every {interval} Minutes
+          </Label>
           <Input
             type="number"
             id="interval-time"
@@ -98,7 +100,7 @@ const Settings = () => {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Reminder Duration</Label>
+          <Label htmlFor="reminder-duration">Break Duration in Seconds</Label>
           <Input
             type="number"
             id="reminder-duration"
@@ -108,7 +110,7 @@ const Settings = () => {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Reminder Screen Text</Label>
+          <Label htmlFor="reminder-duration">Break Screen Text</Label>
           <Input
             type="text"
             id="reminder_screen_text"

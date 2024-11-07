@@ -22,9 +22,6 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./ThemeToggle";
-import { Window } from "@tauri-apps/api/window";
-import { Webview } from "@tauri-apps/api/webview";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 
 // Menu items.
 const items = [
@@ -65,22 +62,6 @@ const items = [
     isPremiumFeature: false,
   },
 ];
-
-const OpenGetPremumPage = () => {
-  // alternatively, load a remote URL:
-  const webview = new WebviewWindow("DashboardWindow", {
-    url: "https://blinkeye.vercel.app",
-    width: 1200,
-    height: 800,
-  });
-
-  webview.once("tauri://created", function () {
-    // webview successfully created
-  });
-  webview.once("tauri://error", function (e) {
-    // an error happened creating the webview
-  });
-};
 
 export function AppSidebar() {
   return (
