@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 
 const ReminderStyles = () => {
   const [backgroundStyle, setBackgroundStyle] =
@@ -23,6 +24,7 @@ const ReminderStyles = () => {
     await store.set("backgroundStyle", selectedStyle);
     await store.save();
     setBackgroundStyle(selectedStyle);
+    openReminderWindow();
     console.log("Background style saved:", selectedStyle);
   };
 
@@ -34,6 +36,22 @@ const ReminderStyles = () => {
     { value: "particleBackground", label: "Particle Background" },
   ];
 
+  const openReminderWindow = () => {
+    console.log("Clicked");
+    const webview = new WebviewWindow("ReminderWindow", {
+      url: "/reminder",
+      fullscreen: true,
+      alwaysOnTop: true,
+      title: "Take A Break Reminder - Blink Eye",
+      skipTaskbar: true,
+    });
+    webview.once("tauri://created", () => {
+      console.log("Webview created");
+    });
+    webview.once("tauri://error", (e) => {
+      console.error("Error creating webview:", e);
+    });
+  };
   return (
     <div className="p-8 space-y-4">
       <h3 className="text-xl font-bold">Background Style</h3>
@@ -48,7 +66,7 @@ const ReminderStyles = () => {
                 : "border-gray-300"
             }`}
           >
-            {style.label}
+            Try {style.label}
           </div>
         ))}
       </div>

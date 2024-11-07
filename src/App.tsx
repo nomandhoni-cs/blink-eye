@@ -6,6 +6,7 @@ import useTimeCount from "./hooks/useTimeCount";
 import Layout from "./components/window/Layout";
 import UsageTime from "./components/window/UsageTime";
 import ReminderStyles from "./components/ReminderStyles";
+import ActivateLicense from "./components/window/ActivateLicense";
 
 function App() {
   const timeCount = useTimeCount();
@@ -16,6 +17,7 @@ function App() {
           <Route index path="dashboard" element={<Dashboard />} />
           <Route path="usagetime" element={<UsageTime />} />
           <Route path="reminderthemes" element={<ReminderStyles />} />
+          <Route path="activatelicense" element={<ActivateLicense />} />
         </Route>
         <Route path="/reminder" element={<Reminder timeCount={timeCount} />} />
       </Routes>

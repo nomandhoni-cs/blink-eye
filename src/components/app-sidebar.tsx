@@ -1,5 +1,13 @@
-import { Calendar, Clock, Home, Search, Settings } from "lucide-react";
-
+import {
+  Brush,
+  Calendar,
+  Clock,
+  Home,
+  InfoIcon,
+  ScrollTextIcon,
+  Settings,
+} from "lucide-react";
+import logo from "../assets/icon.png";
 import {
   Sidebar,
   SidebarContent,
@@ -30,17 +38,22 @@ const items = [
   {
     title: "Reminder Themes",
     url: "/reminderthemes",
-    icon: Calendar,
+    icon: Brush,
   },
   {
-    title: "Search",
+    title: "Workday Setup",
     url: "#",
-    icon: Search,
+    icon: Calendar,
   },
   {
     title: "Settings",
     url: "#",
     icon: Settings,
+  },
+  {
+    title: "Activate License",
+    url: "/activatelicense",
+    icon: ScrollTextIcon,
   },
 ];
 
@@ -50,7 +63,14 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="flex items-center justify-between">
-            <SidebarGroupLabel>Blink Eye</SidebarGroupLabel>
+            <SidebarGroupLabel>
+              <img
+                src={logo}
+                className="w-[1.2rem] h-[1.2rem] mr-2"
+                alt="Blink Eye"
+              />
+              Blink Eye
+            </SidebarGroupLabel>
             <ModeToggle />
           </div>
           <SidebarGroupContent>
@@ -84,6 +104,9 @@ export function AppSidebar() {
             />
           </svg>{" "}
           Get Premium
+        </Button>
+        <Button variant="secondary">
+          <InfoIcon /> About Blink Eye
         </Button>
       </SidebarFooter>
     </Sidebar>
