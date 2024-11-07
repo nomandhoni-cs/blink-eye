@@ -90,7 +90,7 @@ const DownloadApp = async () => {
 						<Button asChild>
 							<Link href={downloadLinks.macIntel} className="flex items-center space-x-2">
 								<DownloadIcon className="w-5 h-5" />
-								<span className="text-sm">Download for Mac Intel</span>
+								<span className="text-sm">Download for Mac (Intel Processor)</span>
 							</Link>
 						</Button>
 					)}
@@ -98,7 +98,7 @@ const DownloadApp = async () => {
 						<Button asChild>
 							<Link href={downloadLinks.macSilicon} className="flex items-center space-x-2">
 								<DownloadIcon className="w-5 h-5" />
-								<span className="text-sm">Download for Mac Apple Silicon</span>
+								<span className="text-sm">Download for Mac (Apple Silicon)</span>
 							</Link>
 						</Button>
 					)}
