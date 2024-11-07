@@ -65,14 +65,6 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const firstActiveItemRef = useRef(null);
-
-  useEffect(() => {
-    // Focus on the first non-disabled item by default
-    if (firstActiveItemRef.current) {
-      firstActiveItemRef.current.focus();
-    }
-  }, []);
   return (
     <Sidebar>
       <SidebarContent>
@@ -90,11 +82,7 @@ export function AppSidebar() {
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item, index) => {
-                // If it's the first non-premium item, attach the ref
-                const isFirstActiveItem =
-                  !item.isPremiumFeature && firstActiveItemRef.current === null;
-
+              {items.map((item) => {
                 return item.isPremiumFeature ? (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
@@ -112,10 +100,7 @@ export function AppSidebar() {
                 ) : (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <Link
-                        to={item.url}
-                        ref={isFirstActiveItem ? firstActiveItemRef : null} // Attach ref only if it's the first active item
-                      >
+                      <Link to={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
