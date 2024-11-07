@@ -9,8 +9,8 @@ export default function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarTrigger className="p-4" />
-      <main className="px-5 py-6 w-full">
+      <main className="px-4 py-2 w-full">
+        <SidebarTrigger />
         <AnnouncementBar />
         <UpdateDialog />
         <Outlet />
