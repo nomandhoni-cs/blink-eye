@@ -35,20 +35,23 @@ const ReminderStyles = () => {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {styles.map((style) => (
-        <div
-          key={style.value}
-          onClick={() => handleSaveTheme(style.value)}
-          className={`cursor-pointer border-2 rounded-md p-4 text-center ${
-            backgroundStyle === style.value
-              ? "border-blue-500"
-              : "border-gray-300"
-          }`}
-        >
-          {style.label}
-        </div>
-      ))}
+    <div className="p-8 space-y-4">
+      <h3 className="text-xl font-bold">Background Style</h3>
+      <div className="grid grid-cols-4 gap-4 ">
+        {styles.map((style) => (
+          <div
+            key={style.value}
+            onClick={() => handleSaveTheme(style.value)}
+            className={`cursor-pointer border-2 rounded-md p-4 text-center ${
+              backgroundStyle === style.value
+                ? "border-blue-500"
+                : "border-gray-300"
+            }`}
+          >
+            {style.label}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

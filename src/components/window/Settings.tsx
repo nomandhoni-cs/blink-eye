@@ -1,7 +1,6 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import ReminderStyles from "../ReminderStyles";
 import AutoStartToggle from "../AutoStartToggle";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
@@ -87,8 +86,7 @@ const Settings = () => {
   };
   return (
     <>
-      <div className="space-y-6 max-w-sm py-2">
-        <ReminderStyles />
+      <div className="space-y-6 py-2">
         <div className="space-y-2">
           <Label htmlFor="interval-time">Reminder Interval</Label>
           <Input
