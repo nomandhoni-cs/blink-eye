@@ -6,6 +6,8 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import PlayAudioButton from "../../PlayAudio";
+// import PlayAudioButton from "../PlayAudio";
 
 const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
@@ -90,6 +92,8 @@ const Settings = () => {
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
+          {/* <PlayAudioButton /> */}
+          <PlayAudioButton />
           <Label htmlFor="interval-time">
             Break after every {interval} Minutes
           </Label>

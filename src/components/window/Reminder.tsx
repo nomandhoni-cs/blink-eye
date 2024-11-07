@@ -26,7 +26,6 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
-
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
       const reminderStyleData = await load("ReminderThemeStyle.json");
@@ -53,7 +52,6 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
     };
     fetchReminderScreenInfo();
   }, []);
-
   useEffect(() => {
     if (timeLeft <= 0) {
       appWindow.close();
