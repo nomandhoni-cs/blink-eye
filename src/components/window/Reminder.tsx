@@ -11,6 +11,7 @@ import { Progress } from "../ui/progress";
 import DefaultBackground from "../backgrounds/DefaultBackground";
 import { join, resourceDir } from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
+import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -68,7 +69,7 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   };
 
   useEffect(() => {
-    if (timeLeft === 1) {
+    if (timeLeft <= 1) {
       handlePlayAudio();
     }
     if (timeLeft <= 0) {
@@ -94,8 +95,10 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
         return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
+      case "plainGradientAnimation":
+        return <PlainGradientAnimation />;
       default:
-        return <ParticleBackground />;
+        return <PlainGradientAnimation />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
