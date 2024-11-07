@@ -68,17 +68,16 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   };
 
   useEffect(() => {
+    if (timeLeft === 1) {
+      handlePlayAudio();
+    }
     if (timeLeft <= 0) {
       appWindow.close();
       return;
     }
 
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        // Play audio when timeLeft is 2
-        if (prevTime === 3) handlePlayAudio();
-        return prevTime - 1;
-      });
+      setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -96,7 +95,7 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
       case "particleBackground":
         return <ParticleBackground />;
       default:
-        return <DefaultBackground />;
+        return <ParticleBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
