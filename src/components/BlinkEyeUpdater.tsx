@@ -20,7 +20,8 @@ export function UpdateDialog() {
           <AlertDialogHeader>
             <AlertDialogTitle>Update Available</AlertDialogTitle>
             <AlertDialogDescription>
-              A new version is available. Would you like to update now?
+              A new version of Blink Eye is available. Would you like to update
+              now?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
