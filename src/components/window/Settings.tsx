@@ -6,6 +6,8 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { join, resourceDir } from "@tauri-apps/api/path";
+import { convertFileSrc } from "@tauri-apps/api/core";
 
 const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
@@ -85,11 +87,23 @@ const Settings = () => {
     const timeData = await storee.get("timeData");
     console.log("Saved settings:", { interval, duration }, timeData);
   };
-
+  // const handlePlayAudio = async () => {
+  //   try {
+  //     const resourceDirPath = await resourceDir();
+  //     console.log(resourceDirPath);
+  //     const filePath = await join(resourceDirPath, "assets/done.mp3");
+  //     const audioUrl = convertFileSrc(filePath);
+  //     const audioElement = new Audio(audioUrl);
+  //     await audioElement.play();
+  //   } catch (error) {
+  //     console.error("Error playing audio:", error);
+  //   }
+  // };
   return (
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
+          {/* <Button onClick={handlePlayAudio}>Play Audio</Button>  */}
           <Label htmlFor="interval-time">
             Break after every {interval} Minutes
           </Label>
