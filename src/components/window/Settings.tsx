@@ -1,7 +1,6 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import ReminderStyles from "../ReminderStyles";
 import AutoStartToggle from "../AutoStartToggle";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
@@ -73,6 +72,7 @@ const Settings = () => {
 
   const handleSave = async () => {
     const store = await load("store.json", { autoSave: false });
+    const storee = await load("userScreenOnTime.json", { autoSave: false });
     await store.set("blinkEyeReminderInterval", interval);
     await store.set("blinkEyeReminderDuration", duration);
     await store.set("blinkEyeReminderScreenText", reminderText);
@@ -82,15 +82,17 @@ const Settings = () => {
       duration: 2000,
       position: "bottom-right",
     });
-    const timeData = await store.get("timeData");
+    const timeData = await storee.get("timeData");
     console.log("Saved settings:", { interval, duration }, timeData);
   };
+
   return (
     <>
-      <div className="space-y-6 max-w-sm py-2">
-        <ReminderStyles />
+      <div className="space-y-6 py-2">
         <div className="space-y-2">
-          <Label htmlFor="interval-time">Reminder Interval</Label>
+          <Label htmlFor="interval-time">
+            Break after every {interval} Minutes
+          </Label>
           <Input
             type="number"
             id="interval-time"
@@ -100,7 +102,7 @@ const Settings = () => {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Reminder Duration</Label>
+          <Label htmlFor="reminder-duration">Break Duration in Seconds</Label>
           <Input
             type="number"
             id="reminder-duration"
@@ -110,7 +112,7 @@ const Settings = () => {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Reminder Screen Text</Label>
+          <Label htmlFor="reminder-duration">Break Screen Text</Label>
           <Input
             type="text"
             id="reminder_screen_text"

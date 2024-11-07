@@ -13,7 +13,6 @@ const DefaultStartMinimize = () => {
           console.error("Main window not found");
           return;
         }
-
         const result = await invoke<string>("check_minimized_argument");
         console.log(`App startup state: ${result}`);
 

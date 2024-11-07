@@ -13,17 +13,23 @@
     "windows": [
       {
         "title": "Blink Eye",
-        "width": 500,
-        "height": 850,
+        "width": 1000,
+        "height": 600,
         "center": true,
-        "maxHeight": 850,
-        "maxWidth": 500,
-        "minHeight": 850,
-        "minWidth": 500
+        "maxHeight": 600,
+        "maxWidth": 1000,
+        "minHeight": 600,
+        "minWidth": 1000
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; media-src 'self' asset: https://asset.localhost;",
+      "assetProtocol": {
+        "enable": true,
+        "scope": [
+          "**"
+        ]
+      }
     }
   },
   "bundle": {
@@ -38,14 +44,14 @@
       "icons/icon.ico",
       "icons/icon.png"
     ],
-    "resources": [],
+    "resources": ["assets/done.mp3"],
     "externalBin": [],
     "copyright": "Noman Dhoni",
     "category": "Productivity",
     "shortDescription": "A minimalist eye care reminder app.",
     "longDescription": "Blink Eye an Open Source minimalist eye care reminder app. To reduce eye strain, featuring reminder with timers, full-screen popups. Based on 20-20-20 rule.",
     "publisher": "Noman Dhoni",
-    "license": "MIT",
+    "license": "CC BY-NC-SA 4.0",
     "licenseFile": "LICENSE.txt",
     "linux": {
       "appimage": {
@@ -74,12 +80,12 @@
       "timestampUrl": ""
     }
   },
-    "plugins": {
-      "updater": {
-        "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQwOTIzMUVGMEMyRTA3OTIKUldTU0J5NE03ekdTMEovWHlmMzY2dncrWU4rMG9yMGpzSHA3SjFtdGNiVXZhMmJYUjVBaHFoMU4K",
-        "endpoints": [
-          "https://github.com/nomandhoni-cs/blink-eye/releases/latest/download/latest.json"
-        ]
-      }
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQwOTIzMUVGMEMyRTA3OTIKUldTU0J5NE03ekdTMEovWHlmMzY2dncrWU4rMG9yMGpzSHA3SjFtdGNiVXZhMmJYUjVBaHFoMU4K",
+      "endpoints": [
+        "https://github.com/nomandhoni-cs/blink-eye/releases/latest/download/latest.json"
+      ]
     }
+  }
 }

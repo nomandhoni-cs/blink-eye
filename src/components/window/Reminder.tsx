@@ -9,6 +9,9 @@ import ParticleBackground from "../backgrounds/ParticleBackground";
 import CanvasShapes from "../backgrounds/ParticleAnimation";
 import { Progress } from "../ui/progress";
 import DefaultBackground from "../backgrounds/DefaultBackground";
+import { join, resourceDir } from "@tauri-apps/api/path";
+import { convertFileSrc } from "@tauri-apps/api/core";
+import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -24,9 +27,8 @@ interface ReminderProps {
 const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
   const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(20);
-  const [reminderDuration, setReminderDuration] = useState<number>(0);
+  const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
-
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
       const reminderStyleData = await load("ReminderThemeStyle.json");
@@ -54,7 +56,22 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
     fetchReminderScreenInfo();
   }, []);
 
+  const handlePlayAudio = async () => {
+    try {
+      const resourceDirPath = await resourceDir();
+      const filePath = await join(resourceDirPath, "assets/done.mp3");
+      const audioUrl = convertFileSrc(filePath);
+      const audioElement = new Audio(audioUrl);
+      await audioElement.play();
+    } catch (error) {
+      console.error("Error playing audio:", error);
+    }
+  };
+
   useEffect(() => {
+    if (timeLeft <= 1) {
+      handlePlayAudio();
+    }
     if (timeLeft <= 0) {
       appWindow.close();
       return;
@@ -78,8 +95,10 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
         return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
+      case "plainGradientAnimation":
+        return <PlainGradientAnimation />;
       default:
-        return <DefaultBackground />;
+        return <PlainGradientAnimation />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
