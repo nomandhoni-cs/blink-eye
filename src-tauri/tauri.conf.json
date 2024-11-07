@@ -23,7 +23,7 @@
       }
     ],
     "security": {
-      "csp": "media-src 'self' asset: https://asset.localhost",
+      "csp": "default-src 'self'; media-src 'self' asset:; object-src 'self';",
       "assetProtocol": {
         "enable": true,
         "scope": [
