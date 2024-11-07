@@ -26,11 +26,12 @@
       "csp": "media-src 'self' asset: https://asset.localhost",
       "assetProtocol": {
         "enable": true,
-        "scope": ["**"]
+        "scope": [
+          "**"
+        ]
       }
     }
   },
-
   "bundle": {
     "createUpdaterArtifacts": true,
     "active": true,
@@ -43,9 +44,9 @@
       "icons/icon.ico",
       "icons/icon.png"
     ],
-    "resources": [
-      "assets/done.mp3"
-    ],
+    "resources": {
+      "assets/done.mp3": "done.mp3"
+    },
     "externalBin": [],
     "copyright": "Noman Dhoni",
     "category": "Productivity",

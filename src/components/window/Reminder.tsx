@@ -60,7 +60,7 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
     try {
       // const resourceDirPath = await resourceDir();
       // console.log(resourceDirPath);
-      const resourcePath = await resolveResource("assets/done.mp3");
+      const resourcePath = await resolveResource("done.mp3");
       // const filePath = await join(resourceDirPath, "assets/done.mp3");
       const audioUrl = convertFileSrc(resourcePath);
       const audioElement = new Audio(audioUrl);
