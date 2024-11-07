@@ -72,6 +72,7 @@ const Settings = () => {
 
   const handleSave = async () => {
     const store = await load("store.json", { autoSave: false });
+    const storee = await load("userScreenOnTime.json", { autoSave: false });
     await store.set("blinkEyeReminderInterval", interval);
     await store.set("blinkEyeReminderDuration", duration);
     await store.set("blinkEyeReminderScreenText", reminderText);
@@ -81,9 +82,19 @@ const Settings = () => {
       duration: 2000,
       position: "bottom-right",
     });
-    const timeData = await store.get("timeData");
+    const timeData = await storee.get("timeData");
     console.log("Saved settings:", { interval, duration }, timeData);
   };
+  // const currentDate = new Date();
+
+  // // UTC timestamp (stored)
+  // const utcTimestamp = currentDate.getTime(); // This is UTC time
+  // console.log("UTC Timestamp: ", utcTimestamp); // Shows UTC time
+
+  // // Convert to local time when needed for display
+  // const localDate = new Date(utcTimestamp); // Local time
+  // console.log("Local Time: ", localDate); // Adjusted for local time
+
   return (
     <>
       <div className="space-y-6 py-2">

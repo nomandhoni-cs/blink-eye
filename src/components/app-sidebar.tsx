@@ -22,12 +22,13 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./ThemeToggle";
+import { useEffect, useRef } from "react";
 
 // Menu items.
 const items = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/",
     icon: Home,
     isPremiumFeature: false,
   },
@@ -64,6 +65,14 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const firstActiveItemRef = useRef(null);
+
+  useEffect(() => {
+    // Focus on the first non-disabled item by default
+    if (firstActiveItemRef.current) {
+      firstActiveItemRef.current.focus();
+    }
+  }, []);
   return (
     <Sidebar>
       <SidebarContent>
@@ -81,8 +90,12 @@ export function AppSidebar() {
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) =>
-                item.isPremiumFeature ? (
+              {items.map((item, index) => {
+                // If it's the first non-premium item, attach the ref
+                const isFirstActiveItem =
+                  !item.isPremiumFeature && firstActiveItemRef.current === null;
+
+                return item.isPremiumFeature ? (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
@@ -99,14 +112,17 @@ export function AppSidebar() {
                 ) : (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <Link to={item.url}>
+                      <Link
+                        to={item.url}
+                        ref={isFirstActiveItem ? firstActiveItemRef : null} // Attach ref only if it's the first active item
+                      >
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                )
-              )}
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

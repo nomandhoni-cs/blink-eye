@@ -10,12 +10,30 @@ import ActivateLicense from "./components/window/ActivateLicense";
 import AboutPage from "./components/window/AboutPage";
 
 function App() {
-  const timeCount = useTimeCount();
+  const timeStamps = useTimeCount();
+
+  // Calculate total hours and minutes
+  // TODO: Use Context API to store timeStamps and calculate total time
+  let totalSeconds = 0;
+
+  timeStamps.forEach((timestamp) => {
+    // Check to prevent negative time difference
+    const timeDifferenceInSeconds =
+      Math.max(timestamp.secondTimestamp - timestamp.firstTimestamp, 0) / 1000; // Convert ms to seconds and prevent negative values
+
+    totalSeconds += timeDifferenceInSeconds;
+  });
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  const timeCount = { hours, minutes };
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index path="dashboard" element={<Dashboard />} />
+          <Route index path="/" element={<Dashboard />} />
           <Route path="usagetime" element={<UsageTime />} />
           <Route path="reminderthemes" element={<ReminderStyles />} />
           <Route path="activatelicense" element={<ActivateLicense />} />
