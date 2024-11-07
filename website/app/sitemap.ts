@@ -10,6 +10,7 @@ const sitemap = (): MetadataRoute.Sitemap => {
     "/howtouse",
     "/contribute",
     "/privacy",
+    "/pricing",
   ];
 
   const sitemapUrls: MetadataRoute.Sitemap = routes.map((route) => ({

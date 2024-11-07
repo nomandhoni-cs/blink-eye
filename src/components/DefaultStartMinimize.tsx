@@ -1,8 +1,8 @@
 import { invoke } from "@tauri-apps/api/core";
-import { getAllWindows } from "@tauri-apps/api/window";
+import { getAllWindows, LogicalSize } from "@tauri-apps/api/window";
 import { useEffect } from "react";
 
-const AutoStart = () => {
+const DefaultStartMinimize = () => {
   useEffect(() => {
     async function checkStartupState() {
       try {
@@ -13,7 +13,6 @@ const AutoStart = () => {
           console.error("Main window not found");
           return;
         }
-
         const result = await invoke<string>("check_minimized_argument");
         console.log(`App startup state: ${result}`);
 
@@ -21,6 +20,7 @@ const AutoStart = () => {
         switch (result) {
           case "minimized":
             await appWindow.minimize();
+            await appWindow.setSize(new LogicalSize(0, 0));
             appWindow.onCloseRequested(async (event) => {
               event.preventDefault(); // Prevent the window from closing
               await appWindow.setSkipTaskbar(true);
@@ -53,4 +53,4 @@ const AutoStart = () => {
   return <></>;
 };
 
-export default AutoStart;
+export default DefaultStartMinimize;

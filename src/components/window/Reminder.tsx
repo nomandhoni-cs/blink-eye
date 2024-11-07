@@ -4,8 +4,17 @@ import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { load } from "@tauri-apps/plugin-store";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
+import PolygonAnimation from "../backgrounds/PolygonAnimation";
+import ParticleBackground from "../backgrounds/ParticleBackground";
+import CanvasShapes from "../backgrounds/ParticleAnimation";
+import { Progress } from "../ui/progress";
+import DefaultBackground from "../backgrounds/DefaultBackground";
+import { join, resourceDir } from "@tauri-apps/api/path";
+import { convertFileSrc } from "@tauri-apps/api/core";
+import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
+
 interface TimeCount {
   hours: number;
   minutes: number;
@@ -16,16 +25,20 @@ interface ReminderProps {
 }
 
 const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
+  const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(20);
+  const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
-
   useEffect(() => {
-    const fetchDuration = async () => {
+    const fetchReminderScreenInfo = async () => {
+      const reminderStyleData = await load("ReminderThemeStyle.json");
+      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
+      if (savedStyle) setBackgroundStyle(savedStyle);
+
       const store = await load("store.json", { autoSave: false });
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
-
       const storedReminderText = await store.get<string>(
         "blinkEyeReminderScreenText"
       );
@@ -36,13 +49,29 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
         setStoredReminderText(storedReminderText);
       }
       if (typeof storedDuration === "number") {
+        setReminderDuration(storedDuration);
         setTimeLeft(storedDuration);
       }
     };
-    fetchDuration();
+    fetchReminderScreenInfo();
   }, []);
 
+  const handlePlayAudio = async () => {
+    try {
+      const resourceDirPath = await resourceDir();
+      const filePath = await join(resourceDirPath, "assets/done.mp3");
+      const audioUrl = convertFileSrc(filePath);
+      const audioElement = new Audio(audioUrl);
+      await audioElement.play();
+    } catch (error) {
+      console.error("Error playing audio:", error);
+    }
+  };
+
   useEffect(() => {
+    if (timeLeft <= 1) {
+      handlePlayAudio();
+    }
     if (timeLeft <= 0) {
       appWindow.close();
       return;
@@ -55,29 +84,48 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
+  // Render the selected background component based on backgroundType
+  const renderBackground = () => {
+    switch (backgroundStyle) {
+      case "default":
+        return <DefaultBackground />;
+      case "polygonAnimation":
+        return <PolygonAnimation />;
+      case "canvasShapes":
+        return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
+      case "particleBackground":
+        return <ParticleBackground />;
+      case "plainGradientAnimation":
+        return <PlainGradientAnimation />;
+      default:
+        return <PlainGradientAnimation />;
+    }
+  };
+  const progressPercentage = (timeLeft / reminderDuration) * 100;
   return (
-    <div className="bg-black text-white h-screen w-screen flex items-center justify-center relative">
-      {/* Centered at 50% height */}
+    <div className="relative h-screen w-screen overflow-hidden flex items-center justify-center">
+      {renderBackground()}
+      {/* Centered timer display */}
       <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">
         <div className="text-[240px] font-semibold">{timeLeft}s</div>
+        <div className="w-96 -mt-10">
+          <Progress value={progressPercentage} />
+        </div>
       </div>
-
-      {/* Positioned from 50% to 70% height */}
+      {/* Positioned at 50% to 70% height */}
       <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-8">
-        <div className="flex justify-center items-center space-x-4">
+        <div className="flex justify-center items-center space-x-6">
           <CurrentTime />
           <ScreenOnTime timeCount={timeCount} />
         </div>
         <div className="text-5xl font-semibold text-center px-4">
-          {reminderText
-            ? reminderText
-            : "Look 20 feet far away to protect your eyes."}
+          {reminderText || "Look 20 feet far away to protect your eyes."}
         </div>
         <Button
           onClick={() => appWindow.close()}
-          className="bg-[#FE4C55] text-black rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center"
+          className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center"
         >
-          <span>Skip this Time</span>
+          <span className="text-base">Skip this Time</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
