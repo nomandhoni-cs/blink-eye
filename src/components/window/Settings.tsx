@@ -85,15 +85,6 @@ const Settings = () => {
     const timeData = await storee.get("timeData");
     console.log("Saved settings:", { interval, duration }, timeData);
   };
-  // const currentDate = new Date();
-
-  // // UTC timestamp (stored)
-  // const utcTimestamp = currentDate.getTime(); // This is UTC time
-  // console.log("UTC Timestamp: ", utcTimestamp); // Shows UTC time
-
-  // // Convert to local time when needed for display
-  // const localDate = new Date(utcTimestamp); // Local time
-  // console.log("Local Time: ", localDate); // Adjusted for local time
 
   return (
     <>
