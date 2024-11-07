@@ -6,8 +6,8 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { join, resourceDir } from "@tauri-apps/api/path";
-import { convertFileSrc } from "@tauri-apps/api/core";
+// import { join, resourceDir } from "@tauri-apps/api/path";
+// import { convertFileSrc } from "@tauri-apps/api/core";
 
 const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
