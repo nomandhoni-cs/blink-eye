@@ -16,6 +16,8 @@ const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
+  const [audioUrl, setAudioUrl] = useState<string>("");
+  const [audioUrlTwo, setAudioUrlTwo] = useState<string>("");
 
   const openReminderWindow = () => {
     console.log("Clicked");
@@ -115,6 +117,8 @@ const Settings = () => {
     const audioElement = new Audio(audioUrl);
     await audioElement.play();
     console.log(home);
+    setAudioUrl(audioUrl);
+    setAudioUrlTwo(home);
     // const home = await path.resourceDir();
     // console.log(home, "Home Directory");
     // const audioElement = new Audio(contents);
@@ -126,6 +130,8 @@ const Settings = () => {
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
+          <p>{audioUrl + " ConverSrc"}</p>
+          <p>{audioUrlTwo + " HOme path"}</p>
           <Button onClick={handlePlayAudio}>Play Audio</Button>
           <Label htmlFor="interval-time">
             Break after every {interval} Minutes
