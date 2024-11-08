@@ -1,24 +1,44 @@
 // AutoStartToggle.tsx
 import { useState, useEffect } from "react";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
-import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
 import toast from "react-hot-toast";
+import { load } from "@tauri-apps/plugin-store";
 
 const AutoStartToggle = () => {
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
 
   useEffect(() => {
-    const checkAutoStartStatus = async () => {
+    const initializeAutoStart = async () => {
       try {
-        const status = await isEnabled();
-        setIsAutoStartEnabled(status);
+        // Load initial configuration store
+        const store = await load("initialSetupConfig.json", {
+          autoSave: false,
+        });
+        const runOnStartUp = await store.get<boolean>(
+          "isRunOnStartUpEnabledByDefault"
+        );
+
+        // If setting does not exist in store, enable autostart by default
+        if (runOnStartUp === null || runOnStartUp === undefined || false) {
+          await enable();
+          await store.set("isRunOnStartUpEnabledByDefault", true);
+          toast.success("AutoStart Enabled by Default", {
+            duration: 2000,
+            position: "bottom-right",
+          });
+          setIsAutoStartEnabled(true);
+        } else {
+          // Otherwise, check actual autostart status
+          const status = await isEnabled();
+          setIsAutoStartEnabled(status);
+        }
       } catch (error) {
-        console.error("Failed to get autostart status:", error);
+        console.error("Failed to initialize autostart:", error);
       }
     };
-    checkAutoStartStatus();
+    initializeAutoStart();
   }, []);
 
   const handleCheckboxChange = async (checked: boolean) => {
