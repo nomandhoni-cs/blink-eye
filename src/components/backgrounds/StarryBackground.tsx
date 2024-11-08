@@ -31,14 +31,13 @@ const StarryBackground: React.FC = () => {
       dy: number;
 
       constructor(
-        x: number = randomInt(0, canvas.width),
-        y: number = randomInt(0, canvas.height),
+        x: number = randomInt(0, canvas?.width ?? window.innerWidth),
+        y: number = randomInt(0, canvas?.height ?? window.innerHeight),
         radius: number = Math.random() * 1.1,
         color: string = colors[randomInt(0, colors.length)]
       ) {
-        // Ensure canvas is not null before assigning values
-        this.x = x ?? randomInt(0, canvas?.width || 0);
-        this.y = y ?? randomInt(0, canvas?.height || 0);
+        this.x = x;
+        this.y = y;
         this.radius = radius;
         this.color = color;
         this.dy = -Math.random() * 0.3;
