@@ -9,7 +9,7 @@ import ParticleBackground from "../backgrounds/ParticleBackground";
 import CanvasShapes from "../backgrounds/ParticleAnimation";
 import { Progress } from "../ui/progress";
 import DefaultBackground from "../backgrounds/DefaultBackground";
-import { resolveResource } from "@tauri-apps/api/path";
+import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
@@ -58,13 +58,10 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
 
   const handlePlayAudio = async () => {
     try {
-      // const resourceDirPath = await resourceDir();
-      // console.log(resourceDirPath);
-      const resourcePath = await resolveResource("done.mp3");
-      // const filePath = await join(resourceDirPath, "assets/done.mp3");
-      const audioUrl = convertFileSrc(resourcePath);
-      const audioElement = new Audio(audioUrl);
-      await audioElement.play();
+      const resourceDirDataPath = await path.resourceDir();
+      const filePath = await path.join(resourceDirDataPath, "done.mp3");
+      let reminderEndSound = new Audio(convertFileSrc(filePath));
+      reminderEndSound.play();
     } catch (error) {
       console.error("Error playing audio:", error);
     }

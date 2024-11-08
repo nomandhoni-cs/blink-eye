@@ -6,17 +6,10 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
-import * as path from "@tauri-apps/api/path";
-import { convertFileSrc } from "@tauri-apps/api/core";
-import { resolveResource } from "@tauri-apps/api/path";
 const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
-  const [audioUrlTwo, setAudioUrlTwo] = useState<string>("");
-  const [resourceDirPath, setResourceDirPath] = useState<string>("");
-  const [doesAudioFile, setDoesAudioExist] = useState<boolean>(false);
 
   const openReminderWindow = () => {
     console.log("Clicked");
@@ -92,38 +85,12 @@ const Settings = () => {
     console.log("Saved settings:", { interval, duration }, timeData);
   };
 
-  const handlePlayAudio = async () => {
-    const resourcePath = await resolveResource("done.mp3");
-    setAudioUrlTwo(resourcePath);
-    const appDataDirPath = await path.resourceDir();
-    const filePath = await path.join(appDataDirPath, "done.mp3");
-    setResourceDirPath(convertFileSrc(filePath));
-    let track = new Audio(convertFileSrc(filePath));
-    console.log(resourcePath);
-    track.play();
-    const doesAudioExist = await exists("done.mp3", {
-      baseDir: BaseDirectory.Resource,
-    });
-    console.log(doesAudioExist, "Checking in Resource");
-    setDoesAudioExist(doesAudioExist);
-  };
-
   return (
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
-          <br />
-          {audioUrlTwo}
-          <br />
-          <Button onClick={handlePlayAudio}>Play Audio </Button>
-          <br />
-          <p>
-            {doesAudioFile ? "Audio file exists" : "Audio file does not exist"}
-          </p>
-          {resourceDirPath}
-          <br />
           <Label htmlFor="interval-time">
-            Break after every {interval} Minutes
+            Break Every {interval} (Minutes)
           </Label>
           <Input
             type="number"
@@ -157,10 +124,10 @@ const Settings = () => {
           <AutoStartToggle />
         </div>
         <Button onClick={handleSave}>Save Settings</Button>
+        <Button onClick={openReminderWindow} className="ml-4">
+          Open Reminder Window
+        </Button>
       </div>
-      <Button onClick={openReminderWindow} className="mt-4">
-        Open Reminder Window
-      </Button>
     </>
   );
 };

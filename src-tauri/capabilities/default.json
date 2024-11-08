@@ -8,22 +8,6 @@
     "DashboardWindow"
   ],
   "permissions": [
-    "fs:default",
-    "fs:allow-resource-read",
-    "fs:allow-audio-read",
-    "fs:allow-applocaldata-read",
-    "fs:allow-localdata-read",
-    "fs:allow-exists",
-    "fs:allow-localdata-read-recursive",
-    "fs:allow-applocaldata-read-recursive",
-        {
-          "identifier": "fs:allow-audio-read",
-          "allow": [
-            {
-              "path": "$RESOURCE/done.mp3"
-            }
-          ]
-        },
     "core:default",
     "shell:allow-open",
     "autostart:allow-enable",

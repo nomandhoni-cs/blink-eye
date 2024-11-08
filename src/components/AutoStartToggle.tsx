@@ -2,6 +2,9 @@
 import { useState, useEffect } from "react";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import { Checkbox } from "./ui/checkbox";
+import { Label } from "./ui/label";
+import { Switch } from "./ui/switch";
+import toast from "react-hot-toast";
 
 const AutoStartToggle = () => {
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
@@ -22,8 +25,16 @@ const AutoStartToggle = () => {
     try {
       if (checked) {
         await enable();
+        toast.success("Enabled Autostart", {
+          duration: 2000,
+          position: "bottom-right",
+        });
       } else {
         await disable();
+        toast.success("Disabled Autostart", {
+          duration: 2000,
+          position: "bottom-right",
+        });
       }
       setIsAutoStartEnabled(checked);
     } catch (error) {
@@ -32,22 +43,24 @@ const AutoStartToggle = () => {
   };
 
   return (
-    <div className="items-top flex space-x-2">
-      <Checkbox
-        id="autostart"
-        checked={isAutoStartEnabled}
-        onCheckedChange={handleCheckboxChange}
-      />
-      <div className="grid gap-1.5 leading-none">
-        <label
-          htmlFor="autostart"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Run Blink Eye on startup.
-        </label>
-        <p className="text-sm text-muted-foreground">
-          Turn this on for best usage.
-        </p>
+    <div className="">
+      <div className="flex flex-row items-center justify-between rounded-lg border p-4">
+        <div className="space-y-0.5">
+          <Label
+            htmlFor="autostart"
+            className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Run on Startup
+          </Label>
+          <p className="text-sm text-muted-foreground">
+            Automatically start this app when your computer boots up
+          </p>
+        </div>
+        <Switch
+          id="autostart"
+          checked={isAutoStartEnabled}
+          onCheckedChange={handleCheckboxChange}
+        />
       </div>
     </div>
   );
