@@ -42,6 +42,10 @@
     "core:app:allow-default-window-icon",
     "process:default",
     "process:allow-exit",
-    "updater:default"
+    "updater:default",
+    "core:path:allow-join",
+    "core:path:allow-dirname",
+    "core:path:allow-resolve",
+    "core:path:allow-resolve-directory"
   ]
 }
