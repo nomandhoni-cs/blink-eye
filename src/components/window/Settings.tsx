@@ -6,6 +6,9 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { BaseDirectory, readFile } from "@tauri-apps/plugin-fs";
+import * as path from "@tauri-apps/api/path";
+import { convertFileSrc } from "@tauri-apps/api/core";
 // import { join, resourceDir } from "@tauri-apps/api/path";
 // import { convertFileSrc } from "@tauri-apps/api/core";
 
@@ -99,11 +102,31 @@ const Settings = () => {
   //     console.error("Error playing audio:", error);
   //   }
   // };
+  const handlePlayAudio = async () => {
+    // const doesAudioExist = await exists("done.mp3", {
+    //   baseDir: BaseDirectory.Resource,
+    // });
+    const contents = await readFile("done.mp3", {
+      baseDir: BaseDirectory.Resource,
+    });
+    const home = await path.resolveResource("done.mp3");
+    console.log(home);
+    const audioUrl = convertFileSrc(home);
+    const audioElement = new Audio(audioUrl);
+    await audioElement.play();
+    console.log(home);
+    // const home = await path.resourceDir();
+    // console.log(home, "Home Directory");
+    // const audioElement = new Audio(contents);
+    // await audioElement.play();
+    console.log(contents, "Audio File Contents");
+    // console.log(doesAudioExist, "Checking in Resource");
+  };
   return (
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
-          {/* <Button onClick={handlePlayAudio}>Play Audio</Button>  */}
+          <Button onClick={handlePlayAudio}>Play Audio</Button>
           <Label htmlFor="interval-time">
             Break after every {interval} Minutes
           </Label>

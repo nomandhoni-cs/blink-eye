@@ -8,6 +8,39 @@
     "DashboardWindow"
   ],
   "permissions": [
+    "fs:default",
+        {
+          "identifier": "fs:allow-rename",
+          "allow": [
+            {
+              "path": "$HOME/**"
+            }
+          ]
+        },
+        {
+          "identifier": "fs:allow-rename",
+          "deny": [
+            {
+              "path": "$HOME/.config/**"
+            }
+          ]
+        },
+        {
+          "identifier": "fs:allow-exists",
+          "allow": [
+            {
+              "path": "$APPDATA/*"
+            }
+          ]
+        },
+        {
+          "identifier": "fs:allow-audio-read",
+          "allow": [
+            {
+              "path": "$RESOURCE/*"
+            }
+          ]
+        },
     "core:default",
     "shell:allow-open",
     "autostart:allow-enable",
