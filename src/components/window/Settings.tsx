@@ -6,21 +6,17 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-// import { BaseDirectory, readFile } from "@tauri-apps/plugin-fs";
-import { open, BaseDirectory, exists } from "@tauri-apps/plugin-fs";
+import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
-// import { join, resourceDir } from "@tauri-apps/api/path";
-// import { convertFileSrc } from "@tauri-apps/api/core";
-
+import { resolveResource } from "@tauri-apps/api/path";
 const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
-  const [audioUrl, setAudioUrl] = useState<string>("");
   const [audioUrlTwo, setAudioUrlTwo] = useState<string>("");
   const [resourceDirPath, setResourceDirPath] = useState<string>("");
-  const [real, setDoesAudioExist] = useState<boolean>(false);
+  const [doesAudioFile, setDoesAudioExist] = useState<boolean>(false);
 
   const openReminderWindow = () => {
     console.log("Clicked");
@@ -95,101 +91,37 @@ const Settings = () => {
     const timeData = await storee.get("timeData");
     console.log("Saved settings:", { interval, duration }, timeData);
   };
-  // const handlePlayAudio = async () => {
-  //   try {
-  //     const resourceDirPath = await resourceDir();
-  //     console.log(resourceDirPath);
-  //     const filePath = await join(resourceDirPath, "assets/done.mp3");
-  //     const audioUrl = convertFileSrc(filePath);
-  //     const audioElement = new Audio(audioUrl);
-  //     await audioElement.play();
-  //   } catch (error) {
-  //     console.error("Error playing audio:", error);
-  //   }
-  // };
+
   const handlePlayAudio = async () => {
-    // const doesAudioExist = await exists("done.mp3", {
-    //   baseDir: BaseDirectory.Resource,
-    // });
-    // const contents = await readFile("done.mp3", {
-    //   baseDir: BaseDirectory.Resource,
-    // });
-
-    const home = await path.resolveResource("done.mp3");
-    console.log(home);
-    const audioUrl = convertFileSrc(home);
-    const audioElement = new Audio(audioUrl);
-    await audioElement.play();
-    console.log(home);
-    setAudioUrl(audioUrl);
-    setAudioUrlTwo(home);
-    const file = await open("done.mp3", {
-      read: true,
+    const resourcePath = await resolveResource("done.mp3");
+    setAudioUrlTwo(resourcePath);
+    const appDataDirPath = await path.resourceDir();
+    const filePath = await path.join(appDataDirPath, "done.mp3");
+    setResourceDirPath(convertFileSrc(filePath));
+    let track = new Audio(convertFileSrc(filePath));
+    console.log(resourcePath);
+    track.play();
+    const doesAudioExist = await exists("done.mp3", {
       baseDir: BaseDirectory.Resource,
     });
-    console.log(file);
-
-    // const home = await path.resourceDir();
-    // console.log(home, "Home Directory");
-    // const audioElement = new Audio(contents);
-    // await audioElement.play();
-    // console.log(contents, "Audio File Contents");
-    // console.log(doesAudioExist, "Checking in Resource");
+    console.log(doesAudioExist, "Checking in Resource");
+    setDoesAudioExist(doesAudioExist);
   };
-  async function audio() {
-    const home = await path.resolveResource("done.mp3");
-    const resourceDirPath = await path.resourceDir();
-    setResourceDirPath(resourceDirPath);
-    console.log(home);
-    let track = new Audio(convertFileSrc(home));
-    console.log(convertFileSrc(home));
-    track.play();
-    const doesAudioExist = await exists("done.mp3", {
-      baseDir: BaseDirectory.Resource,
-    });
-    console.log(doesAudioExist, "Checking in Resource");
-    setDoesAudioExist(doesAudioExist);
-  }
-  async function audio2() {
-    const home = await path.resolveResource("done.mp3");
-    let track = new Audio(convertFileSrc(home));
-    console.log(convertFileSrc(home));
-    track.play();
-    const doesAudioExist = await exists("done.mp3", {
-      baseDir: BaseDirectory.LocalData,
-    });
-    console.log(doesAudioExist, "Checking in Resource");
-    setDoesAudioExist(doesAudioExist);
-  }
-  async function audio3() {
-    const home = await path.resolveResource("done.mp3");
-    let track = new Audio(convertFileSrc(home));
-    console.log(convertFileSrc(home));
-    track.play();
-    const doesAudioExist = await exists("done.mp3", {
-      baseDir: BaseDirectory.AppLocalData,
-    });
-    console.log(doesAudioExist, "Checking in Resource");
-    setDoesAudioExist(doesAudioExist);
-  }
+
   return (
     <>
       <div className="space-y-6 py-2">
         <div className="space-y-2">
-          {audioUrl}
           <br />
-          <button onClick={handlePlayAudio}>as</button>
           {audioUrlTwo}
-          <Button onClick={audio}>Play Audio </Button>
           <br />
-          <p>Does Audio Exist in Resource? {real ? "yes" : "no"}</p>
-          <Button onClick={audio2}>Play Audio 2</Button>
+          <Button onClick={handlePlayAudio}>Play Audio </Button>
           <br />
-          <p>Does Audio Exist in LocalData? {real ? "yes" : "no"}</p>
-          <Button onClick={audio3}>Play Audio 3</Button>
-          <br />
-          <p>Does Audio Exist in AppLocalData? {real ? "yes" : "no"}</p>
+          <p>
+            {doesAudioFile ? "Audio file exists" : "Audio file does not exist"}
+          </p>
           {resourceDirPath}
+          <br />
           <Label htmlFor="interval-time">
             Break after every {interval} Minutes
           </Label>
