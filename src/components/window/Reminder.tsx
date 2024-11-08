@@ -12,6 +12,7 @@ import DefaultBackground from "../backgrounds/DefaultBackground";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
+import StarryBackground from "../backgrounds/StarryBackground";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -97,7 +98,7 @@ const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
       case "plainGradientAnimation":
         return <PlainGradientAnimation />;
       default:
-        return <PlainGradientAnimation />;
+        return <StarryBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
