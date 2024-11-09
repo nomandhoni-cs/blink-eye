@@ -14,6 +14,7 @@
 		"lint:fix": "biome lint . --apply ",
 		"format": "biome format .",
 		"format:fix": "biome format . --write",
+		"prepare": "husky install",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build"
 	},
