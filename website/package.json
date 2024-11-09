@@ -1,7 +1,6 @@
-
 {
-	"name": "vini-boilerplate",
-	"version": "5.0.0",
+	"name": "blink-eye-website",
+	"version": "1.8.0",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -15,7 +14,6 @@
 		"lint:fix": "biome lint . --apply ",
 		"format": "biome format .",
 		"format:fix": "biome format . --write",
-		"prepare": "husky install",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build"
 	},
@@ -25,6 +23,7 @@
 		]
 	},
 	"dependencies": {
+		"@next/third-parties": "^15.0.3",
 		"@radix-ui/react-dropdown-menu": "^2.1.2",
 		"@radix-ui/react-hover-card": "^1.1.2",
 		"@radix-ui/react-separator": "^1.1.0",
