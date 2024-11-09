@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 // Dynamic metadata
-export async function generateMetadata({ params }) {
-  const { tag_name } = params;
+export async function generateMetadata(props) {
+  const { tag_name } = props.params;
   const releaseInfo = await getData(tag_name);
   return {
     title: `Blink Eye ${releaseInfo.tag_name} Release info`,
@@ -63,7 +63,7 @@ async function getData(tag_name: string) {
   return data;
 }
 
-const ReleaseInfoPage = async (props: { params: { tag_name: string } }) => {
+const ReleaseInfoPage = async  (props) => {
   const { tag_name } = props.params;
   const releaseData = await getData(tag_name);
 
