@@ -9,6 +9,8 @@ const routes = [
   "/howtouse",
   "/privacy",
   "/goodbye",
+  "/pricing",
+  "/changelog"
 ];
 export const Footer = () => {
   const currentYear = getCurrentYear();
