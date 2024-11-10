@@ -32,26 +32,28 @@ export const Header = async () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
-        <div className="flex items-center space-x-6 font-semibold">
+        <div className="flex items-center space-x-6 font-medium ">
           <Link href="/" className="flex items-center space-x-2">
             <Image src={logo} alt="Blink Eye Logo" height={40} />
             <span className="text-xl font-bold tracking-tight">Blink Eye</span>
           </Link>
-          <Link href="/features">
-            <span>Features</span>
-          </Link>
-          <Link href="/about">
-            <span>About</span>
-          </Link>
-          <Link href="/pricing">
-            <span>Pricing</span>
-          </Link>
-          <Link href="/changelog">
-            <span>Release Notes</span>
-          </Link>
-          <Link href="/contribute">
-            <span>Contribute</span>
-          </Link>
+          <div className="hidden sm:block items-center space-x-6 font-medium">
+            <Link href="/features">
+              <span>Features</span>
+            </Link>
+            <Link href="/about">
+              <span>About</span>
+            </Link>
+            <Link href="/pricing">
+              <span>Pricing</span>
+            </Link>
+            <Link href="/changelog">
+              <span>Release Notes</span>
+            </Link>
+            <Link href="/contribute">
+              <span>Contribute</span>
+            </Link>
+          </div>
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-4">
@@ -65,11 +67,11 @@ export const Header = async () => {
                   className="flex space-x-2"
                 >
                   {" "}
-                  <span>Open Source</span>
+                  <span className="hidden sm:block">Open Source</span>
                   <div className="flex h-8 w-8 items-center justify-center space-x-2">
                     <Github />
                   </div>
-                  {stars} <span className="ml-1"> Stars</span>
+                  {stars} <span className="ml-1 hidden sm:block"> Stars</span>
                 </Link>
               </Button>
             )}
