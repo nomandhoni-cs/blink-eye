@@ -19,7 +19,7 @@ export const Header = () => {
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-0 sm:space-x-1">
-            <Link
+            {/* <Link
               href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
               target="_blank"
               className="invisible sm:visible"
@@ -31,7 +31,7 @@ export const Header = () => {
                 width="250"
                 height="54"
               />
-            </Link>
+            </Link> */}
             <Button variant="ghost" size="icon" asChild>
               <Link
                 href={CONFIG.github}

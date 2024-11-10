@@ -4,10 +4,12 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SEO } from "@/configs/seo";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
-// import { Analytics } from "@vercel/analytics/react";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import StarryBackground from "@/components/wave";
+import App from "@/components/wave copy";
+import AnnouncementBar from "@/components/layout/announcement-bar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -60,22 +62,26 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           name="google-site-verification"
           content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
         />
-        {/* <Analytics /> */}
         <Providers>
+          <AnnouncementBar />
           <Header />
           <main className="flex flex-1 flex-col">
             <div className="relative isolate">
               <div
-                className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden blur-0"
                 aria-hidden="true"
               >
-                <div
+                <App />
+                <StarryBackground />
+
+                {/* <div
                   className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#FE4C55] to-[#FEF4E2] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                   style={{
                     clipPath:
                       "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
                   }}
                 />
+                  */}
               </div>
               {children}
             </div>
