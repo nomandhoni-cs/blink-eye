@@ -30,10 +30,10 @@ const RootPage = () => {
 				</HoverCard>
 				rule.
 			</p>
-			<div className="flex flex-col gap-8 sm:gap-16 md:gap-24">
 				<DownloadApp />
+			{/* <div className="flex flex-col gap-8 sm:gap-16 md:gap-24">
 				<OpenSource />
-			</div>
+			</div> */}
 		</section>
 	);
 };

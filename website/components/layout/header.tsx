@@ -5,20 +5,74 @@ import logo from "../../public/logo.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "../ui/button";
 import Image from "next/image";
+async function getGitHubStars() {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/nomandhoni-cs/blink-eye",
+      {
+        next: {
+          revalidate: 3600,
+        },
+      }
+    );
 
-export const Header = () => {
+    if (!response?.ok) {
+      return null;
+    }
+
+    const json = await response.json();
+
+    return parseInt(json["stargazers_count"]).toLocaleString();
+  } catch (error) {
+    return null;
+  }
+}
+export const Header = async () => {
+  const stars = await getGitHubStars();
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
-        <div>
+        <div className="flex items-center space-x-6 font-semibold">
           <Link href="/" className="flex items-center space-x-2">
             <Image src={logo} alt="Blink Eye Logo" height={40} />
             <span className="text-xl font-bold tracking-tight">Blink Eye</span>
+          </Link>
+          <Link href="/features">
+            <span>Features</span>
+          </Link>
+          <Link href="/about">
+            <span>About</span>
+          </Link>
+          <Link href="/pricing">
+            <span>Pricing</span>
+          </Link>
+          <Link href="/changelog">
+            <span>Release Notes</span>
+          </Link>
+          <Link href="/contribute">
+            <span>Contribute</span>
           </Link>
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-0 sm:space-x-1">
+            {stars && (
+              <Button asChild variant="outline">
+                <Link
+                  href="https://github.com/nomandhoni-cs/blink-eye"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex space-x-2"
+                >
+                  {" "}
+                  <span>Open Source</span>
+                  <div className="flex h-8 w-8 items-center justify-center space-x-2">
+                    <Github />
+                  </div>
+                  {stars} <span className="ml-1"> Stars</span>
+                </Link>
+              </Button>
+            )}
             {/* <Link
               href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
               target="_blank"
@@ -32,16 +86,15 @@ export const Header = () => {
                 height="54"
               />
             </Link> */}
-            <Button variant="ghost" size="icon" asChild>
+            {/* <Button variant="ghost" size="icon" asChild>
               <Link
                 href={CONFIG.github}
                 target="_blank"
                 rel="noreferrer noopener nofollow"
               >
                 <span className="sr-only">Visit Github</span>
-                <Github />
               </Link>
-            </Button>
+            </Button> */}
 
             <Button variant="ghost" size="icon" asChild>
               <Link

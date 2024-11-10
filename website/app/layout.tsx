@@ -7,8 +7,8 @@ import { Providers } from "./providers";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
-import StarryBackground from "@/components/wave";
-import App from "@/components/wave copy";
+import StarryBackground from "@/components/StarryBackground";
+import App from "@/components/WaveAnimation";
 import AnnouncementBar from "@/components/layout/announcement-bar";
 
 const fontSans = FontSans({
@@ -68,7 +68,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <main className="flex flex-1 flex-col">
             <div className="relative isolate">
               <div
-                className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden blur-0"
+                className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden"
                 aria-hidden="true"
               >
                 <App />
