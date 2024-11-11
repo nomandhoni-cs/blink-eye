@@ -243,38 +243,60 @@ const DownloadApp = async () => {
                 </svg>
                 <span className="text-2xl font-semibold">Linux</span>
               </div>
-              <Select>
-                <SelectTrigger className="w-full sm:w-[300px]">
-                  <SelectValue placeholder="Download for Linux" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Download for Linux</SelectLabel>
-                    {downloadLinks.linuxDeb && (
-                      <SelectItem value={downloadLinks.linuxDeb}>
-                        <Link
-                          href={downloadLinks.linuxDeb}
-                          className="flex items-center space-x-2"
-                        >
-                          <DownloadIcon className="w-5 h-5" />
-                          <span className="text-sm">Download (DEB)</span>
-                        </Link>
-                      </SelectItem>
-                    )}
-                    {downloadLinks.linuxRpm && (
-                      <SelectItem value={downloadLinks.linuxRpm}>
-                        <Link
-                          href={downloadLinks.linuxRpm}
-                          className="flex items-center space-x-2"
-                        >
-                          <DownloadIcon className="w-5 h-5" />
-                          <span className="text-sm">Download (RPM)</span>
-                        </Link>
-                      </SelectItem>
-                    )}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+                <Select>
+                  <SelectTrigger className="w-[300px]">
+                    <SelectValue placeholder="Download for Linux" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Download for Linux</SelectLabel>
+                      {downloadLinks.linuxAppImage && (
+                        <SelectItem value={downloadLinks.linuxAppImage}>
+                          <Link
+                            href={downloadLinks.linuxAppImage}
+                            className="flex items-center space-x-2"
+                          >
+                            <DownloadIcon className="w-5 h-5" />
+                            <span className="text-sm">Download (AppImage)</span>
+                          </Link>
+                        </SelectItem>
+                      )}
+                      {downloadLinks.linuxDeb && (
+                        <SelectItem value={downloadLinks.linuxDeb}>
+                          <Link
+                            href={downloadLinks.linuxDeb}
+                            className="flex items-center space-x-2"
+                          >
+                            <DownloadIcon className="w-5 h-5" />
+                            <span className="text-sm">Download (Debian)</span>
+                          </Link>
+                        </SelectItem>
+                      )}
+                      {downloadLinks.linuxTar && (
+                        <SelectItem value={downloadLinks.linuxTar}>
+                          <Link
+                            href={downloadLinks.linuxTar}
+                            className="flex items-center space-x-2"
+                          >
+                            <DownloadIcon className="w-5 h-5" />
+                            <span className="text-sm">Download (x64 TAR)</span>
+                          </Link>
+                        </SelectItem>
+                      )}
+                      {downloadLinks.linuxRPM && (
+                        <SelectItem value={downloadLinks.linuxRPM}>
+                          <Link
+                            href={downloadLinks.linuxRPM}
+                            className="flex items-center space-x-2"
+                          >
+                            <DownloadIcon className="w-5 h-5" />
+                            <span className="text-sm">Download (RPM)</span>
+                          </Link>
+                        </SelectItem>
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
             </div>
           </div>
         </div>
