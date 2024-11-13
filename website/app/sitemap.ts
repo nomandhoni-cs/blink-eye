@@ -28,6 +28,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     "/goodbye",
     "/about",
     "/features",
+    "/download",
     "/howtouse",
     "/contribute",
     "/privacy",

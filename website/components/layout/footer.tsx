@@ -6,6 +6,7 @@ const routes = [
   "/about",
   "/contribute",
   "/features",
+  "/download",
   "/howtouse",
   "/privacy",
   "/goodbye",
