@@ -17,7 +17,7 @@ const DownloadButton = ({
     >
       <Link href={href} className="flex items-center space-x-2 w-full">
         {icon}
-        <span className="text-lg">{label}</span>
+        <span className="text-lg text-black">{label}</span>
       </Link>
     </Button>
   );

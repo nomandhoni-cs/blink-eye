@@ -39,11 +39,12 @@ export const metadata: Metadata = {
     description: SEO.description,
     url: SEO.url,
     type: "website",
+    videos: "https://www.youtube.com/watch?v=wszHM7OWOqI",
     images: [
       {
-        url: "https://repository-images.githubusercontent.com/749625079/db502010-82d3-4004-8e01-283d20915ee0",
-        width: 1200,
-        height: 630,
+        url: "https://utfs.io/f/93hqarYp4cDdUuQivio0OCdzPs3rx4G5yFeS2tqMgwjDuXAK",
+        width: 1280,
+        height: 720,
         alt: SEO.description,
       },
     ],
