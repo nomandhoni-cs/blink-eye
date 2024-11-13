@@ -13,18 +13,19 @@ export const metadata: Metadata = {
   openGraph: {
     locale: "en",
     title: "Download",
-    description: "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
+    description:
+      "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
     url: "https://blinkeye.vercel.app/download",
     type: "website",
     images: [
       {
-        url: "https://repository-images.githubusercontent.com/749625079/db502010-82d3-4004-8e01-283d20915ee0",
-        width: 1200,
-        height: 630,
+        url: "https://utfs.io/f/93hqarYp4cDdULtV3Co0OCdzPs3rx4G5yFeS2tqMgwjDuXAK",
+        width: 1280,
+        height: 720,
         alt: SEO.description,
       },
     ],
-    siteName: Blink Eye,
+    siteName: "Blink Eye",
   },
   twitter: {
     site: SEO.twitter,
