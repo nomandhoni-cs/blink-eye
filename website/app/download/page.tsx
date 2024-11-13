@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   keywords: SEO.keywords,
   openGraph: {
     locale: "en",
-    title: SEO.title,
-    description: SEO.description,
-    url: SEO.url,
+    title: "Download",
+    description: "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
+    url: "https://blinkeye.vercel.app/download",
     type: "website",
     images: [
       {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         alt: SEO.description,
       },
     ],
-    siteName: SEO.title,
+    siteName: Blink Eye,
   },
   twitter: {
     site: SEO.twitter,
