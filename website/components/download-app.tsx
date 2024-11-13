@@ -99,7 +99,10 @@ const DownloadApp = async () => {
             <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
               {/* 90% click area for the main download link */}
               {downloadLinks.windowsSetup && (
-                <Button className="bg-[#FE4C55] hover:bg-[#FE4C55] h-16 py-4 px-6 rounded-full flex items-center space-x-1 w-full">
+                <Button
+                  asChild
+                  className="bg-[#FE4C55] hover:bg-[#FE4C55] h-16 py-4 px-6 rounded-full flex items-center space-x-1 w-full"
+                >
                   <Link
                     href={downloadLinks.windowsSetup}
                     className="flex items-center space-x-2 w-full"
@@ -110,6 +113,7 @@ const DownloadApp = async () => {
                       y="0px"
                       width="28"
                       height="28"
+                      className="fill-current"
                       viewBox="0 0 50 50"
                     >
                       <path d="M 5 4 C 4.448 4 4 4.447 4 5 L 4 24 L 24 24 L 24 4 L 5 4 z M 26 4 L 26 24 L 46 24 L 46 5 C 46 4.447 45.552 4 45 4 L 26 4 z M 4 26 L 4 45 C 4 45.553 4.448 46 5 46 L 24 46 L 24 26 L 4 26 z M 26 26 L 26 46 L 45 46 C 45.552 46 46 45.553 46 45 L 46 26 L 26 26 z"></path>
@@ -158,7 +162,10 @@ const DownloadApp = async () => {
             <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
               {/* Mac Button */}
               {downloadLinks.macSilicon && (
-                <Button className="bg-[#FE4C55] hover:bg-[#FE4C55] h-16 py-4 px-6 rounded-full flex items-center space-x-1 w-full">
+                <Button
+                  asChild
+                  className="bg-[#FE4C55] hover:bg-[#FE4C55] h-16 py-4 px-6 rounded-full flex items-center space-x-1 w-full"
+                >
                   <Link
                     href={downloadLinks.macSilicon}
                     className="flex items-center space-x-2 w-full"
@@ -170,6 +177,7 @@ const DownloadApp = async () => {
                       width="28"
                       height="28"
                       viewBox="0 0 50 50"
+                      className="fill-current"
                     >
                       <path d="M 44.527344 34.75 C 43.449219 37.144531 42.929688 38.214844 41.542969 40.328125 C 39.601563 43.28125 36.863281 46.96875 33.480469 46.992188 C 30.46875 47.019531 29.691406 45.027344 25.601563 45.0625 C 21.515625 45.082031 20.664063 47.03125 17.648438 47 C 14.261719 46.96875 11.671875 43.648438 9.730469 40.699219 C 4.300781 32.429688 3.726563 22.734375 7.082031 17.578125 C 9.457031 13.921875 13.210938 11.773438 16.738281 11.773438 C 20.332031 11.773438 22.589844 13.746094 25.558594 13.746094 C 28.441406 13.746094 30.195313 11.769531 34.351563 11.769531 C 37.492188 11.769531 40.8125 13.480469 43.1875 16.433594 C 35.421875 20.691406 36.683594 31.78125 44.527344 34.75 Z M 31.195313 8.46875 C 32.707031 6.527344 33.855469 3.789063 33.4375 1 C 30.972656 1.167969 28.089844 2.742188 26.40625 4.78125 C 24.878906 6.640625 23.613281 9.398438 24.105469 12.066406 C 26.796875 12.152344 29.582031 10.546875 31.195313 8.46875 Z"></path>
                     </svg>
@@ -219,7 +227,10 @@ const DownloadApp = async () => {
             <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
               {/* 90% click area for the main download link */}
               {downloadLinks.linuxDeb && (
-                <Button className="bg-[#FE4C55] hover:bg-[#FE4C55] h-16 py-4 px-6 rounded-full flex items-center space-x-1 w-full">
+                <Button
+                  asChild
+                  className="bg-[#FE4C55] hover:bg-[#FE4C55] h-16 py-4 px-6 rounded-full flex items-center space-x-1 w-full"
+                >
                   <Link
                     href={downloadLinks.linuxDeb}
                     className="flex items-center space-x-2 w-full"
@@ -230,6 +241,7 @@ const DownloadApp = async () => {
                       y="0px"
                       width="28"
                       height="28"
+                      className="fill-current"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >
@@ -299,11 +311,13 @@ const DownloadApp = async () => {
             </div>
           </div>
         </div>
-        <span>
+        <span className="text-sm px-8">
           Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux
           (Debian, AppImage, RPM, TAR)
         </span>
-        <Link href="/changelog">Release Notes</Link>
+        <Link href="/changelog" className="text-base font-semibold">
+          Release Notes
+        </Link>
         <VersionTolatDownloads tag_name={tag_name} />
       </div>
     </div>
