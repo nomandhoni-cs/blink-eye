@@ -27,7 +27,7 @@ const RootPage = () => {
         <HoverCard>
           <HoverCardTrigger>
             {" "}
-            <span className="text-[#FE4C55] cursor-help">20-20-20 </span>
+            <span className="text-[#FE4C55] cursor-pointer">20-20-20 </span>
           </HoverCardTrigger>
           <HoverCardContent>
             by

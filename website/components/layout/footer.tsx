@@ -60,7 +60,7 @@ export const Footer = () => {
               height={50}
             />
           </Link>
-          <Link
+          {/* <Link
             href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
             target="_blank"
             className="sm:invisible"
@@ -72,7 +72,7 @@ export const Footer = () => {
               width="250"
               height="54"
             />
-          </Link>
+          </Link> */}
         </p>
       </div>
     </footer>
