@@ -8,6 +8,7 @@ import UsageTime from "./components/window/UsageTime";
 import ReminderStyles from "./components/ReminderStyles";
 import ActivateLicense from "./components/window/ActivateLicense";
 import AboutPage from "./components/window/AboutPage";
+import PrivateRoute from "./components/window/PrivateRoutet";
 
 function App() {
   const timeStamps = useTimeCount();
@@ -29,13 +30,18 @@ function App() {
 
   const timeCount = { hours, minutes };
 
+  const userHaveLicenseKey = false;
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index path="/" element={<Dashboard />} />
-          <Route path="usagetime" element={<UsageTime />} />
-          <Route path="reminderthemes" element={<ReminderStyles />} />
+          <Route
+            element={<PrivateRoute userHaveLicenseKey={userHaveLicenseKey} />}
+          >
+            <Route path="usagetime" element={<UsageTime />} />
+            <Route path="reminderthemes" element={<ReminderStyles />} />
+          </Route>
           <Route path="activatelicense" element={<ActivateLicense />} />
           <Route path="about" element={<AboutPage />} />
         </Route>
