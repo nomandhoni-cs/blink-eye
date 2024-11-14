@@ -86,6 +86,7 @@ jobs:
         releaseDraft: true
         prerelease: false
         includeUpdaterJson: true
+        updaterJsonPreferNsis: true
         args: ${{ matrix.args }}
 
     - name: Upload release artifacts
