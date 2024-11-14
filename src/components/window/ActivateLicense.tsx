@@ -179,43 +179,10 @@ const ActivateLicense = () => {
     }
   };
 
-  const handleValidate = async () => {
-    if (!licenseKey) {
-      toast.error("No license key found in the database");
-      return;
-    }
-
-    setLoading((prev) => ({ ...prev, validation: true }));
-    try {
-      const response = await tauriFetch(
-        "https://lemonsquizzy.netlify.app/.netlify/functions/validateLicense",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            license_key: licenseKey,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      await storeLicenseData(data);
-      toast.success("License validated successfully!");
-    } catch (error) {
-      toast.error("Failed to validate license. Please try again.");
-    } finally {
-      setLoading((prev) => ({ ...prev, validation: false }));
-    }
-  };
-  const { isOnline, isTrialOn } = useOnlineStatus();
+  const { isTrialOn } = useOnlineStatus();
   return (
     <div className="space-y-6 max-w-4xl mx-auto px-4">
       <h1>Online Status Checker</h1>
-      <h2>{isOnline ? "✅ Online" : "❌ Disconnected"}</h2>;
       <p>Trial Status: {isTrialOn ? "Trial Active" : "Trial Expired"}</p>
       {/* License Status Section */}
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between ">
@@ -233,13 +200,6 @@ const ActivateLicense = () => {
           )}
           <p>License key is: {licenseKey || "No license found"}</p>
         </div>
-        <Button
-          onClick={handleValidate}
-          disabled={loading.validation}
-          className="w-full sm:w-auto"
-        >
-          {loading.validation ? "Validating..." : "Validate"}
-        </Button>
       </div>
       {/* License Activation Form */}
       <form
