@@ -26,6 +26,15 @@
       ],
       "deny": []
     },
+    "fs:default",
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        {
+          "path": "$APPDATA/*"
+        }
+      ]
+    },
     "core:default",
     "shell:allow-open",
     "autostart:allow-enable",
@@ -64,6 +73,8 @@
     "core:path:allow-join",
     "core:path:allow-dirname",
     "core:path:allow-resolve",
-    "core:path:allow-resolve-directory"
+    "core:path:allow-resolve-directory",
+    "sql:default",
+    "sql:allow-execute"
   ]
 }

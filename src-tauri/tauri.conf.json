@@ -27,7 +27,9 @@
       "assetProtocol": {
         "enable": true,
         "scope": [
-          "$RESOURCE/*"
+          "$RESOURCE/*",
+          "$APPDATA/blink_eye_license.db",
+          "$APPDATA/*"
         ]
       }
     }
