@@ -76,7 +76,6 @@ const useDecryptedDate = (): DecryptedData => {
 
     fetchDecryptedDate();
   }, []);
-
   return { decryptedDate };
 };
 

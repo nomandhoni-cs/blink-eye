@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { nanoid } from "nanoid";
 import Database from "@tauri-apps/plugin-sql";
