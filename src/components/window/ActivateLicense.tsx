@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
+import { useOnlineStatus } from "../../hooks/useOnlineStatus";
 
 async function initializeDatabase() {
   const dbFileExists = await exists("blink_eye_license.db", {
@@ -210,9 +211,11 @@ const ActivateLicense = () => {
       setLoading((prev) => ({ ...prev, validation: false }));
     }
   };
-
+  const isOnline = useOnlineStatus();
   return (
     <div className="space-y-6 max-w-4xl mx-auto px-4">
+      <h1>Online Status Checker</h1>
+      <h2>{isOnline ? "✅ Online" : "❌ Disconnected"}</h2>;
       {/* License Status Section */}
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between ">
         <div>
@@ -237,7 +240,6 @@ const ActivateLicense = () => {
           {loading.validation ? "Validating..." : "Validate"}
         </Button>
       </div>
-
       {/* License Activation Form */}
       <form
         onSubmit={handleActivate}
