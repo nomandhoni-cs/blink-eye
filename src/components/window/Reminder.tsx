@@ -13,19 +13,12 @@ import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 import StarryBackground from "../backgrounds/StarryBackground";
+import { useTimeCountContext } from "../../contexts/TimeCountContext";
 
 const appWindow = getCurrentWebviewWindow();
 
-interface TimeCount {
-  hours: number;
-  minutes: number;
-}
-
-interface ReminderProps {
-  timeCount: TimeCount;
-}
-
-const Reminder: React.FC<ReminderProps> = ({ timeCount }) => {
+const Reminder: React.FC = () => {
+  const { timeCount } = useTimeCountContext();
   const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
