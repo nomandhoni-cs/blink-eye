@@ -1,82 +1,22 @@
 import { useEffect, useState } from "react";
-import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
-
-async function initializeDatabase() {
-  const dbFileExists = await exists("blink_eye_license.db", {
-    baseDir: BaseDirectory.AppData,
-  });
-
-  const db = await Database.load("sqlite:blink_eye_license.db");
-
-  // If the db file does not exist, create it and the licenses table
-  if (!dbFileExists) {
-    try {
-      // Create the table if it doesn't exist
-      await db.execute(`
-        CREATE TABLE IF NOT EXISTS licenses (
-          id INTEGER PRIMARY KEY,
-          license_key TEXT UNIQUE,
-          status TEXT,
-          activation_limit INTEGER,
-          activation_usage INTEGER,
-          created_at TEXT,
-          expires_at TEXT,
-          test_mode BOOLEAN,
-          instance_name TEXT,
-          store_id INTEGER,
-          order_id INTEGER,
-          order_item_id INTEGER,
-          variant_name TEXT,
-          product_name TEXT,
-          customer_name TEXT,
-          customer_email TEXT,
-          last_validated DATE
-        );
-      `);
-
-      console.log("Database and table created successfully.");
-    } catch (error) {
-      console.error("Error creating table:", error);
-    }
-  } else {
-    console.log("Database file already exists.");
-  }
-
-  return db;
-}
-
-async function getStoredLicenseKey() {
-  const db = await initializeDatabase();
-  const result = (await db.select(`
-    SELECT license_key, status, last_validated
-    FROM licenses
-    LIMIT 1
-  `)) as { license_key: string; status: string; last_validated: string }[];
-
-  return result.length > 0
-    ? {
-        license_key: result[0].license_key,
-        status: result[0].status,
-        last_validated: result[0].last_validated,
-      }
-    : null;
-}
+import { useLicenseKey } from "../hooks/useLicenseKey";
 
 const LicenseValidationComponent: React.FC = () => {
   const [licenseKey, setLicenseKey] = useState<string>("");
+  const { licenseData, refreshLicenseData } = useLicenseKey();
 
   useEffect(() => {
     const validateLicense = async () => {
-      const storedLicenseKey = await getStoredLicenseKey();
-      if (storedLicenseKey) {
-        setLicenseKey(storedLicenseKey.license_key);
+      await refreshLicenseData();
+      if (licenseData) {
+        setLicenseKey(licenseData.license_key);
         await handleLicenseValidation(
-          storedLicenseKey.last_validated,
-          storedLicenseKey.status,
-          storedLicenseKey.license_key
+          licenseData.last_validated,
+          licenseData.status,
+          licenseData.license_key
         );
       }
     };

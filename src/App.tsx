@@ -9,6 +9,7 @@ import ActivateLicense from "./components/window/ActivateLicense";
 import AboutPage from "./components/window/AboutPage";
 import { TimeCountProvider } from "./contexts/TimeCountContext";
 import AllSettings from "./components/window/AllSettings";
+import Soon from "./components/window/Soon";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="activatelicense" element={<ActivateLicense />} />
             <Route path="allSettings" element={<AllSettings />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="soon" element={<Soon />} />
           </Route>
           <Route path="/reminder" element={<Reminder />} />
         </Routes>

@@ -34,20 +34,20 @@ const items = [
     isPremiumFeature: false,
   },
   {
-    title: "Usage Time",
-    url: "/usagetime",
-    icon: Clock,
-    isPremiumFeature: false,
-  },
-  {
     title: "Reminder Themes",
     url: "/reminderthemes",
     icon: Brush,
     isPremiumFeature: false,
   },
   {
+    title: "Usage Time",
+    url: "/soon",
+    icon: Clock,
+    isPremiumFeature: false,
+  },
+  {
     title: "Workday Setup",
-    url: "#",
+    url: "/soon",
     icon: Calendar,
     isPremiumFeature: false,
   },
