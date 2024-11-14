@@ -5,6 +5,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import DefaultStartMinimize from "./components/DefaultStartMinimize";
 import EncryptionComponent from "./components/EncryptionComponent";
 import LicenseValidationComponent from "./components/LicenseValidationComponent";
+import { PremiumFeaturesProvider } from "./contexts/PremiumFeaturesContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <DefaultStartMinimize />
       <EncryptionComponent />
       <LicenseValidationComponent />
-      <App />
+      <PremiumFeaturesProvider>
+        <App />
+      </PremiumFeaturesProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

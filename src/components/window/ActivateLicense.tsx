@@ -187,7 +187,7 @@ const ActivateLicense = () => {
         onSubmit={handleActivate}
       >
         {/* Input Section */}
-        <div className="flex flex-col w-full space-y-4">
+        <div className="flex flex-col w-full space-y-4 border-r-2 border-gray-400 pr-4">
           <div>
             <Label htmlFor="activationKey" className="font-medium">
               Enter Your License Key
