@@ -6,6 +6,42 @@ interface DecryptedData {
   decryptedDate: string | null;
 }
 
+// Decrypt function
+const decryptData = async (encryptedText: string, password: string) => {
+  const { iv, data } = JSON.parse(encryptedText);
+  const encoder = new TextEncoder();
+  const encodedPassword = encoder.encode(password);
+
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    encodedPassword,
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+
+  const key = await crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: encoder.encode("unique_salt"),
+      iterations: 100000,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+
+  const decryptedBuffer = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: new Uint8Array(iv) },
+    key,
+    new Uint8Array(data).buffer
+  );
+
+  return new TextDecoder().decode(decryptedBuffer);
+};
+
 const useDecryptedDate = (): DecryptedData => {
   const [decryptedDate, setDecryptedDate] = useState<string | null>(null);
 
@@ -20,12 +56,20 @@ const useDecryptedDate = (): DecryptedData => {
         );
 
         const result = (await dbInstance.select(
-          "SELECT data FROM user_data LIMIT 1"
-        )) as [{ data: string | null }];
+          "SELECT unique_nano_id, data FROM user_data WHERE id = 1"
+        )) as [{ unique_nano_id: string; data: string | null }];
 
-        if (result.length && result[0].data) {
-          const decryptedDate = atob(result[0].data); // Decrypt the data by base64 decoding
-          setDecryptedDate(decryptedDate);
+        if (result.length && result[0].data && result[0].unique_nano_id) {
+          try {
+            // Decrypt data with unique_nano_id as the password
+            const decryptedDate = await decryptData(
+              result[0].data,
+              result[0].unique_nano_id
+            );
+            setDecryptedDate(decryptedDate);
+          } catch (error) {
+            console.error("Decryption failed:", error);
+          }
         }
       }
     };
