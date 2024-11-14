@@ -211,11 +211,12 @@ const ActivateLicense = () => {
       setLoading((prev) => ({ ...prev, validation: false }));
     }
   };
-  const isOnline = useOnlineStatus();
+  const { isOnline, isTrialOn } = useOnlineStatus();
   return (
     <div className="space-y-6 max-w-4xl mx-auto px-4">
       <h1>Online Status Checker</h1>
       <h2>{isOnline ? "✅ Online" : "❌ Disconnected"}</h2>;
+      <p>Trial Status: {isTrialOn ? "Trial Active" : "Trial Expired"}</p>
       {/* License Status Section */}
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between ">
         <div>
