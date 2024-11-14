@@ -34,7 +34,7 @@ async function initializeDatabase() {
         product_name TEXT,
         customer_name TEXT,
         customer_email TEXT,
-        last_validated DATE
+        last_validated DATE,
       );
     `);
   }

@@ -90,6 +90,8 @@ const Reminder: React.FC = () => {
         return <ParticleBackground />;
       case "plainGradientAnimation":
         return <PlainGradientAnimation />;
+      case "starryBackground":
+        return <StarryBackground />;
       default:
         return <StarryBackground />;
     }

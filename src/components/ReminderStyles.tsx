@@ -35,6 +35,7 @@ const ReminderStyles = () => {
     { value: "polygonAnimation", label: "Polygon Animation" },
     { value: "canvasShapes", label: "Canvas Shapes" },
     { value: "particleBackground", label: "Particle Background" },
+    { value: "starryBackground", label: "Starry Background" },
   ];
 
   const openReminderWindow = () => {
