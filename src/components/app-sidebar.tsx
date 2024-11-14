@@ -51,7 +51,7 @@ const items = [
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/allSettings",
     icon: Settings,
     isPremiumFeature: false,
   },

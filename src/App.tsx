@@ -8,6 +8,7 @@ import ReminderStyles from "./components/ReminderStyles";
 import ActivateLicense from "./components/window/ActivateLicense";
 import AboutPage from "./components/window/AboutPage";
 import { TimeCountProvider } from "./contexts/TimeCountContext";
+import AllSettings from "./components/window/AllSettings";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="usagetime" element={<UsageTime />} />
             <Route path="reminderthemes" element={<ReminderStyles />} />
             <Route path="activatelicense" element={<ActivateLicense />} />
+            <Route path="allSettings" element={<AllSettings />} />
             <Route path="about" element={<AboutPage />} />
           </Route>
           <Route path="/reminder" element={<Reminder />} />

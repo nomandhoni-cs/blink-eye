@@ -1,7 +1,6 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import AutoStartToggle from "../AutoStartToggle";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
@@ -120,9 +119,7 @@ const Settings = () => {
             onChange={(e) => setReminderText(e.target.value)}
           />
         </div>
-        <div className="space-y-2">
-          <AutoStartToggle />
-        </div>
+
         <Button onClick={handleSave}>Save Settings</Button>
         <Button onClick={openReminderWindow} className="ml-4">
           Open Reminder Window
