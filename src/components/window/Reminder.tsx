@@ -14,6 +14,7 @@ import { convertFileSrc } from "@tauri-apps/api/core";
 import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -93,13 +94,14 @@ const Reminder: React.FC = () => {
       case "starryBackground":
         return <StarryBackground />;
       default:
-        return <StarryBackground />;
+        return <DefaultBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
   return (
     <div className="relative h-screen w-screen overflow-hidden flex items-center justify-center">
-      {renderBackground()}
+      {canAccessPremiumFeatures ? renderBackground() : <StarryBackground />}
       {/* Centered timer display */}
       <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">
         <div className="text-[240px] font-semibold">{timeLeft}s</div>
