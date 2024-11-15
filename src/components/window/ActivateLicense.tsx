@@ -120,7 +120,7 @@ const ActivateLicense = () => {
 
     try {
       const response = await tauriFetch(
-        "https://lemonsquizzy.netlify.app/.netlify/functions/activateLicense",
+        "https://blinkeye.vercel.app/api/activateLicense",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
