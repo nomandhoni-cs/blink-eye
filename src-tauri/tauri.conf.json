@@ -14,11 +14,11 @@
       {
         "title": "Blink Eye",
         "width": 1000,
-        "height": 600,
+        "height": 650,
         "center": true,
-        "maxHeight": 600,
+        "maxHeight": 650,
         "maxWidth": 1000,
-        "minHeight": 600,
+        "minHeight": 650,
         "minWidth": 1000
       }
     ],

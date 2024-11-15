@@ -63,25 +63,23 @@ const AutoStartToggle = () => {
   };
 
   return (
-    <div className="">
-      <div className="flex flex-row items-center justify-between rounded-lg border p-4">
-        <div className="space-y-0.5">
-          <Label
-            htmlFor="autostart"
-            className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Run on Startup
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Automatically start this app when your computer boots up
-          </p>
-        </div>
-        <Switch
-          id="autostart"
-          checked={isAutoStartEnabled}
-          onCheckedChange={handleCheckboxChange}
-        />
+    <div className="flex flex-row items-center justify-between rounded-lg border p-4">
+      <div className="space-y-0.5">
+        <Label
+          htmlFor="autostart"
+          className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Run on Startup
+        </Label>
+        <p className="text-sm text-muted-foreground">
+          Automatically start this app when your computer boots up
+        </p>
       </div>
+      <Switch
+        id="autostart"
+        checked={isAutoStartEnabled}
+        onCheckedChange={handleCheckboxChange}
+      />
     </div>
   );
 };

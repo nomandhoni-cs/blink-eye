@@ -146,7 +146,10 @@ const ActivateLicense = () => {
         // Update the licenseKey state
         refreshLicenseData();
 
-        toast.success("License activated successfully!");
+        toast.success("License activated successfully!", {
+          duration: 2000,
+          position: "bottom-right",
+        });
         setActivationKey(""); // Clear input field
         setUserName(""); // Clear input field
       } else {
@@ -156,7 +159,10 @@ const ActivateLicense = () => {
       }
     } catch (error) {
       console.error("Activation error:", error);
-      toast.error("Failed to activate license. Please try again.");
+      toast.error("Failed to activate license. Please try again.", {
+        duration: 2000,
+        position: "bottom-right",
+      });
     } finally {
       setLoading((prev) => ({ ...prev, activation: false }));
     }

@@ -2,7 +2,7 @@ import { BugIcon, MonitorCog } from "lucide-react";
 
 const Soon = () => {
   return (
-    <div className="flex items-center justify-center mt-40">
+    <div className="flex items-center justify-center mt-24">
       <div className="text-center">
         {/* Construction Icon */}
         <MonitorCog className="mx-auto h-40 w-40 mb-4" />

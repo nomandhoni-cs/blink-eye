@@ -33,6 +33,10 @@ const Settings = () => {
       const storedInterval = await store.get<number>(
         "blinkEyeReminderInterval"
       );
+      const isPomodoroTimerEnabled = await store.get<boolean>(
+        "PomodoroStyleBreak"
+      );
+      console.log(isPomodoroTimerEnabled, "is pomodoro timer enabled");
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
@@ -43,10 +47,18 @@ const Settings = () => {
         setReminderText(storedReminderText);
       }
       if (typeof storedInterval === "number") {
-        setInterval(storedInterval);
+        if (isPomodoroTimerEnabled) {
+          setInterval(25);
+        } else {
+          setInterval(storedInterval);
+        }
       }
       if (typeof storedDuration === "number") {
-        setDuration(storedDuration);
+        if (isPomodoroTimerEnabled) {
+          setDuration(300);
+        } else {
+          setDuration(storedDuration);
+        }
       }
     };
     fetchSettings();
@@ -119,7 +131,6 @@ const Settings = () => {
             onChange={(e) => setReminderText(e.target.value)}
           />
         </div>
-
         <Button onClick={handleSave}>Save Settings</Button>
         <Button onClick={openReminderWindow} className="ml-4">
           Open Reminder Window

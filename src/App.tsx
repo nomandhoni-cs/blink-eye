@@ -11,8 +11,39 @@ import { TimeCountProvider } from "./contexts/TimeCountContext";
 import AllSettings from "./components/window/AllSettings";
 import Soon from "./components/window/Soon";
 import ReminderPreviewWindow from "./components/window/ReminderPreviewWindow";
+import { useEffect } from "react";
+import { load } from "@tauri-apps/plugin-store";
+import { enable } from "@tauri-apps/plugin-autostart";
+import toast from "react-hot-toast";
 
 function App() {
+  // AutoStart initialization by default
+  useEffect(() => {
+    const initializeAutoStart = async () => {
+      try {
+        // Load initial configuration store
+        const store = await load("initialSetupConfig.json", {
+          autoSave: false,
+        });
+        const runOnStartUp = await store.get<boolean>(
+          "isRunOnStartUpEnabledByDefault"
+        );
+
+        // If setting does not exist in store, enable autostart by default
+        if (runOnStartUp === null || runOnStartUp === undefined || false) {
+          await enable();
+          await store.set("isRunOnStartUpEnabledByDefault", true);
+          toast.success("AutoStart Enabled by Default", {
+            duration: 2000,
+            position: "bottom-right",
+          });
+        }
+      } catch (error) {
+        console.error("Failed to initialize autostart:", error);
+      }
+    };
+    initializeAutoStart();
+  }, []);
   return (
     <TimeCountProvider>
       <Router>
