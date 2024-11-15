@@ -14,12 +14,10 @@ import { convertFileSrc } from "@tauri-apps/api/core";
 import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
-import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 
 const appWindow = getCurrentWebviewWindow();
 
-const Reminder: React.FC = () => {
-  const { canAccessPremiumFeatures } = usePremiumFeatures();
+const ReminderPreviewWindow: React.FC = () => {
   const { timeCount } = useTimeCountContext();
   const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(20);
@@ -27,7 +25,7 @@ const Reminder: React.FC = () => {
   const [reminderText, setStoredReminderText] = useState<string>("");
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
-      const reminderStyleData = await load("ReminderThemeStyle.json");
+      const reminderStyleData = await load("ReminderThemePreviewStyle.json");
       const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
       if (savedStyle) setBackgroundStyle(savedStyle);
 
@@ -95,13 +93,13 @@ const Reminder: React.FC = () => {
       case "starryBackground":
         return <StarryBackground />;
       default:
-        return <ParticleBackground />;
+        return <DefaultBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
   return (
     <div className="relative h-screen w-screen overflow-hidden flex items-center justify-center">
-      {canAccessPremiumFeatures ? renderBackground() : <DefaultBackground />}
+      {backgroundStyle && renderBackground()}
       {/* Centered timer display */}
       <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">
         <div className="text-[240px] font-semibold">{timeLeft}s</div>
@@ -137,4 +135,4 @@ const Reminder: React.FC = () => {
   );
 };
 
-export default Reminder;
+export default ReminderPreviewWindow;

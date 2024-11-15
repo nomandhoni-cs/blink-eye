@@ -98,15 +98,17 @@ const CanvasShapes: React.FC<CanvasShapesProps> = ({
       size: CanvasSize
     ): CanvasGradient => {
       const gradient = ctx.createLinearGradient(0, 0, size.width, size.height);
+
+      // Use the new colors near #FF9DA2 and #E061B5
       const gradientStops: CanvasGradientStop[] = [
-        { position: 0, color: "#000000" },
-        { position: 0.05, color: "#000000" },
-        { position: 0.1, color: "#FE4C55" },
-        { position: 0.3, color: "#FE4C55" },
-        { position: 0.7, color: "#000000" },
-        { position: 1, color: "#000000" },
+        { position: 0, color: "#FF9DA2" }, // Soft pinkish tone
+        { position: 0.25, color: "#FF7A9D" }, // A bit darker pink
+        { position: 0.5, color: "#E061B5" }, // Vivid magenta
+        { position: 0.75, color: "#9E4C8F" }, // Deeper magenta
+        { position: 1, color: "#6B365B" }, // Darker purplish tone
       ];
 
+      // Add color stops to the gradient
       gradientStops.forEach((stop) => {
         gradient.addColorStop(stop.position, stop.color);
       });

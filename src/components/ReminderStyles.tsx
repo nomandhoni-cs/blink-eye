@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { Flame } from "lucide-react";
+import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 
 const ReminderStyles = () => {
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
   const [backgroundStyle, setBackgroundStyle] =
     useState<string>("particleBackground");
 
@@ -20,27 +23,30 @@ const ReminderStyles = () => {
 
   // Save the selected style automatically
   const handleSaveTheme = async (selectedStyle: string) => {
-    const store = await load("ReminderThemeStyle.json", { autoSave: true });
-    await store.set("backgroundStyle", selectedStyle);
-    await store.save();
+    if (canAccessPremiumFeatures) {
+      const store = await load("ReminderThemeStyle.json", { autoSave: false });
+      await store.set("backgroundStyle", selectedStyle);
+      await store.save();
+      setBackgroundStyle(selectedStyle);
+      openReminderWindow();
+      console.log("Background style saved:", selectedStyle);
+    }
+    const themePreviewStore = await load("ReminderThemePreviewStyle.json", {
+      autoSave: false,
+    });
+    await themePreviewStore.set("backgroundStyle", selectedStyle);
+    await themePreviewStore.save();
     setBackgroundStyle(selectedStyle);
     openReminderWindow();
     console.log("Background style saved:", selectedStyle);
   };
 
   // Define the background style options
-  const styles = [
-    { value: "default", label: "Default" },
-    { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-    { value: "polygonAnimation", label: "Polygon Animation" },
-    { value: "canvasShapes", label: "Canvas Shapes" },
-    { value: "particleBackground", label: "Particle Background" },
-  ];
 
   const openReminderWindow = () => {
     console.log("Clicked");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
+    const webview = new WebviewWindow("ReminderPreviewWindow", {
+      url: "/reminderpreviewwindow",
       fullscreen: true,
       alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",
@@ -53,21 +59,38 @@ const ReminderStyles = () => {
       console.error("Error creating webview:", e);
     });
   };
+  const styles = [
+    { value: "default", label: "Default" },
+    { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
+    { value: "polygonAnimation", label: "Polygon Animation" },
+    { value: "canvasShapes", label: "Bouncy Balls" },
+    { value: "particleBackground", label: "Infinite wave Background" },
+    { value: "starryBackground", label: "Starry Background" },
+  ];
   return (
-    <div className="p-8 space-y-4">
-      <h3 className="text-xl font-bold">Background Style</h3>
-      <div className="grid grid-cols-4 gap-4 ">
+    <div className="space-y-4">
+      <h3 className="text-2xl font-semibold">Background Style</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {styles.map((style) => (
           <div
             key={style.value}
             onClick={() => handleSaveTheme(style.value)}
-            className={`cursor-pointer border-2 rounded-md p-4 text-center ${
+            className={`cursor-pointer border h-32 rounded-lg shadow-sm p-4 text-center flex flex-col space-y-4 items-center transition-colors duration-300 ease-in-out ${
               backgroundStyle === style.value
-                ? "border-blue-500"
+                ? "border-green-500"
                 : "border-gray-300"
-            }`}
+            } backdrop-blur-lg bg-white/30 shadow-md`}
           >
-            Try {style.label}
+            {/* Flame icon and Try text */}
+            {style.value !== "default" && (
+              <div className="flex items-center justify-center space-x-2">
+                <Flame className="text-red-500 text-xl" />
+                <span className="font-semibold text-lg">Try</span>
+              </div>
+            )}
+
+            {/* Label */}
+            <div className="text-base">{style.label}</div>
           </div>
         ))}
       </div>
