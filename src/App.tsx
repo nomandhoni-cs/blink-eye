@@ -13,37 +13,52 @@ import Soon from "./components/window/Soon";
 import ReminderPreviewWindow from "./components/window/ReminderPreviewWindow";
 import { useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
-import { enable } from "@tauri-apps/plugin-autostart";
+import { enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import toast from "react-hot-toast";
 
 function App() {
-  // AutoStart initialization by default
   useEffect(() => {
     const initializeAutoStart = async () => {
       try {
-        // Load initial configuration store
         const store = await load("initialSetupConfig.json", {
-          autoSave: false,
+          autoSave: true, // Enable auto-saving to simplify updates
         });
+
+        // Check if AutoStart should be enabled
         const runOnStartUp = await store.get<boolean>(
           "isRunOnStartUpEnabledByDefault"
         );
 
-        // If setting does not exist in store, enable autostart by default
-        if (runOnStartUp === null || runOnStartUp === undefined || false) {
+        if (runOnStartUp === undefined) {
+          // If setting does not exist, enable autostart and save the new state
           await enable();
           await store.set("isRunOnStartUpEnabledByDefault", true);
           toast.success("AutoStart Enabled by Default", {
             duration: 2000,
             position: "bottom-right",
           });
+        } else {
+          // Confirm that the autostart plugin is enabled if setting is true
+          const isAutoStartEnabled = await isEnabled();
+          if (runOnStartUp && !isAutoStartEnabled) {
+            await enable();
+            toast.success("AutoStart Enabled by Default", {
+              duration: 2000,
+              position: "bottom-right",
+            });
+          }
         }
       } catch (error) {
         console.error("Failed to initialize autostart:", error);
+        toast.error("AutoStart setup failed. Check console for details.", {
+          duration: 2000,
+          position: "bottom-right",
+        });
       }
     };
     initializeAutoStart();
   }, []);
+
   return (
     <TimeCountProvider>
       <Router>
