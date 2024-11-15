@@ -19,10 +19,10 @@
           "url": "https://lemonsquizzy.netlify.app/.netlify/functions/validateLicense"
         },
         {
-          "url": "https://blinkeye.vercel.app/api/activateLicense"
+          "url": "https://blinkeye.vercel.app/api/activatelicense"
         },
         {
-          "url": "https://blinkeye.vercel.app/api/validateLicense"
+          "url": "https://blinkeye.vercel.app/api/validatelicense"
         }
       ],
       "deny": []

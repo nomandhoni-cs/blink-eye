@@ -137,17 +137,23 @@ const ActivateLicense = () => {
       if (!response.ok) {
         throw new Error(`Error: ${data.message || "Unknown error"}`);
       }
+      // Check if store_id matches the required values
+      if (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) {
+        // Store the license data
+        await storeLicenseData(data);
+        console.log("License data stored successfully");
 
-      // Store the license data
-      await storeLicenseData(data);
-      console.log("License data stored successfully");
+        // Update the licenseKey state
+        refreshLicenseData();
 
-      // Update the licenseKey state
-      refreshLicenseData();
-
-      toast.success("License activated successfully!");
-      setActivationKey(""); // Clear input field
-      setUserName(""); // Clear input field
+        toast.success("License activated successfully!");
+        setActivationKey(""); // Clear input field
+        setUserName(""); // Clear input field
+      } else {
+        console.log(
+          "Store ID does not match required values. License data not stored."
+        );
+      }
     } catch (error) {
       console.error("Activation error:", error);
       toast.error("Failed to activate license. Please try again.");

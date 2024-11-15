@@ -52,7 +52,11 @@ const LicenseValidationComponent: React.FC = () => {
       const data = await response.json();
       console.log(data);
 
-      if (data.valid) {
+      // Proceed only if store_id matches and data is valid
+      if (
+        (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
+        data.valid
+      ) {
         // If the license is valid and last validated is different from today
         if (lastValidated !== today) {
           await updateLicenseStatus(data.license_key.status);
@@ -61,16 +65,23 @@ const LicenseValidationComponent: React.FC = () => {
           // Update the status if it has changed
           await updateLicenseStatus(data.license_key.status);
         }
-      }
-      if (data.valid === false) {
-        // If the license is invalid, update status
+      } else if (
+        (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
+        !data.valid
+      ) {
+        // If the license is invalid but store_id matches, update status
         if (lastValidated !== today) {
           await updateLicenseStatus(data.license_key.status);
         } else if (status !== data.license_key.status) {
           // Update the status if it has changed
           await updateLicenseStatus(data.license_key.status);
         }
+      } else {
+        console.log(
+          "Store ID does not match required values. Validation skipped."
+        );
       }
+
       if (!response.ok) {
         // If the response is not ok, check the number of days since last validation
         const diffInDays = getDateDiffInDays(lastValidated, today);
