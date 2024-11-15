@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Flame } from "lucide-react";
+import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 
 const ReminderStyles = () => {
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
   const [backgroundStyle, setBackgroundStyle] =
     useState<string>("particleBackground");
 
@@ -21,9 +23,19 @@ const ReminderStyles = () => {
 
   // Save the selected style automatically
   const handleSaveTheme = async (selectedStyle: string) => {
-    const store = await load("ReminderThemeStyle.json", { autoSave: true });
-    await store.set("backgroundStyle", selectedStyle);
-    await store.save();
+    if (canAccessPremiumFeatures) {
+      const store = await load("ReminderThemeStyle.json", { autoSave: false });
+      await store.set("backgroundStyle", selectedStyle);
+      await store.save();
+      setBackgroundStyle(selectedStyle);
+      openReminderWindow();
+      console.log("Background style saved:", selectedStyle);
+    }
+    const themePreviewStore = await load("ReminderThemePreviewStyle.json", {
+      autoSave: false,
+    });
+    await themePreviewStore.set("backgroundStyle", selectedStyle);
+    await themePreviewStore.save();
     setBackgroundStyle(selectedStyle);
     openReminderWindow();
     console.log("Background style saved:", selectedStyle);
@@ -33,8 +45,8 @@ const ReminderStyles = () => {
 
   const openReminderWindow = () => {
     console.log("Clicked");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
+    const webview = new WebviewWindow("ReminderPreviewWindow", {
+      url: "/reminderpreviewwindow",
       fullscreen: true,
       alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",

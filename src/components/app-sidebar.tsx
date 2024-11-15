@@ -67,7 +67,8 @@ const items = [
 
 export function AppSidebar() {
   // const { canAccessPremiumFeatures, isTrialOn, isPaidUser } = usePremiumFeatures();
-  const { isPaidUser } = usePremiumFeatures();
+  const { isPaidUser, canAccessPremiumFeatures } = usePremiumFeatures();
+  console.log(canAccessPremiumFeatures, isPaidUser);
   return (
     <Sidebar>
       <SidebarContent>

@@ -5,6 +5,7 @@
   "windows": [
     "main",
     "ReminderWindow",
+    "ReminderPreviewWindow",
     "DashboardWindow"
   ],
   "permissions": [

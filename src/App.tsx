@@ -10,6 +10,7 @@ import AboutPage from "./components/window/AboutPage";
 import { TimeCountProvider } from "./contexts/TimeCountContext";
 import AllSettings from "./components/window/AllSettings";
 import Soon from "./components/window/Soon";
+import ReminderPreviewWindow from "./components/window/ReminderPreviewWindow";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
             <Route path="soon" element={<Soon />} />
           </Route>
           <Route path="/reminder" element={<Reminder />} />
+          <Route
+            path="/reminderpreviewwindow"
+            element={<ReminderPreviewWindow />}
+          />
         </Routes>
       </Router>
     </TimeCountProvider>
