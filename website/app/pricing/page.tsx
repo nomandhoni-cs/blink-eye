@@ -1,3 +1,4 @@
+import PricingSection from "@/components/pricing-section";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,8 +6,8 @@ export const metadata: Metadata = {
 };
 const Pricing = () => {
   return (
-    <div className="p-24">
-      <h1 className="text-3xl font-bold text-center">Pricing Comming Soon!</h1>
+    <div className="">
+      <PricingSection />
     </div>
   );
 };

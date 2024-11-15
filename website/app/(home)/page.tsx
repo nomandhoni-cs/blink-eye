@@ -14,6 +14,7 @@ import {
   Timer,
   ToggleRight,
 } from "lucide-react";
+import PricingSection from '@/components/pricing-section';
 const RootPage = () => {
 	return (
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-24 lg:pb-8">
@@ -104,6 +105,7 @@ const RootPage = () => {
             },
           ]}
         />
+        <PricingSection />
         <OpenSource />
       </div>
     </section>
