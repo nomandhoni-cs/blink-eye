@@ -1,33 +1,27 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
 type LicenseActivateRequestBody = {
   license_key: string;
   instance_name: string;
 };
 
-type LicenseActivateResponse = {
-  [key: string]: any; // You may want to define this more specifically based on the response structure from the API
-  error?: string;
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<LicenseActivateResponse>
-) {
-  // Only allow POST requests
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
+export const dynamic = "force-dynamic";
+export async function POST(req: Request) {
   try {
+    // Parse the JSON body from the incoming request
+    const reqData = await req.json();
     const { license_key, instance_name } =
-      req.body as LicenseActivateRequestBody;
+      reqData as LicenseActivateRequestBody;
 
+    // Check for missing parameters
     if (!license_key || !instance_name) {
-      return res.status(400).json({ error: "Missing required parameters" });
+      return NextResponse.json(
+        { error: "Missing required parameters" },
+        { status: 400 }
+      );
     }
 
+    // Make the API request to Lemon Squeezy
     const response = await fetch(
       "https://api.lemonsqueezy.com/v1/licenses/activate",
       {
@@ -41,11 +35,19 @@ export default async function handler(
       }
     );
 
-    const data = await response.json();
+    // If the response is not okay, throw an error
+    if (!response.ok) {
+      const errorData = await response.json();
+      return NextResponse.json(errorData, { status: response.status });
+    }
 
-    return res.status(response.status).json(data);
+    const data = await response.json();
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error activating license:", error);
-    return res.status(500).json({ error: "Failed to activate license" });
+    return NextResponse.json(
+      { error: "Failed to activate license" },
+      { status: 500 }
+    );
   }
 }
