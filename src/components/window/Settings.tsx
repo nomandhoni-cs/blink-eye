@@ -26,22 +26,6 @@ const Settings = () => {
       console.error("Error creating webview:", e);
     });
   };
-  const openReminderPreviewWindow = () => {
-    console.log("Clicked");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
-      fullscreen: true,
-      alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
-      skipTaskbar: true,
-    });
-    webview.once("tauri://created", () => {
-      console.log("Webview created");
-    });
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating webview:", e);
-    });
-  };
 
   useEffect(() => {
     const fetchSettings = async () => {
