@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import useDecryptedDate from "../hooks/useDecryptedDate";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 
 const TrialRemaining: React.FC = () => {
   const { decryptedDate } = useDecryptedDate(); // Get the decrypted date
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
-
+  const { refreshApp } = usePremiumFeatures();
   useEffect(() => {
     if (decryptedDate) {
       // Convert the decrypted date and current date to Date objects
@@ -27,7 +28,7 @@ const TrialRemaining: React.FC = () => {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="w-full max-w-3xl border border-gray-300 rounded-md p-6 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 shadow-lg text-center text-white">
+      <div className="w-full border border-gray-300 rounded-md p-6 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 shadow-lg text-center text-white">
         {daysRemaining !== null ? (
           <>
             <h2 className="font-bold text-2xl mb-2">

@@ -120,7 +120,7 @@ const ActivateLicense = () => {
 
     try {
       const response = await tauriFetch(
-        "https://blinkeye.vercel.app/api/activateLicense",
+        "https://blinkeye.vercel.app/api/activatelicense",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -152,6 +152,9 @@ const ActivateLicense = () => {
         });
         setActivationKey(""); // Clear input field
         setUserName(""); // Clear input field
+        // Reload the page to reflect the changes
+        //! TODO: Find a better way to reload the page without refreshing the entire app
+        window.location.reload();
       } else {
         console.log(
           "Store ID does not match required values. License data not stored."
@@ -199,7 +202,7 @@ const ActivateLicense = () => {
         onSubmit={handleActivate}
       >
         {/* Input Section */}
-        <div className="flex flex-col w-full space-y-4 border-r-2 border-gray-400 pr-4">
+        <div className="flex flex-col w-full space-y-2 border-r-2 border-gray-400 pr-4">
           <div>
             <Label htmlFor="activationKey" className="font-medium">
               Enter Your License Key

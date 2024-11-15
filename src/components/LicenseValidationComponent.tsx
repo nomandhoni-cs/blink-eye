@@ -39,7 +39,7 @@ const LicenseValidationComponent: React.FC = () => {
     // Validate license from the external API
     try {
       const response = await tauriFetch(
-        "https://blinkeye.vercel.app/api/validateLicense",
+        "https://blinkeye.vercel.app/api/validatelicense",
         {
           method: "POST",
           headers: {
