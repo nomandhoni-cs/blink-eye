@@ -10,10 +10,10 @@ import { PremiumFeaturesProvider } from "./contexts/PremiumFeaturesContext";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <DefaultStartMinimize />
-      <EncryptionComponent />
-      <LicenseValidationComponent />
       <PremiumFeaturesProvider>
+        <DefaultStartMinimize />
+        <EncryptionComponent />
+        <LicenseValidationComponent />
         <App />
       </PremiumFeaturesProvider>
     </ThemeProvider>
