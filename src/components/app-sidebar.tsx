@@ -3,6 +3,7 @@ import {
   Calendar,
   CheckCircle2,
   Clock,
+  FlameIcon,
   Home,
   InfoIcon,
   ScrollTextIcon,
@@ -37,19 +38,19 @@ const items = [
     title: "Reminder Themes",
     url: "/reminderthemes",
     icon: Brush,
-    isPremiumFeature: false,
+    isPremiumFeature: true,
   },
   {
     title: "Usage Time",
-    url: "/soon",
+    url: "/usageTime",
     icon: Clock,
-    isPremiumFeature: false,
+    isPremiumFeature: true,
   },
   {
     title: "Workday Setup",
     url: "/soon",
     icon: Calendar,
-    isPremiumFeature: false,
+    isPremiumFeature: true,
   },
   {
     title: "Settings",
@@ -86,32 +87,30 @@ export function AppSidebar() {
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => {
-                return item.isPremiumFeature ? (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      asChild
-                      className="cursor-not-allowed opacity-50 hover:opacity-80"
-                      onClick={(e) => e.preventDefault()} // Prevent clicks
-                    >
-                      <Link to={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                        <span className="ml-auto">Soon!</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ) : (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link to={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link to={item.url}>
+                      <div className="flex items-center justify-between w-full">
+                        <span className="flex items-center justify-center text-sm font-normal space-x-2">
+                          <item.icon />
+                          <span className="text-sm">{item.title}</span>
+                        </span>
+                        {item.isPremiumFeature && (
+                          <span
+                            className={`flex items-center justify-center text-base font-normal space-x-1 rounded-lg px-3 py-1 ${
+                              isPaidUser ? "bg-green-500" : "bg-[#FE4C55]"
+                            }`}
+                          >
+                            <FlameIcon />
+                            <span>Pro</span>
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
