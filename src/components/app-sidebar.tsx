@@ -97,11 +97,7 @@ export function AppSidebar() {
                           <span className="text-sm">{item.title}</span>
                         </span>
                         {item.isPremiumFeature && (
-                          <span
-                            className={`flex items-center justify-center text-base font-normal space-x-1 rounded-lg px-3 py-1 ${
-                              isPaidUser ? "bg-green-500" : "bg-[#FE4C55]"
-                            }`}
-                          >
+                          <span className="flex items-center justify-center text-base font-normal space-x-1">
                             <FlameIcon />
                             <span>Pro</span>
                           </span>
