@@ -36,7 +36,14 @@ function App() {
       <Router>
         <Routes>
           {/* Standalone routes - no loading state */}
-          <Route path="/reminder" element={<Reminder />} />
+          <Route
+            path="/reminder"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Reminder />
+              </Suspense>
+            }
+          />
           <Route
             path="/reminderpreviewwindow"
             element={<ReminderPreviewWindow />}

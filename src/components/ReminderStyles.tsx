@@ -125,7 +125,7 @@ export default function ReminderStyles() {
                 )}
               </div>
               <div
-                className={`w-full h-20 rounded-md ${
+                className={`w-full h-20 rounded-md animate-pulse ${
                   style.value === backgroundStyle
                     ? "bg-primary/20"
                     : "bg-secondary"
