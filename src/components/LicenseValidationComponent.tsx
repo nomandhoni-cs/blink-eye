@@ -71,7 +71,16 @@ const LicenseValidationComponent: React.FC = () => {
       ) {
         // If the license is invalid but store_id matches, update status
         if (lastValidated !== today) {
-          await updateLicenseStatus(data.license_key.status);
+          // If the response is not ok, check the number of days since last validation
+          const diffInDays = getDateDiffInDays(lastValidated, today);
+          if (diffInDays > 7) {
+            // If more than 7 days, update status to what was received in the response
+            await updateLicenseStatus("disabled");
+          } else {
+            // If less than 7 days, update status
+            await updateLicenseStatus(data.license_key.status);
+          }
+          return;
         } else if (status !== data.license_key.status) {
           // Update the status if it has changed
           await updateLicenseStatus(data.license_key.status);
@@ -87,7 +96,7 @@ const LicenseValidationComponent: React.FC = () => {
         const diffInDays = getDateDiffInDays(lastValidated, today);
         if (diffInDays > 7) {
           // If more than 7 days, update status to what was received in the response
-          await updateLicenseStatus(data.license_key.status);
+          await updateLicenseStatus("disabled");
         }
         return;
       }
