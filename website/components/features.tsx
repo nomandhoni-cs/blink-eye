@@ -34,7 +34,7 @@ export function FeatureGrid(props: {
         <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
           {props.title}
         </h2>
-        <p className="max-w-[85%] text-muted-foreground sm:text-lg">
+        <p className="max-w-[85%] text-gray-700 dark:text-gray-200  sm:text-lg">
           {props.subtitle}
         </p>
       </div>

@@ -26,7 +26,7 @@ const Settings = () => {
       console.error("Error creating webview:", e);
     });
   };
-
+  console.log(interval, duration, reminderText, "settings");
   useEffect(() => {
     const fetchSettings = async () => {
       const store = await load("store.json", { autoSave: false });
@@ -61,7 +61,9 @@ const Settings = () => {
         // }
       }
     };
+    console.log(interval, duration, reminderText, "settings 2");
     fetchSettings();
+    console.log(interval, duration, reminderText, "settings3");
   }, []);
 
   useEffect(() => {
