@@ -120,7 +120,7 @@ const Reminder: React.FC = () => {
         </div>
         <Button
           onClick={() => appWindow.close()}
-          className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center"
+          className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center transform transition-transform hover:scale-105"
         >
           <span className="text-base">Skip this Time</span>
           <svg

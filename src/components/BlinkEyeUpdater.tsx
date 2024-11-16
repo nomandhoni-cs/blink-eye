@@ -1,3 +1,4 @@
+import { useUpdater } from "../hooks/useAutoUpdater";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,7 +9,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
-import { useUpdater } from "../hooks/useAutoUpdater";
 export function UpdateDialog() {
   const { isUpdateAvailable, handleUpdate, setIsUpdateAvailable } =
     useUpdater();

@@ -14,10 +14,10 @@ const Settings = () => {
     console.log("Clicked");
     const webview = new WebviewWindow("ReminderWindow", {
       url: "/reminder",
-      fullscreen: true,
-      alwaysOnTop: true,
+      // fullscreen: true,
+      // alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",
-      skipTaskbar: true,
+      // skipTaskbar: true,
     });
     webview.once("tauri://created", () => {
       console.log("Webview created");
