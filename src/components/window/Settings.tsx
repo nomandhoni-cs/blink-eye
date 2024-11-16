@@ -6,7 +6,7 @@ import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 const Settings = () => {
-  const [interval, setInterval] = useState<number>(1);
+  const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
 
