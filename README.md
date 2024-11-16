@@ -3,7 +3,9 @@
 </p>
 <h1 align="center">Blink Eye</h1>
 
-Blink Eye is a minimalist eye-care reminder app designed to reduce eye strain during extended screen usage. It provides customizable timers, full-screen popups, audio mute functionality, and a suite of additional features for a seamless user experience.
+Blink Eye is a minimalist eye-care reminder app designed to reduce eye strain during extended screen usage. It also can be used as break time reminder app. 
+
+It provides customizable timers, full-screen popups, audio mute functionality, and a suite of additional features for a seamless user experience.
 
 ## Features
 
@@ -32,10 +34,16 @@ The **20-20-20 rule** is a guideline to reduce eye strain caused by staring at s
 - **Improves Focus:** Taking short breaks can help maintain focus and productivity throughout the day.
 - **Prevents Dry Eyes:** Looking away from the screen allows your eyes to blink more frequently, reducing the risk of dry eyes.
 - **Promotes Eye Health:** Focusing on distant objects helps relax eye muscles and reduce the risk of developing vision-related issues.
+- **Boosts Productivity:** By reminding users to take breaks, Blink Eye helps maintain high levels of focus and motivation. Short breaks lead to better mental clarity and energy, making it easier to tackle tasks efficiently.
+- **Increases Workflow Efficiency:** With the break time reminder feature, Blink Eye ensures you're working in manageable intervals, reducing burnout and fatigue. It can help optimize your work routine by encouraging timely rest periods.
+- **Encourages Healthy Habits:** Establishing a routine of taking regular breaks fosters a healthier work-life balance and prevents overexertion, improving your overall well-being.
+- **Customizable Break Times:** Set your own intervals and break lengths to match your personal productivity style, making Blink Eye a versatile tool for users with different work schedules.
+- **Time Management Tool:** Blink Eye can double as a productivity tool by encouraging structured break times, enhancing time management for both work and personal tasks.
+
 
 ## License
 
-- **GNU General Public License (GPL) v3 + Additional Commercial Restrictions:** Open-source use. [MIT License Details](./LICENSE.txt)
+- **GNU General Public License (GPL) v3 + Additional Commercial Restrictions:** Open-source use. [GNU General Public License (GPL) v3 + Additional Commercial Restrictions](./LICENSE.txt)
 - **Commercial License:** For business purposes. Contact Noman Dhoni at [alnoman.dhoni@gmail.com](mailto:alnoman.dhoni@gmail.com?subject=Blink%20Eye:%20) for licensing options.
 
 ## Contact
