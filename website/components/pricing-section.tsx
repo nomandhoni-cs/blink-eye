@@ -91,7 +91,7 @@ const defaultPricingData = {
         "Custom workday schedules for smarter reminders",
       ],
       valueProposition:
-        "Save $16.89 yearly compared to Monthly! Save big—best for solo users looking for yearly savings.",
+        "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings.",
     },
     {
       planType: "5 Devices",
