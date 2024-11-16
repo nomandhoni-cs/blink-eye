@@ -5,9 +5,37 @@
   "windows": [
     "main",
     "ReminderWindow",
+    "ReminderPreviewWindow",
     "DashboardWindow"
   ],
   "permissions": [
+    {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://lemonsquizzy.netlify.app/.netlify/functions/activateLicense"
+        },
+        {
+          "url": "https://lemonsquizzy.netlify.app/.netlify/functions/validateLicense"
+        },
+        {
+          "url": "https://blinkeye.vercel.app/api/activatelicense"
+        },
+        {
+          "url": "https://blinkeye.vercel.app/api/validatelicense"
+        }
+      ],
+      "deny": []
+    },
+    "fs:default",
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        {
+          "path": "$APPDATA/*"
+        }
+      ]
+    },
     "core:default",
     "shell:allow-open",
     "autostart:allow-enable",
@@ -46,6 +74,8 @@
     "core:path:allow-join",
     "core:path:allow-dirname",
     "core:path:allow-resolve",
-    "core:path:allow-resolve-directory"
+    "core:path:allow-resolve-directory",
+    "sql:default",
+    "sql:allow-execute"
   ]
 }

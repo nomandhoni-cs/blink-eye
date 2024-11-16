@@ -1,47 +1,116 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import "./App.css";
-import Dashboard from "./components/window/Dashboard";
-import Reminder from "./components/window/Reminder";
-import useTimeCount from "./hooks/useTimeCount";
+import { Suspense, lazy } from "react";
+import { TimeCountProvider } from "./contexts/TimeCountContext";
 import Layout from "./components/window/Layout";
-import UsageTime from "./components/window/UsageTime";
-import ReminderStyles from "./components/ReminderStyles";
-import ActivateLicense from "./components/window/ActivateLicense";
-import AboutPage from "./components/window/AboutPage";
+import Reminder from "./components/window/Reminder";
+import ReminderPreviewWindow from "./components/window/ReminderPreviewWindow";
+import "./App.css";
+import { useAutoStart } from "./hooks/useAutoStart";
+import { ErrorDisplay } from "./components/ErrorDisplay";
+import { LoadingSpinner } from "./components/LoadingSpinner";
+
+// Lazy load route components
+const Dashboard = lazy(() => import("./components/window/Dashboard"));
+const UsageTime = lazy(() => import("./components/window/UsageTime"));
+const ReminderStyles = lazy(() => import("./components/ReminderStyles"));
+const ActivateLicense = lazy(
+  () => import("./components/window/ActivateLicense")
+);
+const AllSettings = lazy(() => import("./components/window/AllSettings"));
+const AboutPage = lazy(() => import("./components/window/AboutPage"));
+const Soon = lazy(() => import("./components/window/Soon"));
 
 function App() {
-  const timeStamps = useTimeCount();
+  const { isInitialized, error, retry } = useAutoStart();
 
-  // Calculate total hours and minutes
-  // TODO: Use Context API to store timeStamps and calculate total time
-  let totalSeconds = 0;
+  if (error) {
+    return <ErrorDisplay message={error} onRetry={retry} />;
+  }
 
-  timeStamps.forEach((timestamp) => {
-    // Check to prevent negative time difference
-    const timeDifferenceInSeconds =
-      Math.max(timestamp.secondTimestamp - timestamp.firstTimestamp, 0) / 1000; // Convert ms to seconds and prevent negative values
-
-    totalSeconds += timeDifferenceInSeconds;
-  });
-
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-
-  const timeCount = { hours, minutes };
+  if (!isInitialized) {
+    return <LoadingSpinner />;
+  }
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index path="/" element={<Dashboard />} />
-          <Route path="usagetime" element={<UsageTime />} />
-          <Route path="reminderthemes" element={<ReminderStyles />} />
-          <Route path="activatelicense" element={<ActivateLicense />} />
-          <Route path="about" element={<AboutPage />} />
-        </Route>
-        <Route path="/reminder" element={<Reminder timeCount={timeCount} />} />
-      </Routes>
-    </Router>
+    <TimeCountProvider>
+      <Router>
+        <Routes>
+          {/* Standalone routes - no loading state */}
+          <Route
+            path="/reminder"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <Reminder />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/reminderpreviewwindow"
+            element={<ReminderPreviewWindow />}
+          />
+
+          {/* Main application routes with Layout and loading states */}
+          <Route element={<Layout />}>
+            <Route
+              index
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Dashboard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="usagetime"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <UsageTime />
+                </Suspense>
+              }
+            />
+            <Route
+              path="reminderthemes"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ReminderStyles />
+                </Suspense>
+              }
+            />
+            <Route
+              path="activatelicense"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ActivateLicense />
+                </Suspense>
+              }
+            />
+            <Route
+              path="allSettings"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AllSettings />
+                </Suspense>
+              }
+            />
+            <Route
+              path="about"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AboutPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="soon"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Soon />
+                </Suspense>
+              }
+            />
+          </Route>
+        </Routes>
+      </Router>
+    </TimeCountProvider>
   );
 }
 

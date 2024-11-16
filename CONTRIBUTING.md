@@ -16,7 +16,104 @@ If you would like to contribute to Blink Eye, please follow these steps:
 
 Thank you for your interest in contributing to Blink Eye! Your contributions help make Blink Eye a more effective and efficient tool for promoting eye health.
 
-## How to Use
+# Contribution Guide
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+Contributions for improving the dashboard, enhancing customizability, and adding new languages for multilingual support are particularly appreciated.
+
+### How to Contribute:
+
+1. **Fork** the repository to your GitHub account.
+
+2. **Clone** the repository to your local machine:
+   ```console
+   git clone https://github.com/your-username/blink-eye.git
+   ```
+3. **Create a new branch** for your changes:
+   ```console
+   git checkout -b my-branch
+   ```
+4. **Make changes** to the code.
+
+5. **Commit** your changes:
+   ```console
+   git commit -m "commit message"
+   ```
+6. **Push** your changes to the remote repository:
+   ```console
+   git push origin my-branch
+   ```
+7. **Create a pull request** on GitHub.
+
+
+## Application Setup
+
+### Prerequisites
+
+1. **Tauri** (for building the desktop app)
+4. **Rust** (for building the desktop app)
+3. **Cargo** (for package management)
+2. **Bun** (for package management)
+
+### To build and run Blink Eye (Desktop App):
+1. **Install JavaScript dependencies:**
+
+    ```console
+    bun install
+    ```
+
+2. **Change Directory:**
+
+    ```console
+    cd src-tauri
+    ```
+
+3. **Install all Cargo dependencies:**
+
+    ```console
+    cargo install
+    ```
+3. **Change Directory:**
+
+    ```console
+    cd ..
+    ```
+4. **Run the app in development mode:**
+
+    ```console
+    bun run tauri dev
+    ```
+
+## Website Setup
+
+### Prerequisites
+
+3. **Node JS** (for package management)
+2. **Bun** (for package management)
+
+### To build and run Blink Eye (Desktop App):
+
+1. **Change Directory:**
+
+    ```console
+    cd website
+    ```
+1. **Install dependencies:**
+
+    ```console
+    bun install
+    ```
+
+2. **Run the website in development mode:**
+
+    ```console
+    bun run dev
+    ```
+
+
+
+<!-- ## How to Use
 
 Here's how to get started with Blink Eye:
 
@@ -111,7 +208,7 @@ If you want to contribute by adding or improving the translation of a new or exi
         },
        ...
     }
-    ```
+    ``` -->
     
 ## Contributing to the Website
 

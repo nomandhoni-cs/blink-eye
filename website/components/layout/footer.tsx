@@ -6,18 +6,21 @@ const routes = [
   "/about",
   "/contribute",
   "/features",
+  "/download",
   "/howtouse",
   "/privacy",
   "/goodbye",
+  "/pricing",
+  "/changelog",
 ];
 export const Footer = () => {
   const currentYear = getCurrentYear();
   return (
-    <footer className="container border-t">
+    <footer className="container border-t z-10">
       <div className="text-center grid grid-cols-2 gap-4 md:grid-cols-3 lg:flex lg:justify-center lg:mt-4">
         {routes.map((route, index) => (
           <Link href={route} key={index}>
-            <span className="mx-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            <span className="mx-2 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
               {route}
             </span>
           </Link>
@@ -57,7 +60,7 @@ export const Footer = () => {
               height={50}
             />
           </Link>
-          <Link
+          {/* <Link
             href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
             target="_blank"
             className="sm:invisible"
@@ -69,7 +72,7 @@ export const Footer = () => {
               width="250"
               height="54"
             />
-          </Link>
+          </Link> */}
         </p>
       </div>
     </footer>
