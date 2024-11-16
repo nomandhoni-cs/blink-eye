@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
 
 async function initializeDatabase() {
@@ -179,15 +179,15 @@ const ActivateLicense = () => {
       {/* License Status Section */}
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between space-x-4">
         <div className="flex items-center space-x-2">
-          <p className="font-semibold">
+          <p className="font-semibold animate-pulse">
             {licenseData?.license_key || "No license found"}
           </p>
         </div>
         <div>
           {licenseData?.status === "active" ? (
-            <div className="flex items-center space-x-2 border border-green-600 rounded-full px-3 py-1">
-              <CheckCircle className="text-green-600" />
-              <span className="text-green-600 text-sm font-semibold">
+            <div className="flex items-center space-x-2 border border-green-600 rounded-lg px-3 py-2 bg-green-500">
+              <CheckCircle2 />
+              <span className="text-sm font-semibold">
                 {licenseData?.status.toUpperCase()}
               </span>
             </div>
@@ -241,6 +241,9 @@ const ActivateLicense = () => {
           disabled={loading.activation}
           className="w-full sm:w-auto font-semibold px-6 py-2 rounded-md"
         >
+          {loading.activation && (
+            <Loader2Icon className="motion-safe:animate-spin" />
+          )}
           {loading.activation ? "Activating..." : "Activate"}
         </Button>
       </form>

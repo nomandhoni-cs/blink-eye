@@ -33,10 +33,10 @@ const Settings = () => {
       const storedInterval = await store.get<number>(
         "blinkEyeReminderInterval"
       );
-      const isPomodoroTimerEnabled = await store.get<boolean>(
-        "PomodoroStyleBreak"
-      );
-      console.log(isPomodoroTimerEnabled, "is pomodoro timer enabled");
+      // const isPomodoroTimerEnabled = await store.get<boolean>(
+      //   "PomodoroStyleBreak"
+      // );
+      // console.log(isPomodoroTimerEnabled, "is pomodoro timer enabled");
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
@@ -47,18 +47,18 @@ const Settings = () => {
         setReminderText(storedReminderText);
       }
       if (typeof storedInterval === "number") {
-        if (isPomodoroTimerEnabled) {
-          setInterval(25);
-        } else {
-          setInterval(storedInterval);
-        }
+        setInterval(storedInterval);
+        // if (isPomodoroTimerEnabled) {
+        //   setInterval(25);
+        // } else {
+        // }
       }
       if (typeof storedDuration === "number") {
-        if (isPomodoroTimerEnabled) {
-          setDuration(300);
-        } else {
-          setDuration(storedDuration);
-        }
+        setDuration(storedDuration);
+        // if (isPomodoroTimerEnabled) {
+        //   setDuration(300);
+        // } else {
+        // }
       }
     };
     fetchSettings();

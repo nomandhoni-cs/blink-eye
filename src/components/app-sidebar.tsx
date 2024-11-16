@@ -1,3 +1,5 @@
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Brush,
   Calendar,
@@ -21,10 +23,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
-import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./ThemeToggle";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
+import { Separator } from "./ui/separator";
 
 // Menu items.
 const items = [
@@ -67,15 +69,15 @@ const items = [
 ];
 
 export function AppSidebar() {
-  // const { canAccessPremiumFeatures, isTrialOn, isPaidUser } = usePremiumFeatures();
-  const { isPaidUser, canAccessPremiumFeatures } = usePremiumFeatures();
-  console.log(canAccessPremiumFeatures, isPaidUser);
+  const { isPaidUser } = usePremiumFeatures();
+  const location = useLocation();
+
   return (
-    <Sidebar>
+    <Sidebar className="border-r">
       <SidebarContent>
         <SidebarGroup>
-          <div className="flex items-center justify-between">
-            <SidebarGroupLabel>
+          <div className="flex items-center justify-between px-0 py-2">
+            <SidebarGroupLabel className="flex items-center">
               <img
                 src={logo}
                 className="w-[1.2rem] h-[1.2rem] mr-2"
@@ -87,64 +89,84 @@ export function AppSidebar() {
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <div className="flex items-center justify-between w-full">
-                        <span className="flex items-center justify-center text-sm font-normal space-x-2">
-                          <item.icon />
-                          <span className="text-sm">{item.title}</span>
-                        </span>
-                        {item.isPremiumFeature && (
-                          <span className="flex items-center justify-center text-base font-normal space-x-1">
-                            <FlameIcon />
-                            <span>Pro</span>
+              {items.map((item, index) => (
+                <React.Fragment key={item.title}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={location.pathname === item.url}
+                      className="w-full transition-colors hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <Link to={item.url}>
+                        <div className="flex items-center justify-between w-full py-2">
+                          <span className="flex items-center space-x-2">
+                            <item.icon className="h-4 w-4" />
+                            <span className="text-sm">{item.title}</span>
                           </span>
-                        )}
-                      </div>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                          {item.isPremiumFeature && (
+                            <span className="flex items-center space-x-1 text-yellow-500 dark:text-yellow-400">
+                              <FlameIcon className="h-4 w-4" />
+                              <span className="text-xs font-medium">Pro</span>
+                            </span>
+                          )}
+                        </div>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  {index < items.length - 1 && (
+                    <Separator className="my-1 opacity-50" />
+                  )}
+                </React.Fragment>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="p-4 space-y-2">
         {isPaidUser ? (
-          <Button asChild className="bg-green-500 font-bold">
+          <Button
+            asChild
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold"
+          >
             <Link
               to="https://blinkeye.vercel.app/pricing"
               target="_blank"
-              className="font-bold"
+              className="flex items-center justify-center space-x-2"
             >
-              <CheckCircle2 className="h-6 w-6 font-bold" />
-              <span>Pro Plan</span>
+              <CheckCircle2 className="h-5 w-5" />
+              <span>Premium Plan</span>
             </Link>
           </Button>
         ) : (
-          <Button asChild>
-            <Link to="https://blinkeye.vercel.app/pricing" target="_blank">
+          <Button asChild className="w-full">
+            <Link
+              to="https://blinkeye.vercel.app/pricing"
+              target="_blank"
+              className="flex items-center justify-center space-x-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="size-6"
+                className="h-5 w-5"
               >
                 <path
                   fillRule="evenodd"
-                  d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                  d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.49 4.49 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
                   clipRule="evenodd"
                 />
               </svg>
-              Get Premium
+              <span>Get Premium</span>
             </Link>
           </Button>
         )}
-        <Button variant="secondary" asChild>
-          <Link to="/about">
-            <InfoIcon /> About Blink Eye
+        <Button variant="secondary" asChild className="w-full">
+          <Link
+            to="/about"
+            className="flex items-center justify-center space-x-2"
+          >
+            <InfoIcon className="h-5 w-5" />
+            <span>About Blink Eye</span>
           </Link>
         </Button>
       </SidebarFooter>

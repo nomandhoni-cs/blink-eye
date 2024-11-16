@@ -1,50 +1,71 @@
 import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { Flame } from "lucide-react";
+import { Flame, Loader2 } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
+import { Button } from "./ui/button";
 
-const ReminderStyles = () => {
+const styles = [
+  { value: "default", label: "Default" },
+  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
+  { value: "polygonAnimation", label: "Polygon Animation" },
+  { value: "canvasShapes", label: "Bouncy Balls" },
+  { value: "particleBackground", label: "Infinite Wave Background" },
+  { value: "starryBackground", label: "Starry Background" },
+];
+
+export default function ReminderStyles() {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const [backgroundStyle, setBackgroundStyle] =
     useState<string>("particleBackground");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Load the stored background style on component mount
   useEffect(() => {
     const fetchBackgroundStyle = async () => {
-      const store = await load("ReminderThemeStyle.json", { autoSave: true });
-      const savedStyle = await store.get<string>("backgroundStyle");
-      if (savedStyle) {
-        setBackgroundStyle(savedStyle);
+      try {
+        const store = await load("ReminderThemeStyle.json", { autoSave: true });
+        const savedStyle = await store.get<string>("backgroundStyle");
+        if (savedStyle) {
+          setBackgroundStyle(savedStyle);
+        }
+      } catch (err) {
+        console.error("Error fetching background style:", err);
+        setError("Failed to load saved theme. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchBackgroundStyle();
   }, []);
 
-  // Save the selected style automatically
   const handleSaveTheme = async (selectedStyle: string) => {
-    if (canAccessPremiumFeatures) {
-      const store = await load("ReminderThemeStyle.json", { autoSave: false });
-      await store.set("backgroundStyle", selectedStyle);
-      await store.save();
+    try {
+      setIsLoading(true);
+      if (canAccessPremiumFeatures) {
+        const store = await load("ReminderThemeStyle.json", {
+          autoSave: false,
+        });
+        await store.set("backgroundStyle", selectedStyle);
+        await store.save();
+      }
+      const themePreviewStore = await load("ReminderThemePreviewStyle.json", {
+        autoSave: false,
+      });
+      await themePreviewStore.set("backgroundStyle", selectedStyle);
+      await themePreviewStore.save();
       setBackgroundStyle(selectedStyle);
       openReminderWindow();
       console.log("Background style saved:", selectedStyle);
+    } catch (err) {
+      console.error("Error saving theme:", err);
+      setError("Failed to save theme. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-    const themePreviewStore = await load("ReminderThemePreviewStyle.json", {
-      autoSave: false,
-    });
-    await themePreviewStore.set("backgroundStyle", selectedStyle);
-    await themePreviewStore.save();
-    setBackgroundStyle(selectedStyle);
-    openReminderWindow();
-    console.log("Background style saved:", selectedStyle);
   };
 
-  // Define the background style options
-
   const openReminderWindow = () => {
-    console.log("Clicked");
     const webview = new WebviewWindow("ReminderPreviewWindow", {
       url: "/reminderpreviewwindow",
       fullscreen: true,
@@ -59,43 +80,61 @@ const ReminderStyles = () => {
       console.error("Error creating webview:", e);
     });
   };
-  const styles = [
-    { value: "default", label: "Default" },
-    { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-    { value: "polygonAnimation", label: "Polygon Animation" },
-    { value: "canvasShapes", label: "Bouncy Balls" },
-    { value: "particleBackground", label: "Infinite wave Background" },
-    { value: "starryBackground", label: "Starry Background" },
-  ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500 p-4">
+        <p>{error}</p>
+        <Button onClick={() => window.location.reload()} className="mt-4">
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <h3 className="text-2xl font-semibold">Background Style</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {styles.map((style) => (
           <div
             key={style.value}
-            onClick={() => handleSaveTheme(style.value)}
-            className={`cursor-pointer border h-32 rounded-lg shadow-sm p-4 text-center flex flex-col space-y-4 items-center transition-colors duration-300 ease-in-out ${
+            className={`cursor-pointer transition-all duration-300 ease-in-out border-2 border-card-border rounded-lg shadow-sm overflow-hidden ${
               backgroundStyle === style.value
-                ? "border-green-500"
-                : "border-gray-300"
-            } backdrop-blur-lg bg-white/30 shadow-md`}
+                ? "ring-2 ring-primary"
+                : "hover:ring-2 hover:ring-primary/50"
+            }`}
+            onClick={() => handleSaveTheme(style.value)}
           >
-            {/* Flame icon and Try text */}
-            {style.value !== "default" && (
-              <div className="flex items-center justify-center space-x-2">
-                <Flame className="text-red-500 text-xl" />
-                <span className="font-semibold text-lg">Try</span>
+            <div className="p-4 h-full flex flex-col justify-between bg-card text-card-foreground">
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-medium">{style.label}</span>
+                {style.value !== "default" && (
+                  <div className="flex items-center space-x-1 text-yellow-500 dark:text-yellow-400">
+                    <Flame className="w-4 h-4" />
+                    <span className="text-xs font-semibold">Premium</span>
+                  </div>
+                )}
               </div>
-            )}
-
-            {/* Label */}
-            <div className="text-base">{style.label}</div>
+              <div
+                className={`w-full h-20 rounded-md animate-pulse ${
+                  style.value === backgroundStyle
+                    ? "bg-primary/20"
+                    : "bg-secondary"
+                }`}
+              />
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
-};
-
-export default ReminderStyles;
+}
