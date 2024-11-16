@@ -6,6 +6,7 @@ import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
+import { generatePhrase } from "../../lib/namegenerator";
 
 async function initializeDatabase() {
   const dbFileExists = await exists("blink_eye_license.db", {
@@ -104,6 +105,7 @@ async function isLicenseValid(): Promise<boolean> {
 }
 const ActivateLicense = () => {
   const [activationKey, setActivationKey] = useState("");
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState({
     activation: false,
     validation: false,
@@ -128,6 +130,7 @@ const ActivateLicense = () => {
   }, []);
 
   const handleActivate = async (e: React.FormEvent) => {
+    const instanceName = generatePhrase();
     e.preventDefault();
 
     if (!activationKey.trim()) {
@@ -145,7 +148,7 @@ const ActivateLicense = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             license_key: activationKey,
-            instance_name: "Blink_Eye_Tauri_Test",
+            instance_name: userName ? userName : instanceName,
           }),
         }
       );
@@ -166,11 +169,10 @@ const ActivateLicense = () => {
 
       toast.success("License activated successfully!");
       setActivationKey(""); // Clear input field
+      setUserName(""); // Clear input field
     } catch (error) {
       console.error("Activation error:", error);
-      toast.error(
-        error.message || "Failed to activate license. Please try again."
-      );
+      toast.error("Failed to activate license. Please try again.");
     } finally {
       setLoading((prev) => ({ ...prev, activation: false }));
     }
@@ -210,27 +212,45 @@ const ActivateLicense = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="p-4 border rounded-lg">
-        {licenseStatus === "valid" ? (
-          <p className="text-green-600">
-            Your license is active and valid for today.
-          </p>
-        ) : licenseStatus === "invalid" ? (
-          <p className="text-red-600">
-            Your license is invalid or needs revalidation.
-          </p>
-        ) : (
-          <p>Checking license status...</p>
-        )}
+    <div className="space-y-6 max-w-4xl mx-auto px-4">
+      {/* License Status Section */}
+      <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between ">
+        <div>
+          {licenseStatus === "valid" ? (
+            <p className="text-green-600">
+              Your license is active and valid for today.
+            </p>
+          ) : licenseStatus === "invalid" ? (
+            <p className="text-red-600">
+              Your license is invalid or needs revalidation.
+            </p>
+          ) : (
+            <p className="text-gray-600">Checking license status...</p>
+          )}
+          <p>License key is: {licenseKey || "No license found"}</p>
+        </div>
+        <Button
+          onClick={handleValidate}
+          disabled={loading.validation}
+          className="w-full sm:w-auto"
+        >
+          {loading.validation ? "Validating..." : "Validate"}
+        </Button>
       </div>
-      <form onSubmit={handleActivate} className="space-y-4">
+
+      {/* License Activation Form */}
+      <form
+        onSubmit={handleActivate}
+        className="space-y-6 p-6 border rounded-lg shadow-sm"
+      >
         <h3 className="text-lg font-semibold">
           Activate your Blink Eye license
         </h3>
+
+        {/* License Key Input */}
         <div className="space-y-2">
           <Label htmlFor="activationKey">Enter your license key</Label>
-          <div className="flex w-full max-w-sm items-center space-x-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
             <Input
               type="text"
               id="activationKey"
@@ -238,20 +258,37 @@ const ActivateLicense = () => {
               onChange={(e) => setActivationKey(e.target.value)}
               placeholder="AE4E6644-XXXX-4433-XXXX-FFB2FE668E23"
               disabled={loading.activation}
+              className="w-full sm:w-72"
             />
-            <Button type="submit" disabled={loading.activation}>
-              {loading.activation ? "Activating..." : "Activate"}
-            </Button>
           </div>
         </div>
-      </form>
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Validate your license</h3>
-        <p>License key in database: {licenseKey || "No license found"}</p>
-        <Button onClick={handleValidate} disabled={loading.validation}>
-          {loading.validation ? "Validating..." : "Validate"}
+
+        {/* Optional User Name Input */}
+        <div className="space-y-2">
+          <Label htmlFor="userName">Enter your name (Optional)</Label>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+            <Input
+              type="text"
+              id="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="John Doe"
+              required={false}
+              disabled={loading.activation}
+              className="w-full sm:w-72"
+            />
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          disabled={loading.activation}
+          className="w-full sm:w-auto"
+        >
+          {loading.activation ? "Activating..." : "Activate"}
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
