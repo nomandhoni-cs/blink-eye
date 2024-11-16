@@ -36,13 +36,9 @@ const defaultPricingData = {
       features: [
         "Cancel anytime",
         "Access for 1 device",
-        "Rich library of customizable reminder screens",
-        "Detailed usage tracking (daily, weekly, monthly, lifetime)",
-        "Workday and worktime setup for smarter reminders",
-        "Includes all future updates and feature requests",
+        "Inclueds all features of Monthly, but with 1 device",
       ],
-      valueProposition:
-        "Pay-as-you-go flexibility! Perfect for solo users looking to try premium features without a long-term commitment.",
+      valueProposition: "Flexible plan for solo users—cancel anytime.",
     },
     {
       planType: "3 Devices",
@@ -52,12 +48,12 @@ const defaultPricingData = {
         "Cancel anytime",
         "Access for 3 devices",
         "Rich library of customizable reminder screens",
-        "Detailed usage tracking (daily, weekly, monthly, lifetime)",
+        "Detailed device usage (weekly, monthly, lifetime)",
         "Workday and worktime setup for smarter reminders",
         "Includes all future updates and feature requests",
       ],
       valueProposition:
-        "Best value for families! Enjoy premium features across multiple devices, perfect for households or friends who want to stay on track together.",
+        "Best for families—access premium features on 3 devices.",
     },
     {
       planType: "5 Devices",
@@ -66,13 +62,9 @@ const defaultPricingData = {
       features: [
         "Cancel anytime",
         "Access for 5 devices",
-        "Rich library of customizable reminder screens",
-        "Detailed usage tracking (daily, weekly, monthly, lifetime)",
-        "Workday and worktime setup for smarter reminders",
-        "Includes all future updates and feature requests",
+        "Inclueds all features of Monthly, but with 5 devices",
       ],
-      valueProposition:
-        "Great for teams and multi-device users! Manage reminders, track usage, and boost productivity seamlessly across all devices.",
+      valueProposition: "Ideal for teams—manage 5 devices effortlessly.",
     },
   ],
   Yearly: [
@@ -82,13 +74,11 @@ const defaultPricingData = {
       url: "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
       features: [
         "Access for 1 device",
-        "Includes free updates",
-        "Rich library of customizable reminder screens",
-        "Usage tracking: daily, weekly, monthly, lifetime",
+        "Inclues all features of Yearly, but with 3 devices",
         "Workday and worktime reminder customization",
       ],
       valueProposition:
-        "A cost-effective choice for families, with up to 3 devices covered and $9.89 saved annually!",
+        "Affordable for families—cover up to 3 devices and $9.89 saved annually!",
     },
     {
       planType: "1 Device",
@@ -100,26 +90,23 @@ const defaultPricingData = {
         "Rich library of customizable reminder screens",
         "Advanced usage tracking: daily, weekly, monthly, lifetime",
         "Custom workday schedules for smarter reminders",
-        "Share reminders seamlessly across devices",
         "Priority access to feature requests and updates",
         "Most cost-effective plan for families or small teams",
       ],
       valueProposition:
-        "Save $16.89 yearly compared to Monthly! Perfect for solo users wanting a longer commitment and savings.",
+        "Save $16.89 yearly compared to Monthly! Save big—best for solo users looking for yearly savings.",
     },
     {
       planType: "5 Devices",
       price: 34.99,
       url: "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
       features: [
-        "Includes free updates",
         "Access for 5 devices",
-        "Rich library of customizable reminder screens",
-        "Detailed usage tracking (daily, weekly, monthly, lifetime)",
+        "Inclues all features of Yearly, but with 5 devices",
         "Workday and worktime customization",
       ],
       valueProposition:
-        "For teams who need multiple devices; save $17.89 per year compared to Monthly, with great flexibility for growth!",
+        "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly",
     },
   ],
   Lifetime: [
@@ -128,15 +115,11 @@ const defaultPricingData = {
       price: 15.99,
       url: "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
       features: [
-        "Lifetime updates",
         "Access for 1 device",
-        "Rich library of customizable reminder screens",
-        "Detailed usage tracking (daily, weekly, monthly, lifetime)",
-        "Workday and worktime setup for smarter reminders",
+        "Inclues all features of Lifetime, but with lifetime updates",
         "One-time payment, no renewals",
       ],
-      valueProposition:
-        "Perfect for solo users—pay once, enjoy forever. The ultimate hassle-free, long-term solution!",
+      valueProposition: "Pay once for lifetime access—perfect for solo users.",
     },
     {
       planType: "3 Devices",
@@ -153,22 +136,18 @@ const defaultPricingData = {
         "Best value for families or small teams",
       ],
       valueProposition:
-        "Best long-term value! Ideal for families and small teams—unlock forever access with shared reminders and priority updates.",
+        "Best value—lifetime access for families or small teams.",
     },
     {
       planType: "5 Devices",
       price: 69.99,
       url: "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
       features: [
-        "Lifetime updates",
         "Access for 5 devices",
-        "Rich library of customizable reminder screens",
-        "Detailed usage tracking (daily, weekly, monthly, lifetime)",
-        "Workday and worktime setup for smarter reminders",
+        "Inclues all features of Lifetime, but with 5 devices and lifetime updates",
         "One-time payment, no renewals",
       ],
-      valueProposition:
-        "Top choice for teams and power users! One-time investment for lifetime productivity and premium features.",
+      valueProposition: "One-time investment for teams and power users.",
     },
   ],
 };
@@ -199,7 +178,7 @@ export default function PricingSection({
                 "px-4 py-2 transition-colors focus:outline-none",
                 selectedPlan === plan
                   ? "bg-[#FE4C55] text-white"
-                  : "bg-white text-[#FE4C55] hover:bg-[#FE4C55]/10",
+                  : "bg-white text-[#FE4C55] hover:bg-[#FE4C55]/60",
                 index === 0 ? "rounded-l-md" : "",
                 index === 2 ? "rounded-r-md" : ""
               )}
