@@ -1,3 +1,5 @@
+# End User License Agreement (EULA) for Blink Eye
+
 
 # End User License Agreement (EULA) for Blink Eye
 
@@ -33,7 +35,7 @@ This Agreement is effective until terminated. You may terminate it at any time b
 This Agreement shall be governed by and construed in accordance with the laws of Bangladesh. You consent to the exclusive jurisdiction and venue in the courts located in Dhaka for any legal actions or disputes related to this Agreement.
 
 ## 10. Privacy Policy
-By using this Software, you agree to our Privacy Policy, which explains how we collect, store, and use your data. Please review the Privacy Policy at https://blinkeye.vercel.app/privacy
+By using this Software, you agree to our Privacy Policy, which explains how we collect, store, and use your data. Please review the Privacy Policy at [Privacy Policy](https://blinkeye.vercel.app/privacy).
 
 ## 11. Commercial Use
 If you wish to use the Software for commercial purposes, you must purchase a separate commercial license from Noman Dhoni. Unauthorized commercial use is prohibited.
