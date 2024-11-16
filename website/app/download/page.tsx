@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://utfs.io/f/93hqarYp4cDdULtV3Co0OCdzPs3rx4G5yFeS2tqMgwjDuXAK",
+        url: "https://utfs.io/f/93hqarYp4cDdoi04u4derHR0E5Och9U3PASy1oYVvwiMlx6D",
         width: 1280,
         height: 720,
         alt: SEO.description,
