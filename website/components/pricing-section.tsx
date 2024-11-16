@@ -50,7 +50,6 @@ const defaultPricingData = {
         "Rich library of customizable reminder screens",
         "Detailed device usage (weekly, monthly, lifetime)",
         "Workday and worktime setup for smarter reminders",
-        "Includes all future updates and feature requests",
       ],
       valueProposition:
         "Best for families—access premium features on 3 devices.",
@@ -88,10 +87,8 @@ const defaultPricingData = {
         "Includes free updates",
         "Access for 1 devices",
         "Rich library of customizable reminder screens",
-        "Advanced usage tracking: daily, weekly, monthly, lifetime",
+        "Advanced usage tracking: weekly, monthly, lifetime",
         "Custom workday schedules for smarter reminders",
-        "Priority access to feature requests and updates",
-        "Most cost-effective plan for families or small teams",
       ],
       valueProposition:
         "Save $16.89 yearly compared to Monthly! Save big—best for solo users looking for yearly savings.",
@@ -116,7 +113,7 @@ const defaultPricingData = {
       url: "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
       features: [
         "Access for 1 device",
-        "Inclues all features of Lifetime, but with lifetime updates",
+        "Inclues all features of Lifetime.",
         "One-time payment, no renewals",
       ],
       valueProposition: "Pay once for lifetime access—perfect for solo users.",
@@ -129,11 +126,8 @@ const defaultPricingData = {
         "Lifetime updates",
         "Access for 3 devices",
         "Rich library of customizable reminder screens",
-        "Advanced tracking: daily, weekly, monthly, lifetime",
+        "Usage time: weekly, monthly, lifetime",
         "Workday setup: custom schedules for reminders",
-        "Share reminders seamlessly across devices",
-        "Priority access to all future updates",
-        "Best value for families or small teams",
       ],
       valueProposition:
         "Best value—lifetime access for families or small teams.",
@@ -144,7 +138,7 @@ const defaultPricingData = {
       url: "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
       features: [
         "Access for 5 devices",
-        "Inclues all features of Lifetime, but with 5 devices and lifetime updates",
+        "Inclues all features of Lifetime, but with 5 devices.",
         "One-time payment, no renewals",
       ],
       valueProposition: "One-time investment for teams and power users.",
@@ -231,7 +225,7 @@ export default function PricingSection({
               >
                 /
                 {selectedPlan === "Lifetime"
-                  ? "one-time"
+                  ? "once"
                   : selectedPlan.toLowerCase()}
               </span>
             </p>
