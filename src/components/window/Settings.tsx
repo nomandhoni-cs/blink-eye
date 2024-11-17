@@ -9,6 +9,7 @@ const Settings = () => {
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
+  const [workday, setWorkday] = useState<any>(null);
 
   const openReminderWindow = () => {
     console.log("Clicked");
@@ -33,33 +34,18 @@ const Settings = () => {
       const storedInterval = await store.get<number>(
         "blinkEyeReminderInterval"
       );
-      // const isPomodoroTimerEnabled = await store.get<boolean>(
-      //   "PomodoroStyleBreak"
-      // );
-      // console.log(isPomodoroTimerEnabled, "is pomodoro timer enabled");
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
       );
       const storedReminderText = await store.get<string>(
         "blinkEyeReminderScreenText"
       );
-      if (typeof storedReminderText === "string") {
-        setReminderText(storedReminderText);
-      }
-      if (typeof storedInterval === "number") {
-        setInterval(storedInterval);
-        // if (isPomodoroTimerEnabled) {
-        //   setInterval(25);
-        // } else {
-        // }
-      }
-      if (typeof storedDuration === "number") {
-        setDuration(storedDuration);
-        // if (isPomodoroTimerEnabled) {
-        //   setDuration(300);
-        // } else {
-        // }
-      }
+      const storedWorkday = await store.get("blinkEyeWorkday");
+
+      if (storedInterval) setInterval(storedInterval);
+      if (storedDuration) setDuration(storedDuration);
+      if (storedReminderText) setReminderText(storedReminderText);
+      if (storedWorkday) setWorkday(storedWorkday);
     };
     console.log(interval, duration, reminderText, "settings 2");
     fetchSettings();
@@ -69,18 +55,37 @@ const Settings = () => {
   useEffect(() => {
     let timer: number | null = null;
 
-    const startTimer = () => {
-      timer = window.setInterval(() => {
-        openReminderWindow();
-      }, interval * 60 * 1000);
+    const checkWorkdayAndStartTimer = () => {
+      const now = new Date();
+      const day = now.toLocaleString("en-US", { weekday: "long" });
+      const todayWorkday = workday?.[day];
+
+      if (todayWorkday) {
+        const [startHour, startMinute] = todayWorkday.start
+          .split(":")
+          .map(Number);
+        const [endHour, endMinute] = todayWorkday.end.split(":").map(Number);
+
+        const startTime = new Date();
+        startTime.setHours(startHour, startMinute, 0, 0);
+
+        const endTime = new Date();
+        endTime.setHours(endHour, endMinute, 0, 0);
+
+        if (now >= startTime && now <= endTime) {
+          timer = window.setInterval(() => {
+            openReminderWindow();
+          }, interval * 60 * 1000);
+        }
+      }
     };
 
-    startTimer();
+    if (workday) checkWorkdayAndStartTimer();
 
     return () => {
       if (timer !== null) window.clearInterval(timer);
     };
-  }, [interval]);
+  }, [workday, interval]);
 
   const handleSave = async () => {
     const store = await load("store.json", { autoSave: false });

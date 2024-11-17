@@ -50,7 +50,7 @@ const items = [
   },
   {
     title: "Workday Setup",
-    url: "/soon",
+    url: "/workday",
     icon: Calendar,
     isPremiumFeature: true,
   },
