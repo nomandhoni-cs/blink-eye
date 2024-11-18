@@ -49,6 +49,10 @@ const ConfigDataLoader: React.FC = () => {
           "isUpdateAvailable",
           "false",
         ]);
+        await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
+          "usingStrictMode",
+          "false",
+        ]);
         console.log("Database initialized with default configuration.");
       } else {
         console.log("Database already exists. No action needed.");
