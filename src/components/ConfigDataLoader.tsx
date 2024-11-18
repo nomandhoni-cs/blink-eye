@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BaseDirectory } from "@tauri-apps/api/path";
 import { exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
+import { load } from "@tauri-apps/plugin-store";
 
 const ConfigDataLoader: React.FC = () => {
   const defaultWorkday = {
@@ -22,9 +23,9 @@ const ConfigDataLoader: React.FC = () => {
       });
 
       // Initialize the database
-      const db = await Database.load("sqlite:appconfig.db");
 
       if (!dbExists) {
+        const db = await Database.load("sqlite:appconfig.db");
         console.log("Database does not exist. Initializing...");
 
         // Create the tables
@@ -44,10 +45,29 @@ const ConfigDataLoader: React.FC = () => {
           "isWorkdayEnabled",
           "false",
         ]);
-
+        await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
+          "isUpdateAvailable",
+          "false",
+        ]);
         console.log("Database initialized with default configuration.");
       } else {
         console.log("Database already exists. No action needed.");
+      }
+
+      const storeExists = await exists("store.json", {
+        baseDir: BaseDirectory.AppData,
+      });
+      if (!storeExists) {
+        const store = await load("store.json", { autoSave: false });
+        await store.set("blinkEyeReminderDuration", 20);
+        await store.set("blinkEyeReminderInterval", 20);
+        await store.set(
+          "blinkEyeReminderScreenText",
+          "Look 20 feet away to protect your eyes."
+        );
+        await store.save();
+      } else {
+        console.log("Store already exists. No action needed.");
       }
     };
 

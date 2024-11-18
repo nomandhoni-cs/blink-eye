@@ -15,8 +15,15 @@ import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
+import Database from "@tauri-apps/plugin-sql";
+import toast, { Toaster } from "react-hot-toast";
+import { CloudDownload } from "lucide-react";
 
 const appWindow = getCurrentWebviewWindow();
+// Define the expected result type for the select query
+interface ConfigRow {
+  value: string; // The 'value' column in the config table is expected to be a string
+}
 
 const Reminder: React.FC = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
@@ -25,6 +32,7 @@ const Reminder: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
+
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
       const reminderStyleData = await load("ReminderThemeStyle.json");
@@ -48,7 +56,24 @@ const Reminder: React.FC = () => {
         setReminderDuration(storedDuration);
         setTimeLeft(storedDuration);
       }
+      // Load the database
+      const db = await Database.load("sqlite:appconfig.db");
+
+      // Retrieve the 'isUpdateAvailable' value from the config table
+      const result: ConfigRow[] = await db.select(
+        "SELECT value FROM config WHERE key = 'isUpdateAvailable';"
+      );
+
+      // Show toast if the update is available
+      if (result.length > 0 && result[0].value === "true") {
+        toast.success("Update available!", {
+          duration: 2000,
+          position: "bottom-right",
+          icon: <CloudDownload />,
+        });
+      }
     };
+
     fetchReminderScreenInfo();
   }, []);
 
@@ -133,6 +158,7 @@ const Reminder: React.FC = () => {
           </svg>
         </Button>
       </div>
+      <Toaster />
     </div>
   );
 };
