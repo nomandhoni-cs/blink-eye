@@ -5,14 +5,17 @@ import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useTrigger } from "../../contexts/TriggerReRender";
+
 const Settings = () => {
+  const { triggerUpdate } = useTrigger(); // Access triggerUpdate from the context
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
-  const [workday, setWorkday] = useState<any>(null);
 
+  // Function to open the reminder window
   const openReminderWindow = () => {
-    console.log("Clicked");
+    console.log("Opening reminder window...");
     const webview = new WebviewWindow("ReminderWindow", {
       url: "/reminder",
       fullscreen: true,
@@ -20,14 +23,16 @@ const Settings = () => {
       title: "Take A Break Reminder - Blink Eye",
       skipTaskbar: true,
     });
+
     webview.once("tauri://created", () => {
-      console.log("Webview created");
+      console.log("Reminder window created");
     });
     webview.once("tauri://error", (e) => {
-      console.error("Error creating webview:", e);
+      console.error("Error creating reminder window:", e);
     });
   };
-  console.log(interval, duration, reminderText, "settings");
+
+  // Load settings from the store when the component mounts
   useEffect(() => {
     const fetchSettings = async () => {
       const store = await load("store.json", { autoSave: false });
@@ -40,110 +45,86 @@ const Settings = () => {
       const storedReminderText = await store.get<string>(
         "blinkEyeReminderScreenText"
       );
-      const storedWorkday = await store.get("blinkEyeWorkday");
 
       if (storedInterval) setInterval(storedInterval);
       if (storedDuration) setDuration(storedDuration);
       if (storedReminderText) setReminderText(storedReminderText);
-      if (storedWorkday) setWorkday(storedWorkday);
     };
-    console.log(interval, duration, reminderText, "settings 2");
+
     fetchSettings();
-    console.log(interval, duration, reminderText, "settings3");
   }, []);
 
-  useEffect(() => {
-    let timer: number | null = null;
-
-    const checkWorkdayAndStartTimer = () => {
-      const now = new Date();
-      const day = now.toLocaleString("en-US", { weekday: "long" });
-      const todayWorkday = workday?.[day];
-
-      if (todayWorkday) {
-        const [startHour, startMinute] = todayWorkday.start
-          .split(":")
-          .map(Number);
-        const [endHour, endMinute] = todayWorkday.end.split(":").map(Number);
-
-        const startTime = new Date();
-        startTime.setHours(startHour, startMinute, 0, 0);
-
-        const endTime = new Date();
-        endTime.setHours(endHour, endMinute, 0, 0);
-
-        if (now >= startTime && now <= endTime) {
-          timer = window.setInterval(() => {
-            openReminderWindow();
-          }, interval * 60 * 1000);
-        }
-      }
-    };
-
-    if (workday) checkWorkdayAndStartTimer();
-
-    return () => {
-      if (timer !== null) window.clearInterval(timer);
-    };
-  }, [workday, interval]);
-
+  // Save settings to the store when the save button is clicked
   const handleSave = async () => {
+    // Input validation
+    if (interval <= 0) {
+      toast.error("Interval must be greater than 0 minutes.");
+      return;
+    }
+    if (duration <= 0) {
+      toast.error("Duration must be greater than 0 seconds.");
+      return;
+    }
+
     const store = await load("store.json", { autoSave: false });
-    const storee = await load("userScreenOnTime.json", { autoSave: false });
-    await store.set("blinkEyeReminderInterval", interval);
     await store.set("blinkEyeReminderDuration", duration);
     await store.set("blinkEyeReminderScreenText", reminderText);
-
+    await store.set("blinkEyeReminderInterval", interval);
     await store.save();
-    toast.success("Successfully Saved the settings!", {
+
+    triggerUpdate(); // Notify other components to refresh data
+
+    toast.success("Successfully saved the settings!", {
       duration: 2000,
       position: "bottom-right",
     });
-    const timeData = await storee.get("timeData");
-    console.log("Saved settings:", { interval, duration }, timeData);
+
+    console.log("Saved settings:", { interval, duration, reminderText });
   };
 
   return (
-    <>
-      <div className="space-y-6 py-2">
-        <div className="space-y-2">
-          <Label htmlFor="interval-time">
-            Break Every {interval} (Minutes)
-          </Label>
-          <Input
-            type="number"
-            id="interval-time"
-            placeholder="Enter the Reminder interval"
-            value={interval}
-            onChange={(e) => setInterval(parseInt(e.target.value, 10) || 1)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Break Duration in Seconds</Label>
-          <Input
-            type="number"
-            id="reminder-duration"
-            placeholder="Enter the Reminder duration (sec)"
-            value={duration}
-            onChange={(e) => setDuration(parseInt(e.target.value, 10) || 1)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="reminder-duration">Break Screen Text</Label>
-          <Input
-            type="text"
-            id="reminder_screen_text"
-            placeholder="Look 20 feet far away to protect your eyes."
-            value={reminderText}
-            onChange={(e) => setReminderText(e.target.value)}
-          />
-        </div>
+    <div className="space-y-6 py-2">
+      <div className="space-y-2">
+        <Label htmlFor="interval-time">Break Every {interval} (Minutes)</Label>
+        <Input
+          type="number"
+          id="interval-time"
+          placeholder="Enter the reminder interval"
+          value={interval}
+          onChange={
+            (e) => setInterval(Math.max(1, parseInt(e.target.value, 10) || 1)) // Enforce minimum value
+          }
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="reminder-duration">Break Duration (Seconds)</Label>
+        <Input
+          type="number"
+          id="reminder-duration"
+          placeholder="Enter the reminder duration"
+          value={duration}
+          onChange={
+            (e) => setDuration(Math.max(1, parseInt(e.target.value, 10) || 1)) // Enforce minimum value
+          }
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="reminder-text">Reminder Screen Text</Label>
+        <Input
+          type="text"
+          id="reminder-text"
+          placeholder="Look 20 feet away to protect your eyes."
+          value={reminderText}
+          onChange={(e) => setReminderText(e.target.value.trim())} // Trim extra spaces
+        />
+      </div>
+      <div className="flex space-x-4">
         <Button onClick={handleSave}>Save Settings</Button>
-        <Button onClick={openReminderWindow} className="ml-4">
+        <Button onClick={openReminderWindow} variant="secondary">
           Open Reminder Window
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

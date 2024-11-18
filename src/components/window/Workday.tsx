@@ -7,11 +7,16 @@ import { Separator } from "../ui/separator";
 import { Clock } from "lucide-react";
 import { Switch } from "../ui/switch";
 import Database from "@tauri-apps/plugin-sql";
+import { useTrigger } from "../../contexts/TriggerReRender";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 
 type Schedule = { start: string; end: string } | null;
 type Workday = { [day: string]: Schedule };
 
 const Workday = () => {
+  const { triggerUpdate } = useTrigger();
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
+
   const [workday, setWorkday] = useState<Workday | null>(null);
   const [isWorkdayEnabled, setIsWorkdayEnabled] = useState<boolean>(false);
 
@@ -22,7 +27,7 @@ const Workday = () => {
       // Define a type for the query result
       type ConfigResult = { value: string };
 
-      // Fetch the `workday` setup
+      // Fetch the workday setup
       const workdayData = (await db.select(
         "SELECT value FROM config WHERE key = ?",
         ["blinkEyeWorkday"]
@@ -37,7 +42,7 @@ const Workday = () => {
         }
       }
 
-      // Fetch the `isWorkdayEnabled` status
+      // Fetch the isWorkdayEnabled status
       const isEnabledData = (await db.select(
         "SELECT value FROM config WHERE key = ?",
         ["isWorkdayEnabled"]
@@ -75,15 +80,22 @@ const Workday = () => {
   };
 
   const handleSave = async () => {
-    const db = await Database.load("sqlite:appconfig.db");
+    if (!canAccessPremiumFeatures) {
+      toast.error("You need a valid license to save Workday settings.", {
+        duration: 2000,
+        position: "bottom-right",
+      });
+      return;
+    }
 
+    const db = await Database.load("sqlite:appconfig.db");
     if (workday) {
       await db.execute(
         "INSERT OR REPLACE INTO config (key, value) VALUES (?, ?)",
         ["blinkEyeWorkday", JSON.stringify(workday)]
       );
     }
-
+    triggerUpdate();
     toast.success("Workday settings saved!", {
       duration: 2000,
       position: "bottom-right",
@@ -91,6 +103,15 @@ const Workday = () => {
   };
 
   const handleWorkdayToggle = async () => {
+    if (!canAccessPremiumFeatures) {
+      setIsWorkdayEnabled(false); // Ensure toggle is turned off
+      toast.error("You need a valid license to enable this feature.", {
+        duration: 2000,
+        position: "bottom-right",
+      });
+      return;
+    }
+
     const newValue = !isWorkdayEnabled;
     setIsWorkdayEnabled(newValue);
 
@@ -100,12 +121,10 @@ const Workday = () => {
       ["isWorkdayEnabled", newValue.toString()]
     );
 
+    triggerUpdate();
     toast.success(
       `Workday ${newValue ? "enabled" : "disabled"} successfully!`,
-      {
-        duration: 2000,
-        position: "bottom-right",
-      }
+      { duration: 2000, position: "bottom-right" }
     );
   };
 
@@ -120,8 +139,8 @@ const Workday = () => {
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Workday Setup</h2>
             <p className="text-muted-foreground">
-              Configure your work hours for each day of the week. Toggle to set
-              working or non-working days.
+              Configure your work hours for each day of the week. <br /> Toggle
+              to set working or non-working days.
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -130,7 +149,7 @@ const Workday = () => {
             </Label>
             <Switch
               id="workday-toggle"
-              checked={isWorkdayEnabled}
+              checked={isWorkdayEnabled && canAccessPremiumFeatures}
               onCheckedChange={handleWorkdayToggle}
             />
           </div>

@@ -7,6 +7,8 @@ import EncryptionComponent from "./components/EncryptionComponent";
 import LicenseValidationComponent from "./components/LicenseValidationComponent";
 import { PremiumFeaturesProvider } from "./contexts/PremiumFeaturesContext";
 import ConfigDataLoader from "./components/ConfigDataLoader";
+import ReminderHandler from "./components/ReminderHandler";
+import { TriggerProvider } from "./contexts/TriggerReRender";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -16,7 +18,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <EncryptionComponent />
         <LicenseValidationComponent />
         <ConfigDataLoader />
-        <App />
+        <TriggerProvider>
+          <ReminderHandler />
+          <App />
+        </TriggerProvider>
       </PremiumFeaturesProvider>
     </ThemeProvider>
   </React.StrictMode>
