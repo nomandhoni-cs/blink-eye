@@ -1,8 +1,12 @@
-import DownloadApp from '@/components/download-app';
-import { FeatureGrid } from '@/components/features';
-import OpenSource from '@/components/open-source';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import Link from 'next/link';
+import DownloadApp from "@/components/download-app";
+import { FeatureGrid } from "@/components/features";
+import OpenSource from "@/components/open-source";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import Link from "next/link";
 import {
   AudioLinesIcon,
   Calendar,
@@ -14,9 +18,10 @@ import {
   Timer,
   ToggleRight,
 } from "lucide-react";
-import PricingSection from '@/components/pricing-section';
+import PricingSection from "@/components/pricing-section";
+import HowBlinkEyeWillHelp from "@/components/how-blink-eye-will-help";
 const RootPage = () => {
-	return (
+  return (
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-24 lg:pb-8">
       <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] max-w-sm md:max-w-6xl">
         <span className="font-bold text-[#FE4C55]"> Blink Eye </span> <br /> A
@@ -106,6 +111,7 @@ const RootPage = () => {
           ]}
         />
         <PricingSection />
+        <HowBlinkEyeWillHelp />
         <OpenSource />
       </div>
     </section>
