@@ -31,10 +31,10 @@ export function FeatureGrid(props: {
       className="container space-y-6 py-8 md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center space-y-4 text-center">
-        <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
+        <h2 className="mt-2 text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
           {props.title}
         </h2>
-        <p className="max-w-[85%] text-gray-700 dark:text-gray-200  sm:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 dark:text-gray-300 sm:text-xl/8">
           {props.subtitle}
         </p>
       </div>

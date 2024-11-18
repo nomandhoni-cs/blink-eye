@@ -33,8 +33,8 @@ const DownloadApp = async () => {
   return (
     <div className="relative max-w-6xl h-full py-8 rounded-xl">
       <div className="relative z-10 flex flex-col justify-center items-center space-y-4">
-        <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
-          Download Now
+        <h2 className="mt-2 text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+          Download Free & Start Now
         </h2>
         <div className="flex flex-col items-center space-y-4 md:space-y-6 w-full px-4">
           {/* Platform Row */}
