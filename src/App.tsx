@@ -8,6 +8,7 @@ import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import Workday from "./components/window/Workday";
 
 // Lazy load route components
 const Dashboard = lazy(() => import("./components/window/Dashboard"));
@@ -60,6 +61,14 @@ function App() {
               }
             />
             <Route
+              path="reminderthemes"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ReminderStyles />
+                </Suspense>
+              }
+            />
+            <Route
               path="usagetime"
               element={
                 <Suspense fallback={<LoadingSpinner />}>
@@ -68,10 +77,10 @@ function App() {
               }
             />
             <Route
-              path="reminderthemes"
+              path="workday"
               element={
                 <Suspense fallback={<LoadingSpinner />}>
-                  <ReminderStyles />
+                  <Workday />
                 </Suspense>
               }
             />

@@ -12,6 +12,7 @@ const routes = [
   "/goodbye",
   "/pricing",
   "/changelog",
+  "/howblinkeyehelps",
 ];
 export const Footer = () => {
   const currentYear = getCurrentYear();

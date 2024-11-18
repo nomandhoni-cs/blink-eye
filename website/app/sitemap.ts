@@ -34,6 +34,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     "/privacy",
     "/pricing",
     "/changelog",
+    "/howblinkeyehelps",
   ];
 
   // Fetch release data from GitHub API
