@@ -1,6 +1,6 @@
 [package]
 name = "Blink-Eye"
-version = "1.9.0"
+version = "2.0.0"
 description = "A minimalist eye care reminder app for Windows, macOS, and Linux."
 authors = ["Noman Dhoni"]
 edition = "2021"
