@@ -6,6 +6,7 @@ import DefaultStartMinimize from "./components/DefaultStartMinimize";
 import EncryptionComponent from "./components/EncryptionComponent";
 import LicenseValidationComponent from "./components/LicenseValidationComponent";
 import { PremiumFeaturesProvider } from "./contexts/PremiumFeaturesContext";
+import ConfigDataLoader from "./components/ConfigDataLoader";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <DefaultStartMinimize />
         <EncryptionComponent />
         <LicenseValidationComponent />
+        <ConfigDataLoader />
         <App />
       </PremiumFeaturesProvider>
     </ThemeProvider>
