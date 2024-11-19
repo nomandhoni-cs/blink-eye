@@ -7,11 +7,15 @@ import { Button } from "./ui/button";
 
 const styles = [
   { value: "default", label: "Default" },
-  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-  { value: "polygonAnimation", label: "Polygon Animation" },
-  { value: "canvasShapes", label: "Bouncy Balls" },
+  { value: "aurora", label: "Aurora" },
+  { value: "freesprit", label: "Free Sprit" },
   { value: "particleBackground", label: "Infinite Wave Background" },
   { value: "starryBackground", label: "Starry Background" },
+  { value: "beamoflife", label: "Beam of Life" },
+  { value: "shootingmeteor", label: "Shooting Meteor" },
+  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
+  // { value: "polygonAnimation", label: "Polygon Animation" },
+  { value: "canvasShapes", label: "Bouncy Balls" },
 ];
 
 export default function ReminderStyles() {
@@ -101,7 +105,7 @@ export default function ReminderStyles() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-2">
       <h3 className="text-2xl font-semibold">Background Style</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {styles.map((style) => (
@@ -130,7 +134,7 @@ export default function ReminderStyles() {
                     ? "bg-primary/20"
                     : "bg-secondary"
                 }`}
-              />
+              ></div>
             </div>
           </div>
         ))}
