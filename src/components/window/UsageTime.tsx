@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import UsageTimeChart from "../UsageChart";
 
 const UsageTime = () => {
-  const canAccessPremiumFeatures = usePremiumFeatures();
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
 
   return (
     <div className="relative">
