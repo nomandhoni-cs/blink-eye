@@ -1,52 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { load } from "@tauri-apps/plugin-store";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
+import PolygonAnimation from "../backgrounds/PolygonAnimation";
+import ParticleBackground from "../backgrounds/ParticleBackground";
+import CanvasShapes from "../backgrounds/ParticleAnimation";
 import { Progress } from "../ui/progress";
+import DefaultBackground from "../backgrounds/DefaultBackground";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
+import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import Database from "@tauri-apps/plugin-sql";
 import toast, { Toaster } from "react-hot-toast";
 import { CloudDownload } from "lucide-react";
-import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
-
-// Dynamic imports for code-splitting
-const PolygonAnimation = React.lazy(
-  () => import("../backgrounds/PolygonAnimation")
-);
-const ParticleBackground = React.lazy(
-  () => import("../backgrounds/ParticleBackground")
-);
-const CanvasShapes = React.lazy(
-  () => import("../backgrounds/ParticleAnimation")
-);
-const DefaultBackground = React.lazy(
-  () => import("../backgrounds/DefaultBackground")
-);
-const StarryBackground = React.lazy(
-  () => import("../backgrounds/StarryBackground")
-);
-const ShootingMeteor = React.lazy(
-  () => import("../backgrounds/ShootingMeteor")
-);
-const AuroraBackground = React.lazy(() =>
-  import("../backgrounds/Aurora").then((mod) => ({
-    default: mod.AuroraBackground,
-  }))
-);
-const BeamOfLife = React.lazy(() =>
-  import("../backgrounds/BeamOfLife").then((mod) => ({
-    default: mod.BeamOfLife,
-  }))
-);
-const FreeSpirit = React.lazy(() =>
-  import("../backgrounds/FreeSpirit").then((mod) => ({
-    default: mod.FreeSpirit,
-  }))
-);
+import ShootingMeteor from "../backgrounds/ShootingMeteor";
+import { AuroraBackground } from "../backgrounds/Aurora";
+import { BeamOfLife } from "../backgrounds/BeamOfLife";
+import { FreeSpirit } from "../backgrounds/FreeSpirit";
 // import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
