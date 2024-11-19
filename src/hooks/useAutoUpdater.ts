@@ -21,6 +21,14 @@ export const useUpdater = () => {
             `UPDATE config SET value = ? WHERE key = 'isUpdateAvailable';`,
             ["true"]
           );
+        } else {
+          console.log("No update available");
+          setIsUpdateAvailable(false);
+          const db = await Database.load("sqlite:appconfig.db");
+          await db.execute(
+            `UPDATE config SET value = ? WHERE key = 'isUpdateAvailable';`,
+            ["false"]
+          );
         }
       } catch (error) {
         console.error("Error during update check:", error);
@@ -52,13 +60,6 @@ export const useUpdater = () => {
               break;
           }
         });
-
-        // Update the database value after installation
-        const db = await Database.load("sqlite:appconfig.db");
-        await db.execute(
-          `UPDATE config SET value = ? WHERE key = 'isUpdateAvailable';`,
-          ["false"]
-        );
 
         console.log("Update installed");
         await relaunch();
