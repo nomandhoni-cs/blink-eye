@@ -15,6 +15,7 @@ import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import ShootingMeteor from "../backgrounds/ShootingMeteor";
+import { AuroraBackground } from "../backgrounds/Aurora";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -83,6 +84,8 @@ const ReminderPreviewWindow: React.FC = () => {
     switch (backgroundStyle) {
       case "default":
         return <DefaultBackground />;
+      case "aurora":
+        return <AuroraBackground />;
       case "polygonAnimation":
         return <PolygonAnimation />;
       case "canvasShapes":

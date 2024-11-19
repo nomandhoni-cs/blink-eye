@@ -4,10 +4,10 @@ import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Flame, Loader2 } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
-import ShootingMeteor from "./backgrounds/ShootingMeteor";
 
 const styles = [
   { value: "default", label: "Default" },
+  { value: "aurora", label: "Aurora" },
   { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
   { value: "polygonAnimation", label: "Polygon Animation" },
   { value: "canvasShapes", label: "Bouncy Balls" },
