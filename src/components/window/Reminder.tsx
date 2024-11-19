@@ -1,24 +1,53 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { load } from "@tauri-apps/plugin-store";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
-import PolygonAnimation from "../backgrounds/PolygonAnimation";
-import ParticleBackground from "../backgrounds/ParticleBackground";
-import CanvasShapes from "../backgrounds/ParticleAnimation";
 import { Progress } from "../ui/progress";
-import DefaultBackground from "../backgrounds/DefaultBackground";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
-import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
-import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import Database from "@tauri-apps/plugin-sql";
 import toast, { Toaster } from "react-hot-toast";
 import { CloudDownload } from "lucide-react";
-import ShootingMeteor from "../backgrounds/ShootingMeteor";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
+
+// Dynamic imports for code-splitting
+const PolygonAnimation = React.lazy(
+  () => import("../backgrounds/PolygonAnimation")
+);
+const ParticleBackground = React.lazy(
+  () => import("../backgrounds/ParticleBackground")
+);
+const CanvasShapes = React.lazy(
+  () => import("../backgrounds/ParticleAnimation")
+);
+const DefaultBackground = React.lazy(
+  () => import("../backgrounds/DefaultBackground")
+);
+const StarryBackground = React.lazy(
+  () => import("../backgrounds/StarryBackground")
+);
+const ShootingMeteor = React.lazy(
+  () => import("../backgrounds/ShootingMeteor")
+);
+const AuroraBackground = React.lazy(() =>
+  import("../backgrounds/Aurora").then((mod) => ({
+    default: mod.AuroraBackground,
+  }))
+);
+const BeamOfLife = React.lazy(() =>
+  import("../backgrounds/BeamOfLife").then((mod) => ({
+    default: mod.BeamOfLife,
+  }))
+);
+const FreeSpirit = React.lazy(() =>
+  import("../backgrounds/FreeSpirit").then((mod) => ({
+    default: mod.FreeSpirit,
+  }))
+);
+// import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
 // Define the expected result type for the select query
@@ -117,25 +146,30 @@ const Reminder: React.FC = () => {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // Render the selected background component based on backgroundType
   const renderBackground = () => {
     switch (backgroundStyle) {
       case "default":
         return <DefaultBackground />;
+      case "aurora":
+        return <AuroraBackground />;
+      case "beamoflife":
+        return <BeamOfLife />;
+      case "freesprit":
+        return <FreeSpirit />;
       case "polygonAnimation":
         return <PolygonAnimation />;
       case "canvasShapes":
         return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
-      case "plainGradientAnimation":
-        return <PlainGradientAnimation />;
+      // case "plainGradientAnimation":
+      //   return <PlainGradientAnimation />;
       case "starryBackground":
         return <StarryBackground />;
       case "shootingmeteor":
         return <ShootingMeteor number={40} />;
       default:
-        return <ParticleBackground />;
+        return <DefaultBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
@@ -150,7 +184,7 @@ const Reminder: React.FC = () => {
         </div>
       </div>
       {/* Positioned at 50% to 70% height */}
-      <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-8">
+      <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-4">
         <div className="flex justify-center items-center space-x-6">
           <CurrentTime />
           <ScreenOnTime timeCount={timeCount} />

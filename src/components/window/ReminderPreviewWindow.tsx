@@ -1,21 +1,49 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { load } from "@tauri-apps/plugin-store";
-import CurrentTime from "../CurrentTime";
-import ScreenOnTime from "../ScreenOnTime";
-import PolygonAnimation from "../backgrounds/PolygonAnimation";
-import ParticleBackground from "../backgrounds/ParticleBackground";
-import CanvasShapes from "../backgrounds/ParticleAnimation";
-import { Progress } from "../ui/progress";
-import DefaultBackground from "../backgrounds/DefaultBackground";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
-import StarryBackground from "../backgrounds/StarryBackground";
-import { useTimeCountContext } from "../../contexts/TimeCountContext";
-import ShootingMeteor from "../backgrounds/ShootingMeteor";
-import { AuroraBackground } from "../backgrounds/Aurora";
+import { load } from "@tauri-apps/plugin-store";
+import { Progress } from "../ui/progress";
+import CurrentTime from "../CurrentTime";
+import ScreenOnTime from "../ScreenOnTime";
+// Dynamic imports for code-splitting
+const PolygonAnimation = React.lazy(
+  () => import("../backgrounds/PolygonAnimation")
+);
+const ParticleBackground = React.lazy(
+  () => import("../backgrounds/ParticleBackground")
+);
+const CanvasShapes = React.lazy(
+  () => import("../backgrounds/ParticleAnimation")
+);
+const DefaultBackground = React.lazy(
+  () => import("../backgrounds/DefaultBackground")
+);
+const StarryBackground = React.lazy(
+  () => import("../backgrounds/StarryBackground")
+);
+const ShootingMeteor = React.lazy(
+  () => import("../backgrounds/ShootingMeteor")
+);
+const AuroraBackground = React.lazy(() =>
+  import("../backgrounds/Aurora").then((mod) => ({
+    default: mod.AuroraBackground,
+  }))
+);
+const BeamOfLife = React.lazy(() =>
+  import("../backgrounds/BeamOfLife").then((mod) => ({
+    default: mod.BeamOfLife,
+  }))
+);
+const FreeSpirit = React.lazy(() =>
+  import("../backgrounds/FreeSpirit").then((mod) => ({
+    default: mod.FreeSpirit,
+  }))
+);
+
+// import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -86,14 +114,18 @@ const ReminderPreviewWindow: React.FC = () => {
         return <DefaultBackground />;
       case "aurora":
         return <AuroraBackground />;
+      case "beamoflife":
+        return <BeamOfLife />;
+      case "freesprit":
+        return <FreeSpirit />;
       case "polygonAnimation":
         return <PolygonAnimation />;
       case "canvasShapes":
         return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
-      case "plainGradientAnimation":
-        return <PlainGradientAnimation />;
+      // case "plainGradientAnimation":
+      //   return <PlainGradientAnimation />;
       case "starryBackground":
         return <StarryBackground />;
       case "shootingmeteor":

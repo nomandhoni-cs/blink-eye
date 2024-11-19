@@ -1,16 +1,18 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { TimeCountProvider } from "./contexts/TimeCountContext";
-import Layout from "./components/window/Layout";
-import Reminder from "./components/window/Reminder";
-import ReminderPreviewWindow from "./components/window/ReminderPreviewWindow";
 import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
-import Workday from "./components/window/Workday";
 
 // Lazy load route components
+const Reminder = lazy(() => import("./components/window/Reminder"));
+const Layout = lazy(() => import("./components/window/Layout"));
+const ReminderPreviewWindow = lazy(
+  () => import("./components/window/ReminderPreviewWindow")
+);
+const Workday = lazy(() => import("./components/window/Workday"));
 const Dashboard = lazy(() => import("./components/window/Dashboard"));
 const UsageTime = lazy(() => import("./components/window/UsageTime"));
 const ReminderStyles = lazy(() => import("./components/ReminderStyles"));
@@ -37,19 +39,15 @@ function App() {
       <Router>
         <Routes>
           {/* Standalone routes - no loading state */}
+          <Route path="/reminder" element={<Reminder />} />
           <Route
-            path="/reminder"
+            path="/reminderpreviewwindow"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <Reminder />
+                <ReminderPreviewWindow />
               </Suspense>
             }
           />
-          <Route
-            path="/reminderpreviewwindow"
-            element={<ReminderPreviewWindow />}
-          />
-
           {/* Main application routes with Layout and loading states */}
           <Route element={<Layout />}>
             <Route
