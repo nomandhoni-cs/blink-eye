@@ -18,6 +18,7 @@ import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import Database from "@tauri-apps/plugin-sql";
 import toast, { Toaster } from "react-hot-toast";
 import { CloudDownload } from "lucide-react";
+import ShootingMeteor from "../backgrounds/ShootingMeteor";
 
 const appWindow = getCurrentWebviewWindow();
 // Define the expected result type for the select query
@@ -131,6 +132,8 @@ const Reminder: React.FC = () => {
         return <PlainGradientAnimation />;
       case "starryBackground":
         return <StarryBackground />;
+      case "shootingmeteor":
+        return <ShootingMeteor number={40} />;
       default:
         return <ParticleBackground />;
     }

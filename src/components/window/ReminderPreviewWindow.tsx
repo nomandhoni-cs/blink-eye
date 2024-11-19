@@ -14,6 +14,7 @@ import { convertFileSrc } from "@tauri-apps/api/core";
 import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
+import ShootingMeteor from "../backgrounds/ShootingMeteor";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -92,6 +93,8 @@ const ReminderPreviewWindow: React.FC = () => {
         return <PlainGradientAnimation />;
       case "starryBackground":
         return <StarryBackground />;
+      case "shootingmeteor":
+        return <ShootingMeteor number={40} />;
       default:
         return <DefaultBackground />;
     }

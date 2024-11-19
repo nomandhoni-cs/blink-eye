@@ -4,6 +4,7 @@ import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Flame, Loader2 } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
+import ShootingMeteor from "./backgrounds/ShootingMeteor";
 
 const styles = [
   { value: "default", label: "Default" },
@@ -12,6 +13,7 @@ const styles = [
   { value: "canvasShapes", label: "Bouncy Balls" },
   { value: "particleBackground", label: "Infinite Wave Background" },
   { value: "starryBackground", label: "Starry Background" },
+  { value: "shootingmeteor", label: "Shooting Meteor" },
 ];
 
 export default function ReminderStyles() {
@@ -130,7 +132,7 @@ export default function ReminderStyles() {
                     ? "bg-primary/20"
                     : "bg-secondary"
                 }`}
-              />
+              ></div>
             </div>
           </div>
         ))}
