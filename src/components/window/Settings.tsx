@@ -68,8 +68,8 @@ const Settings = () => {
 
     const store = await load("store.json", { autoSave: false });
     await store.set("blinkEyeReminderDuration", duration);
-    await store.set("blinkEyeReminderScreenText", reminderText);
     await store.set("blinkEyeReminderInterval", interval);
+    await store.set("blinkEyeReminderScreenText", reminderText);
     await store.save();
 
     triggerUpdate(); // Notify other components to refresh data

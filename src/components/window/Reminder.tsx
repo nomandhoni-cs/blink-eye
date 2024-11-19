@@ -4,24 +4,26 @@ import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { load } from "@tauri-apps/plugin-store";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
-import PolygonAnimation from "../backgrounds/PolygonAnimation";
-import ParticleBackground from "../backgrounds/ParticleBackground";
-import CanvasShapes from "../backgrounds/ParticleAnimation";
+import { CloudDownload } from "lucide-react";
 import { Progress } from "../ui/progress";
-import DefaultBackground from "../backgrounds/DefaultBackground";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import StarryBackground from "../backgrounds/StarryBackground";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import Database from "@tauri-apps/plugin-sql";
 import toast, { Toaster } from "react-hot-toast";
-import { CloudDownload } from "lucide-react";
-import ShootingMeteor from "../backgrounds/ShootingMeteor";
-import { AuroraBackground } from "../backgrounds/Aurora";
 import { BeamOfLife } from "../backgrounds/BeamOfLife";
 import { FreeSpirit } from "../backgrounds/FreeSpirit";
-// import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
+
+// Backgrounds
+import ShootingMeteor from "../backgrounds/ShootingMeteor";
+import CanvasShapes from "../backgrounds/ParticleAnimation";
+import ParticleBackground from "../backgrounds/ParticleBackground";
+import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
+import DefaultBackground from "../backgrounds/DefaultBackground";
+import { AuroraBackground } from "../backgrounds/Aurora";
+import StarryBackground from "../backgrounds/StarryBackground";
+// import PolygonAnimation from "../backgrounds/PolygonAnimation";
 
 const appWindow = getCurrentWebviewWindow();
 // Define the expected result type for the select query
@@ -130,20 +132,20 @@ const Reminder: React.FC = () => {
         return <BeamOfLife />;
       case "freesprit":
         return <FreeSpirit />;
-      case "polygonAnimation":
-        return <PolygonAnimation />;
+      // case "polygonAnimation":
+      //   return <PolygonAnimation />;
       case "canvasShapes":
         return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
-      // case "plainGradientAnimation":
-      //   return <PlainGradientAnimation />;
+      case "plainGradientAnimation":
+        return <PlainGradientAnimation />;
       case "starryBackground":
         return <StarryBackground />;
       case "shootingmeteor":
         return <ShootingMeteor number={40} />;
       default:
-        return <DefaultBackground />;
+        return <AuroraBackground />;
     }
   };
   const progressPercentage = (timeLeft / reminderDuration) * 100;
@@ -163,7 +165,7 @@ const Reminder: React.FC = () => {
           <CurrentTime />
           <ScreenOnTime timeCount={timeCount} />
         </div>
-        <div className="text-5xl font-semibold text-center px-4">
+        <div className="text-5xl font-semibold text-center px-4 pb-4">
           {reminderText || "Look 20 feet far away to protect your eyes."}
         </div>
         {!isUsingStictMode && (

@@ -9,9 +9,9 @@ import { Progress } from "../ui/progress";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
 // Dynamic imports for code-splitting
-const PolygonAnimation = React.lazy(
-  () => import("../backgrounds/PolygonAnimation")
-);
+// const PolygonAnimation = React.lazy(
+//   () => import("../backgrounds/PolygonAnimation")
+// );
 const ParticleBackground = React.lazy(
   () => import("../backgrounds/ParticleBackground")
 );
@@ -26,6 +26,9 @@ const StarryBackground = React.lazy(
 );
 const ShootingMeteor = React.lazy(
   () => import("../backgrounds/ShootingMeteor")
+);
+const PlainGradientAnimation = React.lazy(
+  () => import("../backgrounds/PlainGradientAnimation")
 );
 const AuroraBackground = React.lazy(() =>
   import("../backgrounds/Aurora").then((mod) => ({
@@ -42,8 +45,6 @@ const FreeSpirit = React.lazy(() =>
     default: mod.FreeSpirit,
   }))
 );
-
-// import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -118,14 +119,14 @@ const ReminderPreviewWindow: React.FC = () => {
         return <BeamOfLife />;
       case "freesprit":
         return <FreeSpirit />;
-      case "polygonAnimation":
-        return <PolygonAnimation />;
+      // case "polygonAnimation":
+      //   return <PolygonAnimation />;
       case "canvasShapes":
         return <CanvasShapes shape="circle" speed={8} numberOfItems={60} />;
       case "particleBackground":
         return <ParticleBackground />;
-      // case "plainGradientAnimation":
-      //   return <PlainGradientAnimation />;
+      case "plainGradientAnimation":
+        return <PlainGradientAnimation />;
       case "starryBackground":
         return <StarryBackground />;
       case "shootingmeteor":

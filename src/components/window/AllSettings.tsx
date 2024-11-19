@@ -7,7 +7,7 @@ import { Label } from "../ui/label";
 import { load } from "@tauri-apps/plugin-store";
 import toast from "react-hot-toast";
 
-// import PomodoroTimerToggle from "../PomodoroTimerToggle";
+import PomodoroTimerToggle from "../PomodoroTimerToggle";
 
 const AllSettings = () => {
   const [timeLimit, setTimeLimit] = useState<number>(12);
@@ -71,7 +71,7 @@ const AllSettings = () => {
     <>
       <div className="space-y-4">
         <AutoStartToggle />
-        {/* <PomodoroTimerToggle /> */}
+        <PomodoroTimerToggle />
         <StrictModeToggle />
         <div className="rounded-lg border border-muted p-6 space-y-4">
           {/* Input and Button Section */}

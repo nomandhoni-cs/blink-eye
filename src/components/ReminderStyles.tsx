@@ -13,8 +13,8 @@ const styles = [
   { value: "starryBackground", label: "Starry Background" },
   { value: "beamoflife", label: "Beam of Life" },
   { value: "shootingmeteor", label: "Shooting Meteor" },
-  // { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-  { value: "polygonAnimation", label: "Polygon Animation" },
+  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
+  // { value: "polygonAnimation", label: "Polygon Animation" },
   { value: "canvasShapes", label: "Bouncy Balls" },
 ];
 
@@ -105,7 +105,7 @@ export default function ReminderStyles() {
   }
 
   return (
-    <div className="space-y-6 py-4">
+    <div className="space-y-6 pb-2">
       <h3 className="text-2xl font-semibold">Background Style</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {styles.map((style) => (
