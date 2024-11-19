@@ -115,7 +115,7 @@ const Settings = () => {
           id="reminder-text"
           placeholder="Look 20 feet away to protect your eyes."
           value={reminderText}
-          onChange={(e) => setReminderText(e.target.value.trim())} // Trim extra spaces
+          onChange={(e) => setReminderText(e.target.value)} // Trim extra spaces
         />
       </div>
       <div className="flex space-x-4">
