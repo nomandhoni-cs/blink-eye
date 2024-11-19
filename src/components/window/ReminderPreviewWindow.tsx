@@ -147,12 +147,12 @@ const ReminderPreviewWindow: React.FC = () => {
         </div>
       </div>
       {/* Positioned at 50% to 70% height */}
-      <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-8">
+      <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-4">
         <div className="flex justify-center items-center space-x-6">
           <CurrentTime />
           <ScreenOnTime timeCount={timeCount} />
         </div>
-        <div className="text-5xl font-semibold text-center px-4">
+        <div className="text-5xl font-semibold text-center px-4 pb-4">
           {reminderText || "Look 20 feet far away to protect your eyes."}
         </div>
         <Button
