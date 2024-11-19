@@ -20,7 +20,8 @@
         "maxWidth": 1000,
         "minHeight": 650,
         "minWidth": 1000,
-        "maximizable": true
+        "maximizable": true,
+        "contentProtected": true
       }
     ],
     "security": {
