@@ -10,6 +10,7 @@ const LicenseValidationComponent: React.FC = () => {
 
   useEffect(() => {
     const validateLicense = async () => {
+      console.log("Program started. Validating license.");
       await refreshLicenseData();
       if (licenseData) {
         setLicenseKey(licenseData.license_key);
@@ -38,6 +39,7 @@ const LicenseValidationComponent: React.FC = () => {
 
     // Validate license from the external API
     try {
+      console.log("Validating license from external API.");
       const response = await tauriFetch(
         "https://blinkeye.vercel.app/api/validatelicense",
         {
@@ -50,7 +52,7 @@ const LicenseValidationComponent: React.FC = () => {
       );
 
       const data = await response.json();
-      console.log(data);
+      console.log(data, " License validation response");
 
       // Proceed only if store_id matches and data is valid
       if (
@@ -73,7 +75,7 @@ const LicenseValidationComponent: React.FC = () => {
         if (lastValidated !== today) {
           // If the response is not ok, check the number of days since last validation
           const diffInDays = getDateDiffInDays(lastValidated, today);
-          if (diffInDays > 7) {
+          if (diffInDays > 1) {
             // If more than 7 days, update status to what was received in the response
             await updateLicenseStatus("disabled");
           } else {
@@ -116,6 +118,15 @@ const LicenseValidationComponent: React.FC = () => {
         WHERE license_key = $2`,
         [status, licenseKey] // Update the status in the database
       );
+      const licenseData = await db.select(
+        `
+        SELECT * FROM licenses
+        WHERE license_key = $1`,
+        [licenseKey] // Get the updated license data from the database
+      );
+      console.log(licenseData, " License data");
+
+      console.log(status, " License status updated");
       toast.success(`License status updated to ${status}`);
     }
   };

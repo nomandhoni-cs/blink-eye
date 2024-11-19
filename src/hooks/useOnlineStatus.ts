@@ -52,7 +52,7 @@ export function useOnlineStatus(): { isOnline: boolean; isTrialOn: boolean } {
       const diffDays = Math.floor(diffTime / (1000 * 3600 * 24)); // Convert ms to days
 
       // Check if the trial period has expired
-      const remaining = 7 - diffDays; // Assuming a 7-day trial period
+      const remaining = 1 - diffDays; // Assuming a 7-day trial period
 
       setIsTrialOn(remaining > 0);
     }
