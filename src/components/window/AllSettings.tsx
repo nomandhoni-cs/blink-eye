@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import PomodoroTimerToggle from "../PomodoroTimerToggle";
 
 const AllSettings = () => {
-  const [timeLimit, setTimeLimit] = useState<number>(12);
+  const [timeLimit, setTimeLimit] = useState<number>(8);
 
   // Load the store and fetch the saved limit on component mount
   useEffect(() => {

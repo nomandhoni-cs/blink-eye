@@ -28,7 +28,7 @@ async function initializeDatabase() {
   if (!dbFileExists) {
     await db.execute(`
         CREATE TABLE IF NOT EXISTS licenses (
-          id TEXT PRIMARY KEY,
+          id INTEGER PRIMARY KEY,
           license_key TEXT UNIQUE,
           status TEXT,
           activation_limit TEXT,

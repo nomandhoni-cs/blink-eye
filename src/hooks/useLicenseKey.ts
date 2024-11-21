@@ -30,20 +30,20 @@ async function initializeDatabase() {
           id INTEGER PRIMARY KEY,
           license_key TEXT UNIQUE,
           status TEXT,
-          activation_limit INTEGER,
-          activation_usage INTEGER,
+          activation_limit TEXT,
+          activation_usage TEXT,
           created_at TEXT,
           expires_at TEXT,
-          test_mode BOOLEAN,
+          test_mode TEXT,
           instance_name TEXT,
-          store_id INTEGER,
-          order_id INTEGER,
-          order_item_id INTEGER,
+          store_id TEXT,
+          order_id TEXT,
+          order_item_id TEXT,
           variant_name TEXT,
           product_name TEXT,
           customer_name TEXT,
           customer_email TEXT,
-          last_validated DATE
+          last_validated TEXT
         );
       `);
       console.log("Database and table created successfully.");
