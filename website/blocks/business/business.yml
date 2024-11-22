@@ -1,0 +1,14 @@
+sidebar:
+  width:
+    collapsed: 64
+    expanded: 240
+  navigation:
+    - title: Dashboard
+      path: /
+      icon: Activity
+    - title: Chat
+      path: /chat
+      icon: MessageSquare
+    - title: Documentation
+      path: /docs
+      icon: FileText
