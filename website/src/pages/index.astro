@@ -1,37 +1,29 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import {DownloadApp} from "../components/DownloadApp"
 ---
 
 <Layout title="Blink Eye ">
-	<section class="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
-		<div class="max-w-[64rem] flex flex-col items-center gap-4 text-center mx-auto">
-			<h1
-				class="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl"
+	<section
+		class="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-24 lg:pb-8"
+	>
+		<h1
+			class="text-center text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] max-w-sm md:max-w-6xl"
+		>
+			<span class="font-bold text-[#FE4C55]"> Blink Eye </span>
+			<br /> A minimalist eye care reminder app for Windows, macOS, and Linux.
+		</h1>
+		<p class="max-w-[900px] mt-2 text-center text-lg text-muted-foreground sm:text-xl">
+			To reduce eye strain, featuring reminder with timers, full-screen
+			popups. Based on{" "}<span class="text-[#FE4C55]">20-20-20 </span>by
+			<a
+				href="https://www.aao.org/eye-health/tips-prevention/computer-usage#:~:text=Take%20regular%20breaks%20using%20the,for%20at%20least%2020%20seconds."
+				target="_blank"
 			>
-				Build beautiful websites with Astro 5 and shadcn/ui
-			</h1>
-			<p
-				class="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8"
-			>
-				A beautiful, modern website template built with Astro and
-				shadcn/ui. Featuring dark mode, responsive design, and great
-				typography.
-			</p>
-			<div class="space-x-4">
-				<a
-					href="https://ui.shadcn.com"
-					class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
-				>
-					Documentation
-				</a>
-				<a
-					href="https://github.com/agentc-app/astro-shadcn"
-					class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-				>
-					GitHub
-				</a>
-			</div>
-		</div>
+				{" "}
+				American Academy of Ophthalmology
+			</a>rule.
+		</p>
+		<DownloadApp client:idle>
 	</section>
-
 </Layout>

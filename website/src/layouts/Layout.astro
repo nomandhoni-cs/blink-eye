@@ -2,32 +2,15 @@
 import { Sidebar } from "@/components/Sidebar";
 import "../styles/global.css";
 import StarryBackground from "./StarryBackground";
-import AnnouncementBar from "./announcement-bar"
-import Footer from "./Footer"
-import Header from "./header"
+import AnnouncementBar from "./announcement-bar";
+import Header from "./header";
+import Footer from "./Footer.astro";
+import WaveAnimation from "../components/WaveAnimation";
 
 interface Props {
   title: string;
   description?: string;
 }
-
-const navigation = [
-  {
-    title: "Home",
-    path: "/",
-    icon: "Home",
-  },
-  {
-    title: "README",
-    path: "/readme",
-    icon: "FileText",
-  },
-  {
-    title: "MIT License",
-    path: "/mit-license",
-    icon: "Scale",
-  },
-];
 
 const {
   title,
@@ -82,20 +65,24 @@ const {
   </head>
   <body>
     <AnnouncementBar />
-    <Header client:idle/>
+    <Header client:idle />
     <!-- <Sidebar navigation={navigation} client:load /> -->
+    <main class="flex flex-1 flex-col relative isolate">
+      <!-- Backgrounds -->
+      <div
+        class="absolute inset-0 -z-10 transform-gpu overflow-hidden"
+        aria-hidden="true"
+      >
+        <WaveAnimation client:idle />
+        <StarryBackground client:idle />
+      </div>
 
-    <main class="flex flex-1 flex-col">
-      <div class="relative isolate">
-        <div
-          class="absolute inset-x-0 -z-10 transform-gpu overflow-hidden"
-          aria-hidden="true"
-        >
-        </div>
-        <StarryBackground client:idle/>
+      <!-- Main Content -->
+      <div class="relative z-0">
         <slot />
       </div>
     </main>
+
     <Footer />
   </body>
 </html>
