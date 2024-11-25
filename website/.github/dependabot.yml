@@ -1,9 +1,0 @@
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    target-branch: "main"
-    schedule:
-      interval: "monthly"
-      day: "sunday"
-    open-pull-requests-limit: 30
