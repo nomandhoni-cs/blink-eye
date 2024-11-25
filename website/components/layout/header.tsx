@@ -2,7 +2,7 @@ import { CONFIG } from "@/configs/site";
 import { TwitterIcon } from "lucide-react";
 import Link from "next/link";
 import logo from "../../public/logo.png";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/ModeToggle";
 import { Button } from "../ui/button";
 import Image from "next/image";
 async function getGitHubStars() {

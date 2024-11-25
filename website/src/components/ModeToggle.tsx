@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
-export const ThemeToggle = () => {
+export const ModeToggle = () => {
   const [theme, setThemeState] = React.useState<"theme-light" | "dark">("dark");
 
   React.useEffect(() => {

@@ -1,0 +1,98 @@
+---
+import { CONFIG } from "@/configs/site";
+import { TwitterIcon } from "lucide-react";
+import { Image } from "astro:assets";
+import logo from "../../../public/logo.png";
+import { Button } from "../ui/button";
+import { ModeToggle } from "../ModeToggle"
+
+
+// Fetch GitHub stars
+let stars = null;
+try {
+  const response = await fetch(
+    "https://api.github.com/repos/nomandhoni-cs/blink-eye"
+  );
+  if (response.ok) {
+    const data = await response.json();
+    stars = parseInt(data["stargazers_count"]).toLocaleString();
+  }
+} catch (error) {
+  console.error("Failed to fetch GitHub stars:", error);
+}
+---
+
+<header
+  class="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg"
+>
+  <div
+    class="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0"
+  >
+    <div class="flex items-center space-x-6 font-medium">
+      <a href="/" class="flex items-center space-x-2">
+        <Image src={logo} alt="A bird." width="50" height="50" />
+        <span class="text-xl font-bold tracking-tight">Blink Eye</span>
+      </a>
+      <div class="hidden sm:block items-center space-x-6 font-medium">
+        <a href="/features">
+          <span>Features</span>
+        </a>
+        <a href="/about">
+          <span>About</span>
+        </a>
+        <a href="/pricing">
+          <span>Pricing</span>
+        </a>
+        <a href="/changelog">
+          <span>Release Notes</span>
+        </a>
+        <a href="/contribute">
+          <span>Contribute</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="flex flex-1 items-center justify-end space-x-4">
+      <nav class="flex items-center space-x-0 sm:space-x-1">
+        {
+          stars && (
+            <Button variant="outline" asChild>
+              <a
+                href="https://github.com/nomandhoni-cs/blink-eye"
+                target="_blank"
+                rel="noreferrer"
+                class="flex space-x-2"
+              >
+                <span class="hidden sm:block">Open Source</span>
+                <div class="flex h-8 w-8 items-center justify-center space-x-2">
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 fill-current text-black dark:text-white mr-1"
+                  >
+                    <title>GitHub</title>
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                  </svg>
+                </div>
+                {stars} <span class="ml-1 hidden sm:block"> Stars</span>
+              </a>
+            </Button>
+          )
+        }
+
+        <Button variant="ghost" size="icon" asChild>
+          <a
+            href={CONFIG.twitter}
+            target="_blank"
+            rel="noreferrer noopener nofollow"
+          >
+            <span class="sr-only">Visit Twitter</span>
+            <TwitterIcon />
+          </a>
+        </Button>
+        <ModeToggle />
+      </nav>
+    </div>
+  </div>
+</header>

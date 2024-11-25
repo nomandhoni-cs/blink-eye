@@ -1,7 +1,8 @@
 import { CONFIG } from "@/configs/site";
-import { getCurrentYear } from "@/utils/year";
+// import { getCurrentYear } from "@/utils/year";
 import Image from "next/image";
-import Link from "next/link";
+import a from "next/link";
+import { getCurrentYear } from "utils/year";
 const routes = [
   "/about",
   "/contribute",
@@ -20,38 +21,38 @@ export const Footer = () => {
     <footer className="container border-t z-10">
       <div className="text-center grid grid-cols-2 gap-4 md:grid-cols-3 lg:flex lg:justify-center lg:mt-4">
         {routes.map((route, index) => (
-          <Link href={route} key={index}>
+          <a href={route} key={index}>
             <span className="mx-2 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
               {route}
             </span>
-          </Link>
+          </a>
         ))}
       </div>
 
       <div className="flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
         <p className="text-center text-sm leading-loose md:text-left">
           © {currentYear}{" "}
-          <Link
+          <a
             href={CONFIG.website}
             target="_blank"
             rel="noreferrer noopener nofollow"
             className="font-medium underline underline-offset-4"
           >
             Blink Eye™
-          </Link>{" "}
+          </a>{" "}
           All Rights Reserved | Made by{" "}
-          <Link
+          <a
             href={CONFIG.twitter}
             target="_blank"
             rel="noreferrer noopener nofollow"
             className="font-medium underline underline-offset-4"
           >
             Noman Dhoni
-          </Link>
+          </a>
         </p>
         <p className="text-right text-sm leading-loose md:text-right">
-          <Link href={CONFIG.buymecoffee} target="_blank">
-            <Image
+          <a href={CONFIG.buymecoffee} target="_blank">
+            <img
               className="w-auto"
               src={
                 "https://raw.githubusercontent.com/nomandhoni-cs/Showwand-Website/master/assets/images/bmc.webp"
@@ -60,8 +61,8 @@ export const Footer = () => {
               width={200}
               height={50}
             />
-          </Link>
-          {/* <Link
+          </a>
+          {/* <a
             href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
             target="_blank"
             className="sm:invisible"
@@ -73,7 +74,7 @@ export const Footer = () => {
               width="250"
               height="54"
             />
-          </Link> */}
+          </a> */}
         </p>
       </div>
     </footer>
