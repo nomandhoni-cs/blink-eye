@@ -1,13 +1,8 @@
-import Link from "next/link";
+
 async function getGitHubStars() {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/nomandhoni-cs/blink-eye",
-      {
-        next: {
-          revalidate: 3600,
-        },
-      }
+      "https://api.github.com/repos/nomandhoni-cs/blink-eye"
     );
 
     if (!response?.ok) {
@@ -34,7 +29,7 @@ const OpenSource = async () => {
             Blink Eye is open source and powered by open source software. <br />{" "}
           </p>
           {stars && (
-            <Link
+            <a
               href="https://github.com/nomandhoni-cs/blink-eye"
               target="_blank"
               rel="noreferrer"
@@ -56,7 +51,7 @@ const OpenSource = async () => {
                   {stars} stars on GitHub
                 </div>
               </div>
-            </Link>
+            </a>
           )}
         </div>
       </section>
