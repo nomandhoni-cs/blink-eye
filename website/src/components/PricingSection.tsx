@@ -1,31 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import { CheckCircle2Icon } from "lucide-react";
-import { cn } from "@/utils/cn";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Pricing",
-};
-
-type PlanType = "Monthly" | "Yearly" | "Lifetime";
-
-interface PricingData {
-  planType: string;
-  price: number;
-  url: string;
-  features: string[];
-  valueProposition: string;
-}
-
-interface PricingProps {
-  pricingData?: {
-    Monthly: PricingData[];
-    Yearly: PricingData[];
-    Lifetime: PricingData[];
-  };
-}
+import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 const defaultPricingData = {
   Monthly: [
@@ -146,10 +121,8 @@ const defaultPricingData = {
   ],
 };
 
-export default function PricingSection({
-  pricingData = defaultPricingData,
-}: PricingProps) {
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>("Yearly");
+export default function PricingSection() {
+
 
   return (
     <div className="relative px-6 py-2 sm:py-2 lg:px-8">
@@ -162,122 +135,109 @@ export default function PricingSection({
         Choose an affordable plan that's packed with the best features for
         engaging your audience, creating customer loyalty, and driving sales.
       </p>
-      <div className="flex justify-center mt-8">
-        <div className="flex space-x-0 rounded-md overflow-hidden border border-[#FE4C55]">
-          {(["Monthly", "Yearly", "Lifetime"] as const).map((plan, index) => (
-            <button
-              key={plan}
-              onClick={() => setSelectedPlan(plan)}
-              className={cn(
-                "px-4 py-2 transition-colors focus:outline-none",
-                selectedPlan === plan
-                  ? "bg-[#FE4C55] text-white"
-                  : "bg-white text-[#FE4C55] hover:bg-[#FE4C55]/60",
-                index === 0 ? "rounded-l-md" : "",
-                index === 2 ? "rounded-r-md" : ""
-              )}
-            >
-              {plan}
-            </button>
+      <Tabs defaultValue="Yearly" className="mt-16">
+        <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
+          {(Object.keys(defaultPricingData) as Array<keyof typeof defaultPricingData>).map((plan) => (
+            <TabsTrigger key={plan} value={plan}>{plan}</TabsTrigger>
           ))}
-        </div>
-      </div>
-
-      <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-3">
-        {pricingData[selectedPlan].map((tier, tierIdx) => (
-          <div
-            key={tier.planType}
-            className={cn(
-              tierIdx === 1
-                ? "relative bg-[#FE4C55] shadow-2xl"
-                : "bg-white/80 sm:mx-8 lg:mx-0",
-              tierIdx === 1
-                ? ""
-                : tierIdx === 0
-                ? "rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none"
-                : "sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl",
-              "rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10"
-            )}
-          >
-            <h3
-              id={`tier-${tier.planType}`}
-              className={cn(
-                tierIdx === 1 ? "text-white" : "text-[#FE4C55]",
-                "text-base/7 font-semibold"
-              )}
-            >
-              {tier.planType}
-            </h3>
-            <p className="mt-4 flex items-baseline gap-x-2">
-              <span
-                className={cn(
-                  tierIdx === 1 ? "text-white" : "text-gray-900",
-                  "text-5xl font-semibold tracking-tight"
-                )}
-              >
-                ${tier.price}
-              </span>
-              <span
-                className={cn(
-                  tierIdx === 1 ? "text-gray-100" : "text-gray-800",
-                  "text-base"
-                )}
-              >
-                /
-                {selectedPlan === "Lifetime"
-                  ? "once"
-                  : selectedPlan.toLowerCase()}
-              </span>
-            </p>
-            <p
-              className={cn(
-                tierIdx === 1 ? "text-gray-100" : "text-gray-800",
-                "mt-6 text-base/7"
-              )}
-            >
-              {tier.valueProposition}
-            </p>
-            <ul
-              role="list"
-              className={cn(
-                tierIdx === 1 ? "text-gray-100" : "text-gray-800",
-                "mt-8 space-y-3 text-sm/6 sm:mt-10"
-              )}
-            >
-              {tier.features.map((feature) => (
-                <li key={feature} className="flex gap-x-3">
-                  <CheckCircle2Icon
-                    aria-hidden="true"
+        </TabsList>
+        {(Object.entries(defaultPricingData) as [keyof typeof defaultPricingData, typeof defaultPricingData[keyof typeof defaultPricingData]][]).map(([plan, tiers]) => (
+          <TabsContent key={plan} value={plan}>
+            <div className="mx-auto mt-8 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-12 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-3">
+              {tiers.map((tier, tierIdx) => (
+                <div
+                  key={tier.planType}
+                  className={cn(
+                    tierIdx === 1
+                      ? "relative bg-[#FE4C55] shadow-2xl"
+                      : "bg-white/80 sm:mx-8 lg:mx-0",
+                    tierIdx === 1
+                      ? ""
+                      : tierIdx === 0
+                      ? "rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none"
+                      : "sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl",
+                    "rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10"
+                  )}
+                >
+                  <h3
+                    id={`tier-${tier.planType}`}
                     className={cn(
                       tierIdx === 1 ? "text-white" : "text-[#FE4C55]",
-                      "h-6 w-5 flex-none"
-                    )}
-                  />
-                  <span
-                    className={cn(
-                      tierIdx === 1 ? "text-gray-100" : "text-gray-800"
+                      "text-base/7 font-semibold"
                     )}
                   >
-                    {feature}
-                  </span>
-                </li>
+                    {tier.planType}
+                  </h3>
+                  <p className="mt-4 flex items-baseline gap-x-2">
+                    <span
+                      className={cn(
+                        tierIdx === 1 ? "text-white" : "text-gray-900",
+                        "text-5xl font-semibold tracking-tight"
+                      )}
+                    >
+                      ${tier.price}
+                    </span>
+                    <span
+                      className={cn(
+                        tierIdx === 1 ? "text-gray-100" : "text-gray-800",
+                        "text-base"
+                      )}
+                    >
+                      /{plan === "Lifetime" ? "once" : plan.toLowerCase()}
+                    </span>
+                  </p>
+                  <p
+                    className={cn(
+                      tierIdx === 1 ? "text-gray-100" : "text-gray-800",
+                      "mt-6 text-base/7"
+                    )}
+                  >
+                    {tier.valueProposition}
+                  </p>
+                  <ul
+                    role="list"
+                    className={cn(
+                      tierIdx === 1 ? "text-gray-100" : "text-gray-800",
+                      "mt-8 space-y-3 text-sm/6 sm:mt-10"
+                    )}
+                  >
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex gap-x-3">
+                        <CheckCircle2Icon
+                          aria-hidden="true"
+                          className={cn(
+                            tierIdx === 1 ? "text-white" : "text-[#FE4C55]",
+                            "h-6 w-5 flex-none"
+                          )}
+                        />
+                        <span
+                          className={cn(
+                            tierIdx === 1 ? "text-gray-100" : "text-gray-800"
+                          )}
+                        >
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href={tier.url}
+                    aria-describedby={`tier-${tier.planType}`}
+                    className={cn(
+                      tierIdx === 1
+                        ? "bg-white text-[#FE4C55] shadow-sm hover:bg-gray-100 focus-visible:outline-white"
+                        : "text-white bg-[#FE4C55] ring-1 ring-inset ring-[#FE4C55] hover:bg-[#FE4C55]/90 focus-visible:outline-[#FE4C55]",
+                      "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10"
+                    )}
+                  >
+                    Get a License
+                  </a>
+                </div>
               ))}
-            </ul>
-            <a
-              href={tier.url}
-              aria-describedby={`tier-${tier.planType}`}
-              className={cn(
-                tierIdx === 1
-                  ? "bg-white text-[#FE4C55] shadow-sm hover:bg-gray-100 focus-visible:outline-white"
-                  : "text-white bg-[#FE4C55] ring-1 ring-inset ring-[#FE4C55] hover:bg-[#FE4C55]/90 focus-visible:outline-[#FE4C55]",
-                "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10"
-              )}
-            >
-              Get a License
-            </a>
-          </div>
+            </div>
+          </TabsContent>
         ))}
-      </div>
+      </Tabs>
     </div>
   );
 }
