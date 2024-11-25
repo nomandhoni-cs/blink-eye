@@ -64,19 +64,19 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex flex-1 items-center justify-end space-x-1">
           <nav className="flex items-center space-x-0 sm:space-x-1">
             {stars && (
               <Button asChild variant="outline">
                 <a
-                  href="https://github.com/nomandhoni-cs/ba-eye"
+                  href="https://github.com/nomandhoni-cs/blink-eye"
                   target="_blank"
                   rel="noreferrer"
                   className="flex space-x-2"
                 >
                   {" "}
                   <span className="hidden sm:block">Open Source</span>
-                  <div className="flex h-8 w-8 items-center justify-center space-x-2">
+                  <div className="flex h-8 w-8 items-center justify-center">
                     <Github />
                   </div>
                   {stars} <span className="ml-1 hidden sm:block"> Stars</span>
