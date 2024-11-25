@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import { Image } from "astro:assets";
+
 interface ContributorData {
   id: number;
   html_url: string;
@@ -7,8 +7,7 @@ interface ContributorData {
 }
 const fromApi = async () => {
   const res = await fetch(
-    "https://api.github.com/repos/nomandhoni-cs/blink-eye/contributors",
-    { next: { revalidate: 3600 } }
+    "https://api.github.com/repos/nomandhoni-cs/blink-eye/contributors"
   );
   const data: ContributorData[] = await res.json();
   return data;
@@ -33,15 +32,15 @@ const Contributors = async () => {
             {data.map((contributor: ContributorData) => {
               return (
                 <div key={contributor.id}>
-                  <Link href={contributor.html_url} target={`_blank`}>
+                  <a href={contributor.html_url} target={`_blank`}>
                     <Image
                       src={contributor.avatar_url + "&s=50"}
-                      className="rounded-full"
+                      class="rounded-full"
                       alt="Contributors Image"
-                      width={50}
-                      height={50}
+                      width="50"
+                      height="50"
                     />
-                  </Link>
+                  </a>
                 </div>
               );
             })}
