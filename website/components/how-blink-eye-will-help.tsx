@@ -194,7 +194,7 @@ export default function HowBlinkEyeWillHelp() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl text-center py-4">
-        <h2 className="mt-2 text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
+        <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
           How Blink Eye Will Help You
         </h2>
       </div>

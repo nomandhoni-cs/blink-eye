@@ -6,7 +6,7 @@ const OpenSource = async () => {
     <>
       <section className="container">
         <div className="mx-auto flex flex-col items-center justify-center gap-4 text-center">
-          <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
+          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
             Proudly Open Source
           </h2>
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">

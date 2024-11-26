@@ -5,7 +5,7 @@ import Link from "next/link";
 const GitHubStarCount = async () => {
   const stars = await fetchStarCount();
   return (
-    <>
+    <div className="hidden sm:block">
       {stars && (
         <Button asChild variant="outline">
           <Link
@@ -15,8 +15,8 @@ const GitHubStarCount = async () => {
             className="flex space-x-2"
           >
             {" "}
-            <span className="hidden sm:block">Open Source</span>
-            <div className="flex h-8 w-8 items-center justify-center space-x-2">
+            <span>Open Source</span>
+            <div className="flex h-8 w-8 items-center justify-center space-x-1">
               <svg
                 role="img"
                 viewBox="0 0 24 24"
@@ -31,7 +31,7 @@ const GitHubStarCount = async () => {
           </Link>
         </Button>
       )}
-    </>
+    </div>
   );
 };
 

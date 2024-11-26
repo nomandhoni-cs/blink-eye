@@ -42,7 +42,7 @@ export const features: Feature[] = [
   },
   {
     icon: ChartAreaIcon,
-    title: "Daily Device Usage Tracking",
+    title: "Daily Device Usage Time",
     description: "Track your screen time to optimize productivity and balance.",
   },
   {
@@ -53,12 +53,12 @@ export const features: Feature[] = [
   },
   {
     icon: Timer,
-    title: "Pomodoro Timer Functionality",
+    title: "Pomodoro Timer",
     description: "Break tasks into intervals for maximum focus and efficiency.",
   },
   {
     icon: ToggleRight,
-    title: "Automatic Startup on Device Boot",
+    title: "Run on Startup",
     description: "Launch the app automatically when your device starts.",
   },
   {

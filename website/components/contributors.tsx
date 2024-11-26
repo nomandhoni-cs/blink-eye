@@ -19,7 +19,7 @@ const Contributors = async () => {
     <>
       <section id="contributors" className="container">
         <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-          <h2 className="font-bold text-xl leading-[1.1] sm:text-2xl md:text-3xl">
+          <h2 className="font-heading text-xl leading-[1.1] sm:text-2xl md:text-3xl">
             Our Contributors
           </h2>
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">

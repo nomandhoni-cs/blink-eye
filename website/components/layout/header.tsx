@@ -5,6 +5,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import GitHubStarCount from "../GitHubStarCount";
+import { cn } from "@/utils/cn";
 export const Header = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
@@ -12,13 +13,11 @@ export const Header = () => {
         {/* Logo Section */}
         <Link href="/" className="flex items-center space-x-3 mr-4">
           <Image src={logo} alt="Blink Eye Logo" height={40} width={40} />
-          <span className="text-2xl font-bold tracking-wide">
-            Blink Eye
-          </span>
+          <span className="font-bold">Blink Eye</span>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden sm:flex items-center space-x-6 text-base font-medium">
+        <nav className="hidden sm:flex items-center space-x-4 text-base font-medium">
           {[
             { href: "/features", label: "Features" },
             { href: "/about", label: "About" },
@@ -27,9 +26,11 @@ export const Header = () => {
             { href: "/contribute", label: "Contribute" },
           ].map(({ href, label }) => (
             <Link
-              key={href}
-              href={href}
-              className=" transition-colors"
+              key={label}
+              href={!href ? "#" : href}
+              className={cn(
+                "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm"
+              )}
             >
               {label}
             </Link>

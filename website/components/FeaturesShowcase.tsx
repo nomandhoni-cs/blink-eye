@@ -66,7 +66,7 @@ const FeatureShowcase = () => {
     <section className="w-full py-16">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mt-2 text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
+          <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
             Discover the Features that Make Us Stand Out
           </h2>
         </div>
@@ -99,7 +99,7 @@ const FeatureShowcase = () => {
                     quality={75}
                     sizes={`(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw`}
                     placeholder="blur"
-                    blurDataURL={rgbDataURL(238, 238, 238)}
+                    blurDataURL={rgbDataURL(10, 10, 10)}
                   />
                 </div>
               </div>

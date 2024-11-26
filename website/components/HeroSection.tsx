@@ -1,14 +1,14 @@
-
 import Link from "next/link";
 import { HoverCardTrigger, HoverCardContent, HoverCard } from "./ui/hover-card";
 
-
 const HeroSection = () => {
   return (
-    <>
-      <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
-        <span className="font-bold text-[#FE4C55]">Blink Eye</span> <br />A
-        minimalist eye care reminder app for Windows, macOS, and Linux.
+    <div className="container flex max-w-[80rem] flex-col items-center gap-4 text-center">
+      <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+        <span className=" text-[#FE4C55]">Blink Eye</span> <br />
+        <span>
+          A minimalist eye care reminder app for Windows, macOS, and Linux.
+        </span>
       </h1>
       <p className="max-w-[900px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground">
         To reduce eye strain, featuring reminder with timers, full-screen
@@ -31,8 +31,8 @@ const HeroSection = () => {
         </HoverCard>
         rule.
       </p>
-    </>
+    </div>
   );
-}
+};
 
-export default HeroSection
+export default HeroSection;
