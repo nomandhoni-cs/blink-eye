@@ -1,4 +1,3 @@
-import * as React from "react";
 // import { CONFIG } from "@/configs/site";
 
 import Link from "next/link";
@@ -31,92 +30,82 @@ const DownloadApp = async () => {
   }
 
   return (
-    <div className="relative max-w-6xl h-full py-8 rounded-xl">
-      <div className="relative z-10 flex flex-col justify-center items-center space-y-4">
-        <h2 className="mt-2 text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+    <section className="py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-semibold text-center mb-8">
           Download Free & Start Now
         </h2>
-        <div className="flex flex-col items-center space-y-4 md:space-y-6 w-full px-4">
-          {/* Platform Row */}
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
-            {/* Windows Button */}
-            <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
-              {downloadLinks.windowsSetup && (
-                <DownloadButton
-                  href={downloadLinks.windowsSetup}
-                  label="Download for Windows"
-                  icon={<WindowsIcon />}
-                />
-              )}
-              <DownloadDropdown
-                links={[
-                  {
-                    href: downloadLinks.windowsSetup!,
-                    label: "Download (EXE)",
-                  },
-                  {
-                    href: downloadLinks.windowsMSI!,
-                    label: "Download (MSI)",
-                  },
-                ]}
-              />
-            </div>
-            {/* MacOS Download Options */}
-            <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
-              {downloadLinks.macSilicon && (
-                <DownloadButton
-                  href={downloadLinks.macSilicon}
-                  label="Download for MacOS"
-                  icon={<MacIcon />}
-                />
-              )}
-              <DownloadDropdown
-                links={[
-                  {
-                    href: downloadLinks.macSilicon!,
-                    label: "Download (Apple Silicon)",
-                  },
-                  {
-                    href: downloadLinks.macIntel!,
-                    label: "Download (Intel Chip)",
-                  },
-                ]}
-              />
-            </div>
-            {/* Linux Download Options */}
-            <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
-              {downloadLinks.linuxDeb && (
-                <DownloadButton
-                  href={downloadLinks.linuxDeb}
-                  label="Download for Linux"
-                  icon={<LinuxIcon />}
-                />
-              )}
-              <DownloadDropdown
-                links={[
-                  {
-                    href: downloadLinks.linuxAppImage!,
-                    label: "Download (AppImage)",
-                  },
-                  { href: downloadLinks.linuxDeb!, label: "Download (Debian)" },
-                  { href: downloadLinks.linuxTar!, label: "Download (Tar.gz)" },
-                  { href: downloadLinks.linuxRPM!, label: "Download (RPM)" },
-                ]}
-              />
-            </div>
-          </div>
+        <div className="space-y-6">
+          <DownloadButtons downloadLinks={downloadLinks} />
+          <SupportedPlatforms />
+          <ReleaseInfo tag_name={tag_name} />
         </div>
-        <span className="text-sm px-8">
-          Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux
-          (Debian, AppImage, RPM, TAR)
-        </span>
-        <Link href="/changelog" className="text-base font-semibold">
-          Release Notes
-        </Link>
-        <VersionTolatDownloads tag_name={tag_name} />
       </div>
-    </div>
+    </section>
   );
 };
 
 export default DownloadApp;
+
+const DownloadButtons = ({ downloadLinks }) => (
+  <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+    <DownloadOption
+      name="Windows"
+      icon={<WindowsIcon />}
+      mainLink={downloadLinks.windowsSetup}
+      dropdownLinks={[
+        { href: downloadLinks.windowsSetup, label: "Download (EXE)" },
+        { href: downloadLinks.windowsMSI, label: "Download (MSI)" },
+      ]}
+    />
+    <DownloadOption
+      name="MacOS"
+      icon={<MacIcon />}
+      mainLink={downloadLinks.macSilicon}
+      dropdownLinks={[
+        { href: downloadLinks.macSilicon, label: "Download (Apple Silicon)" },
+        { href: downloadLinks.macIntel, label: "Download (Intel Chip)" },
+      ]}
+    />
+    <DownloadOption
+      name="Linux"
+      icon={<LinuxIcon />}
+      mainLink={downloadLinks.linuxDeb}
+      dropdownLinks={[
+        { href: downloadLinks.linuxAppImage, label: "Download (AppImage)" },
+        { href: downloadLinks.linuxDeb, label: "Download (Debian)" },
+        { href: downloadLinks.linuxTar, label: "Download (Tar.gz)" },
+        { href: downloadLinks.linuxRPM, label: "Download (RPM)" },
+      ]}
+    />
+  </div>
+);
+
+const DownloadOption = ({ name, icon, mainLink, dropdownLinks }) => (
+  <div className="flex items-center bg-[#FE4C55] h-16 py-4 pr-2 rounded-full">
+    {mainLink && (
+      <DownloadButton
+        href={mainLink}
+        label={`Download for ${name}`}
+        icon={icon}
+      />
+    )}
+    <DownloadDropdown links={dropdownLinks} />
+  </div>
+);
+
+const SupportedPlatforms = () => (
+  <p className="text-sm text-center">
+    Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux
+    (Debian, AppImage, RPM, TAR)
+  </p>
+);
+
+const ReleaseInfo = ({ tag_name }) => (
+  <div className="text-center space-x-1 md:space-y-2 flex flex-col items-center">
+    <Link href="/changelog" className="text-base font-semibold">
+      Release Notes
+    </Link>
+    <VersionTolatDownloads tag_name={tag_name} />
+  </div>
+);

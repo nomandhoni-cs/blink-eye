@@ -1,6 +1,7 @@
 import { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { SEO } from "@/configs/seo";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
@@ -63,6 +64,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           name="google-site-verification"
           content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
         />
+        <GoogleTagManager gtmId="GTM-5C4XTNHM" />
         <Providers>
           <AnnouncementBar />
           <Header />
@@ -74,7 +76,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               >
                 <App />
                 <StarryBackground />
-
               </div>
               {children}
             </div>

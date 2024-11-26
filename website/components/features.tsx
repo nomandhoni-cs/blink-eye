@@ -5,10 +5,10 @@ export function FeatureGridItem(props: {
 }) {
   return (
     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-      <div className="flex h-[180px] flex-col rounded-md p-6 gap-4">
-        {props.icon}
+      <div className="flex h-[200px] flex-col rounded-md p-6 gap-4">
+        <span className="h-20 w-20">{props.icon}</span>
         <div className="space-y-2">
-          <h3 className="font-bold">{props.title}</h3>
+          <h3 className="text-pretty text-xl font-semibold">{props.title}</h3>
           <p className="text-sm text-muted-foreground">{props.description}</p>
         </div>
       </div>
