@@ -1,4 +1,5 @@
 import { FeatureGrid } from "@/components/features";
+import FeatureShowcase from "@/components/FeaturesShowcase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ const Features = () => {
         title="Features"
         subtitle="All the necessary productivity tool in one place."
       />
+      <FeatureShowcase />
     </div>
   );
 };

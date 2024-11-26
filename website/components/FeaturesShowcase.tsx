@@ -1,10 +1,9 @@
 import Image from "next/image";
+import { CheckSquare, Minus, X } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { featuresDemo } from "@/utils/features";
 
-interface Feature {
-  title: string;
-  description: string;
-  imageSrc: string;
-}
 const keyStr =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
@@ -19,96 +18,110 @@ const rgbDataURL = (r: number, g: number, b: number) =>
     triplet(0, r, g) + triplet(b, 255, 255)
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
-const features: Feature[] = [
-  {
-    title: "Customizable Reminders",
-    description:
-      "Set personalized reminders to take breaks and reduce eye strain.",
-    imageSrc:
-      "https://utfs.io/f/93hqarYp4cDdliC0cvTporY6G7BSfdzITLcbnsF9hxDktAMi",
-  },
-  {
-    title: "Multiple Themes",
-    description: "Choose from a variety of themes to suit your preferences.",
-    imageSrc:
-      "https://utfs.io/f/93hqarYp4cDd31SVWUtCChVkLWdYfS9br7PBtcwnQxZpDAj8",
-  },
-  {
-    title: "Usage Statistics",
-    description: "Track your device usage and eye care habits over time.",
-    imageSrc:
-      "https://utfs.io/f/93hqarYp4cDde1yHOeAGUrMQKVoXBI75tih4E9gWPzmLdf16",
-  },
-  {
-    title: "Workday Setup",
-    description:
-      "Setup your workday, worktime for individual days of the week.",
-    imageSrc:
-      "https://utfs.io/f/93hqarYp4cDdLv6sw2RNqGpChfTslFLyAoEai9twkUOcB1W6",
-  },
-  {
-    title: "Settings - Customize Everything",
-    description: "Boost productivity with built-in Pomodoro technique support.",
-    imageSrc:
-      "https://utfs.io/f/93hqarYp4cDd5kcFr5neNhUXFVz5orgOZBLkIMm4aAl6c39R",
-  },
-  {
-    title: "Activate License Key",
-    description:
-      "Choose your preferred notification sounds for a personalized experience.",
-    imageSrc:
-      "https://utfs.io/f/93hqarYp4cDdcn73xDMkT6pOqw0Iv1bCoQNrsReJ4itUMan3",
-  },
-];
-
-const FeatureShowcase = () => {
+export default function FeatureShowcase() {
   return (
-    <section className="w-full py-16">
+    <section className="w-full py-24">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
+        <div className="mx-auto max-w-4xl text-center mb-16">
+          <h2 className="mt-2 text-balance text-4xl font-heading tracking-wide sm:text-5xl md:text-6xl bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent">
             Discover the Features that Make Us Stand Out
           </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg text-zinc-400 sm:text-xl/8">
+            Explore the features that make our app stand out. From customizable
+            reminders to multiple themes, we've got you covered.
+          </p>
         </div>
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 dark:text-gray-300 sm:text-xl/8">
-          Explore the features that make our app stand out. From customizable
-          reminders to multiple themes, we've got you covered.
-        </p>
-        <div className="space-y-24">
-          {features.map((feature, index) => (
+        <div className="mt-16 space-y-24">
+          {featuresDemo.map((feature, index) => (
             <div
               key={index}
-              className={`flex flex-col ${
-                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-              } items-center gap-8 md:gap-12`}
+              className="relative group perspective-1000"
+              style={{
+                transform: index % 2 === 0 ? "rotate(-2deg)" : "rotate(2deg)",
+              }}
             >
-              <div className="w-full md:w-1/2 space-y-4">
-                <h3 className="text-2xl text-balance font-semibold">
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </div>
-              <div className="w-full md:w-1/2 relative">
-                <div className="aspect-video relative transition-all duration-300 hover:scale-120">
-                  <Image
-                    src={feature.imageSrc}
-                    alt={feature.title}
-                    width={1920}
-                    height={1440}
-                    className="transition-all duration-300 hover:scale-110"
-                    quality={75}
-                    sizes={`(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw`}
-                    placeholder="blur"
-                    blurDataURL={rgbDataURL(10, 10, 10)}
-                  />
-                </div>
-              </div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              <Card className="relative bg-slate-50 border border-gray-200 dark:bg-zinc-800 dark:border-zinc-700 overflow-hidden transition-colors duration-300">
+                <CardContent className="p-0">
+                  <div
+                    className={`flex flex-col ${
+                      index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+                    } items-center`}
+                  >
+                    {/* Text Content */}
+                    <div className="w-full lg:w-3/5 p-8 lg:p-12 space-y-6">
+                      <Badge
+                        variant="secondary"
+                        className="mb-4 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Feature {index + 1}
+                      </Badge>
+                      <h3 className="text-2xl sm:text-3xl font-heading text-gray-800 dark:text-gray-100">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        {feature.description}
+                      </p>
+                      <ul className="space-y-3">
+                        {feature.features.map((item, i) => (
+                          <li
+                            key={i}
+                            className="flex items-center space-x-3 text-gray-700 dark:text-gray-300"
+                          >
+                            <CheckSquare className="h-5 w-5 text-primary flex-shrink-0" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Image Content */}
+                    <div className="w-full lg:w-2/3 p-4 lg:p-8">
+                      <div className="relative">
+                        {/* Gradient Outline */}
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-70 transition-opacity duration-300 hover:opacity-90"></div>
+                        <div className="relative bg-white dark:bg-zinc-900 rounded-lg overflow-hidden shadow-md">
+                          {/* Browser Mockup Header */}
+                          <div className="h-8 bg-gray-100 dark:bg-zinc-700 flex items-center justify-between px-4">
+                            {/* Circles */}
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+
+                            {/* Centered Text */}
+                            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                              Blink Eye -{" "}
+                              <span className="text-xs font-normal">
+                                {feature.moto}
+                              </span>
+                            </p>
+
+                            {/* Placeholder for Right Alignment */}
+                            <div className="w-8"></div>
+                          </div>
+
+                          {/* Image */}
+                          <Image
+                            src={feature.imageSrc}
+                            alt={feature.title}
+                            width={1000}
+                            height={650}
+                            className="w-full h-auto object-cover"
+                            placeholder="blur"
+                            blurDataURL={rgbDataURL(10, 10, 10)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default FeatureShowcase;
+}
