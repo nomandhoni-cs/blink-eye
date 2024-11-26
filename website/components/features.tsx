@@ -1,12 +1,18 @@
+import { features } from "@/utils/features";
+import React from "react";
+
 export function FeatureGridItem(props: {
-  icon: React.ReactNode;
+  icon: React.ElementType; // Expecting a component type
   title: string;
   description: string;
 }) {
+  const Icon = props.icon; // Use the passed component type as JSX
   return (
     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
       <div className="flex h-[200px] flex-col rounded-md p-6 gap-4">
-        <span className="h-20 w-20">{props.icon}</span>
+        <span className="h-20 w-20">
+          <Icon className="h-12 w-12 text-primary" /> {/* Render the icon */}
+        </span>
         <div className="space-y-2">
           <h3 className="text-pretty text-xl font-semibold">{props.title}</h3>
           <p className="text-sm text-muted-foreground">{props.description}</p>
@@ -16,15 +22,7 @@ export function FeatureGridItem(props: {
   );
 }
 
-export function FeatureGrid(props: {
-  title: string;
-  subtitle: string;
-  items: {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-  }[];
-}) {
+export function FeatureGrid(props: { title: string; subtitle: string }) {
   return (
     <section
       id="features"
@@ -40,8 +38,13 @@ export function FeatureGrid(props: {
       </div>
 
       <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-5xl md:grid-cols-3">
-        {props.items.map((item, index) => (
-          <FeatureGridItem key={index} {...item} />
+        {features.map((item, index) => (
+          <FeatureGridItem
+            key={index}
+            icon={item.icon} // Pass the component type
+            title={item.title}
+            description={item.description}
+          />
         ))}
       </div>
     </section>
