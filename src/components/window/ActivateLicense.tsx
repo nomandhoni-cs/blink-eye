@@ -9,6 +9,7 @@ import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
+import { useTrigger } from "../../contexts/TriggerReRender";
 
 async function initializeDatabase() {
   const dbFileExists = await exists("blink_eye_license.db", {
@@ -100,6 +101,7 @@ async function storeLicenseData(data: any) {
 }
 
 const ActivateLicense = () => {
+  const { triggerUpdate } = useTrigger();
   const [activationKey, setActivationKey] = useState("");
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState({
@@ -152,11 +154,10 @@ const ActivateLicense = () => {
         });
         setActivationKey(""); // Clear input field
         setUserName(""); // Clear input field
-        // Reload the page to reflect the changes
-        //! TODO: Find a better way to reload the page without refreshing the entire app
+
         // use this after 1 second delay
         setTimeout(() => {
-          window.location.reload();
+          triggerUpdate();
         }, 1000);
       } else {
         console.log(

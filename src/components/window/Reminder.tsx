@@ -39,6 +39,8 @@ const Reminder: React.FC = () => {
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
   const [isUsingStictMode, setIsUsingStrictMode] = useState<boolean>(false);
+  const [isShowingPauseButton, setIsShowingPauseButton] =
+    useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
   useEffect(() => {
@@ -90,6 +92,13 @@ const Reminder: React.FC = () => {
 
       if (strictModeResult.length > 0) {
         setIsUsingStrictMode(strictModeResult[0].value === "true");
+      }
+      const pauseModeResult: ConfigRow[] = await db.select(
+        "SELECT value FROM config WHERE key = 'showPauseButton';"
+      );
+
+      if (pauseModeResult.length > 0) {
+        setIsShowingPauseButton(pauseModeResult[0].value === "true");
       }
     };
 
@@ -188,16 +197,18 @@ const Reminder: React.FC = () => {
               </svg>
             </Button>
           )}
-          <Button
-            onClick={() => setIsPaused((prev) => !prev)}
-            className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base items-center justify-center transform transition-transform hover:scale-105"
-          >
-            {isPaused ? (
-              <Play className="fill-current h-6 w-6" />
-            ) : (
-              <PauseIcon className="fill-current h-6 w-6" />
-            )}
-          </Button>
+          {!isShowingPauseButton && (
+            <Button
+              onClick={() => setIsPaused((prev) => !prev)}
+              className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base items-center justify-center transform transition-transform hover:scale-105"
+            >
+              {isPaused ? (
+                <Play className="fill-current h-6 w-6" />
+              ) : (
+                <PauseIcon className="fill-current h-6 w-6" />
+              )}
+            </Button>
+          )}
         </div>
       </div>
       <Toaster />
