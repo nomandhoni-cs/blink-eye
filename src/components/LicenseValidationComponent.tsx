@@ -121,7 +121,7 @@ const LicenseValidationComponent: React.FC = () => {
         WHERE id = 1`,
           [status] // Only update the status field
         );
-        toast.success(`License status updated to ${status}`);
+        // toast.success(`License status updated to ${status}`);
       } catch (error) {
         console.error("Failed to update status:", error);
         toast.error("Failed to update license status.");
