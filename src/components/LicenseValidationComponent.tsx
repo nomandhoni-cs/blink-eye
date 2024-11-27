@@ -3,25 +3,50 @@ import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { useLicenseKey } from "../hooks/useLicenseKey";
+import { useTrigger } from "../contexts/TriggerReRender";
 
 const LicenseValidationComponent: React.FC = () => {
   const [licenseKey, setLicenseKey] = useState<string>("");
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // Track loading status
   const { licenseData, refreshLicenseData } = useLicenseKey();
+  const { triggerUpdate } = useTrigger();
+
+  // Function to check if a date is today
+  const isNotToday = (dateString: string): boolean => {
+    const today = new Date();
+    const inputDate = new Date(dateString);
+    return (
+      inputDate.getFullYear() !== today.getFullYear() ||
+      inputDate.getMonth() !== today.getMonth() ||
+      inputDate.getDate() !== today.getDate()
+    );
+  };
 
   useEffect(() => {
     const validateLicense = async () => {
-      await refreshLicenseData();
-      if (licenseData) {
-        setLicenseKey(licenseData.license_key);
-        await handleLicenseValidation(
-          licenseData.last_validated,
-          licenseData.status,
-          licenseData.license_key
-        );
-      }
+      console.log("Running License Validator");
+      await refreshLicenseData(); // Ensure data is refreshed
+      setIsDataLoaded(true); // Mark data as loaded
     };
     validateLicense();
   }, []);
+
+  useEffect(() => {
+    console.log(isNotToday("2024-11-27"), "is not Today");
+    if (
+      isDataLoaded &&
+      licenseData &&
+      isNotToday(licenseData.last_validated) // Add the new condition
+    ) {
+      console.log(licenseData);
+      setLicenseKey(licenseData.license_key);
+      handleLicenseValidation(
+        licenseData.last_validated,
+        licenseData.status,
+        licenseData.license_key
+      );
+    }
+  }, [isDataLoaded]); // Re-run when data loads
 
   // Function to handle license validation and activation status
   const handleLicenseValidation = async (
@@ -76,6 +101,7 @@ const LicenseValidationComponent: React.FC = () => {
           if (diffInDays > 7) {
             // If more than 7 days, update status to what was received in the response
             await updateLicenseStatus("disabled");
+            triggerUpdate();
           } else {
             // If less than 7 days, update status
             await updateLicenseStatus(data.license_key.status);
