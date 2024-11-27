@@ -6,9 +6,15 @@ import Database from "@tauri-apps/plugin-sql";
 interface ConfigRow {
   value: string;
 }
+interface TogglePropsType {
+  functionalityButton: string;
+  title: string;
+  description: string;
+}
 
-const StrictModeToggle = () => {
+const FunctionalitySwitchToggle = (props: TogglePropsType) => {
   const [isStrictModeEnabled, setIsStrictModeEnabled] = useState(false);
+  const { functionalityButton, title, description } = props;
 
   useEffect(() => {
     const initializeStrictMode = async () => {
@@ -18,7 +24,7 @@ const StrictModeToggle = () => {
 
         // Retrieve the 'usingStrictMode' value from the config table
         const result: ConfigRow[] = await db.select(
-          "SELECT value FROM config WHERE key = 'usingStrictMode';"
+          `SELECT value FROM config WHERE key = '${functionalityButton}';`
         );
 
         if (result.length > 0) {
@@ -38,7 +44,7 @@ const StrictModeToggle = () => {
       // Use an `INSERT OR REPLACE` or `UPDATE` query
       await db.execute(
         `
-        INSERT INTO config (key, value) VALUES ('usingStrictMode', ?)
+        INSERT INTO config (key, value) VALUES ('${functionalityButton}', ?)
         ON CONFLICT(key) DO UPDATE SET value = excluded.value;
       `,
         [checked ? "true" : "false"]
@@ -54,17 +60,15 @@ const StrictModeToggle = () => {
     <div className="flex flex-row items-center justify-between rounded-lg border p-4">
       <div className="space-y-0.5">
         <Label
-          htmlFor="strictmode"
+          htmlFor={`${functionalityButton}`}
           className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Use Strict Mode
+          {title}
         </Label>
-        <p className="text-sm text-muted-foreground">
-          This will hide the 'Skip this time' button to force follow the break.
-        </p>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       <Switch
-        id="strictmode"
+        id={`${functionalityButton}`}
         checked={isStrictModeEnabled}
         onCheckedChange={handleCheckboxChange}
       />
@@ -72,4 +76,4 @@ const StrictModeToggle = () => {
   );
 };
 
-export default StrictModeToggle;
+export default FunctionalitySwitchToggle;

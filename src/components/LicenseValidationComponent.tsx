@@ -3,13 +3,10 @@ import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { useLicenseKey } from "../hooks/useLicenseKey";
-import { useTrigger } from "../contexts/TriggerReRender";
 
 const LicenseValidationComponent: React.FC = () => {
-  const [licenseKey, setLicenseKey] = useState<string>("");
   const [isDataLoaded, setIsDataLoaded] = useState(false); // Track loading status
   const { licenseData, refreshLicenseData } = useLicenseKey();
-  const { triggerUpdate } = useTrigger();
 
   // Function to check if a date is today
   const isNotToday = (dateString: string): boolean => {
@@ -24,7 +21,6 @@ const LicenseValidationComponent: React.FC = () => {
 
   useEffect(() => {
     const validateLicense = async () => {
-      console.log("Running License Validator");
       await refreshLicenseData(); // Ensure data is refreshed
       setIsDataLoaded(true); // Mark data as loaded
     };
@@ -32,17 +28,14 @@ const LicenseValidationComponent: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(isNotToday("2024-11-27"), "is not Today");
     if (
       isDataLoaded &&
       licenseData &&
       isNotToday(licenseData.last_validated) // Add the new condition
     ) {
       console.log(licenseData);
-      setLicenseKey(licenseData.license_key);
       handleLicenseValidation(
         licenseData.last_validated,
-        licenseData.status,
         licenseData.license_key
       );
     }
@@ -51,7 +44,6 @@ const LicenseValidationComponent: React.FC = () => {
   // Function to handle license validation and activation status
   const handleLicenseValidation = async (
     lastValidated: string,
-    status: string,
     licenseKey: string
   ) => {
     if (!licenseKey) {
@@ -76,41 +68,25 @@ const LicenseValidationComponent: React.FC = () => {
 
       const data = await response.json();
       console.log(data);
-
       // Proceed only if store_id matches and data is valid
       if (
         (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
         data.valid
       ) {
-        // If the license is valid and last validated is different from today
-        if (lastValidated !== today) {
-          await updateLicenseStatus(data.license_key.status);
-          await updateLastValidatedDate(today);
-        } else if (status !== data.license_key.status) {
-          // Update the status if it has changed
-          await updateLicenseStatus(data.license_key.status);
-        }
+        await updateLicenseStatus(data.license_key.status);
+        await updateLastValidatedDate(today);
       } else if (
         (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
         !data.valid
       ) {
-        // If the license is invalid but store_id matches, update status
-        if (lastValidated !== today) {
-          // If the response is not ok, check the number of days since last validation
-          const diffInDays = getDateDiffInDays(lastValidated, today);
-          if (diffInDays > 7) {
-            // If more than 7 days, update status to what was received in the response
-            await updateLicenseStatus("disabled");
-            triggerUpdate();
-          } else {
-            // If less than 7 days, update status
-            await updateLicenseStatus(data.license_key.status);
-          }
-          return;
-        } else if (status !== data.license_key.status) {
-          // Update the status if it has changed
+        const diffInDays = getDateDiffInDays(lastValidated, today);
+        if (diffInDays > 7) {
+          // If more than 7 days, update status to what was received in the response
           await updateLicenseStatus(data.license_key.status);
+        } else {
+          return;
         }
+        return;
       } else {
         console.log(
           "Store ID does not match required values. Validation skipped."
@@ -127,7 +103,8 @@ const LicenseValidationComponent: React.FC = () => {
         return;
       }
     } catch (error) {
-      toast.error("Failed to validate license. Please try again.");
+      return error;
+      // toast.error("Failed to validate license. Please try again.");
     }
   };
 
@@ -135,14 +112,20 @@ const LicenseValidationComponent: React.FC = () => {
   const updateLicenseStatus = async (status: string) => {
     const db = await Database.load("sqlite:blink_eye_license.db"); // Use the same db connection
     if (db) {
-      await db.execute(
-        `
+      try {
+        // Update the status for the first row (where id = 1)
+        await db.execute(
+          `
         UPDATE licenses
         SET status = $1
-        WHERE license_key = $2`,
-        [status, licenseKey] // Update the status in the database
-      );
-      toast.success(`License status updated to ${status}`);
+        WHERE id = 1`,
+          [status] // Only update the status field
+        );
+        // toast.success(`License status updated to ${status}`);
+      } catch (error) {
+        console.error("Failed to update status:", error);
+        toast.error("Failed to update license status.");
+      }
     }
   };
 
@@ -150,14 +133,18 @@ const LicenseValidationComponent: React.FC = () => {
   const updateLastValidatedDate = async (today: string) => {
     const db = await Database.load("sqlite:blink_eye_license.db"); // Use the same db connection
     if (db) {
-      await db.execute(
-        `
+      try {
+        await db.execute(
+          `
         UPDATE licenses
         SET last_validated = $1
-        WHERE license_key = $2`,
-        [today, licenseKey] // Update the last validated date in the database
-      );
-      toast.success("License last validated date updated");
+        WHERE id = 1`,
+          [today]
+        );
+      } catch (error) {
+        console.error("Failed to update last validated date:", error);
+        toast.error("Failed to update license last validated date.");
+      }
     }
   };
 
