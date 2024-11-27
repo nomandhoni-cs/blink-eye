@@ -1,6 +1,7 @@
 import { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { SEO } from "@/configs/seo";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
@@ -10,10 +11,16 @@ import { Header } from "@/components/layout/header";
 import StarryBackground from "@/components/StarryBackground";
 import App from "@/components/WaveAnimation";
 import AnnouncementBar from "@/components/layout/announcement-bar";
+import localFont from "next/font/local";
+import { cn } from "@/utils/cn";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+const fontHeading = localFont({
+  src: "../assets/fonts/CalSans-SemiBold.woff2",
+  variable: "--font-heading",
 });
 
 type RootLayoutProps = {
@@ -33,6 +40,7 @@ export const metadata: Metadata = {
   applicationName: SEO.title,
   description: SEO.description,
   keywords: SEO.keywords,
+  manifest: `${SEO.url}/site.webmanifest`,
   openGraph: {
     locale: "en",
     title: SEO.title,
@@ -58,11 +66,18 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={fontSans.variable}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable,
+          fontHeading.variable
+        )}
+      >
         <meta
           name="google-site-verification"
           content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
         />
+        <GoogleTagManager gtmId="GTM-5C4XTNHM" />
         <Providers>
           <AnnouncementBar />
           <Header />
@@ -74,7 +89,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               >
                 <App />
                 <StarryBackground />
-
               </div>
               {children}
             </div>

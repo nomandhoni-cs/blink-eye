@@ -44,7 +44,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const releaseRoutes = releases.map((release) => ({
     url: `${SEO.url}/changelog/release/${release.tag_name}`,
     lastModified: new Date().toISOString(), // Ensure the lastModified is a string or Date
-    changeFrequency: "monthly" as "monthly", // Explicitly set the allowed change frequency
+    changeFrequency: "weekly" as "weekly", // Explicitly set the allowed change frequency
     priority: 0.8,
   }));
 
@@ -53,7 +53,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     ...routes.map((route) => ({
       url: `${SEO.url}${route}`,
       lastModified: new Date().toISOString(), // Ensure the lastModified is a string or Date
-      changeFrequency: "monthly" as "monthly", // Explicitly set the allowed change frequency
+      changeFrequency: "weekly" as "weekly", // Explicitly set the allowed change frequency
       priority: 1,
     })),
     ...releaseRoutes, // Add the release routes dynamically

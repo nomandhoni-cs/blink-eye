@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AutoStartToggle from "../AutoStartToggle";
-import StrictModeToggle from "../StrictModeToggle";
+import FunctionalitySwitchToggle from "../FunctionalitySwitchToggle";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -72,7 +72,16 @@ const AllSettings = () => {
       <div className="space-y-4">
         <AutoStartToggle />
         <PomodoroTimerToggle />
-        <StrictModeToggle />
+        <FunctionalitySwitchToggle
+          functionalityButton="usingStrictMode"
+          title=" Use Strict Mode"
+          description="This will hide the 'Skip this time' button to force follow the break."
+        />
+        <FunctionalitySwitchToggle
+          functionalityButton="showPauseButton"
+          title="Hide pause button"
+          description="This will hide Pause button from the reminder screen to pause the reminder."
+        />
         <div className="rounded-lg border border-muted p-6 space-y-4">
           {/* Input and Button Section */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">

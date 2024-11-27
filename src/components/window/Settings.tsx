@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
 
 const Settings = () => {
-  const { triggerUpdate } = useTrigger(); // Access triggerUpdate from the context
+  const { triggerUpdate } = useTrigger();
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");

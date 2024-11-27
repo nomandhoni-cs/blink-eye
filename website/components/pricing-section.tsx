@@ -154,7 +154,7 @@ export default function PricingSection({
   return (
     <div className="relative px-6 py-2 sm:py-2 lg:px-8">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="mt-2 text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
+        <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
           Choose the right plan for you
         </h2>
       </div>
@@ -163,16 +163,16 @@ export default function PricingSection({
         engaging your audience, creating customer loyalty, and driving sales.
       </p>
       <div className="flex justify-center mt-8">
-        <div className="flex space-x-0 rounded-md overflow-hidden border border-[#FE4C55]">
+        <div className="flex space-x-0 rounded-md overflow-hidden border border-gray-400 dark:border-gray-600">
           {(["Monthly", "Yearly", "Lifetime"] as const).map((plan, index) => (
             <button
               key={plan}
               onClick={() => setSelectedPlan(plan)}
               className={cn(
-                "px-4 py-2 transition-colors focus:outline-none",
+                "px-4 py-2 text-sm font-medium transition-colors",
                 selectedPlan === plan
-                  ? "bg-[#FE4C55] text-white"
-                  : "bg-white text-[#FE4C55] hover:bg-[#FE4C55]/60",
+                  ? "bg-[#FE4C55] text-white dark:bg-[#FE4C55] dark:text-white"
+                  : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700",
                 index === 0 ? "rounded-l-md" : "",
                 index === 2 ? "rounded-r-md" : ""
               )}

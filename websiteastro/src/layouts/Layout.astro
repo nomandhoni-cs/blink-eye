@@ -1,0 +1,86 @@
+---
+import "../styles/global.css";
+import StarryBackground from "./StarryBackground";
+import AnnouncementBar from "./announcement-bar";
+import Header from "./header";
+import Footer from "./Footer.astro";
+import WaveAnimation from "../components/WaveAnimation";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "A beautiful dashboard built with Astro and shadcn/ui",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <script is:inline>
+      const getThemePreference = () => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+      const isDark = getThemePreference() === "dark";
+      document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+
+      if (typeof localStorage !== "undefined") {
+        const observer = new MutationObserver(() => {
+          const isDark = document.documentElement.classList.contains("dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+      }
+    </script>
+    <script>
+      // Initialize layout
+      import { initLayout } from "../stores/layout";
+      initLayout();
+    </script>
+    <meta
+      name="google-site-verification"
+      content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
+    />
+  </head>
+  <body>
+    <AnnouncementBar />
+    <Header client:idle />
+    <!-- <Sidebar navigation={navigation} client:load /> -->
+    <main class="flex flex-1 flex-col relative isolate">
+      <!-- Backgrounds -->
+      <div
+        class="absolute inset-0 -z-10 transform-gpu overflow-hidden"
+        aria-hidden="true"
+      >
+        <WaveAnimation client:idle />
+        <StarryBackground client:idle />
+      </div>
+
+      <!-- Main Content -->
+      <div class="relative z-0">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

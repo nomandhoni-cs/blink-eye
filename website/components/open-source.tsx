@@ -1,33 +1,12 @@
+import { fetchStarCount } from "@/utils/fetch-start-count";
 import Link from "next/link";
-async function getGitHubStars() {
-  try {
-    const response = await fetch(
-      "https://api.github.com/repos/nomandhoni-cs/blink-eye",
-      {
-        next: {
-          revalidate: 3600,
-        },
-      }
-    );
-
-    if (!response?.ok) {
-      return null;
-    }
-
-    const json = await response.json();
-
-    return parseInt(json["stargazers_count"]).toLocaleString();
-  } catch (error) {
-    return null;
-  }
-}
 const OpenSource = async () => {
-  const stars = await getGitHubStars();
+  const stars = await fetchStarCount();
   return (
     <>
       <section className="container">
         <div className="mx-auto flex flex-col items-center justify-center gap-4 text-center">
-          <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
+          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
             Proudly Open Source
           </h2>
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
