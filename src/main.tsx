@@ -10,6 +10,12 @@ import ConfigDataLoader from "./components/ConfigDataLoader";
 import ReminderHandler from "./components/ReminderHandler";
 import { TriggerProvider } from "./contexts/TriggerReRender";
 
+if (!import.meta.env.DEV) {
+  document.oncontextmenu = (event) => {
+    event.preventDefault();
+  };
+}
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
