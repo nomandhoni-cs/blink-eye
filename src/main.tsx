@@ -17,8 +17,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <DefaultStartMinimize />
         <EncryptionComponent />
         <ConfigDataLoader />
+        <LicenseValidationComponent />
         <TriggerProvider>
-          <LicenseValidationComponent />
           <ReminderHandler />
           <App />
         </TriggerProvider>

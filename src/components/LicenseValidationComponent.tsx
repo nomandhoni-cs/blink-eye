@@ -3,13 +3,11 @@ import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { useLicenseKey } from "../hooks/useLicenseKey";
-import { useTrigger } from "../contexts/TriggerReRender";
 
 const LicenseValidationComponent: React.FC = () => {
   const [licenseKey, setLicenseKey] = useState<string>("");
   const [isDataLoaded, setIsDataLoaded] = useState(false); // Track loading status
   const { licenseData, refreshLicenseData } = useLicenseKey();
-  const { triggerUpdate } = useTrigger();
 
   // Function to check if a date is today
   const isNotToday = (dateString: string): boolean => {
@@ -76,12 +74,13 @@ const LicenseValidationComponent: React.FC = () => {
 
       const data = await response.json();
       console.log(data);
-
+      console.log(data.valid);
       // Proceed only if store_id matches and data is valid
       if (
         (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
         data.valid
       ) {
+        console.log("Executig first loop");
         // If the license is valid and last validated is different from today
         if (lastValidated !== today) {
           await updateLicenseStatus(data.license_key.status);
@@ -98,13 +97,13 @@ const LicenseValidationComponent: React.FC = () => {
         if (lastValidated !== today) {
           // If the response is not ok, check the number of days since last validation
           const diffInDays = getDateDiffInDays(lastValidated, today);
+
           if (diffInDays > 7) {
             // If more than 7 days, update status to what was received in the response
-            await updateLicenseStatus("disabled");
-            triggerUpdate();
+            await updateLicenseStatus(data.license_key.status);
           } else {
             // If less than 7 days, update status
-            await updateLicenseStatus(data.license_key.status);
+            return;
           }
           return;
         } else if (status !== data.license_key.status) {
