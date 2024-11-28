@@ -38,6 +38,10 @@ pub fn run() {
                     .expect("Failed to initialize autostart plugin");
             }
             #[cfg(desktop)]
+            {
+              let _ = app.handle().plugin(tauri_plugin_global_shortcut::Builder::new().build());
+            }
+            #[cfg(desktop)]
             let _ = app.handle().plugin(tauri_plugin_updater::Builder::new().build());
             // Send Notification
              use tauri_plugin_notification::NotificationExt;
