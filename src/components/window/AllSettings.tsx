@@ -77,11 +77,11 @@ const AllSettings = () => {
           title=" Use Strict Mode"
           description="This will hide the 'Skip this time' button to force follow the break."
         />
-        <FunctionalitySwitchToggle
+        {/* <FunctionalitySwitchToggle
           functionalityButton="showPauseButton"
           title="Hide pause button"
           description="This will hide Pause button from the reminder screen to pause the reminder."
-        />
+        /> */}
         <div className="rounded-lg border border-muted p-6 space-y-4">
           {/* Input and Button Section */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
