@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { Flame, Loader2 } from "lucide-react";
+import { Flame } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const styles = [
   { value: "default", label: "Default" },
@@ -86,11 +87,7 @@ export default function ReminderStyles() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin" />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
