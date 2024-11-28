@@ -8,6 +8,8 @@ import { load } from "@tauri-apps/plugin-store";
 import { Progress } from "../ui/progress";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
+import toast, { Toaster } from "react-hot-toast";
 // Dynamic imports for code-splitting
 // const PolygonAnimation = React.lazy(
 //   () => import("../backgrounds/PolygonAnimation")
@@ -54,6 +56,7 @@ const ReminderPreviewWindow: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
       const reminderStyleData = await load("ReminderThemePreviewStyle.json");
@@ -78,6 +81,15 @@ const ReminderPreviewWindow: React.FC = () => {
         setTimeLeft(storedDuration);
       }
     };
+    if (!canAccessPremiumFeatures) {
+      toast.error(
+        "Unlock this feature with a license key and help the developer grow.",
+        {
+          duration: 5000,
+          position: "bottom-right",
+        }
+      );
+    }
     fetchReminderScreenInfo();
   }, []);
 
@@ -170,6 +182,7 @@ const ReminderPreviewWindow: React.FC = () => {
           </svg>
         </Button>
       </div>
+      <Toaster />
     </div>
   );
 };

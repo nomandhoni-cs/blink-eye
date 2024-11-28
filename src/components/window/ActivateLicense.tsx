@@ -1,6 +1,12 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 import { useState } from "react";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
@@ -106,7 +112,6 @@ const ActivateLicense = () => {
     activation: false,
     validation: false,
   });
-
   const handleActivate = async (e: React.FormEvent) => {
     const instanceName = generatePhrase();
     e.preventDefault();
@@ -174,14 +179,54 @@ const ActivateLicense = () => {
     }
   };
   const { licenseData, refreshLicenseData } = useLicenseKey();
+  // Helper function to mask the license key
+  const maskLicenseKey = (licenseKey: string): string => {
+    if (!licenseKey) return "No license found"; // Handle empty or undefined keys
+    // Split the license key into segments
+    const segments = licenseKey.split("-");
+    // Mask the middle segments
+    return segments
+      .map((segment, index) => (index >= 1 && index <= 3 ? "XXXX" : segment))
+      .join("-");
+  };
+
+  // Function to handle copy to clipboard
+  const handleCopy = async (licenseKey: string) => {
+    if (licenseKey) {
+      try {
+        await navigator.clipboard.writeText(licenseKey);
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+        toast.error("Failed to copy license key to clipboard", {
+          duration: 2000,
+          position: "bottom-right",
+        });
+      }
+    }
+  };
+
   return (
     <div className="space-y-8 max-w-3xl mx-auto px-6 py-8">
       {/* License Status Section */}
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between space-x-4">
         <div className="flex items-center space-x-2">
-          <p className="font-semibold animate-pulse">
-            {licenseData?.license_key || "No license found"}
-          </p>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <p
+                  className="font-semibold animate-pulse"
+                  onClick={() => handleCopy(licenseData?.license_key || "")}
+                >
+                  {licenseData?.license_key
+                    ? maskLicenseKey(licenseData.license_key)
+                    : "No license found"}
+                </p>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Click to copy</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         <div>
           {licenseData?.status === "active" ? (
