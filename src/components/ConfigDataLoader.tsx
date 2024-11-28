@@ -53,10 +53,10 @@ const ConfigDataLoader: React.FC = () => {
           "usingStrictMode",
           "false",
         ]);
-        await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
-          "showPauseButton",
-          "false",
-        ]);
+        // await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
+        //   "showPauseButton",
+        //   "false",
+        // ]);
         console.log("Database initialized with default configuration.");
       } else {
         console.log("Database already exists. No action needed.");

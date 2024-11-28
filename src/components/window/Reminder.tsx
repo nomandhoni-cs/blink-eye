@@ -4,7 +4,7 @@ import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { load } from "@tauri-apps/plugin-store";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
-import { CloudDownload, PauseIcon, Play } from "lucide-react";
+import { CloudDownload } from "lucide-react";
 import { Progress } from "../ui/progress";
 import * as path from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
@@ -39,9 +39,9 @@ const Reminder: React.FC = () => {
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
   const [isUsingStictMode, setIsUsingStrictMode] = useState<boolean>(false);
-  const [isShowingPauseButton, setIsShowingPauseButton] =
-    useState<boolean>(false);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
+  // const [isShowingPauseButton, setIsShowingPauseButton] =
+  //   useState<boolean>(false);
+  // const [isPaused, setIsPaused] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
@@ -93,13 +93,13 @@ const Reminder: React.FC = () => {
       if (strictModeResult.length > 0) {
         setIsUsingStrictMode(strictModeResult[0].value === "true");
       }
-      const pauseModeResult: ConfigRow[] = await db.select(
-        "SELECT value FROM config WHERE key = 'showPauseButton';"
-      );
+      // const pauseModeResult: ConfigRow[] = await db.select(
+      //   "SELECT value FROM config WHERE key = 'showPauseButton';"
+      // );
 
-      if (pauseModeResult.length > 0) {
-        setIsShowingPauseButton(pauseModeResult[0].value === "true");
-      }
+      // if (pauseModeResult.length > 0) {
+      //   setIsShowingPauseButton(pauseModeResult[0].value === "true");
+      // }
     };
 
     fetchReminderScreenInfo();
@@ -125,14 +125,12 @@ const Reminder: React.FC = () => {
       return;
     }
 
-    if (!isPaused) {
-      const timer = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
 
-      return () => clearInterval(timer);
-    }
-  }, [timeLeft, isPaused]);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
 
   const renderBackground = () => {
     switch (backgroundStyle) {
@@ -197,7 +195,7 @@ const Reminder: React.FC = () => {
               </svg>
             </Button>
           )}
-          {!isShowingPauseButton && (
+          {/* {!isShowingPauseButton && (
             <Button
               onClick={() => setIsPaused((prev) => !prev)}
               className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base items-center justify-center transform transition-transform hover:scale-105"
@@ -208,7 +206,7 @@ const Reminder: React.FC = () => {
                 <PauseIcon className="fill-current h-6 w-6" />
               )}
             </Button>
-          )}
+          )} */}
         </div>
       </div>
       <Toaster />

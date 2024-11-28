@@ -8,8 +8,10 @@ import {
   FlameIcon,
   Home,
   InfoIcon,
+  MessageCircle,
   ScrollTextIcon,
   Settings,
+  TvMinimal,
 } from "lucide-react";
 import logo from "../assets/icon.png";
 import {
@@ -52,6 +54,12 @@ const items = [
     title: "Workday Setup",
     url: "/workday",
     icon: Calendar,
+    isPremiumFeature: true,
+  },
+  {
+    title: "Screen Savers",
+    url: "/screenSavers",
+    icon: TvMinimal,
     isPremiumFeature: true,
   },
   {
@@ -122,7 +130,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4 space-y-2">
+      <SidebarFooter className="p-2 space-y-1">
         {isPaidUser ? (
           <Button
             asChild
@@ -160,6 +168,16 @@ export function AppSidebar() {
             </Link>
           </Button>
         )}
+        <Button variant="secondary" asChild className="w-full">
+          <Link
+            to="https://tally.so/r/wo0ZrN"
+            target="_blank"
+            className="flex items-center justify-center space-x-2"
+          >
+            <MessageCircle className="h-5 w-5" />
+            <span>Submit Feedback</span>
+          </Link>
+        </Button>
         <Button variant="secondary" asChild className="w-full">
           <Link
             to="/about"

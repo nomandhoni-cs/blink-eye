@@ -7,6 +7,10 @@ import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 
 // Lazy load route components
+const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
+const ScreenSaverWindow = lazy(
+  () => import("./components/window/ScreenSaverWindow")
+);
 const Reminder = lazy(() => import("./components/window/Reminder"));
 const Layout = lazy(() => import("./components/window/Layout"));
 const ReminderPreviewWindow = lazy(
@@ -40,6 +44,7 @@ function App() {
         <Routes>
           {/* Standalone routes - no loading state */}
           <Route path="/reminder" element={<Reminder />} />
+          <Route path="/screenSaverWindow" element={<ScreenSaverWindow />} />
           <Route
             path="/reminderpreviewwindow"
             element={
@@ -95,6 +100,14 @@ function App() {
               element={
                 <Suspense fallback={<LoadingSpinner />}>
                   <AllSettings />
+                </Suspense>
+              }
+            />
+            <Route
+              path="screenSavers"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ScreenSavers />
                 </Suspense>
               }
             />
