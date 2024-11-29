@@ -15,6 +15,7 @@ import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
+const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 async function initializeDatabase() {
   const dbFileExists = await exists("blink_eye_license.db", {
@@ -132,6 +133,7 @@ const ActivateLicense = () => {
           body: JSON.stringify({
             license_key: activationKey,
             instance_name: userName ? userName : instanceName,
+            handshake_password: handshakePassword,
           }),
         }
       );

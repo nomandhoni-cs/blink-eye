@@ -84,10 +84,6 @@ const Settings = () => {
 
   return (
     <div className="space-y-6 py-2">
-      <span>
-        Display the TESTING_ENV_TOKEN environment variable:{" "}
-        {import.meta.env.VITE_TESTING_ENV_TOKEN}
-      </span>
       <div className="space-y-2">
         <Label htmlFor="interval-time">Break Every {interval} (Minutes)</Label>
         <Input

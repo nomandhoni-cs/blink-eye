@@ -1,17 +1,26 @@
 import { NextResponse } from "next/server";
+const HANDSHAKE_PASSWORD = process.env.HANDSHAKE_PASSWORD;
 
 export const dynamic = "force-dynamic"; // To make sure the route is handled dynamically
 
 type LicenseValidateRequestBody = {
   license_key: string;
+  handshake_password: string;
   instance_id?: string;
 };
 
 export async function POST(req: Request) {
   try {
     const reqData = await req.json();
-    const { license_key, instance_id } = reqData as LicenseValidateRequestBody;
+    const { license_key, instance_id, handshake_password } =
+      reqData as LicenseValidateRequestBody;
 
+    if (handshake_password !== HANDSHAKE_PASSWORD) {
+      return NextResponse.json(
+        { error: "Unauthorized: Invalid handshake password" },
+        { status: 401 }
+      );
+    }
     // Validate the license key
     if (!license_key) {
       return NextResponse.json(

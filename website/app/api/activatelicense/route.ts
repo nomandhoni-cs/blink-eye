@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-
+const HANDSHAKE_PASSWORD = process.env.HANDSHAKE_PASSWORD;
 type LicenseActivateRequestBody = {
   license_key: string;
   instance_name: string;
+  handshake_password: string;
 };
 
 export const dynamic = "force-dynamic";
@@ -10,9 +11,15 @@ export async function POST(req: Request) {
   try {
     // Parse the JSON body from the incoming request
     const reqData = await req.json();
-    const { license_key, instance_name } =
+    const { license_key, instance_name, handshake_password } =
       reqData as LicenseActivateRequestBody;
 
+    if (handshake_password !== HANDSHAKE_PASSWORD) {
+      return NextResponse.json(
+        { error: "Unauthorized: Invalid handshake password" },
+        { status: 401 }
+      );
+    }
     // Check for missing parameters
     if (!license_key || !instance_name) {
       return NextResponse.json(

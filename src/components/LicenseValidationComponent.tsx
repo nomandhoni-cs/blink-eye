@@ -3,6 +3,7 @@ import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { useLicenseKey } from "../hooks/useLicenseKey";
+const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 const LicenseValidationComponent: React.FC = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false); // Track loading status
@@ -62,7 +63,10 @@ const LicenseValidationComponent: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ license_key: licenseKey }),
+          body: JSON.stringify({
+            license_key: licenseKey,
+            handshake_password: handshakePassword,
+          }),
         }
       );
 
