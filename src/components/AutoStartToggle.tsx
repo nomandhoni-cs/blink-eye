@@ -8,7 +8,6 @@ import { load } from "@tauri-apps/plugin-store";
 
 const AutoStartToggle = () => {
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
-
   useEffect(() => {
     const initializeAutoStart = async () => {
       try {

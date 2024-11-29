@@ -18,11 +18,11 @@ if (!import.meta.env.DEV) {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
+    <EncryptionComponent />
+    <ConfigDataLoader />
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <PremiumFeaturesProvider>
         <DefaultStartMinimize />
-        <EncryptionComponent />
-        <ConfigDataLoader />
         <LicenseValidationComponent />
         <TriggerProvider>
           <ReminderHandler />

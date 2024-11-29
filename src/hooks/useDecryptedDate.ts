@@ -1,46 +1,11 @@
 import { useEffect, useState } from "react";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
+import { decryptData } from "../lib/cryptoUtils";
 
 interface DecryptedData {
   decryptedDate: string | null;
 }
-
-// Decrypt function
-const decryptData = async (encryptedText: string, password: string) => {
-  const { iv, data } = JSON.parse(encryptedText);
-  const encoder = new TextEncoder();
-  const encodedPassword = encoder.encode(password);
-
-  const keyMaterial = await crypto.subtle.importKey(
-    "raw",
-    encodedPassword,
-    { name: "PBKDF2" },
-    false,
-    ["deriveKey"]
-  );
-
-  const key = await crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt: encoder.encode("unique_salt"),
-      iterations: 100000,
-      hash: "SHA-256",
-    },
-    keyMaterial,
-    { name: "AES-GCM", length: 256 },
-    false,
-    ["decrypt"]
-  );
-
-  const decryptedBuffer = await crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: new Uint8Array(iv) },
-    key,
-    new Uint8Array(data).buffer
-  );
-
-  return new TextDecoder().decode(decryptedBuffer);
-};
 
 const useDecryptedDate = (): DecryptedData => {
   const [decryptedDate, setDecryptedDate] = useState<string | null>(null);
@@ -62,10 +27,7 @@ const useDecryptedDate = (): DecryptedData => {
         if (result.length && result[0].data && result[0].unique_nano_id) {
           try {
             // Decrypt data with unique_nano_id as the password
-            const decryptedDate = await decryptData(
-              result[0].data,
-              result[0].unique_nano_id
-            );
+            const decryptedDate = await decryptData(result[0].data);
             setDecryptedDate(decryptedDate);
           } catch (error) {
             console.error("Decryption failed:", error);
