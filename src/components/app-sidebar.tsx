@@ -1,17 +1,17 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Brush,
+  Paintbrush,
   Calendar,
   CheckCircle2,
-  Clock,
   FlameIcon,
-  Home,
+  LayoutDashboard,
   InfoIcon,
   MessageCircle,
   ScrollTextIcon,
   Settings,
   TvMinimal,
+  ChartColumn,
 } from "lucide-react";
 import logo from "../assets/icon.png";
 import {
@@ -35,19 +35,19 @@ const items = [
   {
     title: "Dashboard",
     url: "/",
-    icon: Home,
+    icon: LayoutDashboard,
     isPremiumFeature: false,
   },
   {
     title: "Reminder Themes",
     url: "/reminderthemes",
-    icon: Brush,
+    icon: Paintbrush,
     isPremiumFeature: true,
   },
   {
     title: "Usage Time",
     url: "/usageTime",
-    icon: Clock,
+    icon: ChartColumn,
     isPremiumFeature: true,
   },
   {
