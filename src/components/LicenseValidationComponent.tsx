@@ -3,6 +3,7 @@ import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { useLicenseKey } from "../hooks/useLicenseKey";
+import { encryptData } from "../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 const LicenseValidationComponent: React.FC = () => {
@@ -77,8 +78,10 @@ const LicenseValidationComponent: React.FC = () => {
         (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
         data.valid
       ) {
-        await updateLicenseStatus(data.license_key.status);
-        await updateLastValidatedDate(today);
+        await updateLicenseStatus(
+          JSON.stringify(await encryptData(data.license_key.status))
+        );
+        await updateLastValidatedDate(JSON.stringify(await encryptData(today)));
       } else if (
         (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
         !data.valid
@@ -86,7 +89,9 @@ const LicenseValidationComponent: React.FC = () => {
         const diffInDays = getDateDiffInDays(lastValidated, today);
         if (diffInDays > 7) {
           // If more than 7 days, update status to what was received in the response
-          await updateLicenseStatus(data.license_key.status);
+          await updateLicenseStatus(
+            JSON.stringify(await encryptData(data.license_key.status))
+          );
         } else {
           return;
         }
@@ -102,7 +107,9 @@ const LicenseValidationComponent: React.FC = () => {
         const diffInDays = getDateDiffInDays(lastValidated, today);
         if (diffInDays > 7) {
           // If more than 7 days, update status to what was received in the response
-          await updateLicenseStatus("disabled");
+          await updateLicenseStatus(
+            JSON.stringify(await encryptData("disabled"))
+          );
         }
         return;
       }

@@ -28,23 +28,23 @@ async function initializeDatabase() {
   if (!dbFileExists) {
     await db.execute(`
         CREATE TABLE IF NOT EXISTS licenses (
-          id INTEGER PRIMARY KEY,
+          id TEXT PRIMARY KEY,
           license_key TEXT UNIQUE,
           status TEXT,
-          activation_limit INTEGER,
-          activation_usage INTEGER,
+          activation_limit TEXT,
+          activation_usage TEXT,
           created_at TEXT,
           expires_at TEXT,
-          test_mode BOOLEAN,
+          test_mode TEXT,
           instance_name TEXT,
-          store_id INTEGER,
-          order_id INTEGER,
-          order_item_id INTEGER,
+          store_id TEXT,
+          order_id TEXT,
+          order_item_id TEXT,
           variant_name TEXT,
           product_name TEXT,
           customer_name TEXT,
           customer_email TEXT,
-          last_validated DATE
+          last_validated TEXT
         );
       `);
   }
@@ -81,22 +81,24 @@ async function storeLicenseData(data: any) {
       `,
       [
         1, // Setting ID to 1 for the only row in the table
-        await encryptData(data.license_key.key),
-        await encryptData(data.license_key.status),
-        await encryptData(data.license_key.activation_limit),
-        await encryptData(data.license_key.activation_usage),
-        await encryptData(data.license_key.created_at),
-        await encryptData(data.license_key.expires_at),
-        await encryptData(data.license_key.test_mode),
-        await encryptData(data.instance?.name || null),
-        await encryptData(data.meta.store_id),
-        await encryptData(data.meta.order_id),
-        await encryptData(data.meta.order_item_id),
-        await encryptData(data.meta.variant_name),
-        await encryptData(data.meta.product_name),
-        await encryptData(data.meta.customer_name),
-        await encryptData(data.meta.customer_email),
-        await encryptData(new Date().toISOString().split("T")[0]),
+        JSON.stringify(await encryptData(data.license_key.key)),
+        JSON.stringify(await encryptData(data.license_key.status)),
+        JSON.stringify(await encryptData(data.license_key.activation_limit)),
+        JSON.stringify(await encryptData(data.license_key.activation_usage)),
+        JSON.stringify(await encryptData(data.license_key.created_at)),
+        JSON.stringify(await encryptData(data.license_key.expires_at)),
+        JSON.stringify(await encryptData(data.license_key.test_mode)),
+        JSON.stringify(await encryptData(data.instance?.name || null)),
+        JSON.stringify(await encryptData(data.meta.store_id)),
+        JSON.stringify(await encryptData(data.meta.order_id)),
+        JSON.stringify(await encryptData(data.meta.order_item_id)),
+        JSON.stringify(await encryptData(data.meta.variant_name)),
+        JSON.stringify(await encryptData(data.meta.product_name)),
+        JSON.stringify(await encryptData(data.meta.customer_name)),
+        JSON.stringify(await encryptData(data.meta.customer_email)),
+        JSON.stringify(
+          await encryptData(new Date().toISOString().split("T")[0])
+        ),
       ]
     );
 
