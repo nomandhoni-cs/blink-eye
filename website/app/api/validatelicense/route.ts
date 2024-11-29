@@ -29,7 +29,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const body: LicenseValidateRequestBody = { license_key };
+    const body: LicenseValidateRequestBody = {
+      license_key,
+      handshake_password,
+    };
     if (instance_id) {
       body.instance_id = instance_id;
     }
