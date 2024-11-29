@@ -73,7 +73,7 @@ const ConfigDataLoader: React.FC = () => {
           "blinkEyeReminderScreenText",
           "Look 20 feet away to protect your eyes."
         );
-        await store.set("screenOnTimeLimit", 12);
+        await store.set("screenOnTimeLimit", 8);
         await store.save();
       } else {
         console.log("Store already exists. No action needed.");

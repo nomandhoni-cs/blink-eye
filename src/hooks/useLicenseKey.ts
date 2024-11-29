@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
+import { decryptData } from "../lib/cryptoUtils";
 
 interface LicenseData {
   license_key: string;
@@ -29,20 +30,20 @@ async function initializeDatabase() {
           id INTEGER PRIMARY KEY,
           license_key TEXT UNIQUE,
           status TEXT,
-          activation_limit INTEGER,
-          activation_usage INTEGER,
+          activation_limit TEXT,
+          activation_usage TEXT,
           created_at TEXT,
           expires_at TEXT,
-          test_mode BOOLEAN,
+          test_mode TEXT,
           instance_name TEXT,
-          store_id INTEGER,
-          order_id INTEGER,
-          order_item_id INTEGER,
+          store_id TEXT,
+          order_id TEXT,
+          order_item_id TEXT,
           variant_name TEXT,
           product_name TEXT,
           customer_name TEXT,
           customer_email TEXT,
-          last_validated DATE
+          last_validated TEXT
         );
       `);
       console.log("Database and table created successfully.");
@@ -75,9 +76,9 @@ export function useLicenseKey(): UseLicenseKeyReturn {
 
       if (result.length > 0) {
         setLicenseData({
-          license_key: result[0].license_key,
-          status: result[0].status,
-          last_validated: result[0].last_validated,
+          license_key: await decryptData(result[0].license_key),
+          status: await decryptData(result[0].status),
+          last_validated: await decryptData(result[0].last_validated),
         });
       } else {
         setLicenseData(null);
