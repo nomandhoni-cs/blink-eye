@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
+import { decryptData } from "../lib/cryptoUtils";
 
 interface LicenseData {
   license_key: string;
@@ -75,9 +76,9 @@ export function useLicenseKey(): UseLicenseKeyReturn {
 
       if (result.length > 0) {
         setLicenseData({
-          license_key: result[0].license_key,
-          status: result[0].status,
-          last_validated: result[0].last_validated,
+          license_key: await decryptData(result[0].license_key),
+          status: await decryptData(result[0].status),
+          last_validated: await decryptData(result[0].last_validated),
         });
       } else {
         setLicenseData(null);

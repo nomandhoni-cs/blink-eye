@@ -10,6 +10,10 @@ interface UserDataRow {
   data: string | null;
 }
 
+interface EncryptionComponentProps {
+  onSetupComplete: () => void; // Callback to notify parent component
+}
+
 // Encryption function
 const encryptData = async (plainText: string, password: string) => {
   const encoder = new TextEncoder();
@@ -51,8 +55,9 @@ const encryptData = async (plainText: string, password: string) => {
   };
 };
 
-const EncryptionComponent: React.FC = () => {
-  // Initialize DB and create user entry with static ID and unique nano ID
+const EncryptionComponent: React.FC<EncryptionComponentProps> = ({
+  onSetupComplete,
+}) => {
   useEffect(() => {
     const setupDatabase = async () => {
       const dbFileExists = await exists("basicapplicationdata.db", {
@@ -65,12 +70,12 @@ const EncryptionComponent: React.FC = () => {
 
         // Create the table if it doesn't exist
         await dbInstance.execute(`
-        CREATE TABLE IF NOT EXISTS user_data (
-          id INTEGER PRIMARY KEY,
-          unique_nano_id TEXT,
-          data TEXT
-        );
-      `);
+          CREATE TABLE IF NOT EXISTS user_data (
+            id INTEGER PRIMARY KEY,
+            unique_nano_id TEXT,
+            data TEXT
+          );
+        `);
 
         // Check if entry with id=1 exists
         const result = (await dbInstance.select(
@@ -93,15 +98,16 @@ const EncryptionComponent: React.FC = () => {
         } else {
           console.log("Entry with id=1 already exists.");
         }
-      } else {
-        return 0;
       }
+
+      // Notify the parent that the setup is complete
+      onSetupComplete();
     };
 
     setupDatabase();
-  }, []);
+  }, [onSetupComplete]);
 
-  return <></>;
+  return null; // No UI needed for this component
 };
 
 export default EncryptionComponent;

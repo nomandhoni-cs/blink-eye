@@ -15,6 +15,7 @@ import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
+import { encryptData } from "../../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 async function initializeDatabase() {
@@ -80,22 +81,22 @@ async function storeLicenseData(data: any) {
       `,
       [
         1, // Setting ID to 1 for the only row in the table
-        data.license_key.key,
-        data.license_key.status,
-        data.license_key.activation_limit,
-        data.license_key.activation_usage,
-        data.license_key.created_at,
-        data.license_key.expires_at,
-        data.license_key.test_mode,
-        data.instance?.name || null,
-        data.meta.store_id,
-        data.meta.order_id,
-        data.meta.order_item_id,
-        data.meta.variant_name,
-        data.meta.product_name,
-        data.meta.customer_name,
-        data.meta.customer_email,
-        new Date().toISOString().split("T")[0],
+        await encryptData(data.license_key.key),
+        await encryptData(data.license_key.status),
+        await encryptData(data.license_key.activation_limit),
+        await encryptData(data.license_key.activation_usage),
+        await encryptData(data.license_key.created_at),
+        await encryptData(data.license_key.expires_at),
+        await encryptData(data.license_key.test_mode),
+        await encryptData(data.instance?.name || null),
+        await encryptData(data.meta.store_id),
+        await encryptData(data.meta.order_id),
+        await encryptData(data.meta.order_item_id),
+        await encryptData(data.meta.variant_name),
+        await encryptData(data.meta.product_name),
+        await encryptData(data.meta.customer_name),
+        await encryptData(data.meta.customer_email),
+        await encryptData(new Date().toISOString().split("T")[0]),
       ]
     );
 

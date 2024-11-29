@@ -1,33 +1,9 @@
 import { useState, useEffect } from "react";
 import useDecryptedDate from "./useDecryptedDate";
 
-export function useOnlineStatus(): { isOnline: boolean; isTrialOn: boolean } {
-  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+export function useOnlineStatus(): { isTrialOn: boolean } {
   const { decryptedDate } = useDecryptedDate();
   const [isTrialOn, setIsTrialOn] = useState<boolean>(true);
-
-  useEffect(() => {
-    // Update online status based on network events
-    const updateOnlineStatus = () => {
-      setIsOnline(navigator.onLine);
-    };
-
-    // Listen to online and offline events
-    window.addEventListener("online", updateOnlineStatus);
-    window.addEventListener("offline", updateOnlineStatus);
-
-    // Polling every 5 seconds as a fallback for Tauri
-    const checkStatusInterval = setInterval(() => {
-      setIsOnline(navigator.onLine);
-    }, 5000);
-
-    // Cleanup on component unmount
-    return () => {
-      window.removeEventListener("online", updateOnlineStatus);
-      window.removeEventListener("offline", updateOnlineStatus);
-      clearInterval(checkStatusInterval);
-    };
-  }, []);
 
   useEffect(() => {
     // Calculate trial expiration logic
@@ -58,5 +34,5 @@ export function useOnlineStatus(): { isOnline: boolean; isTrialOn: boolean } {
     }
   }, [decryptedDate]);
 
-  return { isOnline, isTrialOn };
+  return { isTrialOn };
 }

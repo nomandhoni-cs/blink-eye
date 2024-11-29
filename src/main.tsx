@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -9,6 +9,7 @@ import { PremiumFeaturesProvider } from "./contexts/PremiumFeaturesContext";
 import ConfigDataLoader from "./components/ConfigDataLoader";
 import ReminderHandler from "./components/ReminderHandler";
 import { TriggerProvider } from "./contexts/TriggerReRender";
+import { LoadingSpinner } from "./components/LoadingSpinner";
 
 if (!import.meta.env.DEV) {
   document.oncontextmenu = (event) => {
@@ -16,19 +17,35 @@ if (!import.meta.env.DEV) {
   };
 }
 
+const Root: React.FC = () => {
+  const [isEncryptionComplete, setEncryptionComplete] = useState(false);
+
+  return (
+    <>
+      {!isEncryptionComplete ? (
+        <LoadingSpinner />
+      ) : (
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <PremiumFeaturesProvider>
+            <DefaultStartMinimize />
+            <ConfigDataLoader />
+            <LicenseValidationComponent />
+            <TriggerProvider>
+              <ReminderHandler />
+              <App />
+            </TriggerProvider>
+          </PremiumFeaturesProvider>
+        </ThemeProvider>
+      )}
+      <EncryptionComponent
+        onSetupComplete={() => setEncryptionComplete(true)}
+      />
+    </>
+  );
+};
+
+export default Root;
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <PremiumFeaturesProvider>
-        <DefaultStartMinimize />
-        <EncryptionComponent />
-        <ConfigDataLoader />
-        <LicenseValidationComponent />
-        <TriggerProvider>
-          <ReminderHandler />
-          <App />
-        </TriggerProvider>
-      </PremiumFeaturesProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <Root />
 );
