@@ -1,0 +1,147 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to release'
+        required: true
+        default: 'main'
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: "Blink Eye"
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: "macos-latest"
+            args: "--target aarch64-apple-darwin"
+          - platform: "macos-latest"
+            args: "--target x86_64-apple-darwin"
+          - platform: "ubuntu-22.04"
+            args: ""
+          - platform: "windows-latest"
+            args: ""
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Install frontend dependencies
+        run: yarn install
+
+      - name: Extract version from tag
+        id: extract-version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: app-v${{ env.VERSION }}
+          releaseName: "${{ env.APP_NAME }} v${{ env.VERSION }}"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+
+  publish-winget:
+    needs: publish-tauri
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: extract-version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Compute SHA256 hash for Windows installer
+        run: |
+          curl -L -o Blink.Eye_${{ env.VERSION }}_x64-setup.exe https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_${{ env.VERSION }}_x64-setup.exe
+          sha256sum Blink.Eye_${{ env.VERSION }}_x64-setup.exe > sha256.txt
+
+      - name: Clone Winget Fork
+        run: |
+          git clone https://github.com/<YOUR_USERNAME>/winget-pkgs.git
+          cd winget-pkgs
+          mkdir -p manifests/NomanDhoni/BlinkEye
+          cd manifests/NomanDhoni/BlinkEye
+          echo "
+          Id: NomanDhoni.BlinkEye
+          Name: Blink Eye
+          Publisher: nomandhoni-cs
+          Version: ${{ env.VERSION }}
+          Homepage: https://github.com/nomandhoni-cs/blink-eye
+          License: (GPL) v3
+          Installers:
+            - Architecture: x64
+              InstallerUrl: https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_${{ env.VERSION }}_x64-setup.exe
+              InstallerSha256: $(cat ../../../../sha256.txt | cut -d ' ' -f 1)
+          " > blinkeye.yaml
+          git add .
+          git commit -m "Added Blink Eye v${{ env.VERSION }}"
+          git push
+
+      - name: Open PR for Winget
+        run: |
+          gh pr create --title "Add Blink Eye v${{ env.VERSION }}" --body "This PR adds Blink Eye version ${{ env.VERSION }}" --base microsoft:master --head <YOUR_USERNAME>:master
+
+  publish-homebrew:
+    needs: publish-tauri
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: extract-version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Compute SHA256 hash for Homebrew formula
+        run: |
+          curl -L -o Blink.Eye_x64.app.tar.gz https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_x64.app.tar.gz
+          shasum -a 256 Blink.Eye_x64.app.tar.gz > sha256.txt
+
+      - name: Clone Homebrew Tap
+        run: |
+          git clone https://github.com/<YOUR_USERNAME>/homebrew-core.git
+          cd homebrew-blinkeye
+          mkdir -p Formula
+          echo "
+          class BlinkEye < Formula
+            desc 'Minimalist eye-care reminder app with Pomodoro timer'
+            homepage 'https://github.com/nomandhoni-cs/blink-eye'
+            version '${{ env.VERSION }}'
+            url 'https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_x64.app.tar.gz'
+            sha256 '$(cat ../../sha256.txt | cut -d ' ' -f 1)'
+            def install
+              bin.install 'Blink.Eye'
+            end
+          end
+          " > Formula/blink-eye.rb
+          git add .
+          git commit -m "Added Blink Eye v${{ env.VERSION }}"
+          git push
