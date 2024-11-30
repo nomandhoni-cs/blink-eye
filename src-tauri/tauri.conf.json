@@ -73,11 +73,6 @@
       }
     },
     "macOS": {
-      "frameworks": [],
-      "exceptionDomain": "",
-      "signingIdentity": null,
-      "providerShortName": null,
-      "entitlements": null,
       "dmg": {
         "appPosition": {
           "x": 180,
@@ -91,7 +86,9 @@
           "height": 650,
           "width": 1000
         }
-      }
+      },
+      "minimumSystemVersion": "10.13",
+      "signingIdentity": "-"
     },
     "windows": {
       "certificateThumbprint": null,
