@@ -9,7 +9,7 @@ import { CopyButton } from "./copy-button";
 import { Switch } from "./ui/switch";
 
 export function Command() {
-  const [isWindows, setIsWindows] = useState(true);
+  const [isMac, setIsMac] = useState(true);
   const macCommand =
     "brew tap nomandhoni-cs/blinkeye && brew install --cask blinkeye";
   const winCommand = "winget install NomanDhoni.BlinkEye";
@@ -18,28 +18,28 @@ export function Command() {
   return (
     <div className="w-full max-w-3xl mx-auto space-y-1">
       <div className="flex justify-center items-center space-x-4">
-        <span className={`text-sm ${isWindows ? "font-bold" : ""}`}>
-         Windows
+        <span className={`text-sm ${!isMac ? "font-bold" : ""}`}>
+          Windows
         </span>
         <Switch
-          checked={isWindows}
-          onCheckedChange={setIsWindows}
+          checked={isMac}
+          onCheckedChange={setIsMac}
           className="data-[state=checked]:bg-[#FE4C55]"
         />
-        <span className={`text-sm ${isWindows ? "font-bold" : ""}`}>
-           macOS
+        <span className={`text-sm ${isMac ? "font-bold" : ""}`}>
+          macOS
         </span>
       </div>
 
       <div className="text-center">
         <h2 className="text-3xl font-heading">
-          For {isWindows ? "Windows" : "Homebrew - MacOS"}
+          For {isMac ? "Homebrew - MacOS" : "Windows"}
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mt-2">
-          Install Blink Eye using {isWindows ? "winget" : "Homebrew"} with the
+          Install Blink Eye using {isMac ? "Homebrew" : "winget"} with the
           command below:
         </p>
-        {!isWindows && (
+        {isMac && (
           <div className="text-sm text-gray-600 dark:text-gray-300 text-center">
             <p className="mb-2">
               Blink Eye is not notarized yet, so you might encounter an error
@@ -109,9 +109,9 @@ export function Command() {
           <div className="absolute -inset-1 bg-[#FE4C55] rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
           <div className="relative px-4 py-3 bg-white dark:bg-gray-700 ring-1 ring-[#FE4C55] rounded-lg leading-none flex items-center space-x-4">
             <code className="text-gray-800 dark:text-gray-200 font-mono text-sm whitespace-nowrap">
-              {isWindows ? winCommand : macCommand}
+              {isMac ? macCommand : winCommand}
             </code>
-            <CopyButton value={isWindows ? winCommand : macCommand} />
+            <CopyButton value={isMac ? macCommand : winCommand} />
           </div>
         </div>
       </div>
