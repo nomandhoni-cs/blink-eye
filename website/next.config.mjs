@@ -16,6 +16,11 @@ const nextConfig = {
         hostname: "utfs.io",
         pathname: "/f/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.producthunt.com",
+        pathname: "/widgets/embed-image/v1/**",
+      },
     ],
   },
 };

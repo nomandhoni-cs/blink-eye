@@ -9,10 +9,11 @@ import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import StarryBackground from "@/components/StarryBackground";
-import App from "@/components/WaveAnimation";
-import AnnouncementBar from "@/components/layout/announcement-bar";
+// import App from "@/components/WaveAnimation";
+// import AnnouncementBar from "@/components/layout/announcement-bar";
 import localFont from "next/font/local";
 import { cn } from "@/utils/cn";
+// import { AuroraBackground } from "@/components/WaveAnimation";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -79,17 +80,17 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
         <GoogleTagManager gtmId="GTM-5C4XTNHM" />
         <Providers>
-          <AnnouncementBar />
+          {/* <AnnouncementBar />  */}
           <Header />
           <main className="flex flex-1 flex-col">
             <div className="relative isolate">
-              <div
+              <StarryBackground />
+              {/* <div
                 className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden"
                 aria-hidden="true"
               >
-                <App />
-                <StarryBackground />
-              </div>
+                <AuroraBackground />
+              </div> */}
               {children}
             </div>
           </main>

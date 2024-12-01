@@ -2,6 +2,7 @@ import { CONFIG } from "@/configs/site";
 import { getCurrentYear } from "@/utils/year";
 import Image from "next/image";
 import Link from "next/link";
+import ProductHuntWidget from "../ProductHunt";
 const routes = [
   "/about",
   "/contribute",
@@ -50,7 +51,7 @@ export const Footer = () => {
           </Link>
         </p>
         <p className="text-right text-sm leading-loose md:text-right">
-          <Link href={CONFIG.buymecoffee} target="_blank">
+          {/* <Link href={CONFIG.buymecoffee} target="_blank">
             <Image
               className="w-auto"
               src={
@@ -60,20 +61,14 @@ export const Footer = () => {
               width={200}
               height={50}
             />
-          </Link>
-          {/* <Link
+          </Link> */}
+          <Link
             href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
             target="_blank"
-            className="sm:invisible"
+            className=""
           >
-            <img
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=445267&theme=light"
-              alt="Blink&#0032;Eye - A&#0032;minimalist&#0032;eye&#0032;care&#0032;reminder&#0032;app&#0032;based&#0032;on&#0032;20&#0045;20&#0045;20&#0032;rule&#0046; | Product Hunt"
-              style={{ width: "250px", height: "54px" }}
-              width="250"
-              height="54"
-            />
-          </Link> */}
+            <ProductHuntWidget />
+          </Link>
         </p>
       </div>
     </footer>
