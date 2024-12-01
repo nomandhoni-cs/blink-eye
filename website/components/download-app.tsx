@@ -8,6 +8,8 @@ import DownloadDropdown from "./DownloadDropdown";
 import DownloadButton from "./ui/download-button";
 import { getDownloadLinks } from "@/utils/getReleaseData";
 import { CopyButton } from "./copy-button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import Command from "./Command";
 
 const DownloadApp = async () => {
   let downloadLinks: { [key: string]: string | null } = {
@@ -38,27 +40,7 @@ const DownloadApp = async () => {
         </h2>
         <div className="space-y-4">
           <DownloadButtons downloadLinks={downloadLinks} />
-
-          <div className="space-y-2 flex flex-col items-center">
-            {/* For Homebrew section */}
-            <h2 className="text-xl sm:text-3xl text-center font-heading">
-              For Homebrew - MacOS
-            </h2>
-
-            <p className="text-sm text-muted-foreground text-center">
-              If you're using Homebrew, you can install Blink Eye using the
-              command below:
-            </p>
-
-            {/* Homebrew command block */}
-            <pre className="flex items-center justify-between rounded-lg border-4 border-[#FE4C55] bg-[#FE4C55]/10 p-4 text-center max-w-xl">
-              <code className="font-bold text-sm whitespace-nowrap">{`brew tap nomandhoni-cs/blinkeye && brew install --cask blinkeye`}</code>
-              <CopyButton
-                value={`brew tap nomandhoni-cs/blinkeye && brew install --cask blinkeye`}
-              />
-            </pre>
-          </div>
-
+          <Command />
           <SupportedPlatforms />
           <ReleaseInfo tag_name={tag_name} />
         </div>
