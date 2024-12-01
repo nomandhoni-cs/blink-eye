@@ -9,7 +9,7 @@ import { CopyButton } from "./copy-button";
 import { Switch } from "./ui/switch";
 
 export function Command() {
-  const [isWindows, setIsWindows] = useState(false);
+  const [isWindows, setIsWindows] = useState(true);
   const macCommand =
     "brew tap nomandhoni-cs/blinkeye && brew install --cask blinkeye";
   const winCommand = "winget install NomanDhoni.BlinkEye";
@@ -18,7 +18,7 @@ export function Command() {
   return (
     <div className="w-full max-w-3xl mx-auto space-y-1">
       <div className="flex justify-center items-center space-x-4">
-        <span className={`text-sm ${!isWindows ? "font-bold" : ""}`}>
+        <span className={`text-sm ${isWindows ? "font-bold" : ""}`}>
           macOS
         </span>
         <Switch
@@ -32,23 +32,23 @@ export function Command() {
       </div>
 
       <div className="text-center">
-        <h2 className="text-3xl font-heading text-[#FE4C55]/90">
+        <h2 className="text-3xl font-heading">
           For {isWindows ? "Windows" : "Homebrew - MacOS"}
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mt-2">
           Install Blink Eye using {isWindows ? "winget" : "Homebrew"} with the
           command below:
         </p>
-        {!isWindows && (
+        {isWindows && (
           <div className="text-sm text-gray-600 dark:text-gray-300 text-center">
             <p className="mb-2">
               Blink Eye is not notarized yet, so you might encounter an error
-              due to MacOS Gatekeeper. If you face this issue, please follow
+              due to MacOS Gatekeeper. If you face this issue, follow
             </p>
             <Popover>
               <PopoverTrigger>
                 <span className="cursor-pointer text-[#FE4C55] hover:underline">
-                  View Installation Steps
+                  Installation guide
                 </span>
               </PopoverTrigger>
               <PopoverContent className="w-80 bg-white dark:bg-gray-700 border-[#FE4C55] text-gray-800 dark:text-gray-200">
