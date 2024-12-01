@@ -19,7 +19,7 @@ export function Command() {
     <div className="w-full max-w-3xl mx-auto space-y-1">
       <div className="flex justify-center items-center space-x-4">
         <span className={`text-sm ${isWindows ? "font-bold" : ""}`}>
-          macOS
+         Windows
         </span>
         <Switch
           checked={isWindows}
@@ -27,7 +27,7 @@ export function Command() {
           className="data-[state=checked]:bg-[#FE4C55]"
         />
         <span className={`text-sm ${isWindows ? "font-bold" : ""}`}>
-          Windows
+           macOS
         </span>
       </div>
 
@@ -39,7 +39,7 @@ export function Command() {
           Install Blink Eye using {isWindows ? "winget" : "Homebrew"} with the
           command below:
         </p>
-        {isWindows && (
+        {!isWindows && (
           <div className="text-sm text-gray-600 dark:text-gray-300 text-center">
             <p className="mb-2">
               Blink Eye is not notarized yet, so you might encounter an error
