@@ -3,9 +3,13 @@ import DOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
 import Link from "next/link";
 import { Metadata } from "next";
+import { useLocale } from "next-intl";
+
+// Metadata for the page
 export const metadata: Metadata = {
   title: "Changelog of Versions",
 };
+
 // Create a DOMPurify instance for SSR
 const createDOMPurify = () => {
   if (typeof window === "undefined") {
@@ -24,11 +28,12 @@ interface Release {
   body: string;
 }
 
+// Function to fetch releases
 async function fetchReleases(): Promise<Release[]> {
   const res = await fetch(
     "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
     {
-      next: { revalidate: 3600 },
+      next: { revalidate: 3600 }, // Cache for 1 hour
     }
   );
 
@@ -40,24 +45,26 @@ async function fetchReleases(): Promise<Release[]> {
   return data;
 }
 
-const ReleasesPage = async () => {
-  const data = await fetchReleases();
+// Functional component for displaying the releases
+const ReleasesPage = async ({ params }: { params: { locale: string } }) => {
+  const { locale } = params;
+  const releases = await fetchReleases();
   const purify = createDOMPurify();
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Blink Eye Releases</h1>
       <div className="grid gap-10">
-        {data.map((release) => (
+        {releases.map((release) => (
           <div key={release.id} className="p-4 shadow-md rounded-lg">
             <Link
-              href={`/changelog/release/${release.name}`}
-              className="text-3xl font-semibold "
+              href={`/${locale}/changelog/release/${release.name}`}
+              className="text-3xl font-semibold"
             >
               {release.name}
             </Link>
-            <p className="">Tag: {release.tag_name}</p>
-            <p className="">
+            <p>Tag: {release.tag_name}</p>
+            <p>
               Published: {new Date(release.published_at).toLocaleDateString()}
             </p>
 
