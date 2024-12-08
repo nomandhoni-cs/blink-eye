@@ -16,6 +16,7 @@ import { MediaQueriesDebug } from "@/components/debug/media-queries";
 
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {ReactNode} from 'react';
+import localFont from "next/font/local";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -23,6 +24,15 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "000" },
   ],
 };
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+const fontHeading = localFont({
+  src: "../../assets/fonts/CalSans-SemiBold.woff2",
+  variable: "--font-heading",
+});
 
 // export const metadata: Metadata = {
 //   metadataBase: new URL(SEO.url),
@@ -67,7 +77,7 @@ export async function generateMetadata({
   const t = await getTranslations({locale, namespace: 'Metadata'});
 
   return {
-    title: t('title')
+    title: t('title'),
   };
 }
 
@@ -92,9 +102,10 @@ export default async function LocaleLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body
-        className={cn(
+className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          //   fontHeading.variable
+          fontSans.variable,
+          fontHeading.variable
         )}
       >
         <meta

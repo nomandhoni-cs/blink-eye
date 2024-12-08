@@ -45,5 +45,15 @@
   "Metadata": {
     "title": "Blink Eye - Best Eye Care & Break Timer for Mac, Windows, Linux",
     "description": "Best Eye Care & Break Timer for MacOS, Windows, Linux"
+  },
+  "HeroBanner": {
+    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
+    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "202020": "20-20-20",
+    "span2": "rule.",
+    "institute": "American Academy of Ophthalmology"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
   }
 }
