@@ -21,16 +21,16 @@ const rgbDataURL = (r: number, g: number, b: number) =>
 export default function FeatureShowcase() {
   const t = useTranslations(); // Load translations
   const featuresDemo = t.raw("featuresDemo"); // Fetch the `featuresDemo` array
+  const featuresHeader = useTranslations("featuresDemoHeader");
   return (
     <section className="w-full py-24">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center mb-16">
           <h2 className="mt-2 text-balance text-4xl font-heading tracking-wide sm:text-5xl md:text-6xl bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent">
-            Discover the Features that Make Us Stand Out
+            {featuresHeader("title")}
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg text-zinc-400 sm:text-xl/8">
-            Explore the features that make our app stand out. From customizable
-            reminders to multiple themes, we've got you covered.
+            {featuresHeader("description")}
           </p>
         </div>
         <div className="mt-16 space-y-24">
