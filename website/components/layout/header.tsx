@@ -6,10 +6,11 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import GitHubStarCount from "../GitHubStarCount";
 import { cn } from "@/utils/cn";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { LocaleToggle } from "../locale-switcher";
 export const Header = () => {
   const locale = useLocale();
+  const t = useTranslations("NavMenu");
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
@@ -22,11 +23,11 @@ export const Header = () => {
         {/* Navigation Links */}
         <nav className="hidden sm:flex items-center space-x-4 text-base font-medium">
           {[
-            { href: "/features", label: "Features" },
-            { href: "/about", label: "About" },
-            { href: "/pricing", label: "Pricing" },
-            { href: "/changelog", label: "Release" },
-            { href: "/contribute", label: "Contribute" },
+            { href: "/features", label: t("features") },
+            { href: "/about", label: t("about") },
+            { href: "/pricing", label: t("pricing") },
+            { href: "/changelog", label: t("release") },
+            { href: "/contribute", label: t("contribute") },
           ].map(({ href, label }) => (
             <Link
               key={label}

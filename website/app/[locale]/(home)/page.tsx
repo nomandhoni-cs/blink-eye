@@ -10,10 +10,7 @@ const RootPage = () => {
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-24 lg:pb-8 px-4 sm:px-6 lg:px-8">
       <HeroSection />
       <DownloadApp />
-      <FeatureGrid
-        title="Features"
-        subtitle="All the necessary productivity tool in one place."
-      />{" "}
+      <FeatureGrid />
       <PricingSection />
       <FeatureShowcase />
       <HowBlinkEyeWillHelp />

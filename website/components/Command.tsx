@@ -33,12 +33,12 @@ export function Command() {
 
       <div className="text-center">
         <h2 className="text-3xl font-heading">
-          For {isMac ? "Homebrew - MacOS" : "Windows"}
+          {isMac ? "Please use Homebrew - MacOS" : "Please use winget - Windows"}
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">
+        {/* <p className="text-gray-600 dark:text-gray-300 mt-2">
           Install Blink Eye using {isMac ? "Homebrew" : "winget"} with the
           command below:
-        </p>
+        </p> */}
         {isMac && (
           <div className="text-sm text-gray-600 dark:text-gray-300 text-center">
             <p className="mb-2">

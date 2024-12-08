@@ -22,170 +22,145 @@ import {
   BookOpenIcon,
   SunIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function HowBlinkEyeWillHelp() {
   //   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const t = useTranslations("howBlinkEyeWillHelp");
 
   const benefits = [
     {
-      title: "Eye Care and Protection",
-      description:
-        "Protect your eyes from digital strain, reduce blue light exposure, and prevent Computer Vision Syndrome (CVS).",
+      title: t("title1"),
+      description: t("description1"),
       icon: EyeIcon,
       details: [
         {
-          subtitle: "Prevent Digital Eye Strain",
-          content:
-            "Scheduled breaks reduce symptoms like dry eyes, blurry vision, and headaches, ensuring long-term eye health.",
+          subtitle: t("preventDigitalEyeStrain"),
+          content: t("preventDigitalEyeStrainDetails"),
         },
         {
-          subtitle: "Blue Light Protection",
-          content:
-            "Rest your eyes regularly with prompts designed to combat the harmful effects of blue light exposure.",
+          subtitle: t("blueLightProtection"),
+          content: t("blueLightProtectionDetails"),
         },
       ],
     },
     {
-      title: "Physical Health",
-      description:
-        "Improve posture, prevent Repetitive Strain Injuries (RSI), and reduce physical discomfort.",
+      title: t("title2"),
+      description: t("description2"),
       icon: ActivityIcon,
       details: [
         {
-          subtitle: "Prevent Repetitive Strain Injuries (RSI)",
-          content:
-            "Regular breaks minimize strain on your hands and wrists, preventing long-term damage from repetitive tasks.",
+          subtitle: t("preventRepetitiveStrainInjuries"),
+          content: t("preventRepetitiveStrainInjuriesDetails"),
         },
         {
-          subtitle: "Support Better Posture",
-          content:
-            "Encourages stretching and posture checks to avoid issues like tech neck and back pain.",
+          subtitle: t("supportBetterPosture"),
+          content: t("supportBetterPostureDetails"),
         },
       ],
     },
     {
-      title: "Mental Wellness",
-      description:
-        "Boost your focus, mindfulness, and reduce stress effortlessly.",
+      title: t("title3"),
+      description: t("description3"),
       icon: BrainIcon,
       details: [
         {
-          subtitle: "Enhance Focus and Mindfulness",
-          content:
-            "Regular breaks help you stay sharp and focused while reducing mental fatigue and burnout.",
+          subtitle: t("enhanceFocusAndMindfulness"),
+          content: t("enhanceFocusAndMindfulnessDetails"),
         },
         {
-          subtitle: "Stress Management",
-          content:
-            "Use break intervals to practice relaxation techniques, reducing work-induced stress and tension.",
+          subtitle: t("stressManagement"),
+          content: t("stressManagementDetails"),
         },
       ],
     },
     {
-      title: "Boosted Productivity",
-      description:
-        "Work smarter, not harder, with productivity-focused methods.",
+      title: t("title4"),
+      description: t("description4"),
       icon: ZapIcon,
       details: [
         {
-          subtitle: "Pomodoro Technique Integration",
-          content:
-            "Break tasks into manageable intervals for efficient work sessions, improving task completion rates.",
+          subtitle: t("pomodoroTechniqueIntegration"),
+          content: t("pomodoroTechniqueIntegrationDetails"),
         },
         {
-          subtitle: "Cognitive Efficiency",
-          content:
-            "Strategic breaks enhance your mental performance, helping you achieve more with less effort.",
+          subtitle: t("cognitiveEfficiency"),
+          content: t("cognitiveEfficiencyDetails"),
         },
       ],
     },
     {
-      title: "Healthy Screen-Time Habits",
-      description:
-        "Develop disciplined screen-time practices and minimize unnecessary distractions.",
+      title: t("title5"),
+      description: t("description5"),
       icon: HeartIcon,
       details: [
         {
-          subtitle: "Structured Screen-Time",
-          content:
-            "Build healthy digital habits with well-timed reminders for work and relaxation balance.",
+          subtitle: t("structuredScreenTime"),
+          content: t("structuredScreenTimeDetails"),
         },
         {
-          subtitle: "Reduce Multitasking",
-          content:
-            "Focus fully on tasks by minimizing distractions during your work and relaxation cycles.",
+          subtitle: t("reduceMultitasking"),
+          content: t("reduceMultitaskingDetails"),
         },
       ],
     },
     {
-      title: "Sustainable Long-Term Benefits",
-      description:
-        "Avoid chronic issues and maintain balance for years to come.",
+      title: t("title6"),
+      description: t("description6"),
       icon: ClockIcon,
       details: [
         {
-          subtitle: "Prevent Chronic Vision Problems",
-          content:
-            "Take proactive measures to reduce risks of long-term digital vision problems caused by screen overuse.",
+          subtitle: t("preventChronicVisionProblems"),
+          content: t("preventChronicVisionProblemsDetails"),
         },
         {
-          subtitle: "Achieve Work-Life Balance",
-          content:
-            "Create sustainable habits for work and personal life with a balanced approach to productivity.",
+          subtitle: t("achieveWorkLifeBalance"),
+          content: t("achieveWorkLifeBalanceDetails"),
         },
       ],
     },
     {
-      title: "Flexible and Customizable",
-      description:
-        "Tailor your experience to fit your lifestyle, profession, and individual needs.",
+      title: t("title7"),
+      description: t("description7"),
       icon: SettingsIcon,
       details: [
         {
-          subtitle: "Customizable Break Timers",
-          content:
-            "Set intervals that match your workflow, ensuring the app complements your unique schedule.",
+          subtitle: t("customizableBreakTimers"),
+          content: t("customizableBreakTimersDetails"),
         },
         {
-          subtitle: "Built for Everyone",
-          content:
-            "Whether you’re a student, developer, designer, or remote worker, the app adapts to your needs.",
+          subtitle: t("builtForEveryone"),
+          content: t("builtForEveryoneDetails"),
         },
       ],
     },
     {
-      title: "Research-Backed Benefits",
-      description:
-        "Enjoy features grounded in productivity and wellness studies.",
+      title: t("title8"),
+      description: t("description8"),
       icon: BookOpenIcon,
       details: [
         {
-          subtitle: "Evidence-Based Features",
-          content:
-            "The app’s design is inspired by research in productivity, focus, and digital well-being.",
+          subtitle: t("evidenceBasedFeatures"),
+          content: t("evidenceBasedFeaturesDetails"),
         },
         {
-          subtitle: "Trusted by Users",
-          content:
-            "Real user testimonials and success stories validate its effectiveness and value.",
+          subtitle: t("trustedByUsers"),
+          content: t("trustedByUsersDetails"),
         },
       ],
     },
     {
-      title: "Enhanced Energy and Mood",
-      description:
-        "Feel energized and stay positive throughout the day with balanced work breaks.",
+      title: t("title9"),
+      description: t("description9"),
       icon: SunIcon,
       details: [
         {
-          subtitle: "Boost Daily Energy",
-          content:
-            "Short, regular breaks help recharge your mind and body, keeping you energized for the day ahead.",
+          subtitle: t("boostDailyEnergy"),
+          content: t("boostDailyEnergyDetails"),
         },
         {
-          subtitle: "Maintain a Positive Mood",
-          content:
-            "Break the monotony of continuous screen time to reduce frustration and enhance your overall mood.",
+          subtitle: t("maintainPositiveMood"),
+          content: t("maintainPositiveMoodDetails"),
         },
       ],
     },
@@ -195,14 +170,11 @@ export default function HowBlinkEyeWillHelp() {
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl text-center py-4">
         <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
-          How Blink Eye Will Help You
+          {t("heading")}
         </h2>
       </div>
       <p className="mx-auto mt-6 max-w-6xl text-pretty text-center text-lg font-medium text-gray-600 dark:text-gray-300 sm:text-xl/8 py-4">
-        <b>Take control of your well-being with Blink Eye. </b> Discover how
-        scheduled breaks can improve eye health, enhance focus, boost
-        productivity, and promote long-term wellness for a balanced digital
-        lifestyle.
+        <b>{t("body1")}</b> {t("body2")}
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {benefits.map((benefit, index) => (
@@ -217,7 +189,7 @@ export default function HowBlinkEyeWillHelp() {
             <CardContent>
               <Accordion type="single" collapsible>
                 <AccordionItem value={`item-${index}`}>
-                  <AccordionTrigger>Learn More</AccordionTrigger>
+                  <AccordionTrigger>{t("learnMore")}</AccordionTrigger>
                   <AccordionContent>
                     {benefit.details.map((detail, detailIndex) => (
                       <div key={detailIndex} className="mb-4">
