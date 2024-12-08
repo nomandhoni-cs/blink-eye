@@ -37,7 +37,7 @@ export function FeatureGridItem(props: {
   );
 }
 
-export function FeatureGrid(props: { title: string; subtitle: string }) {
+export function FeatureGrid() {
   const t = useTranslations("featureGrid");
   const features = [
     {

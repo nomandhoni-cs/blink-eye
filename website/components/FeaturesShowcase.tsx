@@ -2,7 +2,7 @@ import Image from "next/image";
 import { CheckSquare, Minus, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { featuresDemo } from "@/utils/features";
+import { useTranslations } from "next-intl";
 
 const keyStr =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -19,6 +19,8 @@ const rgbDataURL = (r: number, g: number, b: number) =>
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
 export default function FeatureShowcase() {
+  const t = useTranslations(); // Load translations
+  const featuresDemo = t.raw("featuresDemo"); // Fetch the `featuresDemo` array
   return (
     <section className="w-full py-24">
       <div className="container mx-auto px-4">
