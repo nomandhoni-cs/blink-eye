@@ -9,7 +9,7 @@ export const routing = defineRouting({
     "en", // English
     "zh", // Chinese (Mandarin)
     "hi", // Hindi
-    "es", // Spanish
+    "es-ES", // Spanish
     "ar", // Arabic
     "bn", // Bengali
     "pt", // Portuguese
@@ -27,6 +27,23 @@ export const routing = defineRouting({
     "fa", // Persian
     "pl", // Polish
     "nl", // Dutch
+    "af", // Afrikaans
+    "ca", // Catalan
+    "cs", // Czech
+    "da", // Danish
+    "el", // Greek
+    "fi", // Finnish
+    "he", // Hebrew
+    "hu", // Hungarian
+    "no", // Norwegian
+    "pt-BR", // Portuguese (Brazil)
+    "pt-PT", // Portuguese (Portugal)
+    "ro", // Romanian
+    "sr", // Serbian
+    "sv-SE", // Swedish
+    "uk", // Ukrainian
+    "zh-CN", // Simplified Chinese
+    "zh-TW", // Traditional Chinese
   ],
   pathnames: {
     "/": "/",
@@ -34,7 +51,7 @@ export const routing = defineRouting({
       en: "/pathnames",
       zh: "/pathnames",
       hi: "/pathnames",
-      es: "/pathnames",
+    "es-ES": "/pathnames",
       ar: "/pathnames",
       bn: "/pathnames",
       pt: "/pathnames",
@@ -52,6 +69,23 @@ export const routing = defineRouting({
       fa: "/pathnames",
       pl: "/pathnames",
       nl: "/pathnames",
+      af: "/pathnames",
+      ca: "/pathnames",
+      cs: "/pathnames",
+      da: "/pathnames",
+      el: "/pathnames",
+      fi: "/pathnames",
+      he: "/pathnames",
+      hu: "/pathnames",
+      no: "/pathnames",
+      "pt-BR": "/pathnames",
+      "pt-PT": "/pathnames",
+      ro: "/pathnames",
+      sr: "/pathnames",
+      "sv-SE": "/pathnames",
+      uk: "/pathnames",
+      "zh-CN": "/pathnames",
+      "zh-TW": "/pathnames",
     },
   },
 });
