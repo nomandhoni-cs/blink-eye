@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
-import { CMS_NAME } from "@/lib/constants";
 import markdownToHtml from "@/lib/markdownToHtml";
 import Alert from "@/app/_components/alert";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
+import { getTranslations } from "next-intl/server";
 
 export default async function Post(props: Params) {
   const params = await props.params;
@@ -52,7 +52,12 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     return notFound();
   }
 
-  const title = `${post.title} | Next.js Blog Example with ${CMS_NAME}`;
+  // Use `getTranslations` to get the translation for the app name in server-side code
+  const t = await getTranslations({
+    locale: params.slug,
+    namespace: "Metadata",
+  }); // Use the locale dynamically if needed
+  const title = `${post.title} | ${t("appName")}`; // Using the translation key
 
   return {
     title,

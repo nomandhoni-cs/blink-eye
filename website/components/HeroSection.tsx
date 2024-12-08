@@ -11,7 +11,7 @@ const HeroSection = () => {
         <span>{t("tagline")}</span>
       </h1>
       <p className="max-w-[900px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground">
-        {t("span1")} {" "}
+        {t("span1")}{" "}
         <HoverCard>
           <HoverCardTrigger>
             <span className="text-[#FE4C55] cursor-help">{t("202020")} </span>

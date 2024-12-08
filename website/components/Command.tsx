@@ -18,22 +18,24 @@ export function Command() {
   return (
     <div className="w-full max-w-3xl mx-auto space-y-1">
       <div className="flex justify-center items-center space-x-4">
-        <span className={`text-sm ${!isMac ? "font-bold" : ""}`}>
-          Windows
-        </span>
+        <span className={`text-sm ${!isMac ? "font-bold" : ""}`}>Windows</span>
         <Switch
+          id="macSwitch"
           checked={isMac}
           onCheckedChange={setIsMac}
-          className="data-[state=checked]:bg-[#FE4C55]"
+          className="data-[state=checked]:bg-[#FE4C55] transition-colors duration-200"
+          aria-checked={isMac}
+          aria-labelledby="macSwitch"
+          role="switch"
         />
-        <span className={`text-sm ${isMac ? "font-bold" : ""}`}>
-          macOS
-        </span>
+        <span className={`text-sm ${isMac ? "font-bold" : ""}`}>macOS</span>
       </div>
 
       <div className="text-center">
         <h2 className="text-3xl font-heading">
-          {isMac ? "Please use Homebrew - MacOS" : "Please use winget - Windows"}
+          {isMac
+            ? "Please use Homebrew - MacOS"
+            : "Please use winget - Windows"}
         </h2>
         {/* <p className="text-gray-600 dark:text-gray-300 mt-2">
           Install Blink Eye using {isMac ? "Homebrew" : "winget"} with the

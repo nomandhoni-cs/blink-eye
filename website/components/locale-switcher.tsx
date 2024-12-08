@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function LocaleToggle() {
   const t = useTranslations("LocaleSwitcher");
@@ -34,16 +35,18 @@ export function LocaleToggle() {
           <span className="sr-only">{t("label")}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {routing.locales.map((cur) => (
-          <DropdownMenuItem
-            key={cur}
-            onClick={() => handleLocaleChange(cur)}
-            className={cur === locale ? "bg-accent" : ""}
-          >
-            {t(`locale.${cur}`)}
-          </DropdownMenuItem>
-        ))}
+      <DropdownMenuContent align="end" className="w-[200px]">
+        <ScrollArea className="h-[400px]">
+          {routing.locales.map((cur) => (
+            <DropdownMenuItem
+              key={cur}
+              onClick={() => handleLocaleChange(cur)}
+              className={cur === locale ? "bg-accent" : ""}
+            >
+              {t(`locale.${cur}`)}
+            </DropdownMenuItem>
+          ))}
+        </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
   );

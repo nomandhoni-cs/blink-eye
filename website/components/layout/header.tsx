@@ -15,7 +15,7 @@ export const Header = () => {
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
         {/* Logo Section */}
-        <Link href="/" className="flex items-center space-x-3 mr-4">
+        <Link href={`/${locale}`} className="flex items-center space-x-3 mr-4">
           <Image src={logo} alt="Blink Eye Logo" height={40} width={40} />
           <span className="font-bold">Blink Eye</span>
         </Link>
@@ -27,7 +27,7 @@ export const Header = () => {
             { href: "/about", label: t("about") },
             { href: "/pricing", label: t("pricing") },
             { href: "/changelog", label: t("release") },
-            { href: "/contribute", label: t("contribute") },
+            { href: "/posts/contribute", label: t("contribute") },
           ].map(({ href, label }) => (
             <Link
               key={label}
