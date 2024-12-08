@@ -47,7 +47,10 @@ async function fetchReleases(): Promise<Release[]> {
 
 // Functional component for displaying the releases
 const ReleasesPage = async ({ params }: { params: { locale: string } }) => {
+  // Destructure locale directly from params (as it's already resolved)
   const { locale } = params;
+
+  // Fetch releases data asynchronously
   const releases = await fetchReleases();
   const purify = createDOMPurify();
 
