@@ -8,10 +8,7 @@ export const metadata: Metadata = {
 const Features = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <FeatureGrid
-        title="Features"
-        subtitle="All the necessary productivity tool in one place."
-      />
+      <FeatureGrid />
       <FeatureShowcase />
     </div>
   );
