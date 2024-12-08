@@ -93,9 +93,9 @@ export default function FeatureShowcase() {
                             </div>
 
                             {/* Centered Text */}
-                            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                            <p className="text-[0.6rem] sm:text-sm font-medium text-gray-800 dark:text-gray-200">
                               Blink Eye -{" "}
-                              <span className="text-xs font-normal">
+                              <span className="text-[0.6rem] sm:text-xs font-normal">
                                 {feature.moto}
                               </span>
                             </p>

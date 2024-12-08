@@ -14,8 +14,8 @@ import StarryBackground from "@/components/StarryBackground";
 import { Footer } from "@/components/layout/footer";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 
-import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {ReactNode} from 'react';
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ReactNode } from "react";
 import localFont from "next/font/local";
 
 export const viewport: Viewport = {
@@ -64,28 +64,52 @@ const fontHeading = localFont({
 // };
 type Props = {
   children: ReactNode;
-  params: {locale: string};
+  params: { locale: string };
 };
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({locale}));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
-  params: {locale}
-}: Omit<Props, 'children'>) {
-  const t = await getTranslations({locale, namespace: 'Metadata'});
+  params: { locale },
+}: Omit<Props, "children">) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
-    title: t('title') + " - " + t('appName'),
+    title: t("appName") + " - " + t("title"),
+    metadataBase: new URL(SEO.url),
+    applicationName: SEO.title,
+    description: SEO.description,
+    keywords: SEO.keywords,
+    manifest: `${SEO.url}/site.webmanifest`,
+    openGraph: {
+      locale: locale,
+      title: SEO.title,
+      description: SEO.description,
+      url: SEO.url,
+      type: "website",
+      videos: "https://www.youtube.com/watch?v=wszHM7OWOqI",
+      images: [
+        {
+          url: "https://utfs.io/f/93hqarYp4cDdUuQivio0OCdzPs3rx4G5yFeS2tqMgwjDuXAK",
+          width: 1280,
+          height: 720,
+          alt: SEO.description,
+        },
+      ],
+      siteName: SEO.title,
+    },
+    twitter: {
+      site: SEO.twitter,
+    },
   };
 }
 
 export default async function LocaleLayout({
   children,
-  params: {locale}
+  params: { locale },
 }: Props) {
-  
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as any)) {
     notFound();
@@ -102,7 +126,7 @@ export default async function LocaleLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body
-className={cn(
+        className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
           fontHeading.variable

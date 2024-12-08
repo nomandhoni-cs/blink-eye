@@ -3,12 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2Icon } from "lucide-react";
 import { cn } from "@/utils/cn";
-import type { Metadata } from "next";
 import PricingHeading from "./PricingHeading";
-
-export const metadata: Metadata = {
-  title: "Pricing",
-};
 
 type PlanType = "Monthly" | "Yearly" | "Lifetime";
 
