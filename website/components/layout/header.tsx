@@ -6,7 +6,10 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import GitHubStarCount from "../GitHubStarCount";
 import { cn } from "@/utils/cn";
+import { useLocale } from "next-intl";
+import { LocaleToggle } from "../locale-switcher";
 export const Header = () => {
+  const locale = useLocale();
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
@@ -27,7 +30,7 @@ export const Header = () => {
           ].map(({ href, label }) => (
             <Link
               key={label}
-              href={!href ? "#" : href}
+              href={!href ? "#" : `/${locale}${href}`}
               className={cn(
                 "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm"
               )}
@@ -40,6 +43,7 @@ export const Header = () => {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-0 sm:space-x-1">
             <GitHubStarCount />
+            <LocaleToggle />
             <Button variant="ghost" size="icon" asChild>
               <Link
                 href={CONFIG.twitter}

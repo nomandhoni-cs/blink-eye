@@ -65,42 +65,7 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-          fontHeading.variable
-        )}
-      >
-        <meta
-          name="google-site-verification"
-          content="TkrpS4PY-sUn-Dg71tDXhnUYdDA5N3HkznJvJUYPbR0"
-        />
-        <GoogleTagManager gtmId="GTM-5C4XTNHM" />
-        <Providers>
-          {/* <AnnouncementBar />  */}
-          <Header />
-          <main className="flex flex-1 flex-col">
-            <div className="relative isolate">
-              <StarryBackground />
-              {/* <div
-                className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden"
-                aria-hidden="true"
-              >
-                <AuroraBackground />
-              </div> */}
-              {children}
-            </div>
-          </main>
-          <Footer />
-          <MediaQueriesDebug />
-        </Providers>
-      </body>
-      <GoogleAnalytics gaId="G-5T49JELLG8" />
-    </html>
-  );
+  return <>{children}</>;
 };
 
 export default RootLayout;

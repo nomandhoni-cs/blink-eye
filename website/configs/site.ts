@@ -10,3 +10,6 @@ export const CONFIG = {
   command:
     "pyinstaller --name BlinkEye --onefile --windowed --icon=blink-eye-logo.ico --hidden-import plyer.platforms.win.notification blink-eye.py",
 };
+
+export const locales = ["en", "es"] as const;
+export type Locale = (typeof locales)[number];

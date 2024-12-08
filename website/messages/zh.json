@@ -1,0 +1,31 @@
+{
+    "LocaleSwitcher": {
+        "label": "Change language",
+        "locale": {
+            "en": "English",
+            "zh": "中文",
+            "hi": "हिन्दी",
+            "es": "Español",
+            "ar": "العربية",
+            "bn": "বাংলা",
+            "pt": "Português",
+            "ru": "Русский",
+            "ja": "日本語",
+            "de": "Deutsch",
+            "fr": "Français",
+            "ur": "اردو",
+            "id": "Bahasa Indonesia",
+            "ko": "한국어",
+            "it": "Italiano",
+            "tr": "Türkçe",
+            "vi": "Tiếng Việt",
+            "th": "ไทย",
+            "fa": "فارسی",
+            "pl": "Polski",
+            "nl": "Nederlands"
+        }
+    },
+    "Metadata": {
+        "title": "Blink Eye"
+    }
+}
