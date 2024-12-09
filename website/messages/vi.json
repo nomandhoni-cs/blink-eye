@@ -44,458 +44,354 @@
   },
   "Metadata": {
     "appName": "Blink Eye",
-    "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "title": "App Chăm Sóc Mắt & Hẹn Giờ Nghỉ Ngơi Tốt Nhất cho Mac, Windows, Linux",
+    "description": "Ứng dụng nhắc nhở chăm sóc mắt tối giản giúp giảm mỏi mắt, với bộ hẹn giờ tùy chỉnh, cửa sổ bật lên toàn màn hình, tắt âm thanh.",
     "keywords": [
-      "prevent rsi app",
-      "prevent cvs app",
-      "rsi app",
-      "cvs app",
-      "best eye care app 2024",
-      "screen break reminder app",
-      "free eye health app download",
-      "open source eye protection software",
-      "screen timer for eye care",
-      "work break reminder tool",
-      "eye comfort app for Mac",
-      "vision care software for laptops",
-      "top eye relaxation app",
-      "PC screen time control",
-      "computer eye care utility",
-      "digital eye strain prevention",
-      "windows break time scheduler",
-      "best apps for eye strain relief",
-      "cross-platform eye care app",
-      "top open source break reminder",
-      "blink timer for computer health",
-      "best eye care app for Windows and Linux",
-      "free eye health app for Windows",
-      "open source eye protection software for Linux",
-      "screen break reminder app for Windows",
-      "eye comfort app for Linux",
-      "top eye relaxation app for Windows",
-      "digital eye strain prevention for Windows",
-      "computer eye care utility for Linux",
-      "work break reminder tool for Windows",
-      "screen time control for Linux",
-      "cross-platform eye care app",
-      "best apps for eye strain relief on Windows and Linux",
-      "PC screen timer for eye care",
-      "vision care software for Windows",
-      "eye care reminder app for Linux",
-      "blink eye",
-      "blink eye for windows",
-      "Noman Dhoni Made App",
-      "eye care app for windows",
-      "20 20 20 rule app for windows",
-      "eye care",
-      "eye strain relief app",
-      "eye health app",
-      "blink eye download",
-      "blink eye review",
-      "20 20 20 rule app",
-      "eye care reminder app",
-      "eye care software",
-      "eye care tips",
-      "eye exercises app",
-      "eye protection app",
-      "eye care app for pc",
-      "eye care app for laptop",
-      "eye care app for desktop",
-      "eye care app for windows 10",
-      "eye care app for windows 11",
-      "blink eye download",
-      "blink eye review",
-      "eye care app for windows",
-      "20 20 20 rule app for windows"
+      "app chống RSI",
+      "app chống CVS",
+      "app RSI",
+      "app CVS",
+      "app chăm sóc mắt tốt nhất 2024",
+      "app nhắc nhở nghỉ ngơi màn hình",
+      "tải xuống app sức khỏe mắt miễn phí",
+      "phần mềm bảo vệ mắt mã nguồn mở",
+      "công cụ năng suất cho macOS",
+      "app thư giãn mắt hàng đầu",
+      "Google Lịch danh sách công việc",
+      "hẹn giờ màn hình để chăm sóc mắt",
+      "công cụ nhắc nhở nghỉ ngơi khi làm việc",
+      "app làm dịu mắt cho Mac",
+      "phần mềm chăm sóc thị lực cho laptop",
+      "app thư giãn mắt hàng đầu",
+      "kiểm soát thời gian sử dụng màn hình máy tính",
+      "tiện ích chăm sóc mắt máy tính",
+      "phòng chống mỏi mắt kỹ thuật số",
+      "bộ lập lịch nghỉ ngơi cho windows",
+      "app tốt nhất để giảm mỏi mắt",
+      "app chăm sóc mắt đa nền tảng",
+      "app nhắc nhở nghỉ ngơi mã nguồn mở hàng đầu",
+      "hẹn giờ nháy mắt để bảo vệ sức khỏe máy tính",
+      "app chăm sóc mắt tốt nhất cho Windows và Linux",
+      "app sức khỏe mắt miễn phí cho Windows",
+      "phần mềm bảo vệ mắt mã nguồn mở cho Linux",
+      "app nhắc nhở nghỉ ngơi màn hình cho Windows",
+      "app làm dịu mắt cho Linux",
+      "app thư giãn mắt hàng đầu cho Windows",
+      "phòng chống mỏi mắt kỹ thuật số cho Windows",
+      "tiện ích chăm sóc mắt máy tính cho Linux",
+      "công cụ nhắc nhở nghỉ ngơi khi làm việc cho Windows",
+      "kiểm soát thời gian sử dụng màn hình cho Linux",
+      "app chăm sóc mắt đa nền tảng",
+      "app tốt nhất để giảm mỏi mắt trên Windows và Linux",
+      "hẹn giờ màn hình máy tính để chăm sóc mắt",
+      "phần mềm chăm sóc thị lực cho Windows",
+      "app nhắc nhở chăm sóc mắt cho Linux",
+      "Blink Eye",
+      "Blink Eye cho Windows",
+      "App của Noman Dhoni",
+      "app chăm sóc mắt cho Windows",
+      "app quy tắc 20 20 20 cho Windows",
+      "chăm sóc mắt",
+      "app giảm mỏi mắt",
+      "app sức khỏe mắt",
+      "tải xuống Blink Eye",
+      "đánh giá Blink Eye",
+      "app quy tắc 20 20 20",
+      "app nhắc nhở chăm sóc mắt",
+      "phần mềm chăm sóc mắt",
+      "mẹo chăm sóc mắt",
+      "app bài tập mắt",
+      "app bảo vệ mắt",
+      "app chăm sóc mắt cho máy tính",
+      "app chăm sóc mắt cho laptop",
+      "app chăm sóc mắt cho máy tính để bàn",
+      "app chăm sóc mắt cho Windows 10",
+      "app chăm sóc mắt cho Windows 11",
+      "tải xuống Blink Eye",
+      "đánh giá Blink Eye",
+      "app chăm sóc mắt cho Windows",
+      "app quy tắc 20 20 20 cho Windows",
+      "phòng tránh hội chứng thị giác màn hình (CVS)",
+      "hội chứng rối loạn thị giác do sử dụng máy tính",
+      "mỏi mắt",
+      "nhức mỏi mắt",
+      "bảo vệ mắt khỏi ánh sáng xanh",
+      "giảm căng thẳng mắt",
+      "ứng dụng nhắc nhở nghỉ giải lao",
+      "cải thiện năng suất làm việc"
     ]
   },
   "NavMenu": {
-    "features": "Features",
-    "about": "About",
-    "pricing": "Pricing",
-    "release": "Release",
-    "contribute": "Contribute"
+    "features": "Tính năng",
+    "about": "Giới thiệu",
+    "pricing": "Giá cả",
+    "release": "Phát hành",
+    "contribute": "Đóng góp",
+    "blogs": "Blogs"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Ứng dụng nhắc nhở chăm sóc mắt tối giản cho Windows, macOS và Linux.",
+    "span1": "Giúp giảm mỏi mắt, với bộ hẹn giờ, cửa sổ bật lên toàn màn hình. Dựa trên quy tắc",
     "202020": "20-20-20",
-    "span2": "rule.",
-    "institute": "American Academy of Ophthalmology"
+    "span2": ".",
+    "institute": "Viện Nhãn khoa Hoa Kỳ (American Academy of Ophthalmology)"
   },
   "DownloadApp": {
-    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    "supportedPlatforms": "Hỗ trợ macOS chip Intel/M (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
   },
   "FeatureGrid": {
-    "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureTitle": "Tính năng",
+    "featureSubtitle": "Tất cả các công cụ năng suất cần thiết ở cùng một nơi."
   },
   "PricingGrid": {
-    "pricingTitle": "Pricing",
-    "pricingDescription": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "pricingTitle": "Giá cả",
+    "pricingDescription": "Chọn gói cước phải chăng đi kèm với những tính năng tốt nhất để thu hút khán giả, tạo lòng trung thành của khách hàng và thúc đẩy doanh số bán hàng."
   },
   "FeatureDemoSlide1": {
-    "title": "Customizable Reminders"
+    "title": "Nhắc nhở tùy chỉnh"
   },
   "howBlinkEyeWillHelp": {
-    "heading": "How Blink Eye Will Help You",
-    "body1": "Take control of your well-being with Blink Eye.",
-    "body2": "Discover how scheduled breaks can improve eye health, enhance focus, boostproductivity, and promote long-term wellness for a balanced digital lifestyle.",
-    "learnMore": "Learn More",
-    "title1": "Protect Your Eyes from Digital Strain",
-    "title2": "Physical Health",
-    "title3": "Mental Wellness",
-    "title4": "Boosted Productivity",
-    "title5": "Healthy Screen-Time Habits",
-    "title6": "Sustainable Long-Term Benefits",
-    "title7": "Flexible and Customizable",
-    "title8": "Research-Backed Benefits",
-    "title9": "Enhanced Energy and Mood",
-    "description1": "Protect your eyes from digital strain, reduce blue light exposure, and prevent Computer Vision Syndrome (CVS).",
-    "description2": "Improve posture, prevent Repetitive Strain Injuries (RSI), and reduce physical discomfort.",
-    "description3": "Boost your focus, mindfulness, and reduce stress effortlessly.",
-    "description4": "Work smarter, not harder, with productivity-focused methods.",
-    "description5": "Develop disciplined screen-time practices and minimize unnecessary distractions.",
-    "description6": "Avoid chronic issues and maintain balance for years to come.",
-    "description7": "Tailor your experience to fit your lifestyle, profession, and individual needs.",
-    "description8": "Enjoy features grounded in productivity and wellness studies.",
-    "description9": "Feel energized and stay positive throughout the day with balanced work breaks.",
-    "preventDigitalEyeStrain": "Prevent Digital Eye Strain",
-    "blueLightProtection": "Blue Light Protection",
-    "preventRepetitiveStrainInjuries": "Prevent Repetitive Strain Injuries (RSI)",
-    "supportBetterPosture": "Support Better Posture",
-    "enhanceFocusAndMindfulness": "Enhance Focus and Mindfulness",
-    "stressManagement": "Stress Management",
-    "pomodoroTechniqueIntegration": "Pomodoro Technique Integration",
-    "cognitiveEfficiency": "Cognitive Efficiency",
-    "structuredScreenTime": "Structured Screen-Time",
-    "reduceMultitasking": "Reduce Multitasking",
-    "preventChronicVisionProblems": "Prevent Chronic Vision Problems",
-    "achieveWorkLifeBalance": "Achieve Work-Life Balance",
-    "customizableBreakTimers": "Customizable Break Timers",
-    "builtForEveryone": "Built for Everyone",
-    "evidenceBasedFeatures": "Evidence-Based Features",
-    "trustedByUsers": "Trusted by Users",
-    "boostDailyEnergy": "Boost Daily Energy",
-    "maintainPositiveMood": "Maintain a Positive Mood",
-    "preventDigitalEyeStrainDetails": "Scheduled breaks reduce symptoms like dry eyes, blurry vision, and headaches, ensuring long-term eye health.",
-    "blueLightProtectionDetails": "Rest your eyes regularly with prompts designed to combat the harmful effects of blue light exposure.",
-    "preventRepetitiveStrainInjuriesDetails": "Regular breaks minimize strain on your hands and wrists, preventing long-term damage from repetitive tasks.",
-    "supportBetterPostureDetails": "Encourages stretching and posture checks to avoid issues like tech neck and back pain.",
-    "enhanceFocusAndMindfulnessDetails": "Regular breaks help you stay sharp and focused while reducing mental fatigue and burnout.",
-    "stressManagementDetails": "Use break intervals to practice relaxation techniques, reducing work-induced stress and tension.",
-    "pomodoroTechniqueIntegrationDetails": "Break tasks into manageable intervals for efficient work sessions, improving task completion rates.",
-    "cognitiveEfficiencyDetails": "Strategic breaks enhance your mental performance, helping you achieve more with less effort.",
-    "structuredScreenTimeDetails": "Build healthy digital habits with well-timed reminders for work and relaxation balance.",
-    "reduceMultitaskingDetails": "Focus fully on tasks by minimizing distractions during your work and relaxation cycles.",
-    "preventChronicVisionProblemsDetails": "Take proactive measures to reduce risks of long-term digital vision problems caused by screen overuse.",
-    "achieveWorkLifeBalanceDetails": "Create sustainable habits for work and personal life with a balanced approach to productivity.",
-    "customizableBreakTimersDetails": "Set intervals that match your workflow, ensuring the app complements your unique schedule.",
-    "builtForEveryoneDetails": "Whether you’re a student, developer, designer, or remote worker, the app adapts to your needs.",
-    "evidenceBasedFeaturesDetails": "The app’s design is inspired by research in productivity, focus, and digital well-being.",
-    "trustedByUsersDetails": "Real user testimonials and success stories validate its effectiveness and value.",
-    "boostDailyEnergyDetails": "Short, regular breaks help recharge your mind and body, keeping you energized for the day ahead.",
-    "maintainPositiveMoodDetails": "Break the monotony of continuous screen time to reduce frustration and enhance your overall mood."
+    "heading": "Blink Eye sẽ giúp bạn như thế nào",
+    "body1": "Kiểm soát sức khỏe của bạn với Blink Eye.",
+    "body2": "Khám phá cách nghỉ giải lao theo lịch trình có thể cải thiện sức khỏe mắt, tăng cường sự tập trung, nâng cao năng suất và thúc đẩy sức khỏe lâu dài cho lối sống kỹ thuật số cân bằng.",
+    "learnMore": "Tìm hiểu thêm",
+    "title1": "Bảo vệ mắt khỏi căng thẳng kỹ thuật số",
+    "title2": "Sức khỏe thể chất",
+    "title3": "Sức khỏe tinh thần",
+    "title4": "Tăng cường năng suất",
+    "title5": "Thói quen sử dụng màn hình lành mạnh",
+    "title6": "Lợi ích lâu dài bền vững",
+    "title7": "Linh hoạt và có thể tùy chỉnh",
+    "title8": "Lợi ích được hỗ trợ bởi nghiên cứu",
+    "title9": "Tăng cường năng lượng và tâm trạng",
+    "description1": "Bảo vệ mắt bạn khỏi căng thẳng kỹ thuật số, giảm tiếp xúc với ánh sáng xanh và ngăn ngừa Hội chứng Thị giác Máy tính (CVS).",
+    "description2": "Cải thiện tư thế, ngăn ngừa Chấn thương Căng thẳng Lặp đi lặp lại (RSI) và giảm sự khó chịu về thể chất.",
+    "description3": "Tăng cường sự tập trung, chánh niệm và giảm căng thẳng một cách dễ dàng.",
+    "description4": "Làm việc thông minh hơn, không phải chăm chỉ hơn, với các phương pháp tập trung vào năng suất.",
+    "description5": "Phát triển thói quen sử dụng màn hình có kỷ luật và giảm thiểu sự phân tâm không cần thiết.",
+    "description6": "Tránh các vấn đề mãn tính và duy trì sự cân bằng trong nhiều năm tới.",
+    "description7": "Điều chỉnh trải nghiệm của bạn để phù hợp với lối sống, nghề nghiệp và nhu cầu cá nhân.",
+    "description8": "Tận hưởng các tính năng dựa trên các nghiên cứu về năng suất và sức khỏe.",
+    "description9": "Cảm thấy tràn đầy năng lượng và giữ tinh thần tích cực suốt cả ngày với thời gian nghỉ ngơi cân bằng.",
+    "preventDigitalEyeStrain": "Ngăn ngừa mỏi mắt kỹ thuật số",
+    "blueLightProtection": "Bảo vệ khỏi ánh sáng xanh",
+    "preventRepetitiveStrainInjuries": "Ngăn ngừa chấn thương do căng thẳng lặp đi lặp lại (RSI)",
+    "supportBetterPosture": "Hỗ trợ tư thế tốt hơn",
+    "enhanceFocusAndMindfulness": "Tăng cường tập trung và chánh niệm",
+    "stressManagement": "Quản lý căng thẳng",
+    "pomodoroTechniqueIntegration": "Tích hợp kỹ thuật Pomodoro",
+    "cognitiveEfficiency": "Hiệu quả nhận thức",
+    "structuredScreenTime": "Thời gian sử dụng màn hình có cấu trúc",
+    "reduceMultitasking": "Giảm đa nhiệm",
+    "preventChronicVisionProblems": "Ngăn ngừa các vấn đề về thị lực mãn tính",
+    "achieveWorkLifeBalance": "Cân bằng giữa công việc và cuộc sống",
+    "customizableBreakTimers": "Bộ hẹn giờ nghỉ tùy chỉnh",
+    "builtForEveryone": "Dành cho tất cả mọi người",
+    "evidenceBasedFeatures": "Các tính năng dựa trên bằng chứng",
+    "trustedByUsers": "Được người dùng tin tưởng",
+    "boostDailyEnergy": "Tăng cường năng lượng hàng ngày",
+    "maintainPositiveMood": "Duy trì tâm trạng tích cực",
+    "preventDigitalEyeStrainDetails": "Nghỉ giải lao theo lịch trình giúp giảm các triệu chứng như khô mắt, mờ mắt và đau đầu, đảm bảo sức khỏe mắt lâu dài.",
+    "blueLightProtectionDetails": "Thư giãn mắt thường xuyên với các lời nhắc được thiết kế để chống lại tác hại của việc tiếp xúc với ánh sáng xanh.",
+    "preventRepetitiveStrainInjuriesDetails": "Nghỉ giải lao thường xuyên giúp giảm thiểu căng thẳng cho tay và cổ tay của bạn, ngăn ngừa tổn thương lâu dài do các công việc lặp đi lặp lại.",
+    "supportBetterPostureDetails": "Khuyến khích duỗi người và kiểm tra tư thế để tránh các vấn đề như cổ rùa và đau lưng.",
+    "enhanceFocusAndMindfulnessDetails": "Nghỉ giải lao thường xuyên giúp bạn luôn nhạy bén và tập trung đồng thời giảm mệt mỏi và kiệt sức về tinh thần.",
+    "stressManagementDetails": "Sử dụng khoảng thời gian nghỉ ngơi để thực hành các kỹ thuật thư giãn, giảm căng thẳng và áp lực do công việc gây ra.",
+    "pomodoroTechniqueIntegrationDetails": "Chia nhỏ các nhiệm vụ thành các khoảng thời gian để làm việc hiệu quả, cải thiện tỷ lệ hoàn thành nhiệm vụ.",
+    "cognitiveEfficiencyDetails": "Nghỉ ngơi chiến lược giúp nâng cao hiệu suất tinh thần của bạn, giúp bạn đạt được nhiều hơn với ít nỗ lực hơn.",
+    "structuredScreenTimeDetails": "Xây dựng thói quen kỹ thuật số lành mạnh với lời nhắc đúng lúc để cân bằng giữa công việc và thư giãn.",
+    "reduceMultitaskingDetails": "Tập trung hoàn toàn vào các nhiệm vụ bằng cách giảm thiểu sự phân tâm trong chu kỳ làm việc và thư giãn của bạn.",
+    "preventChronicVisionProblemsDetails": "Thực hiện các biện pháp chủ động để giảm nguy cơ mắc các vấn đề về thị lực kỹ thuật số lâu dài do sử dụng màn hình quá mức.",
+    "achieveWorkLifeBalanceDetails": "Tạo thói quen bền vững cho công việc và cuộc sống cá nhân với cách tiếp cận cân bằng để đạt năng suất.",
+    "customizableBreakTimersDetails": "Đặt khoảng thời gian phù hợp với quy trình làm việc của bạn, đảm bảo ứng dụng bổ sung cho lịch trình riêng của bạn.",
+    "builtForEveryoneDetails": "Cho dù bạn là sinh viên, nhà phát triển, nhà thiết kế hay nhân viên làm việc từ xa, ứng dụng đều thích ứng với nhu cầu của bạn.",
+    "evidenceBasedFeaturesDetails": "Thiết kế của ứng dụng được lấy cảm hứng từ nghiên cứu về năng suất, sự tập trung và sức khỏe kỹ thuật số.",
+    "trustedByUsersDetails": "Lời chứng thực và câu chuyện thành công của người dùng thực tế xác nhận tính hiệu quả và giá trị của nó.",
+    "boostDailyEnergyDetails": "Những khoảng nghỉ ngắn, thường xuyên giúp nạp lại năng lượng cho tâm trí và cơ thể của bạn, giúp bạn tràn đầy năng lượng cho một ngày mới.",
+    "maintainPositiveMoodDetails": "Phá vỡ sự đơn điệu của thời gian sử dụng màn hình liên tục để giảm bớt sự thất vọng và nâng cao tâm trạng tổng thể của bạn."
   },
   "featureGrid": {
-    "title": "Features",
-    "subtitle": "All the necessary productivity tools in one place.",
+    "title": "Tính năng",
+    "subtitle": "Tất cả các công cụ năng suất cần thiết ở cùng một nơi.",
     "features": {
       "customizableReminderTimers": {
-        "title": "Customizable Reminder Timers",
-        "description": "Set personalized reminder timers to stay focused and on track."
+        "title": "Bộ hẹn giờ nhắc nhở tùy chỉnh",
+        "description": "Đặt bộ hẹn giờ nhắc nhở được cá nhân hóa để duy trì sự tập trung và đúng tiến độ."
       },
       "diverseThemes": {
-        "title": "Diverse Themes for Personalization",
-        "description": "Pick from various themes to customize your interface and workflow."
+        "title": "Giao diện đa dạng để cá nhân hóa",
+        "description": "Chọn từ nhiều giao diện khác nhau để tùy chỉnh giao diện và quy trình làm việc của bạn."
       },
       "customizableReminderText": {
-        "title": "Customizable Reminder Text",
-        "description": "Create custom reminder messages to keep you motivated."
+        "title": "Văn bản nhắc nhở tùy chỉnh",
+        "description": "Tạo tin nhắn nhắc nhở tùy chỉnh để giữ cho bạn có động lực."
       },
       "customizableSounds": {
-        "title": "Customizable Sounds",
-        "description": "Choose your own sounds for notifications and alerts."
+        "title": "Âm thanh tùy chỉnh",
+        "description": "Chọn âm thanh của riêng bạn cho thông báo và cảnh báo."
       },
       "dailyDeviceUsage": {
-        "title": "Daily Device Usage Time",
-        "description": "Track your screen time to optimize productivity and balance."
+        "title": "Thời gian sử dụng thiết bị hàng ngày",
+        "description": "Theo dõi thời gian sử dụng màn hình của bạn để tối ưu hóa năng suất và sự cân bằng."
       },
       "workdaySetup": {
-        "title": "Workday Setup",
-        "description": "Quickly set up your workday schedule for better productivity."
+        "title": "Thiết lập ngày làm việc",
+        "description": "Nhanh chóng thiết lập lịch trình ngày làm việc của bạn để có năng suất tốt hơn."
       },
       "pomodoroTimer": {
-        "title": "Pomodoro Timer",
-        "description": "Break tasks into intervals for maximum focus and efficiency."
+        "title": "Bộ hẹn giờ Pomodoro",
+        "description": "Chia nhỏ các nhiệm vụ thành các khoảng thời gian để tập trung và đạt hiệu quả tối đa."
       },
       "runOnStartup": {
-        "title": "Run on Startup",
-        "description": "Launch the app automatically when your device starts."
+        "title": "Chạy khi khởi động",
+        "description": "Tự động khởi chạy ứng dụng khi thiết bị của bạn khởi động."
       },
       "updateSupport": {
-        "title": "Update Support",
-        "description": "Receive seamless updates for the latest features and fixes."
+        "title": "Hỗ trợ cập nhật",
+        "description": "Nhận các bản cập nhật liền mạch cho các tính năng và bản sửa lỗi mới nhất."
       }
     }
   },
   "featuresDemoHeader": {
-    "title": "Discover the Features that Make Us Stand Out",
-    "description": "Explore the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Khám phá các tính năng làm cho chúng tôi nổi bật",
+    "description": "Khám phá các tính năng làm cho ứng dụng của chúng tôi trở nên nổi bật. Từ các lời nhắc có thể tùy chỉnh đến nhiều chủ đề, chúng tôi đã cung cấp cho bạn."
   },
   "featuresDemo": [
     {
-      "title": "Customizable Reminders",
-      "description": "Set personalized reminders to prevent eye strain, improve productivity, and maintain focus during long work sessions.",
+      "title": "Nhắc nhở tùy chỉnh",
+      "description": "Đặt lời nhắc được cá nhân hóa để ngăn ngừa mỏi mắt, cải thiện năng suất và duy trì sự tập trung trong các buổi làm việc dài.",
       "features": [
-        "Customizable reminder durations",
-        "Adjustable interval settings",
-        "Editable reminder text for personalization"
+        "Thời gian nhắc nhở tùy chỉnh",
+        "Cài đặt khoảng thời gian có thể điều chỉnh",
+        "Văn bản nhắc nhở có thể chỉnh sửa để cá nhân hóa"
       ],
-      "moto": "Best Eye Strain Relief App for Computer Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS"
+      "moto": "App giảm mỏi mắt tốt nhất cho người dùng máy tính"
     },
     {
-      "title": "Multiple Themes",
-      "description": "Switch between light and dark themes or choose from a variety of unique color schemes to suit your mood and workspace.",
+      "title": "Nhiều chủ đề",
+      "description": "Chuyển đổi giữa các chủ đề sáng và tối hoặc chọn từ nhiều bảng phối màu độc đáo để phù hợp với tâm trạng và không gian làm việc của bạn.",
       "features": [
-        "Multiple Reminder Screen themes to choose from",
-        "App Dark mode support",
-        "App light mode support"
+        "Nhiều chủ đề màn hình nhắc nhở để lựa chọn",
+        "Hỗ trợ chế độ tối cho app",
+        "Hỗ trợ chế độ sáng cho app"
       ],
-      "moto": "Screen Time Tracker and Break Reminder App",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV"
+      "moto": "App theo dõi thời gian sử dụng màn hình và nhắc nhở nghỉ ngơi"
     },
     {
-      "title": "Usage Statistics",
-      "description": "Monitor your daily screen time, track device usage trends, and optimize your work-life balance effectively.",
+      "title": "Thống kê sử dụng",
+      "description": "Theo dõi thời gian sử dụng màn hình hàng ngày của bạn, theo dõi xu hướng sử dụng thiết bị và tối ưu hóa sự cân bằng giữa công việc và cuộc sống một cách hiệu quả.",
       "features": [
-        "Daily device usage tracking",
-        "Weekly device usage tracking",
-        "Monthly device usage tracking",
-        "Yearly device usage tracking",
-        "Alltime device usage tracking",
-        "Comprehensive usage analytics",
-        "Visual graphs and progress reports"
+        "Theo dõi sử dụng thiết bị hàng ngày",
+        "Theo dõi sử dụng thiết bị hàng tuần",
+        "Theo dõi sử dụng thiết bị hàng tháng",
+        "Theo dõi sử dụng thiết bị hàng năm",
+        "Theo dõi sử dụng thiết bị mọi lúc",
+        "Phân tích sử dụng toàn diện",
+        "Biểu đồ trực quan và báo cáo tiến độ"
       ],
-      "moto": "Free Screen Break Reminder App for Healthy Eyes",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy"
+      "moto": "App nhắc nhở nghỉ ngơi màn hình miễn phí cho đôi mắt khỏe mạnh"
     },
     {
-      "title": "Workday Setup and Scheduling",
-      "description": "Plan your workdays efficiently by setting custom schedules and work hours for each day of the week.",
+      "title": "Thiết lập và lập lịch ngày làm việc",
+      "description": "Lên kế hoạch cho ngày làm việc của bạn một cách hiệu quả bằng cách đặt lịch tùy chỉnh và giờ làm việc cho mỗi ngày trong tuần.",
       "features": [
-        "Customizable workday settings",
-        "Daily scheduling flexibility",
-        "Automated reminders for work-hour breaks"
+        "Cài đặt ngày làm việc tùy chỉnh",
+        "Linh hoạt lập lịch hàng ngày",
+        "Nhắc nhở tự động cho thời gian nghỉ trong giờ làm việc"
       ],
-      "moto": "Customizable Work Break Timer for Office Workers",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16"
+      "moto": "Hẹn giờ nghỉ giải lao tùy chỉnh cho nhân viên văn phòng"
     },
     {
-      "title": "Screen Savers with Animations",
-      "description": "Play some of the most popular screen savers with customizable animations and sounds to enhance your productivity and relaxation.",
+      "title": "Trình bảo vệ màn hình với hoạt ảnh",
+      "description": "Phát một số trình bảo vệ màn hình phổ biến nhất với các hoạt ảnh và âm thanh tùy chỉnh để nâng cao năng suất và thư giãn của bạn.",
       "features": [
-        "Pick from various screen savers with customizable animations",
-        "Customizable sound effects for relaxation",
-        "Customizable screen saver duration"
+        "Chọn từ nhiều trình bảo vệ màn hình với hoạt ảnh tùy chỉnh",
+        "Hiệu ứng âm thanh tùy chỉnh để thư giãn",
+        "Thời lượng trình bảo vệ màn hình tùy chỉnh"
       ],
-      "moto": "Best Screen saver and Task Manager App for Power Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI"
+      "moto": "App bảo vệ màn hình và quản lý tác vụ tốt nhất cho người dùng chuyên nghiệp"
     },
     {
-      "title": "Comprehensive Customization Settings",
-      "description": "Boost your productivity and focus with customizable settings, including Pomodoro timers and notification preferences.",
+      "title": "Cài đặt tùy chỉnh toàn diện",
+      "description": "Tăng năng suất và sự tập trung của bạn với các cài đặt tùy chỉnh, bao gồm bộ hẹn giờ Pomodoro và tùy chọn thông báo.",
       "features": [
-        "Pomodoro technique integration",
-        "Strict Mode to force you take breaks",
-        "Customizable notification sounds",
-        "Run on Startup switch",
-        "Set your daily screen usage limit"
+        "Tích hợp kỹ thuật Pomodoro",
+        "Chế độ Nghiêm Ngặt bắt buộc nghỉ giải lao",
+        "Âm thanh thông báo tùy chỉnh",
+        "Chạy khi khởi động",
+        "Đặt giới hạn sử dụng màn hình hàng ngày"
       ],
-      "moto": "Pomodoro Timer with Break Reminders for Productivity",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Hẹn giờ Pomodoro với nhắc nhở nghỉ ngơi để tăng năng suất"
     },
     {
-      "title": "Activate License Key",
-      "description": "Activate your app with a license key for full access to premium features and seamless updates.",
+      "title": "Kích hoạt khóa cấp phép",
+      "description": "Kích hoạt ứng dụng của bạn bằng khóa cấp phép để truy cập đầy đủ vào các tính năng cao cấp và cập nhật liền mạch.",
       "features": [
-        "Easy license activation process",
-        "Access to exclusive premium features",
-        "Regular software updates and support"
+        "Quy trình kích hoạt giấy phép dễ dàng",
+        "Truy cập vào các tính năng cao cấp độc quyền",
+        "Cập nhật và hỗ trợ phần mềm thường xuyên"
       ],
-      "moto": "Top App to Prevent Computer Vision Syndrome (CVS) and (RSI)",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "App hàng đầu để ngăn ngừa Hội chứng Thị giác Máy tính (CVS) và (RSI)"
     }
   ],
   "pricingSectionHeader": {
-    "title": "Choose the Plan that's Right for You",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
-  },
-  "pricingSection": {
-    "monthly": [
-      {
-        "planType": "1 Device",
-        "price": 1.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
-        "features": [
-          "Cancel anytime",
-          "Access for 1 device",
-          "Inclueds all features of Monthly, but with 1 device"
-        ],
-        "valueProposition": "Flexible plan for solo users—cancel anytime."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 5.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
-        "features": [
-          "Cancel anytime",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Detailed device usage (weekly, monthly, lifetime)",
-          "Workday and worktime setup for smarter reminders"
-        ],
-        "valueProposition": "Best for families—access premium features on 3 devices."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 9.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
-        "features": [
-          "Cancel anytime",
-          "Access for 5 devices",
-          "Inclueds all features of Monthly, but with 5 devices"
-        ],
-        "valueProposition": "Ideal for teams—manage 5 devices effortlessly."
-      }
-    ],
-    "yearly": [
-      {
-        "planType": "3 Devices",
-        "price": 22.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Yearly, but with 3 devices",
-          "Workday and worktime reminder customization"
-        ],
-        "valueProposition": "Affordable for families—cover up to 3 devices and $9.89 saved annually!"
-      },
-      {
-        "planType": "1 Device",
-        "price": 8.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
-        "features": [
-          "Includes free updates",
-          "Access for 1 devices",
-          "Rich library of customizable reminder screens",
-          "Advanced usage tracking: weekly, monthly, lifetime",
-          "Custom workday schedules for smarter reminders"
-        ],
-        "valueProposition": "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 34.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Yearly, but with 5 devices",
-          "Workday and worktime customization"
-        ],
-        "valueProposition": "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly"
-      }
-    ],
-    "lifetime": [
-      {
-        "planType": "1 Device",
-        "price": 15.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Lifetime.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "Pay once for lifetime access—perfect for solo users."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 44.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
-        "features": [
-          "Lifetime updates",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Usage time: weekly, monthly, lifetime",
-          "Workday setup: custom schedules for reminders"
-        ],
-        "valueProposition": "Best value—lifetime access for families or small teams."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 69.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Lifetime, but with 5 devices.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "One-time investment for teams and power users."
-      }
-    ]
+    "title": "Chọn gói phù hợp với bạn",
+    "description": "Chọn gói cước phải chăng đi kèm với những tính năng tốt nhất để thu hút khán giả, tạo lòng trung thành của khách hàng và thúc đẩy doanh số bán hàng."
   },
   "ReleaseInfo": {
-    "metaTitle": "Blink Eye {tag} Release Info",
-    "title": "{tag} Release Information",
-    "goBack": "Go Back",
+    "metaTitle": "Thông tin phát hành Blink Eye {tag}",
+    "title": "Thông tin phát hành {tag}",
+    "goBack": "Quay lại",
     "tag": "Tag",
-    "published": "Published",
-    "author": "Author",
-    "assets": "Assets",
-    "fullChangelog": "Full Changelog",
-    "downloadOptions": "Download options",
+    "published": "Đã xuất bản",
+    "author": "Tác giả",
+    "assets": "Tài sản",
+    "fullChangelog": "Nhật ký thay đổi đầy đủ",
+    "downloadOptions": "Tùy chọn download",
     "downloadTarball": "Download Tarball",
     "downloadZipball": "Download Zipball"
   },
   "privacyPage": {
-    "title": "Privacy Policy",
-    "description": "Learn about our privacy practices and policies."
+    "title": "Chính sách bảo mật",
+    "description": "Tìm hiểu về các thông lệ và chính sách bảo mật của chúng tôi."
   },
   "pricingPage": {
-    "title": "Pricing",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "title": "Giá cả",
+    "description": "Chọn gói cước phải chăng đi kèm với những tính năng tốt nhất để thu hút khán giả, tạo lòng trung thành của khách hàng và thúc đẩy doanh số bán hàng."
   },
   "howtousePage": {
-    "title": "How to Use",
-    "description": "Learn how to use the app and its features."
+    "title": "Hướng dẫn sử dụng",
+    "description": "Tìm hiểu cách sử dụng ứng dụng và các tính năng của nó."
   },
   "howBlinkEyeHelpsPage": {
-    "title": "How Blink Eye Helps",
-    "description": "Learn how Blink Eye helps you stay focused and productive."
+    "title": "Blink Eye giúp ích như thế nào",
+    "description": "Tìm hiểu cách Blink Eye giúp bạn duy trì sự tập trung và năng suất."
   },
   "goodbyePage": {
-    "title": "Good Bye",
-    "description": "Uninstall Page of the Blink Eye App",
-    "missyou": "We're sorry to see you go! We hope you enjoyed using Blink Eye.",
-    "suggesition": "Take good care of your Eyes."
+    "title": "Tạm biệt",
+    "description": "Trang gỡ cài đặt của App Blink Eye",
+    "missyou": "Chúng tôi rất tiếc khi bạn rời đi! Chúng tôi hy vọng bạn thích sử dụng Blink Eye.",
+    "suggesition": "Hãy chăm sóc tốt cho đôi mắt của bạn."
   },
   "featuresPage": {
-    "title": "Features",
-    "description": "Discover the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Tính năng",
+    "description": "Khám phá các tính năng làm cho ứng dụng của chúng tôi trở nên nổi bật. Từ các lời nhắc có thể tùy chỉnh đến nhiều chủ đề, chúng tôi đã cung cấp cho bạn."
   },
   "downloadPage": {
     "title": "Download",
-    "description": "Download the Blink Eye App for Windows, macOS, and Linux."
+    "description": "Download App Blink Eye cho Windows, macOS và Linux."
   },
   "contributePage": {
-    "title": "Contribute",
-    "description": "Contribute to the Blink Eye App development."
+    "title": "Đóng góp",
+    "description": "Đóng góp cho sự phát triển của App Blink Eye."
   },
   "aboutPage": {
-    "title": "About",
-    "description": "Learn more about the Blink Eye App and its team.",
+    "title": "Giới thiệu",
+    "description": "Tìm hiểu thêm về App Blink Eye và đội ngũ phát triển.",
     "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogs",
+    "description": "Đọc các blog và cập nhật tin tức mới nhất của chúng tôi."
   }
 }

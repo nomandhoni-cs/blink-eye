@@ -19,9 +19,9 @@ export const routing = defineRouting({
     "fr", // French [Done] - Gemini Experimental
     "ur", // Urdu [Done] - Gemini Experimental
     "id", // Indonesian [Done] - Gemini Experimental
-    "ko", // Korean
-    "it", // Italian
-    "tr", // Turkish
+    "ko", // Korean [Done] - Gemini Experimental
+    "it", // Italian [Done] - Gemini Experimental
+    "tr", // Turkish [Done] - Gemini Experimental
     "vi", // Vietnamese
     "th", // Thai
     "fa", // Persian
