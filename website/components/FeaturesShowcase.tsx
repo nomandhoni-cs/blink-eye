@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CheckSquare, Minus, X } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
@@ -18,10 +18,22 @@ const rgbDataURL = (r: number, g: number, b: number) =>
     triplet(0, r, g) + triplet(b, 255, 255)
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
+// Define image URLs directly in the component
+const featureImages = [
+  "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS",
+  "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV",
+  "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy",
+  "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16",
+  "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI",
+  "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2",
+  "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2",
+];
+
 export default function FeatureShowcase() {
   const t = useTranslations(); // Load translations
   const featuresDemo = t.raw("featuresDemo"); // Fetch the `featuresDemo` array
   const featuresHeader = useTranslations("featuresDemoHeader");
+
   return (
     <section className="w-full py-24">
       <div className="container mx-auto px-4">
@@ -106,7 +118,7 @@ export default function FeatureShowcase() {
 
                           {/* Image */}
                           <Image
-                            src={feature.imageSrc}
+                            src={featureImages[index]}
                             alt={feature.title}
                             width={1000}
                             height={650}

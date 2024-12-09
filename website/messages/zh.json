@@ -246,8 +246,7 @@
                 "可调节间隔设置",
                 "可编辑的个性化提醒文字"
             ],
-            "moto": "最佳电脑用户护眼缓解工具",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS"
+            "moto": "最佳电脑用户护眼缓解工具"
         },
         {
             "title": "多主题选择",
@@ -257,8 +256,7 @@
                 "支持深色模式",
                 "支持浅色模式"
             ],
-            "moto": "屏幕时间跟踪与休息提醒工具",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV"
+            "moto": "屏幕时间跟踪与休息提醒工具"
         },
         {
             "title": "使用统计",
@@ -272,8 +270,7 @@
                 "综合使用数据分析",
                 "可视化图表与进度报告"
             ],
-            "moto": "健康护眼的免费屏幕休息提醒应用",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy"
+            "moto": "健康护眼的免费屏幕休息提醒应用"
         },
         {
             "title": "工作日计划与日程安排",
@@ -283,8 +280,7 @@
                 "每日灵活日程安排",
                 "工作时间提醒自动化"
             ],
-            "moto": "适合办公室员工的可定制工作休息计时器",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16"
+            "moto": "适合办公室员工的可定制工作休息计时器"
         },
         {
             "title": "动画屏幕保护程序",
@@ -294,8 +290,7 @@
                 "可定制的放松音效",
                 "自定义屏保显示时长"
             ],
-            "moto": "高效用户必备屏保与任务管理工具",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI"
+            "moto": "高效用户必备屏保与任务管理工具"
         },
         {
             "title": "全面自定义设置",
@@ -307,8 +302,7 @@
                 "开机自动启动开关",
                 "设置每日屏幕使用上限"
             ],
-            "moto": "高效生产力与休息提醒的番茄计时器",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+            "moto": "高效生产力与休息提醒的番茄计时器"
         },
         {
             "title": "激活授权密钥",
@@ -318,126 +312,12 @@
                 "访问独家高级功能",
                 "定期软件更新与支持"
             ],
-            "moto": "预防电脑视力综合症（CVS）与重复性劳损（RSI）的顶级工具",
-            "imageSrc": "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+            "moto": "预防电脑视力综合症（CVS）与重复性劳损（RSI）的顶级工具"
         }
     ],
     "pricingSectionHeader": {
-        "title": "Choose the Plan that's Right for You",
-        "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
-    },
-    "pricingSection": {
-        "monthly": [
-            {
-                "planType": "1 Device",
-                "price": 1.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
-                "features": [
-                    "Cancel anytime",
-                    "Access for 1 device",
-                    "Inclueds all features of Monthly, but with 1 device"
-                ],
-                "valueProposition": "Flexible plan for solo users—cancel anytime."
-            },
-            {
-                "planType": "3 Devices",
-                "price": 5.49,
-                "url": "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
-                "features": [
-                    "Cancel anytime",
-                    "Access for 3 devices",
-                    "Rich library of customizable reminder screens",
-                    "Detailed device usage (weekly, monthly, lifetime)",
-                    "Workday and worktime setup for smarter reminders"
-                ],
-                "valueProposition": "Best for families—access premium features on 3 devices."
-            },
-            {
-                "planType": "5 Devices",
-                "price": 9.49,
-                "url": "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
-                "features": [
-                    "Cancel anytime",
-                    "Access for 5 devices",
-                    "Inclueds all features of Monthly, but with 5 devices"
-                ],
-                "valueProposition": "Ideal for teams—manage 5 devices effortlessly."
-            }
-        ],
-        "yearly": [
-            {
-                "planType": "3 Devices",
-                "price": 22.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
-                "features": [
-                    "Access for 1 device",
-                    "Inclues all features of Yearly, but with 3 devices",
-                    "Workday and worktime reminder customization"
-                ],
-                "valueProposition": "Affordable for families—cover up to 3 devices and $9.89 saved annually!"
-            },
-            {
-                "planType": "1 Device",
-                "price": 8.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
-                "features": [
-                    "Includes free updates",
-                    "Access for 1 devices",
-                    "Rich library of customizable reminder screens",
-                    "Advanced usage tracking: weekly, monthly, lifetime",
-                    "Custom workday schedules for smarter reminders"
-                ],
-                "valueProposition": "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings."
-            },
-            {
-                "planType": "5 Devices",
-                "price": 34.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
-                "features": [
-                    "Access for 5 devices",
-                    "Inclues all features of Yearly, but with 5 devices",
-                    "Workday and worktime customization"
-                ],
-                "valueProposition": "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly"
-            }
-        ],
-        "lifetime": [
-            {
-                "planType": "1 Device",
-                "price": 15.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
-                "features": [
-                    "Access for 1 device",
-                    "Inclues all features of Lifetime.",
-                    "One-time payment, no renewals"
-                ],
-                "valueProposition": "Pay once for lifetime access—perfect for solo users."
-            },
-            {
-                "planType": "3 Devices",
-                "price": 44.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
-                "features": [
-                    "Lifetime updates",
-                    "Access for 3 devices",
-                    "Rich library of customizable reminder screens",
-                    "Usage time: weekly, monthly, lifetime",
-                    "Workday setup: custom schedules for reminders"
-                ],
-                "valueProposition": "Best value—lifetime access for families or small teams."
-            },
-            {
-                "planType": "5 Devices",
-                "price": 69.99,
-                "url": "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
-                "features": [
-                    "Access for 5 devices",
-                    "Inclues all features of Lifetime, but with 5 devices.",
-                    "One-time payment, no renewals"
-                ],
-                "valueProposition": "One-time investment for teams and power users."
-            }
-        ]
+        "title": "选择适合您的计划",
+        "description": "选择一个实惠的计划，包含与观众互动、创造客户忠诚度和促进销售的最佳功能。"
     },
     "ReleaseInfo": {
         "metaTitle": "Blink Eye {tag} 发布信息",
