@@ -44,458 +44,346 @@
   },
   "Metadata": {
     "appName": "Blink Eye",
-    "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "title": "Mac, Windows, Linux용 최고의 눈 건강 케어 & 휴식 타이머",
+    "description": "최소한의 디자인으로 눈의 피로를 덜어주는 눈 건강 케어 알림 app. 사용자 맞춤 타이머, 전체 화면 팝업, 오디오 음소거 기능을 제공합니다.",
     "keywords": [
-      "prevent rsi app",
-      "prevent cvs app",
-      "rsi app",
-      "cvs app",
-      "best eye care app 2024",
-      "screen break reminder app",
-      "free eye health app download",
-      "open source eye protection software",
-      "screen timer for eye care",
-      "work break reminder tool",
-      "eye comfort app for Mac",
-      "vision care software for laptops",
-      "top eye relaxation app",
-      "PC screen time control",
-      "computer eye care utility",
-      "digital eye strain prevention",
-      "windows break time scheduler",
-      "best apps for eye strain relief",
-      "cross-platform eye care app",
-      "top open source break reminder",
-      "blink timer for computer health",
-      "best eye care app for Windows and Linux",
-      "free eye health app for Windows",
-      "open source eye protection software for Linux",
-      "screen break reminder app for Windows",
-      "eye comfort app for Linux",
-      "top eye relaxation app for Windows",
-      "digital eye strain prevention for Windows",
-      "computer eye care utility for Linux",
-      "work break reminder tool for Windows",
-      "screen time control for Linux",
-      "cross-platform eye care app",
-      "best apps for eye strain relief on Windows and Linux",
-      "PC screen timer for eye care",
-      "vision care software for Windows",
-      "eye care reminder app for Linux",
-      "blink eye",
-      "blink eye for windows",
-      "Noman Dhoni Made App",
-      "eye care app for windows",
-      "20 20 20 rule app for windows",
-      "eye care",
-      "eye strain relief app",
-      "eye health app",
-      "blink eye download",
-      "blink eye review",
-      "20 20 20 rule app",
-      "eye care reminder app",
-      "eye care software",
-      "eye care tips",
-      "eye exercises app",
-      "eye protection app",
-      "eye care app for pc",
-      "eye care app for laptop",
-      "eye care app for desktop",
-      "eye care app for windows 10",
-      "eye care app for windows 11",
-      "blink eye download",
-      "blink eye review",
-      "eye care app for windows",
-      "20 20 20 rule app for windows"
+      "반복 사용 긴장 증후군(RSI) 예방 app",
+      "컴퓨터 시각 증후군(CVS) 예방 app",
+      "RSI app",
+      "CVS app",
+      "2024년 베스트 눈 건강 케어 app",
+      "화면 휴식 알림 app",
+      "무료 눈 건강 app download",
+      "오픈 소스 눈 보호 소프트웨어",
+      "macOS용 생산성 향상 툴",
+      "최고의 눈 피로 회복 app",
+      "구글 캘린더 할 일 목록",
+      "눈 건강을 위한 스크린 타이머",
+      "업무 중 휴식 알림 툴",
+      "Mac용 눈 보호 app",
+      "노트북 시력 보호 소프트웨어",
+      "최고의 눈 피로 회복 app",
+      "PC 화면 시간 관리",
+      "컴퓨터 눈 건강 유틸리티",
+      "디지털 눈 피로 예방",
+      "Windows 휴식 시간 스케줄러",
+      "눈 피로 해소에 좋은 app",
+      "크로스 플랫폼 눈 건강 케어 app",
+      "최고의 오픈 소스 휴식 알림",
+      "컴퓨터 사용 건강을 위한 깜박임 타이머",
+      "Windows 및 Linux용 최고의 눈 건강 케어 app",
+      "Windows용 무료 눈 건강 app",
+      "Linux용 오픈 소스 눈 보호 소프트웨어",
+      "Windows용 화면 휴식 알림 app",
+      "Linux용 눈 보호 app",
+      "Windows용 최고의 눈 피로 회복 app",
+      "Windows용 디지털 눈 피로 예방",
+      "Linux용 컴퓨터 눈 건강 유틸리티",
+      "Windows용 업무 중 휴식 알림 툴",
+      "Linux용 화면 시간 관리",
+      "크로스 플랫폼 눈 건강 케어 app",
+      "Windows 및 Linux에서 눈 피로 해소에 좋은 app",
+      "눈 건강을 위한 PC 스크린 타이머",
+      "Windows용 시력 보호 소프트웨어",
+      "Linux용 눈 건강 케어 알림 app",
+      "Blink Eye",
+      "Windows용 Blink Eye",
+      "Noman Dhoni 제작 app",
+      "Windows용 눈 건강 케어 app",
+      "Windows용 20 20 20 규칙 app",
+      "눈 건강 케어",
+      "눈 피로 해소 app",
+      "눈 건강 app",
+      "Blink Eye download",
+      "Blink Eye 리뷰",
+      "20 20 20 규칙 app",
+      "눈 건강 케어 알림 app",
+      "눈 건강 케어 소프트웨어",
+      "눈 건강 관리 팁",
+      "눈 운동 app",
+      "눈 보호 app",
+      "PC용 눈 건강 케어 app",
+      "노트북용 눈 건강 케어 app",
+      "데스크탑용 눈 건강 케어 app",
+      "Windows 10용 눈 건강 케어 app",
+      "Windows 11용 눈 건강 케어 app",
+      "Blink Eye download",
+      "Blink Eye 리뷰",
+      "Windows용 눈 건강 케어 app",
+      "Windows용 20 20 20 규칙 app"
     ]
   },
   "NavMenu": {
-    "features": "Features",
-    "about": "About",
-    "pricing": "Pricing",
-    "release": "Release",
-    "contribute": "Contribute"
+    "features": "기능",
+    "about": "소개",
+    "pricing": "가격",
+    "release": "릴리스",
+    "contribute": "기여",
+    "blogs": "블로그"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Windows, macOS 및 Linux를 위한 최소한의 디자인의 눈 건강 케어 알림 app.",
+    "span1": "눈의 피로를 줄이기 위해 타이머, 전체 화면 팝업을 갖춘 알림 기능을 제공합니다.",
     "202020": "20-20-20",
-    "span2": "rule.",
-    "institute": "American Academy of Ophthalmology"
+    "span2": "규칙 기반.",
+    "institute": "미국 안과 학회 (American Academy of Ophthalmology)"
   },
   "DownloadApp": {
-    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    "supportedPlatforms": "macOS Intel/M 칩 (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR) 지원"
   },
   "FeatureGrid": {
-    "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureTitle": "기능",
+    "featureSubtitle": "필요한 모든 생산성 향상 툴을 한 곳에서 만나보세요."
   },
   "PricingGrid": {
-    "pricingTitle": "Pricing",
-    "pricingDescription": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "pricingTitle": "가격",
+    "pricingDescription": "사용자 참여를 유도하고, 고객 충성도를 높이고, 매출을 증대시키는 데 최적의 기능을 갖춘 합리적인 요금제를 선택하세요."
   },
   "FeatureDemoSlide1": {
-    "title": "Customizable Reminders"
+    "title": "사용자 맞춤 알림"
   },
   "howBlinkEyeWillHelp": {
-    "heading": "How Blink Eye Will Help You",
-    "body1": "Take control of your well-being with Blink Eye.",
-    "body2": "Discover how scheduled breaks can improve eye health, enhance focus, boostproductivity, and promote long-term wellness for a balanced digital lifestyle.",
-    "learnMore": "Learn More",
-    "title1": "Protect Your Eyes from Digital Strain",
-    "title2": "Physical Health",
-    "title3": "Mental Wellness",
-    "title4": "Boosted Productivity",
-    "title5": "Healthy Screen-Time Habits",
-    "title6": "Sustainable Long-Term Benefits",
-    "title7": "Flexible and Customizable",
-    "title8": "Research-Backed Benefits",
-    "title9": "Enhanced Energy and Mood",
-    "description1": "Protect your eyes from digital strain, reduce blue light exposure, and prevent Computer Vision Syndrome (CVS).",
-    "description2": "Improve posture, prevent Repetitive Strain Injuries (RSI), and reduce physical discomfort.",
-    "description3": "Boost your focus, mindfulness, and reduce stress effortlessly.",
-    "description4": "Work smarter, not harder, with productivity-focused methods.",
-    "description5": "Develop disciplined screen-time practices and minimize unnecessary distractions.",
-    "description6": "Avoid chronic issues and maintain balance for years to come.",
-    "description7": "Tailor your experience to fit your lifestyle, profession, and individual needs.",
-    "description8": "Enjoy features grounded in productivity and wellness studies.",
-    "description9": "Feel energized and stay positive throughout the day with balanced work breaks.",
-    "preventDigitalEyeStrain": "Prevent Digital Eye Strain",
-    "blueLightProtection": "Blue Light Protection",
-    "preventRepetitiveStrainInjuries": "Prevent Repetitive Strain Injuries (RSI)",
-    "supportBetterPosture": "Support Better Posture",
-    "enhanceFocusAndMindfulness": "Enhance Focus and Mindfulness",
-    "stressManagement": "Stress Management",
-    "pomodoroTechniqueIntegration": "Pomodoro Technique Integration",
-    "cognitiveEfficiency": "Cognitive Efficiency",
-    "structuredScreenTime": "Structured Screen-Time",
-    "reduceMultitasking": "Reduce Multitasking",
-    "preventChronicVisionProblems": "Prevent Chronic Vision Problems",
-    "achieveWorkLifeBalance": "Achieve Work-Life Balance",
-    "customizableBreakTimers": "Customizable Break Timers",
-    "builtForEveryone": "Built for Everyone",
-    "evidenceBasedFeatures": "Evidence-Based Features",
-    "trustedByUsers": "Trusted by Users",
-    "boostDailyEnergy": "Boost Daily Energy",
-    "maintainPositiveMood": "Maintain a Positive Mood",
-    "preventDigitalEyeStrainDetails": "Scheduled breaks reduce symptoms like dry eyes, blurry vision, and headaches, ensuring long-term eye health.",
-    "blueLightProtectionDetails": "Rest your eyes regularly with prompts designed to combat the harmful effects of blue light exposure.",
-    "preventRepetitiveStrainInjuriesDetails": "Regular breaks minimize strain on your hands and wrists, preventing long-term damage from repetitive tasks.",
-    "supportBetterPostureDetails": "Encourages stretching and posture checks to avoid issues like tech neck and back pain.",
-    "enhanceFocusAndMindfulnessDetails": "Regular breaks help you stay sharp and focused while reducing mental fatigue and burnout.",
-    "stressManagementDetails": "Use break intervals to practice relaxation techniques, reducing work-induced stress and tension.",
-    "pomodoroTechniqueIntegrationDetails": "Break tasks into manageable intervals for efficient work sessions, improving task completion rates.",
-    "cognitiveEfficiencyDetails": "Strategic breaks enhance your mental performance, helping you achieve more with less effort.",
-    "structuredScreenTimeDetails": "Build healthy digital habits with well-timed reminders for work and relaxation balance.",
-    "reduceMultitaskingDetails": "Focus fully on tasks by minimizing distractions during your work and relaxation cycles.",
-    "preventChronicVisionProblemsDetails": "Take proactive measures to reduce risks of long-term digital vision problems caused by screen overuse.",
-    "achieveWorkLifeBalanceDetails": "Create sustainable habits for work and personal life with a balanced approach to productivity.",
-    "customizableBreakTimersDetails": "Set intervals that match your workflow, ensuring the app complements your unique schedule.",
-    "builtForEveryoneDetails": "Whether you’re a student, developer, designer, or remote worker, the app adapts to your needs.",
-    "evidenceBasedFeaturesDetails": "The app’s design is inspired by research in productivity, focus, and digital well-being.",
-    "trustedByUsersDetails": "Real user testimonials and success stories validate its effectiveness and value.",
-    "boostDailyEnergyDetails": "Short, regular breaks help recharge your mind and body, keeping you energized for the day ahead.",
-    "maintainPositiveMoodDetails": "Break the monotony of continuous screen time to reduce frustration and enhance your overall mood."
+    "heading": "Blink Eye가 여러분에게 어떤 도움을 줄까요?",
+    "body1": "Blink Eye로 건강을 관리하세요.",
+    "body2": "정기적인 휴식이 어떻게 눈 건강을 개선하고, 집중력을 높이며, 생산성을 향상시키고, 균형 잡힌 디지털 라이프스타일을 위한 장기적인 웰빙을 촉진하는지 알아보세요.",
+    "learnMore": "더 알아보기",
+    "title1": "디지털 피로로부터 눈을 보호하세요",
+    "title2": "신체 건강",
+    "title3": "정신 건강",
+    "title4": "생산성 향상",
+    "title5": "건강한 스크린 타임 습관",
+    "title6": "지속 가능한 장기적 이점",
+    "title7": "유연한 사용자 맞춤 설정",
+    "title8": "연구 기반의 이점",
+    "title9": "에너지 및 기분 향상",
+    "description1": "디지털 피로로부터 눈을 보호하고, 블루라이트 노출을 줄이며, 컴퓨터 시각 증후군(CVS)을 예방하세요.",
+    "description2": "자세를 개선하고, 반복 사용 긴장 증후군(RSI)을 예방하며, 신체적 불편함을 줄여줍니다.",
+    "description3": "집중력과 마음 챙김을 향상시키고, 스트레스를 쉽게 줄여줍니다.",
+    "description4": "더 열심히 일하는 것이 아닌, 더 스마트하게 일할 수 있도록 생산성에 중점을 둔 방식을 제공합니다.",
+    "description5": "절제된 스크린 타임 습관을 형성하고 불필요한 방해 요소를 최소화합니다.",
+    "description6": "만성적인 문제를 예방하고 앞으로도 오랫동안 균형을 유지할 수 있습니다.",
+    "description7": "여러분의 라이프스타일, 직업, 개인적 필요에 맞춰 경험을 맞춤 설정하세요.",
+    "description8": "생산성과 웰빙 연구에 기반을 둔 기능을 활용해 보세요.",
+    "description9": "균형 잡힌 업무 중 휴식을 통해 하루 종일 에너지를 얻고 긍정적인 기분을 유지하세요.",
+    "preventDigitalEyeStrain": "디지털 눈 피로 예방",
+    "blueLightProtection": "블루라이트 보호",
+    "preventRepetitiveStrainInjuries": "반복 사용 긴장 증후군(RSI) 예방",
+    "supportBetterPosture": "자세 개선 지원",
+    "enhanceFocusAndMindfulness": "집중력 및 마음 챙김 향상",
+    "stressManagement": "스트레스 관리",
+    "pomodoroTechniqueIntegration": "Pomodoro Technique 연동",
+    "cognitiveEfficiency": "인지 효율성",
+    "structuredScreenTime": "체계적인 스크린 타임",
+    "reduceMultitasking": "멀티태스킹 줄이기",
+    "preventChronicVisionProblems": "만성 시력 문제 예방",
+    "achieveWorkLifeBalance": "일과 삶의 균형 달성",
+    "customizableBreakTimers": "사용자 맞춤 휴식 타이머",
+    "builtForEveryone": "모두를 위한 설계",
+    "evidenceBasedFeatures": "증거 기반 기능",
+    "trustedByUsers": "사용자 신뢰 확보",
+    "boostDailyEnergy": "일상 에너지 증진",
+    "maintainPositiveMood": "긍정적인 기분 유지",
+    "preventDigitalEyeStrainDetails": "정기적인 휴식은 안구 건조, 시야 흐림, 두통과 같은 증상을 줄여 장기적인 눈 건강을 보장합니다.",
+    "blueLightProtectionDetails": "블루라이트 노출의 해로운 영향에 대처하기 위해 고안된 프롬프트를 통해 정기적으로 눈에 휴식을 주세요.",
+    "preventRepetitiveStrainInjuriesDetails": "정기적인 휴식은 손과 손목의 부담을 최소화하여 반복적인 작업으로 인한 장기적인 손상을 예방합니다.",
+    "supportBetterPostureDetails": "스트레칭과 자세 확인을 유도하여 거북목과 요통과 같은 문제를 예방합니다.",
+    "enhanceFocusAndMindfulnessDetails": "정기적인 휴식은 정신적 피로와 번아웃을 줄이면서 집중력을 유지하는 데 도움이 됩니다.",
+    "stressManagementDetails": "휴식 시간을 활용하여 이완 기법을 연습하고, 업무로 인한 스트레스와 긴장을 줄이세요.",
+    "pomodoroTechniqueIntegrationDetails": "작업을 효율적인 간격으로 나누어 작업 완료율을 높입니다.",
+    "cognitiveEfficiencyDetails": "전략적인 휴식은 정신적 능력을 향상시켜 적은 노력으로 더 많은 것을 성취하도록 돕습니다.",
+    "structuredScreenTimeDetails": "업무와 휴식의 균형을 위한 적절한 시간 알림으로 건강한 디지털 습관을 구축하세요.",
+    "reduceMultitaskingDetails": "업무 및 휴식 시간 동안 방해 요소를 최소화하여 작업에 온전히 집중할 수 있도록 합니다.",
+    "preventChronicVisionProblemsDetails": "스크린 과다 사용으로 인한 장기적인 디지털 시력 문제의 위험을 줄이기 위한 예방 조치를 취하세요.",
+    "achieveWorkLifeBalanceDetails": "생산성에 대한 균형 잡힌 접근 방식을 통해 업무와 개인 생활을 위한 지속 가능한 습관을 만드세요.",
+    "customizableBreakTimersDetails": "업무 흐름에 맞는 간격을 설정하여 app이 개인의 스케줄을 보완하도록 하세요.",
+    "builtForEveryoneDetails": "학생, 개발자, 디자이너, 원격 근무자 등 누구나 자신의 필요에 맞게 app을 조정할 수 있습니다.",
+    "evidenceBasedFeaturesDetails": "이 app의 디자인은 생산성, 집중력, 디지털 웰빙에 대한 연구에서 영감을 받았습니다.",
+    "trustedByUsersDetails": "실제 사용자 후기와 성공 사례는 그 효과와 가치를 입증합니다.",
+    "boostDailyEnergyDetails": "짧고 정기적인 휴식은 정신과 신체를 재충전하여 하루를 위한 에너지를 유지하도록 도와줍니다.",
+    "maintainPositiveMoodDetails": "지속적인 스크린 타임의 단조로움을 깨고 좌절감을 줄이고 전반적인 기분을 개선하세요."
   },
   "featureGrid": {
-    "title": "Features",
-    "subtitle": "All the necessary productivity tools in one place.",
+    "title": "기능",
+    "subtitle": "필요한 모든 생산성 툴을 한 곳에서 만나보세요.",
     "features": {
       "customizableReminderTimers": {
-        "title": "Customizable Reminder Timers",
-        "description": "Set personalized reminder timers to stay focused and on track."
+        "title": "사용자 맞춤 알림 타이머",
+        "description": "개인에게 최적화된 알림 타이머를 설정하여 집중력을 유지하고 계획대로 진행하세요."
       },
       "diverseThemes": {
-        "title": "Diverse Themes for Personalization",
-        "description": "Pick from various themes to customize your interface and workflow."
+        "title": "다양한 테마로 맞춤 설정",
+        "description": "다양한 테마 중에서 선택하여 인터페이스와 작업 흐름을 맞춤 설정하세요."
       },
       "customizableReminderText": {
-        "title": "Customizable Reminder Text",
-        "description": "Create custom reminder messages to keep you motivated."
+        "title": "사용자 맞춤 알림 메시지",
+        "description": "동기 부여를 위한 알림 메시지를 직접 작성하세요."
       },
       "customizableSounds": {
-        "title": "Customizable Sounds",
-        "description": "Choose your own sounds for notifications and alerts."
+        "title": "사용자 맞춤 소리",
+        "description": "알림 및 경고음에 사용할 소리를 직접 선택하세요."
       },
       "dailyDeviceUsage": {
-        "title": "Daily Device Usage Time",
-        "description": "Track your screen time to optimize productivity and balance."
+        "title": "일일 기기 사용 시간",
+        "description": "스크린 타임을 추적하여 생산성과 균형을 최적화하세요."
       },
       "workdaySetup": {
-        "title": "Workday Setup",
-        "description": "Quickly set up your workday schedule for better productivity."
+        "title": "근무일 설정",
+        "description": "더 나은 생산성을 위해 근무일 스케줄을 빠르게 설정하세요."
       },
       "pomodoroTimer": {
-        "title": "Pomodoro Timer",
-        "description": "Break tasks into intervals for maximum focus and efficiency."
+        "title": "Pomodoro 타이머",
+        "description": "작업을 일정한 간격으로 나누어 집중력과 효율성을 극대화하세요."
       },
       "runOnStartup": {
-        "title": "Run on Startup",
-        "description": "Launch the app automatically when your device starts."
+        "title": "시작 시 실행",
+        "description": "기기 시작 시 app을 자동으로 실행합니다."
       },
       "updateSupport": {
-        "title": "Update Support",
-        "description": "Receive seamless updates for the latest features and fixes."
+        "title": "업데이트 지원",
+        "description": "최신 기능 및 수정 사항에 대한 원활한 업데이트를 받으세요."
       }
     }
   },
   "featuresDemoHeader": {
-    "title": "Discover the Features that Make Us Stand Out",
-    "description": "Explore the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "우리를 돋보이게 하는 기능을 확인하세요",
+    "description": "우리 app을 돋보이게 하는 기능을 살펴보세요. 사용자 맞춤 알림부터 다양한 테마까지, 필요한 모든 것을 갖추고 있습니다."
   },
   "featuresDemo": [
     {
-      "title": "Customizable Reminders",
-      "description": "Set personalized reminders to prevent eye strain, improve productivity, and maintain focus during long work sessions.",
+      "title": "사용자 맞춤 알림",
+      "description": "장시간 작업 세션 동안 눈의 피로를 예방하고, 생산성을 높이며, 집중력을 유지하기 위해 맞춤 알림을 설정하세요.",
       "features": [
-        "Customizable reminder durations",
-        "Adjustable interval settings",
-        "Editable reminder text for personalization"
+        "사용자 맞춤 알림 시간",
+        "조정 가능한 간격 설정",
+        "개인 설정을 위한 편집 가능한 알림 문구"
       ],
-      "moto": "Best Eye Strain Relief App for Computer Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS"
+      "moto": "컴퓨터 사용자를 위한 최고의 눈 피로 해소 app"
     },
     {
-      "title": "Multiple Themes",
-      "description": "Switch between light and dark themes or choose from a variety of unique color schemes to suit your mood and workspace.",
+      "title": "다양한 테마",
+      "description": "기분과 작업 공간에 맞게 밝은 테마와 어두운 테마 간에 전환하거나 다양한 고유한 색상 구성 중에서 선택하세요.",
       "features": [
-        "Multiple Reminder Screen themes to choose from",
-        "App Dark mode support",
-        "App light mode support"
+        "선택 가능한 다양한 알림 화면 테마",
+        "app 다크 모드 지원",
+        "app 라이트 모드 지원"
       ],
-      "moto": "Screen Time Tracker and Break Reminder App",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV"
+      "moto": "스크린 타임 추적 및 휴식 알림 app"
     },
     {
-      "title": "Usage Statistics",
-      "description": "Monitor your daily screen time, track device usage trends, and optimize your work-life balance effectively.",
+      "title": "사용량 통계",
+      "description": "일일 스크린 타임을 모니터링하고, 기기 사용 추세를 추적하며, 일과 삶의 균형을 효과적으로 최적화하세요.",
       "features": [
-        "Daily device usage tracking",
-        "Weekly device usage tracking",
-        "Monthly device usage tracking",
-        "Yearly device usage tracking",
-        "Alltime device usage tracking",
-        "Comprehensive usage analytics",
-        "Visual graphs and progress reports"
+        "일일 기기 사용량 추적",
+        "주간 기기 사용량 추적",
+        "월간 기기 사용량 추적",
+        "연간 기기 사용량 추적",
+        "전체 기기 사용량 추적",
+        "포괄적인 사용량 분석",
+        "시각적 그래프 및 진행 보고서"
       ],
-      "moto": "Free Screen Break Reminder App for Healthy Eyes",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy"
+      "moto": "건강한 눈을 위한 무료 스크린 휴식 알림 app"
     },
     {
-      "title": "Workday Setup and Scheduling",
-      "description": "Plan your workdays efficiently by setting custom schedules and work hours for each day of the week.",
+      "title": "근무일 설정 및 스케줄링",
+      "description": "매일의 근무 시간과 스케줄을 설정하여 효율적으로 근무일을 계획하세요.",
       "features": [
-        "Customizable workday settings",
-        "Daily scheduling flexibility",
-        "Automated reminders for work-hour breaks"
+        "사용자 맞춤 근무일 설정",
+        "유연한 일일 스케줄링",
+        "근무 시간 중 휴식에 대한 자동 알림"
       ],
-      "moto": "Customizable Work Break Timer for Office Workers",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16"
+      "moto": "사무직 근로자를 위한 사용자 맞춤 업무 휴식 타이머"
     },
     {
-      "title": "Screen Savers with Animations",
-      "description": "Play some of the most popular screen savers with customizable animations and sounds to enhance your productivity and relaxation.",
+      "title": "애니메이션이 포함된 화면 보호기",
+      "description": "생산성과 휴식을 향상시키기 위해 사용자 맞춤 애니메이션과 사운드로 가장 인기 있는 화면 보호기를 재생합니다.",
       "features": [
-        "Pick from various screen savers with customizable animations",
-        "Customizable sound effects for relaxation",
-        "Customizable screen saver duration"
+        "사용자 맞춤 애니메이션이 있는 다양한 화면 보호기 선택",
+        "휴식을 위한 사용자 맞춤 음향 효과",
+        "사용자 맞춤 화면 보호기 재생 시간"
       ],
-      "moto": "Best Screen saver and Task Manager App for Power Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI"
+      "moto": "고급 사용자를 위한 최고의 화면 보호기 및 작업 관리자 app"
     },
     {
-      "title": "Comprehensive Customization Settings",
-      "description": "Boost your productivity and focus with customizable settings, including Pomodoro timers and notification preferences.",
+      "title": "포괄적인 사용자 맞춤 설정",
+      "description": "Pomodoro 타이머 및 알림 설정을 포함한 사용자 맞춤 설정을 통해 생산성과 집중력을 높이세요.",
       "features": [
-        "Pomodoro technique integration",
-        "Strict Mode to force you take breaks",
-        "Customizable notification sounds",
-        "Run on Startup switch",
-        "Set your daily screen usage limit"
+        "Pomodoro technique 연동",
+        "휴식을 강제하는 엄격 모드",
+        "사용자 맞춤 알림 소리",
+        "시작 시 실행 스위치",
+        "일일 스크린 사용 제한 설정"
       ],
-      "moto": "Pomodoro Timer with Break Reminders for Productivity",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "생산성 향상을 위한 휴식 알림이 있는 Pomodoro 타이머"
     },
     {
-      "title": "Activate License Key",
-      "description": "Activate your app with a license key for full access to premium features and seamless updates.",
+      "title": "라이선스 키 활성화",
+      "description": "프리미엄 기능과 원활한 업데이트를 위해 라이선스 키로 app을 활성화하세요.",
       "features": [
-        "Easy license activation process",
-        "Access to exclusive premium features",
-        "Regular software updates and support"
+        "간편한 라이선스 활성화 절차",
+        "독점적인 프리미엄 기능 이용",
+        "정기적인 소프트웨어 업데이트 및 지원"
       ],
-      "moto": "Top App to Prevent Computer Vision Syndrome (CVS) and (RSI)",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "컴퓨터 시각 증후군(CVS) 및 반복 사용 긴장 증후군(RSI) 예방을 위한 최고의 app"
     }
   ],
   "pricingSectionHeader": {
-    "title": "Choose the Plan that's Right for You",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
-  },
-  "pricingSection": {
-    "monthly": [
-      {
-        "planType": "1 Device",
-        "price": 1.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
-        "features": [
-          "Cancel anytime",
-          "Access for 1 device",
-          "Inclueds all features of Monthly, but with 1 device"
-        ],
-        "valueProposition": "Flexible plan for solo users—cancel anytime."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 5.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
-        "features": [
-          "Cancel anytime",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Detailed device usage (weekly, monthly, lifetime)",
-          "Workday and worktime setup for smarter reminders"
-        ],
-        "valueProposition": "Best for families—access premium features on 3 devices."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 9.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
-        "features": [
-          "Cancel anytime",
-          "Access for 5 devices",
-          "Inclueds all features of Monthly, but with 5 devices"
-        ],
-        "valueProposition": "Ideal for teams—manage 5 devices effortlessly."
-      }
-    ],
-    "yearly": [
-      {
-        "planType": "3 Devices",
-        "price": 22.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Yearly, but with 3 devices",
-          "Workday and worktime reminder customization"
-        ],
-        "valueProposition": "Affordable for families—cover up to 3 devices and $9.89 saved annually!"
-      },
-      {
-        "planType": "1 Device",
-        "price": 8.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
-        "features": [
-          "Includes free updates",
-          "Access for 1 devices",
-          "Rich library of customizable reminder screens",
-          "Advanced usage tracking: weekly, monthly, lifetime",
-          "Custom workday schedules for smarter reminders"
-        ],
-        "valueProposition": "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 34.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Yearly, but with 5 devices",
-          "Workday and worktime customization"
-        ],
-        "valueProposition": "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly"
-      }
-    ],
-    "lifetime": [
-      {
-        "planType": "1 Device",
-        "price": 15.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Lifetime.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "Pay once for lifetime access—perfect for solo users."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 44.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
-        "features": [
-          "Lifetime updates",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Usage time: weekly, monthly, lifetime",
-          "Workday setup: custom schedules for reminders"
-        ],
-        "valueProposition": "Best value—lifetime access for families or small teams."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 69.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Lifetime, but with 5 devices.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "One-time investment for teams and power users."
-      }
-    ]
+    "title": "나에게 맞는 요금제를 선택하세요",
+    "description": "사용자 참여를 유도하고, 고객 충성도를 높이고, 매출을 증대시키는 데 최적의 기능을 갖춘 합리적인 요금제를 선택하세요."
   },
   "ReleaseInfo": {
-    "metaTitle": "Blink Eye {tag} Release Info",
-    "title": "{tag} Release Information",
-    "goBack": "Go Back",
-    "tag": "Tag",
-    "published": "Published",
-    "author": "Author",
-    "assets": "Assets",
-    "fullChangelog": "Full Changelog",
-    "downloadOptions": "Download options",
-    "downloadTarball": "Download Tarball",
-    "downloadZipball": "Download Zipball"
+    "metaTitle": "Blink Eye {tag} 릴리스 정보",
+    "title": "{tag} 릴리스 정보",
+    "goBack": "뒤로 가기",
+    "tag": "태그",
+    "published": "게시일",
+    "author": "작성자",
+    "assets": "에셋",
+    "fullChangelog": "전체 변경사항",
+    "downloadOptions": "download 옵션",
+    "downloadTarball": "Tarball download",
+    "downloadZipball": "Zipball download"
   },
   "privacyPage": {
-    "title": "Privacy Policy",
-    "description": "Learn about our privacy practices and policies."
+    "title": "개인 정보 처리 방침",
+    "description": "개인 정보 보호 관행 및 정책에 대해 알아보세요."
   },
   "pricingPage": {
-    "title": "Pricing",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "title": "가격",
+    "description": "사용자 참여를 유도하고, 고객 충성도를 높이고, 매출을 증대시키는 데 최적의 기능을 갖춘 합리적인 요금제를 선택하세요."
   },
   "howtousePage": {
-    "title": "How to Use",
-    "description": "Learn how to use the app and its features."
+    "title": "사용 방법",
+    "description": "app 및 기능 사용 방법을 알아보세요."
   },
   "howBlinkEyeHelpsPage": {
-    "title": "How Blink Eye Helps",
-    "description": "Learn how Blink Eye helps you stay focused and productive."
+    "title": "Blink Eye의 이점",
+    "description": "Blink Eye가 어떻게 집중력과 생산성을 유지하도록 돕는지 알아보세요."
   },
   "goodbyePage": {
-    "title": "Good Bye",
-    "description": "Uninstall Page of the Blink Eye App",
-    "missyou": "We're sorry to see you go! We hope you enjoyed using Blink Eye.",
-    "suggesition": "Take good care of your Eyes."
+    "title": "삭제 완료",
+    "description": "Blink Eye app 삭제 페이지입니다.",
+    "missyou": "다시 만나기를 바랍니다! Blink Eye를 이용해 주셔서 감사합니다.",
+    "suggesition": "눈 건강 관리에 유의하세요."
   },
   "featuresPage": {
-    "title": "Features",
-    "description": "Discover the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "기능",
+    "description": "우리 app을 돋보이게 하는 기능을 확인해 보세요. 사용자 맞춤 알림부터 다양한 테마까지, 필요한 모든 것을 갖추고 있습니다."
   },
   "downloadPage": {
-    "title": "Download",
-    "description": "Download the Blink Eye App for Windows, macOS, and Linux."
+    "title": "download",
+    "description": "Windows, macOS 및 Linux용 Blink Eye app을 download하세요."
   },
   "contributePage": {
-    "title": "Contribute",
-    "description": "Contribute to the Blink Eye App development."
+    "title": "기여하기",
+    "description": "Blink Eye app 개발에 기여하세요."
   },
   "aboutPage": {
-    "title": "About",
-    "description": "Learn more about the Blink Eye App and its team.",
+    "title": "소개",
+    "description": "Blink Eye app 및 팀에 대해 자세히 알아보세요.",
     "info": ""
+  },
+  "blogsPage": {
+    "title": "블로그",
+    "description": "최신 블로그 및 뉴스 업데이트를 읽어보세요."
   }
 }
