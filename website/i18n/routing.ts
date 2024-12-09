@@ -11,10 +11,10 @@ export const routing = defineRouting({
     "hi", // Hindi [Done]
     "es-ES", // Spanish [Done]
     "ar", // Arabic [Done]
-    "bn", // Bengali
+    "bn", // Bengali [Done] - Gemini Experimental
     "pt", // Portuguese [Done]
     "ru", // Russian [Done]
-    "ja", // Japanese
+    "ja", // Japanese [Done] - Gemini Experimental
     "de", // German
     "fr", // French
     "ur", // Urdu
