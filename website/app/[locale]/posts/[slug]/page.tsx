@@ -8,6 +8,7 @@ import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
 import { getTranslations } from "next-intl/server";
+import { SEO } from "@/configs/seo";
 
 export default async function Post(props: Params) {
   const params = await props.params;
@@ -65,6 +66,8 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     openGraph: {
       title,
       images: [post.ogImage.url],
+      siteName: t("appName"),
+      url: SEO.url,
     },
   };
 }
