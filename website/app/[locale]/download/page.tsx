@@ -10,11 +10,7 @@ import { getTranslations } from "next-intl/server";
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { locale: string };
-}): Promise<Metadata> => {
+export const generateMetadata = async (): Promise<Metadata> => {
   try {
     // Await getTranslations to fetch translations for the current locale
     const t = await getTranslations("downloadPage");
@@ -25,7 +21,6 @@ export const generateMetadata = async ({
       description: t("description"),
       applicationName: appInfo("appName"),
       openGraph: {
-        locale: params.locale,
         title: t("title") + " | " + appInfo("appName"),
         description: t("description"),
         url: "https://blinkeye.vercel.app/download",
@@ -53,7 +48,6 @@ export const generateMetadata = async ({
       applicationName: SEO.title,
       keywords: SEO.keywords,
       openGraph: {
-        locale: params.locale,
         title: "Download",
         description:
           "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",

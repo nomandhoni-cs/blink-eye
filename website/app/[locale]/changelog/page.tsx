@@ -4,7 +4,7 @@ import DOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
 import Link from "next/link";
 import { Metadata } from "next";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

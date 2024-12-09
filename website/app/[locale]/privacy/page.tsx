@@ -5,11 +5,7 @@ import { getTranslations } from "next-intl/server";
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { locale: string };
-}): Promise<Metadata> => {
+export const generateMetadata = async (): Promise<Metadata> => {
   try {
     // Await getTranslations to fetch translations for the current locale
     const t = await getTranslations("privacyPage");
@@ -18,7 +14,7 @@ export const generateMetadata = async ({
     return {
       title: t("title") + " | " + appInfo("appName"),
       description: t("description"),
-            openGraph: {
+      openGraph: {
         title: t("title") + " | " + appInfo("appName"),
         description: t("description"),
         type: "website",
