@@ -6,13 +6,13 @@ export const routing = defineRouting({
   defaultLocale: "en",
   // A list of all locales that are supported
   locales: [
-    "en", // English
-    "zh", // Chinese (Mandarin)
-    "hi", // Hindi
-    "es-ES", // Spanish
-    "ar", // Arabic
+    "en", // English  [Done]
+    "zh", // Chinese (Mandarin) [Done]
+    "hi", // Hindi [Done]
+    "es-ES", // Spanish [Done]
+    "ar", // Arabic [Done]
     "bn", // Bengali
-    "pt", // Portuguese
+    "pt", // Portuguese [Done]
     "ru", // Russian
     "ja", // Japanese
     "de", // German
@@ -51,7 +51,7 @@ export const routing = defineRouting({
       en: "/pathnames",
       zh: "/pathnames",
       hi: "/pathnames",
-    "es-ES": "/pathnames",
+      "es-ES": "/pathnames",
       ar: "/pathnames",
       bn: "/pathnames",
       pt: "/pathnames",
