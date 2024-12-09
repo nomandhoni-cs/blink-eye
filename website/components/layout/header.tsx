@@ -28,6 +28,7 @@ export const Header = () => {
             { href: "/pricing", label: t("pricing") },
             { href: "/changelog", label: t("release") },
             { href: "/posts/contribute", label: t("contribute") },
+            { href: "/blogs", label: t("blogs") },
           ].map(({ href, label }) => (
             <Link
               key={label}

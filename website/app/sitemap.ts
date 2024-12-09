@@ -37,6 +37,7 @@ const routes = [
   "/pricing",
   "/changelog",
   "/howblinkeyehelps",
+  "/blogs",
 ];
 
 // Sitemap generation function

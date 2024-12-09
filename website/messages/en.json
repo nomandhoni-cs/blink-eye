@@ -115,7 +115,8 @@
     "about": "About",
     "pricing": "Pricing",
     "release": "Release",
-    "contribute": "Contribute"
+    "contribute": "Contribute",
+    "blogs": "Blogs"
   },
   "HeroBanner": {
     "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
@@ -497,5 +498,9 @@
     "title": "About",
     "description": "Learn more about the Blink Eye App and its team.",
     "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogs",
+    "description": "Read our latest blogs and news updates."
   }
 }

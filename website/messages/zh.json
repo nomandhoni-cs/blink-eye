@@ -107,7 +107,8 @@
         "about": "关于我们",
         "pricing": "定价",
         "release": "版本更新",
-        "contribute": "贡献支持"
+        "contribute": "贡献支持",
+        "blogs": "博客"
     },
     "HeroBanner": {
         "tagline": "适用于Windows、macOS和Linux的简约护眼提醒应用。",
@@ -489,5 +490,9 @@
         "title": "关于",
         "description": "了解有关 Blink Eye 应用及其团队的更多信息。",
         "info": ""
+    },
+    "blogsPage": {
+        "title": "博客",
+        "description": "关注 Blink Eye 团队的最新动态。"
     }
 }
