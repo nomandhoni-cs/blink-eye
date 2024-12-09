@@ -5,6 +5,7 @@ import PricingSection from "@/components/pricing-section";
 import HowBlinkEyeWillHelp from "@/components/how-blink-eye-will-help";
 import FeatureShowcase from "@/components/FeaturesShowcase";
 import HeroSection from "@/components/HeroSection";
+import Blogs from "@/components/Blogs";
 const RootPage = () => {
   return (
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-24 lg:pb-8 px-4 sm:px-6 lg:px-8">
@@ -14,6 +15,7 @@ const RootPage = () => {
       <PricingSection />
       <FeatureShowcase />
       <HowBlinkEyeWillHelp />
+      <Blogs />
       <OpenSource />
     </section>
   );

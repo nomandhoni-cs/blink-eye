@@ -1,6 +1,6 @@
 ---
 title: "Contribute"
-excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus."
+excerpt: "If you want to contribute to Blink Eye, please follow these steps. Contributions are welcome! Feel free to open issues or submit pull requests."
 coverImage: "https://utfs.io/f/93hqarYp4cDde9Yt7jnAGUrMQKVoXBI75tih4E9gWPzmLdf1"
 date: "2024-03-16T05:35:07.322Z"
 author:
