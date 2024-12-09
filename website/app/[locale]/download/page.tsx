@@ -2,34 +2,78 @@ import { fetchReleaseData } from "@/utils/fetch-github-release";
 import DownloadButton from "@/components/ui/download-button";
 import { getDownloadLinks } from "@/utils/getReleaseData";
 import { LinuxIcon, MacIcon, WindowsIcon } from "@/utils/mac-win-linicon";
-import { Metadata } from "next";
 import { SEO } from "@/configs/seo";
-export const metadata: Metadata = {
-  title: "Download",
-  description:
-    "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
-  applicationName: SEO.title,
-  keywords: SEO.keywords,
-  openGraph: {
-    locale: "en",
-    title: "Download",
-    description:
-      "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
-    url: "https://blinkeye.vercel.app/download",
-    type: "website",
-    images: [
-      {
-        url: "https://utfs.io/f/93hqarYp4cDdoi04u4derHR0E5Och9U3PASy1oYVvwiMlx6D",
-        width: 1280,
-        height: 720,
-        alt: SEO.description,
+import { routing } from "@/i18n/routing";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> => {
+  try {
+    // Await getTranslations to fetch translations for the current locale
+    const t = await getTranslations("downloadPage");
+    const appInfo = await getTranslations("Metadata");
+
+    return {
+      title: t("title") + " | " + appInfo("appName"),
+      description: t("description"),
+      applicationName: appInfo("appName"),
+      openGraph: {
+        locale: params.locale,
+        title: t("title") + " | " + appInfo("appName"),
+        description: t("description"),
+        url: "https://blinkeye.vercel.app/download",
+        type: "website",
+        images: [
+          {
+            url: "https://utfs.io/f/93hqarYp4cDdoi04u4derHR0E5Och9U3PASy1oYVvwiMlx6D",
+            width: 1280,
+            height: 720,
+            alt: t("title") + " | " + appInfo("appName"),
+          },
+        ],
+        siteName: appInfo("appName"),
       },
-    ],
-    siteName: "Blink Eye",
-  },
-  twitter: {
-    site: SEO.twitter,
-  },
+      twitter: {
+        site: SEO.twitter,
+      },
+    };
+  } catch (e) {
+    // Fallback metadata in case of errors
+    return {
+      title: "Download",
+      description:
+        "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
+      applicationName: SEO.title,
+      keywords: SEO.keywords,
+      openGraph: {
+        locale: params.locale,
+        title: "Download",
+        description:
+          "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
+        url: "https://blinkeye.vercel.app/download",
+        type: "website",
+        images: [
+          {
+            url: "https://utfs.io/f/93hqarYp4cDdoi04u4derHR0E5Och9U3PASy1oYVvwiMlx6D",
+            width: 1280,
+            height: 720,
+            alt: SEO.description,
+          },
+        ],
+        siteName: "Blink Eye",
+      },
+      twitter: {
+        site: SEO.twitter,
+      },
+    };
+  }
 };
 const DownloadPage = async () => {
   let downloadLinks: { [key: string]: string | null } = {

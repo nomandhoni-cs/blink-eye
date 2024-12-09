@@ -1,8 +1,38 @@
 import Contributors from "@/components/contributors";
+import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Contribute",
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> => {
+  try {
+    // Await getTranslations to fetch translations for the current locale
+    const t = await getTranslations("contributePage");
+    const appInfo = await getTranslations("Metadata");
+
+    return {
+      title: t("title") + " | " + appInfo("appName"),
+      description: t("description"),
+      openGraph: {
+        locale: params.locale,
+        title: t("title") + " | " + appInfo("appName"),
+        description: t("description"),
+        type: "website",
+      },
+    };
+  } catch (e) {
+    // Fallback metadata in case of errors
+    return {
+      title: "Contribute - Blink Eye",
+      description: "Contribute to the Blink Eye App development.",
+    };
+  }
 };
 const Contribute = () => {
   return (

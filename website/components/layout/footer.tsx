@@ -5,7 +5,7 @@ import ProductHuntWidget from "../ProductHunt";
 import { useLocale } from "next-intl";
 const routes = [
   "/about",
-  "/contribute",
+  "/posts/contribute",
   "/features",
   "/download",
   "/howtouse",

@@ -73,8 +73,9 @@ const ReleasesPage = async () => {
               >
                 {release.name}
               </Link>
-              <p className="">{release.tag_name}</p>
+              <p className="">Tag: {release.tag_name}</p>
               <p className="">
+                Published {": "}
                 {new Date(release.published_at).toLocaleDateString(locale, {
                   year: "numeric",
                   month: "long",

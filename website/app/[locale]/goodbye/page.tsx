@@ -1,11 +1,39 @@
 import Image from "next/image";
 import cat from "@/public/images/cat-gif.gif";
 import sadface from "@/public/images/sadface.png";
+import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Good Bye",
-  description: "Uninstall Page of the Blink Eye App",
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> => {
+  try {
+    // Await getTranslations to fetch translations for the current locale
+    const t = await getTranslations("goodbyePage");
+    const appInfo = await getTranslations("Metadata");
+
+    return {
+      title: t("title") + " | " + appInfo("appName"),
+      description: t("description"),
+      openGraph: {
+        title: t("title") + " | " + appInfo("appName"),
+        description: t("description"),
+        type: "website",
+      },
+    };
+  } catch (e) {
+    // Fallback metadata in case of errors
+    return {
+      title: "Good Bye - Blink Eye",
+      description: "Uninstall Page of the Blink Eye App",
+    };
+  }
 };
 const Page = () => {
   return (

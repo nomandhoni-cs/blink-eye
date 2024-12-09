@@ -45,7 +45,70 @@
   "Metadata": {
     "appName": "Blink Eye",
     "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "Best Eye Care & Break Timer for MacOS, Windows, Linux"
+    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "keywords": [
+      "prevent rsi app",
+      "prevent cvs app",
+      "rsi app",
+      "cvs app",
+      "best eye care app 2024",
+      "screen break reminder app",
+      "free eye health app download",
+      "open source eye protection software",
+      "screen timer for eye care",
+      "work break reminder tool",
+      "eye comfort app for Mac",
+      "vision care software for laptops",
+      "top eye relaxation app",
+      "PC screen time control",
+      "computer eye care utility",
+      "digital eye strain prevention",
+      "windows break time scheduler",
+      "best apps for eye strain relief",
+      "cross-platform eye care app",
+      "top open source break reminder",
+      "blink timer for computer health",
+      "best eye care app for Windows and Linux",
+      "free eye health app for Windows",
+      "open source eye protection software for Linux",
+      "screen break reminder app for Windows",
+      "eye comfort app for Linux",
+      "top eye relaxation app for Windows",
+      "digital eye strain prevention for Windows",
+      "computer eye care utility for Linux",
+      "work break reminder tool for Windows",
+      "screen time control for Linux",
+      "cross-platform eye care app",
+      "best apps for eye strain relief on Windows and Linux",
+      "PC screen timer for eye care",
+      "vision care software for Windows",
+      "eye care reminder app for Linux",
+      "blink eye",
+      "blink eye for windows",
+      "Noman Dhoni Made App",
+      "eye care app for windows",
+      "20 20 20 rule app for windows",
+      "eye care",
+      "eye strain relief app",
+      "eye health app",
+      "blink eye download",
+      "blink eye review",
+      "20 20 20 rule app",
+      "eye care reminder app",
+      "eye care software",
+      "eye care tips",
+      "eye exercises app",
+      "eye protection app",
+      "eye care app for pc",
+      "eye care app for laptop",
+      "eye care app for desktop",
+      "eye care app for windows 10",
+      "eye care app for windows 11",
+      "blink eye download",
+      "blink eye review",
+      "eye care app for windows",
+      "20 20 20 rule app for windows"
+    ]
   },
   "NavMenu": {
     "features": "Features",
@@ -382,5 +445,57 @@
         "valueProposition": "One-time investment for teams and power users."
       }
     ]
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} Release Info",
+    "title": "{tag} Release Information",
+    "goBack": "Go Back",
+    "tag": "Tag",
+    "published": "Published",
+    "author": "Author",
+    "assets": "Assets",
+    "fullChangelog": "Full Changelog",
+    "downloadOptions": "Download options",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "description": "Learn about our privacy practices and policies."
+  },
+  "pricingPage": {
+    "title": "Pricing",
+    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+  },
+  "howtousePage": {
+    "title": "How to Use",
+    "description": "Learn how to use the app and its features."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "How Blink Eye Helps",
+    "description": "Learn how Blink Eye helps you stay focused and productive."
+  },
+  "goodbyePage": {
+    "title": "Good Bye",
+    "description": "Uninstall Page of the Blink Eye App",
+    "missyou": "We're sorry to see you go! We hope you enjoyed using Blink Eye.",
+    "suggesition": "Take good care of your Eyes."
+  },
+  "featuresPage": {
+    "title": "Features",
+    "description": "Discover the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Download the Blink Eye App for Windows, macOS, and Linux."
+  },
+  "contributePage": {
+    "title": "Contribute",
+    "description": "Contribute to the Blink Eye App development."
+  },
+  "aboutPage": {
+    "title": "About",
+    "description": "Learn more about the Blink Eye App and its team.",
+    "info": ""
   }
 }
