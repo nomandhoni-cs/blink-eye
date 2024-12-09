@@ -1,11 +1,11 @@
 import { CONFIG } from "@/configs/site";
 import { getCurrentYear } from "@/utils/year";
-import Image from "next/image";
 import Link from "next/link";
 import ProductHuntWidget from "../ProductHunt";
+import { useLocale } from "next-intl";
 const routes = [
   "/about",
-  "/contribute",
+  "/posts/contribute",
   "/features",
   "/download",
   "/howtouse",
@@ -16,12 +16,13 @@ const routes = [
   "/howblinkeyehelps",
 ];
 export const Footer = () => {
+  const locale = useLocale();
   const currentYear = getCurrentYear();
   return (
     <footer className="container border-t z-10">
       <div className="text-center grid grid-cols-2 gap-4 md:grid-cols-3 lg:flex lg:justify-center lg:mt-4">
         {routes.map((route, index) => (
-          <Link href={route} key={index}>
+          <Link href={`/${locale}${route}`} key={index}>
             <span className="mx-2 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
               {route}
             </span>
@@ -65,9 +66,12 @@ export const Footer = () => {
           <Link
             href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
             target="_blank"
-            className=""
+            rel="noopener noreferrer"
+            aria-label="View Blink Eye on Product Hunt"
+            className="flex items-center space-x-2"
           >
             <ProductHuntWidget />
+            <span className="sr-only">View Blink Eye on Product Hunt</span>
           </Link>
         </p>
       </div>

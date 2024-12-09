@@ -1,5 +1,6 @@
 import { fetchStarCount } from "@/utils/fetch-start-count";
 import Link from "next/link";
+import Contributors from "./contributors";
 const OpenSource = async () => {
   const stars = await fetchStarCount();
   return (
@@ -37,6 +38,7 @@ const OpenSource = async () => {
               </div>
             </Link>
           )}
+          <Contributors />
         </div>
       </section>
     </>

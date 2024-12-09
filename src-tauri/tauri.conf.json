@@ -73,11 +73,7 @@
       }
     },
     "macOS": {
-      "frameworks": [],
-      "exceptionDomain": "",
-      "signingIdentity": null,
-      "providerShortName": null,
-      "entitlements": null,
+      "signingIdentity": "-",
       "dmg": {
         "appPosition": {
           "x": 180,

@@ -1,21 +1,20 @@
 import Link from "next/link";
 import { HoverCardTrigger, HoverCardContent, HoverCard } from "./ui/hover-card";
+import { useTranslations } from "next-intl";
 
 const HeroSection = () => {
+  const t = useTranslations("HeroBanner");
   return (
     <div className="container flex max-w-[80rem] flex-col items-center gap-4 text-center">
       <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
         <span className=" text-[#FE4C55]">Blink Eye</span> <br />
-        <span>
-          A minimalist eye care reminder app for Windows, macOS, and Linux.
-        </span>
+        <span>{t("tagline")}</span>
       </h1>
-      <p className="max-w-[900px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground">
-        To reduce eye strain, featuring reminder with timers, full-screen
-        popups. Based on{" "}
+      <div className="max-w-[900px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground">
+        {t("span1")}{" "}
         <HoverCard>
           <HoverCardTrigger>
-            <span className="text-[#FE4C55] cursor-help">20-20-20 </span>
+            <span className="text-[#FE4C55] cursor-help">{t("202020")} </span>
           </HoverCardTrigger>
           <HoverCardContent>
             by
@@ -25,12 +24,12 @@ const HeroSection = () => {
               rel="noopener noreferrer"
             >
               {" "}
-              American Academy of Ophthalmology
+              {t("institute")}
             </Link>
           </HoverCardContent>
         </HoverCard>
-        rule.
-      </p>
+        {t("span2")}
+      </div>
     </div>
   );
 };

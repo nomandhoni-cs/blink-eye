@@ -1,0 +1,397 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "App Chăm Sóc Mắt & Hẹn Giờ Nghỉ Ngơi Tốt Nhất cho Mac, Windows, Linux",
+    "description": "Ứng dụng nhắc nhở chăm sóc mắt tối giản giúp giảm mỏi mắt, với bộ hẹn giờ tùy chỉnh, cửa sổ bật lên toàn màn hình, tắt âm thanh.",
+    "keywords": [
+      "app chống RSI",
+      "app chống CVS",
+      "app RSI",
+      "app CVS",
+      "app chăm sóc mắt tốt nhất 2024",
+      "app nhắc nhở nghỉ ngơi màn hình",
+      "tải xuống app sức khỏe mắt miễn phí",
+      "phần mềm bảo vệ mắt mã nguồn mở",
+      "công cụ năng suất cho macOS",
+      "app thư giãn mắt hàng đầu",
+      "Google Lịch danh sách công việc",
+      "hẹn giờ màn hình để chăm sóc mắt",
+      "công cụ nhắc nhở nghỉ ngơi khi làm việc",
+      "app làm dịu mắt cho Mac",
+      "phần mềm chăm sóc thị lực cho laptop",
+      "app thư giãn mắt hàng đầu",
+      "kiểm soát thời gian sử dụng màn hình máy tính",
+      "tiện ích chăm sóc mắt máy tính",
+      "phòng chống mỏi mắt kỹ thuật số",
+      "bộ lập lịch nghỉ ngơi cho windows",
+      "app tốt nhất để giảm mỏi mắt",
+      "app chăm sóc mắt đa nền tảng",
+      "app nhắc nhở nghỉ ngơi mã nguồn mở hàng đầu",
+      "hẹn giờ nháy mắt để bảo vệ sức khỏe máy tính",
+      "app chăm sóc mắt tốt nhất cho Windows và Linux",
+      "app sức khỏe mắt miễn phí cho Windows",
+      "phần mềm bảo vệ mắt mã nguồn mở cho Linux",
+      "app nhắc nhở nghỉ ngơi màn hình cho Windows",
+      "app làm dịu mắt cho Linux",
+      "app thư giãn mắt hàng đầu cho Windows",
+      "phòng chống mỏi mắt kỹ thuật số cho Windows",
+      "tiện ích chăm sóc mắt máy tính cho Linux",
+      "công cụ nhắc nhở nghỉ ngơi khi làm việc cho Windows",
+      "kiểm soát thời gian sử dụng màn hình cho Linux",
+      "app chăm sóc mắt đa nền tảng",
+      "app tốt nhất để giảm mỏi mắt trên Windows và Linux",
+      "hẹn giờ màn hình máy tính để chăm sóc mắt",
+      "phần mềm chăm sóc thị lực cho Windows",
+      "app nhắc nhở chăm sóc mắt cho Linux",
+      "Blink Eye",
+      "Blink Eye cho Windows",
+      "App của Noman Dhoni",
+      "app chăm sóc mắt cho Windows",
+      "app quy tắc 20 20 20 cho Windows",
+      "chăm sóc mắt",
+      "app giảm mỏi mắt",
+      "app sức khỏe mắt",
+      "tải xuống Blink Eye",
+      "đánh giá Blink Eye",
+      "app quy tắc 20 20 20",
+      "app nhắc nhở chăm sóc mắt",
+      "phần mềm chăm sóc mắt",
+      "mẹo chăm sóc mắt",
+      "app bài tập mắt",
+      "app bảo vệ mắt",
+      "app chăm sóc mắt cho máy tính",
+      "app chăm sóc mắt cho laptop",
+      "app chăm sóc mắt cho máy tính để bàn",
+      "app chăm sóc mắt cho Windows 10",
+      "app chăm sóc mắt cho Windows 11",
+      "tải xuống Blink Eye",
+      "đánh giá Blink Eye",
+      "app chăm sóc mắt cho Windows",
+      "app quy tắc 20 20 20 cho Windows",
+      "phòng tránh hội chứng thị giác màn hình (CVS)",
+      "hội chứng rối loạn thị giác do sử dụng máy tính",
+      "mỏi mắt",
+      "nhức mỏi mắt",
+      "bảo vệ mắt khỏi ánh sáng xanh",
+      "giảm căng thẳng mắt",
+      "ứng dụng nhắc nhở nghỉ giải lao",
+      "cải thiện năng suất làm việc"
+    ]
+  },
+  "NavMenu": {
+    "features": "Tính năng",
+    "about": "Giới thiệu",
+    "pricing": "Giá cả",
+    "release": "Phát hành",
+    "contribute": "Đóng góp",
+    "blogs": "Blogs"
+  },
+  "HeroBanner": {
+    "tagline": "Ứng dụng nhắc nhở chăm sóc mắt tối giản cho Windows, macOS và Linux.",
+    "span1": "Giúp giảm mỏi mắt, với bộ hẹn giờ, cửa sổ bật lên toàn màn hình. Dựa trên quy tắc",
+    "202020": "20-20-20",
+    "span2": ".",
+    "institute": "Viện Nhãn khoa Hoa Kỳ (American Academy of Ophthalmology)"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Hỗ trợ macOS chip Intel/M (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Tính năng",
+    "featureSubtitle": "Tất cả các công cụ năng suất cần thiết ở cùng một nơi."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Giá cả",
+    "pricingDescription": "Chọn gói cước phải chăng đi kèm với những tính năng tốt nhất để thu hút khán giả, tạo lòng trung thành của khách hàng và thúc đẩy doanh số bán hàng."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Nhắc nhở tùy chỉnh"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Blink Eye sẽ giúp bạn như thế nào",
+    "body1": "Kiểm soát sức khỏe của bạn với Blink Eye.",
+    "body2": "Khám phá cách nghỉ giải lao theo lịch trình có thể cải thiện sức khỏe mắt, tăng cường sự tập trung, nâng cao năng suất và thúc đẩy sức khỏe lâu dài cho lối sống kỹ thuật số cân bằng.",
+    "learnMore": "Tìm hiểu thêm",
+    "title1": "Bảo vệ mắt khỏi căng thẳng kỹ thuật số",
+    "title2": "Sức khỏe thể chất",
+    "title3": "Sức khỏe tinh thần",
+    "title4": "Tăng cường năng suất",
+    "title5": "Thói quen sử dụng màn hình lành mạnh",
+    "title6": "Lợi ích lâu dài bền vững",
+    "title7": "Linh hoạt và có thể tùy chỉnh",
+    "title8": "Lợi ích được hỗ trợ bởi nghiên cứu",
+    "title9": "Tăng cường năng lượng và tâm trạng",
+    "description1": "Bảo vệ mắt bạn khỏi căng thẳng kỹ thuật số, giảm tiếp xúc với ánh sáng xanh và ngăn ngừa Hội chứng Thị giác Máy tính (CVS).",
+    "description2": "Cải thiện tư thế, ngăn ngừa Chấn thương Căng thẳng Lặp đi lặp lại (RSI) và giảm sự khó chịu về thể chất.",
+    "description3": "Tăng cường sự tập trung, chánh niệm và giảm căng thẳng một cách dễ dàng.",
+    "description4": "Làm việc thông minh hơn, không phải chăm chỉ hơn, với các phương pháp tập trung vào năng suất.",
+    "description5": "Phát triển thói quen sử dụng màn hình có kỷ luật và giảm thiểu sự phân tâm không cần thiết.",
+    "description6": "Tránh các vấn đề mãn tính và duy trì sự cân bằng trong nhiều năm tới.",
+    "description7": "Điều chỉnh trải nghiệm của bạn để phù hợp với lối sống, nghề nghiệp và nhu cầu cá nhân.",
+    "description8": "Tận hưởng các tính năng dựa trên các nghiên cứu về năng suất và sức khỏe.",
+    "description9": "Cảm thấy tràn đầy năng lượng và giữ tinh thần tích cực suốt cả ngày với thời gian nghỉ ngơi cân bằng.",
+    "preventDigitalEyeStrain": "Ngăn ngừa mỏi mắt kỹ thuật số",
+    "blueLightProtection": "Bảo vệ khỏi ánh sáng xanh",
+    "preventRepetitiveStrainInjuries": "Ngăn ngừa chấn thương do căng thẳng lặp đi lặp lại (RSI)",
+    "supportBetterPosture": "Hỗ trợ tư thế tốt hơn",
+    "enhanceFocusAndMindfulness": "Tăng cường tập trung và chánh niệm",
+    "stressManagement": "Quản lý căng thẳng",
+    "pomodoroTechniqueIntegration": "Tích hợp kỹ thuật Pomodoro",
+    "cognitiveEfficiency": "Hiệu quả nhận thức",
+    "structuredScreenTime": "Thời gian sử dụng màn hình có cấu trúc",
+    "reduceMultitasking": "Giảm đa nhiệm",
+    "preventChronicVisionProblems": "Ngăn ngừa các vấn đề về thị lực mãn tính",
+    "achieveWorkLifeBalance": "Cân bằng giữa công việc và cuộc sống",
+    "customizableBreakTimers": "Bộ hẹn giờ nghỉ tùy chỉnh",
+    "builtForEveryone": "Dành cho tất cả mọi người",
+    "evidenceBasedFeatures": "Các tính năng dựa trên bằng chứng",
+    "trustedByUsers": "Được người dùng tin tưởng",
+    "boostDailyEnergy": "Tăng cường năng lượng hàng ngày",
+    "maintainPositiveMood": "Duy trì tâm trạng tích cực",
+    "preventDigitalEyeStrainDetails": "Nghỉ giải lao theo lịch trình giúp giảm các triệu chứng như khô mắt, mờ mắt và đau đầu, đảm bảo sức khỏe mắt lâu dài.",
+    "blueLightProtectionDetails": "Thư giãn mắt thường xuyên với các lời nhắc được thiết kế để chống lại tác hại của việc tiếp xúc với ánh sáng xanh.",
+    "preventRepetitiveStrainInjuriesDetails": "Nghỉ giải lao thường xuyên giúp giảm thiểu căng thẳng cho tay và cổ tay của bạn, ngăn ngừa tổn thương lâu dài do các công việc lặp đi lặp lại.",
+    "supportBetterPostureDetails": "Khuyến khích duỗi người và kiểm tra tư thế để tránh các vấn đề như cổ rùa và đau lưng.",
+    "enhanceFocusAndMindfulnessDetails": "Nghỉ giải lao thường xuyên giúp bạn luôn nhạy bén và tập trung đồng thời giảm mệt mỏi và kiệt sức về tinh thần.",
+    "stressManagementDetails": "Sử dụng khoảng thời gian nghỉ ngơi để thực hành các kỹ thuật thư giãn, giảm căng thẳng và áp lực do công việc gây ra.",
+    "pomodoroTechniqueIntegrationDetails": "Chia nhỏ các nhiệm vụ thành các khoảng thời gian để làm việc hiệu quả, cải thiện tỷ lệ hoàn thành nhiệm vụ.",
+    "cognitiveEfficiencyDetails": "Nghỉ ngơi chiến lược giúp nâng cao hiệu suất tinh thần của bạn, giúp bạn đạt được nhiều hơn với ít nỗ lực hơn.",
+    "structuredScreenTimeDetails": "Xây dựng thói quen kỹ thuật số lành mạnh với lời nhắc đúng lúc để cân bằng giữa công việc và thư giãn.",
+    "reduceMultitaskingDetails": "Tập trung hoàn toàn vào các nhiệm vụ bằng cách giảm thiểu sự phân tâm trong chu kỳ làm việc và thư giãn của bạn.",
+    "preventChronicVisionProblemsDetails": "Thực hiện các biện pháp chủ động để giảm nguy cơ mắc các vấn đề về thị lực kỹ thuật số lâu dài do sử dụng màn hình quá mức.",
+    "achieveWorkLifeBalanceDetails": "Tạo thói quen bền vững cho công việc và cuộc sống cá nhân với cách tiếp cận cân bằng để đạt năng suất.",
+    "customizableBreakTimersDetails": "Đặt khoảng thời gian phù hợp với quy trình làm việc của bạn, đảm bảo ứng dụng bổ sung cho lịch trình riêng của bạn.",
+    "builtForEveryoneDetails": "Cho dù bạn là sinh viên, nhà phát triển, nhà thiết kế hay nhân viên làm việc từ xa, ứng dụng đều thích ứng với nhu cầu của bạn.",
+    "evidenceBasedFeaturesDetails": "Thiết kế của ứng dụng được lấy cảm hứng từ nghiên cứu về năng suất, sự tập trung và sức khỏe kỹ thuật số.",
+    "trustedByUsersDetails": "Lời chứng thực và câu chuyện thành công của người dùng thực tế xác nhận tính hiệu quả và giá trị của nó.",
+    "boostDailyEnergyDetails": "Những khoảng nghỉ ngắn, thường xuyên giúp nạp lại năng lượng cho tâm trí và cơ thể của bạn, giúp bạn tràn đầy năng lượng cho một ngày mới.",
+    "maintainPositiveMoodDetails": "Phá vỡ sự đơn điệu của thời gian sử dụng màn hình liên tục để giảm bớt sự thất vọng và nâng cao tâm trạng tổng thể của bạn."
+  },
+  "featureGrid": {
+    "title": "Tính năng",
+    "subtitle": "Tất cả các công cụ năng suất cần thiết ở cùng một nơi.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Bộ hẹn giờ nhắc nhở tùy chỉnh",
+        "description": "Đặt bộ hẹn giờ nhắc nhở được cá nhân hóa để duy trì sự tập trung và đúng tiến độ."
+      },
+      "diverseThemes": {
+        "title": "Giao diện đa dạng để cá nhân hóa",
+        "description": "Chọn từ nhiều giao diện khác nhau để tùy chỉnh giao diện và quy trình làm việc của bạn."
+      },
+      "customizableReminderText": {
+        "title": "Văn bản nhắc nhở tùy chỉnh",
+        "description": "Tạo tin nhắn nhắc nhở tùy chỉnh để giữ cho bạn có động lực."
+      },
+      "customizableSounds": {
+        "title": "Âm thanh tùy chỉnh",
+        "description": "Chọn âm thanh của riêng bạn cho thông báo và cảnh báo."
+      },
+      "dailyDeviceUsage": {
+        "title": "Thời gian sử dụng thiết bị hàng ngày",
+        "description": "Theo dõi thời gian sử dụng màn hình của bạn để tối ưu hóa năng suất và sự cân bằng."
+      },
+      "workdaySetup": {
+        "title": "Thiết lập ngày làm việc",
+        "description": "Nhanh chóng thiết lập lịch trình ngày làm việc của bạn để có năng suất tốt hơn."
+      },
+      "pomodoroTimer": {
+        "title": "Bộ hẹn giờ Pomodoro",
+        "description": "Chia nhỏ các nhiệm vụ thành các khoảng thời gian để tập trung và đạt hiệu quả tối đa."
+      },
+      "runOnStartup": {
+        "title": "Chạy khi khởi động",
+        "description": "Tự động khởi chạy ứng dụng khi thiết bị của bạn khởi động."
+      },
+      "updateSupport": {
+        "title": "Hỗ trợ cập nhật",
+        "description": "Nhận các bản cập nhật liền mạch cho các tính năng và bản sửa lỗi mới nhất."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Khám phá các tính năng làm cho chúng tôi nổi bật",
+    "description": "Khám phá các tính năng làm cho ứng dụng của chúng tôi trở nên nổi bật. Từ các lời nhắc có thể tùy chỉnh đến nhiều chủ đề, chúng tôi đã cung cấp cho bạn."
+  },
+  "featuresDemo": [
+    {
+      "title": "Nhắc nhở tùy chỉnh",
+      "description": "Đặt lời nhắc được cá nhân hóa để ngăn ngừa mỏi mắt, cải thiện năng suất và duy trì sự tập trung trong các buổi làm việc dài.",
+      "features": [
+        "Thời gian nhắc nhở tùy chỉnh",
+        "Cài đặt khoảng thời gian có thể điều chỉnh",
+        "Văn bản nhắc nhở có thể chỉnh sửa để cá nhân hóa"
+      ],
+      "moto": "App giảm mỏi mắt tốt nhất cho người dùng máy tính"
+    },
+    {
+      "title": "Nhiều chủ đề",
+      "description": "Chuyển đổi giữa các chủ đề sáng và tối hoặc chọn từ nhiều bảng phối màu độc đáo để phù hợp với tâm trạng và không gian làm việc của bạn.",
+      "features": [
+        "Nhiều chủ đề màn hình nhắc nhở để lựa chọn",
+        "Hỗ trợ chế độ tối cho app",
+        "Hỗ trợ chế độ sáng cho app"
+      ],
+      "moto": "App theo dõi thời gian sử dụng màn hình và nhắc nhở nghỉ ngơi"
+    },
+    {
+      "title": "Thống kê sử dụng",
+      "description": "Theo dõi thời gian sử dụng màn hình hàng ngày của bạn, theo dõi xu hướng sử dụng thiết bị và tối ưu hóa sự cân bằng giữa công việc và cuộc sống một cách hiệu quả.",
+      "features": [
+        "Theo dõi sử dụng thiết bị hàng ngày",
+        "Theo dõi sử dụng thiết bị hàng tuần",
+        "Theo dõi sử dụng thiết bị hàng tháng",
+        "Theo dõi sử dụng thiết bị hàng năm",
+        "Theo dõi sử dụng thiết bị mọi lúc",
+        "Phân tích sử dụng toàn diện",
+        "Biểu đồ trực quan và báo cáo tiến độ"
+      ],
+      "moto": "App nhắc nhở nghỉ ngơi màn hình miễn phí cho đôi mắt khỏe mạnh"
+    },
+    {
+      "title": "Thiết lập và lập lịch ngày làm việc",
+      "description": "Lên kế hoạch cho ngày làm việc của bạn một cách hiệu quả bằng cách đặt lịch tùy chỉnh và giờ làm việc cho mỗi ngày trong tuần.",
+      "features": [
+        "Cài đặt ngày làm việc tùy chỉnh",
+        "Linh hoạt lập lịch hàng ngày",
+        "Nhắc nhở tự động cho thời gian nghỉ trong giờ làm việc"
+      ],
+      "moto": "Hẹn giờ nghỉ giải lao tùy chỉnh cho nhân viên văn phòng"
+    },
+    {
+      "title": "Trình bảo vệ màn hình với hoạt ảnh",
+      "description": "Phát một số trình bảo vệ màn hình phổ biến nhất với các hoạt ảnh và âm thanh tùy chỉnh để nâng cao năng suất và thư giãn của bạn.",
+      "features": [
+        "Chọn từ nhiều trình bảo vệ màn hình với hoạt ảnh tùy chỉnh",
+        "Hiệu ứng âm thanh tùy chỉnh để thư giãn",
+        "Thời lượng trình bảo vệ màn hình tùy chỉnh"
+      ],
+      "moto": "App bảo vệ màn hình và quản lý tác vụ tốt nhất cho người dùng chuyên nghiệp"
+    },
+    {
+      "title": "Cài đặt tùy chỉnh toàn diện",
+      "description": "Tăng năng suất và sự tập trung của bạn với các cài đặt tùy chỉnh, bao gồm bộ hẹn giờ Pomodoro và tùy chọn thông báo.",
+      "features": [
+        "Tích hợp kỹ thuật Pomodoro",
+        "Chế độ Nghiêm Ngặt bắt buộc nghỉ giải lao",
+        "Âm thanh thông báo tùy chỉnh",
+        "Chạy khi khởi động",
+        "Đặt giới hạn sử dụng màn hình hàng ngày"
+      ],
+      "moto": "Hẹn giờ Pomodoro với nhắc nhở nghỉ ngơi để tăng năng suất"
+    },
+    {
+      "title": "Kích hoạt khóa cấp phép",
+      "description": "Kích hoạt ứng dụng của bạn bằng khóa cấp phép để truy cập đầy đủ vào các tính năng cao cấp và cập nhật liền mạch.",
+      "features": [
+        "Quy trình kích hoạt giấy phép dễ dàng",
+        "Truy cập vào các tính năng cao cấp độc quyền",
+        "Cập nhật và hỗ trợ phần mềm thường xuyên"
+      ],
+      "moto": "App hàng đầu để ngăn ngừa Hội chứng Thị giác Máy tính (CVS) và (RSI)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Chọn gói phù hợp với bạn",
+    "description": "Chọn gói cước phải chăng đi kèm với những tính năng tốt nhất để thu hút khán giả, tạo lòng trung thành của khách hàng và thúc đẩy doanh số bán hàng."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Thông tin phát hành Blink Eye {tag}",
+    "title": "Thông tin phát hành {tag}",
+    "goBack": "Quay lại",
+    "tag": "Tag",
+    "published": "Đã xuất bản",
+    "author": "Tác giả",
+    "assets": "Tài sản",
+    "fullChangelog": "Nhật ký thay đổi đầy đủ",
+    "downloadOptions": "Tùy chọn download",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Chính sách bảo mật",
+    "description": "Tìm hiểu về các thông lệ và chính sách bảo mật của chúng tôi."
+  },
+  "pricingPage": {
+    "title": "Giá cả",
+    "description": "Chọn gói cước phải chăng đi kèm với những tính năng tốt nhất để thu hút khán giả, tạo lòng trung thành của khách hàng và thúc đẩy doanh số bán hàng."
+  },
+  "howtousePage": {
+    "title": "Hướng dẫn sử dụng",
+    "description": "Tìm hiểu cách sử dụng ứng dụng và các tính năng của nó."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Blink Eye giúp ích như thế nào",
+    "description": "Tìm hiểu cách Blink Eye giúp bạn duy trì sự tập trung và năng suất."
+  },
+  "goodbyePage": {
+    "title": "Tạm biệt",
+    "description": "Trang gỡ cài đặt của App Blink Eye",
+    "missyou": "Chúng tôi rất tiếc khi bạn rời đi! Chúng tôi hy vọng bạn thích sử dụng Blink Eye.",
+    "suggesition": "Hãy chăm sóc tốt cho đôi mắt của bạn."
+  },
+  "featuresPage": {
+    "title": "Tính năng",
+    "description": "Khám phá các tính năng làm cho ứng dụng của chúng tôi trở nên nổi bật. Từ các lời nhắc có thể tùy chỉnh đến nhiều chủ đề, chúng tôi đã cung cấp cho bạn."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Download App Blink Eye cho Windows, macOS và Linux."
+  },
+  "contributePage": {
+    "title": "Đóng góp",
+    "description": "Đóng góp cho sự phát triển của App Blink Eye."
+  },
+  "aboutPage": {
+    "title": "Giới thiệu",
+    "description": "Tìm hiểu thêm về App Blink Eye và đội ngũ phát triển.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogs",
+    "description": "Đọc các blog và cập nhật tin tức mới nhất của chúng tôi."
+  }
+}

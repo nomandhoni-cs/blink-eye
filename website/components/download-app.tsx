@@ -10,6 +10,7 @@ import { getDownloadLinks } from "@/utils/getReleaseData";
 import { CopyButton } from "./copy-button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import Command from "./Command";
+import { useTranslations } from "next-intl";
 
 const DownloadApp = async () => {
   let downloadLinks: { [key: string]: string | null } = {
@@ -65,7 +66,7 @@ const DownloadButtons = ({ downloadLinks }) => (
     <DownloadOption
       name="MacOS"
       icon={<MacIcon />}
-      mainLink={downloadLinks.macSilicon}
+      mainLink={downloadLinks.macIntel}
       dropdownLinks={[
         { href: downloadLinks.macSilicon, label: "Download (Apple Silicon)" },
         { href: downloadLinks.macIntel, label: "Download (Intel Chip)" },
@@ -98,12 +99,10 @@ const DownloadOption = ({ name, icon, mainLink, dropdownLinks }) => (
   </div>
 );
 
-const SupportedPlatforms = () => (
-  <p className="text-sm text-center">
-    Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux
-    (Debian, AppImage, RPM, TAR)
-  </p>
-);
+const SupportedPlatforms = () => {
+  const t = useTranslations("DownloadApp");
+  return <p className="text-sm text-center">{t("supportedPlatforms")}</p>;
+};
 
 const ReleaseInfo = ({ tag_name }) => (
   <div className="text-center space-x-1 md:space-y-2 flex flex-col items-center">

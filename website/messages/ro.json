@@ -1,0 +1,391 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Cea Mai Bună Aplicație de Îngrijire a Ochilor și Pauze pentru Mac, Windows, Linux",
+    "description": "O aplicație minimalistă pentru a reduce oboseala ochilor, cu alerte de pauză, temporizatoare personalizabile și memento-uri full-screen.",
+    "keywords": [
+      "aplicație prevenire sindrom RSI",
+      "aplicație prevenire sindrom CVS",
+      "aplicație RSI",
+      "aplicație CVS",
+      "cea mai bună aplicație îngrijire ochi 2024",
+      "aplicație memento pauză ecran",
+      "download aplicație gratuită sănătate ochi",
+      "software open source protecție ochi",
+      "instrument productivitate macOS",
+      "top aplicație relaxare ochi",
+      "integrare Google Calendar și liste de sarcini",
+      "temporizator ecran pentru sănătatea ochilor",
+      "instrument memento pauză de lucru",
+      "aplicație confort ochi pentru Mac",
+      "software îngrijire vedere pentru laptopuri",
+      "aplicație relaxare ochi top",
+      "control timp ecran PC",
+      "utilitar îngrijire ochi calculator",
+      "prevenire oboseală ochi digitală",
+      "programator pauze Windows",
+      "cele mai bune aplicații pentru ameliorarea oboselii ochilor",
+      "aplicație îngrijire ochi multiplatformă",
+      "top memento pauză open source",
+      "temporizator clipire pentru sănătatea calculatorului",
+      "cea mai bună aplicație de îngrijire a ochilor pentru Windows și Linux",
+      "aplicație gratuită pentru sănătatea ochilor pentru Windows",
+      "software open source de protecție a ochilor pentru Linux",
+      "aplicație de reamintire a pauzelor de ecran pentru Windows",
+      "aplicație pentru confortul ochilor pentru Linux",
+      "aplicație de top pentru relaxarea ochilor pentru Windows",
+      "prevenirea oboselii digitale a ochilor pentru Windows",
+      "utilitar de îngrijire a ochilor pentru computer pentru Linux",
+      "instrument de reamintire a pauzelor de lucru pentru Windows",
+      "controlul timpului de ecran pentru Linux",
+      "aplicație multiplatformă pentru îngrijirea ochilor",
+      "cele mai bune aplicații pentru ameliorarea oboselii ochilor pe Windows și Linux",
+      "temporizator de ecran pentru PC pentru îngrijirea ochilor",
+      "software de îngrijire a vederii pentru Windows",
+      "aplicație de reamintire pentru îngrijirea ochilor pentru Linux",
+      "blink eye",
+      "blink eye pentru windows",
+      "aplicație făcută de Noman Dhoni",
+      "aplicație îngrijire ochi pentru windows",
+      "aplicație regula 20 20 20 pentru windows",
+      "îngrijire ochi",
+      "aplicație ameliorare oboseală ochi",
+      "aplicație sănătate ochi",
+      "blink eye download",
+      "recenzie blink eye",
+      "aplicație regula 20 20 20",
+      "aplicație memento îngrijire ochi",
+      "software îngrijire ochi",
+      "sfaturi îngrijire ochi",
+      "aplicație exerciții ochi",
+      "aplicație protecție ochi",
+      "aplicație îngrijire ochi pentru pc",
+      "aplicație îngrijire ochi pentru laptop",
+      "aplicație îngrijire ochi pentru desktop",
+      "aplicație îngrijire ochi pentru windows 10",
+      "aplicație îngrijire ochi pentru windows 11",
+      "sănătatea ochilor",
+      "pauze calculator",
+      "pauze monitor",
+      "pauză calculator",
+      "ergonomie calculator",
+      "monitor timp petrecut online"
+    ]
+  },
+  "NavMenu": {
+    "features": "Funcționalități",
+    "about": "Despre",
+    "pricing": "Prețuri",
+    "release": "Lansări",
+    "contribute": "Contribuie",
+    "blogs": "Blog"
+  },
+  "HeroBanner": {
+    "tagline": "O aplicație minimalistă pentru memento-uri de îngrijire a ochilor, disponibilă pentru Windows, macOS și Linux.",
+    "span1": "Pentru a reduce oboseala ochilor, include alerte cu temporizatoare, ferestre pop-up full-screen. Bazată pe regula",
+    "202020": "20-20-20",
+    "span2": ".",
+    "institute": "Academia Americană de Oftalmologie"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Suportă macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Funcționalități",
+    "featureSubtitle": "Toate instrumentele necesare pentru productivitate într-un singur loc."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Prețuri",
+    "pricingDescription": "Alege un plan accesibil care conține cele mai bune funcționalități pentru a interacționa cu publicul tău, a crea loialitatea clienților și a crește vânzările."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Memento-uri Personalizabile"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Cum te va ajuta Blink Eye",
+    "body1": "Preia controlul asupra bunăstării tale cu Blink Eye.",
+    "body2": "Descoperă cum pauzele programate pot îmbunătăți sănătatea ochilor, spori concentrarea, crește productivitatea și promova o stare de bine pe termen lung, pentru un stil de viață digital echilibrat.",
+    "learnMore": "Află Mai Multe",
+    "title1": "Protejează-ți Ochii de Oboseala Digitală",
+    "title2": "Sănătate Fizică",
+    "title3": "Bunăstare Mentală",
+    "title4": "Productivitate Sporită",
+    "title5": "Obiceiuri Sănătoase de Timp Petrecut în Fața Ecranului",
+    "title6": "Beneficii Sustenabile pe Termen Lung",
+    "title7": "Flexibil și Personalizabil",
+    "title8": "Beneficii Susținute de Cercetare",
+    "title9": "Energie și Stare de Spirit Îmbunătățite",
+    "description1": "Protejează-ți ochii de oboseala digitală, redu expunerea la lumina albastră și previno Sindromul Vedere la Calculator (CVS).",
+    "description2": "Îmbunătățește-ți postura, previno leziunile provocate de mișcări repetitive (RSI) și redu disconfortul fizic.",
+    "description3": "Îmbunătățește-ți concentrarea, atenția conștientă și redu stresul fără efort.",
+    "description4": "Lucrează mai inteligent, nu mai mult, cu metode axate pe productivitate.",
+    "description5": "Dezvoltă practici disciplinate de utilizare a ecranului și minimizează distragerile inutile.",
+    "description6": "Evită problemele cronice și menține echilibrul pentru anii ce vor urma.",
+    "description7": "Personalizează-ți experiența pentru a se potrivi stilului tău de viață, profesiei și nevoilor individuale.",
+    "description8": "Bucură-te de funcționalități bazate pe studii despre productivitate și bunăstare.",
+    "description9": "Simte-te energizat și rămâi pozitiv pe tot parcursul zilei cu pauze de lucru echilibrate.",
+    "preventDigitalEyeStrain": "Previne Oboseala Oculară Digitală",
+    "blueLightProtection": "Protecție împotriva Luminii Albastre",
+    "preventRepetitiveStrainInjuries": "Previne Leziunile de Stres Repetitiv (RSI)",
+    "supportBetterPosture": "Susține o Postură mai Bună",
+    "enhanceFocusAndMindfulness": "Îmbunătățește Concentrarea și Atenția",
+    "stressManagement": "Gestionarea Stresului",
+    "pomodoroTechniqueIntegration": "Integrarea Tehnicii Pomodoro",
+    "cognitiveEfficiency": "Eficiență Cognitivă",
+    "structuredScreenTime": "Timp de Ecran Structurat",
+    "reduceMultitasking": "Reduce Multitasking-ul",
+    "preventChronicVisionProblems": "Previne Problemele de Vedere Cronice",
+    "achieveWorkLifeBalance": "Atinge Echilibrul între Viața Profesională și Cea Personală",
+    "customizableBreakTimers": "Temporizatoare de Pauză Personalizabile",
+    "builtForEveryone": "Construit pentru Toată Lumea",
+    "evidenceBasedFeatures": "Funcționalități Bazate pe Dovezi",
+    "trustedByUsers": "De Încredere pentru Utilizatori",
+    "boostDailyEnergy": "Îmbunătățește Energia Zilnică",
+    "maintainPositiveMood": "Menține o Stare de Spirit Pozitivă",
+    "preventDigitalEyeStrainDetails": "Pauzele programate reduc simptome precum ochii uscați, vederea încețoșată și durerile de cap, asigurând sănătatea ochilor pe termen lung.",
+    "blueLightProtectionDetails": "Odihnește-ți ochii regulat cu alerte concepute pentru a combate efectele nocive ale expunerii la lumina albastră.",
+    "preventRepetitiveStrainInjuriesDetails": "Pauzele regulate minimizează efortul asupra mâinilor și încheieturilor, prevenind leziunile pe termen lung cauzate de sarcinile repetitive.",
+    "supportBetterPostureDetails": "Încurajează exercițiile de stretching și verificările posturii pentru a evita probleme precum \"tech neck\" (gâtul tehnologic) și durerile de spate.",
+    "enhanceFocusAndMindfulnessDetails": "Pauzele regulate te ajută să rămâi concentrat și atent, reducând totodată oboseala mentală și epuizarea.",
+    "stressManagementDetails": "Utilizează intervalele de pauză pentru a practica tehnici de relaxare, reducând stresul și tensiunea induse de muncă.",
+    "pomodoroTechniqueIntegrationDetails": "Împarte sarcinile în intervale ușor de gestionat pentru sesiuni de lucru eficiente, îmbunătățind rata de finalizare a sarcinilor.",
+    "cognitiveEfficiencyDetails": "Pauzele strategice îți îmbunătățesc performanța mentală, ajutându-te să realizezi mai multe cu mai puțin efort.",
+    "structuredScreenTimeDetails": "Construiește obiceiuri digitale sănătoase cu alerte bine temporizate pentru echilibrul între muncă și relaxare.",
+    "reduceMultitaskingDetails": "Concentrează-te pe deplin asupra sarcinilor minimizând distragerile în timpul ciclurilor de muncă și relaxare.",
+    "preventChronicVisionProblemsDetails": "Ia măsuri proactive pentru a reduce riscurile problemelor de vedere digitale pe termen lung cauzate de utilizarea excesivă a ecranului.",
+    "achieveWorkLifeBalanceDetails": "Creează obiceiuri sustenabile pentru muncă și viața personală cu o abordare echilibrată a productivității.",
+    "customizableBreakTimersDetails": "Setează intervale care se potrivesc fluxului tău de lucru, asigurându-te că aplicația se adaptează la programul tău unic.",
+    "builtForEveryoneDetails": "Fie că ești student, dezvoltator, designer sau lucrezi de acasă, aplicația se adaptează nevoilor tale.",
+    "evidenceBasedFeaturesDetails": "Designul aplicației este inspirat de cercetări în domeniul productivității, concentrării și bunăstării digitale.",
+    "trustedByUsersDetails": "Mărturiile reale ale utilizatorilor și poveștile de succes validează eficacitatea și valoarea acesteia.",
+    "boostDailyEnergyDetails": "Pauzele scurte și regulate te ajută să-ți reîncarci mintea și corpul, menținându-te energizat pentru ziua care urmează.",
+    "maintainPositiveMoodDetails": "Întrerupe monotonia timpului continuu petrecut în fața ecranului pentru a reduce frustrarea și a-ți îmbunătăți starea generală de spirit."
+  },
+  "featureGrid": {
+    "title": "Funcționalități",
+    "subtitle": "Toate instrumentele necesare pentru productivitate într-un singur loc.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Temporizatoare de Memento Personalizabile",
+        "description": "Setează temporizatoare de memento personalizate pentru a rămâne concentrat și pe drumul cel bun."
+      },
+      "diverseThemes": {
+        "title": "Teme Diverse pentru Personalizare",
+        "description": "Alege din diverse teme pentru a-ți personaliza interfața și fluxul de lucru."
+      },
+      "customizableReminderText": {
+        "title": "Text de Memento Personalizabil",
+        "description": "Creează mesaje de memento personalizate pentru a te menține motivat."
+      },
+      "customizableSounds": {
+        "title": "Sunete Personalizabile",
+        "description": "Alege propriile sunete pentru notificări și alerte."
+      },
+      "dailyDeviceUsage": {
+        "title": "Timp de Utilizare Zilnică a Dispozitivului",
+        "description": "Urmărește-ți timpul petrecut în fața ecranului pentru a optimiza productivitatea și echilibrul."
+      },
+      "workdaySetup": {
+        "title": "Configurare Zi de Lucru",
+        "description": "Configurează rapid programul zilei de lucru pentru o productivitate mai bună."
+      },
+      "pomodoroTimer": {
+        "title": "Temporizator Pomodoro",
+        "description": "Împarte sarcinile în intervale pentru concentrare și eficiență maximă."
+      },
+      "runOnStartup": {
+        "title": "Rulează la Pornire",
+        "description": "Pornește aplicația automat când dispozitivul tău pornește."
+      },
+      "updateSupport": {
+        "title": "Suport pentru Actualizări",
+        "description": "Primește actualizări fără probleme pentru cele mai recente funcționalități și remedieri."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Descoperă Funcționalitățile Care Ne Fac să Ieșim în Evidență",
+    "description": "Explorează funcționalitățile care fac ca aplicația noastră să iasă în evidență. De la memento-uri personalizabile la teme multiple, te susținem."
+  },
+  "featuresDemo": [
+    {
+      "title": "Memento-uri Personalizabile",
+      "description": "Setează memento-uri personalizate pentru a preveni oboseala ochilor, a îmbunătăți productivitatea și a menține concentrarea în timpul sesiunilor lungi de lucru.",
+      "features": [
+        "Durate de memento personalizabile",
+        "Setări de interval ajustabile",
+        "Text de memento editabil pentru personalizare"
+      ],
+      "moto": "Cea mai bună aplicație de ameliorare a oboselii ochilor pentru utilizatorii de computere"
+    },
+    {
+      "title": "Teme Multiple",
+      "description": "Comută între teme deschise și întunecate sau alege dintr-o varietate de scheme de culori unice pentru a se potrivi stării tale de spirit și spațiului de lucru.",
+      "features": [
+        "Teme multiple pentru ecranul de memento din care poți alege",
+        "Suport mod întunecat pentru aplicație",
+        "Suport mod luminos pentru aplicație"
+      ],
+      "moto": "Aplicație de urmărire a timpului petrecut în fața ecranului și memento de pauză"
+    },
+    {
+      "title": "Statistici de Utilizare",
+      "description": "Monitorizează-ți timpul zilnic petrecut în fața ecranului, urmărește tendințele de utilizare a dispozitivului și optimizează-ți echilibrul între viața profesională și cea personală în mod eficient.",
+      "features": [
+        "Urmărirea zilnică a utilizării dispozitivului",
+        "Urmărirea săptămânală a utilizării dispozitivului",
+        "Urmărirea lunară a utilizării dispozitivului",
+        "Urmărirea anuală a utilizării dispozitivului",
+        "Urmărirea utilizării dispozitivului pe toată durata",
+        "Analiză cuprinzătoare a utilizării",
+        "Grafice vizuale și rapoarte de progres"
+      ],
+      "moto": "Aplicație gratuită de memento pentru pauze de ecran pentru ochi sănătoși"
+    },
+    {
+      "title": "Configurarea și Programarea Zilei de Lucru",
+      "description": "Planifică-ți zilele de lucru în mod eficient setând programe personalizate și ore de lucru pentru fiecare zi a săptămânii.",
+      "features": [
+        "Setări personalizabile pentru ziua de lucru",
+        "Flexibilitate în programarea zilnică",
+        "Memento-uri automate pentru pauzele de lucru"
+      ],
+      "moto": "Temporizator personalizabil pentru pauze de lucru pentru angajații de birou"
+    },
+    {
+      "title": "Screen Saver cu Animații",
+      "description": "Rulează unele dintre cele mai populare screen saver-uri cu animații și sunete personalizabile pentru a-ți spori productivitatea și relaxarea.",
+      "features": [
+        "Alege din diferite screen saver-uri cu animații personalizabile",
+        "Efecte sonore personalizabile pentru relaxare",
+        "Durată personalizabilă a screen saver-ului"
+      ],
+      "moto": "Cea mai bună aplicație de screen saver și manager de sarcini pentru utilizatorii avansați"
+    },
+    {
+      "title": "Setări Complete de Personalizare",
+      "description": "Sporește-ți productivitatea și concentrarea cu setări personalizabile, inclusiv temporizatoare Pomodoro și preferințe de notificare.",
+      "features": [
+        "Integrare a tehnicii Pomodoro",
+        "Modul Strict pentru a te forța să iei pauze",
+        "Sunete de notificare personalizabile",
+        "Comutator 'Rulează la Pornire'",
+        "Setează-ți limita zilnică de utilizare a ecranului"
+      ],
+      "moto": "Temporizator Pomodoro cu memento-uri de pauză pentru productivitate"
+    },
+    {
+      "title": "Activează Cheia de Licență",
+      "description": "Activează-ți aplicația cu o cheie de licență pentru acces complet la funcționalitățile premium și actualizări fără probleme.",
+      "features": [
+        "Proces ușor de activare a licenței",
+        "Acces la funcționalități premium exclusive",
+        "Actualizări regulate de software și asistență"
+      ],
+      "moto": "Cea mai bună aplicație pentru prevenirea sindromului de vedere pe calculator (CVS) și a leziunilor cauzate de mișcări repetitive (RSI)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Alege planul potrivit pentru tine",
+    "description": "Alege un plan accesibil care conține cele mai bune funcționalități pentru a interacționa cu publicul tău, a crea loialitatea clienților și a crește vânzările."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Informații despre versiunea {tag} a Blink Eye",
+    "title": "Informații despre versiunea {tag}",
+    "goBack": "Înapoi",
+    "tag": "Etichetă",
+    "published": "Publicat",
+    "author": "Autor",
+    "assets": "Resurse",
+    "fullChangelog": "Jurnal complet de modificări",
+    "downloadOptions": "Opțiuni de download",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Politică de Confidențialitate",
+    "description": "Află despre practicile și politicile noastre de confidențialitate."
+  },
+  "pricingPage": {
+    "title": "Prețuri",
+    "description": "Alege un plan accesibil care conține cele mai bune funcționalități pentru a interacționa cu publicul tău, a crea loialitatea clienților și a crește vânzările."
+  },
+  "howtousePage": {
+    "title": "Cum se Utilizează",
+    "description": "Află cum să utilizezi aplicația și funcționalitățile sale."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Cum Ajută Blink Eye",
+    "description": "Află cum te ajută Blink Eye să rămâi concentrat și productiv."
+  },
+  "goodbyePage": {
+    "title": "La Revedere",
+    "description": "Pagină de dezinstalare a aplicației Blink Eye",
+    "missyou": "Ne pare rău să te vedem plecând! Sperăm că ți-a plăcut să folosești Blink Eye.",
+    "suggesition": "Ai grijă de ochii tăi."
+  },
+  "featuresPage": {
+    "title": "Funcționalități",
+    "description": "Descoperă funcționalitățile care fac ca aplicația noastră să iasă în evidență. De la memento-uri personalizabile la teme multiple, te susținem."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Descarcă aplicația Blink Eye pentru Windows, macOS și Linux."
+  },
+  "contributePage": {
+    "title": "Contribuie",
+    "description": "Contribuie la dezvoltarea aplicației Blink Eye."
+  },
+  "aboutPage": {
+    "title": "Despre",
+    "description": "Află mai multe despre aplicația Blink Eye și echipa sa.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blog",
+    "description": "Citește cele mai recente bloguri și actualizări de știri."
+  }
+}

@@ -1,16 +1,18 @@
-import { SEO } from "@/configs/seo";
+import { routing } from "@/i18n/routing";
 import { MetadataRoute } from "next";
+import { SEO } from "@/configs/seo";
+import { getAllPosts } from "@/lib/api";
 
-// Define the Release type structure based on the GitHub API response
 interface Release {
   tag_name: string;
 }
 
+// Fetch releases from GitHub API
 async function fetchReleases(): Promise<Release[]> {
   const res = await fetch(
     "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
     {
-      next: { revalidate: 3600 },
+      next: { revalidate: 3600 }, // Cache for 1 hour
     }
   );
 
@@ -22,44 +24,59 @@ async function fetchReleases(): Promise<Release[]> {
   return data;
 }
 
-const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const routes = [
-    "",
-    "/goodbye",
-    "/about",
-    "/features",
-    "/download",
-    "/howtouse",
-    "/contribute",
-    "/privacy",
-    "/pricing",
-    "/changelog",
-    "/howblinkeyehelps",
-  ];
+// Predefined routes
+const routes = [
+  "",
+  "/goodbye",
+  "/about",
+  "/features",
+  "/download",
+  "/howtouse",
+  "/contribute",
+  "/privacy",
+  "/pricing",
+  "/changelog",
+  "/howblinkeyehelps",
+  "/blogs",
+];
 
-  // Fetch release data from GitHub API
+// Sitemap generation function
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = SEO.url;
   const releases = await fetchReleases();
+  const posts = getAllPosts();
+  const postRoutes = posts.flatMap((post) =>
+    routing.locales.map((locale) => ({
+      url: `${SEO.url}/${locale}/posts/${post.slug}`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }))
+  );
 
-  // Add the releases to the routes dynamically
-  const releaseRoutes = releases.map((release) => ({
-    url: `${SEO.url}/changelog/release/${release.tag_name}`,
-    lastModified: new Date().toISOString(), // Ensure the lastModified is a string or Date
-    changeFrequency: "weekly" as "weekly", // Explicitly set the allowed change frequency
-    priority: 0.8,
-  }));
+  // Generate release-specific routes
+  const releaseRoutes = releases.flatMap((release) =>
+    routing.locales.map((locale) => ({
+      url: `${SEO.url}/${locale}/changelog/release/${release.tag_name}`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }))
+  );
 
-  // Combine the static and dynamic routes
-  const sitemapUrls: MetadataRoute.Sitemap = [
-    ...routes.map((route) => ({
-      url: `${SEO.url}${route}`,
-      lastModified: new Date().toISOString(), // Ensure the lastModified is a string or Date
-      changeFrequency: "weekly" as "weekly", // Explicitly set the allowed change frequency
-      priority: 1,
-    })),
-    ...releaseRoutes, // Add the release routes dynamically
+  // Generate routes for all locales
+  const localeRoutes = routing.locales.flatMap((locale) =>
+    routes.map((route) => ({
+      url: `${baseUrl}/${locale}${route}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: route === "" ? 1 : 0.9,
+    }))
+  );
+
+  return [
+    ...localeRoutes, // Include all routes for all locales
+    ...releaseRoutes,
+    ...postRoutes,
   ];
-
-  return sitemapUrls;
-};
-
-export default sitemap;
+}
