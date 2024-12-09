@@ -66,7 +66,7 @@ const DownloadButtons = ({ downloadLinks }) => (
     <DownloadOption
       name="MacOS"
       icon={<MacIcon />}
-      mainLink={downloadLinks.macSilicon}
+      mainLink={downloadLinks.macIntel}
       dropdownLinks={[
         { href: downloadLinks.macSilicon, label: "Download (Apple Silicon)" },
         { href: downloadLinks.macIntel, label: "Download (Intel Chip)" },
@@ -101,11 +101,7 @@ const DownloadOption = ({ name, icon, mainLink, dropdownLinks }) => (
 
 const SupportedPlatforms = () => {
   const t = useTranslations("DownloadApp");
-  return (
-    <p className="text-sm text-center">
-      {t("supportedPlatforms")}
-    </p>
-  );
+  return <p className="text-sm text-center">{t("supportedPlatforms")}</p>;
 };
 
 const ReleaseInfo = ({ tag_name }) => (

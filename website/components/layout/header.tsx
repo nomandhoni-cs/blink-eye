@@ -13,7 +13,7 @@ export const Header = () => {
   const t = useTranslations("NavMenu");
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
-      <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
+      <div className="max-w-7xl mx-auto flex h-16 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 ">
         {/* Logo Section */}
         <Link href={`/${locale}`} className="flex items-center space-x-3 mr-4">
           <Image src={logo} alt="Blink Eye Logo" height={40} width={40} />

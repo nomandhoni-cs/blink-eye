@@ -66,9 +66,12 @@ export const Footer = () => {
           <Link
             href="https://www.producthunt.com/posts/blink-eye?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-blink&#0045;eye"
             target="_blank"
-            className=""
+            rel="noopener noreferrer"
+            aria-label="View Blink Eye on Product Hunt"
+            className="flex items-center space-x-2"
           >
             <ProductHuntWidget />
+            <span className="sr-only">View Blink Eye on Product Hunt</span>
           </Link>
         </p>
       </div>
