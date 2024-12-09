@@ -22,10 +22,10 @@ export const routing = defineRouting({
     "ko", // Korean [Done] - Gemini Experimental
     "it", // Italian [Done] - Gemini Experimental
     "tr", // Turkish [Done] - Gemini Experimental
-    "vi", // Vietnamese
-    "th", // Thai
-    "fa", // Persian
-    "pl", // Polish
+    "vi", // Vietnamese [Done] - Gemini Experimental
+    "th", // Thai [Done] - Gemini Experimental
+    "fa", // Persian [Done] - Gemini Experimental
+    "pl", // Polish [Done] - Gemini Experimental
     "nl", // Dutch
     "af", // Afrikaans
     "ca", // Catalan

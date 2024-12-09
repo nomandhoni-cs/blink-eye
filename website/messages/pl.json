@@ -44,458 +44,346 @@
   },
   "Metadata": {
     "appName": "Blink Eye",
-    "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "title": "Najlepsza aplikacja do ochrony wzroku i przerw w pracy na Mac, Windows, Linux",
+    "description": "Minimalistyczna aplikacja przypominająca o przerwach dla ochrony oczu, z dostosowywalnymi timerami, pełnoekranowymi powiadomieniami i wyciszaniem dźwięku.",
     "keywords": [
-      "prevent rsi app",
-      "prevent cvs app",
-      "rsi app",
-      "cvs app",
-      "best eye care app 2024",
-      "screen break reminder app",
-      "free eye health app download",
-      "open source eye protection software",
-      "screen timer for eye care",
-      "work break reminder tool",
-      "eye comfort app for Mac",
-      "vision care software for laptops",
-      "top eye relaxation app",
-      "PC screen time control",
-      "computer eye care utility",
-      "digital eye strain prevention",
-      "windows break time scheduler",
-      "best apps for eye strain relief",
-      "cross-platform eye care app",
-      "top open source break reminder",
-      "blink timer for computer health",
-      "best eye care app for Windows and Linux",
-      "free eye health app for Windows",
-      "open source eye protection software for Linux",
-      "screen break reminder app for Windows",
-      "eye comfort app for Linux",
-      "top eye relaxation app for Windows",
-      "digital eye strain prevention for Windows",
-      "computer eye care utility for Linux",
-      "work break reminder tool for Windows",
-      "screen time control for Linux",
-      "cross-platform eye care app",
-      "best apps for eye strain relief on Windows and Linux",
-      "PC screen timer for eye care",
-      "vision care software for Windows",
-      "eye care reminder app for Linux",
+      "aplikacja zapobiegająca RSI",
+      "aplikacja zapobiegająca CVS",
+      "aplikacja RSI",
+      "aplikacja CVS",
+      "najlepsza aplikacja do ochrony wzroku 2024",
+      "aplikacja przypominająca o przerwach od ekranu",
+      "darmowa aplikacja do ochrony wzroku download",
+      "oprogramowanie open source do ochrony oczu",
+      "narzędzie produktywności dla macOS",
+      "najlepsza aplikacja do relaksacji oczu",
+      "lista zadań Google Calendar",
+      "timer ekranowy do ochrony oczu",
+      "narzędzie przypominające o przerwach w pracy",
+      "aplikacja do komfortu oczu na Mac",
+      "oprogramowanie do pielęgnacji wzroku na laptopy",
+      "najlepsza aplikacja do relaksacji oczu",
+      "kontrola czasu ekranowego na PC",
+      "narzędzie do ochrony oczu na komputerze",
+      "zapobieganie cyfrowemu zmęczeniu wzroku",
+      "harmonogram przerw w systemie Windows",
+      "najlepsze aplikacje do łagodzenia zmęczenia oczu",
+      "wieloplatformowa aplikacja do ochrony wzroku",
+      "najlepsze oprogramowanie open source przypominające o przerwach",
+      "timer mrugania dla zdrowia komputera",
+      "najlepsza aplikacja do ochrony wzroku na Windows i Linux",
+      "darmowa aplikacja do ochrony wzroku na Windows",
+      "oprogramowanie open source do ochrony oczu na Linux",
+      "aplikacja przypominająca o przerwach od ekranu na Windows",
+      "aplikacja do komfortu oczu na Linux",
+      "najlepsza aplikacja do relaksacji oczu na Windows",
+      "zapobieganie cyfrowemu zmęczeniu wzroku na Windows",
+      "narzędzie do ochrony oczu na komputerze na Linux",
+      "narzędzie przypominające o przerwach w pracy na Windows",
+      "kontrola czasu ekranowego na Linux",
+      "wieloplatformowa aplikacja do ochrony wzroku",
+      "najlepsze aplikacje do łagodzenia zmęczenia oczu na Windows i Linux",
+      "timer ekranowy do ochrony oczu na PC",
+      "oprogramowanie do pielęgnacji wzroku na Windows",
+      "aplikacja przypominająca o przerwach dla Linux",
       "blink eye",
-      "blink eye for windows",
-      "Noman Dhoni Made App",
-      "eye care app for windows",
-      "20 20 20 rule app for windows",
-      "eye care",
-      "eye strain relief app",
-      "eye health app",
+      "blink eye dla windows",
+      "aplikacja stworzona przez Nomana Dhoniego",
+      "aplikacja do ochrony wzroku na windows",
+      "aplikacja reguły 20 20 20 na windows",
+      "ochrona wzroku",
+      "aplikacja do łagodzenia zmęczenia oczu",
+      "aplikacja do zdrowia oczu",
       "blink eye download",
-      "blink eye review",
-      "20 20 20 rule app",
-      "eye care reminder app",
-      "eye care software",
-      "eye care tips",
-      "eye exercises app",
-      "eye protection app",
-      "eye care app for pc",
-      "eye care app for laptop",
-      "eye care app for desktop",
-      "eye care app for windows 10",
-      "eye care app for windows 11",
+      "blink eye opinie",
+      "aplikacja reguły 20 20 20",
+      "aplikacja przypominająca o przerwach",
+      "oprogramowanie do ochrony wzroku",
+      "porady dotyczące ochrony wzroku",
+      "aplikacja do ćwiczeń oczu",
+      "aplikacja do ochrony oczu",
+      "aplikacja do ochrony oczu na PC",
+      "aplikacja do ochrony oczu na laptop",
+      "aplikacja do ochrony oczu na komputer stacjonarny",
+      "aplikacja do ochrony wzroku na windows 10",
+      "aplikacja do ochrony wzroku na windows 11",
       "blink eye download",
-      "blink eye review",
-      "eye care app for windows",
-      "20 20 20 rule app for windows"
+      "blink eye opinie",
+      "aplikacja do ochrony wzroku na windows",
+      "aplikacja reguły 20 20 20 na windows"
     ]
   },
   "NavMenu": {
-    "features": "Features",
-    "about": "About",
-    "pricing": "Pricing",
-    "release": "Release",
-    "contribute": "Contribute"
+    "features": "Funkcje",
+    "about": "O nas",
+    "pricing": "Cennik",
+    "release": "Wydania",
+    "contribute": "Współtwórz",
+    "blogs": "Blog"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Minimalistyczna aplikacja przypominająca o przerwach dla ochrony oczu na Windows, macOS i Linux.",
+    "span1": "Aby zmniejszyć zmęczenie oczu, oferuje przypomnienia z timerami, pełnoekranowe powiadomienia. Oparta na regule",
     "202020": "20-20-20",
-    "span2": "rule.",
-    "institute": "American Academy of Ophthalmology"
+    "span2": ".",
+    "institute": "Amerykańskiej Akademii Okulistyki"
   },
   "DownloadApp": {
-    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    "supportedPlatforms": "Obsługuje macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
   },
   "FeatureGrid": {
-    "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureTitle": "Funkcje",
+    "featureSubtitle": "Wszystkie niezbędne narzędzia do produktywności w jednym miejscu."
   },
   "PricingGrid": {
-    "pricingTitle": "Pricing",
-    "pricingDescription": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "pricingTitle": "Cennik",
+    "pricingDescription": "Wybierz przystępny plan, który zawiera najlepsze funkcje do angażowania odbiorców, budowania lojalności klientów i zwiększania sprzedaży."
   },
   "FeatureDemoSlide1": {
-    "title": "Customizable Reminders"
+    "title": "Konfigurowalne przypomnienia"
   },
   "howBlinkEyeWillHelp": {
-    "heading": "How Blink Eye Will Help You",
-    "body1": "Take control of your well-being with Blink Eye.",
-    "body2": "Discover how scheduled breaks can improve eye health, enhance focus, boostproductivity, and promote long-term wellness for a balanced digital lifestyle.",
-    "learnMore": "Learn More",
-    "title1": "Protect Your Eyes from Digital Strain",
-    "title2": "Physical Health",
-    "title3": "Mental Wellness",
-    "title4": "Boosted Productivity",
-    "title5": "Healthy Screen-Time Habits",
-    "title6": "Sustainable Long-Term Benefits",
-    "title7": "Flexible and Customizable",
-    "title8": "Research-Backed Benefits",
-    "title9": "Enhanced Energy and Mood",
-    "description1": "Protect your eyes from digital strain, reduce blue light exposure, and prevent Computer Vision Syndrome (CVS).",
-    "description2": "Improve posture, prevent Repetitive Strain Injuries (RSI), and reduce physical discomfort.",
-    "description3": "Boost your focus, mindfulness, and reduce stress effortlessly.",
-    "description4": "Work smarter, not harder, with productivity-focused methods.",
-    "description5": "Develop disciplined screen-time practices and minimize unnecessary distractions.",
-    "description6": "Avoid chronic issues and maintain balance for years to come.",
-    "description7": "Tailor your experience to fit your lifestyle, profession, and individual needs.",
-    "description8": "Enjoy features grounded in productivity and wellness studies.",
-    "description9": "Feel energized and stay positive throughout the day with balanced work breaks.",
-    "preventDigitalEyeStrain": "Prevent Digital Eye Strain",
-    "blueLightProtection": "Blue Light Protection",
-    "preventRepetitiveStrainInjuries": "Prevent Repetitive Strain Injuries (RSI)",
-    "supportBetterPosture": "Support Better Posture",
-    "enhanceFocusAndMindfulness": "Enhance Focus and Mindfulness",
-    "stressManagement": "Stress Management",
-    "pomodoroTechniqueIntegration": "Pomodoro Technique Integration",
-    "cognitiveEfficiency": "Cognitive Efficiency",
-    "structuredScreenTime": "Structured Screen-Time",
-    "reduceMultitasking": "Reduce Multitasking",
-    "preventChronicVisionProblems": "Prevent Chronic Vision Problems",
-    "achieveWorkLifeBalance": "Achieve Work-Life Balance",
-    "customizableBreakTimers": "Customizable Break Timers",
-    "builtForEveryone": "Built for Everyone",
-    "evidenceBasedFeatures": "Evidence-Based Features",
-    "trustedByUsers": "Trusted by Users",
-    "boostDailyEnergy": "Boost Daily Energy",
-    "maintainPositiveMood": "Maintain a Positive Mood",
-    "preventDigitalEyeStrainDetails": "Scheduled breaks reduce symptoms like dry eyes, blurry vision, and headaches, ensuring long-term eye health.",
-    "blueLightProtectionDetails": "Rest your eyes regularly with prompts designed to combat the harmful effects of blue light exposure.",
-    "preventRepetitiveStrainInjuriesDetails": "Regular breaks minimize strain on your hands and wrists, preventing long-term damage from repetitive tasks.",
-    "supportBetterPostureDetails": "Encourages stretching and posture checks to avoid issues like tech neck and back pain.",
-    "enhanceFocusAndMindfulnessDetails": "Regular breaks help you stay sharp and focused while reducing mental fatigue and burnout.",
-    "stressManagementDetails": "Use break intervals to practice relaxation techniques, reducing work-induced stress and tension.",
-    "pomodoroTechniqueIntegrationDetails": "Break tasks into manageable intervals for efficient work sessions, improving task completion rates.",
-    "cognitiveEfficiencyDetails": "Strategic breaks enhance your mental performance, helping you achieve more with less effort.",
-    "structuredScreenTimeDetails": "Build healthy digital habits with well-timed reminders for work and relaxation balance.",
-    "reduceMultitaskingDetails": "Focus fully on tasks by minimizing distractions during your work and relaxation cycles.",
-    "preventChronicVisionProblemsDetails": "Take proactive measures to reduce risks of long-term digital vision problems caused by screen overuse.",
-    "achieveWorkLifeBalanceDetails": "Create sustainable habits for work and personal life with a balanced approach to productivity.",
-    "customizableBreakTimersDetails": "Set intervals that match your workflow, ensuring the app complements your unique schedule.",
-    "builtForEveryoneDetails": "Whether you’re a student, developer, designer, or remote worker, the app adapts to your needs.",
-    "evidenceBasedFeaturesDetails": "The app’s design is inspired by research in productivity, focus, and digital well-being.",
-    "trustedByUsersDetails": "Real user testimonials and success stories validate its effectiveness and value.",
-    "boostDailyEnergyDetails": "Short, regular breaks help recharge your mind and body, keeping you energized for the day ahead.",
-    "maintainPositiveMoodDetails": "Break the monotony of continuous screen time to reduce frustration and enhance your overall mood."
+    "heading": "Jak Blink Eye Ci pomoże",
+    "body1": "Przejmij kontrolę nad swoim samopoczuciem dzięki Blink Eye.",
+    "body2": "Odkryj, jak zaplanowane przerwy mogą poprawić zdrowie oczu, zwiększyć koncentrację, produktywność i promować długoterminowe dobre samopoczucie dla zrównoważonego cyfrowego stylu życia.",
+    "learnMore": "Dowiedz się więcej",
+    "title1": "Chroń oczy przed cyfrowym zmęczeniem",
+    "title2": "Zdrowie fizyczne",
+    "title3": "Dobre samopoczucie psychiczne",
+    "title4": "Zwiększona produktywność",
+    "title5": "Zdrowe nawyki korzystania z ekranu",
+    "title6": "Zrównoważone długoterminowe korzyści",
+    "title7": "Elastyczność i możliwość dostosowania",
+    "title8": "Korzyści poparte badaniami",
+    "title9": "Więcej energii i lepszy nastrój",
+    "description1": "Chroń oczy przed cyfrowym zmęczeniem, ogranicz ekspozycję na niebieskie światło i zapobiegaj Zespołowi Widzenia Komputerowego (CVS).",
+    "description2": "Popraw postawę, zapobiegaj urazom wynikającym z powtarzalnego wysiłku (RSI) i zmniejsz dyskomfort fizyczny.",
+    "description3": "Zwiększ swoją koncentrację, uważność i bez wysiłku redukuj stres.",
+    "description4": "Pracuj mądrzej, a nie ciężej, dzięki metodom ukierunkowanym na produktywność.",
+    "description5": "Rozwijaj zdyscyplinowane praktyki korzystania z ekranu i minimalizuj niepotrzebne rozpraszacze.",
+    "description6": "Unikaj chronicznych problemów i zachowaj równowagę przez wiele lat.",
+    "description7": "Dostosuj swoje doświadczenia do swojego stylu życia, zawodu i indywidualnych potrzeb.",
+    "description8": "Ciesz się funkcjami opartymi na badaniach dotyczących produktywności i dobrego samopoczucia.",
+    "description9": "Poczuj się naładowany energią i zachowaj pozytywne nastawienie przez cały dzień dzięki zrównoważonym przerwom w pracy.",
+    "preventDigitalEyeStrain": "Zapobieganie cyfrowemu zmęczeniu wzroku",
+    "blueLightProtection": "Ochrona przed niebieskim światłem",
+    "preventRepetitiveStrainInjuries": "Zapobieganie urazom wynikającym z powtarzalnego wysiłku (RSI)",
+    "supportBetterPosture": "Wsparcie dla lepszej postawy",
+    "enhanceFocusAndMindfulness": "Poprawa koncentracji i uważności",
+    "stressManagement": "Zarządzanie stresem",
+    "pomodoroTechniqueIntegration": "Integracja z techniką Pomodoro",
+    "cognitiveEfficiency": "Wydajność poznawcza",
+    "structuredScreenTime": "Ustrukturyzowany czas przed ekranem",
+    "reduceMultitasking": "Ograniczenie wielozadaniowości",
+    "preventChronicVisionProblems": "Zapobieganie przewlekłym problemom ze wzrokiem",
+    "achieveWorkLifeBalance": "Osiągnięcie równowagi między życiem zawodowym a prywatnym",
+    "customizableBreakTimers": "Konfigurowalne timery przerw",
+    "builtForEveryone": "Stworzone dla każdego",
+    "evidenceBasedFeatures": "Funkcje oparte na dowodach",
+    "trustedByUsers": "Zaufane przez użytkowników",
+    "boostDailyEnergy": "Zwiększenie dziennej energii",
+    "maintainPositiveMood": "Utrzymanie pozytywnego nastroju",
+    "preventDigitalEyeStrainDetails": "Zaplanowane przerwy zmniejszają objawy, takie jak suchość oczu, niewyraźne widzenie i bóle głowy, zapewniając długotrwałe zdrowie oczu.",
+    "blueLightProtectionDetails": "Regularnie odpoczywaj od ekranu dzięki powiadomieniom zaprojektowanym do zwalczania szkodliwych skutków ekspozycji na niebieskie światło.",
+    "preventRepetitiveStrainInjuriesDetails": "Regularne przerwy minimalizują obciążenie dłoni i nadgarstków, zapobiegając długotrwałym uszkodzeniom spowodowanym powtarzalnymi zadaniami.",
+    "supportBetterPostureDetails": "Zachęca do rozciągania się i sprawdzania postawy, aby uniknąć problemów, takich jak „szyja smartfonowa” i ból pleców.",
+    "enhanceFocusAndMindfulnessDetails": "Regularne przerwy pomagają zachować ostrość i koncentrację, jednocześnie zmniejszając zmęczenie psychiczne i wypalenie.",
+    "stressManagementDetails": "Wykorzystaj przerwy na praktykowanie technik relaksacyjnych, redukując stres i napięcie związane z pracą.",
+    "pomodoroTechniqueIntegrationDetails": "Podziel zadania na łatwe do zarządzania interwały, aby efektywnie pracować, poprawiając wskaźniki realizacji zadań.",
+    "cognitiveEfficiencyDetails": "Strategiczne przerwy poprawiają wydajność umysłową, pomagając osiągnąć więcej przy mniejszym wysiłku.",
+    "structuredScreenTimeDetails": "Buduj zdrowe nawyki cyfrowe dzięki dobrze zaplanowanym przypomnieniom o równowadze między pracą a relaksem.",
+    "reduceMultitaskingDetails": "Skup się w pełni na zadaniach, minimalizując rozpraszacze podczas cykli pracy i relaksu.",
+    "preventChronicVisionProblemsDetails": "Podejmij proaktywne działania w celu zmniejszenia ryzyka długotrwałych problemów ze wzrokiem spowodowanych nadmiernym korzystaniem z ekranu.",
+    "achieveWorkLifeBalanceDetails": "Stwórz zrównoważone nawyki dotyczące pracy i życia osobistego dzięki zrównoważonemu podejściu do produktywności.",
+    "customizableBreakTimersDetails": "Ustaw interwały, które pasują do Twojego przepływu pracy, upewniając się, że aplikacja uzupełnia Twój unikalny harmonogram.",
+    "builtForEveryoneDetails": "Niezależnie od tego, czy jesteś studentem, programistą, projektantem czy pracownikiem zdalnym, aplikacja dostosowuje się do Twoich potrzeb.",
+    "evidenceBasedFeaturesDetails": "Projekt aplikacji jest inspirowany badaniami dotyczącymi produktywności, koncentracji i cyfrowego dobrostanu.",
+    "trustedByUsersDetails": "Prawdziwe opinie użytkowników i historie sukcesu potwierdzają jej skuteczność i wartość.",
+    "boostDailyEnergyDetails": "Krótkie, regularne przerwy pomagają naładować umysł i ciało, utrzymując energię na cały dzień.",
+    "maintainPositiveMoodDetails": "Przełam monotonię ciągłego korzystania z ekranu, aby zmniejszyć frustrację i poprawić ogólny nastrój."
   },
   "featureGrid": {
-    "title": "Features",
-    "subtitle": "All the necessary productivity tools in one place.",
+    "title": "Funkcje",
+    "subtitle": "Wszystkie niezbędne narzędzia zwiększające produktywność w jednym miejscu.",
     "features": {
       "customizableReminderTimers": {
-        "title": "Customizable Reminder Timers",
-        "description": "Set personalized reminder timers to stay focused and on track."
+        "title": "Konfigurowalne timery przypomnień",
+        "description": "Ustaw spersonalizowane timery przypomnień, aby zachować koncentrację i być na bieżąco."
       },
       "diverseThemes": {
-        "title": "Diverse Themes for Personalization",
-        "description": "Pick from various themes to customize your interface and workflow."
+        "title": "Różnorodne motywy do personalizacji",
+        "description": "Wybieraj spośród różnych motywów, aby dostosować interfejs i przepływ pracy."
       },
       "customizableReminderText": {
-        "title": "Customizable Reminder Text",
-        "description": "Create custom reminder messages to keep you motivated."
+        "title": "Konfigurowalny tekst przypomnień",
+        "description": "Twórz niestandardowe komunikaty przypomnień, aby utrzymać motywację."
       },
       "customizableSounds": {
-        "title": "Customizable Sounds",
-        "description": "Choose your own sounds for notifications and alerts."
+        "title": "Konfigurowalne dźwięki",
+        "description": "Wybierz własne dźwięki dla powiadomień i alertów."
       },
       "dailyDeviceUsage": {
-        "title": "Daily Device Usage Time",
-        "description": "Track your screen time to optimize productivity and balance."
+        "title": "Dzienny czas użytkowania urządzenia",
+        "description": "Śledź swój czas spędzony przed ekranem, aby zoptymalizować produktywność i równowagę."
       },
       "workdaySetup": {
-        "title": "Workday Setup",
-        "description": "Quickly set up your workday schedule for better productivity."
+        "title": "Konfiguracja dnia pracy",
+        "description": "Szybko skonfiguruj harmonogram dnia pracy, aby zwiększyć produktywność."
       },
       "pomodoroTimer": {
-        "title": "Pomodoro Timer",
-        "description": "Break tasks into intervals for maximum focus and efficiency."
+        "title": "Timer Pomodoro",
+        "description": "Podziel zadania na interwały, aby uzyskać maksymalną koncentrację i wydajność."
       },
       "runOnStartup": {
-        "title": "Run on Startup",
-        "description": "Launch the app automatically when your device starts."
+        "title": "Uruchom przy starcie",
+        "description": "Uruchom aplikację automatycznie po uruchomieniu urządzenia."
       },
       "updateSupport": {
-        "title": "Update Support",
-        "description": "Receive seamless updates for the latest features and fixes."
+        "title": "Wsparcie aktualizacji",
+        "description": "Otrzymuj bezproblemowe aktualizacje z najnowszymi funkcjami i poprawkami."
       }
     }
   },
   "featuresDemoHeader": {
-    "title": "Discover the Features that Make Us Stand Out",
-    "description": "Explore the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Odkryj funkcje, które nas wyróżniają",
+    "description": "Poznaj funkcje, które wyróżniają naszą aplikację. Od konfigurowalnych przypomnień po wiele motywów - mamy wszystko, czego potrzebujesz."
   },
   "featuresDemo": [
     {
-      "title": "Customizable Reminders",
-      "description": "Set personalized reminders to prevent eye strain, improve productivity, and maintain focus during long work sessions.",
+      "title": "Konfigurowalne przypomnienia",
+      "description": "Ustaw spersonalizowane przypomnienia, aby zapobiegać zmęczeniu oczu, poprawiać produktywność i utrzymywać koncentrację podczas długich sesji roboczych.",
       "features": [
-        "Customizable reminder durations",
-        "Adjustable interval settings",
-        "Editable reminder text for personalization"
+        "Konfigurowalne czasy trwania przypomnień",
+        "Regulowane ustawienia interwałów",
+        "Edytowalny tekst przypomnień w celu personalizacji"
       ],
-      "moto": "Best Eye Strain Relief App for Computer Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS"
+      "moto": "Najlepsza aplikacja do łagodzenia zmęczenia oczu dla użytkowników komputerów"
     },
     {
-      "title": "Multiple Themes",
-      "description": "Switch between light and dark themes or choose from a variety of unique color schemes to suit your mood and workspace.",
+      "title": "Wiele motywów",
+      "description": "Przełączaj się między jasnymi i ciemnymi motywami lub wybieraj spośród różnych unikalnych schematów kolorów, aby dopasować się do swojego nastroju i miejsca pracy.",
       "features": [
-        "Multiple Reminder Screen themes to choose from",
-        "App Dark mode support",
-        "App light mode support"
+        "Wiele motywów ekranu przypomnień do wyboru",
+        "Obsługa trybu ciemnego aplikacji",
+        "Obsługa trybu jasnego aplikacji"
       ],
-      "moto": "Screen Time Tracker and Break Reminder App",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV"
+      "moto": "Aplikacja do śledzenia czasu ekranowego i przypominania o przerwach"
     },
     {
-      "title": "Usage Statistics",
-      "description": "Monitor your daily screen time, track device usage trends, and optimize your work-life balance effectively.",
+      "title": "Statystyki użytkowania",
+      "description": "Monitoruj swój dzienny czas spędzony przed ekranem, śledź trendy użytkowania urządzenia i efektywnie optymalizuj równowagę między życiem zawodowym a prywatnym.",
       "features": [
-        "Daily device usage tracking",
-        "Weekly device usage tracking",
-        "Monthly device usage tracking",
-        "Yearly device usage tracking",
-        "Alltime device usage tracking",
-        "Comprehensive usage analytics",
-        "Visual graphs and progress reports"
+        "Śledzenie dziennego użytkowania urządzenia",
+        "Śledzenie tygodniowego użytkowania urządzenia",
+        "Śledzenie miesięcznego użytkowania urządzenia",
+        "Śledzenie rocznego użytkowania urządzenia",
+        "Śledzenie całkowitego użytkowania urządzenia",
+        "Kompleksowa analityka użytkowania",
+        "Wizualne wykresy i raporty postępów"
       ],
-      "moto": "Free Screen Break Reminder App for Healthy Eyes",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy"
+      "moto": "Darmowa aplikacja przypominająca o przerwach od ekranu dla zdrowych oczu"
     },
     {
-      "title": "Workday Setup and Scheduling",
-      "description": "Plan your workdays efficiently by setting custom schedules and work hours for each day of the week.",
+      "title": "Konfiguracja i harmonogram dnia pracy",
+      "description": "Efektywnie planuj swoje dni pracy, ustawiając niestandardowe harmonogramy i godziny pracy dla każdego dnia tygodnia.",
       "features": [
-        "Customizable workday settings",
-        "Daily scheduling flexibility",
-        "Automated reminders for work-hour breaks"
+        "Konfigurowalne ustawienia dnia pracy",
+        "Elastyczność harmonogramu dziennego",
+        "Automatyczne przypomnienia o przerwach w godzinach pracy"
       ],
-      "moto": "Customizable Work Break Timer for Office Workers",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16"
+      "moto": "Konfigurowalny timer przerw w pracy dla pracowników biurowych"
     },
     {
-      "title": "Screen Savers with Animations",
-      "description": "Play some of the most popular screen savers with customizable animations and sounds to enhance your productivity and relaxation.",
+      "title": "Wygaszacze ekranu z animacjami",
+      "description": "Uruchom jedne z najpopularniejszych wygaszaczy ekranu z konfigurowalnymi animacjami i dźwiękami, aby zwiększyć swoją produktywność i relaks.",
       "features": [
-        "Pick from various screen savers with customizable animations",
-        "Customizable sound effects for relaxation",
-        "Customizable screen saver duration"
+        "Wybieraj spośród różnych wygaszaczy ekranu z konfigurowalnymi animacjami",
+        "Konfigurowalne efekty dźwiękowe dla relaksu",
+        "Konfigurowalny czas trwania wygaszacza ekranu"
       ],
-      "moto": "Best Screen saver and Task Manager App for Power Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI"
+      "moto": "Najlepsza aplikacja z wygaszaczem ekranu i menedżerem zadań dla zaawansowanych użytkowników"
     },
     {
-      "title": "Comprehensive Customization Settings",
-      "description": "Boost your productivity and focus with customizable settings, including Pomodoro timers and notification preferences.",
+      "title": "Kompleksowe ustawienia dostosowywania",
+      "description": "Zwiększ swoją produktywność i koncentrację dzięki konfigurowalnym ustawieniom, w tym timerom Pomodoro i preferencjom powiadomień.",
       "features": [
-        "Pomodoro technique integration",
-        "Strict Mode to force you take breaks",
-        "Customizable notification sounds",
-        "Run on Startup switch",
-        "Set your daily screen usage limit"
+        "Integracja techniki Pomodoro",
+        "Tryb ścisły, aby wymusić przerwy",
+        "Konfigurowalne dźwięki powiadomień",
+        "Przełącznik Uruchom przy starcie",
+        "Ustaw swój dzienny limit korzystania z ekranu"
       ],
-      "moto": "Pomodoro Timer with Break Reminders for Productivity",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Timer Pomodoro z przypomnieniami o przerwach dla produktywności"
     },
     {
-      "title": "Activate License Key",
-      "description": "Activate your app with a license key for full access to premium features and seamless updates.",
+      "title": "Aktywuj klucz licencyjny",
+      "description": "Aktywuj swoją aplikację za pomocą klucza licencyjnego, aby uzyskać pełny dostęp do funkcji premium i bezproblemowych aktualizacji.",
       "features": [
-        "Easy license activation process",
-        "Access to exclusive premium features",
-        "Regular software updates and support"
+        "Łatwy proces aktywacji licencji",
+        "Dostęp do ekskluzywnych funkcji premium",
+        "Regularne aktualizacje oprogramowania i wsparcie"
       ],
-      "moto": "Top App to Prevent Computer Vision Syndrome (CVS) and (RSI)",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Najlepsza aplikacja do zapobiegania Zespołowi Widzenia Komputerowego (CVS) i (RSI)"
     }
   ],
   "pricingSectionHeader": {
-    "title": "Choose the Plan that's Right for You",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
-  },
-  "pricingSection": {
-    "monthly": [
-      {
-        "planType": "1 Device",
-        "price": 1.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
-        "features": [
-          "Cancel anytime",
-          "Access for 1 device",
-          "Inclueds all features of Monthly, but with 1 device"
-        ],
-        "valueProposition": "Flexible plan for solo users—cancel anytime."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 5.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
-        "features": [
-          "Cancel anytime",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Detailed device usage (weekly, monthly, lifetime)",
-          "Workday and worktime setup for smarter reminders"
-        ],
-        "valueProposition": "Best for families—access premium features on 3 devices."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 9.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
-        "features": [
-          "Cancel anytime",
-          "Access for 5 devices",
-          "Inclueds all features of Monthly, but with 5 devices"
-        ],
-        "valueProposition": "Ideal for teams—manage 5 devices effortlessly."
-      }
-    ],
-    "yearly": [
-      {
-        "planType": "3 Devices",
-        "price": 22.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Yearly, but with 3 devices",
-          "Workday and worktime reminder customization"
-        ],
-        "valueProposition": "Affordable for families—cover up to 3 devices and $9.89 saved annually!"
-      },
-      {
-        "planType": "1 Device",
-        "price": 8.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
-        "features": [
-          "Includes free updates",
-          "Access for 1 devices",
-          "Rich library of customizable reminder screens",
-          "Advanced usage tracking: weekly, monthly, lifetime",
-          "Custom workday schedules for smarter reminders"
-        ],
-        "valueProposition": "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 34.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Yearly, but with 5 devices",
-          "Workday and worktime customization"
-        ],
-        "valueProposition": "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly"
-      }
-    ],
-    "lifetime": [
-      {
-        "planType": "1 Device",
-        "price": 15.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Lifetime.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "Pay once for lifetime access—perfect for solo users."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 44.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
-        "features": [
-          "Lifetime updates",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Usage time: weekly, monthly, lifetime",
-          "Workday setup: custom schedules for reminders"
-        ],
-        "valueProposition": "Best value—lifetime access for families or small teams."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 69.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Lifetime, but with 5 devices.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "One-time investment for teams and power users."
-      }
-    ]
+    "title": "Wybierz odpowiedni plan dla siebie",
+    "description": "Wybierz przystępny plan, który zawiera najlepsze funkcje do angażowania odbiorców, budowania lojalności klientów i zwiększania sprzedaży."
   },
   "ReleaseInfo": {
-    "metaTitle": "Blink Eye {tag} Release Info",
-    "title": "{tag} Release Information",
-    "goBack": "Go Back",
+    "metaTitle": "Informacje o wydaniu Blink Eye {tag}",
+    "title": "Informacje o wydaniu {tag}",
+    "goBack": "Wróć",
     "tag": "Tag",
-    "published": "Published",
-    "author": "Author",
-    "assets": "Assets",
-    "fullChangelog": "Full Changelog",
-    "downloadOptions": "Download options",
-    "downloadTarball": "Download Tarball",
-    "downloadZipball": "Download Zipball"
+    "published": "Opublikowano",
+    "author": "Autor",
+    "assets": "Zasoby",
+    "fullChangelog": "Pełny dziennik zmian",
+    "downloadOptions": "Opcje pobierania",
+    "downloadTarball": "Pobierz Tarball",
+    "downloadZipball": "Pobierz Zipball"
   },
   "privacyPage": {
-    "title": "Privacy Policy",
-    "description": "Learn about our privacy practices and policies."
+    "title": "Polityka prywatności",
+    "description": "Dowiedz się więcej o naszych praktykach i politykach dotyczących prywatności."
   },
   "pricingPage": {
-    "title": "Pricing",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "title": "Cennik",
+    "description": "Wybierz przystępny plan, który zawiera najlepsze funkcje do angażowania odbiorców, budowania lojalności klientów i zwiększania sprzedaży."
   },
   "howtousePage": {
-    "title": "How to Use",
-    "description": "Learn how to use the app and its features."
+    "title": "Jak używać",
+    "description": "Dowiedz się, jak korzystać z aplikacji i jej funkcji."
   },
   "howBlinkEyeHelpsPage": {
-    "title": "How Blink Eye Helps",
-    "description": "Learn how Blink Eye helps you stay focused and productive."
+    "title": "Jak Blink Eye pomaga",
+    "description": "Dowiedz się, jak Blink Eye pomaga Ci zachować koncentrację i produktywność."
   },
   "goodbyePage": {
-    "title": "Good Bye",
-    "description": "Uninstall Page of the Blink Eye App",
-    "missyou": "We're sorry to see you go! We hope you enjoyed using Blink Eye.",
-    "suggesition": "Take good care of your Eyes."
+    "title": "Do widzenia",
+    "description": "Strona deinstalacji aplikacji Blink Eye",
+    "missyou": "Przykro nam, że odchodzisz! Mamy nadzieję, że korzystanie z Blink Eye sprawiło Ci przyjemność.",
+    "suggesition": "Dbaj o swoje oczy."
   },
   "featuresPage": {
-    "title": "Features",
-    "description": "Discover the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Funkcje",
+    "description": "Odkryj funkcje, które wyróżniają naszą aplikację. Od konfigurowalnych przypomnień po wiele motywów - mamy wszystko, czego potrzebujesz."
   },
   "downloadPage": {
-    "title": "Download",
-    "description": "Download the Blink Eye App for Windows, macOS, and Linux."
+    "title": "Pobierz",
+    "description": "Pobierz aplikację Blink Eye na Windows, macOS i Linux."
   },
   "contributePage": {
-    "title": "Contribute",
-    "description": "Contribute to the Blink Eye App development."
+    "title": "Współtwórz",
+    "description": "Przyczyń się do rozwoju aplikacji Blink Eye."
   },
   "aboutPage": {
-    "title": "About",
-    "description": "Learn more about the Blink Eye App and its team.",
+    "title": "O nas",
+    "description": "Dowiedz się więcej o aplikacji Blink Eye i jej zespole.",
     "info": ""
+  },
+  "blogsPage": {
+    "title": "Blog",
+    "description": "Przeczytaj nasze najnowsze blogi i aktualności."
   }
 }
