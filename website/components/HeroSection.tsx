@@ -10,7 +10,7 @@ const HeroSection = () => {
         <span className=" text-[#FE4C55]">Blink Eye</span> <br />
         <span>{t("tagline")}</span>
       </h1>
-      <p className="max-w-[900px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground">
+      <div className="max-w-[900px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground">
         {t("span1")}{" "}
         <HoverCard>
           <HoverCardTrigger>
@@ -29,7 +29,7 @@ const HeroSection = () => {
           </HoverCardContent>
         </HoverCard>
         {t("span2")}
-      </p>
+      </div>
     </div>
   );
 };

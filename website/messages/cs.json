@@ -44,458 +44,335 @@
   },
   "Metadata": {
     "appName": "Blink Eye",
-    "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "title": "Nejlepší aplikace pro péči o oči a přestávky pro Mac, Windows, Linux",
+    "description": "Minimalistická aplikace pro péči o zrak a přestávky, která snižuje únavu očí, s přizpůsobitelnými časovači, celoobrazovkovými okny a možností ztlumení zvuku.",
     "keywords": [
-      "prevent rsi app",
-      "prevent cvs app",
-      "rsi app",
-      "cvs app",
-      "best eye care app 2024",
-      "screen break reminder app",
-      "free eye health app download",
-      "open source eye protection software",
-      "screen timer for eye care",
-      "work break reminder tool",
-      "eye comfort app for Mac",
-      "vision care software for laptops",
-      "top eye relaxation app",
-      "PC screen time control",
-      "computer eye care utility",
-      "digital eye strain prevention",
-      "windows break time scheduler",
-      "best apps for eye strain relief",
-      "cross-platform eye care app",
-      "top open source break reminder",
-      "blink timer for computer health",
-      "best eye care app for Windows and Linux",
-      "free eye health app for Windows",
-      "open source eye protection software for Linux",
-      "screen break reminder app for Windows",
-      "eye comfort app for Linux",
-      "top eye relaxation app for Windows",
-      "digital eye strain prevention for Windows",
-      "computer eye care utility for Linux",
-      "work break reminder tool for Windows",
-      "screen time control for Linux",
-      "cross-platform eye care app",
-      "best apps for eye strain relief on Windows and Linux",
-      "PC screen timer for eye care",
-      "vision care software for Windows",
-      "eye care reminder app for Linux",
-      "blink eye",
-      "blink eye for windows",
-      "Noman Dhoni Made App",
-      "eye care app for windows",
-      "20 20 20 rule app for windows",
-      "eye care",
-      "eye strain relief app",
-      "eye health app",
-      "blink eye download",
-      "blink eye review",
-      "20 20 20 rule app",
-      "eye care reminder app",
-      "eye care software",
-      "eye care tips",
-      "eye exercises app",
-      "eye protection app",
-      "eye care app for pc",
-      "eye care app for laptop",
-      "eye care app for desktop",
-      "eye care app for windows 10",
-      "eye care app for windows 11",
-      "blink eye download",
-      "blink eye review",
-      "eye care app for windows",
-      "20 20 20 rule app for windows"
+      "aplikace prevence RSI",
+      "aplikace prevence syndromu počítačového vidění",
+      "RSI aplikace",
+      "aplikace pro syndrom počítačového vidění",
+      "nejlepší aplikace pro péči o oči 2024",
+      "aplikace pro připomenutí přestávek u počítače",
+      "aplikace pro zdraví očí download zdarma",
+      "open source software pro ochranu zraku",
+      "nástroj pro produktivitu pro macOS",
+      "nejlepší aplikace pro relaxaci očí",
+      "aplikace 20 20 20 pravidlo pro Windows",
+      "péče o zrak",
+      "aplikace pro úlevu od únavy očí",
+      "aplikace pro zdraví očí",
+      "Blink Eye download",
+      "Blink Eye recenze",
+      "aplikace pro pravidlo 20 20 20",
+      "aplikace pro připomenutí péče o oči",
+      "software pro péči o oči",
+      "tipy pro péči o oči",
+      "aplikace pro oční cvičení",
+      "aplikace pro ochranu očí",
+      "aplikace pro péči o oči pro PC",
+      "aplikace pro péči o oči pro notebook",
+      "aplikace pro péči o oči pro stolní počítač",
+      "aplikace pro péči o oči pro Windows 10",
+      "aplikace pro péči o oči pro Windows 11",
+      "aplikace pro správu času u obrazovky pro Windows",
+      "aplikace pro zdraví očí zdarma pro Windows",
+      "aplikace pro připomenutí přestávek u počítače pro Windows",
+      "aplikace pro prevenci digitální únavy očí pro Windows",
+      "software pro péči o zrak pro Windows",
+      "aplikace pro časovač pro péči o zrak",
+      "aplikace pro úlevu od únavy očí pro Windows",
+      "nejlepší aplikace pro péči o oči pro Windows",
+      "prevence syndromu počítačového vidění Windows",
+      "aplikace proti únavě očí pro Windows",
+      "ochrana očí u počítače",
+      "zdraví očí u počítače",
+      "nejlepší aplikace pro úlevu od únavy očí pro Windows a Linux",
+      "aplikace pro správu času u obrazovky pro Linux",
+      "aplikace pro ochranu zraku pro Linux",
+      "open source aplikace pro připomenutí přestávek u počítače",
+      "prevence digitální únavy očí",
+      "prevence RSI u počítače",
+      "prevence syndromu počítačového vidění",
+      "nástroj pro připomenutí přestávek u počítače",
+      "nástroj pro připomenutí pracovních přestávek pro Windows",
+      "nástroj pro péči o zrak pro Windows",
+      "nástroj pro ochranu zraku",
+      "správa času u počítače",
+      "aplikace pro ochranu očí při práci na počítači",
+      "plánovač přestávek pro Windows"
     ]
   },
   "NavMenu": {
-    "features": "Features",
-    "about": "About",
-    "pricing": "Pricing",
-    "release": "Release",
-    "contribute": "Contribute"
+    "features": "Funkce",
+    "about": "O aplikaci",
+    "pricing": "Ceny",
+    "release": "Vydání",
+    "contribute": "Přispějte",
+    "blogs": "Blog"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Minimalistická aplikace pro péči o zrak a přestávky pro Windows, macOS a Linux.",
+    "span1": "Pro snížení únavy očí, s připomenutím pomocí časovačů a celoobrazovkovými okny. Založeno na pravidle",
     "202020": "20-20-20",
-    "span2": "rule.",
-    "institute": "American Academy of Ophthalmology"
+    "span2": ".",
+    "institute": "Americké akademie oftalmologie"
   },
   "DownloadApp": {
-    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    "supportedPlatforms": "Podporuje macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
   },
   "FeatureGrid": {
-    "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureTitle": "Funkce",
+    "featureSubtitle": "Všechny nezbytné nástroje pro produktivitu na jednom místě."
   },
   "PricingGrid": {
-    "pricingTitle": "Pricing",
-    "pricingDescription": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "pricingTitle": "Ceny",
+    "pricingDescription": "Vyberte si cenově dostupný plán, který je nabitý nejlepšími funkcemi pro zapojení publika, vytváření věrnosti zákazníků a zvyšování prodeje."
   },
   "FeatureDemoSlide1": {
-    "title": "Customizable Reminders"
+    "title": "Přizpůsobitelné připomínky"
   },
   "howBlinkEyeWillHelp": {
-    "heading": "How Blink Eye Will Help You",
-    "body1": "Take control of your well-being with Blink Eye.",
-    "body2": "Discover how scheduled breaks can improve eye health, enhance focus, boostproductivity, and promote long-term wellness for a balanced digital lifestyle.",
-    "learnMore": "Learn More",
-    "title1": "Protect Your Eyes from Digital Strain",
-    "title2": "Physical Health",
-    "title3": "Mental Wellness",
-    "title4": "Boosted Productivity",
-    "title5": "Healthy Screen-Time Habits",
-    "title6": "Sustainable Long-Term Benefits",
-    "title7": "Flexible and Customizable",
-    "title8": "Research-Backed Benefits",
-    "title9": "Enhanced Energy and Mood",
-    "description1": "Protect your eyes from digital strain, reduce blue light exposure, and prevent Computer Vision Syndrome (CVS).",
-    "description2": "Improve posture, prevent Repetitive Strain Injuries (RSI), and reduce physical discomfort.",
-    "description3": "Boost your focus, mindfulness, and reduce stress effortlessly.",
-    "description4": "Work smarter, not harder, with productivity-focused methods.",
-    "description5": "Develop disciplined screen-time practices and minimize unnecessary distractions.",
-    "description6": "Avoid chronic issues and maintain balance for years to come.",
-    "description7": "Tailor your experience to fit your lifestyle, profession, and individual needs.",
-    "description8": "Enjoy features grounded in productivity and wellness studies.",
-    "description9": "Feel energized and stay positive throughout the day with balanced work breaks.",
-    "preventDigitalEyeStrain": "Prevent Digital Eye Strain",
-    "blueLightProtection": "Blue Light Protection",
-    "preventRepetitiveStrainInjuries": "Prevent Repetitive Strain Injuries (RSI)",
-    "supportBetterPosture": "Support Better Posture",
-    "enhanceFocusAndMindfulness": "Enhance Focus and Mindfulness",
-    "stressManagement": "Stress Management",
-    "pomodoroTechniqueIntegration": "Pomodoro Technique Integration",
-    "cognitiveEfficiency": "Cognitive Efficiency",
-    "structuredScreenTime": "Structured Screen-Time",
-    "reduceMultitasking": "Reduce Multitasking",
-    "preventChronicVisionProblems": "Prevent Chronic Vision Problems",
-    "achieveWorkLifeBalance": "Achieve Work-Life Balance",
-    "customizableBreakTimers": "Customizable Break Timers",
-    "builtForEveryone": "Built for Everyone",
-    "evidenceBasedFeatures": "Evidence-Based Features",
-    "trustedByUsers": "Trusted by Users",
-    "boostDailyEnergy": "Boost Daily Energy",
-    "maintainPositiveMood": "Maintain a Positive Mood",
-    "preventDigitalEyeStrainDetails": "Scheduled breaks reduce symptoms like dry eyes, blurry vision, and headaches, ensuring long-term eye health.",
-    "blueLightProtectionDetails": "Rest your eyes regularly with prompts designed to combat the harmful effects of blue light exposure.",
-    "preventRepetitiveStrainInjuriesDetails": "Regular breaks minimize strain on your hands and wrists, preventing long-term damage from repetitive tasks.",
-    "supportBetterPostureDetails": "Encourages stretching and posture checks to avoid issues like tech neck and back pain.",
-    "enhanceFocusAndMindfulnessDetails": "Regular breaks help you stay sharp and focused while reducing mental fatigue and burnout.",
-    "stressManagementDetails": "Use break intervals to practice relaxation techniques, reducing work-induced stress and tension.",
-    "pomodoroTechniqueIntegrationDetails": "Break tasks into manageable intervals for efficient work sessions, improving task completion rates.",
-    "cognitiveEfficiencyDetails": "Strategic breaks enhance your mental performance, helping you achieve more with less effort.",
-    "structuredScreenTimeDetails": "Build healthy digital habits with well-timed reminders for work and relaxation balance.",
-    "reduceMultitaskingDetails": "Focus fully on tasks by minimizing distractions during your work and relaxation cycles.",
-    "preventChronicVisionProblemsDetails": "Take proactive measures to reduce risks of long-term digital vision problems caused by screen overuse.",
-    "achieveWorkLifeBalanceDetails": "Create sustainable habits for work and personal life with a balanced approach to productivity.",
-    "customizableBreakTimersDetails": "Set intervals that match your workflow, ensuring the app complements your unique schedule.",
-    "builtForEveryoneDetails": "Whether you’re a student, developer, designer, or remote worker, the app adapts to your needs.",
-    "evidenceBasedFeaturesDetails": "The app’s design is inspired by research in productivity, focus, and digital well-being.",
-    "trustedByUsersDetails": "Real user testimonials and success stories validate its effectiveness and value.",
-    "boostDailyEnergyDetails": "Short, regular breaks help recharge your mind and body, keeping you energized for the day ahead.",
-    "maintainPositiveMoodDetails": "Break the monotony of continuous screen time to reduce frustration and enhance your overall mood."
+    "heading": "Jak vám Blink Eye pomůže",
+    "body1": "Převezměte kontrolu nad svým zdravím s Blink Eye.",
+    "body2": "Zjistěte, jak naplánované přestávky mohou zlepšit zdraví očí, zlepšit soustředění, zvýšit produktivitu a podpořit dlouhodobou pohodu pro vyvážený digitální životní styl.",
+    "learnMore": "Více informací",
+    "title1": "Chraňte své oči před digitální únavou",
+    "title2": "Fyzické zdraví",
+    "title3": "Duševní pohoda",
+    "title4": "Zvýšená produktivita",
+    "title5": "Zdravé návyky při používání obrazovky",
+    "title6": "Udržitelné dlouhodobé výhody",
+    "title7": "Flexibilní a přizpůsobitelné",
+    "title8": "Výhody podložené výzkumem",
+    "title9": "Více energie a lepší nálada",
+    "description1": "Chraňte své oči před digitální únavou, snižte vystavení modrému světlu a předcházejte syndromu počítačového vidění (CVS).",
+    "description2": "Zlepšete držení těla, předcházejte úrazům z opakovaného namáhání (RSI) a snižte fyzické nepohodlí.",
+    "description3": "Zvyšte své soustředění, všímavost a snižte stres bez námahy.",
+    "description4": "Pracujte chytřeji, ne tvrději, s metodami zaměřenými na produktivitu.",
+    "description5": "Rozvíjejte disciplinované postupy používání obrazovky a minimalizujte zbytečné rozptylování.",
+    "description6": "Vyhněte se chronickým problémům a udržujte rovnováhu po celá léta.",
+    "description7": "Přizpůsobte si své zkušenosti tak, aby vyhovovaly vašemu životnímu stylu, profesi a individuálním potřebám.",
+    "description8": "Užijte si funkce založené na studiích produktivity a pohody.",
+    "description9": "Díky vyváženým pracovním přestávkám se budete cítit energičtí a budete mít pozitivní náladu po celý den.",
+    "preventDigitalEyeStrain": "Prevence digitální únavy očí",
+    "blueLightProtection": "Ochrana před modrým světlem",
+    "preventRepetitiveStrainInjuries": "Prevence zranění z opakovaného namáhání (RSI)",
+    "supportBetterPosture": "Podpora lepšího držení těla",
+    "enhanceFocusAndMindfulness": "Zlepšení soustředění a všímavosti",
+    "stressManagement": "Zvládání stresu",
+    "pomodoroTechniqueIntegration": "Integrace techniky Pomodoro",
+    "cognitiveEfficiency": "Kognitivní efektivita",
+    "structuredScreenTime": "Strukturovaný čas u obrazovky",
+    "reduceMultitasking": "Snížení multitaskingu",
+    "preventChronicVisionProblems": "Prevence chronických zrakových potíží",
+    "achieveWorkLifeBalance": "Dosažení rovnováhy mezi pracovním a soukromým životem",
+    "customizableBreakTimers": "Přizpůsobitelné časovače přestávek",
+    "builtForEveryone": "Vytvořeno pro každého",
+    "evidenceBasedFeatures": "Funkce založené na důkazech",
+    "trustedByUsers": "Důvěryhodné uživateli",
+    "boostDailyEnergy": "Zvýšení denní energie",
+    "maintainPositiveMood": "Udržování pozitivní nálady",
+    "preventDigitalEyeStrainDetails": "Plánované přestávky snižují příznaky jako suché oči, rozmazané vidění a bolesti hlavy a zajišťují dlouhodobé zdraví očí.",
+    "blueLightProtectionDetails": "Pravidelně si odpočiňte od očí pomocí výzev určených k boji proti škodlivým účinkům expozice modrému světlu.",
+    "preventRepetitiveStrainInjuriesDetails": "Pravidelné přestávky minimalizují namáhání vašich rukou a zápěstí a zabraňují dlouhodobému poškození z opakovaných úkolů.",
+    "supportBetterPostureDetails": "Podporuje protahování a kontroly držení těla, abyste se vyhnuli problémům, jako je bolest krku a zad.",
+    "enhanceFocusAndMindfulnessDetails": "Pravidelné přestávky vám pomohou zůstat soustředění a ostražití a zároveň snižují duševní únavu a vyhoření.",
+    "stressManagementDetails": "Využijte intervaly přestávek k procvičování relaxačních technik, které snižují stres a napětí vyvolané prací.",
+    "pomodoroTechniqueIntegrationDetails": "Rozdělte úkoly do zvládnutelných intervalů pro efektivní práci a zlepšení míry dokončení úkolů.",
+    "cognitiveEfficiencyDetails": "Strategické přestávky zlepšují váš duševní výkon a pomáhají vám dosáhnout více s menším úsilím.",
+    "structuredScreenTimeDetails": "Vytvářejte zdravé digitální návyky s vhodně načasovanými připomínkami pro rovnováhu mezi prací a relaxací.",
+    "reduceMultitaskingDetails": "Plně se soustřeďte na úkoly minimalizací rozptylování během pracovních a relaxačních cyklů.",
+    "preventChronicVisionProblemsDetails": "Přijměte proaktivní opatření ke snížení rizika dlouhodobých digitálních zrakových problémů způsobených nadměrným používáním obrazovky.",
+    "achieveWorkLifeBalanceDetails": "Vytvářejte udržitelné návyky pro práci a osobní život s vyváženým přístupem k produktivitě.",
+    "customizableBreakTimersDetails": "Nastavte intervaly, které odpovídají vašemu pracovnímu postupu, a zajistěte, aby aplikace doplňovala váš jedinečný rozvrh.",
+    "builtForEveryoneDetails": "Ať už jste student, vývojář, designér nebo pracujete na dálku, aplikace se přizpůsobí vašim potřebám.",
+    "evidenceBasedFeaturesDetails": "Design aplikace je inspirován výzkumem v oblasti produktivity, soustředění a digitální pohody.",
+    "trustedByUsersDetails": "Skutečná svědectví uživatelů a příběhy o úspěchu potvrzují jeho účinnost a hodnotu.",
+    "boostDailyEnergyDetails": "Krátké, pravidelné přestávky pomáhají dobít vaši mysl i tělo a udrží vás v energii na celý den.",
+    "maintainPositiveMoodDetails": "Přerušte monotónnost nepřetržitého času stráveného u obrazovky, abyste snížili frustraci a zlepšili si celkovou náladu."
   },
   "featureGrid": {
-    "title": "Features",
-    "subtitle": "All the necessary productivity tools in one place.",
+    "title": "Funkce",
+    "subtitle": "Všechny nezbytné nástroje pro produktivitu na jednom místě.",
     "features": {
       "customizableReminderTimers": {
-        "title": "Customizable Reminder Timers",
-        "description": "Set personalized reminder timers to stay focused and on track."
+        "title": "Přizpůsobitelné časovače připomínek",
+        "description": "Nastavte si personalizované časovače připomenutí, abyste zůstali soustředění a na správné cestě."
       },
       "diverseThemes": {
-        "title": "Diverse Themes for Personalization",
-        "description": "Pick from various themes to customize your interface and workflow."
+        "title": "Různorodé motivy pro personalizaci",
+        "description": "Vyberte si z různých motivů a přizpůsobte si rozhraní a pracovní postup."
       },
       "customizableReminderText": {
-        "title": "Customizable Reminder Text",
-        "description": "Create custom reminder messages to keep you motivated."
+        "title": "Přizpůsobitelný text připomínky",
+        "description": "Vytvořte si vlastní zprávy s připomenutím, které vás udrží v motivaci."
       },
       "customizableSounds": {
-        "title": "Customizable Sounds",
-        "description": "Choose your own sounds for notifications and alerts."
+        "title": "Přizpůsobitelné zvuky",
+        "description": "Vyberte si vlastní zvuky pro upozornění a výstrahy."
       },
       "dailyDeviceUsage": {
-        "title": "Daily Device Usage Time",
-        "description": "Track your screen time to optimize productivity and balance."
+        "title": "Doba denního používání zařízení",
+        "description": "Sledujte svůj čas strávený u obrazovky, abyste optimalizovali produktivitu a rovnováhu."
       },
       "workdaySetup": {
-        "title": "Workday Setup",
-        "description": "Quickly set up your workday schedule for better productivity."
+        "title": "Nastavení pracovního dne",
+        "description": "Rychle si nastavte svůj denní pracovní rozvrh pro lepší produktivitu."
       },
       "pomodoroTimer": {
-        "title": "Pomodoro Timer",
-        "description": "Break tasks into intervals for maximum focus and efficiency."
+        "title": "Pomodoro časovač",
+        "description": "Rozdělte úkoly do intervalů pro maximální soustředění a efektivitu."
       },
       "runOnStartup": {
-        "title": "Run on Startup",
-        "description": "Launch the app automatically when your device starts."
+        "title": "Spustit při startu",
+        "description": "Spusťte aplikaci automaticky při startu zařízení."
       },
       "updateSupport": {
-        "title": "Update Support",
-        "description": "Receive seamless updates for the latest features and fixes."
+        "title": "Podpora aktualizací",
+        "description": "Získejte bezproblémové aktualizace pro nejnovější funkce a opravy."
       }
     }
   },
   "featuresDemoHeader": {
-    "title": "Discover the Features that Make Us Stand Out",
-    "description": "Explore the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Objevte funkce, díky nimž vynikáme",
+    "description": "Prozkoumejte funkce, díky nimž naše aplikace vyniká. Od přizpůsobitelných připomínek po více motivů, máme vše, co potřebujete."
   },
   "featuresDemo": [
     {
-      "title": "Customizable Reminders",
-      "description": "Set personalized reminders to prevent eye strain, improve productivity, and maintain focus during long work sessions.",
+      "title": "Přizpůsobitelné připomínky",
+      "description": "Nastavte si personalizované připomínky, abyste předešli únavě očí, zlepšili produktivitu a udrželi si soustředění během dlouhé práce.",
       "features": [
-        "Customizable reminder durations",
-        "Adjustable interval settings",
-        "Editable reminder text for personalization"
+        "Přizpůsobitelné doby trvání připomínek",
+        "Nastavitelné intervaly",
+        "Upravitelný text připomínek pro personalizaci"
       ],
-      "moto": "Best Eye Strain Relief App for Computer Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS"
+      "moto": "Nejlepší aplikace pro úlevu od únavy očí pro uživatele počítačů"
     },
     {
-      "title": "Multiple Themes",
-      "description": "Switch between light and dark themes or choose from a variety of unique color schemes to suit your mood and workspace.",
+      "title": "Více motivů",
+      "description": "Přepínejte mezi světlými a tmavými motivy nebo si vyberte z řady jedinečných barevných schémat, aby vyhovovaly vaší náladě a pracovnímu prostoru.",
       "features": [
-        "Multiple Reminder Screen themes to choose from",
-        "App Dark mode support",
-        "App light mode support"
+        "Více motivů obrazovky s připomínkami, ze kterých si můžete vybrat",
+        "Podpora tmavého režimu aplikace",
+        "Podpora světlého režimu aplikace"
       ],
-      "moto": "Screen Time Tracker and Break Reminder App",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV"
+      "moto": "Aplikace pro sledování času u obrazovky a připomenutí přestávek"
     },
     {
-      "title": "Usage Statistics",
-      "description": "Monitor your daily screen time, track device usage trends, and optimize your work-life balance effectively.",
+      "title": "Statistiky používání",
+      "description": "Sledujte svůj denní čas strávený u obrazovky, sledujte trendy v používání zařízení a efektivně optimalizujte rovnováhu mezi pracovním a soukromým životem.",
       "features": [
-        "Daily device usage tracking",
-        "Weekly device usage tracking",
-        "Monthly device usage tracking",
-        "Yearly device usage tracking",
-        "Alltime device usage tracking",
-        "Comprehensive usage analytics",
-        "Visual graphs and progress reports"
+        "Sledování denního používání zařízení",
+        "Sledování týdenního používání zařízení",
+        "Sledování měsíčního používání zařízení",
+        "Sledování ročního používání zařízení",
+        "Sledování celkového používání zařízení",
+        "Komplexní analytika používání",
+        "Vizuální grafy a přehledy o pokroku"
       ],
-      "moto": "Free Screen Break Reminder App for Healthy Eyes",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy"
+      "moto": "Bezplatná aplikace pro připomenutí přestávek u obrazovky pro zdravé oči"
     },
     {
-      "title": "Workday Setup and Scheduling",
-      "description": "Plan your workdays efficiently by setting custom schedules and work hours for each day of the week.",
+      "title": "Nastavení a plánování pracovního dne",
+      "description": "Plánujte efektivně své pracovní dny nastavením vlastních rozvrhů a pracovní doby pro každý den v týdnu.",
       "features": [
-        "Customizable workday settings",
-        "Daily scheduling flexibility",
-        "Automated reminders for work-hour breaks"
+        "Přizpůsobitelné nastavení pracovního dne",
+        "Flexibilita denního plánování",
+        "Automatizované připomínky pro přestávky v pracovní době"
       ],
-      "moto": "Customizable Work Break Timer for Office Workers",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16"
+      "moto": "Přizpůsobitelný časovač pracovních přestávek pro kancelářské pracovníky"
     },
     {
-      "title": "Screen Savers with Animations",
-      "description": "Play some of the most popular screen savers with customizable animations and sounds to enhance your productivity and relaxation.",
+      "title": "Spořiče obrazovky s animacemi",
+      "description": "Zahrajte si některý z nejpopulárnějších spořičů obrazovky s přizpůsobitelnými animacemi a zvuky, které vám pomohou zlepšit produktivitu a relaxaci.",
       "features": [
-        "Pick from various screen savers with customizable animations",
-        "Customizable sound effects for relaxation",
-        "Customizable screen saver duration"
+        "Vyberte si z různých spořičů obrazovky s přizpůsobitelnými animacemi",
+        "Přizpůsobitelné zvukové efekty pro relaxaci",
+        "Přizpůsobitelná doba trvání spořiče obrazovky"
       ],
-      "moto": "Best Screen saver and Task Manager App for Power Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI"
+      "moto": "Nejlepší aplikace pro spořiče obrazovky a správu úloh pro pokročilé uživatele"
     },
     {
-      "title": "Comprehensive Customization Settings",
-      "description": "Boost your productivity and focus with customizable settings, including Pomodoro timers and notification preferences.",
+      "title": "Komplexní nastavení přizpůsobení",
+      "description": "Zvyšte svou produktivitu a soustředění pomocí přizpůsobitelných nastavení, včetně časovačů Pomodoro a preferencí oznámení.",
       "features": [
-        "Pomodoro technique integration",
-        "Strict Mode to force you take breaks",
-        "Customizable notification sounds",
-        "Run on Startup switch",
-        "Set your daily screen usage limit"
+        "Integrace techniky Pomodoro",
+        "Přísný režim, který vás nutí dělat si přestávky",
+        "Přizpůsobitelné zvuky oznámení",
+        "Přepínač Spustit při startu",
+        "Nastavte si svůj denní limit používání obrazovky"
       ],
-      "moto": "Pomodoro Timer with Break Reminders for Productivity",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Časovač Pomodoro s připomenutím přestávek pro produktivitu"
     },
     {
-      "title": "Activate License Key",
-      "description": "Activate your app with a license key for full access to premium features and seamless updates.",
+      "title": "Aktivujte licenční klíč",
+      "description": "Aktivujte svou aplikaci licenčním klíčem pro plný přístup k prémiovým funkcím a bezproblémové aktualizace.",
       "features": [
-        "Easy license activation process",
-        "Access to exclusive premium features",
-        "Regular software updates and support"
+        "Snadný proces aktivace licence",
+        "Přístup k exkluzivním prémiovým funkcím",
+        "Pravidelné aktualizace a podpora softwaru"
       ],
-      "moto": "Top App to Prevent Computer Vision Syndrome (CVS) and (RSI)",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Špičková aplikace pro prevenci syndromu počítačového vidění (CVS) a úrazů z opakovaného namáhání (RSI)"
     }
   ],
   "pricingSectionHeader": {
-    "title": "Choose the Plan that's Right for You",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
-  },
-  "pricingSection": {
-    "monthly": [
-      {
-        "planType": "1 Device",
-        "price": 1.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
-        "features": [
-          "Cancel anytime",
-          "Access for 1 device",
-          "Inclueds all features of Monthly, but with 1 device"
-        ],
-        "valueProposition": "Flexible plan for solo users—cancel anytime."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 5.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
-        "features": [
-          "Cancel anytime",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Detailed device usage (weekly, monthly, lifetime)",
-          "Workday and worktime setup for smarter reminders"
-        ],
-        "valueProposition": "Best for families—access premium features on 3 devices."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 9.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
-        "features": [
-          "Cancel anytime",
-          "Access for 5 devices",
-          "Inclueds all features of Monthly, but with 5 devices"
-        ],
-        "valueProposition": "Ideal for teams—manage 5 devices effortlessly."
-      }
-    ],
-    "yearly": [
-      {
-        "planType": "3 Devices",
-        "price": 22.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Yearly, but with 3 devices",
-          "Workday and worktime reminder customization"
-        ],
-        "valueProposition": "Affordable for families—cover up to 3 devices and $9.89 saved annually!"
-      },
-      {
-        "planType": "1 Device",
-        "price": 8.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
-        "features": [
-          "Includes free updates",
-          "Access for 1 devices",
-          "Rich library of customizable reminder screens",
-          "Advanced usage tracking: weekly, monthly, lifetime",
-          "Custom workday schedules for smarter reminders"
-        ],
-        "valueProposition": "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 34.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Yearly, but with 5 devices",
-          "Workday and worktime customization"
-        ],
-        "valueProposition": "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly"
-      }
-    ],
-    "lifetime": [
-      {
-        "planType": "1 Device",
-        "price": 15.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Lifetime.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "Pay once for lifetime access—perfect for solo users."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 44.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
-        "features": [
-          "Lifetime updates",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Usage time: weekly, monthly, lifetime",
-          "Workday setup: custom schedules for reminders"
-        ],
-        "valueProposition": "Best value—lifetime access for families or small teams."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 69.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Lifetime, but with 5 devices.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "One-time investment for teams and power users."
-      }
-    ]
+    "title": "Vyberte si ten správný plán pro vás",
+    "description": "Vyberte si cenově dostupný plán, který je nabitý nejlepšími funkcemi pro zapojení publika, vytváření věrnosti zákazníků a zvyšování prodeje."
   },
   "ReleaseInfo": {
-    "metaTitle": "Blink Eye {tag} Release Info",
-    "title": "{tag} Release Information",
-    "goBack": "Go Back",
-    "tag": "Tag",
-    "published": "Published",
-    "author": "Author",
-    "assets": "Assets",
-    "fullChangelog": "Full Changelog",
-    "downloadOptions": "Download options",
+    "metaTitle": "Blink Eye {tag} Informace o vydání",
+    "title": "Informace o vydání {tag}",
+    "goBack": "Zpět",
+    "tag": "Verze",
+    "published": "Publikováno",
+    "author": "Autor",
+    "assets": "Soubory",
+    "fullChangelog": "Úplný seznam změn",
+    "downloadOptions": "Možnosti download",
     "downloadTarball": "Download Tarball",
     "downloadZipball": "Download Zipball"
   },
   "privacyPage": {
-    "title": "Privacy Policy",
-    "description": "Learn about our privacy practices and policies."
+    "title": "Zásady ochrany osobních údajů",
+    "description": "Přečtěte si o našich postupech a zásadách v oblasti ochrany osobních údajů."
   },
   "pricingPage": {
-    "title": "Pricing",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "title": "Ceny",
+    "description": "Vyberte si cenově dostupný plán, který je nabitý nejlepšími funkcemi pro zapojení publika, vytváření věrnosti zákazníků a zvyšování prodeje."
   },
   "howtousePage": {
-    "title": "How to Use",
-    "description": "Learn how to use the app and its features."
+    "title": "Jak používat",
+    "description": "Naučte se, jak používat aplikaci a její funkce."
   },
   "howBlinkEyeHelpsPage": {
-    "title": "How Blink Eye Helps",
-    "description": "Learn how Blink Eye helps you stay focused and productive."
+    "title": "Jak Blink Eye pomáhá",
+    "description": "Zjistěte, jak vám Blink Eye pomáhá zůstat soustředění a produktivní."
   },
   "goodbyePage": {
-    "title": "Good Bye",
-    "description": "Uninstall Page of the Blink Eye App",
-    "missyou": "We're sorry to see you go! We hope you enjoyed using Blink Eye.",
-    "suggesition": "Take good care of your Eyes."
+    "title": "Sbohem",
+    "description": "Odinstalační stránka aplikace Blink Eye",
+    "missyou": "Je nám líto, že odcházíte! Doufáme, že se vám používání aplikace Blink Eye líbilo.",
+    "suggesition": "Pečujte o své oči."
   },
   "featuresPage": {
-    "title": "Features",
-    "description": "Discover the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Funkce",
+    "description": "Objevte funkce, díky nimž naše aplikace vyniká. Od přizpůsobitelných připomínek po více motivů, máme vše, co potřebujete."
   },
   "downloadPage": {
     "title": "Download",
-    "description": "Download the Blink Eye App for Windows, macOS, and Linux."
+    "description": "Stáhněte si aplikaci Blink Eye pro Windows, macOS a Linux."
   },
   "contributePage": {
-    "title": "Contribute",
-    "description": "Contribute to the Blink Eye App development."
+    "title": "Přispějte",
+    "description": "Přispějte k vývoji aplikace Blink Eye."
   },
   "aboutPage": {
-    "title": "About",
-    "description": "Learn more about the Blink Eye App and its team.",
+    "title": "O aplikaci",
+    "description": "Další informace o aplikaci Blink Eye a jejím týmu.",
     "info": ""
+  },
+  "blogsPage": {
+    "title": "Blog",
+    "description": "Přečtěte si nejnovější blogy a aktualizace novinek."
   }
 }

@@ -11,11 +11,11 @@ export const routing = defineRouting({
     "hi", // Hindi [Done]
     "es-ES", // Spanish [Done]
     "ar", // Arabic [Done]
-    "bn", // Bengali [Done] - Gemini Experimental
     "pt", // Portuguese [Done]
+    "de", // German [Done] - Gemini Experimental
     "ru", // Russian [Done]
     "ja", // Japanese [Done] - Gemini Experimental
-    "de", // German [Done] - Gemini Experimental
+    "bn", // Bengali [Done] - Gemini Experimental
     "fr", // French [Done] - Gemini Experimental
     "ur", // Urdu [Done] - Gemini Experimental
     "id", // Indonesian [Done] - Gemini Experimental
@@ -26,24 +26,24 @@ export const routing = defineRouting({
     "th", // Thai [Done] - Gemini Experimental
     "fa", // Persian [Done] - Gemini Experimental
     "pl", // Polish [Done] - Gemini Experimental
-    "nl", // Dutch
-    "af", // Afrikaans
-    "ca", // Catalan
-    "cs", // Czech
-    "da", // Danish
-    "el", // Greek
-    "fi", // Finnish
-    "he", // Hebrew
-    "hu", // Hungarian
-    "no", // Norwegian
-    "pt-BR", // Portuguese (Brazil)
-    "pt-PT", // Portuguese (Portugal)
-    "ro", // Romanian
-    "sr", // Serbian
-    "sv-SE", // Swedish
-    "uk", // Ukrainian
-    "zh-CN", // Simplified Chinese
-    "zh-TW", // Traditional Chinese
+    "nl", // Dutch [Done] - Gemini Experimental
+    "af", // Afrikaans [Done] - Gemini Experimental
+    "ca", // Catalan  [Done] - Gemini Experimental
+    "cs", // Czech [Done] - Gemini Experimental
+    "da", // Danish [Done] - Gemini Experimental
+    "el", // Greek [Done] - Gemini Experimental
+    "fi", // Finnish [Done] - Gemini Experimental
+    "he", // Hebrew [Done] - Gemini Experimental
+    "hu", // Hungarian [Done] - Gemini Experimental
+    "no", // Norwegian [Done] - Gemini Experimental
+    "pt-BR", // Portuguese (Brazil) [Done] - Gemini Experimental
+    "pt-PT", // Portuguese (Portugal) [Done] - Gemini Experimental
+    "ro", // Romanian [Done] - Gemini Experimental
+    "sr", // Serbian [Done] - Gemini Experimental
+    "sv-SE", // Swedish  [Done] - Gemini Experimental
+    "uk", // Ukrainian [Done] - Gemini Experimental
+    "zh-CN", // Simplified Chinese [Done] - Gemini Experimental
+    "zh-TW", // Traditional Chinese [Done] - Gemini Experimental
   ],
   pathnames: {
     "/": "/",

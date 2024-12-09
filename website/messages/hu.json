@@ -44,458 +44,345 @@
   },
   "Metadata": {
     "appName": "Blink Eye",
-    "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "title": "A legjobb szemkímélő és szünet-időzítő alkalmazás Mac, Windows és Linux rendszerekre",
+    "description": "Egy minimalista szemkímélő emlékeztető app a szemfáradtság csökkentésére, testreszabható időzítőkkel, teljes képernyős felugró ablakokkal és hang némítással.",
     "keywords": [
-      "prevent rsi app",
-      "prevent cvs app",
-      "rsi app",
-      "cvs app",
-      "best eye care app 2024",
-      "screen break reminder app",
-      "free eye health app download",
-      "open source eye protection software",
-      "screen timer for eye care",
-      "work break reminder tool",
-      "eye comfort app for Mac",
-      "vision care software for laptops",
-      "top eye relaxation app",
-      "PC screen time control",
-      "computer eye care utility",
-      "digital eye strain prevention",
-      "windows break time scheduler",
-      "best apps for eye strain relief",
-      "cross-platform eye care app",
-      "top open source break reminder",
-      "blink timer for computer health",
-      "best eye care app for Windows and Linux",
-      "free eye health app for Windows",
-      "open source eye protection software for Linux",
-      "screen break reminder app for Windows",
-      "eye comfort app for Linux",
-      "top eye relaxation app for Windows",
-      "digital eye strain prevention for Windows",
-      "computer eye care utility for Linux",
-      "work break reminder tool for Windows",
-      "screen time control for Linux",
-      "cross-platform eye care app",
-      "best apps for eye strain relief on Windows and Linux",
-      "PC screen timer for eye care",
-      "vision care software for Windows",
-      "eye care reminder app for Linux",
-      "blink eye",
-      "blink eye for windows",
-      "Noman Dhoni Made App",
-      "eye care app for windows",
-      "20 20 20 rule app for windows",
-      "eye care",
-      "eye strain relief app",
-      "eye health app",
-      "blink eye download",
-      "blink eye review",
-      "20 20 20 rule app",
-      "eye care reminder app",
-      "eye care software",
-      "eye care tips",
-      "eye exercises app",
-      "eye protection app",
-      "eye care app for pc",
-      "eye care app for laptop",
-      "eye care app for desktop",
-      "eye care app for windows 10",
-      "eye care app for windows 11",
-      "blink eye download",
-      "blink eye review",
-      "eye care app for windows",
-      "20 20 20 rule app for windows"
+      "szemfáradtság csökkentő app",
+      "számítógépes látás szindróma (CVS) megelőző app",
+      "RSI app",
+      "CVS app",
+      "legjobb szemkímélő app 2024",
+      "képernyő szünet emlékeztető app",
+      "ingyenes szem egészség app letöltés",
+      "nyílt forráskódú szemvédő szoftver",
+      "produktivitás növelő eszköz macOS-re",
+      "legjobb szempihentető app",
+      "Google Naptár teendőlista",
+      "képernyő időzítő a szem védelmére",
+      "munka szünet emlékeztető eszköz",
+      "szemkomfort app Mac-re",
+      "látáskímélő szoftver laptopokra",
+      "legjobb szempihentető alkalmazás",
+      "PC képernyőidő szabályozás",
+      "számítógép szemkímélő segédprogram",
+      "digitális szemfáradtság megelőzés",
+      "Windows szünet időzítő",
+      "legjobb appok szemfáradtság enyhítésére",
+      "többplatformos szemkímélő app",
+      "legjobb nyílt forráskódú szünet emlékeztető",
+      "villogás időzítő a számítógép egészségéért",
+      "legjobb szemkímélő app Windows és Linux rendszerekre",
+      "ingyenes szem egészség app Windows-ra",
+      "nyílt forráskódú szemvédő szoftver Linux-ra",
+      "képernyő szünet emlékeztető app Windows-ra",
+      "szemkomfort app Linux-ra",
+      "legjobb szempihentető app Windows-ra",
+      "digitális szemfáradtság megelőzés Windows-ra",
+      "számítógép szemkímélő segédprogram Linux-ra",
+      "munka szünet emlékeztető eszköz Windows-ra",
+      "képernyőidő szabályozás Linux-ra",
+      "többplatformos szemkímélő alkalmazás",
+      "legjobb appok szemfáradtság enyhítésére Windows és Linux rendszereken",
+      "PC képernyő időzítő a szem védelmére",
+      "látáskímélő szoftver Windows-ra",
+      "szemkímélő emlékeztető app Linux-ra",
+      "Blink Eye",
+      "Blink Eye Windows-ra",
+      "Noman Dhoni által készített app",
+      "szemkímélő app Windows-ra",
+      "20 20 20 szabály app Windows-ra",
+      "szemvédelem",
+      "szem fáradtság enyhítő alkalmazás",
+      "szem egészség app",
+      "Blink Eye letöltés",
+      "Blink Eye vélemények",
+      "20 20 20 szabály app",
+      "szemkímélő emlékeztető app",
+      "szemkímélő szoftver",
+      "szemkímélő tippek",
+      "szemtorna app",
+      "szemvédő app",
+      "szemkímélő app PC-re",
+      "szemkímélő app laptopra",
+      "szemkímélő app asztali számítógépre",
+      "szemkímélő app Windows 10-re",
+      "szemkímélő app Windows 11-re",
+      "Blink Eye letöltés",
+      "Blink Eye vélemények",
+      "szemkímélő app Windows-ra",
+      "20 20 20 szabály app Windows-ra"
     ]
   },
   "NavMenu": {
-    "features": "Features",
-    "about": "About",
-    "pricing": "Pricing",
-    "release": "Release",
-    "contribute": "Contribute"
+    "features": "Funkciók",
+    "about": "Rólunk",
+    "pricing": "Árak",
+    "release": "Kiadások",
+    "contribute": "Hozzájárulás",
+    "blogs": "Blogok"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Egy minimalista szemkímélő emlékeztető app Windows, macOS és Linux rendszerekre.",
+    "span1": "A szemfáradtság csökkentésére, emlékeztetővel, időzítőkkel, teljes képernyős felugró ablakokkal. A",
     "202020": "20-20-20",
-    "span2": "rule.",
-    "institute": "American Academy of Ophthalmology"
+    "span2": "szabályon alapul.",
+    "institute": "American Academy of Ophthalmology (Amerikai Szemészeti Akadémia)"
   },
   "DownloadApp": {
-    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    "supportedPlatforms": "Támogatott platformok: macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
   },
   "FeatureGrid": {
-    "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureTitle": "Funkciók",
+    "featureSubtitle": "Minden szükséges produktivitásnövelő eszköz egy helyen."
   },
   "PricingGrid": {
-    "pricingTitle": "Pricing",
-    "pricingDescription": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "pricingTitle": "Árak",
+    "pricingDescription": "Válasszon egy megfizethető csomagot, amely a legjobb funkciókat kínálja közönségének bevonásához, ügyfélhűség kialakításához és az értékesítés növeléséhez."
   },
   "FeatureDemoSlide1": {
-    "title": "Customizable Reminders"
+    "title": "Testreszabható emlékeztetők"
   },
   "howBlinkEyeWillHelp": {
-    "heading": "How Blink Eye Will Help You",
-    "body1": "Take control of your well-being with Blink Eye.",
-    "body2": "Discover how scheduled breaks can improve eye health, enhance focus, boostproductivity, and promote long-term wellness for a balanced digital lifestyle.",
-    "learnMore": "Learn More",
-    "title1": "Protect Your Eyes from Digital Strain",
-    "title2": "Physical Health",
-    "title3": "Mental Wellness",
-    "title4": "Boosted Productivity",
-    "title5": "Healthy Screen-Time Habits",
-    "title6": "Sustainable Long-Term Benefits",
-    "title7": "Flexible and Customizable",
-    "title8": "Research-Backed Benefits",
-    "title9": "Enhanced Energy and Mood",
-    "description1": "Protect your eyes from digital strain, reduce blue light exposure, and prevent Computer Vision Syndrome (CVS).",
-    "description2": "Improve posture, prevent Repetitive Strain Injuries (RSI), and reduce physical discomfort.",
-    "description3": "Boost your focus, mindfulness, and reduce stress effortlessly.",
-    "description4": "Work smarter, not harder, with productivity-focused methods.",
-    "description5": "Develop disciplined screen-time practices and minimize unnecessary distractions.",
-    "description6": "Avoid chronic issues and maintain balance for years to come.",
-    "description7": "Tailor your experience to fit your lifestyle, profession, and individual needs.",
-    "description8": "Enjoy features grounded in productivity and wellness studies.",
-    "description9": "Feel energized and stay positive throughout the day with balanced work breaks.",
-    "preventDigitalEyeStrain": "Prevent Digital Eye Strain",
-    "blueLightProtection": "Blue Light Protection",
-    "preventRepetitiveStrainInjuries": "Prevent Repetitive Strain Injuries (RSI)",
-    "supportBetterPosture": "Support Better Posture",
-    "enhanceFocusAndMindfulness": "Enhance Focus and Mindfulness",
-    "stressManagement": "Stress Management",
-    "pomodoroTechniqueIntegration": "Pomodoro Technique Integration",
-    "cognitiveEfficiency": "Cognitive Efficiency",
-    "structuredScreenTime": "Structured Screen-Time",
-    "reduceMultitasking": "Reduce Multitasking",
-    "preventChronicVisionProblems": "Prevent Chronic Vision Problems",
-    "achieveWorkLifeBalance": "Achieve Work-Life Balance",
-    "customizableBreakTimers": "Customizable Break Timers",
-    "builtForEveryone": "Built for Everyone",
-    "evidenceBasedFeatures": "Evidence-Based Features",
-    "trustedByUsers": "Trusted by Users",
-    "boostDailyEnergy": "Boost Daily Energy",
-    "maintainPositiveMood": "Maintain a Positive Mood",
-    "preventDigitalEyeStrainDetails": "Scheduled breaks reduce symptoms like dry eyes, blurry vision, and headaches, ensuring long-term eye health.",
-    "blueLightProtectionDetails": "Rest your eyes regularly with prompts designed to combat the harmful effects of blue light exposure.",
-    "preventRepetitiveStrainInjuriesDetails": "Regular breaks minimize strain on your hands and wrists, preventing long-term damage from repetitive tasks.",
-    "supportBetterPostureDetails": "Encourages stretching and posture checks to avoid issues like tech neck and back pain.",
-    "enhanceFocusAndMindfulnessDetails": "Regular breaks help you stay sharp and focused while reducing mental fatigue and burnout.",
-    "stressManagementDetails": "Use break intervals to practice relaxation techniques, reducing work-induced stress and tension.",
-    "pomodoroTechniqueIntegrationDetails": "Break tasks into manageable intervals for efficient work sessions, improving task completion rates.",
-    "cognitiveEfficiencyDetails": "Strategic breaks enhance your mental performance, helping you achieve more with less effort.",
-    "structuredScreenTimeDetails": "Build healthy digital habits with well-timed reminders for work and relaxation balance.",
-    "reduceMultitaskingDetails": "Focus fully on tasks by minimizing distractions during your work and relaxation cycles.",
-    "preventChronicVisionProblemsDetails": "Take proactive measures to reduce risks of long-term digital vision problems caused by screen overuse.",
-    "achieveWorkLifeBalanceDetails": "Create sustainable habits for work and personal life with a balanced approach to productivity.",
-    "customizableBreakTimersDetails": "Set intervals that match your workflow, ensuring the app complements your unique schedule.",
-    "builtForEveryoneDetails": "Whether you’re a student, developer, designer, or remote worker, the app adapts to your needs.",
-    "evidenceBasedFeaturesDetails": "The app’s design is inspired by research in productivity, focus, and digital well-being.",
-    "trustedByUsersDetails": "Real user testimonials and success stories validate its effectiveness and value.",
-    "boostDailyEnergyDetails": "Short, regular breaks help recharge your mind and body, keeping you energized for the day ahead.",
-    "maintainPositiveMoodDetails": "Break the monotony of continuous screen time to reduce frustration and enhance your overall mood."
+    "heading": "Hogyan segít Önnek a Blink Eye",
+    "body1": "Vegye kézbe a jóllétét a Blink Eye segítségével.",
+    "body2": "Fedezze fel, hogyan javíthatják a szem egészségét, a fókuszt, növelhetik a produktivitást, és támogathatják a hosszú távú jóllétet az ütemezett szünetek a kiegyensúlyozott digitális életmód érdekében.",
+    "learnMore": "Tudjon meg többet",
+    "title1": "Védje szemeit a digitális megterheléstől",
+    "title2": "Testi egészség",
+    "title3": "Mentális jóllét",
+    "title4": "Megnövelt produktivitás",
+    "title5": "Egészséges képernyőidő-szokások",
+    "title6": "Fenntartható, hosszú távú előnyök",
+    "title7": "Rugalmas és testreszabható",
+    "title8": "Kutatások által alátámasztott előnyök",
+    "title9": "Megnövelt energia és hangulat",
+    "description1": "Védje szemeit a digitális megterheléstől, csökkentse a kékfény-kitettséget, és előzze meg a számítógépes látás szindrómát (CVS).",
+    "description2": "Javítsa testtartását, előzze meg az ismétlődő megterheléses sérüléseket (RSI), és csökkentse a testi kényelmetlenségeket.",
+    "description3": "Növelje a fókuszt és a tudatosságot, valamint csökkentse a stresszt erőfeszítés nélkül.",
+    "description4": "Dolgozzon okosabban, ne keményebben, a produktivitásra összpontosító módszerekkel.",
+    "description5": "Alakítson ki fegyelmezett képernyőidő-gyakorlatot, és minimalizálja a felesleges figyelemelterelést.",
+    "description6": "Kerülje el a krónikus problémákat, és őrizze meg az egyensúlyt évekig.",
+    "description7": "Szabja testre az élményt, hogy az megfeleljen életstílusának, szakmájának és egyéni igényeinek.",
+    "description8": "Élvezze a produktivitás és a jóllét területén végzett kutatásokon alapuló funkciókat.",
+    "description9": "Érezze magát energikusnak és maradjon pozitív egész nap a kiegyensúlyozott munkaszünetekkel.",
+    "preventDigitalEyeStrain": "Előzze meg a digitális szemfáradtságot",
+    "blueLightProtection": "Kékfény-védelem",
+    "preventRepetitiveStrainInjuries": "Ismétlődő megterheléses sérülések (RSI) megelőzése",
+    "supportBetterPosture": "Támogassa a jobb testtartást",
+    "enhanceFocusAndMindfulness": "Fokozza a fókuszt és a tudatosságot",
+    "stressManagement": "Stresszkezelés",
+    "pomodoroTechniqueIntegration": "Pomodoro technika integrációja",
+    "cognitiveEfficiency": "Kognitív hatékonyság",
+    "structuredScreenTime": "Strukturált képernyőidő",
+    "reduceMultitasking": "Csökkentse a többfeladatú munkavégzést",
+    "preventChronicVisionProblems": "Előzze meg a krónikus látásproblémákat",
+    "achieveWorkLifeBalance": "Érjen el munka-magánélet egyensúlyt",
+    "customizableBreakTimers": "Testreszabható szünetidőzítők",
+    "builtForEveryone": "Mindenkinek készült",
+    "evidenceBasedFeatures": "Bizonyítékokon alapuló funkciók",
+    "trustedByUsers": "Felhasználók által megbízhatónak tartott",
+    "boostDailyEnergy": "Növelje a napi energiát",
+    "maintainPositiveMood": "Tartsa fenn a pozitív hangulatot",
+    "preventDigitalEyeStrainDetails": "Az ütemezett szünetek csökkentik a száraz szem, a homályos látás és a fejfájás tüneteit, biztosítva a hosszú távú szem egészségét.",
+    "blueLightProtectionDetails": "Pihentesse szemeit rendszeresen a kékfény-kitettség káros hatásainak leküzdésére tervezett utasításokkal.",
+    "preventRepetitiveStrainInjuriesDetails": "A rendszeres szünetek minimalizálják a kéz és a csukló terhelését, megelőzve az ismétlődő feladatokból eredő hosszú távú károsodást.",
+    "supportBetterPostureDetails": "Nyújtásra és testtartás-ellenőrzésre ösztönöz, hogy elkerülje a technológiai nyak és a hátfájás problémáit.",
+    "enhanceFocusAndMindfulnessDetails": "A rendszeres szünetek segítenek élesen és koncentráltan maradni, miközben csökkentik a mentális fáradtságot és a kiégést.",
+    "stressManagementDetails": "Használja a szüneteket relaxációs technikák gyakorlására, csökkentve a munka okozta stresszt és feszültséget.",
+    "pomodoroTechniqueIntegrationDetails": "Ossza fel a feladatokat kezelhető szakaszokra a hatékony munkamenetek érdekében, javítva a feladatok elvégzési arányát.",
+    "cognitiveEfficiencyDetails": "A stratégiai szünetek javítják a mentális teljesítményét, így kevesebb erőfeszítéssel érhet el többet.",
+    "structuredScreenTimeDetails": "Alakítson ki egészséges digitális szokásokat a munka és a pihenés egyensúlyát biztosító, jól időzített emlékeztetőkkel.",
+    "reduceMultitaskingDetails": "Összpontosítson teljes mértékben a feladatokra azáltal, hogy minimalizálja a zavaró tényezőket a munka és a pihenés ciklusaiban.",
+    "preventChronicVisionProblemsDetails": "Tegyen proaktív lépéseket a képernyő túlzott használata okozta hosszú távú digitális látásproblémák kockázatának csökkentésére.",
+    "achieveWorkLifeBalanceDetails": "Alakítson ki fenntartható szokásokat a munka és a magánélet területén a produktivitás kiegyensúlyozott megközelítésével.",
+    "customizableBreakTimersDetails": "Állítson be olyan időközöket, amelyek megfelelnek a munkafolyamatának, így biztosítva, hogy az app kiegészítse egyedi ütemtervét.",
+    "builtForEveryoneDetails": "Akár diák, akár fejlesztő, tervező vagy távmunkás, az app alkalmazkodik az Ön igényeihez.",
+    "evidenceBasedFeaturesDetails": "Az app tervezését a produktivitással, a fókusszal és a digitális jólléttel kapcsolatos kutatások ihlették.",
+    "trustedByUsersDetails": "Valódi felhasználói visszajelzések és sikertörténetek igazolják hatékonyságát és értékét.",
+    "boostDailyEnergyDetails": "A rövid, rendszeres szünetek segítenek feltölteni az elmét és a testet, így energikus marad a nap hátralévő részében.",
+    "maintainPositiveMoodDetails": "Szakítsa meg a folyamatos képernyőidő monotonitását, hogy csökkentse a frusztrációt és javítsa az általános hangulatot."
   },
   "featureGrid": {
-    "title": "Features",
-    "subtitle": "All the necessary productivity tools in one place.",
+    "title": "Funkciók",
+    "subtitle": "Minden szükséges produktivitásnövelő eszköz egy helyen.",
     "features": {
       "customizableReminderTimers": {
-        "title": "Customizable Reminder Timers",
-        "description": "Set personalized reminder timers to stay focused and on track."
+        "title": "Testreszabható emlékeztető időzítők",
+        "description": "Állítson be személyre szabott emlékeztető időzítőket, hogy koncentrált és naprakész maradjon."
       },
       "diverseThemes": {
-        "title": "Diverse Themes for Personalization",
-        "description": "Pick from various themes to customize your interface and workflow."
+        "title": "Változatos témák a testreszabáshoz",
+        "description": "Válasszon a különböző témák közül a felület és a munkafolyamat testreszabásához."
       },
       "customizableReminderText": {
-        "title": "Customizable Reminder Text",
-        "description": "Create custom reminder messages to keep you motivated."
+        "title": "Testreszabható emlékeztető szöveg",
+        "description": "Készítsen egyedi emlékeztető üzeneteket, hogy motivált maradjon."
       },
       "customizableSounds": {
-        "title": "Customizable Sounds",
-        "description": "Choose your own sounds for notifications and alerts."
+        "title": "Testreszabható hangok",
+        "description": "Válassza ki a saját hangjait az értesítésekhez és riasztásokhoz."
       },
       "dailyDeviceUsage": {
-        "title": "Daily Device Usage Time",
-        "description": "Track your screen time to optimize productivity and balance."
+        "title": "Napi eszközhasználati idő",
+        "description": "Kövesse nyomon a képernyőidőt a produktivitás és az egyensúly optimalizálása érdekében."
       },
       "workdaySetup": {
-        "title": "Workday Setup",
-        "description": "Quickly set up your workday schedule for better productivity."
+        "title": "Munkanap beállítása",
+        "description": "Gyorsan beállíthatja munkanapi ütemtervét a jobb produktivitás érdekében."
       },
       "pomodoroTimer": {
-        "title": "Pomodoro Timer",
-        "description": "Break tasks into intervals for maximum focus and efficiency."
+        "title": "Pomodoro időzítő",
+        "description": "Ossza fel a feladatokat időközökre a maximális fókusz és hatékonyság érdekében."
       },
       "runOnStartup": {
-        "title": "Run on Startup",
-        "description": "Launch the app automatically when your device starts."
+        "title": "Indítás rendszerindításkor",
+        "description": "Indítsa el automatikusan az appot az eszköz indításakor."
       },
       "updateSupport": {
-        "title": "Update Support",
-        "description": "Receive seamless updates for the latest features and fixes."
+        "title": "Frissítési támogatás",
+        "description": "Zökkenőmentes frissítéseket kaphat a legújabb funkciókhoz és javításokhoz."
       }
     }
   },
   "featuresDemoHeader": {
-    "title": "Discover the Features that Make Us Stand Out",
-    "description": "Explore the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Fedezze fel azokat a funkciókat, amelyek kiemelnek minket",
+    "description": "Fedezze fel azokat a funkciókat, amelyek kiemelik alkalmazásunkat. A testreszabható emlékeztetőktől a többféle témáig mindenre gondoltunk."
   },
   "featuresDemo": [
     {
-      "title": "Customizable Reminders",
-      "description": "Set personalized reminders to prevent eye strain, improve productivity, and maintain focus during long work sessions.",
+      "title": "Testreszabható emlékeztetők",
+      "description": "Állítson be személyre szabott emlékeztetőket a szemfáradtság megelőzésére, a produktivitás javítására és a fókusz fenntartására a hosszú munkamenetek során.",
       "features": [
-        "Customizable reminder durations",
-        "Adjustable interval settings",
-        "Editable reminder text for personalization"
+        "Testreszabható emlékeztető időtartamok",
+        "Állítható intervallum beállítások",
+        "Szerkeszthető emlékeztető szöveg a személyre szabáshoz"
       ],
-      "moto": "Best Eye Strain Relief App for Computer Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS"
+      "moto": "Legjobb szemfáradtság-enyhítő app számítógép-felhasználók számára"
     },
     {
-      "title": "Multiple Themes",
-      "description": "Switch between light and dark themes or choose from a variety of unique color schemes to suit your mood and workspace.",
+      "title": "Többféle téma",
+      "description": "Váltson a világos és sötét témák között, vagy válasszon a különböző egyedi színsémák közül, hogy illeszkedjen a hangulatához és a munkaterületéhez.",
       "features": [
-        "Multiple Reminder Screen themes to choose from",
-        "App Dark mode support",
-        "App light mode support"
+        "Többféle választható emlékeztető képernyő téma",
+        "App sötét mód támogatás",
+        "App világos mód támogatás"
       ],
-      "moto": "Screen Time Tracker and Break Reminder App",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV"
+      "moto": "Képernyőidő-követő és szünet-emlékeztető app"
     },
     {
-      "title": "Usage Statistics",
-      "description": "Monitor your daily screen time, track device usage trends, and optimize your work-life balance effectively.",
+      "title": "Használati statisztikák",
+      "description": "Kövesse nyomon napi képernyőidejét, kövesse az eszközhasználati trendeket, és optimalizálja a munka és a magánélet egyensúlyát hatékonyan.",
       "features": [
-        "Daily device usage tracking",
-        "Weekly device usage tracking",
-        "Monthly device usage tracking",
-        "Yearly device usage tracking",
-        "Alltime device usage tracking",
-        "Comprehensive usage analytics",
-        "Visual graphs and progress reports"
+        "Napi eszközhasználat nyomon követése",
+        "Heti eszközhasználat nyomon követése",
+        "Havi eszközhasználat nyomon követése",
+        "Éves eszközhasználat nyomon követése",
+        "Összesített eszközhasználat nyomon követése",
+        "Átfogó használati elemzések",
+        "Vizuális grafikonok és előrehaladási jelentések"
       ],
-      "moto": "Free Screen Break Reminder App for Healthy Eyes",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy"
+      "moto": "Ingyenes képernyőszünet-emlékeztető app az egészséges szemekért"
     },
     {
-      "title": "Workday Setup and Scheduling",
-      "description": "Plan your workdays efficiently by setting custom schedules and work hours for each day of the week.",
+      "title": "Munkanap beállítása és ütemezése",
+      "description": "Tervezze meg hatékonyan munkanapjait egyéni ütemezések és munkaórák beállításával a hét minden napjára.",
       "features": [
-        "Customizable workday settings",
-        "Daily scheduling flexibility",
-        "Automated reminders for work-hour breaks"
+        "Testreszabható munkanap-beállítások",
+        "Napi ütemezési rugalmasság",
+        "Automatizált emlékeztetők a munkaórák közötti szünetekre"
       ],
-      "moto": "Customizable Work Break Timer for Office Workers",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16"
+      "moto": "Testreszabható munkaszünet-időzítő irodai dolgozóknak"
     },
     {
-      "title": "Screen Savers with Animations",
-      "description": "Play some of the most popular screen savers with customizable animations and sounds to enhance your productivity and relaxation.",
+      "title": "Képernyőkímélők animációkkal",
+      "description": "Játsszon le néhányat a legnépszerűbb képernyőkímélők közül testreszabható animációkkal és hangokkal, hogy fokozza a produktivitást és a relaxációt.",
       "features": [
-        "Pick from various screen savers with customizable animations",
-        "Customizable sound effects for relaxation",
-        "Customizable screen saver duration"
+        "Válasszon a különböző, testreszabható animációkkal ellátott képernyőkímélők közül",
+        "Testreszabható hanghatások a kikapcsolódáshoz",
+        "Testreszabható képernyőkímélő időtartam"
       ],
-      "moto": "Best Screen saver and Task Manager App for Power Users",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI"
+      "moto": "Legjobb képernyőkímélő és feladatkezelő app a teljesítményfelhasználók számára"
     },
     {
-      "title": "Comprehensive Customization Settings",
-      "description": "Boost your productivity and focus with customizable settings, including Pomodoro timers and notification preferences.",
+      "title": "Átfogó testreszabási beállítások",
+      "description": "Növelje produktivitását és összpontosítson a testreszabható beállításokkal, beleértve a Pomodoro időzítőket és az értesítési beállításokat.",
       "features": [
-        "Pomodoro technique integration",
-        "Strict Mode to force you take breaks",
-        "Customizable notification sounds",
-        "Run on Startup switch",
-        "Set your daily screen usage limit"
+        "Pomodoro technika integrációja",
+        "Szigorú mód, hogy rákényszerítse a szünetek tartására",
+        "Testreszabható értesítési hangok",
+        "Indítás rendszerindításkor kapcsoló",
+        "Állítsa be a napi képernyőhasználati korlátot"
       ],
-      "moto": "Pomodoro Timer with Break Reminders for Productivity",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Pomodoro időzítő szünet-emlékeztetőkkel a produktivitásért"
     },
     {
-      "title": "Activate License Key",
-      "description": "Activate your app with a license key for full access to premium features and seamless updates.",
+      "title": "Licenckulcs aktiválása",
+      "description": "Aktiválja az appot egy licenckulccsal, hogy teljes hozzáférést kapjon a prémium funkciókhoz és a zökkenőmentes frissítésekhez.",
       "features": [
-        "Easy license activation process",
-        "Access to exclusive premium features",
-        "Regular software updates and support"
+        "Egyszerű licencaktiválási folyamat",
+        "Hozzáférés az exkluzív prémium funkciókhoz",
+        "Rendszeres szoftverfrissítések és támogatás"
       ],
-      "moto": "Top App to Prevent Computer Vision Syndrome (CVS) and (RSI)",
-      "imageSrc": "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2"
+      "moto": "Legjobb app a számítógépes látás szindróma (CVS) és az (RSI) megelőzésére"
     }
   ],
   "pricingSectionHeader": {
-    "title": "Choose the Plan that's Right for You",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
-  },
-  "pricingSection": {
-    "monthly": [
-      {
-        "planType": "1 Device",
-        "price": 1.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
-        "features": [
-          "Cancel anytime",
-          "Access for 1 device",
-          "Inclueds all features of Monthly, but with 1 device"
-        ],
-        "valueProposition": "Flexible plan for solo users—cancel anytime."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 5.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
-        "features": [
-          "Cancel anytime",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Detailed device usage (weekly, monthly, lifetime)",
-          "Workday and worktime setup for smarter reminders"
-        ],
-        "valueProposition": "Best for families—access premium features on 3 devices."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 9.49,
-        "url": "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
-        "features": [
-          "Cancel anytime",
-          "Access for 5 devices",
-          "Inclueds all features of Monthly, but with 5 devices"
-        ],
-        "valueProposition": "Ideal for teams—manage 5 devices effortlessly."
-      }
-    ],
-    "yearly": [
-      {
-        "planType": "3 Devices",
-        "price": 22.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Yearly, but with 3 devices",
-          "Workday and worktime reminder customization"
-        ],
-        "valueProposition": "Affordable for families—cover up to 3 devices and $9.89 saved annually!"
-      },
-      {
-        "planType": "1 Device",
-        "price": 8.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
-        "features": [
-          "Includes free updates",
-          "Access for 1 devices",
-          "Rich library of customizable reminder screens",
-          "Advanced usage tracking: weekly, monthly, lifetime",
-          "Custom workday schedules for smarter reminders"
-        ],
-        "valueProposition": "Save $16.89 yearly compared to Monthly! Best for solo users looking for savings."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 34.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Yearly, but with 5 devices",
-          "Workday and worktime customization"
-        ],
-        "valueProposition": "Great for teams—save more with yearly access, save $17.89 per year compared to Monthly"
-      }
-    ],
-    "lifetime": [
-      {
-        "planType": "1 Device",
-        "price": 15.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
-        "features": [
-          "Access for 1 device",
-          "Inclues all features of Lifetime.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "Pay once for lifetime access—perfect for solo users."
-      },
-      {
-        "planType": "3 Devices",
-        "price": 44.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
-        "features": [
-          "Lifetime updates",
-          "Access for 3 devices",
-          "Rich library of customizable reminder screens",
-          "Usage time: weekly, monthly, lifetime",
-          "Workday setup: custom schedules for reminders"
-        ],
-        "valueProposition": "Best value—lifetime access for families or small teams."
-      },
-      {
-        "planType": "5 Devices",
-        "price": 69.99,
-        "url": "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
-        "features": [
-          "Access for 5 devices",
-          "Inclues all features of Lifetime, but with 5 devices.",
-          "One-time payment, no renewals"
-        ],
-        "valueProposition": "One-time investment for teams and power users."
-      }
-    ]
+    "title": "Válassza ki az Önnek megfelelő csomagot",
+    "description": "Válasszon egy megfizethető csomagot, amely a legjobb funkciókat kínálja közönségének bevonásához, ügyfélhűség kialakításához és az értékesítés növeléséhez."
   },
   "ReleaseInfo": {
-    "metaTitle": "Blink Eye {tag} Release Info",
-    "title": "{tag} Release Information",
-    "goBack": "Go Back",
-    "tag": "Tag",
-    "published": "Published",
-    "author": "Author",
-    "assets": "Assets",
-    "fullChangelog": "Full Changelog",
-    "downloadOptions": "Download options",
-    "downloadTarball": "Download Tarball",
-    "downloadZipball": "Download Zipball"
+    "metaTitle": "Blink Eye {tag} kiadási információk",
+    "title": "{tag} kiadási információk",
+    "goBack": "Vissza",
+    "tag": "Verzió",
+    "published": "Közzétéve",
+    "author": "Szerző",
+    "assets": "Eszközök",
+    "fullChangelog": "Teljes változási napló",
+    "downloadOptions": "Letöltési lehetőségek",
+    "downloadTarball": "Tarball letöltése",
+    "downloadZipball": "Zipball letöltése"
   },
   "privacyPage": {
-    "title": "Privacy Policy",
-    "description": "Learn about our privacy practices and policies."
+    "title": "Adatvédelmi szabályzat",
+    "description": "Tudjon meg többet adatvédelmi gyakorlatunkról és szabályzatunkról."
   },
   "pricingPage": {
-    "title": "Pricing",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "title": "Árak",
+    "description": "Válasszon egy megfizethető csomagot, amely a legjobb funkciókat kínálja közönségének bevonásához, ügyfélhűség kialakításához és az értékesítés növeléséhez."
   },
   "howtousePage": {
-    "title": "How to Use",
-    "description": "Learn how to use the app and its features."
+    "title": "Használati útmutató",
+    "description": "Ismerje meg az alkalmazás és funkcióinak használatát."
   },
   "howBlinkEyeHelpsPage": {
-    "title": "How Blink Eye Helps",
-    "description": "Learn how Blink Eye helps you stay focused and productive."
+    "title": "Hogyan segít a Blink Eye",
+    "description": "Ismerje meg, hogyan segít a Blink Eye koncentrált és produktív maradni."
   },
   "goodbyePage": {
-    "title": "Good Bye",
-    "description": "Uninstall Page of the Blink Eye App",
-    "missyou": "We're sorry to see you go! We hope you enjoyed using Blink Eye.",
-    "suggesition": "Take good care of your Eyes."
+    "title": "Viszlát",
+    "description": "A Blink Eye app eltávolítási oldala",
+    "missyou": "Sajnáljuk, hogy távozik! Reméljük, hogy szívesen használta a Blink Eye-t.",
+    "suggesition": "Vigyázzon a szemeire."
   },
   "featuresPage": {
-    "title": "Features",
-    "description": "Discover the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+    "title": "Funkciók",
+    "description": "Fedezze fel azokat a funkciókat, amelyek kiemelik alkalmazásunkat. A testreszabható emlékeztetőktől a többféle témáig mindenre gondoltunk."
   },
   "downloadPage": {
-    "title": "Download",
-    "description": "Download the Blink Eye App for Windows, macOS, and Linux."
+    "title": "Letöltés",
+    "description": "Töltse le a Blink Eye alkalmazást Windows, macOS és Linux rendszerekre."
   },
   "contributePage": {
-    "title": "Contribute",
-    "description": "Contribute to the Blink Eye App development."
+    "title": "Hozzájárulás",
+    "description": "Járuljon hozzá a Blink Eye alkalmazás fejlesztéséhez."
   },
   "aboutPage": {
-    "title": "About",
-    "description": "Learn more about the Blink Eye App and its team.",
-    "info": ""
+    "title": "Rólunk",
+    "description": "Tudjon meg többet a Blink Eye alkalmazásról és csapatáról."
+  },
+  "blogsPage": {
+    "title": "Blogok",
+    "description": "Olvassa el legújabb blogbejegyzéseinket és híreinket."
   }
 }
