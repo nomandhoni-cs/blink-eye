@@ -1,6 +1,7 @@
 ---
 title: "Contribute"
 excerpt: "If you want to contribute to Blink Eye, please follow these steps. Contributions are welcome! Feel free to open issues or submit pull requests."
+keywords: "contribute, issues, pull requests, contribute to blink eye, contribute to website, contribute to dashboard, contribute to notifier"
 coverImage: "https://utfs.io/f/93hqarYp4cDde9Yt7jnAGUrMQKVoXBI75tih4E9gWPzmLdf1"
 date: "2024-03-16T05:35:07.322Z"
 author:

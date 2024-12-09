@@ -1,6 +1,7 @@
 ---
 title: "Understanding CVS, RSI, and Why Eye Care is Crucial in the Digital Age"
 excerpt: "Digital eye strain, CVS, and RSI are becoming more prevalent with increased screen time. Learn how they affect your eyes and health, and why it's essential to protect your vision and well-being."
+keywords: Digital eye strain, Computer Vision Syndrome (CVS), Repetitive Strain Injuries (RSI), Eye care in the digital age, Protect your eyes from screen time, Preventing CVS and RSI, Blue light protection, Screen time and eye health, Tips for eye health during screen use, How to avoid digital eye strain, Healthy habits for eye care, Digital wellness for eyes, Reduce screen fatigue, Best practices for eye care, Eye exercises for screen users.
 coverImage: "https://utfs.io/f/93hqarYp4cDdLCxxfARNqGpChfTslFLyAoEai9twkUOcB1W6"
 date: "2024-12-09T10:00:00Z"
 author:

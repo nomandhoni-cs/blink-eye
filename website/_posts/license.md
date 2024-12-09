@@ -1,6 +1,7 @@
 ---
 title: "(GPL) v3  + Additional Commercial Use Restrictions"
 excerpt: "This software is licensed under the GNU General Public License v3.0 (GPL-3.0), which permits anyone to use, modify, and distribute this software. However, additional conditions apply for commercial use."
+keywords: "GPL, commercial use, additional restrictions"
 coverImage: "https://utfs.io/f/93hqarYp4cDdsaadu4UNASiI9CX5PrgkjQbqKTBdx0uaHocZ"
 date: "2024-01-16T05:35:07.322Z"
 author:

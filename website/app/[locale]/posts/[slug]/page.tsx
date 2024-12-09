@@ -63,6 +63,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
   return {
     title,
     description: post.excerpt,
+    keywords: post.keywords,
     openGraph: {
       title,
       images: [post.ogImage.url],
