@@ -24,7 +24,7 @@ const VersionTolatDownloads = async ({ tag_name }) => {
   return (
     <div className="mx-auto max-w-2xl">
       <div className="sm:mb-5 sm:flex sm:justify-center">
-        <div className="flex items-center sm:space-x-5 relative rounded-full px-3 py-1 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20 dark:ring-gray-100/10 dark:hover:ring-gray-100/20">
+        <div className="flex items-center sm:space-x-5 relative rounded-full px-3 py-1 text-sm leading-6 ring-1 ring-gray-700 hover:ring-gray-900/20 dark:ring-gray-100 dark:hover:ring-gray-300">
           <span className="hidden sm:inline text-center sm:text-left">
             <Clock className="inline w-4 h-4" /> Latest Version: {tag_name}
           </span>

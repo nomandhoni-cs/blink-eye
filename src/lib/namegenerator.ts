@@ -1,0 +1,67 @@
+export const adjectives = [
+  "Agile",
+  "Brilliant",
+  "Calm",
+  "Dynamic",
+  "Efficient",
+  "Focused",
+  "Graceful",
+  "Harmonious",
+  "Innovative",
+  "Joyful",
+  "Keen",
+  "Logical",
+  "Magical",
+  "Nimble",
+  "Optimistic",
+  "Peaceful",
+  "Quiet",
+  "Radiant",
+  "Serene",
+  "Thoughtful",
+  "Upbeat",
+  "Vibrant",
+  "Wise",
+  "Xenial",
+  "Youthful",
+  "Zen",
+];
+
+export const nouns = [
+  "Eagle",
+  "Falcon",
+  "Hawk",
+  "Kite",
+  "Owl",
+  "Peacock",
+  "Phoenix",
+  "Raven",
+  "Swan",
+  "Tiger",
+  "Wolf",
+  "Yak",
+  "Zebra",
+  "Apple",
+  "Berry",
+  "Cherry",
+  "Date",
+  "Fig",
+  "Grape",
+  "Honeydew",
+  "Kiwi",
+  "Lemon",
+  "Mango",
+  "Nut",
+  "Olive",
+  "Pear",
+  "Quince",
+  "Raspberry",
+  "Strawberry",
+];
+
+export const generatePhrase = () => {
+  const randomAdjective =
+    adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  return `${randomAdjective} ${randomNoun}`;
+};
