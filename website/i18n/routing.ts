@@ -13,7 +13,7 @@ export const routing = defineRouting({
     "ar", // Arabic [Done]
     "bn", // Bengali
     "pt", // Portuguese [Done]
-    "ru", // Russian
+    "ru", // Russian [Done]
     "ja", // Japanese
     "de", // German
     "fr", // French
