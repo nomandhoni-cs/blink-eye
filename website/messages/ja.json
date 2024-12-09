@@ -1,0 +1,389 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Mac、Windows、Linux対応のアイケア＆休憩タイマーアプリ",
+    "description": "カスタマイズ可能なタイマー、フルスクリーンポップアップ、音声ミュート機能を備えた、目の疲れを軽減するミニマリストなアイケアリマインダーアプリ。",
+    "keywords": [
+      "RSI 予防アプリ",
+      "CVS 予防アプリ",
+      "RSI 対策アプリ",
+      "CVS 対策アプリ",
+      "2024年 おすすめアイケアアプリ",
+      "スクリーン休憩リマインダーアプリ",
+      "無料 アイヘルスアプリ ダウンロード",
+      "オープンソース 視力保護ソフトウェア",
+      "macOS 生産性向上ツール",
+      "眼精疲労 対策アプリ",
+      "Google カレンダー ToDoリスト",
+      "アイケア用スクリーンタイマー",
+      "作業休憩リマインダーツール",
+      "Mac用 アイコンフォートアプリ",
+      "ノートPC用 視力ケアソフトウェア",
+      "人気 眼精疲労 対策アプリ",
+      "PC スクリーンタイム コントロール",
+      "コンピューター アイケアユーティリティ",
+      "デジタル眼精疲労 予防",
+      "Windows 休憩時間 スケジューラー",
+      "眼精疲労 軽減 おすすめアプリ",
+      "クロスプラットフォーム アイケアアプリ",
+      "オープンソース 休憩リマインダー",
+      "コンピューターヘルス用 ブリンクタイマー",
+      "Windows/Linux用 おすすめアイケアアプリ",
+      "Windows用 無料アイヘルスアプリ",
+      "Linux用 オープンソース視力保護ソフトウェア",
+      "Windows用 スクリーン休憩リマインダーアプリ",
+      "Linux用 アイコンフォートアプリ",
+      "Windows用 眼精疲労対策アプリ",
+      "Windows用 デジタル眼精疲労予防",
+      "Linux用 コンピューターアイケアユーティリティ",
+      "Windows用 作業休憩リマインダーツール",
+      "Linux用 スクリーンタイムコントロール",
+      "クロスプラットフォーム アイケアアプリ",
+      "Windows/Linux用 眼精疲労軽減 おすすめアプリ",
+      "PC用 アイケア スクリーンタイマー",
+      "Windows用 視力ケアソフトウェア",
+      "Linux用 アイケアリマインダーアプリ",
+      "Blink Eye",
+      "Blink Eye Windows版",
+      "Noman Dhoni 開発アプリ",
+      "Windows用 アイケアアプリ",
+      "Windows用 20-20-20ルール アプリ",
+      "アイケア",
+      "眼精疲労 軽減アプリ",
+      "アイヘルス アプリ",
+      "Blink Eye ダウンロード",
+      "Blink Eye レビュー",
+      "20-20-20ルール アプリ",
+      "アイケア リマインダーアプリ",
+      "アイケア ソフトウェア",
+      "アイケアのヒント",
+      "目の体操 アプリ",
+      "視力保護 アプリ",
+      "PC用 アイケアアプリ",
+      "ノートPC用 アイケアアプリ",
+      "デスクトップ用 アイケアアプリ",
+      "Windows 10用 アイケアアプリ",
+      "Windows 11用 アイケアアプリ",
+      "Blink Eye ダウンロード",
+      "Blink Eye レビュー",
+      "Windows用 アイケアアプリ",
+      "Windows用 20-20-20ルール アプリ"
+    ]
+  },
+  "NavMenu": {
+    "features": "機能",
+    "about": "Blink Eyeについて",
+    "pricing": "価格",
+    "release": "リリース情報",
+    "contribute": "貢献する",
+    "blogs": "ブログ"
+  },
+  "HeroBanner": {
+    "tagline": "Windows、macOS、Linux対応のミニマリストなアイケアリマインダーアプリ。",
+    "span1": "タイマー付きリマインダー、フルスクリーンポップアップで、目の負担を軽減。",
+    "202020": "20-20-20",
+    "span2": "ルールに基づいています。",
+    "institute": "米国眼科学会 (American Academy of Ophthalmology)"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "対応プラットフォーム：macOS Intel/Mチップ (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "機能",
+    "featureSubtitle": "生産性向上に必要なツールがすべてここに。"
+  },
+  "PricingGrid": {
+    "pricingTitle": "価格",
+    "pricingDescription": "ユーザーエンゲージメントを高め、顧客ロイヤルティを育み、売上を向上させるための、最適な機能を備えた、手頃な価格のプランをお選びください。"
+  },
+  "FeatureDemoSlide1": {
+    "title": "カスタマイズ可能なリマインダー"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Blink Eye がもたらす効果",
+    "body1": "Blink Eye であなたの健康を管理しましょう。",
+    "body2": "スケジュールされた休憩がどのように目の健康を改善し、集中力を高め、生産性を向上させ、バランスの取れたデジタルライフスタイルを実現し、長期的な健康を促進するかをご覧ください。",
+    "learnMore": "さらに詳しく",
+    "title1": "デジタル眼精疲労から目を守る",
+    "title2": "フィジカルヘルス",
+    "title3": "メンタルウェルネス",
+    "title4": "生産性の向上",
+    "title5": "健康的なスクリーンタイム習慣",
+    "title6": "持続可能な長期的メリット",
+    "title7": "柔軟でカスタマイズ可能",
+    "title8": "研究に基づいた効果",
+    "title9": "エネルギーと気分の向上",
+    "description1": "デジタル眼精疲労から目を守り、ブルーライトへの露出を減らし、コンピューター視覚症候群（CVS）を予防します。",
+    "description2": "姿勢を改善し、反復運動過多損傷（RSI）を予防し、身体的な不快感を軽減します。",
+    "description3": "集中力とマインドフルネスを高め、ストレスを軽減します。",
+    "description4": "生産性重視の方法で、より賢く働きましょう。",
+    "description5": "規律あるスクリーンタイムの実践を開発し、不要な邪魔を最小限に抑えます。",
+    "description6": "慢性的な問題を回避し、長期的にバランスを維持します。",
+    "description7": "あなたのライフスタイル、職業、個々のニーズに合わせて体験を調整してください。",
+    "description8": "生産性とウェルネスの研究に基づいた機能をお楽しみください。",
+    "description9": "バランスの取れた作業休憩で、一日を通してエネルギーを感じ、ポジティブな気分を維持しましょう。",
+    "preventDigitalEyeStrain": "デジタル眼精疲労の予防",
+    "blueLightProtection": "ブルーライト対策",
+    "preventRepetitiveStrainInjuries": "反復運動過多損傷（RSI）の予防",
+    "supportBetterPosture": "正しい姿勢のサポート",
+    "enhanceFocusAndMindfulness": "集中力とマインドフルネスの向上",
+    "stressManagement": "ストレス管理",
+    "pomodoroTechniqueIntegration": "ポモドーロ・テクニックの統合",
+    "cognitiveEfficiency": "認知効率の向上",
+    "structuredScreenTime": "構造化されたスクリーンタイム",
+    "reduceMultitasking": "マルチタスクの軽減",
+    "preventChronicVisionProblems": "慢性的な視力問題の予防",
+    "achieveWorkLifeBalance": "ワークライフバランスの実現",
+    "customizableBreakTimers": "カスタマイズ可能な休憩タイマー",
+    "builtForEveryone": "あらゆる人に適した設計",
+    "evidenceBasedFeatures": "エビデンスに基づいた機能",
+    "trustedByUsers": "ユーザーからの信頼",
+    "boostDailyEnergy": "日々のエネルギー向上",
+    "maintainPositiveMood": "ポジティブな気分の維持",
+    "preventDigitalEyeStrainDetails": "スケジュールされた休憩は、ドライアイ、かすみ目、頭痛などの症状を軽減し、長期的な目の健康を確保します。",
+    "blueLightProtectionDetails": "ブルーライトの有害な影響に対抗するために設計されたプロンプトで、定期的に目を休めましょう。",
+    "preventRepetitiveStrainInjuriesDetails": "定期的な休憩は、手や手首への負担を最小限に抑え、反復作業による長期的な損傷を防ぎます。",
+    "supportBetterPostureDetails": "ストレッチや姿勢チェックを促し、テクノロジーネックや腰痛などの問題を回避します。",
+    "enhanceFocusAndMindfulnessDetails": "定期的な休憩は、精神的な疲労や燃え尽き症候群を軽減しながら、頭を冴えさせ、集中力を維持するのに役立ちます。",
+    "stressManagementDetails": "休憩時間をリラクゼーションテクニックの練習に使い、仕事によるストレスや緊張を軽減しましょう。",
+    "pomodoroTechniqueIntegrationDetails": "タスクを管理可能な間隔に分割して効率的な作業セッションを実現し、タスク完了率を向上させます。",
+    "cognitiveEfficiencyDetails": "戦略的な休憩は、精神的なパフォーマンスを高め、より少ない労力でより多くのことを達成するのに役立ちます。",
+    "structuredScreenTimeDetails": "仕事とリラクゼーションのバランスを取るための、タイミングの良いリマインダーで、健康的なデジタル習慣を構築しましょう。",
+    "reduceMultitaskingDetails": "仕事とリラクゼーションのサイクル中に邪魔を最小限に抑えることで、タスクに完全に集中できます。",
+    "preventChronicVisionProblemsDetails": "スクリーンの過剰使用による長期的なデジタル視力問題のリスクを軽減するための予防措置を講じましょう。",
+    "achieveWorkLifeBalanceDetails": "生産性へのバランスの取れたアプローチで、仕事と私生活のための持続可能な習慣を作りましょう。",
+    "customizableBreakTimersDetails": "ワークフローに合わせた間隔を設定し、アプリがあなたのユニークなスケジュールを補完するようにします。",
+    "builtForEveryoneDetails": "学生、開発者、デザイナー、リモートワーカーなど、あらゆる人のニーズに適応します。",
+    "evidenceBasedFeaturesDetails": "アプリのデザインは、生産性、集中力、デジタルウェルビーイングの研究から着想を得ています。",
+    "trustedByUsersDetails": "実際のユーザーの声と成功事例が、その有効性と価値を証明しています。",
+    "boostDailyEnergyDetails": "短く定期的な休憩は、心身を充電し、一日を通してエネルギーを維持するのに役立ちます。",
+    "maintainPositiveMoodDetails": "継続的なスクリーンタイムの単調さを解消し、フラストレーションを軽減し、全体的な気分を高めましょう。"
+  },
+  "featureGrid": {
+    "title": "機能",
+    "subtitle": "生産性向上に必要なツールがすべてここに。",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "カスタマイズ可能なリマインダータイマー",
+        "description": "リマインダータイマーを自由に設定して、集中力を維持し、タスクを順調に進めましょう。"
+      },
+      "diverseThemes": {
+        "title": "選べるテーマ",
+        "description": "様々なテーマから選んで、インターフェースやワークフローをカスタマイズできます。"
+      },
+      "customizableReminderText": {
+        "title": "カスタマイズ可能なリマインダーテキスト",
+        "description": "リマインダーメッセージを自由に作成して、モチベーションを維持しましょう。"
+      },
+      "customizableSounds": {
+        "title": "カスタマイズ可能なサウンド",
+        "description": "通知やアラートのサウンドを自由に選択できます。"
+      },
+      "dailyDeviceUsage": {
+        "title": "1日のデバイス使用時間",
+        "description": "スクリーンタイムを記録して、生産性とバランスを最適化しましょう。"
+      },
+      "workdaySetup": {
+        "title": "ワークデー設定",
+        "description": "ワークデーのスケジュールを簡単に設定して、生産性を向上させましょう。"
+      },
+      "pomodoroTimer": {
+        "title": "ポモドーロタイマー",
+        "description": "タスクを一定間隔に分割して、集中力と効率を最大限に高めましょう。"
+      },
+      "runOnStartup": {
+        "title": "起動時に実行",
+        "description": "デバイスの起動時にアプリを自動的に起動します。"
+      },
+      "updateSupport": {
+        "title": "アップデートサポート",
+        "description": "最新の機能や修正をシームレスに受け取ることができます。"
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Blink Eye の優れた機能をご覧ください",
+    "description": "カスタマイズ可能なリマインダーから複数のテーマまで、Blink Eye の優れた機能をご覧ください。あなたのニーズをしっかりカバーします。"
+  },
+  "featuresDemo": [
+    {
+      "title": "カスタマイズ可能なリマインダー",
+      "description": "長時間の作業中に眼精疲労を防ぎ、生産性を向上させ、集中力を維持するために、自分に合わせたリマインダーを設定できます。",
+      "features": [
+        "リマインダー時間のカスタマイズ",
+        "間隔設定の調整",
+        "リマインダーテキストの編集"
+      ],
+      "moto": "コンピューターユーザーに最適な眼精疲労軽減アプリ"
+    },
+    {
+      "title": "選べるテーマ",
+      "description": "ライトテーマとダークテーマを切り替えたり、気分や作業環境に合わせて様々なカラーテーマを選択したりできます。",
+      "features": [
+        "選べる複数のリマインダースクリーンテーマ",
+        "アプリのダークモード対応",
+        "アプリのライトモード対応"
+      ],
+      "moto": "スクリーンタイムトラッカー＆休憩リマインダーアプリ"
+    },
+    {
+      "title": "使用状況の統計",
+      "description": "毎日のスクリーンタイムを監視し、デバイスの使用傾向を記録し、ワークライフバランスを効果的に最適化します。",
+      "features": [
+        "1日のデバイス使用状況の記録",
+        "週間のデバイス使用状況の記録",
+        "月間のデバイス使用状況の記録",
+        "年間のデバイス使用状況の記録",
+        "全期間のデバイス使用状況の記録",
+        "包括的な使用状況分析",
+        "視覚的なグラフと進捗レポート"
+      ],
+      "moto": "健康な目のための無料スクリーン休憩リマインダーアプリ"
+    },
+    {
+      "title": "ワークデーの設定とスケジューリング",
+      "description": "曜日ごとにカスタムスケジュールと作業時間を設定して、効率的にワークデーを計画できます。",
+      "features": [
+        "カスタマイズ可能なワークデー設定",
+        "日々のスケジュールの柔軟性",
+        "作業時間休憩の自動リマインダー"
+      ],
+      "moto": "オフィスワーカーのためのカスタマイズ可能な作業休憩タイマー"
+    },
+    {
+      "title": "アニメーション付きスクリーンセーバー",
+      "description": "カスタマイズ可能なアニメーションとサウンドを備えた人気のスクリーンセーバーで、生産性とリラクゼーションを高めましょう。",
+      "features": [
+        "カスタマイズ可能なアニメーション付きの様々なスクリーンセーバー",
+        "リラクゼーションのためのカスタマイズ可能な効果音",
+        "スクリーンセーバーの時間のカスタマイズ"
+      ],
+      "moto": "パワーユーザーに最適なスクリーンセーバー＆タスク管理アプリ"
+    },
+    {
+      "title": "包括的なカスタマイズ設定",
+      "description": "ポモドーロタイマーや通知設定など、カスタマイズ可能な設定で生産性と集中力を高めましょう。",
+      "features": [
+        "ポモドーロ・テクニックの統合",
+        "休憩を強制するストリクトモード",
+        "カスタマイズ可能な通知音",
+        "起動時に実行スイッチ",
+        "1日のスクリーン使用制限の設定"
+      ],
+      "moto": "生産性向上のための休憩リマインダー付きポモドーロタイマー"
+    },
+    {
+      "title": "ライセンスキーのアクティベート",
+      "description": "ライセンスキーでアプリをアクティベートすると、プレミアム機能へのフルアクセスとシームレスなアップデートが可能になります。",
+      "features": [
+        "簡単なライセンスアクティベーションプロセス",
+        "限定プレミアム機能へのアクセス",
+        "定期的なソフトウェアアップデートとサポート"
+      ],
+      "moto": "コンピューター視覚症候群（CVS）および反復運動過多損傷（RSI）を予防するトップアプリ"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "あなたにぴったりのプランを選びましょう",
+    "description": "ユーザーエンゲージメントを高め、顧客ロイヤルティを育み、売上を向上させるための、最適な機能を備えた、手頃な価格のプランをお選びください。"
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} リリース情報",
+    "title": "{tag} リリース情報",
+    "goBack": "戻る",
+    "tag": "タグ",
+    "published": "公開日",
+    "author": "作成者",
+    "assets": "アセット",
+    "fullChangelog": "変更履歴",
+    "downloadOptions": "ダウンロードオプション",
+    "downloadTarball": "Tarballをダウンロード",
+    "downloadZipball": "Zipballをダウンロード"
+  },
+  "privacyPage": {
+    "title": "プライバシーポリシー",
+    "description": "Blink Eye のプライバシーポリシーについて説明します。"
+  },
+  "pricingPage": {
+    "title": "価格",
+    "description": "ユーザーエンゲージメントを高め、顧客ロイヤルティを育み、売上を向上させるための、最適な機能を備えた、手頃な価格のプランをお選びください。"
+  },
+  "howtousePage": {
+    "title": "使い方",
+    "description": "Blink Eye の使い方と機能について説明します。"
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Blink Eye がもたらす効果",
+    "description": "Blink Eye がどのように集中力と生産性を維持するのに役立つかをご覧ください。"
+  },
+  "goodbyePage": {
+    "title": "ご利用ありがとうございました",
+    "description": "Blink Eye アプリのアンインストールページ",
+    "missyou": "ご利用いただきありがとうございました。Blink Eye をお楽しみいただけたことを願っております。",
+    "suggesition": "目を大切にしてください。"
+  },
+  "featuresPage": {
+    "title": "機能",
+    "description": "カスタマイズ可能なリマインダーから複数のテーマまで、Blink Eye の優れた機能をご覧ください。あなたのニーズをしっかりカバーします。"
+  },
+  "downloadPage": {
+    "title": "ダウンロード",
+    "description": "Windows、macOS、Linux 用の Blink Eye アプリをダウンロード。"
+  },
+  "contributePage": {
+    "title": "貢献する",
+    "description": "Blink Eye アプリの開発に貢献しましょう。"
+  },
+  "aboutPage": {
+    "title": "Blink Eyeについて",
+    "description": "Blink Eye アプリとそのチームについて詳しく知ることができます。",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "ブログ",
+    "description": "最新のブログ記事とニュースをご覧ください。"
+  }
+}

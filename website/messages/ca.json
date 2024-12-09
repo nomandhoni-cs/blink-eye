@@ -1,0 +1,389 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "La millor app de descans visual i temporitzador de descans per a Mac, Windows i Linux",
+    "description": "Una app minimalista de descans visual per reduir la fatiga ocular, amb temporitzadors personalitzables, finestres emergents a pantalla completa i silenci d'àudio.",
+    "keywords": [
+      "app per a prevenir lesions per moviments repetitius (LMR)",
+      "app per a prevenir la síndrome visual informàtica (SVI)",
+      "app LMR",
+      "app SVI",
+      "millor app per a la salut ocular 2024",
+      "app de recordatori de pauses de pantalla",
+      "descàrrega gratuïta d'app de salut ocular",
+      "programari de codi obert per a la protecció dels ulls",
+      "eina de productivitat per a macOS",
+      "millor app per a relaxar la vista",
+      "llista de tasques Google Calender",
+      "temporitzador de pantalla per a la salut ocular",
+      "eina de recordatori de pausa de treball",
+      "app per al confort visual a Mac",
+      "programari per a la cura de la vista per a portàtils",
+      "millor app per a relaxar la vista",
+      "control de temps de pantalla per a PC",
+      "utilitat per a la cura dels ulls a l'ordinador",
+      "prevenció de la fatiga ocular digital",
+      "planificador de pausa de treball a Windows",
+      "millors apps per alleujar la fatiga visual",
+      "app multiplataforma per a la salut ocular",
+      "millor recordatori de pausa de codi obert",
+      "temporitzador de parpelleig per a la salut de l'ordinador",
+      "millor app de descans visual per a Windows i Linux",
+      "app gratuïta per a la salut ocular a Windows",
+      "programari de codi obert per a la protecció ocular a Linux",
+      "app de recordatori de pausa de pantalla per a Windows",
+      "app per al confort visual a Linux",
+      "millor app per a la relaxació ocular a Windows",
+      "prevenció de la fatiga ocular digital per a Windows",
+      "utilitat per a la cura ocular a l'ordinador per a Linux",
+      "eina de recordatori de pausa de treball per a Windows",
+      "control de temps de pantalla per a Linux",
+      "app multiplataforma per a la cura dels ulls",
+      "millors apps per alleujar la fatiga ocular a Windows i Linux",
+      "temporitzador de pantalla per a la cura dels ulls a PC",
+      "programari per a la cura de la vista a Windows",
+      "app de recordatori per a la salut ocular a Linux",
+      "blink eye",
+      "blink eye per a windows",
+      "App feta per Noman Dhoni",
+      "app per a la salut ocular per a windows",
+      "app per a la regla 20 20 20 per a windows",
+      "cura dels ulls",
+      "app per alleujar la fatiga visual",
+      "app per a la salut ocular",
+      "descarregar blink eye",
+      "ressenya de blink eye",
+      "app per a la regla 20 20 20",
+      "app de recordatori per a la salut ocular",
+      "programari per a la cura dels ulls",
+      "consells per a la cura dels ulls",
+      "app d'exercicis per als ulls",
+      "app de protecció per als ulls",
+      "app per a la salut ocular per a PC",
+      "app per a la salut ocular per a portàtil",
+      "app per a la salut ocular per a ordinador d'escriptori",
+      "app per a la salut ocular per a windows 10",
+      "app per a la salut ocular per a windows 11",
+      "descarregar blink eye",
+      "ressenya de blink eye",
+      "app per a la salut ocular per a windows",
+      "app per a la regla 20 20 20 per a windows"
+    ]
+  },
+  "NavMenu": {
+    "features": "Característiques",
+    "about": "Sobre",
+    "pricing": "Preus",
+    "release": "Llançaments",
+    "contribute": "Contribueix",
+    "blogs": "Blogs"
+  },
+  "HeroBanner": {
+    "tagline": "Una app minimalista de recordatoris de descans visual per a Windows, macOS i Linux.",
+    "span1": "Per reduir la fatiga ocular, amb recordatoris amb temporitzadors i finestres emergents a pantalla completa. Basat en la",
+    "202020": "regla 20-20-20",
+    "span2": ".",
+    "institute": "Acadèmia Americana d'Oftalmologia"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Compatible amb macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Característiques",
+    "featureSubtitle": "Totes les eines de productivitat necessàries en un sol lloc."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Preus",
+    "pricingDescription": "Tria un pla assequible que inclogui les millors funcions per captar la teva audiència, fidelitzar els teus clients i impulsar les vendes."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Recordatoris personalitzables"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Com t'ajudarà Blink Eye",
+    "body1": "Pren el control del teu benestar amb Blink Eye.",
+    "body2": "Descobreix com les pauses programades poden millorar la salut ocular, augmentar la concentració, potenciar la productivitat i promoure el benestar a llarg termini per a un estil de vida digital equilibrat.",
+    "learnMore": "Més informació",
+    "title1": "Protegeix els teus ulls de la fatiga digital",
+    "title2": "Salut física",
+    "title3": "Benestar mental",
+    "title4": "Productivitat millorada",
+    "title5": "Hàbits saludables de temps de pantalla",
+    "title6": "Beneficis sostenibles a llarg termini",
+    "title7": "Flexible i personalitzable",
+    "title8": "Beneficis basats en la investigació",
+    "title9": "Més energia i millor estat d'ànim",
+    "description1": "Protegeix els teus ulls de la fatiga digital, redueix l'exposició a la llum blava i prevé la Síndrome Visual Informàtica (SVI).",
+    "description2": "Millora la postura, prevé les lesions per moviments repetitius (LMR) i redueix el malestar físic.",
+    "description3": "Augmenta la teva concentració, atenció plena i redueix l'estrès sense esforç.",
+    "description4": "Treballa de manera més intel·ligent, no més dura, amb mètodes enfocats a la productivitat.",
+    "description5": "Desenvolupa pràctiques disciplinades de temps de pantalla i minimitza les distraccions innecessàries.",
+    "description6": "Evita problemes crònics i mantingues l'equilibri durant els anys vinents.",
+    "description7": "Adapta la teva experiència per ajustar-se al teu estil de vida, professió i necessitats individuals.",
+    "description8": "Gaudeix de funcions basades en estudis sobre productivitat i benestar.",
+    "description9": "Sent-te amb energia i mantingues una actitud positiva durant tot el dia amb pauses de treball equilibrades.",
+    "preventDigitalEyeStrain": "Prevé la fatiga ocular digital",
+    "blueLightProtection": "Protecció contra la llum blava",
+    "preventRepetitiveStrainInjuries": "Prevé les lesions per moviments repetitius (LMR)",
+    "supportBetterPosture": "Afavoreix una millor postura",
+    "enhanceFocusAndMindfulness": "Millora la concentració i l'atenció plena",
+    "stressManagement": "Gestió de l'estrès",
+    "pomodoroTechniqueIntegration": "Integració de la tècnica Pomodoro",
+    "cognitiveEfficiency": "Eficiència cognitiva",
+    "structuredScreenTime": "Temps de pantalla estructurat",
+    "reduceMultitasking": "Redueix la multitasca",
+    "preventChronicVisionProblems": "Prevé problemes crònics de visió",
+    "achieveWorkLifeBalance": "Aconsegueix un equilibri entre la vida laboral i personal",
+    "customizableBreakTimers": "Temporitzadors de pausa personalitzables",
+    "builtForEveryone": "Dissenyat per a tothom",
+    "evidenceBasedFeatures": "Funcions basades en evidències",
+    "trustedByUsers": "De confiança per als usuaris",
+    "boostDailyEnergy": "Augmenta l'energia diària",
+    "maintainPositiveMood": "Manté un estat d'ànim positiu",
+    "preventDigitalEyeStrainDetails": "Les pauses programades redueixen símptomes com la sequedat ocular, la visió borrosa i els mals de cap, garantint la salut ocular a llarg termini.",
+    "blueLightProtectionDetails": "Descansa els ulls regularment amb avisos dissenyats per combatre els efectes nocius de l'exposició a la llum blava.",
+    "preventRepetitiveStrainInjuriesDetails": "Les pauses regulars minimitzen la tensió a les mans i els canells, prevenint danys a llarg termini per tasques repetitives.",
+    "supportBetterPostureDetails": "Fomenta l'estirament i la comprovació de la postura per evitar problemes com el coll de text i el mal d'esquena.",
+    "enhanceFocusAndMindfulnessDetails": "Les pauses regulars t'ajuden a mantenir-te alerta i concentrat, reduint la fatiga mental i l'esgotament.",
+    "stressManagementDetails": "Utilitza els intervals de pausa per practicar tècniques de relaxació, reduint l'estrès i la tensió induïts pel treball.",
+    "pomodoroTechniqueIntegrationDetails": "Divideix les tasques en intervals manejables per a sessions de treball eficients, millorant les taxes de finalització de tasques.",
+    "cognitiveEfficiencyDetails": "Les pauses estratègiques milloren el teu rendiment mental, ajudant-te a aconseguir més amb menys esforç.",
+    "structuredScreenTimeDetails": "Construeix hàbits digitals saludables amb recordatoris oportuns per equilibrar el treball i la relaxació.",
+    "reduceMultitaskingDetails": "Concentra't plenament en les tasques minimitzant les distraccions durant els teus cicles de treball i relaxació.",
+    "preventChronicVisionProblemsDetails": "Pren mesures proactives per reduir els riscos de problemes de visió digital a llarg termini causats per l'ús excessiu de la pantalla.",
+    "achieveWorkLifeBalanceDetails": "Crea hàbits sostenibles per a la vida laboral i personal amb un enfocament equilibrat de la productivitat.",
+    "customizableBreakTimersDetails": "Configura intervals que coincideixin amb el teu flux de treball, assegurant que l'app complementi la teva programació única.",
+    "builtForEveryoneDetails": "Tant si ets un estudiant, desenvolupador, dissenyador o treballador remot, l'app s'adapta a les teves necessitats.",
+    "evidenceBasedFeaturesDetails": "El disseny de l'app està inspirat en la investigació en productivitat, concentració i benestar digital.",
+    "trustedByUsersDetails": "Els testimonis reals dels usuaris i les històries d'èxit validen la seva efectivitat i valor.",
+    "boostDailyEnergyDetails": "Les pauses curtes i regulars ajuden a recarregar la ment i el cos, mantenint-te amb energia per al dia següent.",
+    "maintainPositiveMoodDetails": "Trenca la monotonia del temps de pantalla continu per reduir la frustració i millorar el teu estat d'ànim general."
+  },
+  "featureGrid": {
+    "title": "Característiques",
+    "subtitle": "Totes les eines de productivitat necessàries en un sol lloc.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Temporitzadors de recordatori personalitzables",
+        "description": "Configura temporitzadors de recordatori personalitzats per mantenir-te concentrat i en el camí correcte."
+      },
+      "diverseThemes": {
+        "title": "Diversos temes per a la personalització",
+        "description": "Tria entre diversos temes per personalitzar la teva interfície i flux de treball."
+      },
+      "customizableReminderText": {
+        "title": "Text de recordatori personalitzable",
+        "description": "Crea missatges de recordatori personalitzats per mantenir-te motivat."
+      },
+      "customizableSounds": {
+        "title": "Sons personalitzables",
+        "description": "Tria els teus propis sons per a notificacions i alertes."
+      },
+      "dailyDeviceUsage": {
+        "title": "Temps d'ús diari del dispositiu",
+        "description": "Fes un seguiment del teu temps de pantalla per optimitzar la productivitat i l'equilibri."
+      },
+      "workdaySetup": {
+        "title": "Configuració de la jornada laboral",
+        "description": "Configura ràpidament la teva programació de la jornada laboral per a una millor productivitat."
+      },
+      "pomodoroTimer": {
+        "title": "Temporitzador Pomodoro",
+        "description": "Divideix les tasques en intervals per a una màxima concentració i eficiència."
+      },
+      "runOnStartup": {
+        "title": "Executar a l'inici",
+        "description": "Inicia l'app automàticament quan s'iniciï el teu dispositiu."
+      },
+      "updateSupport": {
+        "title": "Suport d'actualització",
+        "description": "Rep actualitzacions sense problemes per a les últimes funcions i correccions."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Descobreix les característiques que ens fan destacar",
+    "description": "Explora les característiques que fan que la nostra app destaqui. Des de recordatoris personalitzables fins a múltiples temes, ho tenim tot cobert."
+  },
+  "featuresDemo": [
+    {
+      "title": "Recordatoris personalitzables",
+      "description": "Configura recordatoris personalitzats per prevenir la fatiga ocular, millorar la productivitat i mantenir la concentració durant llargues sessions de treball.",
+      "features": [
+        "Durada dels recordatoris personalitzable",
+        "Configuració d'intervals ajustable",
+        "Text de recordatori editable per a la personalització"
+      ],
+      "moto": "La millor app per alleujar la fatiga visual per a usuaris d'ordinadors"
+    },
+    {
+      "title": "Múltiples temes",
+      "description": "Canvia entre temes clars i foscos o tria entre una varietat d'esquemes de colors únics per adaptar-se al teu estat d'ànim i espai de treball.",
+      "features": [
+        "Múltiples temes de pantalla de recordatori per triar",
+        "Suport del mode fosc de l'app",
+        "Suport del mode clar de l'app"
+      ],
+      "moto": "App de seguiment del temps de pantalla i recordatori de pauses"
+    },
+    {
+      "title": "Estadístiques d'ús",
+      "description": "Monitoritza el teu temps de pantalla diari, fes un seguiment de les tendències d'ús del dispositiu i optimitza el teu equilibri entre la vida laboral i personal de manera efectiva.",
+      "features": [
+        "Seguiment diari de l'ús del dispositiu",
+        "Seguiment setmanal de l'ús del dispositiu",
+        "Seguiment mensual de l'ús del dispositiu",
+        "Seguiment anual de l'ús del dispositiu",
+        "Seguiment de l'ús del dispositiu de per vida",
+        "Anàlisis completes d'ús",
+        "Gràfics visuals i informes de progrés"
+      ],
+      "moto": "App gratuïta de recordatori de pauses de pantalla per a uns ulls saludables"
+    },
+    {
+      "title": "Configuració i programació de la jornada laboral",
+      "description": "Planifica les teves jornades laborals de manera eficient configurant horaris personalitzats i hores de treball per a cada dia de la setmana.",
+      "features": [
+        "Configuració personalitzable de la jornada laboral",
+        "Flexibilitat de programació diària",
+        "Recordatoris automàtics per a pauses durant les hores de treball"
+      ],
+      "moto": "Temporitzador de pauses de treball personalitzable per a treballadors d'oficina"
+    },
+    {
+      "title": "Protectors de pantalla amb animacions",
+      "description": "Reprodueix alguns dels protectors de pantalla més populars amb animacions i sons personalitzables per millorar la teva productivitat i relaxació.",
+      "features": [
+        "Tria entre diversos protectors de pantalla amb animacions personalitzables",
+        "Efectes de so personalitzables per a la relaxació",
+        "Durada del protector de pantalla personalitzable"
+      ],
+      "moto": "Millor app de protector de pantalla i gestor de tasques per a usuaris avançats"
+    },
+    {
+      "title": "Configuracions completes de personalització",
+      "description": "Augmenta la teva productivitat i concentració amb configuracions personalitzables, incloent-hi temporitzadors Pomodoro i preferències de notificació.",
+      "features": [
+        "Integració de la tècnica Pomodoro",
+        "Mode estricte per obligar-te a fer pauses",
+        "Sons de notificació personalitzables",
+        "Interruptor d'execució a l'inici",
+        "Configura el teu límit diari d'ús de la pantalla"
+      ],
+      "moto": "Temporitzador Pomodoro amb recordatoris de pausa per a la productivitat"
+    },
+    {
+      "title": "Activa la clau de llicència",
+      "description": "Activa la teva app amb una clau de llicència per a un accés complet a les funcions premium i actualitzacions sense problemes.",
+      "features": [
+        "Procés fàcil d'activació de la llicència",
+        "Accés a funcions premium exclusives",
+        "Actualitzacions i suport regulars del programari"
+      ],
+      "moto": "Millor app per a previndre la síndrome de visió per computador (SVC) i lesions per moviments repetitius (LMR)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Tria el pla adequat per a tu",
+    "description": "Tria un pla assequible que inclogui les millors funcions per captar la teva audiència, fidelitzar els teus clients i impulsar les vendes."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Informació de la versió {tag} de Blink Eye",
+    "title": "Informació de la versió {tag}",
+    "goBack": "Torna enrere",
+    "tag": "Etiqueta",
+    "published": "Publicat",
+    "author": "Autor",
+    "assets": "Recursos",
+    "fullChangelog": "Registre de canvis complet",
+    "downloadOptions": "Opcions de descàrrega",
+    "downloadTarball": "Descarrega Tarball",
+    "downloadZipball": "Descarrega Zipball"
+  },
+  "privacyPage": {
+    "title": "Política de privacitat",
+    "description": "Informa't sobre les nostres pràctiques i polítiques de privacitat."
+  },
+  "pricingPage": {
+    "title": "Preus",
+    "description": "Tria un pla assequible que inclogui les millors funcions per captar la teva audiència, fidelitzar els teus clients i impulsar les vendes."
+  },
+  "howtousePage": {
+    "title": "Com utilitzar",
+    "description": "Aprèn a utilitzar l'app i les seves funcions."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Com ajuda Blink Eye",
+    "description": "Descobreix com Blink Eye t'ajuda a mantenir-te concentrat i productiu."
+  },
+  "goodbyePage": {
+    "title": "Adéu",
+    "description": "Pàgina de desinstal·lació de l'app Blink Eye",
+    "missyou": "Sentim que te'n vagis! Esperem que hagis gaudit utilitzant Blink Eye.",
+    "suggesition": "Cuida bé dels teus ulls."
+  },
+  "featuresPage": {
+    "title": "Característiques",
+    "description": "Descobreix les característiques que fan que la nostra app destaqui. Des de recordatoris personalitzables fins a múltiples temes, ho tenim tot cobert."
+  },
+  "downloadPage": {
+    "title": "Descarrega",
+    "description": "Descarrega l'app Blink Eye per a Windows, macOS i Linux."
+  },
+  "contributePage": {
+    "title": "Contribueix",
+    "description": "Contribueix al desenvolupament de l'app Blink Eye."
+  },
+  "aboutPage": {
+    "title": "Sobre",
+    "description": "Més informació sobre l'app Blink Eye i el seu equip.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogs",
+    "description": "Llegeix els nostres últims blogs i actualitzacions de notícies."
+  }
+}

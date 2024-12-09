@@ -1,0 +1,389 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Melhor App de Saúde Ocular e Temporizador de Pausas para Mac, Windows, Linux",
+    "description": "Um app minimalista de lembrete de cuidados com os olhos para reduzir a fadiga ocular, com temporizadores personalizáveis, pop-ups em ecrã inteiro e silenciamento de áudio.",
+    "keywords": [
+      "app para prevenir LER",
+      "app para prevenir SCO",
+      "app LER",
+      "app SCO",
+      "melhor app de saúde ocular 2024",
+      "app de lembrete de pausa no ecrã",
+      "download grátis de app de saúde ocular",
+      "software de proteção ocular open source",
+      "ferramenta de produtividade para macOS",
+      "Melhor app de relaxamento ocular",
+      "lista de tarefas do Google Agenda",
+      "temporizador de ecrã para saúde ocular",
+      "ferramenta de lembrete de pausa no trabalho",
+      "app de conforto ocular para Mac",
+      "software de cuidados com a visão para portáteis",
+      "melhor app de relaxamento ocular",
+      "controlo de tempo de ecrã no PC",
+      "utilitário de cuidados com os olhos no computador",
+      "prevenção de fadiga ocular digital",
+      "agendador de pausas para Windows",
+      "melhores apps para alívio da fadiga ocular",
+      "app de saúde ocular multiplataforma",
+      "melhor lembrete de pausa open source",
+      "temporizador de piscar para saúde do computador",
+      "melhor app de saúde ocular para Windows e Linux",
+      "app grátis de saúde ocular para Windows",
+      "software de proteção ocular open source para Linux",
+      "app de lembrete de pausa no ecrã para Windows",
+      "app de conforto ocular para Linux",
+      "melhor app de relaxamento ocular para Windows",
+      "prevenção de fadiga ocular digital para Windows",
+      "utilitário de cuidados com os olhos no computador para Linux",
+      "ferramenta de lembrete de pausa no trabalho para Windows",
+      "controlo de tempo de ecrã para Linux",
+      "app de saúde ocular multiplataforma",
+      "melhores apps para alívio da fadiga ocular no Windows e Linux",
+      "temporizador de ecrã para saúde ocular no PC",
+      "software de cuidados com a visão para Windows",
+      "app de lembrete de saúde ocular para Linux",
+      "blink eye",
+      "blink eye para windows",
+      "App feita por Noman Dhoni",
+      "app de saúde ocular para windows",
+      "app da regra 20 20 20 para windows",
+      "saúde ocular",
+      "app de alívio da fadiga ocular",
+      "app de saúde ocular",
+      "download do blink eye",
+      "avaliação do blink eye",
+      "app da regra 20 20 20",
+      "app de lembrete de saúde ocular",
+      "software de saúde ocular",
+      "dicas de saúde ocular",
+      "app de exercícios para os olhos",
+      "app de proteção ocular",
+      "app de saúde ocular para pc",
+      "app de saúde ocular para portátil",
+      "app de saúde ocular para desktop",
+      "app de saúde ocular para windows 10",
+      "app de saúde ocular para windows 11",
+      "download blink eye",
+      "avaliação blink eye",
+      "app de saúde ocular para windows",
+      "app regra 20 20 20 para windows"
+    ]
+  },
+  "NavMenu": {
+    "features": "Funcionalidades",
+    "about": "Sobre",
+    "pricing": "Preços",
+    "release": "Lançamentos",
+    "contribute": "Contribuir",
+    "blogs": "Blogues"
+  },
+  "HeroBanner": {
+    "tagline": "Um app minimalista de lembrete de saúde ocular para Windows, macOS e Linux.",
+    "span1": "Para reduzir a fadiga ocular, com lembretes com temporizadores e pop-ups em ecrã inteiro. Baseado na regra",
+    "202020": "20-20-20",
+    "span2": ".",
+    "institute": "American Academy of Ophthalmology"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Compatível com macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Funcionalidades",
+    "featureSubtitle": "Todas as ferramentas de produtividade necessárias num só lugar."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Preços",
+    "pricingDescription": "Escolha um plano acessível com as melhores funcionalidades para interagir com o seu público, criar fidelização de clientes e impulsionar as vendas."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Lembretes Personalizáveis"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Como o Blink Eye o Ajudará",
+    "body1": "Controle o seu bem-estar com o Blink Eye.",
+    "body2": "Descubra como pausas programadas podem melhorar a saúde ocular, aumentar o foco, a produtividade e promover o bem-estar a longo prazo para um estilo de vida digital equilibrado.",
+    "learnMore": "Saber Mais",
+    "title1": "Proteja os seus Olhos da Tensão Digital",
+    "title2": "Saúde Física",
+    "title3": "Bem-Estar Mental",
+    "title4": "Produtividade Aumentada",
+    "title5": "Hábitos Saudáveis de Tempo de Ecrã",
+    "title6": "Benefícios Sustentáveis a Longo Prazo",
+    "title7": "Flexível e Personalizável",
+    "title8": "Benefícios Baseados em Pesquisas",
+    "title9": "Mais Energia e Bom Humor",
+    "description1": "Proteja os seus olhos da tensão digital, reduza a exposição à luz azul e previna a Síndrome da Visão do Computador (SCO).",
+    "description2": "Melhore a postura, previna Lesões por Esforço Repetitivo (LER) e reduza o desconforto físico.",
+    "description3": "Melhore o seu foco, atenção plena e reduza o stress sem esforço.",
+    "description4": "Trabalhe de forma mais inteligente, não mais difícil, com métodos focados na produtividade.",
+    "description5": "Desenvolva práticas disciplinadas de tempo de ecrã e minimize distrações desnecessárias.",
+    "description6": "Evite problemas crónicos e mantenha o equilíbrio por muitos anos.",
+    "description7": "Adapte a sua experiência ao seu estilo de vida, profissão e necessidades individuais.",
+    "description8": "Desfrute de funcionalidades baseadas em estudos de produtividade e bem-estar.",
+    "description9": "Sinta-se energizado e mantenha-se positivo ao longo do dia com pausas de trabalho equilibradas.",
+    "preventDigitalEyeStrain": "Prevenir a Tensão Ocular Digital",
+    "blueLightProtection": "Proteção Contra Luz Azul",
+    "preventRepetitiveStrainInjuries": "Prevenir Lesões por Esforço Repetitivo (LER)",
+    "supportBetterPosture": "Promover uma Melhor Postura",
+    "enhanceFocusAndMindfulness": "Melhorar o Foco e a Atenção Plena",
+    "stressManagement": "Gestão do Stress",
+    "pomodoroTechniqueIntegration": "Integração da Técnica Pomodoro",
+    "cognitiveEfficiency": "Eficiência Cognitiva",
+    "structuredScreenTime": "Tempo de Ecrã Estruturado",
+    "reduceMultitasking": "Reduzir a Multitarefa",
+    "preventChronicVisionProblems": "Prevenir Problemas Crónicos de Visão",
+    "achieveWorkLifeBalance": "Alcançar o Equilíbrio Trabalho-Vida",
+    "customizableBreakTimers": "Temporizadores de Pausa Personalizáveis",
+    "builtForEveryone": "Criado para Todos",
+    "evidenceBasedFeatures": "Funcionalidades Baseadas em Evidências",
+    "trustedByUsers": "Confiado por Utilizadores",
+    "boostDailyEnergy": "Aumentar a Energia Diária",
+    "maintainPositiveMood": "Manter um Humor Positivo",
+    "preventDigitalEyeStrainDetails": "Pausas programadas reduzem sintomas como olhos secos, visão turva e dores de cabeça, garantindo a saúde ocular a longo prazo.",
+    "blueLightProtectionDetails": "Descanse os olhos regularmente com lembretes projetados para combater os efeitos nocivos da exposição à luz azul.",
+    "preventRepetitiveStrainInjuriesDetails": "Pausas regulares minimizam a tensão nas mãos e pulsos, prevenindo danos a longo prazo causados por tarefas repetitivas.",
+    "supportBetterPostureDetails": "Incentiva alongamentos e verificações de postura para evitar problemas como pescoço tecnológico e dores nas costas.",
+    "enhanceFocusAndMindfulnessDetails": "Pausas regulares ajudam a manter a acuidade e o foco, reduzindo a fadiga mental e o esgotamento.",
+    "stressManagementDetails": "Utilize intervalos de pausa para praticar técnicas de relaxamento, reduzindo o stress e a tensão induzidos pelo trabalho.",
+    "pomodoroTechniqueIntegrationDetails": "Divida as tarefas em intervalos gerenciáveis para sessões de trabalho eficientes, melhorando as taxas de conclusão de tarefas.",
+    "cognitiveEfficiencyDetails": "Pausas estratégicas melhoram o seu desempenho mental, ajudando a realizar mais com menos esforço.",
+    "structuredScreenTimeDetails": "Construa hábitos digitais saudáveis com lembretes bem programados para equilíbrio entre trabalho e relaxamento.",
+    "reduceMultitaskingDetails": "Concentre-se totalmente nas tarefas, minimizando as distrações durante os ciclos de trabalho e relaxamento.",
+    "preventChronicVisionProblemsDetails": "Tome medidas proativas para reduzir os riscos de problemas de visão digital a longo prazo causados pelo uso excessivo do ecrã.",
+    "achieveWorkLifeBalanceDetails": "Crie hábitos sustentáveis para o trabalho e a vida pessoal com uma abordagem equilibrada à produtividade.",
+    "customizableBreakTimersDetails": "Defina intervalos que correspondam ao seu fluxo de trabalho, garantindo que o app complementa a sua programação exclusiva.",
+    "builtForEveryoneDetails": "Seja um estudante, programador, designer ou trabalhador remoto, o app adapta-se às suas necessidades.",
+    "evidenceBasedFeaturesDetails": "O design do app é inspirado em pesquisas sobre produtividade, foco e bem-estar digital.",
+    "trustedByUsersDetails": "Depoimentos de utilizadores reais e histórias de sucesso validam a sua eficácia e valor.",
+    "boostDailyEnergyDetails": "Pausas curtas e regulares ajudam a recarregar a mente e o corpo, mantendo-o energizado para o dia seguinte.",
+    "maintainPositiveMoodDetails": "Quebre a monotonia do tempo contínuo de ecrã para reduzir a frustração e melhorar o seu humor geral."
+  },
+  "featureGrid": {
+    "title": "Funcionalidades",
+    "subtitle": "Todas as ferramentas de produtividade necessárias num só lugar.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Temporizadores de Lembrete Personalizáveis",
+        "description": "Defina temporizadores de lembrete personalizados para se manter focado e no caminho certo."
+      },
+      "diverseThemes": {
+        "title": "Diversos Temas para Personalização",
+        "description": "Escolha entre vários temas para personalizar a sua interface e fluxo de trabalho."
+      },
+      "customizableReminderText": {
+        "title": "Texto de Lembrete Personalizável",
+        "description": "Crie mensagens de lembrete personalizadas para o manter motivado."
+      },
+      "customizableSounds": {
+        "title": "Sons Personalizáveis",
+        "description": "Escolha os seus próprios sons para notificações e alertas."
+      },
+      "dailyDeviceUsage": {
+        "title": "Tempo Diário de Utilização do Dispositivo",
+        "description": "Monitorize o seu tempo de ecrã para otimizar a produtividade e o equilíbrio."
+      },
+      "workdaySetup": {
+        "title": "Configuração do Dia de Trabalho",
+        "description": "Configure rapidamente a sua agenda de trabalho para uma melhor produtividade."
+      },
+      "pomodoroTimer": {
+        "title": "Temporizador Pomodoro",
+        "description": "Divida as tarefas em intervalos para máximo foco e eficiência."
+      },
+      "runOnStartup": {
+        "title": "Executar na Inicialização",
+        "description": "Inicie o app automaticamente quando o seu dispositivo arrancar."
+      },
+      "updateSupport": {
+        "title": "Suporte a Atualizações",
+        "description": "Receba atualizações contínuas para os recursos e correções mais recentes."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Descubra as Funcionalidades que nos Destacam",
+    "description": "Explore as funcionalidades que tornam o nosso app único. De lembretes personalizáveis a vários temas, temos tudo o que precisa."
+  },
+  "featuresDemo": [
+    {
+      "title": "Lembretes Personalizáveis",
+      "description": "Defina lembretes personalizados para evitar a fadiga ocular, melhorar a produtividade e manter o foco durante longas sessões de trabalho.",
+      "features": [
+        "Durações de lembrete personalizáveis",
+        "Configurações de intervalo ajustáveis",
+        "Texto de lembrete editável para personalização"
+      ],
+      "moto": "Melhor App de Alívio da Fadiga Ocular para Utilizadores de Computador"
+    },
+    {
+      "title": "Múltiplos Temas",
+      "description": "Alterne entre temas claros e escuros ou escolha entre uma variedade de esquemas de cores exclusivos para se adequar ao seu humor e espaço de trabalho.",
+      "features": [
+        "Múltiplos temas de ecrã de lembrete para escolher",
+        "Suporte ao modo escuro do app",
+        "Suporte ao modo claro do app"
+      ],
+      "moto": "App de Monitorização de Tempo de Ecrã e Lembrete de Pausa"
+    },
+    {
+      "title": "Estatísticas de Utilização",
+      "description": "Monitorize o seu tempo diário de ecrã, acompanhe as tendências de utilização do dispositivo e otimize o seu equilíbrio entre trabalho e vida pessoal de forma eficaz.",
+      "features": [
+        "Rastreamento diário de uso do dispositivo",
+        "Rastreamento semanal de uso do dispositivo",
+        "Rastreamento mensal de uso do dispositivo",
+        "Rastreamento anual de uso do dispositivo",
+        "Rastreamento de uso do dispositivo desde sempre",
+        "Análise abrangente de utilização",
+        "Gráficos visuais e relatórios de progresso"
+      ],
+      "moto": "App Gratuito de Lembrete de Pausa no Ecrã para Olhos Saudáveis"
+    },
+    {
+      "title": "Configuração e Agendamento do Dia de Trabalho",
+      "description": "Planeie os seus dias de trabalho com eficiência, definindo agendas personalizadas e horários de trabalho para cada dia da semana.",
+      "features": [
+        "Configurações personalizáveis do dia de trabalho",
+        "Flexibilidade de agendamento diário",
+        "Lembretes automatizados para pausas durante o horário de trabalho"
+      ],
+      "moto": "Temporizador de Pausa de Trabalho Personalizável para Funcionários de Escritório"
+    },
+    {
+      "title": "Protetores de Ecrã com Animações",
+      "description": "Reproduza alguns dos protetores de ecrã mais populares com animações e sons personalizáveis para melhorar a sua produtividade e relaxamento.",
+      "features": [
+        "Escolha entre vários protetores de ecrã com animações personalizáveis",
+        "Efeitos sonoros personalizáveis para relaxamento",
+        "Duração do protetor de ecrã personalizável"
+      ],
+      "moto": "Melhor App de Protetor de Ecrã e Gestor de Tarefas para Utilizadores Avançados"
+    },
+    {
+      "title": "Configurações de Personalização Abrangentes",
+      "description": "Aumente a sua produtividade e foco com configurações personalizáveis, incluindo temporizadores Pomodoro e preferências de notificação.",
+      "features": [
+        "Integração da técnica Pomodoro",
+        "Modo restrito para forçá-lo a fazer pausas",
+        "Sons de notificação personalizáveis",
+        "Opção de execução na inicialização",
+        "Defina o seu limite diário de utilização do ecrã"
+      ],
+      "moto": "Temporizador Pomodoro com Lembretes de Pausa para Produtividade"
+    },
+    {
+      "title": "Ativar Chave de Licença",
+      "description": "Ative o seu app com uma chave de licença para acesso total a recursos premium e atualizações contínuas.",
+      "features": [
+        "Processo fácil de ativação de licença",
+        "Acesso a recursos premium exclusivos",
+        "Atualizações e suporte regulares de software"
+      ],
+      "moto": "Melhor App para Prevenir a Síndrome da Visão do Computador (SCO) e Lesões por Esforço Repetitivo (LER)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Escolha o plano certo para si",
+    "description": "Escolha um plano acessível com as melhores funcionalidades para interagir com o seu público, criar fidelização de clientes e impulsionar as vendas."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Informações de Lançamento do Blink Eye {tag}",
+    "title": "Informações de Lançamento {tag}",
+    "goBack": "Voltar",
+    "tag": "Tag",
+    "published": "Publicado",
+    "author": "Autor",
+    "assets": "Ativos",
+    "fullChangelog": "Registo de Alterações Completo",
+    "downloadOptions": "Opções de download",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Política de Privacidade",
+    "description": "Saiba mais sobre as nossas práticas e políticas de privacidade."
+  },
+  "pricingPage": {
+    "title": "Preços",
+    "description": "Escolha um plano acessível com as melhores funcionalidades para interagir com o seu público, criar fidelização de clientes e impulsionar as vendas."
+  },
+  "howtousePage": {
+    "title": "Como Utilizar",
+    "description": "Aprenda a usar o app e as suas funcionalidades."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Como o Blink Eye Ajuda",
+    "description": "Descubra como o Blink Eye o ajuda a manter-se focado e produtivo."
+  },
+  "goodbyePage": {
+    "title": "Adeus",
+    "description": "Página de desinstalação do Blink Eye App",
+    "missyou": "Lamentamos vê-lo partir! Esperamos que tenha gostado de usar o Blink Eye.",
+    "suggesition": "Cuide bem dos seus olhos."
+  },
+  "featuresPage": {
+    "title": "Funcionalidades",
+    "description": "Descubra as funcionalidades que tornam o nosso app único. De lembretes personalizáveis a vários temas, temos tudo o que precisa."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Faça o download do Blink Eye App para Windows, macOS e Linux."
+  },
+  "contributePage": {
+    "title": "Contribuir",
+    "description": "Contribua para o desenvolvimento do Blink Eye App."
+  },
+  "aboutPage": {
+    "title": "Sobre",
+    "description": "Saiba mais sobre o Blink Eye App e a sua equipa.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogues",
+    "description": "Leia os nossos blogues e atualizações de notícias mais recentes."
+  }
+}

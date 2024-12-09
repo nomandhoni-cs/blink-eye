@@ -1,7 +1,4 @@
-/build
+/node_modules
 /dist
-/blinkEye.exe
-/blinkEye.spec
-/BlinkEye.spec
-/ExecutableFile
-.venv
+node_modules
+dist

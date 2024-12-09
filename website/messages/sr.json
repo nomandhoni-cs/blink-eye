@@ -1,0 +1,393 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Najbolja aplikacija za negu očiju i podsetnik za pauzu za Mac, Windows, Linux",
+    "description": "Minimalistička aplikacija za podsetnik za negu očiju za smanjenje naprezanja očiju, sa prilagodljivim tajmerima, iskačućim prozorima preko celog ekrana i utišavanjem zvuka.",
+    "keywords": [
+      "aplikacija za prevenciju RSI",
+      "aplikacija za prevenciju CVS",
+      "aplikacija za RSI",
+      "aplikacija za CVS",
+      "najbolja aplikacija za negu očiju 2024",
+      "aplikacija za podsetnik za pauzu",
+      "besplatno preuzimanje aplikacije za zdravlje očiju",
+      "softver otvorenog koda za zaštitu očiju",
+      "aplikacija za produktivnost za macOS",
+      "najbolja aplikacija za opuštanje očiju",
+      "Google kalendar lista obaveza",
+      "tajmer za ekran za negu očiju",
+      "alat za podsetnik za radnu pauzu",
+      "aplikacija za udobnost očiju za Mac",
+      "softver za negu vida za laptopove",
+      "najbolja aplikacija za opuštanje očiju",
+      "kontrola vremena provedenog za ekranom računara",
+      "alat za negu očiju na računaru",
+      "prevencija digitalnog naprezanja očiju",
+      "planer pauze za Windows",
+      "najbolje aplikacije za ublažavanje naprezanja očiju",
+      "aplikacija za negu očiju za više platformi",
+      "najbolji podsetnik za pauzu otvorenog koda",
+      "tajmer za treptanje za zdravlje na računaru",
+      "najbolja aplikacija za negu očiju za Windows i Linux",
+      "besplatna aplikacija za zdravlje očiju za Windows",
+      "softver otvorenog koda za zaštitu očiju za Linux",
+      "aplikacija za podsetnik za pauzu za Windows",
+      "aplikacija za udobnost očiju za Linux",
+      "najbolja aplikacija za opuštanje očiju za Windows",
+      "prevencija digitalnog naprezanja očiju za Windows",
+      "alat za negu očiju na računaru za Linux",
+      "alat za podsetnik za radnu pauzu za Windows",
+      "kontrola vremena provedenog za ekranom za Linux",
+      "aplikacija za negu očiju za više platformi",
+      "najbolje aplikacije za ublažavanje naprezanja očiju na Windows-u i Linux-u",
+      "tajmer za ekran za negu očiju",
+      "softver za negu vida za Windows",
+      "aplikacija za podsetnik za negu očiju za Linux",
+      "blink eye",
+      "blink eye za windows",
+      "aplikacija Noman Dhoni",
+      "aplikacija za negu očiju za windows",
+      "aplikacija za pravilo 20 20 20 za windows",
+      "nega očiju",
+      "aplikacija za ublažavanje naprezanja očiju",
+      "aplikacija za zdravlje očiju",
+      "blink eye download",
+      "blink eye recenzija",
+      "aplikacija za pravilo 20 20 20",
+      "aplikacija za podsetnik za negu očiju",
+      "softver za negu očiju",
+      "saveti za negu očiju",
+      "aplikacija za vežbe za oči",
+      "aplikacija za zaštitu očiju",
+      "aplikacija za negu očiju za pc",
+      "aplikacija za negu očiju za laptop",
+      "aplikacija za negu očiju za desktop",
+      "aplikacija za negu očiju za windows 10",
+      "aplikacija za negu očiju za windows 11",
+      "blink eye download",
+      "blink eye recenzija",
+      "aplikacija za negu očiju za windows",
+      "aplikacija za pravilo 20 20 20 za windows",
+      "kako sacuvati vid",
+      "kako odmoriti oci",
+      "sindrom kompjuterskog vida",
+      "aplikacija za odmor ociju",
+      "zamor ociju od ekrana"
+    ]
+  },
+  "NavMenu": {
+    "features": "Funkcije",
+    "about": "O nama",
+    "pricing": "Cene",
+    "release": "Izdanja",
+    "contribute": "Doprinesite",
+    "blogs": "Blogovi"
+  },
+  "HeroBanner": {
+    "tagline": "Minimalistička aplikacija za podsetnike za negu očiju za Windows, macOS i Linux.",
+    "span1": "Da biste smanjili naprezanje očiju, sa podsetnicima sa tajmerima, iskačućim prozorima preko celog ekrana. Zasnovano na",
+    "202020": "20-20-20",
+    "span2": "pravilu.",
+    "institute": "Američka Akademija za Oftalmologiju"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Podržava macOS Intel/M čip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Funkcije",
+    "featureSubtitle": "Sve potrebne alatke za produktivnost na jednom mestu."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Cene",
+    "pricingDescription": "Odaberite pristupačan plan koji je prepun najboljih funkcija za angažovanje vaše publike, stvaranje lojalnosti klijenata i povećanje prodaje."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Prilagodljivi podsetnici"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Kako će vam Blink Eye pomoći",
+    "body1": "Preuzmite kontrolu nad svojim blagostanjem uz Blink Eye.",
+    "body2": "Otkrijte kako zakazane pauze mogu poboljšati zdravlje očiju, poboljšati fokus, povećati produktivnost i promovisati dugoročno blagostanje za uravnotežen digitalni način života.",
+    "learnMore": "Saznajte više",
+    "title1": "Zaštitite oči od digitalnog naprezanja",
+    "title2": "Fizičko zdravlje",
+    "title3": "Mentalno blagostanje",
+    "title4": "Povećana produktivnost",
+    "title5": "Zdrave navike korišćenja ekrana",
+    "title6": "Održive dugoročne koristi",
+    "title7": "Fleksibilno i prilagodljivo",
+    "title8": "Koristi potkrepljene istraživanjima",
+    "title9": "Povećana energija i raspoloženje",
+    "description1": "Zaštitite oči od digitalnog naprezanja, smanjite izloženost plavom svetlu i sprečite Sindrom kompjuterskog vida (CVS).",
+    "description2": "Poboljšajte držanje tela, sprečite Povrede usled ponavljajućeg naprezanja (RSI) i smanjite fizičku nelagodnost.",
+    "description3": "Poboljšajte fokus, svesnost i smanjite stres bez napora.",
+    "description4": "Radite pametnije, a ne teže, uz metode fokusirane na produktivnost.",
+    "description5": "Razvijte disciplinovane prakse korišćenja ekrana i minimizirajte nepotrebne smetnje.",
+    "description6": "Izbegnite hronične probleme i održite ravnotežu godinama.",
+    "description7": "Prilagodite svoje iskustvo svom životnom stilu, profesiji i individualnim potrebama.",
+    "description8": "Uživajte u funkcijama zasnovanim na istraživanjima produktivnosti i blagostanja.",
+    "description9": "Osećajte se energično i ostanite pozitivni tokom dana uz uravnotežene radne pauze.",
+    "preventDigitalEyeStrain": "Sprečite digitalno naprezanje očiju",
+    "blueLightProtection": "Zaštita od plavog svetla",
+    "preventRepetitiveStrainInjuries": "Sprečite povrede usled ponavljajućeg naprezanja (RSI)",
+    "supportBetterPosture": "Podržite bolje držanje tela",
+    "enhanceFocusAndMindfulness": "Poboljšajte fokus i svesnost",
+    "stressManagement": "Upravljanje stresom",
+    "pomodoroTechniqueIntegration": "Integracija Pomodoro tehnike",
+    "cognitiveEfficiency": "Kognitivna efikasnost",
+    "structuredScreenTime": "Strukturirano korišćenje ekrana",
+    "reduceMultitasking": "Smanjite multitasking",
+    "preventChronicVisionProblems": "Sprečite hronične probleme sa vidom",
+    "achieveWorkLifeBalance": "Postignite ravnotežu između posla i privatnog života",
+    "customizableBreakTimers": "Prilagodljivi tajmeri za pauze",
+    "builtForEveryone": "Napravljeno za svakoga",
+    "evidenceBasedFeatures": "Funkcije zasnovane na dokazima",
+    "trustedByUsers": "Veruju mu korisnici",
+    "boostDailyEnergy": "Povećajte dnevnu energiju",
+    "maintainPositiveMood": "Održavajte pozitivno raspoloženje",
+    "preventDigitalEyeStrainDetails": "Zakazane pauze smanjuju simptome poput suvih očiju, zamagljenog vida i glavobolja, osiguravajući dugoročno zdravlje očiju.",
+    "blueLightProtectionDetails": "Redovno odmarajte oči uz upite dizajnirane za borbu protiv štetnih efekata izloženosti plavom svetlu.",
+    "preventRepetitiveStrainInjuriesDetails": "Redovne pauze smanjuju opterećenje na šakama i zglobovima, sprečavajući dugoročna oštećenja usled ponavljajućih zadataka.",
+    "supportBetterPostureDetails": "Podstiče istezanje i proveru držanja tela kako biste izbegli probleme poput bolova u vratu i leđima.",
+    "enhanceFocusAndMindfulnessDetails": "Redovne pauze pomažu vam da ostanete oštri i fokusirani dok smanjuju mentalni umor.",
+    "stressManagementDetails": "Koristite intervale pauze za vežbanje tehnika opuštanja, smanjujući stres i napetost izazvane radom.",
+    "pomodoroTechniqueIntegrationDetails": "Podelite zadatke na intervale kojima se može upravljati za efikasne radne sesije, poboljšavajući stope izvršenja zadataka.",
+    "cognitiveEfficiencyDetails": "Strateške pauze poboljšavaju vaš mentalni učinak, pomažući vam da postignete više uz manje napora.",
+    "structuredScreenTimeDetails": "Izgradite zdrave digitalne navike uz pravovremene podsetnike za ravnotežu između rada i opuštanja.",
+    "reduceMultitaskingDetails": "U potpunosti se fokusirajte na zadatke minimizirajući smetnje tokom ciklusa rada i opuštanja.",
+    "preventChronicVisionProblemsDetails": "Preduzmite proaktivne mere za smanjenje rizika od dugoročnih digitalnih problema sa vidom uzrokovanih prekomernom upotrebom ekrana.",
+    "achieveWorkLifeBalanceDetails": "Stvorite održive navike za posao i privatni život uz uravnotežen pristup produktivnosti.",
+    "customizableBreakTimersDetails": "Podesite intervale koji odgovaraju vašem toku posla, osiguravajući da aplikacija dopunjuje vaš jedinstveni raspored.",
+    "builtForEveryoneDetails": "Bez obzira da li ste student, programer, dizajner ili radite na daljinu, aplikacija se prilagođava vašim potrebama.",
+    "evidenceBasedFeaturesDetails": "Dizajn aplikacije inspirisan je istraživanjima o produktivnosti, fokusu i digitalnom blagostanju.",
+    "trustedByUsersDetails": "Stvarna svedočanstva korisnika i priče o uspehu potvrđuju njenu efikasnost i vrednost.",
+    "boostDailyEnergyDetails": "Kratke, redovne pauze pomažu u punjenju uma i tela, održavajući vas energičnim za dan pred vama.",
+    "maintainPositiveMoodDetails": "Prekinite monotoniju kontinuiranog korišćenja ekrana da biste smanjili frustraciju i poboljšali svoje ukupno raspoloženje."
+  },
+  "featureGrid": {
+    "title": "Funkcije",
+    "subtitle": "Sve neophodne alatke za produktivnost na jednom mestu.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Prilagodljivi tajmeri podsetnika",
+        "description": "Postavite personalizovane tajmere podsetnika da biste ostali fokusirani i na pravom putu."
+      },
+      "diverseThemes": {
+        "title": "Različite teme za personalizaciju",
+        "description": "Izaberite između različitih tema da biste prilagodili interfejs i tok posla."
+      },
+      "customizableReminderText": {
+        "title": "Prilagodljiv tekst podsetnika",
+        "description": "Kreirajte prilagođene poruke podsetnika da biste ostali motivisani."
+      },
+      "customizableSounds": {
+        "title": "Prilagodljivi zvukovi",
+        "description": "Odaberite sopstvene zvukove za obaveštenja i upozorenja."
+      },
+      "dailyDeviceUsage": {
+        "title": "Dnevno vreme korišćenja uređaja",
+        "description": "Pratite vreme provedeno pred ekranom da biste optimizovali produktivnost i ravnotežu."
+      },
+      "workdaySetup": {
+        "title": "Podešavanje radnog dana",
+        "description": "Brzo podesite raspored radnog dana za bolju produktivnost."
+      },
+      "pomodoroTimer": {
+        "title": "Pomodoro tajmer",
+        "description": "Podelite zadatke na intervale za maksimalan fokus i efikasnost."
+      },
+      "runOnStartup": {
+        "title": "Pokreni pri pokretanju sistema",
+        "description": "Pokrenite aplikaciju automatski kada se uređaj pokrene."
+      },
+      "updateSupport": {
+        "title": "Podrška za ažuriranje",
+        "description": "Primajte neprimetna ažuriranja za najnovije funkcije i ispravke."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Otkrijte funkcije koje nas izdvajaju",
+    "description": "Istražite funkcije koje našu aplikaciju čine jedinstvenom. Od prilagodljivih podsetnika do više tema, mi imamo sve što vam treba."
+  },
+  "featuresDemo": [
+    {
+      "title": "Prilagodljivi podsetnici",
+      "description": "Postavite personalizovane podsetnike da biste sprečili naprezanje očiju, poboljšali produktivnost i održali fokus tokom dugih radnih sesija.",
+      "features": [
+        "Prilagodljivo trajanje podsetnika",
+        "Podesiva podešavanja intervala",
+        "Mogućnost uređivanja teksta podsetnika za personalizaciju"
+      ],
+      "moto": "Najbolja aplikacija za ublažavanje naprezanja očiju za korisnike računara"
+    },
+    {
+      "title": "Više tema",
+      "description": "Prebacite se između svetlih i tamnih tema ili izaberite između različitih jedinstvenih šema boja koje odgovaraju vašem raspoloženju i radnom prostoru.",
+      "features": [
+        "Više tema ekrana podsetnika za izbor",
+        "Podrška za tamni režim aplikacije",
+        "Podrška za svetli režim aplikacije"
+      ],
+      "moto": "Aplikacija za praćenje vremena pred ekranom i podsetnik za pauzu"
+    },
+    {
+      "title": "Statistika korišćenja",
+      "description": "Pratite dnevno vreme provedeno pred ekranom, pratite trendove korišćenja uređaja i efikasno optimizujte ravnotežu između posla i privatnog života.",
+      "features": [
+        "Dnevno praćenje korišćenja uređaja",
+        "Nedeljno praćenje korišćenja uređaja",
+        "Mesečno praćenje korišćenja uređaja",
+        "Godišnje praćenje korišćenja uređaja",
+        "Praćenje ukupnog korišćenja uređaja",
+        "Sveobuhvatna analitika korišćenja",
+        "Vizuelni grafikoni i izveštaji o napretku"
+      ],
+      "moto": "Besplatna aplikacija za podsetnik za pauzu za zdrave oči"
+    },
+    {
+      "title": "Podešavanje radnog dana i zakazivanje",
+      "description": "Efikasno planirajte svoje radne dane postavljanjem prilagođenih rasporeda i radnog vremena za svaki dan u nedelji.",
+      "features": [
+        "Prilagodljiva podešavanja radnog dana",
+        "Fleksibilnost dnevnog zakazivanja",
+        "Automatizovani podsetnici za pauze tokom radnog vremena"
+      ],
+      "moto": "Prilagodljiv tajmer za radnu pauzu za kancelarijske radnike"
+    },
+    {
+      "title": "Čuvari ekrana sa animacijama",
+      "description": "Reprodukujte neke od najpopularnijih čuvara ekrana sa prilagodljivim animacijama i zvukovima da biste poboljšali svoju produktivnost i opuštanje.",
+      "features": [
+        "Izaberite između različitih čuvara ekrana sa prilagodljivim animacijama",
+        "Prilagodljivi zvučni efekti za opuštanje",
+        "Prilagodljivo trajanje čuvara ekrana"
+      ],
+      "moto": "Najbolja aplikacija za čuvar ekrana i upravljanje zadacima za napredne korisnike"
+    },
+    {
+      "title": "Sveobuhvatna podešavanja prilagođavanja",
+      "description": "Poboljšajte svoju produktivnost i fokus uz prilagodljiva podešavanja, uključujući Pomodoro tajmere i preferencije obaveštenja.",
+      "features": [
+        "Integracija Pomodoro tehnike",
+        "Striktni režim da vas natera da pravite pauze",
+        "Prilagodljivi zvukovi obaveštenja",
+        "Prekidač za pokretanje pri pokretanju sistema",
+        "Postavite dnevno ograničenje korišćenja ekrana"
+      ],
+      "moto": "Pomodoro tajmer sa podsetnicima za pauzu za produktivnost"
+    },
+    {
+      "title": "Aktivirajte licencni ključ",
+      "description": "Aktivirajte svoju aplikaciju pomoću licencnog ključa za potpuni pristup premium funkcijama i neprimetna ažuriranja.",
+      "features": [
+        "Jednostavan proces aktivacije licence",
+        "Pristup ekskluzivnim premium funkcijama",
+        "Redovna ažuriranja softvera i podrška"
+      ],
+      "moto": "Najbolja aplikacija za sprečavanje sindroma kompjuterskog vida (CVS) i (RSI)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Odaberite pravi plan za vas",
+    "description": "Odaberite pristupačan plan koji je prepun najboljih funkcija za angažovanje vaše publike, stvaranje lojalnosti klijenata i povećanje prodaje."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} Informacije o izdanju",
+    "title": "{tag} Informacije o izdanju",
+    "goBack": "Nazad",
+    "tag": "Tag",
+    "published": "Objavljeno",
+    "author": "Autor",
+    "assets": "Sadržaj",
+    "fullChangelog": "Kompletan dnevnik promena",
+    "downloadOptions": "Opcije preuzimanja",
+    "downloadTarball": "Preuzmi Tarball",
+    "downloadZipball": "Preuzmi Zipball"
+  },
+  "privacyPage": {
+    "title": "Politika privatnosti",
+    "description": "Saznajte više o našim praksama i politikama privatnosti."
+  },
+  "pricingPage": {
+    "title": "Cene",
+    "description": "Odaberite pristupačan plan koji je prepun najboljih funkcija za angažovanje vaše publike, stvaranje lojalnosti klijenata i povećanje prodaje."
+  },
+  "howtousePage": {
+    "title": "Kako se koristi",
+    "description": "Saznajte kako da koristite aplikaciju i njene funkcije."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Kako Blink Eye pomaže",
+    "description": "Saznajte kako vam Blink Eye pomaže da ostanete fokusirani i produktivni."
+  },
+  "goodbyePage": {
+    "title": "Zbogom",
+    "description": "Stranica za deinstalaciju aplikacije Blink Eye",
+    "missyou": "Žao nam je što odlazite! Nadamo se da ste uživali u korišćenju Blink Eye.",
+    "suggesition": "Vodite računa o svojim očima."
+  },
+  "featuresPage": {
+    "title": "Funkcije",
+    "description": "Otkrijte funkcije koje našu aplikaciju čine jedinstvenom. Od prilagodljivih podsetnika do više tema, mi imamo sve što vam treba."
+  },
+  "downloadPage": {
+    "title": "Preuzimanje",
+    "description": "Preuzmite Blink Eye aplikaciju za Windows, macOS i Linux."
+  },
+  "contributePage": {
+    "title": "Doprinesite",
+    "description": "Doprinesite razvoju Blink Eye aplikacije."
+  },
+  "aboutPage": {
+    "title": "O nama",
+    "description": "Saznajte više o Blink Eye aplikaciji i njenom timu."
+  },
+  "blogsPage": {
+    "title": "Blogovi",
+    "description": "Pročitajte naše najnovije blogove i vesti."
+  }
+}

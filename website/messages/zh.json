@@ -1,0 +1,378 @@
+{
+    "LocaleSwitcher": {
+        "label": "Change language",
+        "locale": {
+            "af": "Afrikaans",
+            "ar": "العربية",
+            "bn": "বাংলা",
+            "ca": "Català",
+            "cs": "Čeština",
+            "da": "Dansk",
+            "de": "Deutsch",
+            "el": "Ελληνικά",
+            "en": "English",
+            "es-ES": "Español",
+            "fa": "فارسی",
+            "fi": "Suomi",
+            "fr": "Français",
+            "he": "עברית",
+            "hi": "हिन्दी",
+            "hu": "Magyar",
+            "id": "Bahasa Indonesia",
+            "it": "Italiano",
+            "ja": "日本語",
+            "ko": "한국어",
+            "nl": "Nederlands",
+            "no": "Norsk",
+            "pl": "Polski",
+            "pt": "Português",
+            "pt-BR": "Português (Brasil)",
+            "pt-PT": "Português (Portugal)",
+            "ro": "Română",
+            "ru": "Русский",
+            "sr": "Српски",
+            "sv-SE": "Svenska",
+            "th": "ไทย",
+            "tr": "Türkçe",
+            "uk": "Українська",
+            "ur": "اردو",
+            "vi": "Tiếng Việt",
+            "zh": "中文",
+            "zh-CN": "简体中文",
+            "zh-TW": "繁體中文"
+        }
+    },
+    "Metadata": {
+        "appName": "Blink Eye",
+        "title": "最佳护眼与休息提醒工具 - 适用于Mac、Windows和Linux",
+        "description": "一款简约的护眼提醒应用，可减少眼部疲劳，提供可自定义计时器、全屏弹窗和音频静音功能。",
+        "keywords": [
+            "预防重复性劳损应用",
+            "预防计算机视觉综合症应用",
+            "最佳护眼应用2024",
+            "屏幕休息提醒工具",
+            "免费护眼健康应用下载",
+            "开源护眼软件",
+            "护眼屏幕计时器",
+            "工作休息提醒工具",
+            "Mac护眼舒适应用",
+            "笔记本电脑视觉保健软件",
+            "顶级护眼放松应用",
+            "电脑屏幕时间控制",
+            "数字眼疲劳预防",
+            "Windows休息时间计划工具",
+            "缓解眼疲劳的最佳应用",
+            "跨平台护眼应用",
+            "顶级开源休息提醒软件",
+            "健康护眼计时器",
+            "适用于Windows和Linux的最佳护眼应用",
+            "免费Windows护眼健康应用",
+            "Linux开源护眼软件",
+            "Windows屏幕休息提醒应用",
+            "Linux护眼舒适应用",
+            "顶级Windows护眼放松应用",
+            "Windows数字眼疲劳预防",
+            "Linux电脑护眼工具",
+            "Windows工作休息提醒工具",
+            "Linux屏幕时间控制",
+            "适用于Windows和Linux的缓解眼疲劳的最佳应用",
+            "电脑护眼屏幕计时器",
+            "Windows视觉保健软件",
+            "Linux护眼提醒应用",
+            "blink eye",
+            "blink eye for windows",
+            "Noman Dhoni开发的应用",
+            "适用于Windows的护眼应用",
+            "20-20-20规则应用",
+            "护眼",
+            "缓解眼疲劳应用",
+            "护眼健康应用",
+            "blink eye下载",
+            "blink eye评论",
+            "20-20-20规则应用",
+            "护眼提醒应用",
+            "护眼软件",
+            "护眼技巧",
+            "眼部锻炼应用",
+            "眼部保护应用",
+            "适用于PC的护眼应用",
+            "适用于笔记本电脑的护眼应用",
+            "适用于台式机的护眼应用",
+            "适用于Windows 10的护眼应用",
+            "适用于Windows 11的护眼应用"
+        ]
+    },
+    "NavMenu": {
+        "features": "功能特点",
+        "about": "关于我们",
+        "pricing": "定价",
+        "release": "版本更新",
+        "contribute": "贡献支持",
+        "blogs": "博客"
+    },
+    "HeroBanner": {
+        "tagline": "适用于Windows、macOS和Linux的简约护眼提醒应用。",
+        "span1": "减少眼部疲劳，基于",
+        "202020": "20-20-20",
+        "span2": "规则的定时提醒和全屏弹窗功能。",
+        "institute": "美国眼科学会"
+    },
+    "DownloadApp": {
+        "supportedPlatforms": "支持 macOS Intel/M芯片 (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    },
+    "FeatureGrid": {
+        "featureTitle": "功能特点",
+        "featureSubtitle": "所有必要的生产力工具尽在一处。"
+    },
+    "PricingGrid": {
+        "pricingTitle": "定价",
+        "pricingDescription": "选择一个经济实惠的计划，提供最优功能，吸引用户、建立客户忠诚度并推动销售。"
+    },
+    "FeatureDemoSlide1": {
+        "title": "可自定义的提醒功能"
+    },
+    "howBlinkEyeWillHelp": {
+        "heading": "Blink Eye如何帮助您",
+        "body1": "通过Blink Eye掌控您的健康。",
+        "body2": "了解如何通过定时休息改善眼部健康、提升专注力、提高生产力，并促进长期健康，实现平衡的数字化生活方式。",
+        "learnMore": "了解更多",
+        "title1": "保护您的眼睛免受数字疲劳",
+        "title2": "身体健康",
+        "title3": "心理健康",
+        "title4": "提升生产力",
+        "title5": "健康的屏幕时间习惯",
+        "title6": "可持续的长期益处",
+        "title7": "灵活且可定制",
+        "title8": "基于研究的优势",
+        "title9": "增强活力和情绪",
+        "description1": "保护眼睛免受数字疲劳，减少蓝光暴露，预防计算机视觉综合症（CVS）。",
+        "description2": "改善姿势，预防重复性劳损（RSI），减轻身体不适。",
+        "description3": "轻松提升专注力与正念，缓解压力。",
+        "description4": "通过以生产力为中心的方法更智能地工作。",
+        "description5": "培养纪律严明的屏幕时间习惯，减少不必要的干扰。",
+        "description6": "避免长期问题，保持多年的平衡状态。",
+        "description7": "根据您的生活方式、职业和个人需求量身定制体验。",
+        "description8": "享受基于生产力和健康研究的功能。",
+        "description9": "通过平衡的工作间歇感受活力，保持一天的积极情绪。",
+        "preventDigitalEyeStrain": "预防数字眼疲劳",
+        "blueLightProtection": "蓝光保护",
+        "preventRepetitiveStrainInjuries": "预防重复性劳损（RSI）",
+        "supportBetterPosture": "支持更好的姿势",
+        "enhanceFocusAndMindfulness": "提升专注力与正念",
+        "stressManagement": "压力管理",
+        "pomodoroTechniqueIntegration": "番茄工作法集成",
+        "cognitiveEfficiency": "认知效率",
+        "structuredScreenTime": "结构化屏幕时间",
+        "reduceMultitasking": "减少多任务处理",
+        "preventChronicVisionProblems": "预防慢性视力问题",
+        "achieveWorkLifeBalance": "实现工作与生活平衡",
+        "customizableBreakTimers": "可定制的休息计时器",
+        "builtForEveryone": "为所有人设计",
+        "evidenceBasedFeatures": "基于证据的功能",
+        "trustedByUsers": "用户信赖",
+        "boostDailyEnergy": "提升每日能量",
+        "maintainPositiveMood": "保持积极情绪",
+        "preventDigitalEyeStrainDetails": "定时休息减少干眼症、视力模糊和头痛等症状，确保长期眼部健康。",
+        "blueLightProtectionDetails": "定期提示休息眼睛，有效减轻蓝光对眼睛的有害影响。",
+        "preventRepetitiveStrainInjuriesDetails": "定期休息减少手腕和手部的压力，预防重复任务造成的长期伤害。",
+        "supportBetterPostureDetails": "鼓励伸展运动和姿势检查，避免技术颈和背痛等问题。",
+        "enhanceFocusAndMindfulnessDetails": "定期休息帮助您保持敏锐专注，同时减少精神疲劳和倦怠。",
+        "stressManagementDetails": "利用休息间隔练习放松技巧，减少工作引起的压力和紧张。",
+        "pomodoroTechniqueIntegrationDetails": "将任务分解为可管理的间隔，提高工作效率和任务完成率。",
+        "cognitiveEfficiencyDetails": "战略性休息提升您的思维表现，帮助您更高效地完成任务。",
+        "structuredScreenTimeDetails": "通过精确时间提醒构建健康的数字习惯，实现工作与放松的平衡。",
+        "reduceMultitaskingDetails": "通过减少工作与休息周期中的干扰，全神贯注于任务。",
+        "preventChronicVisionProblemsDetails": "采取主动措施降低过度使用屏幕导致的长期视力问题的风险。",
+        "achieveWorkLifeBalanceDetails": "通过平衡的生产力方法，为工作和个人生活创造可持续的习惯。",
+        "customizableBreakTimersDetails": "设置适合您工作流程的间隔，确保应用与您的独特时间表无缝配合。",
+        "builtForEveryoneDetails": "无论您是学生、开发者、设计师还是远程工作者，该应用都能满足您的需求。",
+        "evidenceBasedFeaturesDetails": "应用设计灵感来源于生产力、专注力和数字健康领域的研究。",
+        "trustedByUsersDetails": "真实用户的评价和成功案例验证了它的有效性和价值。",
+        "boostDailyEnergyDetails": "短暂且规律的休息帮助恢复身心活力，让您在新的一天保持精力充沛。",
+        "maintainPositiveMoodDetails": "打破连续屏幕时间的单调感，减少挫败感，提升整体情绪。"
+    },
+    "featureGrid": {
+        "title": "功能亮点",
+        "subtitle": "一站式高效工具，助您提升生产力。",
+        "features": {
+            "customizableReminderTimers": {
+                "title": "可定制提醒计时器",
+                "description": "设置个性化的提醒计时器，保持专注，轻松完成任务。"
+            },
+            "diverseThemes": {
+                "title": "多样化主题个性化选择",
+                "description": "从多种主题中挑选，打造专属界面与工作流。"
+            },
+            "customizableReminderText": {
+                "title": "可定制提醒文字",
+                "description": "创建个性化的提醒信息，为自己增添动力。"
+            },
+            "customizableSounds": {
+                "title": "可定制声音提醒",
+                "description": "选择自己喜欢的通知和警报声音，提升体验。"
+            },
+            "dailyDeviceUsage": {
+                "title": "每日设备使用时间跟踪",
+                "description": "监控屏幕使用时间，优化工作效率与生活平衡。"
+            },
+            "workdaySetup": {
+                "title": "工作日设置",
+                "description": "快速安排每日工作日程，提高效率。"
+            },
+            "pomodoroTimer": {
+                "title": "番茄工作法计时器",
+                "description": "将任务分成小时间段，提升专注力与效率。"
+            },
+            "runOnStartup": {
+                "title": "开机自动启动",
+                "description": "设备启动时自动运行应用，无需手动操作。"
+            },
+            "updateSupport": {
+                "title": "更新支持",
+                "description": "获取最新功能与修复的无缝更新体验。"
+            }
+        }
+    },
+    "featuresDemoHeader": {
+        "title": "探索让我们与众不同的功能",
+        "description": "从可定制提醒到多种主题，发现我们应用的独特之处。"
+    },
+    "featuresDemo": [
+        {
+            "title": "个性化提醒",
+            "description": "设置个性化提醒，预防眼睛疲劳，提高工作效率，专注完成任务。",
+            "features": [
+                "自定义提醒时间长度",
+                "可调节间隔设置",
+                "可编辑的个性化提醒文字"
+            ],
+            "moto": "最佳电脑用户护眼缓解工具"
+        },
+        {
+            "title": "多主题选择",
+            "description": "切换明暗模式或选择多种独特配色方案，匹配您的心情与工作空间。",
+            "features": [
+                "多种提醒屏幕主题可选",
+                "支持深色模式",
+                "支持浅色模式"
+            ],
+            "moto": "屏幕时间跟踪与休息提醒工具"
+        },
+        {
+            "title": "使用统计",
+            "description": "监控每日屏幕使用时间，跟踪设备使用趋势，有效优化工作与生活平衡。",
+            "features": [
+                "每日设备使用时间跟踪",
+                "每周设备使用时间统计",
+                "每月设备使用趋势分析",
+                "年度设备使用总结",
+                "全时间段设备使用报告",
+                "综合使用数据分析",
+                "可视化图表与进度报告"
+            ],
+            "moto": "健康护眼的免费屏幕休息提醒应用"
+        },
+        {
+            "title": "工作日计划与日程安排",
+            "description": "通过设置自定义日程与工作时间，轻松规划高效工作日。",
+            "features": [
+                "自定义工作日设置",
+                "每日灵活日程安排",
+                "工作时间提醒自动化"
+            ],
+            "moto": "适合办公室员工的可定制工作休息计时器"
+        },
+        {
+            "title": "动画屏幕保护程序",
+            "description": "播放最受欢迎的屏幕保护程序，搭配可定制动画和声音，提升效率与放松体验。",
+            "features": [
+                "从多种屏保动画中选择",
+                "可定制的放松音效",
+                "自定义屏保显示时长"
+            ],
+            "moto": "高效用户必备屏保与任务管理工具"
+        },
+        {
+            "title": "全面自定义设置",
+            "description": "通过个性化设置，如番茄工作法计时器与通知偏好，提升专注力与效率。",
+            "features": [
+                "番茄工作法功能集成",
+                "强制休息模式",
+                "自定义通知音效",
+                "开机自动启动开关",
+                "设置每日屏幕使用上限"
+            ],
+            "moto": "高效生产力与休息提醒的番茄计时器"
+        },
+        {
+            "title": "激活授权密钥",
+            "description": "通过激活密钥，解锁高级功能与无缝更新。",
+            "features": [
+                "简便的激活流程",
+                "访问独家高级功能",
+                "定期软件更新与支持"
+            ],
+            "moto": "预防电脑视力综合症（CVS）与重复性劳损（RSI）的顶级工具"
+        }
+    ],
+    "pricingSectionHeader": {
+        "title": "选择适合您的计划",
+        "description": "选择一个实惠的计划，包含与观众互动、创造客户忠诚度和促进销售的最佳功能。"
+    },
+    "ReleaseInfo": {
+        "metaTitle": "Blink Eye {tag} 发布信息",
+        "title": "{tag} 发布信息",
+        "goBack": "返回",
+        "tag": "标签",
+        "published": "发布时间",
+        "author": "作者",
+        "assets": "资源",
+        "fullChangelog": "完整更新日志",
+        "downloadOptions": "下载选项",
+        "downloadTarball": "下载 Tarball",
+        "downloadZipball": "下载 Zipball"
+    },
+    "privacyPage": {
+        "title": "隐私政策",
+        "description": "了解我们的隐私实践和政策。"
+    },
+    "pricingPage": {
+        "title": "定价",
+        "description": "选择一个实惠的计划，配备最佳功能，以吸引用户、增强客户忠诚度并提升销售。"
+    },
+    "howtousePage": {
+        "title": "使用指南",
+        "description": "了解如何使用这款应用及其功能。"
+    },
+    "howBlinkEyeHelpsPage": {
+        "title": "Blink Eye 的帮助",
+        "description": "了解 Blink Eye 如何帮助您保持专注和高效。"
+    },
+    "goodbyePage": {
+        "title": "再见",
+        "description": "Blink Eye 应用的卸载页面",
+        "missyou": "很遗憾看到您离开！希望您享受过 Blink Eye 的使用体验。",
+        "suggesition": "请好好照顾您的眼睛。"
+    },
+    "featuresPage": {
+        "title": "功能",
+        "description": "探索让我们应用脱颖而出的功能。从可自定义的提醒到多种主题，我们应有尽有。"
+    },
+    "downloadPage": {
+        "title": "下载",
+        "description": "下载适用于 Windows、macOS 和 Linux 的 Blink Eye 应用。"
+    },
+    "contributePage": {
+        "title": "贡献",
+        "description": "为 Blink Eye 应用的开发贡献力量。"
+    },
+    "aboutPage": {
+        "title": "关于",
+        "description": "了解有关 Blink Eye 应用及其团队的更多信息。",
+        "info": ""
+    },
+    "blogsPage": {
+        "title": "博客",
+        "description": "关注 Blink Eye 团队的最新动态。"
+    }
+}

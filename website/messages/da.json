@@ -1,0 +1,389 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Bedste Øjenpleje & Pausetimer til Mac, Windows, Linux",
+    "description": "En minimalistisk øjenpleje-app, der reducerer øjenbelastning med tilpasselige timere, fuldskærms-popups og lyddæmpning.",
+    "keywords": [
+      "forebyg RSI app",
+      "forebyg computer vision syndrome app",
+      "RSI app",
+      "CVS app",
+      "bedste øjenpleje app 2024",
+      "app til påmindelse om skærmpauser",
+      "gratis download af øjensundhedsapp",
+      "open source øjenbeskyttelsessoftware",
+      "produktivitetsværktøj til macOS",
+      "Top app til øjenafslapning",
+      "Google Kalender opgaveliste",
+      "skærmtimer til øjenpleje",
+      "værktøj til påmindelse om arbejdspauser",
+      "øjenkomfort app til Mac",
+      "software til synspleje til bærbare computere",
+      "top app til øjenafslapning",
+      "PC skærmtidsstyring",
+      "computer øjenpleje værktøj",
+      "forebyggelse af digital øjenbelastning",
+      "Windows pausetidsplanlægger",
+      "bedste apps til lindring af øjenbelastning",
+      "tværplatform øjenpleje app",
+      "top open source pausepåmindelse",
+      "blink timer til computer sundhed",
+      "bedste øjenpleje app til Windows og Linux",
+      "gratis øjensundhedsapp til Windows",
+      "open source øjenbeskyttelsessoftware til Linux",
+      "app til påmindelse om skærmpauser til Windows",
+      "øjenkomfort app til Linux",
+      "top app til øjenafslapning til Windows",
+      "forebyggelse af digital øjenbelastning til Windows",
+      "computer øjenpleje værktøj til Linux",
+      "værktøj til påmindelse om arbejdspauser til Windows",
+      "skærmtidsstyring til Linux",
+      "tværplatform øjenpleje app",
+      "bedste apps til lindring af øjenbelastning på Windows og Linux",
+      "PC skærmtimer til øjenpleje",
+      "software til synspleje til Windows",
+      "øjenpleje påmindelsesapp til Linux",
+      "blink eye",
+      "blink eye til windows",
+      "Noman Dhoni Lavet App",
+      "øjenpleje app til windows",
+      "20 20 20 regel app til windows",
+      "øjenpleje",
+      "app til lindring af øjenbelastning",
+      "øjensundhed app",
+      "blink eye download",
+      "blink eye anmeldelse",
+      "20 20 20 regel app",
+      "øjenpleje påmindelsesapp",
+      "øjenpleje software",
+      "øjenpleje tips",
+      "øjenøvelser app",
+      "øjenbeskyttelse app",
+      "øjenpleje app til pc",
+      "øjenpleje app til bærbar",
+      "øjenpleje app til desktop",
+      "øjenpleje app til windows 10",
+      "øjenpleje app til windows 11",
+      "blink eye download",
+      "blink eye anmeldelse",
+      "øjenpleje app til windows",
+      "20 20 20 regel app til windows"
+    ]
+  },
+  "NavMenu": {
+    "features": "Funktioner",
+    "about": "Om",
+    "pricing": "Priser",
+    "release": "Udgivelser",
+    "contribute": "Bidrag",
+    "blogs": "Blogindlæg"
+  },
+  "HeroBanner": {
+    "tagline": "En minimalistisk øjenpleje-app til påmindelser til Windows, macOS og Linux.",
+    "span1": "For at reducere øjenbelastning, med påmindelser med timere, fuldskærms-popups. Baseret på",
+    "202020": "20-20-20",
+    "span2": "reglen.",
+    "institute": "American Academy of Ophthalmology"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Understøtter macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Funktioner",
+    "featureSubtitle": "Alle de nødvendige produktivitetsværktøjer på ét sted."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Priser",
+    "pricingDescription": "Vælg en overkommelig plan, der er spækket med de bedste funktioner til at engagere dit publikum, skabe kundeloyalitet og øge salget."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Tilpasselige påmindelser"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Hvordan Blink Eye vil hjælpe dig",
+    "body1": "Tag kontrol over dit velvære med Blink Eye.",
+    "body2": "Opdag hvordan planlagte pauser kan forbedre øjensundheden, øge fokus, øge produktiviteten og fremme langvarigt velvære for en afbalanceret digital livsstil.",
+    "learnMore": "Lær mere",
+    "title1": "Beskyt dine øjne mod digital belastning",
+    "title2": "Fysisk sundhed",
+    "title3": "Mentalt velvære",
+    "title4": "Øget produktivitet",
+    "title5": "Sunde skærmtidsvaner",
+    "title6": "Bæredygtige langsigtede fordele",
+    "title7": "Fleksibel og tilpasselig",
+    "title8": "Forskningsbaserede fordele",
+    "title9": "Forbedret energi og humør",
+    "description1": "Beskyt dine øjne mod digital belastning, reducer eksponering for blåt lys, og forebyg Computer Vision Syndrome (CVS).",
+    "description2": "Forbedre kropsholdning, forebyg belastningsskader (RSI), og reducer fysisk ubehag.",
+    "description3": "Øg dit fokus, mindfulness, og reducer stress ubesværet.",
+    "description4": "Arbejd smartere, ikke hårdere, med produktivitetsfokuserede metoder.",
+    "description5": "Udvikl disciplinerede skærmtidsvaner og minimer unødvendige distraktioner.",
+    "description6": "Undgå kroniske problemer og bevar balancen i mange år fremover.",
+    "description7": "Skræddersy din oplevelse, så den passer til din livsstil, profession og individuelle behov.",
+    "description8": "Nyd funktioner, der er baseret på produktivitets- og velværestudier.",
+    "description9": "Føl dig energisk og forbliv positiv hele dagen med afbalancerede arbejdspauser.",
+    "preventDigitalEyeStrain": "Forebyg digital øjenbelastning",
+    "blueLightProtection": "Beskyttelse mod blåt lys",
+    "preventRepetitiveStrainInjuries": "Forebyg belastningsskader (RSI)",
+    "supportBetterPosture": "Støt bedre kropsholdning",
+    "enhanceFocusAndMindfulness": "Forbedre fokus og mindfulness",
+    "stressManagement": "Stresshåndtering",
+    "pomodoroTechniqueIntegration": "Pomodoro-teknik integration",
+    "cognitiveEfficiency": "Kognitiv effektivitet",
+    "structuredScreenTime": "Struktureret skærmtid",
+    "reduceMultitasking": "Reducer multitasking",
+    "preventChronicVisionProblems": "Forebyg kroniske synsproblemer",
+    "achieveWorkLifeBalance": "Opnå balance mellem arbejde og privatliv",
+    "customizableBreakTimers": "Tilpasselige pausetimere",
+    "builtForEveryone": "Bygget til alle",
+    "evidenceBasedFeatures": "Evidensbaserede funktioner",
+    "trustedByUsers": "Betroet af brugere",
+    "boostDailyEnergy": "Øg daglig energi",
+    "maintainPositiveMood": "Bevar et positivt humør",
+    "preventDigitalEyeStrainDetails": "Planlagte pauser reducerer symptomer som tørre øjne, sløret syn og hovedpine, hvilket sikrer langvarig øjensundhed.",
+    "blueLightProtectionDetails": "Hvil dine øjne regelmæssigt med påmindelser designet til at bekæmpe de skadelige virkninger af eksponering for blåt lys.",
+    "preventRepetitiveStrainInjuriesDetails": "Regelmæssige pauser minimerer belastningen på dine hænder og håndled og forebygger langvarige skader fra gentagne opgaver.",
+    "supportBetterPostureDetails": "Opmuntrer til udstrækning og kropsholdningskontrol for at undgå problemer som tech neck og rygsmerter.",
+    "enhanceFocusAndMindfulnessDetails": "Regelmæssige pauser hjælper dig med at forblive skarp og fokuseret, samtidig med at mental træthed og udbrændthed reduceres.",
+    "stressManagementDetails": "Brug pauseintervaller til at øve afslapningsteknikker, hvilket reducerer arbejdsrelateret stress og spændinger.",
+    "pomodoroTechniqueIntegrationDetails": "Opdel opgaver i overskuelige intervaller for effektive arbejdssessioner, hvilket forbedrer opgavefuldførelsesrater.",
+    "cognitiveEfficiencyDetails": "Strategiske pauser forbedrer din mentale ydeevne og hjælper dig med at opnå mere med mindre indsats.",
+    "structuredScreenTimeDetails": "Opbyg sunde digitale vaner med velplacerede påmindelser for balance mellem arbejde og afslapning.",
+    "reduceMultitaskingDetails": "Fokuser fuldt ud på opgaver ved at minimere distraktioner under dine arbejds- og afslapningscyklusser.",
+    "preventChronicVisionProblemsDetails": "Tag proaktive foranstaltninger for at reducere risikoen for langvarige digitale synsproblemer forårsaget af overforbrug af skærm.",
+    "achieveWorkLifeBalanceDetails": "Skab bæredygtige vaner for arbejde og privatliv med en afbalanceret tilgang til produktivitet.",
+    "customizableBreakTimersDetails": "Indstil intervaller, der matcher din arbejdsgang, og sørg for, at appen supplerer din unikke tidsplan.",
+    "builtForEveryoneDetails": "Uanset om du er studerende, udvikler, designer eller fjernarbejder, tilpasser appen sig dine behov.",
+    "evidenceBasedFeaturesDetails": "Appens design er inspireret af forskning inden for produktivitet, fokus og digitalt velvære.",
+    "trustedByUsersDetails": "Ægte brugerudtalelser og succeshistorier bekræfter dens effektivitet og værdi.",
+    "boostDailyEnergyDetails": "Korte, regelmæssige pauser hjælper med at genoplade dit sind og din krop, så du holder dig energisk til dagen forude.",
+    "maintainPositiveMoodDetails": "Bryd monotonien ved kontinuerlig skærmtid for at reducere frustration og forbedre dit generelle humør."
+  },
+  "featureGrid": {
+    "title": "Funktioner",
+    "subtitle": "Alle de nødvendige produktivitetsværktøjer på ét sted.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Tilpasselige påmindelsestimere",
+        "description": "Indstil personlige påmindelsestimere for at forblive fokuseret og på sporet."
+      },
+      "diverseThemes": {
+        "title": "Forskellige temaer til personliggørelse",
+        "description": "Vælg mellem forskellige temaer for at tilpasse din grænseflade og arbejdsgang."
+      },
+      "customizableReminderText": {
+        "title": "Tilpasselig påmindelsestekst",
+        "description": "Opret brugerdefinerede påmindelsesbeskeder for at holde dig motiveret."
+      },
+      "customizableSounds": {
+        "title": "Tilpasselige lyde",
+        "description": "Vælg dine egne lyde til notifikationer og advarsler."
+      },
+      "dailyDeviceUsage": {
+        "title": "Daglig enhedsbrugstid",
+        "description": "Spor din skærmtid for at optimere produktivitet og balance."
+      },
+      "workdaySetup": {
+        "title": "Opsætning af arbejdsdag",
+        "description": "Opsæt hurtigt din arbejdsdagsskema for bedre produktivitet."
+      },
+      "pomodoroTimer": {
+        "title": "Pomodoro Timer",
+        "description": "Opdel opgaver i intervaller for maksimalt fokus og effektivitet."
+      },
+      "runOnStartup": {
+        "title": "Kør ved opstart",
+        "description": "Start appen automatisk, når din enhed starter."
+      },
+      "updateSupport": {
+        "title": "Opdateringssupport",
+        "description": "Modtag problemfrie opdateringer til de nyeste funktioner og rettelser."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Oplev de funktioner, der får os til at skille os ud",
+    "description": "Udforsk de funktioner, der får vores app til at skille sig ud. Fra tilpasselige påmindelser til flere temaer - vi har dækket dig ind."
+  },
+  "featuresDemo": [
+    {
+      "title": "Tilpasselige påmindelser",
+      "description": "Indstil personlige påmindelser for at forebygge øjenbelastning, forbedre produktiviteten og bevare fokus under lange arbejdssessioner.",
+      "features": [
+        "Tilpasselige varigheder af påmindelser",
+        "Justerbare intervalindstillinger",
+        "Redigerbar påmindelsestekst til personliggørelse"
+      ],
+      "moto": "Bedste app til lindring af øjenbelastning for computerbrugere"
+    },
+    {
+      "title": "Flere temaer",
+      "description": "Skift mellem lyse og mørke temaer, eller vælg mellem en række unikke farveskemaer, der passer til dit humør og arbejdsområde.",
+      "features": [
+        "Flere temaer til påmindelsesskærm at vælge imellem",
+        "App understøttelse af mørk tilstand",
+        "App understøttelse af lys tilstand"
+      ],
+      "moto": "App til sporing af skærmtid og påmindelse om pauser"
+    },
+    {
+      "title": "Brugsstatistik",
+      "description": "Overvåg din daglige skærmtid, spor tendenser i enhedsbrug, og optimer din balance mellem arbejde og privatliv effektivt.",
+      "features": [
+        "Daglig sporing af enhedsbrug",
+        "Ugentlig sporing af enhedsbrug",
+        "Månedlig sporing af enhedsbrug",
+        "Årlig sporing af enhedsbrug",
+        "Sporing af samlet enhedsbrug",
+        "Omfattende brugsanalyse",
+        "Visuelle grafer og statusrapporter"
+      ],
+      "moto": "Gratis app til påmindelse om skærmpauser for sunde øjne"
+    },
+    {
+      "title": "Opsætning og planlægning af arbejdsdag",
+      "description": "Planlæg dine arbejdsdage effektivt ved at indstille brugerdefinerede tidsplaner og arbejdstider for hver dag i ugen.",
+      "features": [
+        "Tilpasselige indstillinger for arbejdsdag",
+        "Daglig planlægningsfleksibilitet",
+        "Automatiserede påmindelser om pauser i arbejdstiden"
+      ],
+      "moto": "Tilpasselig arbejds-pausetimer for kontoransatte"
+    },
+    {
+      "title": "Pauseskærme med animationer",
+      "description": "Afspil nogle af de mest populære pauseskærme med tilpasselige animationer og lyde for at forbedre din produktivitet og afslapning.",
+      "features": [
+        "Vælg mellem forskellige pauseskærme med tilpasselige animationer",
+        "Tilpasselige lydeffekter til afslapning",
+        "Tilpasselig varighed af pauseskærm"
+      ],
+      "moto": "Bedste pauseskærm og opgavehåndteringsapp til superbrugere"
+    },
+    {
+      "title": "Omfattende tilpasningsindstillinger",
+      "description": "Øg din produktivitet og fokus med tilpasselige indstillinger, herunder Pomodoro-timere og notifikationspræferencer.",
+      "features": [
+        "Pomodoro-teknik integration",
+        "Strict Mode til at tvinge dig til at holde pauser",
+        "Tilpasselige notifikationslyde",
+        "Kør ved opstart kontakt",
+        "Indstil din daglige skærmbrugsgrænse"
+      ],
+      "moto": "Pomodoro Timer med pausepåmindelser for produktivitet"
+    },
+    {
+      "title": "Aktiver licensnøgle",
+      "description": "Aktiver din app med en licensnøgle for at få fuld adgang til premium-funktioner og problemfrie opdateringer.",
+      "features": [
+        "Nem licensaktiveringsproces",
+        "Adgang til eksklusive premium-funktioner",
+        "Regelmæssige softwareopdateringer og support"
+      ],
+      "moto": "Top app til forebyggelse af Computer Vision Syndrome (CVS) og (RSI)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Vælg den rigtige plan for dig",
+    "description": "Vælg en overkommelig plan, der er spækket med de bedste funktioner til at engagere dit publikum, skabe kundeloyalitet og øge salget."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} Udgivelsesinformation",
+    "title": "{tag} Udgivelsesinformation",
+    "goBack": "Gå tilbage",
+    "tag": "Tag",
+    "published": "Udgivet",
+    "author": "Forfatter",
+    "assets": "Aktiver",
+    "fullChangelog": "Fuld ændringslog",
+    "downloadOptions": "Downloadmuligheder",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Privatlivspolitik",
+    "description": "Lær om vores privatlivspraksis og politikker."
+  },
+  "pricingPage": {
+    "title": "Priser",
+    "description": "Vælg en overkommelig plan, der er spækket med de bedste funktioner til at engagere dit publikum, skabe kundeloyalitet og øge salget."
+  },
+  "howtousePage": {
+    "title": "Sådan bruger du",
+    "description": "Lær hvordan du bruger appen og dens funktioner."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Hvordan Blink Eye hjælper",
+    "description": "Lær hvordan Blink Eye hjælper dig med at forblive fokuseret og produktiv."
+  },
+  "goodbyePage": {
+    "title": "Farvel",
+    "description": "Afinstalleringsside for Blink Eye App",
+    "missyou": "Vi er kede af at se dig gå! Vi håber, du nød at bruge Blink Eye.",
+    "suggesition": "Pas godt på dine øjne."
+  },
+  "featuresPage": {
+    "title": "Funktioner",
+    "description": "Oplev de funktioner, der får vores app til at skille sig ud. Fra tilpasselige påmindelser til flere temaer - vi har dækket dig ind."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Download Blink Eye App til Windows, macOS og Linux."
+  },
+  "contributePage": {
+    "title": "Bidrag",
+    "description": "Bidrag til udviklingen af Blink Eye App."
+  },
+  "aboutPage": {
+    "title": "Om",
+    "description": "Lær mere om Blink Eye App og dens team.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogindlæg",
+    "description": "Læs vores seneste blogindlæg og nyhedsopdateringer."
+  }
+}
