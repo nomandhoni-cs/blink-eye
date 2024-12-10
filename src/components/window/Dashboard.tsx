@@ -147,10 +147,10 @@ const Dashboard = () => {
     <div className="p-4 space-y-4">
       <div className="flex justify-between items-center space-x-8">
         <div>
-          <h1 className="text-6xl font-heading tracking-wider text-[#FE4C55]">
+          <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">
             {currentDate.toLocaleString("en-US", { weekday: "long" })}
           </h1>
-          <p className="text-2xl text-muted-foreground">{formattedDate}</p>
+          <p className="text-xl text-muted-foreground">{formattedDate}</p>
         </div>
         <div className="relative w-48 h-48">
           <svg className="w-full h-full transform -rotate-90">
@@ -235,7 +235,12 @@ const Dashboard = () => {
               </Button>
             </div>
 
-            <div className="flex items-center ml-auto">
+            <a
+              href="http://github.com/nomandhoni-cs/blink-eye"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center ml-auto"
+            >
               <div className="flex h-8 w-8 items-center justify-center space-x-1">
                 <svg
                   role="img"
@@ -250,7 +255,7 @@ const Dashboard = () => {
               <span className="ml-1 text-lg text-muted-foreground">
                 v{appVersion}
               </span>
-            </div>
+            </a>
           </div>
         </CardContent>
       </Card>
