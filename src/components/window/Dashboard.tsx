@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
 
 const Dashboard = () => {
@@ -174,9 +174,7 @@ const Dashboard = () => {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-3xl font-heading tracking-wide">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
-            <span className="text-sm text-muted-foreground mt-1">
-              Usage Time
-            </span>
+            <span className="text-sm text-muted-foreground">Usage Time</span>
           </div>
         </div>
       </div>
