@@ -36,8 +36,8 @@ const Dashboard = () => {
   // Function to open the reminder window
   const openReminderWindow = () => {
     console.log("Opening reminder window...");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
+    const webview = new WebviewWindow("AuroraReminderWindow", {
+      url: "/AuroraReminderWindow",
       fullscreen: true,
       alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",

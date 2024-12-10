@@ -5,6 +5,10 @@ import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import ReminderControl from "./components/ReminderControl";
+import BeamOfLifeBGWrapper from "./components/ReminderWindows/BeamOfLifeBGWrapper";
+import AuroraBGWrapper from "./components/ReminderWindows/AuroraBGWrapper";
+import PlainBGWrapper from "./components/ReminderWindows/PlainBGWrapper";
 
 // Lazy load route components
 const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
@@ -50,6 +54,36 @@ function App() {
             element={
               <Suspense fallback={<LoadingSpinner />}>
                 <ReminderPreviewWindow />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/PlainReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <PlainBGWrapper>
+                  <ReminderControl />
+                </PlainBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/AuroraReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <AuroraBGWrapper>
+                  <ReminderControl />
+                </AuroraBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/BeamOfLifeReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <BeamOfLifeBGWrapper>
+                  <ReminderControl />
+                </BeamOfLifeBGWrapper>
               </Suspense>
             }
           />

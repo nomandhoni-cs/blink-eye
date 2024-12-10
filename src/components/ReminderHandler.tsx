@@ -11,15 +11,16 @@ type Workday = { [day: string]: { start: string; end: string } } | null;
 const ReminderHandler = () => {
   const { trigger } = useTrigger(); // Use the trigger value from the context
   const [interval, setInterval] = useState<number>(20);
+  const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [workday, setWorkday] = useState<Workday>(null);
   const [isWorkdayEnabled, setIsWorkdayEnabled] = useState<boolean>(false);
   const { canAccessPremiumFeatures } = usePremiumFeatures();
 
   // Function to open the reminder window
-  const openReminderWindow = () => {
+  const openReminderWindow = (reminderWindow: string) => {
     console.log("Opening reminder window...");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
+    const webview = new WebviewWindow(reminderWindow, {
+      url: `/${reminderWindow}`,
       fullscreen: true,
       alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",
@@ -41,6 +42,9 @@ const ReminderHandler = () => {
       console.log("Fetching settings due to trigger:", trigger);
       const db = await Database.load("sqlite:appconfig.db");
       const store = await load("store.json", { autoSave: false });
+      const reminderStyleData = await load("ReminderThemeStyle.json");
+      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
+      if (savedStyle) setBackgroundStyle(savedStyle);
 
       // Load the reminder interval from storage
       const storedInterval = await store.get<number>(
@@ -88,7 +92,21 @@ const ReminderHandler = () => {
     const startReminder = () => {
       console.log("Starting reminder timer with interval:", interval);
       timer = window.setInterval(() => {
-        openReminderWindow();
+        if (!canAccessPremiumFeatures) {
+          openReminderWindow("PlainReminderWindow");
+          return;
+        }
+
+        switch (backgroundStyle) {
+          case "aurora":
+            openReminderWindow("AuroraReminderWindow");
+            break;
+          case "beamoflife":
+            openReminderWindow("BeamOfLifeReminderWindow");
+            break;
+          default:
+            openReminderWindow("AuroraReminderWindow");
+        }
       }, interval * 60 * 1000); // The interval value will be non-null
     };
 
