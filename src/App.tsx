@@ -9,6 +9,12 @@ import ReminderControl from "./components/ReminderControl";
 import BeamOfLifeBGWrapper from "./components/ReminderWindows/BeamOfLifeBGWrapper";
 import AuroraBGWrapper from "./components/ReminderWindows/AuroraBGWrapper";
 import PlainBGWrapper from "./components/ReminderWindows/PlainBGWrapper";
+import FreeSpiritBGWrapper from "./components/ReminderWindows/FreeSpiritBGWrapper";
+import CanvasShapesBGWrapper from "./components/ReminderWindows/CanvasShapesBGWrapper";
+import ParticleBackgroundBGWrapper from "./components/ReminderWindows/ParticleBackgroundBGWrapper";
+import PlainGradientAnimationBGWrapper from "./components/ReminderWindows/PlainGradientAnimationBGWrapper";
+import StarryBackgroundBGWrapper from "./components/ReminderWindows/StarryBackgroundBGWrapper";
+import ShootingMeteorBGWrapper from "./components/ReminderWindows/ShootingMeteorBGWrapper";
 
 // Lazy load route components
 const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
@@ -84,6 +90,66 @@ function App() {
                 <BeamOfLifeBGWrapper>
                   <ReminderControl />
                 </BeamOfLifeBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/FreeSpiritReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <FreeSpiritBGWrapper>
+                  <ReminderControl />
+                </FreeSpiritBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/CanvasShapesReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <CanvasShapesBGWrapper>
+                  <ReminderControl />
+                </CanvasShapesBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/ParticleBackgroundReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <ParticleBackgroundBGWrapper>
+                  <ReminderControl />
+                </ParticleBackgroundBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/PlainGradientAnimationReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <PlainGradientAnimationBGWrapper>
+                  <ReminderControl />
+                </PlainGradientAnimationBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/StarryBackgroundReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <StarryBackgroundBGWrapper>
+                  <ReminderControl />
+                </StarryBackgroundBGWrapper>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/ShootingMeteorReminderWindow"
+            element={
+              <Suspense fallback={<LoadingSpinner />}>
+                <ShootingMeteorBGWrapper>
+                  <ReminderControl />
+                </ShootingMeteorBGWrapper>
               </Suspense>
             }
           />

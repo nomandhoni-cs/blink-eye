@@ -104,6 +104,24 @@ const ReminderHandler = () => {
           case "beamoflife":
             openReminderWindow("BeamOfLifeReminderWindow");
             break;
+          case "freesprit":
+            openReminderWindow("FreeSpiritReminderWindow");
+            break;
+          case "canvasShapes":
+            openReminderWindow("CanvasShapesReminderWindow");
+            break;
+          case "particleBackground":
+            openReminderWindow("ParticleBackgroundReminderWindow");
+            break;
+          case "plainGradientAnimation":
+            openReminderWindow("PlainGradientAnimationReminderWindow");
+            break;
+          case "starryBackground":
+            openReminderWindow("StarryBackgroundReminderWindow");
+            break;
+          case "shootingmeteor":
+            openReminderWindow("ShootingMeteorReminderWindow");
+            break;
           default:
             openReminderWindow("AuroraReminderWindow");
         }

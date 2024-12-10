@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
   const [usageTimeLimit, setUsageTimeLimit] = useState<number>(8);
+  const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const { timeCount } = useTimeCountContext();
   const [appVersion, setAppVersion] = useState<string>("");
 
@@ -34,10 +35,10 @@ const Dashboard = () => {
   const formattedDate = currentDate.toLocaleDateString("en-US", dateOptions);
 
   // Function to open the reminder window
-  const openReminderWindow = () => {
+  const openReminderWindow = (reminderWindow: string) => {
     console.log("Opening reminder window...");
-    const webview = new WebviewWindow("AuroraReminderWindow", {
-      url: "/AuroraReminderWindow",
+    const webview = new WebviewWindow(reminderWindow, {
+      url: `/${reminderWindow}`,
       fullscreen: true,
       alwaysOnTop: true,
       title: "Take A Break Reminder - Blink Eye",
@@ -50,6 +51,38 @@ const Dashboard = () => {
     webview.once("tauri://error", (e) => {
       console.error("Error creating reminder window:", e);
     });
+  };
+
+  const handleOpenReminderWindow = () => {
+    console.log("Opening reminder window for", backgroundStyle);
+    switch (backgroundStyle) {
+      case "aurora":
+        openReminderWindow("AuroraReminderWindow");
+        break;
+      case "beamoflife":
+        openReminderWindow("BeamOfLifeReminderWindow");
+        break;
+      case "freesprit":
+        openReminderWindow("FreeSpiritReminderWindow");
+        break;
+      case "canvasShapes":
+        openReminderWindow("CanvasShapesReminderWindow");
+        break;
+      case "particleBackground":
+        openReminderWindow("ParticleBackgroundReminderWindow");
+        break;
+      case "plainGradientAnimation":
+        openReminderWindow("PlainGradientAnimationReminderWindow");
+        break;
+      case "starryBackground":
+        openReminderWindow("StarryBackgroundReminderWindow");
+        break;
+      case "shootingmeteor":
+        openReminderWindow("ShootingMeteorReminderWindow");
+        break;
+      default:
+        openReminderWindow("AuroraReminderWindow");
+    }
   };
 
   // Load settings from the store when the component mounts
@@ -65,6 +98,9 @@ const Dashboard = () => {
       const storedReminderText = await store.get<string>(
         "blinkEyeReminderScreenText"
       );
+      const reminderStyleData = await load("ReminderThemeStyle.json");
+      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
+      if (savedStyle) setBackgroundStyle(savedStyle);
       const usageTimeLimit = await store.get<number>("usageTimeLimit");
       if (usageTimeLimit) setUsageTimeLimit(usageTimeLimit);
 
@@ -198,7 +234,7 @@ const Dashboard = () => {
               >
                 Save Settings
               </Button>
-              <Button onClick={openReminderWindow} variant="secondary">
+              <Button onClick={handleOpenReminderWindow} variant="secondary">
                 Open Reminder Window
               </Button>
             </div>

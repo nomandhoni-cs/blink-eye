@@ -1,11 +1,11 @@
-import { AuroraBackground } from "../backgrounds/Aurora";
+import PlainGradientAnimation from "../backgrounds/PlainGradientAnimation";
 
-const AuroraBGWrapper: React.FC<{
+const PlainGradientAnimationBGWrapper: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
-      <AuroraBackground />
+      <PlainGradientAnimation />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {children}
       </div>
@@ -13,4 +13,4 @@ const AuroraBGWrapper: React.FC<{
   );
 };
 
-export default AuroraBGWrapper;
+export default PlainGradientAnimationBGWrapper;

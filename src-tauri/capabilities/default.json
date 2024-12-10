@@ -10,7 +10,13 @@
     "screenSaverWindow",
     "PlainReminderWindow",
     "AuroraReminderWindow",
-    "BeamOfLifeReminderWindow"
+    "BeamOfLifeReminderWindow",
+    "FreeSpiritReminderWindow",
+    "CanvasShapesReminderWindow",
+    "ParticleBackgroundReminderWindow",
+    "PlainGradientAnimationReminderWindow",
+    "StarryBackgroundReminderWindow",
+    "ShootingMeteorReminderWindow"
   ],
   "permissions": [
     {

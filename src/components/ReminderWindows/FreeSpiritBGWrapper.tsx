@@ -1,11 +1,12 @@
-import { AuroraBackground } from "../backgrounds/Aurora";
+import React from "react";
+import { FreeSpirit } from "../backgrounds/FreeSpirit";
 
-const AuroraBGWrapper: React.FC<{
+const FreeSpiritBGWrapper: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
-      <AuroraBackground />
+      <FreeSpirit />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {children}
       </div>
@@ -13,4 +14,4 @@ const AuroraBGWrapper: React.FC<{
   );
 };
 
-export default AuroraBGWrapper;
+export default FreeSpiritBGWrapper;
