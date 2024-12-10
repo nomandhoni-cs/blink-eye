@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { SaveIcon, WallpaperIcon } from "lucide-react";
 
 const Dashboard = () => {
   const { triggerUpdate } = useTrigger();
@@ -146,10 +147,10 @@ const Dashboard = () => {
     <div className="p-4 space-y-4">
       <div className="flex justify-between items-center space-x-8">
         <div>
-          <h1 className="text-4xl font-normal text-[#FE4C55]">
+          <h1 className="text-6xl font-heading tracking-wider text-[#FE4C55]">
             {currentDate.toLocaleString("en-US", { weekday: "long" })}
           </h1>
-          <p className="text-xl text-muted-foreground">{formattedDate}</p>
+          <p className="text-2xl text-muted-foreground">{formattedDate}</p>
         </div>
         <div className="relative w-48 h-48">
           <svg className="w-full h-full transform -rotate-90">
@@ -172,7 +173,7 @@ const Dashboard = () => {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
+            <span className="text-3xl font-heading tracking-wide">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
             <span className="text-sm text-muted-foreground mt-1">
               Usage Time
             </span>
@@ -181,10 +182,7 @@ const Dashboard = () => {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Primary Settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="interval-time">Break Time (Minutes)</Label>
@@ -228,14 +226,12 @@ const Dashboard = () => {
           </div>
           <div className="flex justify-between w-full">
             <div className="flex space-x-4">
-              <Button
-                onClick={handleSave}
-                className="bg-white text-black hover:bg-gray-200"
-              >
+              <Button onClick={handleSave} variant="default">
+                <SaveIcon className="w-5 h-5" />
                 Save Settings
               </Button>
-              <Button onClick={handleOpenReminderWindow} variant="secondary">
-                Open Reminder Window
+              <Button onClick={handleOpenReminderWindow} variant="outline">
+                <WallpaperIcon className="w-5 h-5" /> Open Reminder Window
               </Button>
             </div>
 

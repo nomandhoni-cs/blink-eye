@@ -92,13 +92,13 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="flex items-center justify-between px-0 py-2">
-            <SidebarGroupLabel className="flex items-center">
+            <SidebarGroupLabel className="flex items-center justify-center font-heading tracking-wider">
               <img
                 src={logo}
                 className="w-[1.2rem] h-[1.2rem] mr-2"
                 alt="Blink Eye"
               />
-              Blink Eye
+              <span className="mt-1">Blink Eye</span>
             </SidebarGroupLabel>
             <ModeToggle />
           </div>
