@@ -12,6 +12,7 @@ import {
   Settings,
   TvMinimal,
   ChartColumn,
+  ListTodo,
 } from "lucide-react";
 import logo from "../assets/icon.png";
 import {
@@ -60,6 +61,12 @@ const items = [
     title: "Screen Savers",
     url: "/screenSavers",
     icon: TvMinimal,
+    isPremiumFeature: true,
+  },
+  {
+    title: "Todo List",
+    url: "/soon",
+    icon: ListTodo,
     isPremiumFeature: true,
   },
   {
