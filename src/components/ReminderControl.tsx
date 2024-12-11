@@ -146,7 +146,7 @@ const ReminderControl: React.FC = () => {
     <>
       <div className="flex flex-col items-center justify-center h-full w-full px-4 relative">
         {isLoading ? (
-          <div className="text-[12rem] font-heading">Ready?</div>
+          <div className="text-[12rem] font-heading tracking-wide">Ready?</div>
         ) : !isUsiningCircleProgressTimerStyle ? (
           <div className="flex flex-col items-center">
             <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">

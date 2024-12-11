@@ -199,7 +199,7 @@ const TodoPage: React.FC = () => {
                     {newTaskDeadline ? (
                       format(newTaskDeadline, "PPP")
                     ) : (
-                      <span>Pick a date</span>
+                      <span>Pick a deadline</span>
                     )}
                   </Button>
                 </PopoverTrigger>
