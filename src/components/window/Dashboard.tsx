@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
+import { SaveIcon, WallpaperIcon } from "lucide-react";
 
 const Dashboard = () => {
   const { triggerUpdate } = useTrigger();
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
   const [usageTimeLimit, setUsageTimeLimit] = useState<number>(8);
+  const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const { timeCount } = useTimeCountContext();
   const [appVersion, setAppVersion] = useState<string>("");
 
@@ -34,13 +36,13 @@ const Dashboard = () => {
   const formattedDate = currentDate.toLocaleDateString("en-US", dateOptions);
 
   // Function to open the reminder window
-  const openReminderWindow = () => {
+  const openReminderWindow = (reminderWindow: string) => {
     console.log("Opening reminder window...");
-    const webview = new WebviewWindow("ReminderWindow", {
-      url: "/reminder",
+    const webview = new WebviewWindow(reminderWindow, {
+      url: `/${reminderWindow}`,
+      title: "Take A Break Reminder - Blink Eye",
       fullscreen: true,
       alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
       skipTaskbar: true,
     });
 
@@ -50,6 +52,38 @@ const Dashboard = () => {
     webview.once("tauri://error", (e) => {
       console.error("Error creating reminder window:", e);
     });
+  };
+
+  const handleOpenReminderWindow = () => {
+    console.log("Opening reminder window for", backgroundStyle);
+    switch (backgroundStyle) {
+      case "aurora":
+        openReminderWindow("AuroraReminderWindow");
+        break;
+      case "beamoflife":
+        openReminderWindow("BeamOfLifeReminderWindow");
+        break;
+      case "freesprit":
+        openReminderWindow("FreeSpiritReminderWindow");
+        break;
+      case "canvasShapes":
+        openReminderWindow("CanvasShapesReminderWindow");
+        break;
+      case "particleBackground":
+        openReminderWindow("ParticleBackgroundReminderWindow");
+        break;
+      case "plainGradientAnimation":
+        openReminderWindow("PlainGradientAnimationReminderWindow");
+        break;
+      case "starryBackground":
+        openReminderWindow("StarryBackgroundReminderWindow");
+        break;
+      case "shootingmeteor":
+        openReminderWindow("ShootingMeteorReminderWindow");
+        break;
+      default:
+        openReminderWindow("AuroraReminderWindow");
+    }
   };
 
   // Load settings from the store when the component mounts
@@ -65,6 +99,9 @@ const Dashboard = () => {
       const storedReminderText = await store.get<string>(
         "blinkEyeReminderScreenText"
       );
+      const reminderStyleData = await load("ReminderThemeStyle.json");
+      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
+      if (savedStyle) setBackgroundStyle(savedStyle);
       const usageTimeLimit = await store.get<number>("usageTimeLimit");
       if (usageTimeLimit) setUsageTimeLimit(usageTimeLimit);
 
@@ -110,7 +147,7 @@ const Dashboard = () => {
     <div className="p-4 space-y-4">
       <div className="flex justify-between items-center space-x-8">
         <div>
-          <h1 className="text-4xl font-normal text-[#FE4C55]">
+          <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">
             {currentDate.toLocaleString("en-US", { weekday: "long" })}
           </h1>
           <p className="text-xl text-muted-foreground">{formattedDate}</p>
@@ -136,19 +173,14 @@ const Dashboard = () => {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
-            <span className="text-sm text-muted-foreground mt-1">
-              Usage Time
-            </span>
+            <span className="text-3xl font-heading tracking-wide">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
+            <span className="text-sm text-muted-foreground">Usage Time</span>
           </div>
         </div>
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Primary Settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="interval-time">Break Time (Minutes)</Label>
@@ -192,18 +224,21 @@ const Dashboard = () => {
           </div>
           <div className="flex justify-between w-full">
             <div className="flex space-x-4">
-              <Button
-                onClick={handleSave}
-                className="bg-white text-black hover:bg-gray-200"
-              >
+              <Button onClick={handleSave} variant="default">
+                <SaveIcon className="w-5 h-5" />
                 Save Settings
               </Button>
-              <Button onClick={openReminderWindow} variant="secondary">
-                Open Reminder Window
+              <Button onClick={handleOpenReminderWindow} variant="outline">
+                <WallpaperIcon className="w-5 h-5" /> Open Reminder Window
               </Button>
             </div>
 
-            <div className="flex items-center ml-auto">
+            <a
+              href="http://github.com/nomandhoni-cs/blink-eye"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center ml-auto"
+            >
               <div className="flex h-8 w-8 items-center justify-center space-x-1">
                 <svg
                   role="img"
@@ -218,7 +253,7 @@ const Dashboard = () => {
               <span className="ml-1 text-lg text-muted-foreground">
                 v{appVersion}
               </span>
-            </div>
+            </a>
           </div>
         </CardContent>
       </Card>

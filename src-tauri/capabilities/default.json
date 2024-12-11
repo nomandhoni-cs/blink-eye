@@ -7,7 +7,16 @@
     "ReminderWindow",
     "ReminderPreviewWindow",
     "DashboardWindow",
-    "screenSaverWindow"
+    "screenSaverWindow",
+    "PlainReminderWindow",
+    "AuroraReminderWindow",
+    "BeamOfLifeReminderWindow",
+    "FreeSpiritReminderWindow",
+    "CanvasShapesReminderWindow",
+    "ParticleBackgroundReminderWindow",
+    "PlainGradientAnimationReminderWindow",
+    "StarryBackgroundReminderWindow",
+    "ShootingMeteorReminderWindow"
   ],
   "permissions": [
     {
@@ -24,6 +33,18 @@
         },
         {
           "url": "https://blinkeye.vercel.app/api/validatelicense"
+        },
+        {
+          "url": "https://www.blinkeye.app/api/activatelicense"
+        },
+        {
+          "url": "https://www.blinkeye.app/api/validatelicense"
+        },
+        {
+          "url": "https://blinkeye.app/api/activatelicense"
+        },
+        {
+          "url": "https://blinkeye.app/api/validatelicense"
         }
       ],
       "deny": []

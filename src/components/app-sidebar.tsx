@@ -12,6 +12,7 @@ import {
   Settings,
   TvMinimal,
   ChartColumn,
+  ListTodo,
 } from "lucide-react";
 import logo from "../assets/icon.png";
 import {
@@ -39,15 +40,21 @@ const items = [
     isPremiumFeature: false,
   },
   {
-    title: "Reminder Themes",
-    url: "/reminderthemes",
-    icon: Paintbrush,
+    title: "Todo List",
+    url: "/todoList",
+    icon: ListTodo,
     isPremiumFeature: true,
   },
   {
     title: "Usage Time",
     url: "/usageTime",
     icon: ChartColumn,
+    isPremiumFeature: true,
+  },
+  {
+    title: "Reminder Themes",
+    url: "/reminderthemes",
+    icon: Paintbrush,
     isPremiumFeature: true,
   },
   {
@@ -85,13 +92,13 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="flex items-center justify-between px-0 py-2">
-            <SidebarGroupLabel className="flex items-center">
+            <SidebarGroupLabel className="flex items-center justify-center font-heading tracking-wider">
               <img
                 src={logo}
                 className="w-[1.2rem] h-[1.2rem] mr-2"
                 alt="Blink Eye"
               />
-              Blink Eye
+              <span className="mt-1">Blink Eye</span>
             </SidebarGroupLabel>
             <ModeToggle />
           </div>

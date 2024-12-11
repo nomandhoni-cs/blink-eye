@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import tailwindcssAnimate from "tailwindcss-animate";
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -22,6 +24,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        heading: ["CalSans", ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

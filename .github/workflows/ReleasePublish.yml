@@ -87,7 +87,7 @@ jobs:
       run: |
         echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-    - uses: tauri-apps/tauri-action@v0
+    - uses: tauri-apps/tauri-action@v0.5.16
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
