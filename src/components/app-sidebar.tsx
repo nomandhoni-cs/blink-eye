@@ -40,15 +40,21 @@ const items = [
     isPremiumFeature: false,
   },
   {
-    title: "Reminder Themes",
-    url: "/reminderthemes",
-    icon: Paintbrush,
+    title: "Todo List",
+    url: "/todoList",
+    icon: ListTodo,
     isPremiumFeature: true,
   },
   {
     title: "Usage Time",
     url: "/usageTime",
     icon: ChartColumn,
+    isPremiumFeature: true,
+  },
+  {
+    title: "Reminder Themes",
+    url: "/reminderthemes",
+    icon: Paintbrush,
     isPremiumFeature: true,
   },
   {
@@ -61,12 +67,6 @@ const items = [
     title: "Screen Savers",
     url: "/screenSavers",
     icon: TvMinimal,
-    isPremiumFeature: true,
-  },
-  {
-    title: "Todo List",
-    url: "/soon",
-    icon: ListTodo,
     isPremiumFeature: true,
   },
   {

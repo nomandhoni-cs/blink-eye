@@ -5,16 +5,34 @@ import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
-import ReminderControl from "./components/ReminderControl";
-import BeamOfLifeBGWrapper from "./components/ReminderWindows/BeamOfLifeBGWrapper";
-import AuroraBGWrapper from "./components/ReminderWindows/AuroraBGWrapper";
-import PlainBGWrapper from "./components/ReminderWindows/PlainBGWrapper";
-import FreeSpiritBGWrapper from "./components/ReminderWindows/FreeSpiritBGWrapper";
-import CanvasShapesBGWrapper from "./components/ReminderWindows/CanvasShapesBGWrapper";
-import ParticleBackgroundBGWrapper from "./components/ReminderWindows/ParticleBackgroundBGWrapper";
-import PlainGradientAnimationBGWrapper from "./components/ReminderWindows/PlainGradientAnimationBGWrapper";
-import StarryBackgroundBGWrapper from "./components/ReminderWindows/StarryBackgroundBGWrapper";
-import ShootingMeteorBGWrapper from "./components/ReminderWindows/ShootingMeteorBGWrapper";
+const ReminderControl = lazy(() => import("./components/ReminderControl"));
+const BeamOfLifeBGWrapper = lazy(
+  () => import("./components/ReminderWindows/BeamOfLifeBGWrapper")
+);
+const AuroraBGWrapper = lazy(
+  () => import("./components/ReminderWindows/AuroraBGWrapper")
+);
+const PlainBGWrapper = lazy(
+  () => import("./components/ReminderWindows/PlainBGWrapper")
+);
+const FreeSpiritBGWrapper = lazy(
+  () => import("./components/ReminderWindows/FreeSpiritBGWrapper")
+);
+const CanvasShapesBGWrapper = lazy(
+  () => import("./components/ReminderWindows/CanvasShapesBGWrapper")
+);
+const ParticleBackgroundBGWrapper = lazy(
+  () => import("./components/ReminderWindows/ParticleBackgroundBGWrapper")
+);
+const PlainGradientAnimationBGWrapper = lazy(
+  () => import("./components/ReminderWindows/PlainGradientAnimationBGWrapper")
+);
+const StarryBackgroundBGWrapper = lazy(
+  () => import("./components/ReminderWindows/StarryBackgroundBGWrapper")
+);
+const ShootingMeteorBGWrapper = lazy(
+  () => import("./components/ReminderWindows/ShootingMeteorBGWrapper")
+);
 
 // Lazy load route components
 const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
@@ -36,6 +54,7 @@ const ActivateLicense = lazy(
 const AllSettings = lazy(() => import("./components/window/AllSettings"));
 const AboutPage = lazy(() => import("./components/window/AboutPage"));
 const Soon = lazy(() => import("./components/window/Soon"));
+const TodoPage = lazy(() => import("./components/window/TodoPage"));
 
 function App() {
   const { isInitialized, error, retry } = useAutoStart();
@@ -176,6 +195,14 @@ function App() {
               element={
                 <Suspense fallback={<LoadingSpinner />}>
                   <UsageTime />
+                </Suspense>
+              }
+            />
+            <Route
+              path="todoList"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <TodoPage />
                 </Suspense>
               }
             />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
@@ -12,6 +12,12 @@ import Database from "@tauri-apps/plugin-sql";
 import { load } from "@tauri-apps/plugin-store";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
+// In the component where you're using React.lazy
+const TodayTodoTasks = lazy(() =>
+  import("./TodayTodoTasks").then((module) => ({
+    default: module.TodayTodoTasks,
+  }))
+);
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -86,7 +92,6 @@ const ReminderControl: React.FC = () => {
           useCircleProgressTimerStyleResult[0].value === "true"
         );
       }
-
       // Delay setting isLoading to false to show "Ready?" for longer
       setTimeout(() => {
         setIsLoading(false);
@@ -139,9 +144,9 @@ const ReminderControl: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-full w-full px-4">
+      <div className="flex flex-col items-center justify-center h-full w-full px-4 relative">
         {isLoading ? (
-          <div className="text-[15rem] font-heading">Ready?</div>
+          <div className="text-[12rem] font-heading">Ready?</div>
         ) : !isUsiningCircleProgressTimerStyle ? (
           <div className="flex flex-col items-center">
             <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">
@@ -242,6 +247,7 @@ const ReminderControl: React.FC = () => {
           </div>
         )}
       </div>
+      {canAccessPremiumFeatures && !isLoading && <TodayTodoTasks />}
       <Toaster />
     </>
   );
