@@ -157,10 +157,12 @@ export default function UsageTimeChart() {
   }
 
   return (
-    <Card className="w-full max-w-4xl my-4">
+    <Card className="w-full max-w-7xl my-4">
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="space-y-2">
-          <CardTitle>Device Usage Time</CardTitle>
+          <CardTitle className="font-heading tracking-wider">
+            Device Usage Time
+          </CardTitle>
           <CardDescription>Total time: {totalTime}</CardDescription>
         </div>
         <div className="flex flex-col items-end space-y-1">

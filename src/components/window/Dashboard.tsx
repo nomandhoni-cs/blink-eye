@@ -40,9 +40,9 @@ const Dashboard = () => {
     console.log("Opening reminder window...");
     const webview = new WebviewWindow(reminderWindow, {
       url: `/${reminderWindow}`,
+      title: "Take A Break Reminder - Blink Eye",
       fullscreen: true,
       alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
       skipTaskbar: true,
     });
 
