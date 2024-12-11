@@ -78,6 +78,27 @@ const ConfigDataLoader: React.FC = () => {
       } else {
         console.log("Store already exists. No action needed.");
       }
+
+      //! Creating Initial Local Tasks Data
+      const LocalTodoListExist = await exists("UserLocalTodoList.db", {
+        baseDir: BaseDirectory.AppData,
+      });
+
+      if (!LocalTodoListExist) {
+        const localTaskListDb = await Database.load(
+          `sqlite:UserLocalTodoList.db`
+        );
+        await localTaskListDb.execute(`
+        CREATE TABLE IF NOT EXISTS todos (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          details TEXT,
+          deadline TEXT,
+          status TEXT NOT NULL DEFAULT 'pending',
+          created_at TEXT NOT NULL
+        );
+      `);
+      }
     };
 
     setupDatabase();

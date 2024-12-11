@@ -1,0 +1,389 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Aplikasi Pengingat Istirahat & Perawatan Mata Terbaik untuk Mac, Windows, Linux",
+    "description": "Aplikasi minimalis pengingat perawatan mata untuk mengurangi ketegangan mata, dengan timer yang dapat disesuaikan, popup layar penuh, dan pematian audio.",
+    "keywords": [
+      "aplikasi pencegah RSI",
+      "aplikasi pencegah CVS",
+      "aplikasi RSI",
+      "aplikasi CVS",
+      "aplikasi perawatan mata terbaik 2024",
+      "aplikasi pengingat istirahat layar",
+      "download aplikasi kesehatan mata gratis",
+      "software open source pelindung mata",
+      "alat produktivitas untuk macOS",
+      "aplikasi relaksasi mata terbaik",
+      "daftar tugas Google Calendar",
+      "timer layar untuk perawatan mata",
+      "alat pengingat istirahat kerja",
+      "aplikasi kenyamanan mata untuk Mac",
+      "software perawatan penglihatan untuk laptop",
+      "aplikasi relaksasi mata terbaik",
+      "kontrol screen time PC",
+      "utilitas perawatan mata komputer",
+      "pencegahan ketegangan mata digital",
+      "penjadwal waktu istirahat Windows",
+      "aplikasi terbaik untuk meredakan ketegangan mata",
+      "aplikasi perawatan mata lintas platform",
+      "pengingat istirahat open source terbaik",
+      "timer berkedip untuk kesehatan komputer",
+      "aplikasi perawatan mata terbaik untuk Windows dan Linux",
+      "aplikasi kesehatan mata gratis untuk Windows",
+      "software open source pelindung mata untuk Linux",
+      "aplikasi pengingat istirahat layar untuk Windows",
+      "aplikasi kenyamanan mata untuk Linux",
+      "aplikasi relaksasi mata terbaik untuk Windows",
+      "pencegahan ketegangan mata digital untuk Windows",
+      "utilitas perawatan mata komputer untuk Linux",
+      "alat pengingat istirahat kerja untuk Windows",
+      "kontrol screen time untuk Linux",
+      "aplikasi perawatan mata lintas platform",
+      "aplikasi terbaik untuk meredakan ketegangan mata di Windows dan Linux",
+      "timer layar PC untuk perawatan mata",
+      "software perawatan penglihatan untuk Windows",
+      "aplikasi pengingat perawatan mata untuk Linux",
+      "blink eye",
+      "blink eye untuk windows",
+      "aplikasi buatan Noman Dhoni",
+      "aplikasi perawatan mata untuk windows",
+      "aplikasi aturan 20 20 20 untuk windows",
+      "perawatan mata",
+      "aplikasi pereda ketegangan mata",
+      "aplikasi kesehatan mata",
+      "download blink eye",
+      "review blink eye",
+      "aplikasi aturan 20 20 20",
+      "aplikasi pengingat perawatan mata",
+      "software perawatan mata",
+      "tips perawatan mata",
+      "aplikasi latihan mata",
+      "aplikasi pelindung mata",
+      "aplikasi perawatan mata untuk pc",
+      "aplikasi perawatan mata untuk laptop",
+      "aplikasi perawatan mata untuk desktop",
+      "aplikasi perawatan mata untuk windows 10",
+      "aplikasi perawatan mata untuk windows 11",
+      "download blink eye",
+      "review blink eye",
+      "aplikasi perawatan mata untuk windows",
+      "aplikasi aturan 20 20 20 untuk windows"
+    ]
+  },
+  "NavMenu": {
+    "features": "Fitur",
+    "about": "Tentang",
+    "pricing": "Harga",
+    "release": "Rilis",
+    "contribute": "Kontribusi",
+    "blogs": "Blog"
+  },
+  "HeroBanner": {
+    "tagline": "Aplikasi minimalis pengingat perawatan mata untuk Windows, macOS, dan Linux.",
+    "span1": "Untuk mengurangi ketegangan mata, menampilkan pengingat dengan timer, popup layar penuh. Berdasarkan aturan",
+    "202020": "20-20-20",
+    "span2": ".",
+    "institute": "American Academy of Ophthalmology"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Mendukung macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Fitur",
+    "featureSubtitle": "Semua alat produktivitas yang diperlukan dalam satu tempat."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Harga",
+    "pricingDescription": "Pilih paket terjangkau yang dilengkapi dengan fitur terbaik untuk menjangkau audiens Anda, menciptakan loyalitas pelanggan, dan mendorong penjualan."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Pengingat yang Dapat Disesuaikan"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Bagaimana Blink Eye Akan Membantu Anda",
+    "body1": "Kendalikan kesejahteraan Anda dengan Blink Eye.",
+    "body2": "Temukan bagaimana istirahat terjadwal dapat meningkatkan kesehatan mata, meningkatkan fokus, meningkatkan produktivitas, dan mendorong kesehatan jangka panjang untuk gaya hidup digital yang seimbang.",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "title1": "Lindungi Mata Anda dari Ketegangan Digital",
+    "title2": "Kesehatan Fisik",
+    "title3": "Kesehatan Mental",
+    "title4": "Peningkatan Produktivitas",
+    "title5": "Kebiasaan Screen-Time yang Sehat",
+    "title6": "Manfaat Jangka Panjang yang Berkelanjutan",
+    "title7": "Fleksibel dan Dapat Disesuaikan",
+    "title8": "Manfaat yang Didukung Penelitian",
+    "title9": "Peningkatan Energi dan Suasana Hati",
+    "description1": "Lindungi mata Anda dari ketegangan digital, kurangi paparan blue light, dan cegah Computer Vision Syndrome (CVS).",
+    "description2": "Perbaiki postur tubuh, cegah Repetitive Strain Injuries (RSI), dan kurangi ketidaknyamanan fisik.",
+    "description3": "Tingkatkan fokus, mindfulness, dan kurangi stres dengan mudah.",
+    "description4": "Bekerja lebih cerdas, bukan lebih keras, dengan metode yang berfokus pada produktivitas.",
+    "description5": "Kembangkan kebiasaan screen-time yang disiplin dan minimalkan gangguan yang tidak perlu.",
+    "description6": "Hindari masalah kronis dan pertahankan keseimbangan di tahun-tahun mendatang.",
+    "description7": "Sesuaikan pengalaman Anda agar sesuai dengan gaya hidup, profesi, dan kebutuhan pribadi Anda.",
+    "description8": "Nikmati fitur yang didasarkan pada studi produktivitas dan kesehatan.",
+    "description9": "Merasa berenergi dan tetap positif sepanjang hari dengan istirahat kerja yang seimbang.",
+    "preventDigitalEyeStrain": "Mencegah Ketegangan Mata Digital",
+    "blueLightProtection": "Perlindungan dari Blue Light",
+    "preventRepetitiveStrainInjuries": "Mencegah Cedera Regangan Berulang (RSI)",
+    "supportBetterPosture": "Mendukung Postur Tubuh yang Lebih Baik",
+    "enhanceFocusAndMindfulness": "Meningkatkan Fokus dan Mindfulness",
+    "stressManagement": "Manajemen Stres",
+    "pomodoroTechniqueIntegration": "Integrasi Teknik Pomodoro",
+    "cognitiveEfficiency": "Efisiensi Kognitif",
+    "structuredScreenTime": "Screen-Time Terstruktur",
+    "reduceMultitasking": "Mengurangi Multitasking",
+    "preventChronicVisionProblems": "Mencegah Masalah Penglihatan Kronis",
+    "achieveWorkLifeBalance": "Mencapai Keseimbangan Kehidupan Kerja",
+    "customizableBreakTimers": "Timer Istirahat yang Dapat Disesuaikan",
+    "builtForEveryone": "Dibangun untuk Semua Orang",
+    "evidenceBasedFeatures": "Fitur Berbasis Bukti",
+    "trustedByUsers": "Dipercaya oleh Pengguna",
+    "boostDailyEnergy": "Meningkatkan Energi Harian",
+    "maintainPositiveMood": "Menjaga Suasana Hati yang Positif",
+    "preventDigitalEyeStrainDetails": "Istirahat terjadwal mengurangi gejala seperti mata kering, penglihatan kabur, dan sakit kepala, memastikan kesehatan mata jangka panjang.",
+    "blueLightProtectionDetails": "Istirahatkan mata Anda secara teratur dengan pengingat yang dirancang untuk melawan efek berbahaya dari paparan blue light.",
+    "preventRepetitiveStrainInjuriesDetails": "Istirahat teratur meminimalkan ketegangan pada tangan dan pergelangan tangan Anda, mencegah kerusakan jangka panjang akibat tugas yang berulang.",
+    "supportBetterPostureDetails": "Mendorong peregangan dan pemeriksaan postur untuk menghindari masalah seperti 'tech neck' dan sakit punggung.",
+    "enhanceFocusAndMindfulnessDetails": "Istirahat teratur membantu Anda tetap tajam dan fokus sekaligus mengurangi kelelahan mental dan burnout.",
+    "stressManagementDetails": "Gunakan interval istirahat untuk melatih teknik relaksasi, mengurangi stres dan ketegangan akibat pekerjaan.",
+    "pomodoroTechniqueIntegrationDetails": "Pecah tugas menjadi interval yang dapat dikelola untuk sesi kerja yang efisien, meningkatkan tingkat penyelesaian tugas.",
+    "cognitiveEfficiencyDetails": "Istirahat strategis meningkatkan performa mental Anda, membantu Anda mencapai lebih banyak dengan sedikit usaha.",
+    "structuredScreenTimeDetails": "Bangun kebiasaan digital yang sehat dengan pengingat yang tepat waktu untuk keseimbangan kerja dan relaksasi.",
+    "reduceMultitaskingDetails": "Fokus sepenuhnya pada tugas dengan meminimalkan gangguan selama siklus kerja dan relaksasi Anda.",
+    "preventChronicVisionProblemsDetails": "Ambil langkah proaktif untuk mengurangi risiko masalah penglihatan digital jangka panjang yang disebabkan oleh penggunaan layar yang berlebihan.",
+    "achieveWorkLifeBalanceDetails": "Ciptakan kebiasaan berkelanjutan untuk kehidupan kerja dan pribadi dengan pendekatan yang seimbang terhadap produktivitas.",
+    "customizableBreakTimersDetails": "Tetapkan interval yang sesuai dengan alur kerja Anda, memastikan aplikasi melengkapi jadwal unik Anda.",
+    "builtForEveryoneDetails": "Apakah Anda seorang pelajar, developer, desainer, atau pekerja jarak jauh, aplikasi ini beradaptasi dengan kebutuhan Anda.",
+    "evidenceBasedFeaturesDetails": "Desain aplikasi terinspirasi oleh penelitian dalam produktivitas, fokus, dan kesehatan digital.",
+    "trustedByUsersDetails": "Testimoni pengguna nyata dan kisah sukses memvalidasi efektivitas dan nilainya.",
+    "boostDailyEnergyDetails": "Istirahat singkat dan teratur membantu mengisi ulang pikiran dan tubuh Anda, membuat Anda tetap berenergi untuk hari yang akan datang.",
+    "maintainPositiveMoodDetails": "Hentikan kemonotonan screen time yang terus menerus untuk mengurangi frustrasi dan meningkatkan suasana hati Anda secara keseluruhan."
+  },
+  "featureGrid": {
+    "title": "Fitur",
+    "subtitle": "Semua alat produktivitas yang diperlukan dalam satu tempat.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Timer Pengingat yang Dapat Disesuaikan",
+        "description": "Atur timer pengingat yang dipersonalisasi agar tetap fokus dan on track."
+      },
+      "diverseThemes": {
+        "title": "Beragam Tema untuk Personalisasi",
+        "description": "Pilih dari berbagai tema untuk menyesuaikan antarmuka dan alur kerja Anda."
+      },
+      "customizableReminderText": {
+        "title": "Teks Pengingat yang Dapat Disesuaikan",
+        "description": "Buat pesan pengingat khusus untuk menjaga Anda tetap termotivasi."
+      },
+      "customizableSounds": {
+        "title": "Suara yang Dapat Disesuaikan",
+        "description": "Pilih suara Anda sendiri untuk notifikasi dan peringatan."
+      },
+      "dailyDeviceUsage": {
+        "title": "Waktu Penggunaan Perangkat Harian",
+        "description": "Lacak screen time Anda untuk mengoptimalkan produktivitas dan keseimbangan."
+      },
+      "workdaySetup": {
+        "title": "Pengaturan Hari Kerja",
+        "description": "Atur jadwal hari kerja Anda dengan cepat untuk produktivitas yang lebih baik."
+      },
+      "pomodoroTimer": {
+        "title": "Timer Pomodoro",
+        "description": "Pecah tugas menjadi beberapa interval untuk fokus dan efisiensi maksimum."
+      },
+      "runOnStartup": {
+        "title": "Jalankan saat Startup",
+        "description": "Jalankan aplikasi secara otomatis saat perangkat Anda menyala."
+      },
+      "updateSupport": {
+        "title": "Dukungan Pembaruan",
+        "description": "Terima pembaruan tanpa batas untuk fitur dan perbaikan terbaru."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Temukan Fitur yang Membuat Kami Menonjol",
+    "description": "Jelajahi fitur-fitur yang membuat aplikasi kami menonjol. Dari pengingat yang dapat disesuaikan hingga beragam tema, kami siap membantu Anda."
+  },
+  "featuresDemo": [
+    {
+      "title": "Pengingat yang Dapat Disesuaikan",
+      "description": "Atur pengingat yang dipersonalisasi untuk mencegah ketegangan mata, meningkatkan produktivitas, dan menjaga fokus selama sesi kerja yang panjang.",
+      "features": [
+        "Durasi pengingat yang dapat disesuaikan",
+        "Pengaturan interval yang dapat disesuaikan",
+        "Teks pengingat yang dapat diedit untuk personalisasi"
+      ],
+      "moto": "Aplikasi Pereda Ketegangan Mata Terbaik untuk Pengguna Komputer"
+    },
+    {
+      "title": "Beragam Tema",
+      "description": "Beralih antara tema terang dan gelap atau pilih dari berbagai skema warna unik yang sesuai dengan suasana hati dan ruang kerja Anda.",
+      "features": [
+        "Beragam pilihan tema Layar Pengingat",
+        "Dukungan mode Gelap aplikasi",
+        "Dukungan mode Terang aplikasi"
+      ],
+      "moto": "Aplikasi Pelacak Screen Time dan Pengingat Istirahat"
+    },
+    {
+      "title": "Statistik Penggunaan",
+      "description": "Pantau screen time harian Anda, lacak tren penggunaan perangkat, dan optimalkan keseimbangan kehidupan kerja Anda secara efektif.",
+      "features": [
+        "Pelacakan penggunaan perangkat harian",
+        "Pelacakan penggunaan perangkat mingguan",
+        "Pelacakan penggunaan perangkat bulanan",
+        "Pelacakan penggunaan perangkat tahunan",
+        "Pelacakan penggunaan perangkat sepanjang waktu",
+        "Analisis penggunaan yang komprehensif",
+        "Grafik visual dan laporan kemajuan"
+      ],
+      "moto": "Aplikasi Pengingat Istirahat Layar Gratis untuk Mata yang Sehat"
+    },
+    {
+      "title": "Pengaturan dan Penjadwalan Hari Kerja",
+      "description": "Rencanakan hari kerja Anda secara efisien dengan mengatur jadwal dan jam kerja khusus untuk setiap hari dalam seminggu.",
+      "features": [
+        "Pengaturan hari kerja yang dapat disesuaikan",
+        "Fleksibilitas penjadwalan harian",
+        "Pengingat otomatis untuk istirahat jam kerja"
+      ],
+      "moto": "Timer Istirahat Kerja yang Dapat Disesuaikan untuk Pekerja Kantoran"
+    },
+    {
+      "title": "Screen Saver dengan Animasi",
+      "description": "Mainkan beberapa screen saver terpopuler dengan animasi dan suara yang dapat disesuaikan untuk meningkatkan produktivitas dan relaksasi Anda.",
+      "features": [
+        "Pilih dari berbagai screen saver dengan animasi yang dapat disesuaikan",
+        "Efek suara yang dapat disesuaikan untuk relaksasi",
+        "Durasi screen saver yang dapat disesuaikan"
+      ],
+      "moto": "Aplikasi Screen Saver dan Task Manager Terbaik untuk Power Users"
+    },
+    {
+      "title": "Pengaturan Kustomisasi yang Komprehensif",
+      "description": "Tingkatkan produktivitas dan fokus Anda dengan pengaturan yang dapat disesuaikan, termasuk timer Pomodoro dan preferensi notifikasi.",
+      "features": [
+        "Integrasi teknik Pomodoro",
+        "Mode Strict untuk memaksa Anda istirahat",
+        "Suara notifikasi yang dapat disesuaikan",
+        "Tombol 'Jalankan saat Startup'",
+        "Atur batas penggunaan layar harian Anda"
+      ],
+      "moto": "Timer Pomodoro dengan Pengingat Istirahat untuk Produktivitas"
+    },
+    {
+      "title": "Aktifkan Kunci Lisensi",
+      "description": "Aktifkan aplikasi Anda dengan kunci lisensi untuk akses penuh ke fitur premium dan pembaruan tanpa batas.",
+      "features": [
+        "Proses aktivasi lisensi yang mudah",
+        "Akses ke fitur premium eksklusif",
+        "Pembaruan dan dukungan software secara berkala"
+      ],
+      "moto": "Aplikasi Terbaik untuk Mencegah Computer Vision Syndrome (CVS) dan (RSI)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Pilih paket yang tepat untuk Anda",
+    "description": "Pilih paket terjangkau yang dilengkapi dengan fitur terbaik untuk menjangkau audiens Anda, menciptakan loyalitas pelanggan, dan mendorong penjualan."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Info Rilis Blink Eye {tag}",
+    "title": "Informasi Rilis {tag}",
+    "goBack": "Kembali",
+    "tag": "Tag",
+    "published": "Diterbitkan",
+    "author": "Penulis",
+    "assets": "Aset",
+    "fullChangelog": "Changelog Lengkap",
+    "downloadOptions": "Opsi download",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Kebijakan Privasi",
+    "description": "Pelajari tentang praktik dan kebijakan privasi kami."
+  },
+  "pricingPage": {
+    "title": "Harga",
+    "description": "Pilih paket terjangkau yang dilengkapi dengan fitur terbaik untuk menjangkau audiens Anda, menciptakan loyalitas pelanggan, dan mendorong penjualan."
+  },
+  "howtousePage": {
+    "title": "Cara Penggunaan",
+    "description": "Pelajari cara menggunakan aplikasi dan fitur-fiturnya."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Bagaimana Blink Eye Membantu",
+    "description": "Pelajari bagaimana Blink Eye membantu Anda tetap fokus dan produktif."
+  },
+  "goodbyePage": {
+    "title": "Selamat Tinggal",
+    "description": "Halaman Uninstall Aplikasi Blink Eye",
+    "missyou": "Kami sedih melihat Anda pergi! Kami harap Anda menikmati menggunakan Blink Eye.",
+    "suggesition": "Jaga baik-baik mata Anda."
+  },
+  "featuresPage": {
+    "title": "Fitur",
+    "description": "Temukan fitur-fitur yang membuat aplikasi kami menonjol. Dari pengingat yang dapat disesuaikan hingga beragam tema, kami siap membantu Anda."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Download Aplikasi Blink Eye untuk Windows, macOS, dan Linux."
+  },
+  "contributePage": {
+    "title": "Kontribusi",
+    "description": "Berkontribusi pada pengembangan Aplikasi Blink Eye."
+  },
+  "aboutPage": {
+    "title": "Tentang",
+    "description": "Pelajari lebih lanjut tentang Aplikasi Blink Eye dan timnya.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blog",
+    "description": "Baca blog terbaru dan pembaruan berita kami."
+  }
+}

@@ -6,12 +6,16 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import GitHubStarCount from "../GitHubStarCount";
 import { cn } from "@/utils/cn";
+import { useLocale, useTranslations } from "next-intl";
+import { LocaleToggle } from "../locale-switcher";
 export const Header = () => {
+  const locale = useLocale();
+  const t = useTranslations("NavMenu");
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-opacity-75 backdrop-blur-lg">
-      <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0 ">
+      <div className="max-w-7xl mx-auto flex h-16 items-center space-x-4 px-4 sm:justify-between sm:space-x-0 ">
         {/* Logo Section */}
-        <Link href="/" className="flex items-center space-x-3 mr-4">
+        <Link href={`/${locale}`} className="flex items-center space-x-3 mr-4">
           <Image src={logo} alt="Blink Eye Logo" height={40} width={40} />
           <span className="font-bold">Blink Eye</span>
         </Link>
@@ -19,15 +23,16 @@ export const Header = () => {
         {/* Navigation Links */}
         <nav className="hidden sm:flex items-center space-x-4 text-base font-medium">
           {[
-            { href: "/features", label: "Features" },
-            { href: "/about", label: "About" },
-            { href: "/pricing", label: "Pricing" },
-            { href: "/changelog", label: "Release" },
-            { href: "/contribute", label: "Contribute" },
+            { href: "/features", label: t("features") },
+            { href: "/about", label: t("about") },
+            { href: "/pricing", label: t("pricing") },
+            { href: "/changelog", label: t("release") },
+            { href: "/posts/contribute", label: t("contribute") },
+            { href: "/blogs", label: t("blogs") },
           ].map(({ href, label }) => (
             <Link
               key={label}
-              href={!href ? "#" : href}
+              href={!href ? "#" : `/${locale}${href}`}
               className={cn(
                 "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm"
               )}
@@ -40,6 +45,7 @@ export const Header = () => {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-0 sm:space-x-1">
             <GitHubStarCount />
+            <LocaleToggle />
             <Button variant="ghost" size="icon" asChild>
               <Link
                 href={CONFIG.twitter}

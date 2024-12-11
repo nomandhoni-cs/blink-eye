@@ -1,0 +1,209 @@
+name: Release Publish Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to release'
+        required: true
+        default: 'release'
+
+env:
+  APP_NAME: "Blink Eye"
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest' # for Arm-based Macs (M1 and above)
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest' # for Intel-based Macs
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04' # for Tauri v2
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'lts/*'
+
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+
+    - name: Cache Bun dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+        restore-keys: |
+          ${{ runner.os }}-bun-
+
+    - name: Cache Rust dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/
+          src-tauri/target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Install Rust stable
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+    - name: Install dependencies (ubuntu only)
+      if: matrix.platform == 'ubuntu-22.04'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libwebkit2gtk-4.1-dev \
+          libappindicator3-dev \
+          librsvg2-dev \
+          libgtk-3-dev \
+          patchelf
+
+    - name: Install frontend dependencies
+      run: bun install
+
+    - name: Extract version from tag
+      id: extract-version
+      run: |
+        echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+    - uses: tauri-apps/tauri-action@v0.5.16
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
+        TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+      with:
+        tagName: v${{ env.VERSION }}
+        releaseName: 'v${{ env.VERSION }}'
+        releaseBody: 'See the assets to download this version and install.'
+        releaseDraft: true
+        prerelease: false
+        includeUpdaterJson: true
+        updaterJsonPreferNsis: true
+        args: ${{ matrix.args }}
+
+    - name: Upload release artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-${{ matrix.platform }}
+        path: src-tauri/target/release/bundle/**
+    
+  publish-packages:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Extract version from tag
+        id: extract-version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      
+      - name: Publish Homebrew Formula to Homebrew Core (macOS)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          # Download the macOS release artifact
+          curl -L -o BlinkEye.tar.gz https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_x64.app.tar.gz
+      
+          # Generate the SHA256 checksum
+          shasum -a 256 BlinkEye.tar.gz > sha256.txt
+          SHA256=$(cat sha256.txt | awk '{print $1}')
+      
+          # Create the Homebrew formula file
+          FORMULA_FILE="blink-eye.rb"
+          cat <<EOF > $FORMULA_FILE
+          class BlinkEye < Formula
+            desc "Blink Eye: Minimalist Eye Care Reminder"
+            homepage "https://github.com/nomandhoni-cs/blink-eye"
+            url "https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_x64.app.tar.gz"
+            sha256 "$SHA256"
+            version "${{ env.VERSION }}"
+      
+            def install
+              bin.install "Blink Eye"
+            end
+      
+            test do
+              system "#{bin}/blink-eye", "--version"
+            end
+          end
+          EOF
+      
+          # Clone the Homebrew Core repo (forked version)
+          git clone https://github.com/nomandhoni-cs/homebrew-core.git
+          cd homebrew-core/Formula
+  
+          # Add the formula file
+          mv $FORMULA_FILE .
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Add Blink Eye v${{ env.VERSION }} formula"
+          
+          # Push to your forked Homebrew Core repo
+          git push origin main
+      
+      - name: Publish Winget Manifest (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          # Download the Windows release artifact
+          curl -L -o BlinkEyeInstaller.exe https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_${{ env.VERSION }}_x64-setup.exe
+          
+          # Generate the SHA256 checksum
+          sha256sum BlinkEyeInstaller.exe > sha256.txt
+          SHA256=$(cat sha256.txt | awk '{print $1}')
+          
+          # Clone the Microsoft Winget repository
+          git clone https://github.com/microsoft/winget-pkgs.git
+          cd winget-pkgs/manifests/n/NomanDhoni/BlinkEye
+          
+          # Create a new manifest directory for the version
+          mkdir -p ${{ env.VERSION }}
+          cd ${{ env.VERSION }}
+          
+          # Create the Winget YAML manifest following Manifest v1.6.0 standard
+          cat <<EOF > BlinkEye.yaml
+          PackageIdentifier: NomanDhoni.BlinkEye
+          PackageVersion: ${{ env.VERSION }}
+          Publisher: Noman Dhoni
+          PublisherUrl: https://github.com/nomandhoni-cs
+          PackageName: Blink Eye
+          License: GPL-3.0-or-later
+          ShortDescription: A minimalist eye care and break reminder app for Windows, macOS, and Linux.
+          InstallerType: exe
+          Installers:
+            - Architecture: x64
+              InstallerUrl: https://github.com/nomandhoni-cs/blink-eye/releases/download/v${{ env.VERSION }}/Blink.Eye_${{ env.VERSION }}_x64-setup.exe
+              InstallerSha256: $SHA256
+          ManifestType: installer
+          ManifestVersion: 1.6.0
+          EOF
+          
+          # Push the updated manifest to the Microsoft Winget repository
+          cd ../../../..
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Add Blink Eye v${{ env.VERSION }} Winget manifest"
+          git push origin main

@@ -1,0 +1,394 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Paras silmien hoito & taukoajastin Macille, Windowsille, Linuxille",
+    "description": "Minimalistinen silmienhoitosovellus, joka auttaa vähentämään silmien rasitusta. Mukana kustomoitavat ajastimet, koko näytön ponnahdusikkunat ja äänen mykistys.",
+    "keywords": [
+      "paras RSI-sovellus",
+      "paras CVS-sovellus",
+      "RSI-sovellus",
+      "CVS-sovellus",
+      "paras silmienhoitosovellus 2024",
+      "taukomuistutussovellus",
+      "ilmainen silmien terveyssovellus download",
+      "avoimen lähdekoodin silmiensuojausohjelmisto",
+      "tuottavuustyökalu macOS:lle",
+      "paras silmien rentoutussovellus",
+      "Google Kalenteri tehtävälista",
+      "näytön ajastin silmienhoitoon",
+      "työtaukomuistutustyökalu",
+      "silmien mukavuussovellus Macille",
+      "näönhoito-ohjelmisto kannettaville tietokoneille",
+      "tietokoneen silmienhoitotyökalu",
+      "digitaalisen silmien rasituksen ehkäisy",
+      "Windows taukoajastin",
+      "parhaat sovellukset silmien rasituksen lievittämiseen",
+      "monialustainen silmienhoitosovellus",
+      "paras avoimen lähdekoodin taukomuistutin",
+      "blink-ajastin tietokoneen terveydelle",
+      "paras silmienhoitosovellus Windowsille ja Linuxille",
+      "ilmainen silmien terveyssovellus Windowsille",
+      "avoimen lähdekoodin silmiensuojausohjelmisto Linuxille",
+      "taukomuistutussovellus Windowsille",
+      "silmien mukavuussovellus Linuxille",
+      "paras silmien rentoutussovellus Windowsille",
+      "digitaalisen silmien rasituksen ehkäisy Windowsille",
+      "tietokoneen silmienhoitotyökalu Linuxille",
+      "työtaukomuistutustyökalu Windowsille",
+      "näytön käytön hallinta Linuxille",
+      "monialustainen silmienhoitosovellus",
+      "parhaat sovellukset silmien rasituksen lievittämiseen Windowsilla ja Linuxilla",
+      "tietokoneen näytön ajastin silmienhoitoon",
+      "näönhoito-ohjelmisto Windowsille",
+      "silmienhoitomuistutussovellus Linuxille",
+      "blink eye",
+      "blink eye windowsille",
+      "Noman Dhonin tekemä sovellus",
+      "silmienhoitosovellus windowsille",
+      "20 20 20 sääntö sovellus windowsille",
+      "silmien hoito",
+      "silmien rasituksen lievityssovellus",
+      "silmien terveyssovellus",
+      "blink eye download",
+      "blink eye arvostelu",
+      "20 20 20 sääntö sovellus",
+      "silmienhoitomuistutussovellus",
+      "silmienhoito-ohjelmisto",
+      "silmienhoitovinkit",
+      "silmäjumppasovellus",
+      "silmiensuojaussovellus",
+      "silmienhoitosovellus tietokoneelle",
+      "silmienhoitosovellus kannettavalle",
+      "silmienhoitosovellus pöytäkoneelle",
+      "silmienhoitosovellus windows 10:lle",
+      "silmienhoitosovellus windows 11:lle",
+      "blink eye download",
+      "blink eye arvostelu",
+      "silmienhoitosovellus windowsille",
+      "20 20 20 sääntö sovellus windowsille",
+      "Tauon muistuttaja",
+      "Näyttötauko sovellus",
+      "silmävaivat tietokoneella",
+      "mikrotreeni tietokonetyö",
+      "mikropaus",
+      "tauko jumpat",
+      "tietokone näkö"
+    ]
+  },
+  "NavMenu": {
+    "features": "Ominaisuudet",
+    "about": "Tietoja",
+    "pricing": "Hinnoittelu",
+    "release": "Julkaisutiedot",
+    "contribute": "Osallistu",
+    "blogs": "Blogit"
+  },
+  "HeroBanner": {
+    "tagline": "Minimalistinen silmienhoitosovellus Windowsille, macOS:lle ja Linuxille.",
+    "span1": "Vähentää silmien rasitusta muistutuksilla, ajastimilla ja koko näytön ponnahdusikkunoilla. Perustuu",
+    "202020": "20-20-20",
+    "span2": "sääntöön.",
+    "institute": "American Academy of Ophthalmology (Amerikan silmälääkäriliitto)"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Tukee macOS Intel/M-suorittimella (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Ominaisuudet",
+    "featureSubtitle": "Kaikki tarpeelliset työkalut tuottavuuden parantamiseen, yhdessä paketissa."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Hinnoittelu",
+    "pricingDescription": "Valitse edullinen paketti, joka on täynnä parhaita ominaisuuksia, joiden avulla voit sitouttaa yleisöäsi, luoda asiakasuskollisuutta ja edistää myyntiä."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Mukautettavat muistutukset"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Miten Blink Eye voi auttaa sinua",
+    "body1": "Ota hyvinvointisi haltuun Blink Eyen avulla.",
+    "body2": "Ota selvää, miten säännölliset tauot voivat parantaa silmien terveyttä, parantaa keskittymiskykyä, lisätä tuottavuutta ja edistää pitkän aikavälin hyvinvointia tasapainoisen digitaalisen elämäntyylin saavuttamiseksi.",
+    "learnMore": "Lue lisää",
+    "title1": "Suojaa silmiäsi digitaaliselta rasitukselta",
+    "title2": "Fyysinen terveys",
+    "title3": "Henkinen hyvinvointi",
+    "title4": "Lisääntynyt tuottavuus",
+    "title5": "Terveelliset ruutuajatottumukset",
+    "title6": "Kestävät pitkän aikavälin edut",
+    "title7": "Joustava ja mukautettava",
+    "title8": "Tutkimukseen perustuvat hyödyt",
+    "title9": "Parempi energiataso ja mieliala",
+    "description1": "Suojaa silmiäsi digitaaliselta rasitukselta, vähennä sinivaloaltistusta ja ehkäise tietokonenäköoireyhtymää (CVS).",
+    "description2": "Paranna ryhtiä, ehkäise toistuvien liikkeiden aiheuttamia rasitusvammoja (RSI) ja vähennä fyysistä epämukavuutta.",
+    "description3": "Paranna keskittymiskykyä, mindfulness-tietoisuutta ja vähennä stressiä vaivattomasti.",
+    "description4": "Työskentele tehokkaammin, älä uuvuttavammin, tuottavuuteen keskittyvien menetelmien avulla.",
+    "description5": "Kehitä kurinalaisia ruutuajatottumuksia ja minimoi tarpeettomat häiriötekijät.",
+    "description6": "Vältä kroonisia vaivoja ja säilytä tasapaino vuosien ajan.",
+    "description7": "Räätälöi käyttökokemus sopimaan elämäntyyliisi, ammattiisi ja yksilöllisiin tarpeisiisi.",
+    "description8": "Nauti ominaisuuksista, jotka perustuvat tutkimuksiin tuottavuudesta ja hyvinvoinnista.",
+    "description9": "Tunne olosi energiseksi ja pysy positiivisena koko päivän tasapainotettujen työtaukojen avulla.",
+    "preventDigitalEyeStrain": "Ehkäise digitaalista silmien rasitusta",
+    "blueLightProtection": "Sinivalosuoja",
+    "preventRepetitiveStrainInjuries": "Ehkäise toistuvien liikkeiden aiheuttamia rasitusvammoja (RSI)",
+    "supportBetterPosture": "Tukee parempaa ryhtiä",
+    "enhanceFocusAndMindfulness": "Paranna keskittymiskykyä ja mindfulness-tietoisuutta",
+    "stressManagement": "Stressinhallinta",
+    "pomodoroTechniqueIntegration": "Pomodoro-tekniikan integrointi",
+    "cognitiveEfficiency": "Kognitiivinen tehokkuus",
+    "structuredScreenTime": "Jäsennelty ruutuaika",
+    "reduceMultitasking": "Vähennä useiden tehtävien samanaikaista suorittamista",
+    "preventChronicVisionProblems": "Ehkäise kroonisia näköongelmia",
+    "achieveWorkLifeBalance": "Saavuta työ- ja yksityiselämän tasapaino",
+    "customizableBreakTimers": "Mukautettavat taukoajastimet",
+    "builtForEveryone": "Rakennettu kaikille",
+    "evidenceBasedFeatures": "Näyttöön perustuvat ominaisuudet",
+    "trustedByUsers": "Käyttäjien luottama",
+    "boostDailyEnergy": "Lisää päivittäistä energiaa",
+    "maintainPositiveMood": "Ylläpidä positiivista mielialaa",
+    "preventDigitalEyeStrainDetails": "Säännölliset tauot lievittävät oireita, kuten kuivia silmiä, sumeaa näköä ja päänsärkyä, varmistaen pitkäaikaisen silmien terveyden.",
+    "blueLightProtectionDetails": "Lepuuta silmiäsi säännöllisesti kehotteiden avulla, jotka on suunniteltu torjumaan sinivaloaltistuksen haitallisia vaikutuksia.",
+    "preventRepetitiveStrainInjuriesDetails": "Säännölliset tauot minimoivat käsien ja ranteiden rasitusta, ehkäisten toistuvien tehtävien aiheuttamia pitkäaikaisia vaurioita.",
+    "supportBetterPostureDetails": "Kannustaa venyttelyyn ja ryhdin tarkistamiseen välttäen ongelmia, kuten ”tekstiviestiniskan” ja selkäkivun.",
+    "enhanceFocusAndMindfulnessDetails": "Säännölliset tauot auttavat pysymään virkeänä ja keskittyneenä vähentäen samalla henkistä väsymystä ja uupumusta.",
+    "stressManagementDetails": "Hyödynnä taukoja rentoutumistekniikoiden harjoitteluun, mikä vähentää työn aiheuttamaa stressiä ja jännitystä.",
+    "pomodoroTechniqueIntegrationDetails": "Jaa tehtävät hallittaviin jaksoihin tehokkaita työskentelyjaksoja varten, parantaen tehtävien suoritusastetta.",
+    "cognitiveEfficiencyDetails": "Strategiset tauot parantavat henkistä suorituskykyäsi, auttaen sinua saavuttamaan enemmän vähemmällä vaivalla.",
+    "structuredScreenTimeDetails": "Rakenna terveitä digitaalisia tapoja käyttämällä hyvin ajoitettuja muistutuksia työ- ja rentoutumistasapainon saavuttamiseksi.",
+    "reduceMultitaskingDetails": "Keskity täysin tehtäviin minimoimalla häiriötekijät työ- ja rentoutumisjaksojen aikana.",
+    "preventChronicVisionProblemsDetails": "Ryhdy ennakoiviin toimenpiteisiin vähentääksesi pitkäaikaisia, näytön liikakäytön aiheuttamia digitaalisia näköongelmia.",
+    "achieveWorkLifeBalanceDetails": "Luo kestäviä tapoja työ- ja yksityiselämään tasapainoisella lähestymistavalla tuottavuuteen.",
+    "customizableBreakTimersDetails": "Aseta aikavälit, jotka sopivat työtahtiisi, varmistaen, että sovellus täydentää ainutlaatuista aikatauluasi.",
+    "builtForEveryoneDetails": "Olipa kyseessä opiskelija, sovelluskehittäjä, suunnittelija tai etätyöntekijä, sovellus mukautuu tarpeisiisi.",
+    "evidenceBasedFeaturesDetails": "Sovelluksen suunnittelu on saanut inspiraationsa tutkimuksista tuottavuuden, keskittymiskyvyn ja digitaalisen hyvinvoinnin saralla.",
+    "trustedByUsersDetails": "Todelliset käyttäjäkokemukset ja menestystarinat vahvistavat sen tehokkuuden ja arvon.",
+    "boostDailyEnergyDetails": "Lyhyet, säännölliset tauot auttavat lataamaan mieltä ja kehoa, pitäen sinut virkeänä koko päivän ajan.",
+    "maintainPositiveMoodDetails": "Katkaise jatkuvan ruutuajan yksitoikkoisuus vähentääksesi turhautumista ja parantaaksesi yleistä mielialaa."
+  },
+  "featureGrid": {
+    "title": "Ominaisuudet",
+    "subtitle": "Kaikki tarvittavat tuottavuustyökalut yhdessä paketissa.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Mukautettavat muistutusajastimet",
+        "description": "Aseta mukautettuja muistutusajastimia pysyäksesi keskittyneenä ja aikataulussa."
+      },
+      "diverseThemes": {
+        "title": "Monipuoliset teemat personointiin",
+        "description": "Valitse useista eri teemoista käyttöliittymän ja työnkulun mukauttamiseksi."
+      },
+      "customizableReminderText": {
+        "title": "Mukautettava muistutusteksti",
+        "description": "Luo omia muistutusviestejä, jotka pitävät sinut motivoituneena."
+      },
+      "customizableSounds": {
+        "title": "Mukautettavat äänet",
+        "description": "Valitse omat äänesi ilmoituksille ja hälytyksille."
+      },
+      "dailyDeviceUsage": {
+        "title": "Päivittäinen laitteen käyttöaika",
+        "description": "Seuraa ruutuaikaasi optimoidaksesi tuottavuuden ja tasapainon."
+      },
+      "workdaySetup": {
+        "title": "Työpäivän määritys",
+        "description": "Määritä työpäiväsi aikataulu nopeasti parantaaksesi tuottavuutta."
+      },
+      "pomodoroTimer": {
+        "title": "Pomodoro-ajastin",
+        "description": "Jaa tehtävät ajanjaksoihin maksimaalisen keskittymisen ja tehokkuuden saavuttamiseksi."
+      },
+      "runOnStartup": {
+        "title": "Käynnisty automaattisesti",
+        "description": "Käynnistä sovellus automaattisesti laitteen käynnistyessä."
+      },
+      "updateSupport": {
+        "title": "Päivitystuki",
+        "description": "Saat saumattomia päivityksiä uusimpien ominaisuuksien ja korjausten saamiseksi."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Tutustu ominaisuuksiin, jotka tekevät meistä ainutlaatuisia",
+    "description": "Tutustu ominaisuuksiin, jotka erottavat sovelluksemme muista. Mukautettavista muistutuksista useisiin teemoihin – meillä on kaikki mitä tarvitset."
+  },
+  "featuresDemo": [
+    {
+      "title": "Mukautettavat muistutukset",
+      "description": "Aseta mukautettuja muistutuksia ehkäistäksesi silmien rasitusta, parantaaksesi tuottavuutta ja ylläpitääksesi keskittymiskykyä pitkien työskentelyjaksojen aikana.",
+      "features": [
+        "Mukautettavat muistutusten kestoajat",
+        "Säädettävät aikaväliasetukset",
+        "Muokattava muistutusteksti personointiin"
+      ],
+      "moto": "Paras sovellus silmien rasituksen lievittämiseen tietokoneen käyttäjille"
+    },
+    {
+      "title": "Useita teemoja",
+      "description": "Vaihda vaalean ja tumman teeman välillä tai valitse useista ainutlaatuisista väriteemoista mielialasi ja työtilasi mukaan.",
+      "features": [
+        "Useita muistutusnäyttöteemoja, joista valita",
+        "Sovelluksen tumman tilan tuki",
+        "Sovelluksen vaalean tilan tuki"
+      ],
+      "moto": "Näyttöajan seuranta- ja taukomuistutussovellus"
+    },
+    {
+      "title": "Käyttötilastot",
+      "description": "Seuraa päivittäistä ruutuaikaasi, tarkkaile laitteen käyttötottumuksiasi ja optimoi työ- ja yksityiselämän tasapaino tehokkaasti.",
+      "features": [
+        "Päivittäinen laitteen käytön seuranta",
+        "Viikoittainen laitteen käytön seuranta",
+        "Kuukausittainen laitteen käytön seuranta",
+        "Vuosittainen laitteen käytön seuranta",
+        "Kaikkien aikojen laitteen käytön seuranta",
+        "Kattava käyttöanalyysi",
+        "Visuaaliset kaaviot ja edistymisraportit"
+      ],
+      "moto": "Ilmainen taukomuistutussovellus terveille silmille"
+    },
+    {
+      "title": "Työpäivän määritys ja aikataulutus",
+      "description": "Suunnittele työpäiväsi tehokkaasti asettamalla mukautettuja aikatauluja ja työaikoja jokaiselle viikonpäivälle.",
+      "features": [
+        "Mukautettavat työpäiväasetukset",
+        "Päivittäinen aikataulutuksen joustavuus",
+        "Automaattiset muistutukset työaikataukoja varten"
+      ],
+      "moto": "Mukautettava työtaukoajastin toimistotyöntekijöille"
+    },
+    {
+      "title": "Näytönsäästäjät animaatioilla",
+      "description": "Toista joitakin suosituimmista näytönsäästäjistä mukautettavilla animaatioilla ja äänillä parantaaksesi tuottavuuttasi ja rentoutumistasi.",
+      "features": [
+        "Valitse useista eri näytönsäästäjistä mukautettavilla animaatioilla",
+        "Mukautettavat äänitehosteet rentoutumiseen",
+        "Mukautettava näytönsäästäjän kesto"
+      ],
+      "moto": "Paras näytönsäästäjä- ja tehtävienhallintasovellus tehokäyttäjille"
+    },
+    {
+      "title": "Kattavat mukautusasetukset",
+      "description": "Tehosta tuottavuuttasi ja keskittymiskykyäsi mukautettavien asetusten, kuten Pomodoro-ajastimien ja ilmoitusasetusten avulla.",
+      "features": [
+        "Pomodoro-tekniikan integrointi",
+        "Tiukka tila pakottaa sinut pitämään taukoja",
+        "Mukautettavat ilmoitusäänet",
+        "Käynnistä automaattisesti -kytkin",
+        "Aseta päivittäinen näyttöajan rajoitus"
+      ],
+      "moto": "Pomodoro-ajastin taukomuistutuksilla tuottavuuden parantamiseksi"
+    },
+    {
+      "title": "Aktivoi lisenssiavain",
+      "description": "Aktivoi sovelluksesi lisenssiavaimella saadaksesi täyden pääsyn premium-ominaisuuksiin ja saumattomiin päivityksiin.",
+      "features": [
+        "Helppo lisenssin aktivointiprosessi",
+        "Pääsy ainutlaatuisiin premium-ominaisuuksiin",
+        "Säännölliset ohjelmistopäivitykset ja tuki"
+      ],
+      "moto": "Paras sovellus tietokonenäköoireyhtymän (CVS) ja toistuvien liikkeiden aiheuttamien rasitusvammojen (RSI) ehkäisyyn"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Valitse sinulle sopiva paketti",
+    "description": "Valitse edullinen paketti, joka on täynnä parhaita ominaisuuksia, joiden avulla voit sitouttaa yleisöäsi, luoda asiakasuskollisuutta ja edistää myyntiä."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} -julkaisutiedot",
+    "title": "{tag} -julkaisutiedot",
+    "goBack": "Palaa takaisin",
+    "tag": "Tunniste",
+    "published": "Julkaistu",
+    "author": "Tekijä",
+    "assets": "Resurssit",
+    "fullChangelog": "Täydellinen muutosloki",
+    "downloadOptions": "Latausvaihtoehdot",
+    "downloadTarball": "Lataa Tarball",
+    "downloadZipball": "Lataa Zipball"
+  },
+  "privacyPage": {
+    "title": "Tietosuojakäytäntö",
+    "description": "Lue lisää tietosuojakäytännöistämme."
+  },
+  "pricingPage": {
+    "title": "Hinnoittelu",
+    "description": "Valitse edullinen paketti, joka on täynnä parhaita ominaisuuksia, joiden avulla voit sitouttaa yleisöäsi, luoda asiakasuskollisuutta ja edistää myyntiä."
+  },
+  "howtousePage": {
+    "title": "Käyttöohjeet",
+    "description": "Opi käyttämään sovellusta ja sen ominaisuuksia."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Miten Blink Eye auttaa",
+    "description": "Lue, miten Blink Eye auttaa sinua pysymään keskittyneenä ja tuottavana."
+  },
+  "goodbyePage": {
+    "title": "Näkemiin",
+    "description": "Blink Eye -sovelluksen poistaminen",
+    "missyou": "Olemme pahoillamme, että lähdet! Toivomme, että nautit Blink Eyen käytöstä.",
+    "suggesition": "Pidä hyvää huolta silmistäsi."
+  },
+  "featuresPage": {
+    "title": "Ominaisuudet",
+    "description": "Tutustu ominaisuuksiin, jotka erottavat sovelluksemme muista. Mukautettavista muistutuksista useisiin teemoihin – meillä on kaikki mitä tarvitset."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Download Blink Eye -sovellus Windowsille, macOS:lle ja Linuxille."
+  },
+  "contributePage": {
+    "title": "Osallistu",
+    "description": "Osallistu Blink Eye -sovelluksen kehitykseen."
+  },
+  "aboutPage": {
+    "title": "Tietoja",
+    "description": "Lue lisää Blink Eye -sovelluksesta ja sen kehitystiimistä.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogit",
+    "description": "Lue uusimmat blogimme ja uutispäivityksemme."
+  }
+}

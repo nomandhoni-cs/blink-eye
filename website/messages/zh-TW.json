@@ -1,0 +1,394 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Mac、Windows、Linux 最佳護眼與休息提醒計時器",
+    "description": "極簡風格的護眼提醒 app，有效舒緩眼睛疲勞，提供自訂計時器、全螢幕彈出視窗及聲音關閉。",
+    "keywords": [
+      "預防 RSI 應用程式",
+      "預防 CVS 應用程式",
+      "RSI 應用程式",
+      "CVS 應用程式",
+      "2024 最佳護眼應用程式",
+      "螢幕休息提醒應用程式",
+      "免費護眼應用程式下載",
+      "開源護眼軟體",
+      "macOS 生產力工具",
+      "頂尖眼睛放鬆應用程式",
+      "Google 日曆待辦清單",
+      "護眼螢幕計時器",
+      "工作休息提醒工具",
+      "Mac 護眼應用程式",
+      "筆電護眼軟體",
+      "頂尖眼睛放鬆應用程式",
+      "電腦螢幕使用時間控制",
+      "電腦護眼工具",
+      "預防數位視覺疲勞",
+      "Windows 休息時間排程器",
+      "最佳舒緩眼睛疲勞應用程式",
+      "跨平台護眼應用程式",
+      "頂尖開源休息提醒應用程式",
+      "電腦健康眨眼計時器",
+      "Windows 與 Linux 最佳護眼應用程式",
+      "Windows 免費護眼應用程式",
+      "Linux 開源護眼軟體",
+      "Windows 螢幕休息提醒應用程式",
+      "Linux 護眼應用程式",
+      "Windows 頂尖眼睛放鬆應用程式",
+      "Windows 預防數位視覺疲勞",
+      "Linux 電腦護眼工具",
+      "Windows 工作休息提醒工具",
+      "Linux 螢幕使用時間控制",
+      "跨平台護眼應用程式",
+      "Windows 與 Linux 最佳舒緩眼睛疲勞應用程式",
+      "電腦護眼螢幕計時器",
+      "Windows 護眼軟體",
+      "Linux 護眼提醒應用程式",
+      "blink eye",
+      "blink eye for windows",
+      "Noman Dhoni 開發的 App",
+      "windows 護眼應用程式",
+      "windows 20 20 20 護眼法則應用程式",
+      "護眼",
+      "舒緩眼睛疲勞應用程式",
+      "眼睛保健應用程式",
+      "blink eye 下載",
+      "blink eye 評價",
+      "20 20 20 護眼法則應用程式",
+      "護眼提醒應用程式",
+      "護眼軟體",
+      "護眼小秘訣",
+      "眼睛保健操應用程式",
+      "眼睛保護程式",
+      "電腦護眼程式",
+      "筆電護眼程式",
+      "桌機護眼程式",
+      "windows 10 護眼程式",
+      "windows 11 護眼程式",
+      "blink eye 下載",
+      "blink eye 評價",
+      "windows 護眼程式",
+      "windows 20 20 20 護眼法則應用程式",
+      "眼睛休息提醒 app",
+      "螢幕使用時間管理 app",
+      "3C 產品使用時間",
+      "休息一下 app",
+      "眼睛休息 app"
+    ]
+  },
+  "NavMenu": {
+    "features": "功能介紹",
+    "about": "關於我們",
+    "pricing": "價格方案",
+    "release": "版本資訊",
+    "contribute": "貢獻程式",
+    "blogs": "部落格"
+  },
+  "HeroBanner": {
+    "tagline": "適用於 Windows、macOS 和 Linux 的極簡風格護眼提醒應用程式。",
+    "span1": "透過定時提醒及全螢幕彈出視窗舒緩眼睛疲勞。 依據",
+    "202020": "20-20-20",
+    "span2": "護眼法則。",
+    "institute": "美國眼科學會"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "支援 macOS Intel/M 系列晶片 (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "功能介紹",
+    "featureSubtitle": "所有必要的生產力工具，一次擁有。"
+  },
+  "PricingGrid": {
+    "pricingTitle": "價格方案",
+    "pricingDescription": "選擇最適合您的價格方案，其中包含能增加受眾參與度、提升顧客忠誠度，以及促進銷售的最佳功能。"
+  },
+  "FeatureDemoSlide1": {
+    "title": "可自訂的提醒功能"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Blink Eye 如何幫助您",
+    "body1": "透過 Blink Eye，讓您掌控您的健康。",
+    "body2": "瞭解定期休息如何改善眼睛健康、提升專注力、增強工作效率，並促進長期健康，打造均衡的數位生活。",
+    "learnMore": "了解更多",
+    "title1": "保護眼睛，避免數位視覺疲勞",
+    "title2": "身體健康",
+    "title3": "心理健康",
+    "title4": "提升工作效率",
+    "title5": "健康的螢幕使用習慣",
+    "title6": "可持續的長期效益",
+    "title7": "彈性且可自訂",
+    "title8": "經研究證實的效益",
+    "title9": "提升活力與情緒",
+    "description1": "保護您的眼睛免受數位視覺疲勞、減少藍光接觸，並預防電腦視覺症候群 (CVS)。",
+    "description2": "改善姿勢、預防重複使力傷害 (RSI)，並減少身體不適。",
+    "description3": "輕鬆提升您的專注力、正念，並減輕壓力。",
+    "description4": "運用以提升效率為導向的方法，更聰明地工作，而非更費力地工作。",
+    "description5": "培養有紀律的螢幕使用習慣，並最大程度地減少不必要的分心。",
+    "description6": "避免長期問題，並維持長遠的健康均衡。",
+    "description7": "客製化您的體驗，以符合您的生活方式、職業及個人需求。",
+    "description8": "享有基於生產力與健康研究的功能。",
+    "description9": "透過均衡的工作休息時間，讓您一整天充滿活力並保持正向。",
+    "preventDigitalEyeStrain": "預防數位視覺疲勞",
+    "blueLightProtection": "藍光防護",
+    "preventRepetitiveStrainInjuries": "預防重複使力傷害 (RSI)",
+    "supportBetterPosture": "改善姿勢",
+    "enhanceFocusAndMindfulness": "提升專注力與正念",
+    "stressManagement": "壓力管理",
+    "pomodoroTechniqueIntegration": "番茄鐘工作法整合",
+    "cognitiveEfficiency": "認知效率",
+    "structuredScreenTime": "結構化螢幕使用時間",
+    "reduceMultitasking": "減少多工處理",
+    "preventChronicVisionProblems": "預防慢性視覺問題",
+    "achieveWorkLifeBalance": "達到工作與生活平衡",
+    "customizableBreakTimers": "可自訂的休息計時器",
+    "builtForEveryone": "為每個人而設計",
+    "evidenceBasedFeatures": "基於實證的功能",
+    "trustedByUsers": "深受使用者信賴",
+    "boostDailyEnergy": "提升日常活力",
+    "maintainPositiveMood": "維持正向情緒",
+    "preventDigitalEyeStrainDetails": "定期休息可減少眼睛乾澀、視力模糊和頭痛等症狀，確保長期眼睛健康。",
+    "blueLightProtectionDetails": "利用休息提示定期讓您的眼睛休息，對抗藍光傷害。",
+    "preventRepetitiveStrainInjuriesDetails": "定期休息可以減少手部和腕部的負擔，預防因重複性任務造成的長期傷害。",
+    "supportBetterPostureDetails": "提醒您伸展並調整姿勢，避免科技頸和背痛等問題。",
+    "enhanceFocusAndMindfulnessDetails": "定期休息有助於保持敏銳和專注，同時減少精神疲勞和職業倦怠。",
+    "stressManagementDetails": "利用休息時間練習放鬆技巧，減輕工作引起的壓力和緊張感。",
+    "pomodoroTechniqueIntegrationDetails": "將任務分成多個時間段，以提高工作效率及任務完成率。",
+    "cognitiveEfficiencyDetails": "策略性的休息可以提升您的心智表現，幫助您事半功倍。",
+    "structuredScreenTimeDetails": "透過精準的提醒，在工作和休息之間取得平衡，培養健康的數位習慣。",
+    "reduceMultitaskingDetails": "在工作和休息期間盡量減少干擾，全神貫注於手邊的任務。",
+    "preventChronicVisionProblemsDetails": "採取積極措施，降低因過度使用螢幕而導致的長期數位視覺問題的風險。",
+    "achieveWorkLifeBalanceDetails": "以平衡的方式提高生產力，為工作和個人生活建立可持續的習慣。",
+    "customizableBreakTimersDetails": "設定符合您工作流程的間隔時間，確保 app 能夠配合您的獨特排程。",
+    "builtForEveryoneDetails": "無論您是學生、工程師、設計師或遠距工作者，本 app 都能滿足您的需求。",
+    "evidenceBasedFeaturesDetails": "本 app 的設計靈感來自於生產力、專注力和數位健康方面的研究。",
+    "trustedByUsersDetails": "真實使用者的推薦和成功案例證明了 app 的有效性和價值。",
+    "boostDailyEnergyDetails": "簡短且定期的休息有助於為您的身心充電，讓您一整天充滿活力。",
+    "maintainPositiveMoodDetails": "打破長時間使用螢幕的單調，減少挫敗感並改善您的整體情緒。"
+  },
+  "featureGrid": {
+    "title": "功能介紹",
+    "subtitle": "所有必要的生產力工具，一次擁有。",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "自訂提醒計時器",
+        "description": "設定個人化提醒計時器，讓您保持專注且進度不落後。"
+      },
+      "diverseThemes": {
+        "title": "多元主題，打造個人風格",
+        "description": "選擇不同主題來自訂您的介面和工作流程。"
+      },
+      "customizableReminderText": {
+        "title": "自訂提醒文字",
+        "description": "建立自訂提醒訊息，讓您保持動力。"
+      },
+      "customizableSounds": {
+        "title": "自訂音效",
+        "description": "選擇您專屬的通知和提醒音效。"
+      },
+      "dailyDeviceUsage": {
+        "title": "每日裝置使用時間",
+        "description": "追蹤您的螢幕使用時間，以提升效率並達到使用平衡。"
+      },
+      "workdaySetup": {
+        "title": "工作日設定",
+        "description": "快速設定您的工作日排程，以提升工作效率。"
+      },
+      "pomodoroTimer": {
+        "title": "番茄鐘計時器",
+        "description": "將任務分解成多個間隔，以達到最大專注力和效率。"
+      },
+      "runOnStartup": {
+        "title": "開機時啟動",
+        "description": "在您的裝置開機時自動啟動 app。"
+      },
+      "updateSupport": {
+        "title": "更新支援",
+        "description": "接收最新功能和問題修正的無縫更新。"
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "探索讓本 app 脫穎而出的特色功能",
+    "description": "探索我們 app 的獨特功能。 從自訂提醒到多種主題，我們都為您設想周到。"
+  },
+  "featuresDemo": [
+    {
+      "title": "自訂提醒",
+      "description": "設定個人化提醒以預防眼睛疲勞、提升工作效率，並在長時間工作時保持專注。",
+      "features": [
+        "自訂提醒持續時間",
+        "可調整的間隔設定",
+        "可編輯的提醒文字，打造個人化體驗"
+      ],
+      "moto": "電腦使用者最佳舒緩眼睛疲勞 app"
+    },
+    {
+      "title": "多種主題",
+      "description": "切換淺色和深色主題，或從多種獨特的顏色配置中選擇，以配合您的心情和工作空間。",
+      "features": [
+        "多種提醒畫面主題可供選擇",
+        "app 支援深色模式",
+        "app 支援淺色模式"
+      ],
+      "moto": "螢幕使用時間追蹤及休息提醒 app"
+    },
+    {
+      "title": "使用統計",
+      "description": "監控您的每日螢幕使用時間、追蹤裝置使用趨勢，並有效地達到工作與生活的平衡。",
+      "features": [
+        "每日裝置使用時間追蹤",
+        "每週裝置使用時間追蹤",
+        "每月裝置使用時間追蹤",
+        "每年裝置使用時間追蹤",
+        "累計裝置使用時間追蹤",
+        "全面的使用分析",
+        "視覺化圖表和進度報告"
+      ],
+      "moto": "維護眼睛健康的免費螢幕休息提醒 app"
+    },
+    {
+      "title": "工作日設定和排程",
+      "description": "透過設定每週每日的自訂排程和工作時數，有效規劃您的工作日。",
+      "features": [
+        "自訂工作日設定",
+        "每日排程彈性",
+        "工作時數休息的自動提醒"
+      ],
+      "moto": "上班族自訂工作休息計時器"
+    },
+    {
+      "title": "動畫螢幕保護程式",
+      "description": "利用最受歡迎且自訂的動畫和聲音播放螢幕保護程式，以提高您的生產力和放鬆程度。",
+      "features": [
+        "從各種具有可自訂動畫的螢幕保護程式中挑選",
+        "自訂音效以達到放鬆效果",
+        "自訂螢幕保護程式的持續時間"
+      ],
+      "moto": "進階使用者最佳螢幕保護程式和任務管理 app"
+    },
+    {
+      "title": "全面的自訂設定",
+      "description": "透過自訂設定 (包括番茄鐘計時器和通知偏好設定) 提升您的生產力和專注力。",
+      "features": [
+        "番茄工作法整合",
+        "強制休息的嚴格模式",
+        "自訂通知音效",
+        "開機時啟動開關",
+        "設定您的每日螢幕使用時間上限"
+      ],
+      "moto": "透過休息提醒提高生產力的番茄鐘計時器"
+    },
+    {
+      "title": "啟用授權序號",
+      "description": "使用授權序號啟用您的 app，以取得進階功能的完整存取權限及無縫更新。",
+      "features": [
+        "簡易的授權啟用程序",
+        "取得獨家的進階功能",
+        "定期軟體更新和支援"
+      ],
+      "moto": "預防電腦視覺症候群 (CVS) 和重複使力傷害 (RSI) 的頂尖 app"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "選擇適合您的方案",
+    "description": "選擇最適合您的價格方案，其中包含能增加受眾參與度、提升顧客忠誠度，以及促進銷售的最佳功能。"
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} 版本資訊",
+    "title": "{tag} 版本資訊",
+    "goBack": "返回",
+    "tag": "標籤",
+    "published": "發布時間",
+    "author": "作者",
+    "assets": "檔案",
+    "fullChangelog": "完整更新日誌",
+    "downloadOptions": "下載選項",
+    "downloadTarball": "下載 Tarball",
+    "downloadZipball": "下載 Zipball"
+  },
+  "privacyPage": {
+    "title": "隱私權政策",
+    "description": "瞭解我們的隱私權政策和規範。"
+  },
+  "pricingPage": {
+    "title": "價格方案",
+    "description": "選擇最適合您的價格方案，其中包含能增加受眾參與度、提升顧客忠誠度，以及促進銷售的最佳功能。"
+  },
+  "howtousePage": {
+    "title": "如何使用",
+    "description": "瞭解如何使用 app 及其功能。"
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Blink Eye 如何幫助您",
+    "description": "瞭解 Blink Eye 如何幫助您保持專注和生產力。"
+  },
+  "goodbyePage": {
+    "title": "再見",
+    "description": "Blink Eye App 的解除安裝頁面",
+    "missyou": "很遺憾聽到您要離開！ 希望您喜歡 Blink Eye 的使用體驗。",
+    "suggesition": "請好好照顧您的雙眼。"
+  },
+  "featuresPage": {
+    "title": "功能介紹",
+    "description": "探索讓本 app 脫穎而出的特色功能。 從自訂提醒到多種主題，我們都為您設想周到。"
+  },
+  "downloadPage": {
+    "title": "下載",
+    "description": "下載適用於 Windows、macOS 和 Linux 的 Blink Eye App。"
+  },
+  "contributePage": {
+    "title": "貢獻",
+    "description": "為 Blink Eye App 的開發做出貢獻。"
+  },
+  "aboutPage": {
+    "title": "關於我們",
+    "description": "瞭解更多關於 Blink Eye App 及其團隊的資訊。",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "部落格",
+    "description": "閱讀我們最新的部落格文章和新聞更新。"
+  }
+}

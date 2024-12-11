@@ -1,0 +1,389 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Beste Oogsorg & Pouse Tydhouer vir Mac, Windows, Linux",
+    "description": "'n Minimalistiese oogsorg-herinnering app om oogspanning te verminder, met aanpasbare tydhouers, volskerm-opspringers, en klankdemping.",
+    "keywords": [
+      "voorkom RSI app",
+      "voorkom CVS app",
+      "RSI app",
+      "CVS app",
+      "beste oogsorg app 2024",
+      "skermpouse herinnering app",
+      "gratis ooggesondheid app aflaai",
+      "oopbron oogbeskermingsagteware",
+      "produktiwiteitshulpmiddel vir macOS",
+      "top oogontspanningsprogram",
+      "Google Kalender doenlys",
+      "skermtydhouer vir oogsorg",
+      "werkpouse herinnering hulpmiddel",
+      "ooggemak app vir Mac",
+      "sigversorgingsagteware vir skootrekenaars",
+      "top oogontspanningsprogram",
+      "rekenaar skermtydbeheer",
+      "rekenaar oogsorg nutsprogram",
+      "digitale oogspanning voorkoming",
+      "Windows pouse tydskeduleerder",
+      "beste apps vir oogspanning verligting",
+      "kruisplatform oogsorg app",
+      "top oopbron pouse herinnering",
+      "knipoog tydhouer vir rekenaargesondheid",
+      "beste oogsorg app vir Windows en Linux",
+      "gratis ooggesondheid app vir Windows",
+      "oopbron oogbeskermingsagteware vir Linux",
+      "skermpouse herinnering app vir Windows",
+      "ooggemak app vir Linux",
+      "top oogontspanningsprogram vir Windows",
+      "digitale oogspanning voorkoming vir Windows",
+      "rekenaar oogsorg nutsprogram vir Linux",
+      "werkpouse herinnering hulpmiddel vir Windows",
+      "skermtydbeheer vir Linux",
+      "kruisplatform oogsorg app",
+      "beste apps vir oogspanning verligting op Windows en Linux",
+      "rekenaar skermtydhouer vir oogsorg",
+      "sigversorgingsagteware vir Windows",
+      "oogsorg herinnering app vir Linux",
+      "blink eye",
+      "blink eye vir windows",
+      "Noman Dhoni Gemaakte Toep",
+      "oogsorg app vir windows",
+      "20 20 20 reël app vir windows",
+      "oogsorg",
+      "oogspanning verligting app",
+      "ooggesondheid app",
+      "blink eye download",
+      "blink eye resensie",
+      "20 20 20 reël app",
+      "oogsorg herinnering app",
+      "oogsorg sagteware",
+      "oogsorg wenke",
+      "oogoefeninge app",
+      "oogbeskerming app",
+      "oogsorg app vir pc",
+      "oogsorg app vir skootrekenaar",
+      "oogsorg app vir rekenaar",
+      "oogsorg app vir windows 10",
+      "oogsorg app vir windows 11",
+      "blink eye download",
+      "blink eye resensie",
+      "oogsorg app vir windows",
+      "20 20 20 reël app vir windows"
+    ]
+  },
+  "NavMenu": {
+    "features": "Funksies",
+    "about": "Meer oor Ons",
+    "pricing": "Pryse",
+    "release": "Vrystellings",
+    "contribute": "Dra by",
+    "blogs": "Blogs"
+  },
+  "HeroBanner": {
+    "tagline": "'n Minimalistiese oogsorg-herinnering app vir Windows, macOS, en Linux.",
+    "span1": "Om oogspanning te verminder, met aanpasbare tydhouers en volskerm-opspringers. Gebaseer op die",
+    "202020": "20-20-20",
+    "span2": "reël.",
+    "institute": "Amerikaanse Akademie vir Oftalmologie"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Ondersteun macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Funksies",
+    "featureSubtitle": "Al die nodige produktiwiteitsinstrumente op een plek."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Pryse",
+    "pricingDescription": "Kies 'n bekostigbare plan wat propvol is met die beste funksies om jou gehoor te betrek, kliëntelojaliteit te skep, en verkope te dryf."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Aanpasbare Herinneringe"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Hoe Blink Eye Jou Sal Help",
+    "body1": "Neem beheer van jou welstand met Blink Eye.",
+    "body2": "Ontdek hoe geskeduleerde pouses ooggesondheid kan verbeter, fokus kan versterk, produktiwiteit kan verhoog, en langtermyn welstand kan bevorder vir 'n gebalanseerde digitale leefstyl.",
+    "learnMore": "Leer Meer",
+    "title1": "Beskerm Jou Oë teen Digitale Spanning",
+    "title2": "Fisiese Gesondheid",
+    "title3": "Geestelike Welstand",
+    "title4": "Verhoogde Produktiwiteit",
+    "title5": "Gesonde Skermtyd Gewoontes",
+    "title6": "Volhoubare Langtermyn Voordele",
+    "title7": "Buigsaam en Aanpasbaar",
+    "title8": "Navorsing-Gesteunde Voordele",
+    "title9": "Verbeterde Energie en Gemoedstoestand",
+    "description1": "Beskerm jou oë teen digitale spanning, verminder blootstelling aan blou lig, en voorkom Rekenaarvisie-sindroom (CVS).",
+    "description2": "Verbeter postuur, voorkom Herhalende Spanningbeserings (RSI), en verminder fisiese ongemak.",
+    "description3": "Versterk jou fokus, bewustheid, en verminder stres moeiteloos.",
+    "description4": "Werk slimmer, nie harder nie, met produktiwiteitsgerigte metodes.",
+    "description5": "Ontwikkel gedissiplineerde skermtydpraktyke en minimaliseer onnodige afleidings.",
+    "description6": "Vermy chroniese probleme en handhaaf balans vir jare.",
+    "description7": "Pas jou ervaring aan om by jou leefstyl, beroep, en individuele behoeftes te pas.",
+    "description8": "Geniet funksies wat gegrond is in produktiwiteits- en welstandstudies.",
+    "description9": "Voel energiek en bly positief deur die dag met gebalanseerde werkpouses.",
+    "preventDigitalEyeStrain": "Voorkom Digitale Oogspanning",
+    "blueLightProtection": "Blou Lig Beskerming",
+    "preventRepetitiveStrainInjuries": "Voorkom Herhalende Spanningbeserings (RSI)",
+    "supportBetterPosture": "Ondersteun Beter Postuur",
+    "enhanceFocusAndMindfulness": "Verbeter Fokus en Bewustheid",
+    "stressManagement": "Stresbestuur",
+    "pomodoroTechniqueIntegration": "Pomodoro Tegniek Integrasie",
+    "cognitiveEfficiency": "Kognitiewe Doeltreffendheid",
+    "structuredScreenTime": "Gestruktureerde Skermtyd",
+    "reduceMultitasking": "Verminder Multitasking",
+    "preventChronicVisionProblems": "Voorkom Chroniese Visieprobleme",
+    "achieveWorkLifeBalance": "Bereik Werk-Lewe Balans",
+    "customizableBreakTimers": "Aanpasbare Pouse Tydhouers",
+    "builtForEveryone": "Gebou vir Almal",
+    "evidenceBasedFeatures": "Bewysgebaseerde Funksies",
+    "trustedByUsers": "Vertrou deur Gebruikers",
+    "boostDailyEnergy": "Verhoog Daaglikse Energie",
+    "maintainPositiveMood": "Handhaaf 'n Positiewe Gemoedstoestand",
+    "preventDigitalEyeStrainDetails": "Geskeduleerde pouses verminder simptome soos droë oë, dowwe visie, en hoofpyne, en verseker langtermyn ooggesondheid.",
+    "blueLightProtectionDetails": "Rus jou oë gereeld met aanmanings wat ontwerp is om die skadelike effekte van blou lig blootstelling te bekamp.",
+    "preventRepetitiveStrainInjuriesDetails": "Gereelde pouses minimaliseer spanning op jou hande en gewrigte, en voorkom langtermyn skade van herhalende take.",
+    "supportBetterPostureDetails": "Moedig strek en postuurkontroles aan om probleme soos tegnologie-nek en rugpyn te vermy.",
+    "enhanceFocusAndMindfulnessDetails": "Gereelde pouses help jou om skerp en gefokus te bly terwyl dit geestelike moegheid en uitbranding verminder.",
+    "stressManagementDetails": "Gebruik pouse-intervalle om ontspanningstegnieke te oefen, wat werk-geïnduseerde stres en spanning verminder.",
+    "pomodoroTechniqueIntegrationDetails": "Breek take in hanteerbare intervalle vir doeltreffende werksessies, wat taakvoltooiingsyfers verbeter.",
+    "cognitiveEfficiencyDetails": "Strategiese pouses verbeter jou geestelike prestasie, en help jou om meer te bereik met minder moeite.",
+    "structuredScreenTimeDetails": "Bou gesonde digitale gewoontes met goed-betydse aanmanings vir werk en ontspanningsbalans.",
+    "reduceMultitaskingDetails": "Fokus ten volle op take deur afleidings te minimaliseer tydens jou werk- en ontspanningsiklusse.",
+    "preventChronicVisionProblemsDetails": "Neem proaktiewe maatreëls om risiko's van langtermyn digitale visieprobleme veroorsaak deur skermoorgebruik te verminder.",
+    "achieveWorkLifeBalanceDetails": "Skep volhoubare gewoontes vir werk en persoonlike lewe met 'n gebalanseerde benadering tot produktiwiteit.",
+    "customizableBreakTimersDetails": "Stel intervalle wat by jou werkvloei pas, en verseker dat die app jou unieke skedule aanvul.",
+    "builtForEveryoneDetails": "Of jy nou 'n student, ontwikkelaar, ontwerper, of afgeleë werker is, die app pas by jou behoeftes aan.",
+    "evidenceBasedFeaturesDetails": "Die app se ontwerp is geïnspireer deur navorsing in produktiwiteit, fokus, en digitale welstand.",
+    "trustedByUsersDetails": "Werklike gebruiker getuigskrifte en suksesverhale bevestig die effektiwiteit en waarde daarvan.",
+    "boostDailyEnergyDetails": "Kort, gereelde pouses help om jou gees en liggaam te herlaai, en hou jou energiek vir die dag wat voorlê.",
+    "maintainPositiveMoodDetails": "Breek die eentonigheid van aanhoudende skermtyd om frustrasie te verminder en jou algehele gemoedstoestand te verbeter."
+  },
+  "featureGrid": {
+    "title": "Funksies",
+    "subtitle": "Al die nodige produktiwiteitsinstrumente op een plek.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Aanpasbare Herinnering Tydhouers",
+        "description": "Stel gepersonaliseerde herinnering tydhouers om gefokus en op koers te bly."
+      },
+      "diverseThemes": {
+        "title": "Diverse Temas vir Personalisering",
+        "description": "Kies uit verskeie temas om jou koppelvlak en werkvloei aan te pas."
+      },
+      "customizableReminderText": {
+        "title": "Aanpasbare Herinnering Teks",
+        "description": "Skep persoonlike herinnering boodskappe om jou gemotiveerd te hou."
+      },
+      "customizableSounds": {
+        "title": "Aanpasbare Klanke",
+        "description": "Kies jou eie klanke vir kennisgewings en waarskuwings."
+      },
+      "dailyDeviceUsage": {
+        "title": "Daaglikse Toestelgebruik Tyd",
+        "description": "Volg jou skermtyd om produktiwiteit en balans te optimaliseer."
+      },
+      "workdaySetup": {
+        "title": "Werkdag Opstelling",
+        "description": "Stel jou werkdagskedule vinnig op vir beter produktiwiteit."
+      },
+      "pomodoroTimer": {
+        "title": "Pomodoro Tydhouer",
+        "description": "Breek take in intervalle vir maksimum fokus en doeltreffendheid."
+      },
+      "runOnStartup": {
+        "title": "Begin met Opstart",
+        "description": "Begin die app outomaties wanneer jou toestel begin."
+      },
+      "updateSupport": {
+        "title": "Opdatering Ondersteuning",
+        "description": "Ontvang naatlose opdaterings vir die nuutste funksies en regstellings."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Ontdek die Funksies wat Ons Laat Uitstaan",
+    "description": "Verken die funksies wat ons app laat uitstaan. Van aanpasbare herinneringe tot veelvuldige temas, ons het jou gedek."
+  },
+  "featuresDemo": [
+    {
+      "title": "Aanpasbare Herinneringe",
+      "description": "Stel gepersonaliseerde herinneringe om oogspanning te voorkom, produktiwiteit te verbeter, en fokus te handhaaf tydens lang werksessies.",
+      "features": [
+        "Aanpasbare herinnering duur",
+        "Verstelbare interval instellings",
+        "Bewerkbare herinnering teks vir personalisering"
+      ],
+      "moto": "Beste Oogspanning Verligting App vir Rekenaargebruikers"
+    },
+    {
+      "title": "Veelvuldige Temas",
+      "description": "Wissel tussen ligte en donker temas of kies uit 'n verskeidenheid unieke kleurskemas om by jou gemoedstoestand en werkspasie te pas.",
+      "features": [
+        "Veelvuldige Herinnering Skerm temas om van te kies",
+        "App Donker modus ondersteuning",
+        "App ligte modus ondersteuning"
+      ],
+      "moto": "Skermtyd Spoorsnyer en Pouse Herinnering App"
+    },
+    {
+      "title": "Gebruikstatistieke",
+      "description": "Monitor jou daaglikse skermtyd, volg toestelgebruik tendense, en optimaliseer jou werk-lewe balans effektief.",
+      "features": [
+        "Daaglikse toestelgebruik dop",
+        "Weeklikse toestelgebruik dop",
+        "Maandelikse toestelgebruik dop",
+        "Jaarlikse toestelgebruik dop",
+        "Algehele toestelgebruik dop",
+        "Omvattende gebruiksanalise",
+        "Visuele grafieke en vorderingsverslae"
+      ],
+      "moto": "Gratis Skermpouse Herinnering App vir Gesonde Oë"
+    },
+    {
+      "title": "Werkdag Opstelling en Skedulering",
+      "description": "Beplan jou werkdae doeltreffend deur pasgemaakte skedules en werksure vir elke dag van die week te stel.",
+      "features": [
+        "Aanpasbare werkdag instellings",
+        "Daaglikse skedulering buigsaamheid",
+        "Outomatiese herinneringe vir werk-uur pouses"
+      ],
+      "moto": "Aanpasbare Werkpouse Tydhouer vir Kantoorwerkers"
+    },
+    {
+      "title": "Skermbewaarders met Animasies",
+      "description": "Speel van die gewildste skermbewaarders met aanpasbare animasies en klanke om jou produktiwiteit en ontspanning te verbeter.",
+      "features": [
+        "Kies uit verskeie skermbewaarders met aanpasbare animasies",
+        "Aanpasbare klankeffekte vir ontspanning",
+        "Aanpasbare skermbewaarder duur"
+      ],
+      "moto": "Beste Skermbewaarder en Taakbestuurder App vir Kraggebruikers"
+    },
+    {
+      "title": "Omvattende Aanpassing Instellings",
+      "description": "Verhoog jou produktiwiteit en fokus met aanpasbare instellings, insluitend Pomodoro tydhouers en kennisgewing voorkeure.",
+      "features": [
+        "Pomodoro tegniek integrasie",
+        "Streng Modus om jou te dwing om pouses te neem",
+        "Aanpasbare kennisgewing klanke",
+        "Begin met Opstart skakelaar",
+        "Stel jou daaglikse skermgebruik limiet"
+      ],
+      "moto": "Pomodoro Tydhouer met Pouse Herinneringe vir Produktiwiteit"
+    },
+    {
+      "title": "Aktiveer Lisensiesleutel",
+      "description": "Aktiveer jou app met 'n lisensiesleutel vir volle toegang tot premium funksies en naatlose opdaterings.",
+      "features": [
+        "Maklike lisensie aktiveringsproses",
+        "Toegang tot eksklusiewe premium funksies",
+        "Gereelde sagteware opdaterings en ondersteuning"
+      ],
+      "moto": "Top App om Rekenaarvisie-sindroom (CVS) en (RSI) te Voorkom"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Kies die regte plan vir jou",
+    "description": "Kies 'n bekostigbare plan wat propvol is met die beste funksies om jou gehoor te betrek, kliëntelojaliteit te skep, en verkope te dryf."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} Vrystellingsinligting",
+    "title": "{tag} Vrystellingsinligting",
+    "goBack": "Gaan Terug",
+    "tag": "Etiket",
+    "published": "Gepubliseer",
+    "author": "Outeur",
+    "assets": "Bates",
+    "fullChangelog": "Volledige Veranderingslogboek",
+    "downloadOptions": "Aflaai Opsies",
+    "downloadTarball": "Laai Tarball af",
+    "downloadZipball": "Laai Zipball af"
+  },
+  "privacyPage": {
+    "title": "Privaatheidsbeleid",
+    "description": "Leer oor ons privaatheidspraktyke en -beleide."
+  },
+  "pricingPage": {
+    "title": "Pryse",
+    "description": "Kies 'n bekostigbare plan wat propvol is met die beste funksies om jou gehoor te betrek, kliëntelojaliteit te skep, en verkope te dryf."
+  },
+  "howtousePage": {
+    "title": "Hoe om te Gebruik",
+    "description": "Leer hoe om die app en sy funksies te gebruik."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Hoe Blink Eye Help",
+    "description": "Leer hoe Blink Eye jou help om gefokus en produktief te bly."
+  },
+  "goodbyePage": {
+    "title": "Totsiens",
+    "description": "Deïnstallasie Bladsy van die Blink Eye App",
+    "missyou": "Ons is jammer om jou te sien gaan! Ons hoop jy het dit geniet om Blink Eye te gebruik.",
+    "suggesition": "Sorg mooi vir jou Oë."
+  },
+  "featuresPage": {
+    "title": "Funksies",
+    "description": "Ontdek die funksies wat ons app laat uitstaan. Van aanpasbare herinneringe tot veelvuldige temas, ons het jou gedek."
+  },
+  "downloadPage": {
+    "title": "Aflaai",
+    "description": "Laai die Blink Eye App af vir Windows, macOS, en Linux."
+  },
+  "contributePage": {
+    "title": "Dra by",
+    "description": "Dra by tot die Blink Eye App ontwikkeling."
+  },
+  "aboutPage": {
+    "title": "Meer oor Ons",
+    "description": "Leer meer oor die Blink Eye App en sy span.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blogs",
+    "description": "Lees ons nuutste blogs en nuusopdaterings."
+  }
+}

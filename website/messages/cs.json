@@ -1,0 +1,378 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "af": "Afrikaans",
+      "ar": "العربية",
+      "bn": "বাংলা",
+      "ca": "Català",
+      "cs": "Čeština",
+      "da": "Dansk",
+      "de": "Deutsch",
+      "el": "Ελληνικά",
+      "en": "English",
+      "es-ES": "Español",
+      "fa": "فارسی",
+      "fi": "Suomi",
+      "fr": "Français",
+      "he": "עברית",
+      "hi": "हिन्दी",
+      "hu": "Magyar",
+      "id": "Bahasa Indonesia",
+      "it": "Italiano",
+      "ja": "日本語",
+      "ko": "한국어",
+      "nl": "Nederlands",
+      "no": "Norsk",
+      "pl": "Polski",
+      "pt": "Português",
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "ro": "Română",
+      "ru": "Русский",
+      "sr": "Српски",
+      "sv-SE": "Svenska",
+      "th": "ไทย",
+      "tr": "Türkçe",
+      "uk": "Українська",
+      "ur": "اردو",
+      "vi": "Tiếng Việt",
+      "zh": "中文",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
+  },
+  "Metadata": {
+    "appName": "Blink Eye",
+    "title": "Nejlepší aplikace pro péči o oči a přestávky pro Mac, Windows, Linux",
+    "description": "Minimalistická aplikace pro péči o zrak a přestávky, která snižuje únavu očí, s přizpůsobitelnými časovači, celoobrazovkovými okny a možností ztlumení zvuku.",
+    "keywords": [
+      "aplikace prevence RSI",
+      "aplikace prevence syndromu počítačového vidění",
+      "RSI aplikace",
+      "aplikace pro syndrom počítačového vidění",
+      "nejlepší aplikace pro péči o oči 2024",
+      "aplikace pro připomenutí přestávek u počítače",
+      "aplikace pro zdraví očí download zdarma",
+      "open source software pro ochranu zraku",
+      "nástroj pro produktivitu pro macOS",
+      "nejlepší aplikace pro relaxaci očí",
+      "aplikace 20 20 20 pravidlo pro Windows",
+      "péče o zrak",
+      "aplikace pro úlevu od únavy očí",
+      "aplikace pro zdraví očí",
+      "Blink Eye download",
+      "Blink Eye recenze",
+      "aplikace pro pravidlo 20 20 20",
+      "aplikace pro připomenutí péče o oči",
+      "software pro péči o oči",
+      "tipy pro péči o oči",
+      "aplikace pro oční cvičení",
+      "aplikace pro ochranu očí",
+      "aplikace pro péči o oči pro PC",
+      "aplikace pro péči o oči pro notebook",
+      "aplikace pro péči o oči pro stolní počítač",
+      "aplikace pro péči o oči pro Windows 10",
+      "aplikace pro péči o oči pro Windows 11",
+      "aplikace pro správu času u obrazovky pro Windows",
+      "aplikace pro zdraví očí zdarma pro Windows",
+      "aplikace pro připomenutí přestávek u počítače pro Windows",
+      "aplikace pro prevenci digitální únavy očí pro Windows",
+      "software pro péči o zrak pro Windows",
+      "aplikace pro časovač pro péči o zrak",
+      "aplikace pro úlevu od únavy očí pro Windows",
+      "nejlepší aplikace pro péči o oči pro Windows",
+      "prevence syndromu počítačového vidění Windows",
+      "aplikace proti únavě očí pro Windows",
+      "ochrana očí u počítače",
+      "zdraví očí u počítače",
+      "nejlepší aplikace pro úlevu od únavy očí pro Windows a Linux",
+      "aplikace pro správu času u obrazovky pro Linux",
+      "aplikace pro ochranu zraku pro Linux",
+      "open source aplikace pro připomenutí přestávek u počítače",
+      "prevence digitální únavy očí",
+      "prevence RSI u počítače",
+      "prevence syndromu počítačového vidění",
+      "nástroj pro připomenutí přestávek u počítače",
+      "nástroj pro připomenutí pracovních přestávek pro Windows",
+      "nástroj pro péči o zrak pro Windows",
+      "nástroj pro ochranu zraku",
+      "správa času u počítače",
+      "aplikace pro ochranu očí při práci na počítači",
+      "plánovač přestávek pro Windows"
+    ]
+  },
+  "NavMenu": {
+    "features": "Funkce",
+    "about": "O aplikaci",
+    "pricing": "Ceny",
+    "release": "Vydání",
+    "contribute": "Přispějte",
+    "blogs": "Blog"
+  },
+  "HeroBanner": {
+    "tagline": "Minimalistická aplikace pro péči o zrak a přestávky pro Windows, macOS a Linux.",
+    "span1": "Pro snížení únavy očí, s připomenutím pomocí časovačů a celoobrazovkovými okny. Založeno na pravidle",
+    "202020": "20-20-20",
+    "span2": ".",
+    "institute": "Americké akademie oftalmologie"
+  },
+  "DownloadApp": {
+    "supportedPlatforms": "Podporuje macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+  },
+  "FeatureGrid": {
+    "featureTitle": "Funkce",
+    "featureSubtitle": "Všechny nezbytné nástroje pro produktivitu na jednom místě."
+  },
+  "PricingGrid": {
+    "pricingTitle": "Ceny",
+    "pricingDescription": "Vyberte si cenově dostupný plán, který je nabitý nejlepšími funkcemi pro zapojení publika, vytváření věrnosti zákazníků a zvyšování prodeje."
+  },
+  "FeatureDemoSlide1": {
+    "title": "Přizpůsobitelné připomínky"
+  },
+  "howBlinkEyeWillHelp": {
+    "heading": "Jak vám Blink Eye pomůže",
+    "body1": "Převezměte kontrolu nad svým zdravím s Blink Eye.",
+    "body2": "Zjistěte, jak naplánované přestávky mohou zlepšit zdraví očí, zlepšit soustředění, zvýšit produktivitu a podpořit dlouhodobou pohodu pro vyvážený digitální životní styl.",
+    "learnMore": "Více informací",
+    "title1": "Chraňte své oči před digitální únavou",
+    "title2": "Fyzické zdraví",
+    "title3": "Duševní pohoda",
+    "title4": "Zvýšená produktivita",
+    "title5": "Zdravé návyky při používání obrazovky",
+    "title6": "Udržitelné dlouhodobé výhody",
+    "title7": "Flexibilní a přizpůsobitelné",
+    "title8": "Výhody podložené výzkumem",
+    "title9": "Více energie a lepší nálada",
+    "description1": "Chraňte své oči před digitální únavou, snižte vystavení modrému světlu a předcházejte syndromu počítačového vidění (CVS).",
+    "description2": "Zlepšete držení těla, předcházejte úrazům z opakovaného namáhání (RSI) a snižte fyzické nepohodlí.",
+    "description3": "Zvyšte své soustředění, všímavost a snižte stres bez námahy.",
+    "description4": "Pracujte chytřeji, ne tvrději, s metodami zaměřenými na produktivitu.",
+    "description5": "Rozvíjejte disciplinované postupy používání obrazovky a minimalizujte zbytečné rozptylování.",
+    "description6": "Vyhněte se chronickým problémům a udržujte rovnováhu po celá léta.",
+    "description7": "Přizpůsobte si své zkušenosti tak, aby vyhovovaly vašemu životnímu stylu, profesi a individuálním potřebám.",
+    "description8": "Užijte si funkce založené na studiích produktivity a pohody.",
+    "description9": "Díky vyváženým pracovním přestávkám se budete cítit energičtí a budete mít pozitivní náladu po celý den.",
+    "preventDigitalEyeStrain": "Prevence digitální únavy očí",
+    "blueLightProtection": "Ochrana před modrým světlem",
+    "preventRepetitiveStrainInjuries": "Prevence zranění z opakovaného namáhání (RSI)",
+    "supportBetterPosture": "Podpora lepšího držení těla",
+    "enhanceFocusAndMindfulness": "Zlepšení soustředění a všímavosti",
+    "stressManagement": "Zvládání stresu",
+    "pomodoroTechniqueIntegration": "Integrace techniky Pomodoro",
+    "cognitiveEfficiency": "Kognitivní efektivita",
+    "structuredScreenTime": "Strukturovaný čas u obrazovky",
+    "reduceMultitasking": "Snížení multitaskingu",
+    "preventChronicVisionProblems": "Prevence chronických zrakových potíží",
+    "achieveWorkLifeBalance": "Dosažení rovnováhy mezi pracovním a soukromým životem",
+    "customizableBreakTimers": "Přizpůsobitelné časovače přestávek",
+    "builtForEveryone": "Vytvořeno pro každého",
+    "evidenceBasedFeatures": "Funkce založené na důkazech",
+    "trustedByUsers": "Důvěryhodné uživateli",
+    "boostDailyEnergy": "Zvýšení denní energie",
+    "maintainPositiveMood": "Udržování pozitivní nálady",
+    "preventDigitalEyeStrainDetails": "Plánované přestávky snižují příznaky jako suché oči, rozmazané vidění a bolesti hlavy a zajišťují dlouhodobé zdraví očí.",
+    "blueLightProtectionDetails": "Pravidelně si odpočiňte od očí pomocí výzev určených k boji proti škodlivým účinkům expozice modrému světlu.",
+    "preventRepetitiveStrainInjuriesDetails": "Pravidelné přestávky minimalizují namáhání vašich rukou a zápěstí a zabraňují dlouhodobému poškození z opakovaných úkolů.",
+    "supportBetterPostureDetails": "Podporuje protahování a kontroly držení těla, abyste se vyhnuli problémům, jako je bolest krku a zad.",
+    "enhanceFocusAndMindfulnessDetails": "Pravidelné přestávky vám pomohou zůstat soustředění a ostražití a zároveň snižují duševní únavu a vyhoření.",
+    "stressManagementDetails": "Využijte intervaly přestávek k procvičování relaxačních technik, které snižují stres a napětí vyvolané prací.",
+    "pomodoroTechniqueIntegrationDetails": "Rozdělte úkoly do zvládnutelných intervalů pro efektivní práci a zlepšení míry dokončení úkolů.",
+    "cognitiveEfficiencyDetails": "Strategické přestávky zlepšují váš duševní výkon a pomáhají vám dosáhnout více s menším úsilím.",
+    "structuredScreenTimeDetails": "Vytvářejte zdravé digitální návyky s vhodně načasovanými připomínkami pro rovnováhu mezi prací a relaxací.",
+    "reduceMultitaskingDetails": "Plně se soustřeďte na úkoly minimalizací rozptylování během pracovních a relaxačních cyklů.",
+    "preventChronicVisionProblemsDetails": "Přijměte proaktivní opatření ke snížení rizika dlouhodobých digitálních zrakových problémů způsobených nadměrným používáním obrazovky.",
+    "achieveWorkLifeBalanceDetails": "Vytvářejte udržitelné návyky pro práci a osobní život s vyváženým přístupem k produktivitě.",
+    "customizableBreakTimersDetails": "Nastavte intervaly, které odpovídají vašemu pracovnímu postupu, a zajistěte, aby aplikace doplňovala váš jedinečný rozvrh.",
+    "builtForEveryoneDetails": "Ať už jste student, vývojář, designér nebo pracujete na dálku, aplikace se přizpůsobí vašim potřebám.",
+    "evidenceBasedFeaturesDetails": "Design aplikace je inspirován výzkumem v oblasti produktivity, soustředění a digitální pohody.",
+    "trustedByUsersDetails": "Skutečná svědectví uživatelů a příběhy o úspěchu potvrzují jeho účinnost a hodnotu.",
+    "boostDailyEnergyDetails": "Krátké, pravidelné přestávky pomáhají dobít vaši mysl i tělo a udrží vás v energii na celý den.",
+    "maintainPositiveMoodDetails": "Přerušte monotónnost nepřetržitého času stráveného u obrazovky, abyste snížili frustraci a zlepšili si celkovou náladu."
+  },
+  "featureGrid": {
+    "title": "Funkce",
+    "subtitle": "Všechny nezbytné nástroje pro produktivitu na jednom místě.",
+    "features": {
+      "customizableReminderTimers": {
+        "title": "Přizpůsobitelné časovače připomínek",
+        "description": "Nastavte si personalizované časovače připomenutí, abyste zůstali soustředění a na správné cestě."
+      },
+      "diverseThemes": {
+        "title": "Různorodé motivy pro personalizaci",
+        "description": "Vyberte si z různých motivů a přizpůsobte si rozhraní a pracovní postup."
+      },
+      "customizableReminderText": {
+        "title": "Přizpůsobitelný text připomínky",
+        "description": "Vytvořte si vlastní zprávy s připomenutím, které vás udrží v motivaci."
+      },
+      "customizableSounds": {
+        "title": "Přizpůsobitelné zvuky",
+        "description": "Vyberte si vlastní zvuky pro upozornění a výstrahy."
+      },
+      "dailyDeviceUsage": {
+        "title": "Doba denního používání zařízení",
+        "description": "Sledujte svůj čas strávený u obrazovky, abyste optimalizovali produktivitu a rovnováhu."
+      },
+      "workdaySetup": {
+        "title": "Nastavení pracovního dne",
+        "description": "Rychle si nastavte svůj denní pracovní rozvrh pro lepší produktivitu."
+      },
+      "pomodoroTimer": {
+        "title": "Pomodoro časovač",
+        "description": "Rozdělte úkoly do intervalů pro maximální soustředění a efektivitu."
+      },
+      "runOnStartup": {
+        "title": "Spustit při startu",
+        "description": "Spusťte aplikaci automaticky při startu zařízení."
+      },
+      "updateSupport": {
+        "title": "Podpora aktualizací",
+        "description": "Získejte bezproblémové aktualizace pro nejnovější funkce a opravy."
+      }
+    }
+  },
+  "featuresDemoHeader": {
+    "title": "Objevte funkce, díky nimž vynikáme",
+    "description": "Prozkoumejte funkce, díky nimž naše aplikace vyniká. Od přizpůsobitelných připomínek po více motivů, máme vše, co potřebujete."
+  },
+  "featuresDemo": [
+    {
+      "title": "Přizpůsobitelné připomínky",
+      "description": "Nastavte si personalizované připomínky, abyste předešli únavě očí, zlepšili produktivitu a udrželi si soustředění během dlouhé práce.",
+      "features": [
+        "Přizpůsobitelné doby trvání připomínek",
+        "Nastavitelné intervaly",
+        "Upravitelný text připomínek pro personalizaci"
+      ],
+      "moto": "Nejlepší aplikace pro úlevu od únavy očí pro uživatele počítačů"
+    },
+    {
+      "title": "Více motivů",
+      "description": "Přepínejte mezi světlými a tmavými motivy nebo si vyberte z řady jedinečných barevných schémat, aby vyhovovaly vaší náladě a pracovnímu prostoru.",
+      "features": [
+        "Více motivů obrazovky s připomínkami, ze kterých si můžete vybrat",
+        "Podpora tmavého režimu aplikace",
+        "Podpora světlého režimu aplikace"
+      ],
+      "moto": "Aplikace pro sledování času u obrazovky a připomenutí přestávek"
+    },
+    {
+      "title": "Statistiky používání",
+      "description": "Sledujte svůj denní čas strávený u obrazovky, sledujte trendy v používání zařízení a efektivně optimalizujte rovnováhu mezi pracovním a soukromým životem.",
+      "features": [
+        "Sledování denního používání zařízení",
+        "Sledování týdenního používání zařízení",
+        "Sledování měsíčního používání zařízení",
+        "Sledování ročního používání zařízení",
+        "Sledování celkového používání zařízení",
+        "Komplexní analytika používání",
+        "Vizuální grafy a přehledy o pokroku"
+      ],
+      "moto": "Bezplatná aplikace pro připomenutí přestávek u obrazovky pro zdravé oči"
+    },
+    {
+      "title": "Nastavení a plánování pracovního dne",
+      "description": "Plánujte efektivně své pracovní dny nastavením vlastních rozvrhů a pracovní doby pro každý den v týdnu.",
+      "features": [
+        "Přizpůsobitelné nastavení pracovního dne",
+        "Flexibilita denního plánování",
+        "Automatizované připomínky pro přestávky v pracovní době"
+      ],
+      "moto": "Přizpůsobitelný časovač pracovních přestávek pro kancelářské pracovníky"
+    },
+    {
+      "title": "Spořiče obrazovky s animacemi",
+      "description": "Zahrajte si některý z nejpopulárnějších spořičů obrazovky s přizpůsobitelnými animacemi a zvuky, které vám pomohou zlepšit produktivitu a relaxaci.",
+      "features": [
+        "Vyberte si z různých spořičů obrazovky s přizpůsobitelnými animacemi",
+        "Přizpůsobitelné zvukové efekty pro relaxaci",
+        "Přizpůsobitelná doba trvání spořiče obrazovky"
+      ],
+      "moto": "Nejlepší aplikace pro spořiče obrazovky a správu úloh pro pokročilé uživatele"
+    },
+    {
+      "title": "Komplexní nastavení přizpůsobení",
+      "description": "Zvyšte svou produktivitu a soustředění pomocí přizpůsobitelných nastavení, včetně časovačů Pomodoro a preferencí oznámení.",
+      "features": [
+        "Integrace techniky Pomodoro",
+        "Přísný režim, který vás nutí dělat si přestávky",
+        "Přizpůsobitelné zvuky oznámení",
+        "Přepínač Spustit při startu",
+        "Nastavte si svůj denní limit používání obrazovky"
+      ],
+      "moto": "Časovač Pomodoro s připomenutím přestávek pro produktivitu"
+    },
+    {
+      "title": "Aktivujte licenční klíč",
+      "description": "Aktivujte svou aplikaci licenčním klíčem pro plný přístup k prémiovým funkcím a bezproblémové aktualizace.",
+      "features": [
+        "Snadný proces aktivace licence",
+        "Přístup k exkluzivním prémiovým funkcím",
+        "Pravidelné aktualizace a podpora softwaru"
+      ],
+      "moto": "Špičková aplikace pro prevenci syndromu počítačového vidění (CVS) a úrazů z opakovaného namáhání (RSI)"
+    }
+  ],
+  "pricingSectionHeader": {
+    "title": "Vyberte si ten správný plán pro vás",
+    "description": "Vyberte si cenově dostupný plán, který je nabitý nejlepšími funkcemi pro zapojení publika, vytváření věrnosti zákazníků a zvyšování prodeje."
+  },
+  "ReleaseInfo": {
+    "metaTitle": "Blink Eye {tag} Informace o vydání",
+    "title": "Informace o vydání {tag}",
+    "goBack": "Zpět",
+    "tag": "Verze",
+    "published": "Publikováno",
+    "author": "Autor",
+    "assets": "Soubory",
+    "fullChangelog": "Úplný seznam změn",
+    "downloadOptions": "Možnosti download",
+    "downloadTarball": "Download Tarball",
+    "downloadZipball": "Download Zipball"
+  },
+  "privacyPage": {
+    "title": "Zásady ochrany osobních údajů",
+    "description": "Přečtěte si o našich postupech a zásadách v oblasti ochrany osobních údajů."
+  },
+  "pricingPage": {
+    "title": "Ceny",
+    "description": "Vyberte si cenově dostupný plán, který je nabitý nejlepšími funkcemi pro zapojení publika, vytváření věrnosti zákazníků a zvyšování prodeje."
+  },
+  "howtousePage": {
+    "title": "Jak používat",
+    "description": "Naučte se, jak používat aplikaci a její funkce."
+  },
+  "howBlinkEyeHelpsPage": {
+    "title": "Jak Blink Eye pomáhá",
+    "description": "Zjistěte, jak vám Blink Eye pomáhá zůstat soustředění a produktivní."
+  },
+  "goodbyePage": {
+    "title": "Sbohem",
+    "description": "Odinstalační stránka aplikace Blink Eye",
+    "missyou": "Je nám líto, že odcházíte! Doufáme, že se vám používání aplikace Blink Eye líbilo.",
+    "suggesition": "Pečujte o své oči."
+  },
+  "featuresPage": {
+    "title": "Funkce",
+    "description": "Objevte funkce, díky nimž naše aplikace vyniká. Od přizpůsobitelných připomínek po více motivů, máme vše, co potřebujete."
+  },
+  "downloadPage": {
+    "title": "Download",
+    "description": "Stáhněte si aplikaci Blink Eye pro Windows, macOS a Linux."
+  },
+  "contributePage": {
+    "title": "Přispějte",
+    "description": "Přispějte k vývoji aplikace Blink Eye."
+  },
+  "aboutPage": {
+    "title": "O aplikaci",
+    "description": "Další informace o aplikaci Blink Eye a jejím týmu.",
+    "info": ""
+  },
+  "blogsPage": {
+    "title": "Blog",
+    "description": "Přečtěte si nejnovější blogy a aktualizace novinek."
+  }
+}

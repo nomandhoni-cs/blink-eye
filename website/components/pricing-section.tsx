@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckCircle2Icon } from "lucide-react";
 import { cn } from "@/utils/cn";
 import type { Metadata } from "next";
+import { useTranslations } from "next-intl";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -150,17 +151,17 @@ export default function PricingSection({
   pricingData = defaultPricingData,
 }: PricingProps) {
   const [selectedPlan, setSelectedPlan] = useState<PlanType>("Yearly");
+  const pricingHeader = useTranslations("pricingSectionHeader");
 
   return (
     <div className="relative px-6 py-2 sm:py-2 lg:px-8">
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
-          Choose the right plan for you
+          {pricingHeader("title")}
         </h2>
       </div>
       <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 dark:text-gray-300 sm:text-xl/8">
-        Choose an affordable plan that's packed with the best features for
-        engaging your audience, creating customer loyalty, and driving sales.
+        {pricingHeader("description")}
       </p>
       <div className="flex justify-center mt-8">
         <div className="flex space-x-0 rounded-md overflow-hidden border border-gray-400 dark:border-gray-600">
@@ -171,7 +172,7 @@ export default function PricingSection({
               className={cn(
                 "px-4 py-2 text-sm font-medium transition-colors",
                 selectedPlan === plan
-                  ? "bg-[#FE4C55] text-white dark:bg-[#FE4C55] dark:text-white"
+                  ? "bg-[#FE4C55] text-black dark:bg-[#FE4C55]"
                   : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700",
                 index === 0 ? "rounded-l-md" : "",
                 index === 2 ? "rounded-r-md" : ""

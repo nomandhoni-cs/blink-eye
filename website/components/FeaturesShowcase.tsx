@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { CheckSquare, Minus, X } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { featuresDemo } from "@/utils/features";
+import { useTranslations } from "next-intl";
 
 const keyStr =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -18,17 +18,31 @@ const rgbDataURL = (r: number, g: number, b: number) =>
     triplet(0, r, g) + triplet(b, 255, 255)
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
+// Define image URLs directly in the component
+const featureImages = [
+  "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS",
+  "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV",
+  "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy",
+  "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16",
+  "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI",
+  "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2",
+  "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2",
+];
+
 export default function FeatureShowcase() {
+  const t = useTranslations(); // Load translations
+  const featuresDemo = t.raw("featuresDemo"); // Fetch the `featuresDemo` array
+  const featuresHeader = useTranslations("featuresDemoHeader");
+
   return (
     <section className="w-full py-24">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center mb-16">
           <h2 className="mt-2 text-balance text-4xl font-heading tracking-wide sm:text-5xl md:text-6xl bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent">
-            Discover the Features that Make Us Stand Out
+            {featuresHeader("title")}
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg text-zinc-400 sm:text-xl/8">
-            Explore the features that make our app stand out. From customizable
-            reminders to multiple themes, we've got you covered.
+            {featuresHeader("description")}
           </p>
         </div>
         <div className="mt-16 space-y-24">
@@ -91,9 +105,9 @@ export default function FeatureShowcase() {
                             </div>
 
                             {/* Centered Text */}
-                            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                            <p className="text-[0.6rem] sm:text-sm font-medium text-gray-800 dark:text-gray-200">
                               Blink Eye -{" "}
-                              <span className="text-xs font-normal">
+                              <span className="text-[0.6rem] sm:text-xs font-normal">
                                 {feature.moto}
                               </span>
                             </p>
@@ -104,7 +118,7 @@ export default function FeatureShowcase() {
 
                           {/* Image */}
                           <Image
-                            src={feature.imageSrc}
+                            src={featureImages[index]}
                             alt={feature.title}
                             width={1000}
                             height={650}

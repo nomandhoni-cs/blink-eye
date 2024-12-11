@@ -77,6 +77,11 @@ const AllSettings = () => {
           title=" Use Strict Mode"
           description="This will hide the 'Skip this time' button to force follow the break."
         />
+        <FunctionalitySwitchToggle
+          functionalityButton="useCircleProgressTimerStyle"
+          title="Use Circle Progress Timer Style"
+          description="This will use a circular progress timer style instead of a linear progress timer style."
+        />
         {/* <FunctionalitySwitchToggle
           functionalityButton="showPauseButton"
           title="Hide pause button"
