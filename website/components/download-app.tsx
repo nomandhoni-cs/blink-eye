@@ -11,6 +11,13 @@ import { CopyButton } from "./copy-button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import Command from "./Command";
 import { useTranslations } from "next-intl";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import Image from "next/image";
 
 const DownloadApp = async () => {
   let downloadLinks: { [key: string]: string | null } = {
@@ -63,15 +70,55 @@ const DownloadButtons = ({ downloadLinks }) => (
         { href: downloadLinks.windowsMSI, label: "Download (MSI)" },
       ]}
     />
-    <DownloadOption
-      name="MacOS"
-      icon={<MacIcon />}
-      mainLink={downloadLinks.macIntel}
-      dropdownLinks={[
-        { href: downloadLinks.macSilicon, label: "Download (Apple Silicon)" },
-        { href: downloadLinks.macIntel, label: "Download (Intel Chip)" },
-      ]}
-    />
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DownloadOption
+            name="MacOS"
+            icon={<MacIcon />}
+            mainLink={downloadLinks.macIntel}
+            dropdownLinks={[
+              {
+                href: downloadLinks.macSilicon,
+                label: "Download (Apple Silicon)",
+              },
+              { href: downloadLinks.macIntel, label: "Download (Intel Chip)" },
+            ]}
+          />
+        </TooltipTrigger>
+        <TooltipContent className="max-w-lg p-4 my-6 ring-1 ring-[#FE4C55] ring-opacity-75 shadow-lg shadow-[#FE4C55] transition-all duration-200 ease-in-out transform hover:scale-105">
+          <div className="space-y-2">
+            <h4 className="font-bold text-lg">
+              MacOS Installation Instructions
+            </h4>
+            <ol className="list-decimal list-inside space-y-1 text-sm">
+              <li>
+                Download the appropriate .dmg file for your Mac (Apple Silicon
+                or Intel)
+              </li>
+              <li>
+                Mouse Right Click then select <b>Open</b> to install without
+                issue
+              </li>
+              <li>
+                Then click <b>Open</b> again if a security warning appears
+              </li>
+              <Image
+                src="https://utfs.io/f/93hqarYp4cDdTJXpHonKyaMH6AqBZiwkW31xt0ESzPTU5Gcl"
+                alt="MacOS installation instructions"
+                width={882}
+                height={534}
+                className="rounded-lg"
+              />
+            </ol>
+            <p className="text-xs text-gray-600 mt-2">
+              * First-time users may need to right-click and select
+              &quot;Open&quot; to bypass Gatekeeper security
+            </p>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
     <DownloadOption
       name="Linux"
       icon={<LinuxIcon />}
