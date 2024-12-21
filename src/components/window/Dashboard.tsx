@@ -10,7 +10,6 @@ import { useTrigger } from "../../contexts/TriggerReRender";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
-import { ScrollArea } from "../ui/scroll-area";
 
 const Dashboard = () => {
   const { triggerUpdate } = useTrigger();
@@ -145,7 +144,7 @@ const Dashboard = () => {
   };
 
   return (
-    <ScrollArea className="h-screen p-4 space-y-4">
+    <div className="h-screen p-4 space-y-4">
       <div className="flex justify-between items-center space-x-8">
         <div>
           <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">
@@ -258,7 +257,7 @@ const Dashboard = () => {
           </div>
         </CardContent>
       </Card>
-    </ScrollArea>
+    </div>
   );
 };
 
