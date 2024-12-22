@@ -10,8 +10,10 @@ import { useTrigger } from "../../contexts/TriggerReRender";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 
 const Dashboard = () => {
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
   const { triggerUpdate } = useTrigger();
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
