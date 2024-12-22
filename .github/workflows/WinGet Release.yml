@@ -1,0 +1,20 @@
+name: Publish to WinGet
+on:
+  release:
+    types: [released]
+jobs:
+  publish:
+    runs-on: windows-latest
+    steps:
+      - name: Publish X to WinGet
+        uses: vedantmgoyal9/winget-releaser@main
+        with:
+          identifier: Package.Identifier<X>
+          installers-regex: '\.exe$' # Only .exe files
+          token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
+      - name: Publish Y to WinGet
+        uses: vedantmgoyal9/winget-releaser@main
+        with:
+          identifier: Package.Identifier<Y>
+          installers-regex: '\.msi$' # Only .msi files
+          token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
