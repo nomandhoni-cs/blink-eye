@@ -1,7 +1,8 @@
 name: Publish to WinGet
+
 on:
-  release:
-    types: [released]
+  workflow_dispatch:  # This makes the workflow manually triggerable from the GitHub UI
+
 jobs:
   publish:
     runs-on: windows-latest
