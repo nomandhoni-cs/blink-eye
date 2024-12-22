@@ -15,5 +15,6 @@ jobs:
       - uses: vedantmgoyal9/winget-releaser@main
         with:
           identifier: NomanDhoni.BlinkEye
+          release-tag: ${{ github.event.inputs.version }}  # Access version input
           max-versions-to-keep: 5 # keep only latest 5 versions
           token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
