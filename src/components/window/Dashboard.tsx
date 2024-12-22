@@ -144,7 +144,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-screen p-4 space-y-4">
+    <div className="p-4 space-y-4">
       <div className="flex justify-between items-center space-x-8">
         <div>
           <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">

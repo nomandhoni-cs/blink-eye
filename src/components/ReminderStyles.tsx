@@ -105,8 +105,8 @@ export default function ReminderStyles() {
   }
 
   return (
-    <div className="space-y-6 pb-2">
-      <h3 className="text-2xl font-heading tracking-wider">Background Style</h3>
+    <div className="space-y-2 p-1">
+      <h3 className="text-2xl font-heading tracking-wide">Background Style</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {styles.map((style) => (
           <div
