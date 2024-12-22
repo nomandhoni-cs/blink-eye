@@ -12,19 +12,8 @@ jobs:
   publish:
     runs-on: windows-latest
     steps:
-      - name: Publish to WinGet (.exe)
-        uses: vedantmgoyal9/winget-releaser@main
+      - uses: vedantmgoyal9/winget-releaser@main
         with:
-          identifier: NomanDhoni.BlinkEye  # Replace with your app identifier
-          release-tag: ${{ github.event.inputs.version }}  # Access version input
-          installers-regex: '\.exe$'  # Only .exe files
+          identifier: NomanDhoni.BlinkEye
+          max-versions-to-keep: 5 # keep only latest 5 versions
           token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
-          
-      - name: Publish to WinGet (.msi)
-        uses: vedantmgoyal9/winget-releaser@main
-        with:
-          identifier: NomanDhoni.BlinkEye  # Replace with your app identifier
-          release-tag: ${{ github.event.inputs.version }}  # Access version input
-          installers-regex: '\.msi$'  # Only .msi files
-          token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
-
