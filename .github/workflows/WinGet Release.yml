@@ -1,7 +1,13 @@
 name: Publish to WinGet
+
 on:
-  release:
-    types: [released]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of the release to publish'
+        required: true
+        default: 'v2.5.0'  # Optional: You can set a default version 
+
 jobs:
   publish:
     runs-on: windows-latest
@@ -10,6 +16,7 @@ jobs:
         uses: vedantmgoyal9/winget-releaser@main
         with:
           identifier: NomanDhoni.BlinkEye  # Replace with your app identifier
+          release-tag: ${{ github.event.inputs.version }}  # Access version input
           installers-regex: '\.exe$'  # Only .exe files
           token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
           
@@ -17,5 +24,6 @@ jobs:
         uses: vedantmgoyal9/winget-releaser@main
         with:
           identifier: NomanDhoni.BlinkEye  # Replace with your app identifier
+          release-tag: ${{ github.event.inputs.version }}  # Access version input
           installers-regex: '\.msi$'  # Only .msi files
           token: ${{ secrets.WINGET_TOKEN_BLINK_EYE }}
