@@ -1,4 +1,5 @@
 // import { CONFIG } from "@/configs/site";
+// import { CopyButton } from "./copy-button";
 
 import Link from "next/link";
 import VersionTolatDownloads from "./version-total-downloads";
@@ -7,10 +8,16 @@ import { LinuxIcon, WindowsIcon, MacIcon } from "@/utils/mac-win-linicon";
 import DownloadDropdown from "./DownloadDropdown";
 import DownloadButton from "./ui/download-button";
 import { getDownloadLinks } from "@/utils/getReleaseData";
-import { CopyButton } from "./copy-button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import Command from "./Command";
 import { useTranslations } from "next-intl";
+
+import Image from "next/image";
+import {
+  EmptyButtonWitLink,
+  EmptyButtonWithoutLink,
+} from "./ui/without-link-button";
+import { DownloadIcon } from "lucide-react";
 
 const DownloadApp = async () => {
   let downloadLinks: { [key: string]: string | null } = {
@@ -63,15 +70,52 @@ const DownloadButtons = ({ downloadLinks }) => (
         { href: downloadLinks.windowsMSI, label: "Download (MSI)" },
       ]}
     />
-    <DownloadOption
-      name="MacOS"
-      icon={<MacIcon />}
-      mainLink={downloadLinks.macIntel}
-      dropdownLinks={[
-        { href: downloadLinks.macSilicon, label: "Download (Apple Silicon)" },
-        { href: downloadLinks.macIntel, label: "Download (Intel Chip)" },
-      ]}
-    />
+    <Popover>
+      <PopoverTrigger asChild>
+        <EmptyButtonWithoutLink label="Download for MacOS" icon={<MacIcon />} />
+      </PopoverTrigger>
+      <PopoverContent className="w-96 sm:w-[500px] max-w-lg p-2 my-6 ring-1 ring-[#FE4C55] ring-opacity-75 shadow-lg shadow-[#FE4C55]">
+        <div className="space-y-2">
+          <h4 className="font-bold text-lg">MacOS Installation Instructions</h4>
+          <ol className="list-decimal list-inside space-y-1 text-sm">
+            <li>
+              Download the appropriate .dmg file for your Mac (Apple Silicon or
+              Intel)
+            </li>
+            <li>
+              Mouse Right Click then select <b>Open</b> to install without issue
+            </li>
+            <li>
+              Then click <b>Open</b> again if a security warning appears
+            </li>
+            <Image
+              src="https://utfs.io/f/93hqarYp4cDdTJXpHonKyaMH6AqBZiwkW31xt0ESzPTU5Gcl"
+              alt="MacOS installation instructions"
+              width={882}
+              height={534}
+              className="rounded-lg"
+            />
+          </ol>
+          <p className="text-xs text-muted-foreground my-2">
+            * First-time users may need to right-click and select
+            &quot;Open&quot; to bypass Gatekeeper security
+          </p>
+        </div>
+        <div className="flex justify-between items-center pt-4">
+          <EmptyButtonWitLink
+            label="Apple Silicon"
+            icon={<DownloadIcon />}
+            href={downloadLinks.macSilicon}
+          />
+          <EmptyButtonWitLink
+            label="Intel Processor"
+            icon={<DownloadIcon />}
+            href={downloadLinks.macIntel}
+          />
+        </div>
+      </PopoverContent>
+    </Popover>
+
     <DownloadOption
       name="Linux"
       icon={<LinuxIcon />}

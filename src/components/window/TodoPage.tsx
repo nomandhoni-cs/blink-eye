@@ -358,7 +358,7 @@ const TodoPage: React.FC = () => {
       )}
       {!canAccessPremiumFeatures && (
         <div className="absolute -top-4 left-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-3xl flex flex-col space-y-8 justify-center items-center rounded-lg">
-          <h3 className="text-center text-white font-bold text-3xl">
+          <h3 className="text-center text-white font-heading tracking-wide text-3xl">
             Your support will help the developer to make this project better &
             add more features.
           </h3>
