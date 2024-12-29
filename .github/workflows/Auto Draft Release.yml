@@ -69,7 +69,10 @@ jobs:
           libappindicator3-dev \
           librsvg2-dev \
           libgtk-3-dev \
-          patchelf
+          patchelf \
+          openssl \
+          libssl-dev \
+          build-essential
         
     - name: Install frontend dependencies
       run: bun install
@@ -80,6 +83,7 @@ jobs:
         VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
         TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
         TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        NODE_OPTIONS: --openssl-legacy-provider  # Add this for Web Crypto API
       with:
         tagName: v__VERSION__
         releaseName: 'v__VERSION__'
