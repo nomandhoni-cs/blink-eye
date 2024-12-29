@@ -56,32 +56,23 @@ async function storeLicenseData(data: any) {
   const db = await initializeDatabase();
 
   try {
-    // Always insert or replace the row, ensuring only one row exists in the table
+    console.log("Storing license data:", data);
+
+    const encryptedKey = await encryptData(data.license_key.key);
+    console.log("Encrypted Key:", encryptedKey);
+
     await db.execute(
       `
       INSERT OR REPLACE INTO licenses (
-        id,                  -- Primary key with a fixed value to enforce single row
-        license_key,
-        status,
-        activation_limit,
-        activation_usage,
-        created_at,
-        expires_at,
-        test_mode,
-        instance_name,
-        store_id,
-        order_id,
-        order_item_id,
-        variant_name,
-        product_name,
-        customer_name,
-        customer_email,
-        last_validated
+        id, license_key, status, activation_limit, activation_usage,
+        created_at, expires_at, test_mode, instance_name,
+        store_id, order_id, order_item_id, variant_name,
+        product_name, customer_name, customer_email, last_validated
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       [
-        1, // Setting ID to 1 for the only row in the table
-        JSON.stringify(await encryptData(data.license_key.key)),
+        1,
+        JSON.stringify(encryptedKey),
         JSON.stringify(await encryptData(data.license_key.status)),
         JSON.stringify(await encryptData(data.license_key.activation_limit)),
         JSON.stringify(await encryptData(data.license_key.activation_usage)),
@@ -102,9 +93,14 @@ async function storeLicenseData(data: any) {
       ]
     );
 
-    console.log("License data saved or updated successfully");
+    console.log("SQL execution completed successfully.");
   } catch (error) {
-    console.error("Error storing license data:", error);
+    alert(error);
+    toast(`Response status: ${error}`, {
+      duration: 3000,
+      position: "bottom-right",
+    });
+    // console.error("Error storing license data:", error.message);
     throw new Error("Failed to store license data");
   }
 }
