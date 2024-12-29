@@ -11,49 +11,15 @@ import { useState } from "react";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
-import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
+// import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
 import { encryptData } from "../../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
-async function initializeDatabase() {
-  const dbFileExists = await exists("blink_eye_license.db", {
-    baseDir: BaseDirectory.AppData,
-  });
-
-  const db = await Database.load("sqlite:blink_eye_license.db");
-
-  if (!dbFileExists) {
-    await db.execute(`
-        CREATE TABLE IF NOT EXISTS licenses (
-          id INTEGER PRIMARY KEY,
-          license_key TEXT UNIQUE,
-          status TEXT,
-          activation_limit TEXT,
-          activation_usage TEXT,
-          created_at TEXT,
-          expires_at TEXT,
-          test_mode TEXT,
-          instance_name TEXT,
-          store_id TEXT,
-          order_id TEXT,
-          order_item_id TEXT,
-          variant_name TEXT,
-          product_name TEXT,
-          customer_name TEXT,
-          customer_email TEXT,
-          last_validated TEXT
-        );
-      `);
-  }
-
-  return db;
-}
-
 async function storeLicenseData(data: any) {
-  const db = await initializeDatabase();
+  const licenseDB = await Database.load("sqlite:blink_eye_license.db");
 
   try {
     console.log("Storing license data:", data);
@@ -61,7 +27,7 @@ async function storeLicenseData(data: any) {
     const encryptedKey = await encryptData(data.license_key.key);
     console.log("Encrypted Key:", encryptedKey);
 
-    await db.execute(
+    await licenseDB.execute(
       `
       INSERT OR REPLACE INTO licenses (
         id, license_key, status, activation_limit, activation_usage,
