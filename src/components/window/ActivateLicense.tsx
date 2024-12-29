@@ -11,57 +11,172 @@ import { useState } from "react";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
-// import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
+import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
-// import { encryptData } from "../../lib/cryptoUtils";
+import { encryptData } from "../../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
+async function initializeDatabase() {
+  const dbFileExists = await exists("blink_eye_license.db", {
+    baseDir: BaseDirectory.AppData,
+  });
+
+  const db = await Database.load("sqlite:blink_eye_license.db");
+
+  if (!dbFileExists) {
+    await db.execute(`
+        CREATE TABLE IF NOT EXISTS licenses (
+          id INTEGER PRIMARY KEY,
+          license_key TEXT UNIQUE,
+          status TEXT,
+          activation_limit TEXT,
+          activation_usage TEXT,
+          created_at TEXT,
+          expires_at TEXT,
+          test_mode TEXT,
+          instance_name TEXT,
+          store_id TEXT,
+          order_id TEXT,
+          order_item_id TEXT,
+          variant_name TEXT,
+          product_name TEXT,
+          customer_name TEXT,
+          customer_email TEXT,
+          last_validated TEXT
+        );
+      `);
+  }
+
+  return db;
+}
+
 async function storeLicenseData(data: any) {
-  const licenseDB = await Database.load("sqlite:blink_eye_license.db");
+  const db = await initializeDatabase();
 
   try {
-    console.log("Storing license data:", data);
+    console.log("Starting license data storage...");
 
-    const encryptedKey = data.license_key.key;
-    console.log("Encrypted Key:", encryptedKey);
+    // Sequentially encrypt data
+    const encryptedKey = JSON.stringify(
+      await encryptData(data.license_key.key)
+    );
+    console.log("Encrypted license key:", encryptedKey);
 
-    await licenseDB.execute(
+    const encryptedStatus = JSON.stringify(
+      await encryptData(data.license_key.status)
+    );
+    console.log("Encrypted status:", encryptedStatus);
+
+    const encryptedActivationLimit = JSON.stringify(
+      await encryptData(data.license_key.activation_limit)
+    );
+    console.log("Encrypted activation limit:", encryptedActivationLimit);
+
+    const encryptedActivationUsage = JSON.stringify(
+      await encryptData(data.license_key.activation_usage)
+    );
+    console.log("Encrypted activation usage:", encryptedActivationUsage);
+
+    const encryptedCreatedAt = JSON.stringify(
+      await encryptData(data.license_key.created_at)
+    );
+    console.log("Encrypted created at:", encryptedCreatedAt);
+
+    const encryptedExpiresAt = JSON.stringify(
+      await encryptData(data.license_key.expires_at)
+    );
+    console.log("Encrypted expires at:", encryptedExpiresAt);
+
+    const encryptedTestMode = JSON.stringify(
+      await encryptData(data.license_key.test_mode)
+    );
+    console.log("Encrypted test mode:", encryptedTestMode);
+
+    const encryptedInstanceName = JSON.stringify(
+      await encryptData(data.instance?.name || null)
+    );
+    console.log("Encrypted instance name:", encryptedInstanceName);
+
+    const encryptedStoreId = JSON.stringify(
+      await encryptData(data.meta.store_id)
+    );
+    console.log("Encrypted store ID:", encryptedStoreId);
+
+    const encryptedOrderId = JSON.stringify(
+      await encryptData(data.meta.order_id)
+    );
+    console.log("Encrypted order ID:", encryptedOrderId);
+
+    const encryptedOrderItemId = JSON.stringify(
+      await encryptData(data.meta.order_item_id)
+    );
+    console.log("Encrypted order item ID:", encryptedOrderItemId);
+
+    const encryptedVariantName = JSON.stringify(
+      await encryptData(data.meta.variant_name)
+    );
+    console.log("Encrypted variant name:", encryptedVariantName);
+
+    const encryptedProductName = JSON.stringify(
+      await encryptData(data.meta.product_name)
+    );
+    console.log("Encrypted product name:", encryptedProductName);
+
+    const encryptedCustomerName = JSON.stringify(
+      await encryptData(data.meta.customer_name)
+    );
+    console.log("Encrypted customer name:", encryptedCustomerName);
+
+    const encryptedCustomerEmail = JSON.stringify(
+      await encryptData(data.meta.customer_email)
+    );
+    console.log("Encrypted customer email:", encryptedCustomerEmail);
+
+    const encryptedLastValidated = JSON.stringify(
+      await encryptData(new Date().toISOString().split("T")[0])
+    );
+    console.log("Encrypted last validated:", encryptedLastValidated);
+
+    // Sequentially execute SQL query
+    await db.execute(
       `
       INSERT OR REPLACE INTO licenses (
-        id, license_key, status, last_validated
-      ) VALUES (?, ?, ?, ?)
+        id, license_key, status, activation_limit, activation_usage,
+        created_at, expires_at, test_mode, instance_name,
+        store_id, order_id, order_item_id, variant_name,
+        product_name, customer_name, customer_email, last_validated
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       [
-        1,
-        JSON.stringify(encryptedKey),
-        JSON.stringify(data.license_key.status),
-        // JSON.stringify(await encryptData(data.license_key.activation_limit)),
-        // JSON.stringify(await encryptData(data.license_key.activation_usage)),
-        // JSON.stringify(await encryptData(data.license_key.created_at)),
-        // JSON.stringify(await encryptData(data.license_key.expires_at)),
-        // JSON.stringify(await encryptData(data.license_key.test_mode)),
-        // JSON.stringify(await encryptData(data.instance?.name || null)),
-        // JSON.stringify(await encryptData(data.meta.store_id)),
-        // JSON.stringify(await encryptData(data.meta.order_id)),
-        // JSON.stringify(await encryptData(data.meta.order_item_id)),
-        // JSON.stringify(await encryptData(data.meta.variant_name)),
-        // JSON.stringify(await encryptData(data.meta.product_name)),
-        // JSON.stringify(await encryptData(data.meta.customer_name)),
-        // JSON.stringify(await encryptData(data.meta.customer_email)),
-        JSON.stringify(new Date().toISOString().split("T")[0]),
+        1, // Setting ID to 1 for the single row in the table
+        encryptedKey,
+        encryptedStatus,
+        encryptedActivationLimit,
+        encryptedActivationUsage,
+        encryptedCreatedAt,
+        encryptedExpiresAt,
+        encryptedTestMode,
+        encryptedInstanceName,
+        encryptedStoreId,
+        encryptedOrderId,
+        encryptedOrderItemId,
+        encryptedVariantName,
+        encryptedProductName,
+        encryptedCustomerName,
+        encryptedCustomerEmail,
+        encryptedLastValidated,
       ]
     );
 
-    console.log("SQL execution completed successfully.");
+    console.log("License data stored successfully.");
   } catch (error) {
-    alert(error);
-    toast(`${error}`, {
-      duration: 3000,
+    alert("Error storing license data:");
+    toast.error(`Failed to store license data: ${error}`, {
+      duration: 2000,
       position: "bottom-right",
     });
-    // console.error("Error storing license data:", error.message);
     throw new Error("Failed to store license data");
   }
 }
@@ -135,7 +250,7 @@ const ActivateLicense = () => {
           position: "bottom-right",
         });
 
-        // refreshLicenseData();
+        refreshLicenseData();
 
         toast.success("License activated successfully!", {
           duration: 2000,
@@ -172,7 +287,7 @@ const ActivateLicense = () => {
     }
   };
 
-  const { licenseData } = useLicenseKey();
+  const { licenseData, refreshLicenseData } = useLicenseKey();
   // Helper function to mask the license key
   const maskLicenseKey = (licenseKey: string): string => {
     if (!licenseKey) return "No license found"; // Handle empty or undefined keys
