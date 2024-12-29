@@ -122,8 +122,8 @@ async function storeLicenseData(data: any) {
   try {
     // Sequentially process and stringify each field
     const encryptedData = {
-      license_key: JSON.stringify(await encryptData(data.license_key.key)),
-      status: JSON.stringify(await encryptData(data.license_key.status)),
+      license_key: JSON.stringify(data.license_key.key),
+      status: JSON.stringify(data.license_key.status),
       activation_limit: JSON.stringify(data.license_key.activation_limit),
       activation_usage: JSON.stringify(data.license_key.activation_usage),
       created_at: JSON.stringify(data.license_key.created_at),
