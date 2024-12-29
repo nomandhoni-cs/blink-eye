@@ -30,29 +30,26 @@ async function storeLicenseData(data: any) {
     await licenseDB.execute(
       `
       INSERT OR REPLACE INTO licenses (
-        id, license_key, status, activation_limit, activation_usage,
-        created_at, expires_at, test_mode, instance_name,
-        store_id, order_id, order_item_id, variant_name,
-        product_name, customer_name, customer_email, last_validated
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        id, license_key, status, last_validated
+      ) VALUES (?, ?, ?, ?)
       `,
       [
         1,
         JSON.stringify(encryptedKey),
         JSON.stringify(await encryptData(data.license_key.status)),
-        JSON.stringify(await encryptData(data.license_key.activation_limit)),
-        JSON.stringify(await encryptData(data.license_key.activation_usage)),
-        JSON.stringify(await encryptData(data.license_key.created_at)),
-        JSON.stringify(await encryptData(data.license_key.expires_at)),
-        JSON.stringify(await encryptData(data.license_key.test_mode)),
-        JSON.stringify(await encryptData(data.instance?.name || null)),
-        JSON.stringify(await encryptData(data.meta.store_id)),
-        JSON.stringify(await encryptData(data.meta.order_id)),
-        JSON.stringify(await encryptData(data.meta.order_item_id)),
-        JSON.stringify(await encryptData(data.meta.variant_name)),
-        JSON.stringify(await encryptData(data.meta.product_name)),
-        JSON.stringify(await encryptData(data.meta.customer_name)),
-        JSON.stringify(await encryptData(data.meta.customer_email)),
+        // JSON.stringify(await encryptData(data.license_key.activation_limit)),
+        // JSON.stringify(await encryptData(data.license_key.activation_usage)),
+        // JSON.stringify(await encryptData(data.license_key.created_at)),
+        // JSON.stringify(await encryptData(data.license_key.expires_at)),
+        // JSON.stringify(await encryptData(data.license_key.test_mode)),
+        // JSON.stringify(await encryptData(data.instance?.name || null)),
+        // JSON.stringify(await encryptData(data.meta.store_id)),
+        // JSON.stringify(await encryptData(data.meta.order_id)),
+        // JSON.stringify(await encryptData(data.meta.order_item_id)),
+        // JSON.stringify(await encryptData(data.meta.variant_name)),
+        // JSON.stringify(await encryptData(data.meta.product_name)),
+        // JSON.stringify(await encryptData(data.meta.customer_name)),
+        // JSON.stringify(await encryptData(data.meta.customer_email)),
         JSON.stringify(
           await encryptData(new Date().toISOString().split("T")[0])
         ),
@@ -62,7 +59,7 @@ async function storeLicenseData(data: any) {
     console.log("SQL execution completed successfully.");
   } catch (error) {
     alert(error);
-    toast(`Response status: ${error}`, {
+    toast(`${error}`, {
       duration: 3000,
       position: "bottom-right",
     });
@@ -140,7 +137,7 @@ const ActivateLicense = () => {
           position: "bottom-right",
         });
 
-        refreshLicenseData();
+        // refreshLicenseData();
 
         toast.success("License activated successfully!", {
           duration: 2000,
@@ -177,7 +174,7 @@ const ActivateLicense = () => {
     }
   };
 
-  const { licenseData, refreshLicenseData } = useLicenseKey();
+  const { licenseData } = useLicenseKey();
   // Helper function to mask the license key
   const maskLicenseKey = (licenseKey: string): string => {
     if (!licenseKey) return "No license found"; // Handle empty or undefined keys
