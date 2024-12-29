@@ -15,7 +15,7 @@ import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
-// import { encryptData } from "../../lib/cryptoUtils";
+import { encryptData } from "../../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 async function initializeDatabase() {
@@ -58,8 +58,8 @@ async function storeLicenseData(data: any) {
   try {
     // Sequentially process and stringify each field
     const encryptedData = {
-      license_key: JSON.stringify(data.license_key.key),
-      status: JSON.stringify(data.license_key.status),
+      license_key: JSON.stringify(await encryptData(data.license_key.key)),
+      status: JSON.stringify(await encryptData(data.license_key.status)),
       activation_limit: JSON.stringify(data.license_key.activation_limit),
       activation_usage: JSON.stringify(data.license_key.activation_usage),
       created_at: JSON.stringify(data.license_key.created_at),
@@ -73,7 +73,9 @@ async function storeLicenseData(data: any) {
       product_name: JSON.stringify(data.meta.product_name),
       customer_name: JSON.stringify(data.meta.customer_name),
       customer_email: JSON.stringify(data.meta.customer_email),
-      last_validated: JSON.stringify(new Date().toISOString().split("T")[0]),
+      last_validated: JSON.stringify(
+        await encryptData(new Date().toISOString().split("T")[0])
+      ),
     };
 
     // Show each field value via toast
