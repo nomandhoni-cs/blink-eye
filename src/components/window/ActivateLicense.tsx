@@ -7,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
@@ -18,9 +18,31 @@ import { useLicenseKey } from "../../hooks/useLicenseKey";
 
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
-// Encrypt function that automatically fetches the password (unique_nano_id)
-const encryptData = async (plainText: string) => {
-  const password = "Test";
+// Function to retrieve the password (unique_nano_id) from the database
+const getPasswordFromDatabase = async () => {
+  const dbFileExists = await exists("basicapplicationdata.db", {
+    baseDir: BaseDirectory.AppData,
+  });
+
+  if (dbFileExists) {
+    const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
+
+    const result = (await dbInstance.select(
+      "SELECT unique_nano_id FROM user_data WHERE id = 1"
+    )) as [{ unique_nano_id: string }];
+
+    if (result.length && result[0].unique_nano_id) {
+      return result[0].unique_nano_id;
+    } else {
+      throw new Error("No unique nano ID found in the database");
+    }
+  } else {
+    throw new Error("Database file does not exist");
+  }
+};
+
+const encryptData = async (plainText: string, nano_id?: string) => {
+  const password = nano_id || (await getPasswordFromDatabase());
   const encoder = new TextEncoder();
   const encodedPassword = encoder.encode(password);
 
@@ -93,14 +115,14 @@ async function initializeDatabase() {
   return db;
 }
 
-async function storeLicenseData(data: any) {
+async function storeLicenseData(data: any, nano_id: string) {
   const db = await initializeDatabase();
 
   try {
     // Sequentially process and stringify each field
     const encryptedData = {
-      license_key: JSON.stringify(data.license_key.key),
-      status: JSON.stringify(data.license_key.status),
+      license_key: JSON.stringify(await encryptData(data.license_key.key)),
+      status: JSON.stringify(await encryptData(data.license_key.status)),
       activation_limit: JSON.stringify(data.license_key.activation_limit),
       activation_usage: JSON.stringify(data.license_key.activation_usage),
       created_at: JSON.stringify(data.license_key.created_at),
@@ -115,7 +137,7 @@ async function storeLicenseData(data: any) {
       customer_name: JSON.stringify(data.meta.customer_name),
       customer_email: JSON.stringify(data.meta.customer_email),
       last_validated: JSON.stringify(
-        await encryptData(new Date().toISOString().split("T")[0])
+        await encryptData(new Date().toISOString().split("T")[0], nano_id)
       ),
     };
 
@@ -130,7 +152,7 @@ async function storeLicenseData(data: any) {
     // Store the data in the database
     await db.execute(
       `
-      INSERT OR REPLACE INTO licenses (
+      INSERT INTO licenses (
         id,
         license_key,
         status,
@@ -193,6 +215,23 @@ const ActivateLicense = () => {
     activation: false,
     validation: false,
   });
+  // Use the state hook to store the nano_id (password)
+  const [nanoId, setNanoId] = useState<string>("");
+
+  // Use useEffect to call getPasswordFromDatabase when the component mounts
+  useEffect(() => {
+    const fetchPassword = async () => {
+      try {
+        const password = await getPasswordFromDatabase();
+        setNanoId(password); // Set the retrieved password to state
+      } catch (err) {
+        console.error("Error retrieving password from database:", err);
+      }
+    };
+
+    fetchPassword();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
   const handleActivate = async (e: React.FormEvent) => {
     e.preventDefault();
     const instanceName = generatePhrase();
@@ -247,7 +286,7 @@ const ActivateLicense = () => {
       });
 
       if (data.meta.store_id === 134128 || data.meta.store_id === 132851) {
-        await storeLicenseData(data);
+        await storeLicenseData(data, nanoId);
 
         // Debugging license data storage
         toast("License data stored successfully", {
