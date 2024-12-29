@@ -117,8 +117,8 @@ const ActivateLicense = () => {
     validation: false,
   });
   const handleActivate = async (e: React.FormEvent) => {
-    const instanceName = generatePhrase();
     e.preventDefault();
+    const instanceName = generatePhrase();
 
     if (!activationKey.trim()) {
       toast.error("Please enter a license key");
@@ -135,54 +135,86 @@ const ActivateLicense = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             license_key: activationKey,
-            instance_name: userName ? userName : instanceName,
+            instance_name: userName || instanceName,
             handshake_password: handshakePassword,
           }),
         }
       );
 
+      // Debugging response status
+      toast(`Response status: ${response.status}`, {
+        duration: 3000,
+        position: "bottom-right",
+      });
+
       const data = await response.json();
-      console.log(data);
+
+      // Debugging response data
+      toast(`Response data: ${JSON.stringify(data)}`, {
+        duration: 3000,
+        position: "bottom-right",
+      });
 
       if (!response.ok) {
         throw new Error(`Error: ${data.message || "Unknown error"}`);
       }
-      // Check if store_id matches the required values
-      if (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) {
-        // Store the license data
-        await storeLicenseData(data);
-        console.log("License data stored successfully");
 
-        // Update the licenseKey state
+      if (!data.meta?.store_id) {
+        throw new Error("Missing store ID in response");
+      }
+
+      // Debugging store ID
+      toast(`Store ID: ${data.meta.store_id}`, {
+        duration: 3000,
+        position: "bottom-right",
+      });
+
+      if (data.meta.store_id === 134128 || data.meta.store_id === 132851) {
+        await storeLicenseData(data);
+
+        // Debugging license data storage
+        toast("License data stored successfully", {
+          duration: 3000,
+          position: "bottom-right",
+        });
+
         refreshLicenseData();
 
         toast.success("License activated successfully!", {
           duration: 2000,
           position: "bottom-right",
         });
-        setActivationKey(""); // Clear input field
-        setUserName(""); // Clear input field
-        // Reload the page to reflect the changes
-        //! TODO: Find a better way to reload the page without refreshing the entire app
-        // use this after 1 second delay
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+
+        setActivationKey("");
+        setUserName("");
+        setTimeout(() => window.location.reload(), 1000);
       } else {
-        console.log(
-          "Store ID does not match required values. License data not stored."
-        );
+        toast.error("Store ID does not match required values", {
+          duration: 3000,
+          position: "bottom-right",
+        });
       }
     } catch (error) {
-      console.error("Activation error:", error);
-      toast.error("Failed to activate license. Please try again.", {
-        duration: 2000,
-        position: "bottom-right",
-      });
+      if (error instanceof Error) {
+        // TypeScript now knows 'error' is an Error object
+        toast.error(`Activation error: ${error.message}`, {
+          duration: 3000,
+          position: "bottom-right",
+        });
+        console.error("Activation error details:", error.stack);
+      } else {
+        // Handle unexpected error types
+        toast.error("An unexpected error occurred.", {
+          duration: 3000,
+          position: "bottom-right",
+        });
+        console.error("Unknown error:", error);
+      }
     } finally {
       setLoading((prev) => ({ ...prev, activation: false }));
     }
   };
+
   const { licenseData, refreshLicenseData } = useLicenseKey();
   // Helper function to mask the license key
   const maskLicenseKey = (licenseKey: string): string => {

@@ -26,8 +26,8 @@ const getPasswordFromDatabase = async () => {
 };
 
 // Encrypt function that automatically fetches the password (unique_nano_id)
-export const encryptData = async (plainText: string) => {
-  const password = await getPasswordFromDatabase();
+export const encryptData = async (plainText: string, nano_id?: string) => {
+  const password = nano_id || (await getPasswordFromDatabase());
   const encoder = new TextEncoder();
   const encodedPassword = encoder.encode(password);
 
