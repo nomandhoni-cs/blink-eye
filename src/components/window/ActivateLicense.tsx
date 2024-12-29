@@ -15,7 +15,7 @@ import Database from "@tauri-apps/plugin-sql";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
-import { encryptData } from "../../lib/cryptoUtils";
+// import { encryptData } from "../../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 async function storeLicenseData(data: any) {
@@ -24,7 +24,7 @@ async function storeLicenseData(data: any) {
   try {
     console.log("Storing license data:", data);
 
-    const encryptedKey = await encryptData(data.license_key.key);
+    const encryptedKey = data.license_key.key;
     console.log("Encrypted Key:", encryptedKey);
 
     await licenseDB.execute(
@@ -36,7 +36,7 @@ async function storeLicenseData(data: any) {
       [
         1,
         JSON.stringify(encryptedKey),
-        JSON.stringify(await encryptData(data.license_key.status)),
+        JSON.stringify(data.license_key.status),
         // JSON.stringify(await encryptData(data.license_key.activation_limit)),
         // JSON.stringify(await encryptData(data.license_key.activation_usage)),
         // JSON.stringify(await encryptData(data.license_key.created_at)),
@@ -50,9 +50,7 @@ async function storeLicenseData(data: any) {
         // JSON.stringify(await encryptData(data.meta.product_name)),
         // JSON.stringify(await encryptData(data.meta.customer_name)),
         // JSON.stringify(await encryptData(data.meta.customer_email)),
-        JSON.stringify(
-          await encryptData(new Date().toISOString().split("T")[0])
-        ),
+        JSON.stringify(new Date().toISOString().split("T")[0]),
       ]
     );
 
