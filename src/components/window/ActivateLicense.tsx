@@ -20,24 +20,16 @@ const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 // Function to retrieve the password (unique_nano_id) from the database
 const getPasswordFromDatabase = async () => {
-  const dbFileExists = await exists("basicapplicationdata.db", {
-    baseDir: BaseDirectory.AppData,
-  });
+  const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
 
-  if (dbFileExists) {
-    const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
+  const result = (await dbInstance.select(
+    "SELECT unique_nano_id FROM user_data WHERE id = 1"
+  )) as [{ unique_nano_id: string }];
 
-    const result = (await dbInstance.select(
-      "SELECT unique_nano_id FROM user_data WHERE id = 1"
-    )) as [{ unique_nano_id: string }];
-
-    if (result.length && result[0].unique_nano_id) {
-      return result[0].unique_nano_id;
-    } else {
-      throw new Error("No unique nano ID found in the database");
-    }
+  if (result.length && result[0].unique_nano_id) {
+    return result[0].unique_nano_id;
   } else {
-    throw new Error("Database file does not exist");
+    throw new Error("No unique nano ID found in the database");
   }
 };
 
