@@ -41,8 +41,8 @@ const getPasswordFromDatabase = async () => {
   }
 };
 
-const encryptData = async (plainText: string, nano_id?: string) => {
-  const password = nano_id || (await getPasswordFromDatabase());
+const encryptData = async (plainText: string) => {
+  const password = "Testing";
   const encoder = new TextEncoder();
   const encodedPassword = encoder.encode(password);
 
@@ -115,7 +115,7 @@ async function initializeDatabase() {
   return db;
 }
 
-async function storeLicenseData(data: any, nano_id: string) {
+async function storeLicenseData(data: any) {
   const db = await initializeDatabase();
 
   try {
@@ -137,7 +137,7 @@ async function storeLicenseData(data: any, nano_id: string) {
       customer_name: JSON.stringify(data.meta.customer_name),
       customer_email: JSON.stringify(data.meta.customer_email),
       last_validated: JSON.stringify(
-        await encryptData(new Date().toISOString().split("T")[0], nano_id)
+        await encryptData(new Date().toISOString().split("T")[0])
       ),
     };
 
@@ -224,6 +224,10 @@ const ActivateLicense = () => {
       try {
         const password = await getPasswordFromDatabase();
         setNanoId(password); // Set the retrieved password to state
+        toast(` Nano ID retrieved from database: ${nanoId} and ${password}`, {
+          duration: 5000,
+          position: "top-right",
+        });
       } catch (err) {
         console.error("Error retrieving password from database:", err);
       }
@@ -286,7 +290,7 @@ const ActivateLicense = () => {
       });
 
       if (data.meta.store_id === 134128 || data.meta.store_id === 132851) {
-        await storeLicenseData(data, nanoId);
+        await storeLicenseData(data);
 
         // Debugging license data storage
         toast("License data stored successfully", {
