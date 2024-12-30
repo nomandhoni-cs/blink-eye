@@ -6,8 +6,8 @@ import { Button } from "../ui/button";
 import UsageTimeChart from "../UsageChart";
 
 const UsageTime = () => {
-  const { isPaidUser, isTrialOn } = usePremiumFeatures();
-  const canAccessPremiumFeatures = false;
+  const { canAccessPremiumFeatures, isPaidUser, isTrialOn } =
+    usePremiumFeatures();
   console.log(canAccessPremiumFeatures, isPaidUser, isTrialOn);
 
   return (
