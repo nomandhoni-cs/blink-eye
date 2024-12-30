@@ -7,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
@@ -15,63 +15,9 @@ import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { generatePhrase } from "../../lib/namegenerator";
 import { CheckCircle2, Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
-
+import { encryptData } from "../../lib/cryptoUtils";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
-// Function to retrieve the password (unique_nano_id) from the database
-const getPasswordFromDatabase = async () => {
-  const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
-
-  const result = (await dbInstance.select(
-    "SELECT unique_nano_id FROM user_data WHERE id = 1"
-  )) as [{ unique_nano_id: string }];
-
-  if (result.length && result[0].unique_nano_id) {
-    return result[0].unique_nano_id;
-  } else {
-    throw new Error("No unique nano ID found in the database");
-  }
-};
-
-const encryptData = async (plainText: string, nanoId: string) => {
-  const encoder = new TextEncoder();
-  const encodedPassword = encoder.encode(nanoId);
-
-  const keyMaterial = await crypto.subtle.importKey(
-    "raw",
-    encodedPassword,
-    { name: "PBKDF2" },
-    false,
-    ["deriveKey"]
-  );
-
-  const key = await crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt: encoder.encode("unique_salt"),
-      iterations: 100000,
-      hash: "SHA-256",
-    },
-    keyMaterial,
-    { name: "AES-GCM", length: 256 },
-    false,
-    ["encrypt", "decrypt"]
-  );
-
-  const iv = crypto.getRandomValues(new Uint8Array(12));
-  const encodedText = encoder.encode(plainText);
-
-  const encryptedBuffer = await crypto.subtle.encrypt(
-    { name: "AES-GCM", iv: iv },
-    key,
-    encodedText
-  );
-
-  return {
-    iv: Array.from(iv),
-    data: Array.from(new Uint8Array(encryptedBuffer)),
-  };
-};
 async function initializeDatabase() {
   const dbFileExists = await exists("blink_eye_license.db", {
     baseDir: BaseDirectory.AppData,
@@ -106,49 +52,15 @@ async function initializeDatabase() {
   return db;
 }
 
-async function storeLicenseData(data: any, nanoId: string) {
+async function storeLicenseData(data: any) {
   const db = await initializeDatabase();
 
   try {
-    // Sequentially process and stringify each field
-    const encryptedData = {
-      license_key: JSON.stringify(
-        await encryptData(data.license_key.key, nanoId)
-      ),
-      status: JSON.stringify(
-        await encryptData(data.license_key.status, nanoId)
-      ),
-      activation_limit: JSON.stringify(data.license_key.activation_limit),
-      activation_usage: JSON.stringify(data.license_key.activation_usage),
-      created_at: JSON.stringify(data.license_key.created_at),
-      expires_at: JSON.stringify(data.license_key.expires_at),
-      test_mode: JSON.stringify(data.license_key.test_mode),
-      instance_name: JSON.stringify(data.instance?.name || null),
-      store_id: JSON.stringify(data.meta.store_id),
-      order_id: JSON.stringify(data.meta.order_id),
-      order_item_id: JSON.stringify(data.meta.order_item_id),
-      variant_name: JSON.stringify(data.meta.variant_name),
-      product_name: JSON.stringify(data.meta.product_name),
-      customer_name: JSON.stringify(data.meta.customer_name),
-      customer_email: JSON.stringify(data.meta.customer_email),
-      last_validated: JSON.stringify(
-        await encryptData(new Date().toISOString().split("T")[0], nanoId)
-      ),
-    };
-
-    // Show each field value via toast
-    for (const [key, value] of Object.entries(encryptedData)) {
-      toast(`Processed ${key}: ${value}`, {
-        duration: 3000,
-        position: "bottom-right",
-      });
-    }
-
-    // Store the data in the database
+    // Always insert or replace the row, ensuring only one row exists in the table
     await db.execute(
       `
-      INSERT INTO licenses (
-        id,
+      INSERT OR REPLACE INTO licenses (
+        id,                  -- Primary key with a fixed value to enforce single row
         license_key,
         status,
         activation_limit,
@@ -169,36 +81,30 @@ async function storeLicenseData(data: any, nanoId: string) {
       `,
       [
         1, // Setting ID to 1 for the only row in the table
-        encryptedData.license_key,
-        encryptedData.status,
-        encryptedData.activation_limit,
-        encryptedData.activation_usage,
-        encryptedData.created_at,
-        encryptedData.expires_at,
-        encryptedData.test_mode,
-        encryptedData.instance_name,
-        encryptedData.store_id,
-        encryptedData.order_id,
-        encryptedData.order_item_id,
-        encryptedData.variant_name,
-        encryptedData.product_name,
-        encryptedData.customer_name,
-        encryptedData.customer_email,
-        encryptedData.last_validated,
+        JSON.stringify(await encryptData(data.license_key.key)),
+        JSON.stringify(await encryptData(data.license_key.status)),
+        JSON.stringify(await encryptData(data.license_key.activation_limit)),
+        JSON.stringify(await encryptData(data.license_key.activation_usage)),
+        JSON.stringify(await encryptData(data.license_key.created_at)),
+        JSON.stringify(await encryptData(data.license_key.expires_at)),
+        JSON.stringify(await encryptData(data.license_key.test_mode)),
+        JSON.stringify(await encryptData(data.instance?.name || null)),
+        JSON.stringify(await encryptData(data.meta.store_id)),
+        JSON.stringify(await encryptData(data.meta.order_id)),
+        JSON.stringify(await encryptData(data.meta.order_item_id)),
+        JSON.stringify(await encryptData(data.meta.variant_name)),
+        JSON.stringify(await encryptData(data.meta.product_name)),
+        JSON.stringify(await encryptData(data.meta.customer_name)),
+        JSON.stringify(await encryptData(data.meta.customer_email)),
+        JSON.stringify(
+          await encryptData(new Date().toISOString().split("T")[0])
+        ),
       ]
     );
 
-    toast.success("License data stored successfully", {
-      duration: 3000,
-      position: "bottom-right",
-    });
-    console.log("License data stored successfully");
+    console.log("License data saved or updated successfully");
   } catch (error) {
     console.error("Error storing license data:", error);
-    toast.error(`Failed to store license data: ${error}`, {
-      duration: 3000,
-      position: "bottom-right",
-    });
     throw new Error("Failed to store license data");
   }
 }
@@ -210,30 +116,9 @@ const ActivateLicense = () => {
     activation: false,
     validation: false,
   });
-  const [nanoId, setNanoId] = useState<string>("");
-
-  // Fetch the password when component mounts
-  useEffect(() => {
-    const fetchPassword = async () => {
-      try {
-        const password = await getPasswordFromDatabase();
-        setNanoId(password);
-        toast(nanoId + "Nano ID retrieved: " + password);
-        console.log("Nano ID retrieved:", password); // Debug log
-      } catch (err) {
-        console.error("Error retrieving password from database:", err);
-        toast.error("Failed to retrieve encryption key");
-      } finally {
-      }
-    };
-
-    fetchPassword();
-    toast(nanoId + "Nano ID retrieved: ");
-  }, []); // Empty dependency array for mounting only
-
   const handleActivate = async (e: React.FormEvent) => {
-    e.preventDefault();
     const instanceName = generatePhrase();
+    e.preventDefault();
 
     if (!activationKey.trim()) {
       toast.error("Please enter a license key");
@@ -250,86 +135,54 @@ const ActivateLicense = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             license_key: activationKey,
-            instance_name: userName || instanceName,
+            instance_name: userName ? userName : instanceName,
             handshake_password: handshakePassword,
           }),
         }
       );
 
-      // Debugging response status
-      toast(`Response status: ${response.status}`, {
-        duration: 3000,
-        position: "bottom-right",
-      });
-
       const data = await response.json();
-
-      // Debugging response data
-      toast(`Response data: ${JSON.stringify(data)}`, {
-        duration: 3000,
-        position: "bottom-right",
-      });
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(`Error: ${data.message || "Unknown error"}`);
       }
+      // Check if store_id matches the required values
+      if (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) {
+        // Store the license data
+        await storeLicenseData(data);
+        console.log("License data stored successfully");
 
-      if (!data.meta?.store_id) {
-        throw new Error("Missing store ID in response");
-      }
-
-      // Debugging store ID
-      toast(`Store ID: ${data.meta.store_id}`, {
-        duration: 3000,
-        position: "bottom-right",
-      });
-
-      if (data.meta.store_id === 134128 || data.meta.store_id === 132851) {
-        await storeLicenseData(data, nanoId);
-
-        // Debugging license data storage
-        toast("License data stored successfully", {
-          duration: 3000,
-          position: "bottom-right",
-        });
-
+        // Update the licenseKey state
         refreshLicenseData();
 
         toast.success("License activated successfully!", {
           duration: 2000,
           position: "bottom-right",
         });
-
-        setActivationKey("");
-        setUserName("");
-        setTimeout(() => window.location.reload(), 1000);
+        setActivationKey(""); // Clear input field
+        setUserName(""); // Clear input field
+        // Reload the page to reflect the changes
+        //! TODO: Find a better way to reload the page without refreshing the entire app
+        // use this after 1 second delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
-        toast.error("Store ID does not match required values", {
-          duration: 3000,
-          position: "bottom-right",
-        });
+        console.log(
+          "Store ID does not match required values. License data not stored."
+        );
       }
     } catch (error) {
-      if (error instanceof Error) {
-        // TypeScript now knows 'error' is an Error object
-        toast.error(`Activation error: ${error.message}`, {
-          duration: 3000,
-          position: "bottom-right",
-        });
-        console.error("Activation error details:", error.stack);
-      } else {
-        // Handle unexpected error types
-        toast.error("An unexpected error occurred.", {
-          duration: 3000,
-          position: "bottom-right",
-        });
-        console.error("Unknown error:", error);
-      }
+      console.error("Activation error:", error);
+      toast.error("Failed to activate license. Please try again.", {
+        duration: 2000,
+        position: "bottom-right",
+      });
     } finally {
       setLoading((prev) => ({ ...prev, activation: false }));
     }
   };
-
   const { licenseData, refreshLicenseData } = useLicenseKey();
   // Helper function to mask the license key
   const maskLicenseKey = (licenseKey: string): string => {
@@ -360,7 +213,6 @@ const ActivateLicense = () => {
   return (
     <div className="space-y-8 max-w-3xl mx-auto px-6 py-8">
       {/* License Status Section */}
-      <p className="text-lg font-semibold text-gray-700">{nanoId}</p>
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between space-x-4">
         <div className="flex items-center space-x-2">
           <TooltipProvider>
