@@ -99,6 +99,35 @@ const ConfigDataLoader: React.FC = () => {
         );
       `);
       }
+      // Checking License DB, if not exist then create one
+
+      const licenseDBFileExist = await exists("blink_eye_license.db", {
+        baseDir: BaseDirectory.AppData,
+      });
+      if (!licenseDBFileExist) {
+        const licenseDB = await Database.load("sqlite:blink_eye_license.db");
+        await licenseDB.execute(`
+        CREATE TABLE IF NOT EXISTS licenses (
+          id INTEGER PRIMARY KEY,
+          license_key TEXT UNIQUE,
+          status TEXT,
+          activation_limit TEXT,
+          activation_usage TEXT,
+          created_at TEXT,
+          expires_at TEXT,
+          test_mode TEXT,
+          instance_name TEXT,
+          store_id TEXT,
+          order_id TEXT,
+          order_item_id TEXT,
+          variant_name TEXT,
+          product_name TEXT,
+          customer_name TEXT,
+          customer_email TEXT,
+          last_validated TEXT
+        );
+      `);
+      }
     };
 
     setupDatabase();

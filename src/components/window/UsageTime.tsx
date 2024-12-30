@@ -15,7 +15,7 @@ const UsageTime = () => {
       <UsageTimeChart />
       {/* Glassmorphism Effect Overlay */}
       {!canAccessPremiumFeatures && (
-        <div className="absolute p-8 top-0 left-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-3xl flex flex-col space-y-8 justify-center items-center rounded-lg">
+        <div className="absolute p-8 top-0 left-0 w-full h-full bg-[#000000] bg-opacity-95 backdrop-blur-3xl flex flex-col space-y-8 justify-center items-center rounded-lg">
           <h3 className="text-center text-white font-heading tracking-wide text-3xl">
             Your support will help the developer to make this project better &
             add more features.
