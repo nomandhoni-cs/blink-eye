@@ -1,7 +1,14 @@
+// import { exists } from "@tauri-apps/plugin-fs";
+// import { BaseDirectory } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
 
 // Function to retrieve the password (unique_nano_id) from the database
 const getPasswordFromDatabase = async () => {
+  // const dbFileExists = await exists("basicapplicationdata.db", {
+  //   baseDir: BaseDirectory.,
+  // });
+
+  // if (dbFileExists) {
   const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
 
   const result = (await dbInstance.select(
@@ -13,6 +20,9 @@ const getPasswordFromDatabase = async () => {
   } else {
     throw new Error("No unique nano ID found in the database");
   }
+  // } else {
+  //   throw new Error("Database file does not exist");
+  // }
 };
 
 // Encrypt function that automatically fetches the password (unique_nano_id)
