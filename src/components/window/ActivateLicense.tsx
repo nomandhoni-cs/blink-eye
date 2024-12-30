@@ -224,7 +224,6 @@ const ActivateLicense = () => {
   useEffect(() => {
     const fetchPassword = async () => {
       try {
-        setLoading((prev) => ({ ...prev, validation: true }));
         const password = await getPasswordFromDatabase();
         setNanoId(password);
         toast(nanoId + "Nano ID retrieved: " + password);
@@ -367,6 +366,7 @@ const ActivateLicense = () => {
   return (
     <div className="space-y-8 max-w-3xl mx-auto px-6 py-8">
       {/* License Status Section */}
+      <p className="text-lg font-semibold text-gray-700">{nanoId}</p>
       <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between space-x-4">
         <div className="flex items-center space-x-2">
           <TooltipProvider>
