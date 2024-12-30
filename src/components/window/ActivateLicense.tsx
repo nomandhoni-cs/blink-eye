@@ -41,10 +41,9 @@ const getPasswordFromDatabase = async () => {
   }
 };
 
-const encryptData = async (plainText: string) => {
-  const password = "Testing";
+const encryptData = async (plainText: string, nanoId: string) => {
   const encoder = new TextEncoder();
-  const encodedPassword = encoder.encode(password);
+  const encodedPassword = encoder.encode(nanoId);
 
   const keyMaterial = await crypto.subtle.importKey(
     "raw",
@@ -115,14 +114,18 @@ async function initializeDatabase() {
   return db;
 }
 
-async function storeLicenseData(data: any) {
+async function storeLicenseData(data: any, nanoId: string) {
   const db = await initializeDatabase();
 
   try {
     // Sequentially process and stringify each field
     const encryptedData = {
-      license_key: JSON.stringify(await encryptData(data.license_key.key)),
-      status: JSON.stringify(await encryptData(data.license_key.status)),
+      license_key: JSON.stringify(
+        await encryptData(data.license_key.key, nanoId)
+      ),
+      status: JSON.stringify(
+        await encryptData(data.license_key.status, nanoId)
+      ),
       activation_limit: JSON.stringify(data.license_key.activation_limit),
       activation_usage: JSON.stringify(data.license_key.activation_usage),
       created_at: JSON.stringify(data.license_key.created_at),
@@ -137,7 +140,7 @@ async function storeLicenseData(data: any) {
       customer_name: JSON.stringify(data.meta.customer_name),
       customer_email: JSON.stringify(data.meta.customer_email),
       last_validated: JSON.stringify(
-        await encryptData(new Date().toISOString().split("T")[0])
+        await encryptData(new Date().toISOString().split("T")[0], nanoId)
       ),
     };
 
@@ -215,26 +218,25 @@ const ActivateLicense = () => {
     activation: false,
     validation: false,
   });
-  // Use the state hook to store the nano_id (password)
   const [nanoId, setNanoId] = useState<string>("");
 
-  // Use useEffect to call getPasswordFromDatabase when the component mounts
+  // Fetch the password when component mounts
   useEffect(() => {
     const fetchPassword = async () => {
       try {
+        setLoading((prev) => ({ ...prev, validation: true }));
         const password = await getPasswordFromDatabase();
-        setNanoId(password); // Set the retrieved password to state
-        toast(` Nano ID retrieved from database: ${nanoId} and ${password}`, {
-          duration: 5000,
-          position: "top-right",
-        });
+        setNanoId(password);
+        toast(nanoId + "Nano ID retrieved: " + password);
+        console.log("Nano ID retrieved:", password); // Debug log
       } catch (err) {
         console.error("Error retrieving password from database:", err);
+        toast.error("Failed to retrieve encryption key");
       }
     };
 
     fetchPassword();
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+  }, []); // Empty dependency array for mounting only
 
   const handleActivate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -290,7 +292,7 @@ const ActivateLicense = () => {
       });
 
       if (data.meta.store_id === 134128 || data.meta.store_id === 132851) {
-        await storeLicenseData(data);
+        await storeLicenseData(data, nanoId);
 
         // Debugging license data storage
         toast("License data stored successfully", {
