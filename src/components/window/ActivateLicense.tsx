@@ -231,10 +231,12 @@ const ActivateLicense = () => {
       } catch (err) {
         console.error("Error retrieving password from database:", err);
         toast.error("Failed to retrieve encryption key");
+      } finally {
       }
     };
 
     fetchPassword();
+    toast(nanoId + "Nano ID retrieved: ");
   }, []); // Empty dependency array for mounting only
 
   const handleActivate = async (e: React.FormEvent) => {
