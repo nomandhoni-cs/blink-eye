@@ -57,10 +57,6 @@ const Dashboard = () => {
   };
 
   const handleOpenReminderWindow = () => {
-    if (!canAccessPremiumFeatures) {
-      openReminderWindow("PlainReminderWindow");
-      return;
-    }
     console.log("Opening reminder window for", backgroundStyle);
     switch (backgroundStyle) {
       case "aurora":
