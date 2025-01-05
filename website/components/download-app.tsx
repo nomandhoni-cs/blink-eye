@@ -19,7 +19,7 @@ import {
 } from "./ui/without-link-button";
 import { DownloadIcon } from "lucide-react";
 
-const DownloadApp = async () => {
+const DownloadApp = ({ releaseData }) => {
   let downloadLinks: { [key: string]: string | null } = {
     windowsSetup: null,
     windowsMSI: null,
@@ -32,14 +32,10 @@ const DownloadApp = async () => {
   };
   let tag_name: string | null = null;
 
-  try {
-    const releaseData = await fetchReleaseData();
+  if (releaseData) {
     tag_name = releaseData.tag_name;
     downloadLinks = getDownloadLinks(releaseData.assets);
-  } catch (error) {
-    console.error("Error fetching release data:", error);
   }
-
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
