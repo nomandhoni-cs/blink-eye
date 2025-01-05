@@ -6,11 +6,21 @@ import HowBlinkEyeWillHelp from "@/components/how-blink-eye-will-help";
 import FeatureShowcase from "@/components/FeaturesShowcase";
 import HeroSection from "@/components/HeroSection";
 import Blogs from "@/components/Blogs";
-const RootPage = () => {
+import { fetchReleaseData } from "@/utils/fetch-github-release";
+import { ReleaseData } from "@/utils/github-fetch-types";
+
+const RootPage = async () => {
+  let releaseData: ReleaseData | null = null;
+  try {
+    releaseData = await fetchReleaseData();
+  } catch (error) {
+    console.error("Error fetching release data:", error);
+  }
+
   return (
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-24 lg:pb-8 px-4 sm:px-6 lg:px-8">
       <HeroSection />
-      <DownloadApp />
+      <DownloadApp releaseData={releaseData} />
       <FeatureGrid />
       <PricingSection />
       <FeatureShowcase />

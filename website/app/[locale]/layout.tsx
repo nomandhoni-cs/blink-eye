@@ -41,9 +41,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: Omit<Props, "children">) {
+export async function generateMetadata({ params }: Omit<Props, "children">) {
+  const { locale } = await params; // Await params here
   const t = await getTranslations({ locale, namespace: "Metadata" });
   // Retrieve the raw value for keywords
   const rawKeywords = t.raw("keywords"); // Gets the raw data, which is expected to be an array
@@ -80,10 +79,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocaleLayout({
-  children,
-  params: { locale },
-}: Props) {
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params; // Await params here
+
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as any)) {
     notFound();
