@@ -1,12 +1,12 @@
 ---
-title: "Understanding CVS, RSI, and Why Eye Care is Crucial in the Digital Age"
+title: "Why Are My Eyes So Dry All of a Sudden?"
 excerpt: "Are your eyes feeling dry, itchy, scratchy, and irritated lately? Learn the possible causes, home remedies, and when to see a doctor to ensure your eye health stays top-notch."
 keywords: dry eyes relief, dry eyes symptoms, why are my eyes so dry, home remedies for dry eyes, dry eye syndrome, how to fix dry eyes, eye strain from computer, best eye drops for dry eyes, chronic dry eye treatment, dry eyes at night, dry eyes in the morning, how to prevent dry eyes, causes of dry eyes, dry eyes and screen time, natural remedies for dry eyes, how to hydrate eyes, red and itchy eyes, eye dryness due to allergies, dry eyes and air conditioning, dry eyes solutions.
 coverImage: "https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdeYuyUwAGUrMQKVoXBI75tih4E9gWPzmLdf16"
 date: "2025-01-17T10:00:00Z"
 author:
   name: Noman Dhoni
-  picture: "https://avatars.githubusercontent.com/u/92979541"
+  picture: "https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdZT8ddjm1DAJj4rLcIU0t8PKSXMxTZOyQYdbC"
 ogImage:
   url: "https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdeYuyUwAGUrMQKVoXBI75tih4E9gWPzmLdf16"
 ---
