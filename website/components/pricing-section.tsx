@@ -33,7 +33,7 @@ const defaultPricingData = {
     {
       planType: "1 Device",
       price: 1.99,
-      url: "https://pollux.lemonsqueezy.com/buy/93cad649-3242-41c2-8914-8717913d1af1",
+      url: "https://blinkeye.lemonsqueezy.com/buy/61316bb3-5dad-485e-84a1-582ffaf3f968",
       features: [
         "Cancel anytime",
         "Access for 1 device",
@@ -44,7 +44,7 @@ const defaultPricingData = {
     {
       planType: "3 Devices",
       price: 5.49,
-      url: "https://pollux.lemonsqueezy.com/buy/9ec6b2df-04fb-4202-8c7f-495318c871d5",
+      url: "https://blinkeye.lemonsqueezy.com/buy/f5a2af11-dede-40e0-b4ff-7db1482141a5",
       features: [
         "Cancel anytime",
         "Access for 3 devices",
@@ -58,7 +58,7 @@ const defaultPricingData = {
     {
       planType: "5 Devices",
       price: 9.49,
-      url: "https://pollux.lemonsqueezy.com/buy/bb1179b6-f86b-495f-9c9b-06260afd8ad5",
+      url: "https://blinkeye.lemonsqueezy.com/buy/3fc4071e-0ee3-4bc8-bb74-3430a65561e2",
       features: [
         "Cancel anytime",
         "Access for 5 devices",
@@ -71,7 +71,7 @@ const defaultPricingData = {
     {
       planType: "3 Devices",
       price: 22.99,
-      url: "https://pollux.lemonsqueezy.com/buy/0afb62c6-1795-414f-b46f-4e5e0093edd1",
+      url: "https://blinkeye.lemonsqueezy.com/buy/6811a31d-421d-4e96-bdde-32a1eb4627e4",
       features: [
         "Access for 1 device",
         "Inclues all features of Yearly, but with 3 devices",
@@ -83,7 +83,7 @@ const defaultPricingData = {
     {
       planType: "1 Device",
       price: 8.99,
-      url: "https://pollux.lemonsqueezy.com/buy/72a44597-6470-435a-875c-dfd34f71b619",
+      url: "https://blinkeye.lemonsqueezy.com/buy/704b74da-300e-49ee-a7e0-2cf334c3a6e5",
       features: [
         "Includes free updates",
         "Access for 1 devices",
@@ -97,7 +97,7 @@ const defaultPricingData = {
     {
       planType: "5 Devices",
       price: 34.99,
-      url: "https://pollux.lemonsqueezy.com/buy/a89558be-4742-4a2c-b3a5-8e8d2f336e99",
+      url: "https://blinkeye.lemonsqueezy.com/buy/4e31ecd7-b0b8-4c3c-9ff4-d250c6fb9d87",
       features: [
         "Access for 5 devices",
         "Inclues all features of Yearly, but with 5 devices",
@@ -111,7 +111,7 @@ const defaultPricingData = {
     {
       planType: "1 Device",
       price: 15.99,
-      url: "https://pollux.lemonsqueezy.com/buy/ce4f84c9-a898-4df8-8ebd-075310de4ff6",
+      url: "https://blinkeye.lemonsqueezy.com/buy/ee6eb115-6292-4985-a0f0-39e82e97fcf5",
       features: [
         "Access for 1 device",
         "Inclues all features of Lifetime.",
@@ -122,7 +122,7 @@ const defaultPricingData = {
     {
       planType: "3 Devices",
       price: 44.99,
-      url: "https://pollux.lemonsqueezy.com/buy/9cdc7e22-5f06-4329-bb59-9f861bf3d16d",
+      url: "https://blinkeye.lemonsqueezy.com/buy/96664a60-99d5-4958-a943-1430e7ec926f",
       features: [
         "Lifetime updates",
         "Access for 3 devices",
@@ -136,7 +136,7 @@ const defaultPricingData = {
     {
       planType: "5 Devices",
       price: 69.99,
-      url: "https://pollux.lemonsqueezy.com/buy/1c583ee0-1f5b-477a-a5c2-40a5fcf02501",
+      url: "https://blinkeye.lemonsqueezy.com/buy/088e8a66-d9e1-4606-b3ff-ffb807394ab7",
       features: [
         "Access for 5 devices",
         "Inclues all features of Lifetime, but with 5 devices.",
