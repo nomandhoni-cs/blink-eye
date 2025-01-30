@@ -8,7 +8,6 @@ export default function Blogs() {
   const heroPost = allPosts[0];
 
   const morePosts = allPosts.slice(1);
-
   return (
     <section className="px-4 py-16 mx-auto max-w-7xl">
       <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl text-center mb-4">

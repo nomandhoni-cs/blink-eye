@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { HoverCardTrigger, HoverCardContent, HoverCard } from "./ui/hover-card";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 const HeroSection = () => {
   const t = useTranslations("HeroBanner");
   return (
@@ -17,16 +17,19 @@ const HeroSection = () => {
           Introducing Blink Eye
         </h2>
       </div>
-      <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl motion-preset-blur-right motion-duration-700">
+      <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl motion-preset-blur-right motion-duration-700 motion-preset-flomoji-👀">
         {t("tagline")}
       </h1>
-      <div className="max-w-[1000px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground motion-preset-blur-right motion-duration-1000">
+      <div className="max-w-[1200px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground motion-preset-blur-right motion-duration-1000">
         {t("span1")}{" "}
-        <HoverCard>
-          <HoverCardTrigger>
-            <span className="text-[#FE4C55] cursor-help">{t("202020")} </span>
-          </HoverCardTrigger>
-          <HoverCardContent>
+        <Popover>
+          <PopoverTrigger>
+            <span className="text-[#FE4C55] cursor-pointer">
+              {t("202020")}
+              {"  "}
+            </span>
+          </PopoverTrigger>
+          <PopoverContent>
             by
             <Link
               href="https://www.aao.org/eye-health/tips-prevention/computer-usage"
@@ -36,8 +39,8 @@ const HeroSection = () => {
               {" "}
               {t("institute")}
             </Link>
-          </HoverCardContent>
-        </HoverCard>
+          </PopoverContent>
+        </Popover>{" "}
         {t("span2")}
       </div>
       <div className="flex items-center justify-center gap-2 mt-2 motion-preset-blur-right motion-duration-1000">
