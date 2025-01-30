@@ -4,7 +4,7 @@ export const CONFIG = {
   repository: "https://github.com/nomandhoni-cs/blink-eye",
   documentation: "https://github.com/nomandhoni-cs/blink-eye",
   nomandhoni: "https://twitter.com/nomandhoni",
-  website: "https://blinkeye.vercel.app",
+  website: "https://blinkeye.app",
   buymecoffee: "https://www.buymeacoffee.com/nomandhoni",
   discord: "https://discord.gg/4VfTcEg9Vm",
   command:

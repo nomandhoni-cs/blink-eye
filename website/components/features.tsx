@@ -23,7 +23,7 @@ export function FeatureGridItem(props: {
 }) {
   const Icon = props.icon; // Use the passed component type as JSX
   return (
-    <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+    <div className="relative overflow-hidden rounded-lg border bg-background p-2 motion-scale-in-[0.5] motion-translate-x-in-[-25%] motion-translate-y-in-[25%] motion-opacity-in-[0%] motion-rotate-in-[-10deg] motion-blur-in-[5px] motion-duration-[0.35s] motion-duration-[0.53s]/scale motion-duration-[0.53s]/translate motion-duration-[0.63s]/rotate">
       <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
         <span className="h-24 w-24">
           <Icon className="h-12 w-12 text-primary" /> {/* Render the icon */}
