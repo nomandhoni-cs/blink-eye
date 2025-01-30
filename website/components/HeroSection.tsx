@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 const HeroSection = () => {
   const t = useTranslations("HeroBanner");
   return (
-    <div className="flex max-w-[1440px] mx-auto flex-col items-center gap-4 text-center lg:mb-24">
+    <div className="flex max-w-[1440px] mx-auto flex-col items-center gap-4 text-center mt-10 mb-16">
       <div className="flex items-center justify-center gap-2 mb-4">
         <Image
           src="https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdY0euKxvcTyVLEjQxOU1ovp9SM8PzDAnJKZs2"

@@ -30,7 +30,7 @@ export const Header = () => {
     <header className="sticky top-2 z-40 w-full transition-all duration-300 ease-in-out">
       {/* Full Navbar */}
       <div
-        className={`max-w-[1440px] mx-auto flex items-center justify-between h-16 transition-all duration-300 ease-in-out ${
+        className={`max-w-[1440px] mx-auto flex items-center justify-between h-16 transition-all duration-300 ease-in-out px-4 ${
           scrolled ? "hidden" : "block"
         }
         `}
