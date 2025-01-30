@@ -13,14 +13,14 @@ const HeroSection = () => {
           width={40}
           height={40}
         />
-        <h2 className="text-4xl font-heading motion-preset-blur-right">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-heading motion-preset-blur-right motion-duration-500">
           Introducing Blink Eye
         </h2>
       </div>
-      <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl motion-preset-blur-right">
+      <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl motion-preset-blur-right motion-duration-700">
         {t("tagline")}
       </h1>
-      <div className="max-w-[1000px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground motion-preset-blur-right">
+      <div className="max-w-[1000px] mt-2 text-center text-base sm:text-lg md:text-xl text-muted-foreground motion-preset-blur-right motion-duration-1000">
         {t("span1")}{" "}
         <HoverCard>
           <HoverCardTrigger>
@@ -40,7 +40,7 @@ const HeroSection = () => {
         </HoverCard>
         {t("span2")}
       </div>
-      <div className="flex items-center justify-center gap-2 mt-2 motion-preset-blur-right">
+      <div className="flex items-center justify-center gap-2 mt-2 motion-preset-blur-right motion-duration-1000">
         <Image
           src="https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdjZZQwahyxJHVZk154Yhc37X0ag2LBmlSIEqj"
           alt="User's of Blink Eye"

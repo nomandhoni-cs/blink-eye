@@ -37,12 +37,7 @@ export const Header = () => {
       >
         {/* Logo Section */}
         <Link href={`/${locale}`} className="flex items-center space-x-3">
-          <Image
-            src={logo || "/placeholder.svg"}
-            alt="Blink Eye Logo"
-            height={32}
-            width={32}
-          />
+          <Image src={logo} alt="Blink Eye Logo" height={32} width={32} />
           <span className="font-heading text-xl">Blink Eye</span>
         </Link>
 
@@ -87,7 +82,7 @@ export const Header = () => {
         <nav className="flex items-center justify-center py-2">
           <div className="flex items-center space-x-4 bg-background/30 backdrop-blur-md rounded-full px-4 py-2">
             <Image
-              src={logo || "/placeholder.svg"}
+              src={logo}
               alt="Blink Eye Logo"
               height={32}
               width={32}
