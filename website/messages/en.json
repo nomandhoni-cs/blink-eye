@@ -122,10 +122,10 @@
     "blogs": "Blogs"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Protect Your Eyes & ⚡ Boost Productivity with ⏳ Smart Break Reminders",
+    "span1": "Protect your vision and boost productivity with Blink Eye, a smart break timer based on the",
     "202020": "20-20-20",
-    "span2": "rule.",
+    "span2": "rule. Customize reminders, track screen time, and build healthier screen habits across macOS, Windows, and Linux.",
     "institute": "American Academy of Ophthalmology"
   },
   "DownloadApp": {
@@ -133,7 +133,7 @@
   },
   "FeatureGrid": {
     "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureSubtitle": "All-in-One Eye Care & Productivity Toolkit"
   },
   "PricingGrid": {
     "pricingTitle": "Pricing",

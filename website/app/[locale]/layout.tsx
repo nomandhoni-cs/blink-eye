@@ -14,7 +14,8 @@ import { Footer } from "@/components/layout/footer";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ReactNode } from "react";
-import localFont from "next/font/local";
+import { Urbanist } from "next/font/google";
+// import localFont from "next/font/local";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -27,11 +28,16 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-const fontHeading = localFont({
-  src: "../../assets/fonts/CalSans-SemiBold.woff2",
+// const fontHeading = localFont({
+//   src: "../../assets/fonts/CalSans-SemiBold.woff2",
+//   variable: "--font-heading",
+// });
+// use Urbanist for heading font
+const fontHeading = Urbanist({
+  subsets: ["latin"],
   variable: "--font-heading",
+  weight: "700",
 });
-
 type Props = {
   children: ReactNode;
   params: { locale: string };
