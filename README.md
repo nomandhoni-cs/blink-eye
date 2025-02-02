@@ -109,23 +109,13 @@ Contributions for improving the dashboard, enhancing customizability, and adding
     bun install
     ```
 
-2. **Change Directory:**
+2. **Install all Cargo dependencies:**
 
     ```console
-    cd src-tauri
+    cargo install --path src-tauri
     ```
 
-3. **Install all Cargo dependencies:**
-
-    ```console
-    cargo install
-    ```
-3. **Change Directory:**
-
-    ```console
-    cd ..
-    ```
-4. **Run the app in development mode:**
+3. **Run the app in development mode:**
 
     ```console
     bun run tauri dev
