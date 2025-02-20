@@ -10,6 +10,7 @@ import { useTrigger } from "../../contexts/TriggerReRender";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
+// import IdleTimeButton from "../IdleTimeButton";
 
 const Dashboard = () => {
   const { triggerUpdate } = useTrigger();
@@ -178,7 +179,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
+      {/* <IdleTimeButton /> */}
       <Card>
         <CardContent className="space-y-6 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

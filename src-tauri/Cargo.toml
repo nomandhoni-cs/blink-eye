@@ -26,6 +26,7 @@ tauri-plugin-http = "2"
 tauri-plugin-sql = { version = "2.0.2", features = ["sqlite"] }
 tauri-plugin-fs = "2.0.3"
 tauri-plugin-dialog = "2"
+idle = "0.2.0"
 
 [target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
 tauri-plugin-autostart = "2.0.1"

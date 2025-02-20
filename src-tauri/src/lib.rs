@@ -4,6 +4,9 @@ use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
 };
+// use idle::IdleStrategy;
+// use std::time::Duration;
+
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
@@ -18,6 +21,18 @@ fn check_minimized_argument() -> String {
         "fullScreen".to_string()
     }
 }
+// #[tauri::command]
+// fn simulate_idle_behavior() -> String {
+//     let idle = IdleStrategy::Sleep(Duration::from_secs(1)); // Sleep for 1 second
+
+//     println!("Starting idle behavior simulation...");
+//     for _ in 0..5 { // Run 5 idle cycles
+//         println!("Running application logic...");
+//         idle.idle(0); // Simulate idle time
+//     }
+
+//     "Idle behavior simulation complete.".to_string()
+// }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -83,7 +98,7 @@ pub fn run() {
                     }
                 })
                 .menu(&menu)
-                .menu_on_left_click(false)
+                .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| match event.id.as_ref() {
                     "quit" => {
                         println!("quit menu item was clicked");
