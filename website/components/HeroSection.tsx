@@ -51,7 +51,7 @@ const HeroSection = () => {
           height={40}
         />
         <span className="text-muted-foreground">
-          Used and Trusted by <b>4,000+</b> Users
+          Used and Trusted by <b>5,000+</b> Users
         </span>
       </div>
     </div>
