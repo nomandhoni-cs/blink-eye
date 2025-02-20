@@ -70,6 +70,7 @@ const AllSettings = () => {
   return (
     <>
       <div className="space-y-4">
+        <h3 className="text-2xl font-heading tracking-wide">All Settings</h3>
         <AutoStartToggle />
         <PomodoroTimerToggle />
         <FunctionalitySwitchToggle

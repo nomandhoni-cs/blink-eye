@@ -137,7 +137,9 @@ const Workday = () => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Workday Setup</h2>
+            <h3 className="text-2xl font-heading tracking-wide">
+              Workday Setup
+            </h3>
             <p className="text-muted-foreground">
               Configure your work hours for each day of the week. <br /> Toggle
               to set working or non-working days.
