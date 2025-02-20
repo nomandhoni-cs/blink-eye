@@ -12,7 +12,7 @@ interface TimeData {
 
 /**
  * Migrates the usage time data from a JSON store (userScreenOnTime.json)
- * into a SQLite database (testUserScreenTime.db). The JSON store is expected
+ * into a SQLite database (UserScreenTime.db). The JSON store is expected
  * to have two keys: "timeData" containing the records and
  * "isUsageTimeMigratedToSQLite" which is a boolean flag indicating if the
  * migration has already been performed.
@@ -33,7 +33,7 @@ export async function migrateScreenTimeToSQLite(): Promise<void> {
     const jsonTimeData: TimeData = (await store.get("timeData")) || {};
 
     // Load the SQLite database and create the table if it doesn't exist
-    const db = await Database.load("sqlite:testUserScreenTime.db");
+    const db = await Database.load("sqlite:UserScreenTime.db");
     await db.execute(`
       CREATE TABLE IF NOT EXISTS time_data (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

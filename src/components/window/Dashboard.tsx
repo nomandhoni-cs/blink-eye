@@ -7,9 +7,10 @@ import { getVersion } from "@tauri-apps/api/app";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
-import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
+import { useTimeCountContext } from "../../contexts/TimeCountContext";
+
 // import IdleTimeButton from "../IdleTimeButton";
 
 const Dashboard = () => {
@@ -19,8 +20,8 @@ const Dashboard = () => {
   const [reminderText, setReminderText] = useState<string>("");
   const [usageTimeLimit, setUsageTimeLimit] = useState<number>(8);
   const [backgroundStyle, setBackgroundStyle] = useState<string>("");
-  const { timeCount } = useTimeCountContext();
   const [appVersion, setAppVersion] = useState<string>("");
+  const { timeCount } = useTimeCountContext();
 
   // Calculate total hours for the progress circle
   const totalHours = timeCount.hours + timeCount.minutes / 60;

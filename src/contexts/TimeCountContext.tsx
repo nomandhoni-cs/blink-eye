@@ -1,9 +1,13 @@
 import React, { createContext, useContext, ReactNode } from "react";
-// import useSQLTimeCount from "../hooks/useSQLTimeCount";
 import useTimeCount from "../hooks/useTimeCount";
 
+interface TimeCount {
+  hours: number;
+  minutes: number;
+}
+
 interface TimeCountContextType {
-  timeCount: { hours: number; minutes: number };
+  timeCount: TimeCount;
 }
 
 const TimeCountContext = createContext<TimeCountContextType | undefined>(
@@ -13,23 +17,7 @@ const TimeCountContext = createContext<TimeCountContextType | undefined>(
 export const TimeCountProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  // const timeStamps = useSQLTimeCount();
-  const timeStamps = useTimeCount();
-
-  // Calculate total hours and minutes
-  let totalSeconds = 0;
-
-  timeStamps.forEach((timestamp) => {
-    const timeDifferenceInSeconds =
-      Math.max(timestamp.secondTimestamp - timestamp.firstTimestamp, 0) / 1000; // Convert ms to seconds and prevent negative values
-
-    totalSeconds += timeDifferenceInSeconds;
-  });
-
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-
-  const timeCount = { hours, minutes };
+  const { timeCount } = useTimeCount();
 
   return (
     <TimeCountContext.Provider value={{ timeCount }}>
@@ -47,3 +35,5 @@ export const useTimeCountContext = (): TimeCountContextType => {
   }
   return context;
 };
+
+export default TimeCountProvider;

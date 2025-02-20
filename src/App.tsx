@@ -1,10 +1,10 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import { TimeCountProvider } from "./contexts/TimeCountContext";
 import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import TimeCountProvider from "./contexts/TimeCountContext";
 
 const ReminderControl = lazy(() => import("./components/ReminderControl"));
 const BeamOfLifeBGWrapper = lazy(

@@ -3,7 +3,7 @@ import { CheckCircle2Icon } from "lucide-react";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import UsageTimeChart from "../UsageChart";
+import UsageTimeChart from "../UsageTimeChart";
 
 const UsageTime = () => {
   const { canAccessPremiumFeatures, isPaidUser, isTrialOn } =

@@ -73,7 +73,7 @@ export default function UsageTimeChart() {
     const fetchDateData = async () => {
       try {
         // Load SQLite database
-        const db = await Database.load("sqlite:testUserScreenTime.db");
+        const db = await Database.load("sqlite:UserScreenTime.db");
         // Query all records from the table
         const results = await db.select(
           "SELECT date, first_timestamp, second_timestamp FROM time_data"
