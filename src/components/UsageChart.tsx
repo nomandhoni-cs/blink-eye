@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { load } from "@tauri-apps/plugin-store";
+import Database from "@tauri-apps/plugin-sql";
 import {
   Bar,
   BarChart,
@@ -36,6 +37,12 @@ type TimeData = {
   [date: string]: TimeEntry[];
 };
 
+type DatabaseRow = {
+  date: string;
+  first_timestamp: number;
+  second_timestamp: number;
+};
+
 type TimeRange = "today" | "7days" | "30days" | "365days" | "allTime";
 
 const timeRanges: { [key in TimeRange]: string } = {
@@ -51,7 +58,7 @@ export default function UsageTimeChart() {
   const [timeData, setTimeData] = useState<TimeData | null>(null);
   const [usageTimeLimit, setUsageTimeLimit] = useState<number>(8);
 
-  const chartConfig = {
+  const chartConfig: ChartConfig = {
     timeWithin: {
       label: "Within 8 Hours",
       color: "#22c55e", // Color when time is within 8 hours
@@ -60,25 +67,40 @@ export default function UsageTimeChart() {
       label: "Exceeds 8 Hours",
       color: "#FE4C55", // Color when time exceeds 8 hours
     },
-  } satisfies ChartConfig;
+  };
 
   useEffect(() => {
     const fetchDateData = async () => {
       try {
-        const store = await load("userScreenOnTime.json", { autoSave: false });
+        // Load SQLite database
+        const db = await Database.load("sqlite:testUserScreenTime.db");
+        // Query all records from the table
+        const results = await db.select(
+          "SELECT date, first_timestamp, second_timestamp FROM time_data"
+        );
+        const typedResults = results as DatabaseRow[];
+        // Group the results by date into a TimeData object
+        const groupedData: TimeData = {};
+        typedResults.forEach((row: any) => {
+          const date = row.date;
+          if (!groupedData[date]) {
+            groupedData[date] = [];
+          }
+          groupedData[date].push({
+            firstTimestamp: row.first_timestamp,
+            secondTimestamp: row.second_timestamp,
+          });
+        });
+        setTimeData(groupedData);
+
+        // Load usage time limit from store.json if available
         const usageTimeLimitStore = await load("store.json", {
           autoSave: false,
         });
-        const usageTimeLimit = await usageTimeLimitStore.get<number>(
+        const usageLimit = await usageTimeLimitStore.get<number>(
           "usageTimeLimit"
         );
-        if (usageTimeLimit) setUsageTimeLimit(usageTimeLimit);
-        const storedInterval = await store.get<TimeData>("timeData");
-        if (storedInterval) {
-          setTimeData(storedInterval);
-        } else {
-          console.log("No data found in store");
-        }
+        if (usageLimit) setUsageTimeLimit(usageLimit);
       } catch (error) {
         console.error("Failed to load time data:", error);
       }
@@ -114,9 +136,8 @@ export default function UsageTimeChart() {
       .filter(([date]) => filterDate(date))
       .map(([date, timestamps]) => {
         const totalTime = timestamps.reduce(
-          (sum, { firstTimestamp, secondTimestamp }) => {
-            return sum + (secondTimestamp - firstTimestamp);
-          },
+          (sum, { firstTimestamp, secondTimestamp }) =>
+            sum + (secondTimestamp - firstTimestamp),
           0
         );
         return { date, totalTime };

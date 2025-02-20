@@ -1,5 +1,5 @@
-import { load } from "@tauri-apps/plugin-store";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { load } from "@tauri-apps/plugin-store";
 
 interface TimeStamp {
   firstTimestamp: number;

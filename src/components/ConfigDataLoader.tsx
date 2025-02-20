@@ -3,6 +3,7 @@ import { BaseDirectory } from "@tauri-apps/api/path";
 import { exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
 import { load } from "@tauri-apps/plugin-store";
+import { migrateScreenTimeToSQLite } from "../lib/migrateScreenTimeToSQLite";
 
 const ConfigDataLoader: React.FC = () => {
   const defaultWorkday = {
@@ -128,6 +129,10 @@ const ConfigDataLoader: React.FC = () => {
         );
       `);
       }
+
+      // Call the migration function on startup.
+      // It will check the flag and run only if the migration hasn't been done.
+      migrateScreenTimeToSQLite();
     };
 
     setupDatabase();
