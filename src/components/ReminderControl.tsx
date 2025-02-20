@@ -2,7 +2,6 @@ import React, { lazy, useEffect, useState } from "react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
-import { useTimeCountContext } from "../contexts/TimeCountContext";
 import { Progress } from "./ui/progress";
 import CurrentTime from "./CurrentTime";
 import ScreenOnTime from "./ScreenOnTime";
@@ -12,6 +11,7 @@ import Database from "@tauri-apps/plugin-sql";
 import { load } from "@tauri-apps/plugin-store";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
+import { useTimeCountContext } from "../contexts/TimeCountContext";
 // In the component where you're using React.lazy
 const TodayTodoTasks = lazy(() =>
   import("./TodayTodoTasks").then((module) => ({

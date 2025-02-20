@@ -162,174 +162,134 @@ const TodoPage: React.FC = () => {
 
   return (
     <div className="max-w-full space-y-2 relative">
-      {/* Add Task Section */}
-      <div className="space-y-2 max-w-lg mx-auto">
-        <div className="flex space-x-2">
-          <Input
-            placeholder="Add a new task"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addTask()}
-            className="flex-1"
-          />
-        </div>
-        {showDetailsInput && (
-          <Textarea
-            placeholder="Add details"
-            value={newTaskDetails}
-            onChange={(e) => setNewTaskDetails(e.target.value)}
-            className="mt-2"
-          />
-        )}
-        {newTask && (
-          <>
-            <div className="flex justify-end space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowDetailsInput(!showDetailsInput)}
-              >
-                <Text className="h-4 w-4 ml-2" />
-                Add details
-              </Button>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <CalendarIcon className="h-4 w-4 ml-2" />
-                    {newTaskDeadline ? (
-                      format(newTaskDeadline, "PPP")
-                    ) : (
-                      <span>Pick a deadline</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={newTaskDeadline}
-                    onSelect={setNewTaskDeadline}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-
-              <Button onClick={addTask} className="h-full">
-                Add Task
-              </Button>
+      <h3 className="text-2xl font-heading tracking-wide">TODO List</h3>
+      {canAccessPremiumFeatures ? (
+        <>
+          {/* Add Task Section */}
+          <div className="space-y-2 max-w-lg mx-auto">
+            <div className="flex space-x-2">
+              <Input
+                placeholder="Add a new task"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addTask()}
+                className="flex-1"
+              />
             </div>
-          </>
-        )}
-      </div>
-
-      {/* Active Tasks Section */}
-      {!showCompletedTasks && (
-        <ScrollArea className="space-y-2 max-w-lg h-[450px] mx-auto">
-          <div className="space-y-2">
-            {tasks.map((task) => (
-              <div
-                key={task.id}
-                className="flex items-center space-x-2 p-2 bg-gray-500/10 hover:bg-gray-500/20 rounded-md group"
-              >
-                <Checkbox
-                  checked={task.status === "done"}
-                  onCheckedChange={() => toggleTaskStatus(task)}
-                  className="border-gray-300 rounded-full p-3"
-                />
-                <div
-                  className="flex-1 cursor-pointer"
-                  onClick={() => setEditingTask(task)}
-                >
-                  {editingTask?.id === task.id ? (
-                    <div className="space-y-2">
-                      <Input
-                        value={editingTask.title}
-                        onChange={(e) =>
-                          setEditingTask({
-                            ...editingTask,
-                            title: e.target.value,
-                          })
-                        }
-                        onBlur={() => updateTask(editingTask)}
-                        onKeyDown={(e) =>
-                          e.key === "Enter" && updateTask(editingTask)
-                        }
-                        autoFocus
+            {showDetailsInput && (
+              <Textarea
+                placeholder="Add details"
+                value={newTaskDetails}
+                onChange={(e) => setNewTaskDetails(e.target.value)}
+                className="mt-2"
+              />
+            )}
+            {newTask && (
+              <>
+                <div className="flex justify-end space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowDetailsInput(!showDetailsInput)}
+                  >
+                    <Text className="h-4 w-4 ml-2" />
+                    Add details
+                  </Button>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <CalendarIcon className="h-4 w-4 ml-2" />
+                        {newTaskDeadline ? (
+                          format(newTaskDeadline, "PPP")
+                        ) : (
+                          <span>Pick a deadline</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={newTaskDeadline}
+                        onSelect={setNewTaskDeadline}
+                        initialFocus
                       />
-                      {editingTask.details !== undefined && (
-                        <Textarea
-                          value={editingTask.details || ""}
-                          onChange={(e) =>
-                            setEditingTask({
-                              ...editingTask,
-                              details: e.target.value,
-                            })
-                          }
-                          onBlur={() => updateTask(editingTask)}
-                          onKeyDown={(e) =>
-                            e.key === "Enter" && updateTask(editingTask)
-                          }
-                          placeholder="Optional details"
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <div>
-                      <p className="text-sm">{task.title}</p>
-                      {task.details && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          {task.details}
-                        </p>
-                      )}
-                      {task.deadline && (
-                        <p className="text-xs text-gray-500 flex items-center mt-1">
-                          <CalendarIcon className="h-3 w-3 mr-1" />
-                          {format(new Date(task.deadline), "PPP")}
-                        </p>
-                      )}
-                    </div>
-                  )}
+                    </PopoverContent>
+                  </Popover>
+
+                  <Button onClick={addTask} className="h-full">
+                    Add Task
+                  </Button>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => deleteTask(task.id)}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <Trash2 className="h-4 w-4 text-gray-500" />
-                </Button>
-              </div>
-            ))}
+              </>
+            )}
           </div>
-        </ScrollArea>
-      )}
-      {/* Completed Tasks Section */}
-      {completedTasks.length > 0 && (
-        <div className="max-w-lg mx-auto">
-          {showCompletedTasks && (
+
+          {/* Active Tasks Section */}
+          {!showCompletedTasks && (
             <ScrollArea className="space-y-2 max-w-lg h-[450px] mx-auto">
-              <div className="space-y-2 mt-2">
-                {completedTasks.map((task) => (
+              <div className="space-y-2">
+                {tasks.map((task) => (
                   <div
                     key={task.id}
-                    className="flex items-center space-x-2 p-2 bg-gray-500/20 hover:bg-gray-500/40 rounded-md group"
+                    className="flex items-center space-x-2 p-2 bg-gray-500/10 hover:bg-gray-500/20 rounded-md group"
                   >
                     <Checkbox
                       checked={task.status === "done"}
                       onCheckedChange={() => toggleTaskStatus(task)}
-                      className="border-gray-300 rounded-full h-6 w-6 "
+                      className="border-gray-300 rounded-full p-3"
                     />
-                    <div className="flex-1">
-                      <p className="text-sm line-through ">{task.title}</p>
-                      {task.details && (
-                        <p className="text-xs text-gray-400 line-through">
-                          {task.details}
-                        </p>
-                      )}
-                      {task.deadline && (
-                        <p className="text-xs text-gray-400 line-through flex items-center">
-                          <CalendarIcon className="h-3 w-3 mr-1" />
-                          {format(new Date(task.deadline), "PPP")}
-                        </p>
+                    <div
+                      className="flex-1 cursor-pointer"
+                      onClick={() => setEditingTask(task)}
+                    >
+                      {editingTask?.id === task.id ? (
+                        <div className="space-y-2">
+                          <Input
+                            value={editingTask.title}
+                            onChange={(e) =>
+                              setEditingTask({
+                                ...editingTask,
+                                title: e.target.value,
+                              })
+                            }
+                            onBlur={() => updateTask(editingTask)}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && updateTask(editingTask)
+                            }
+                            autoFocus
+                          />
+                          {editingTask.details !== undefined && (
+                            <Textarea
+                              value={editingTask.details || ""}
+                              onChange={(e) =>
+                                setEditingTask({
+                                  ...editingTask,
+                                  details: e.target.value,
+                                })
+                              }
+                              onBlur={() => updateTask(editingTask)}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && updateTask(editingTask)
+                              }
+                              placeholder="Optional details"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-sm">{task.title}</p>
+                          {task.details && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              {task.details}
+                            </p>
+                          )}
+                          {task.deadline && (
+                            <p className="text-xs text-gray-500 flex items-center mt-1">
+                              <CalendarIcon className="h-3 w-3 mr-1" />
+                              {format(new Date(task.deadline), "PPP")}
+                            </p>
+                          )}
+                        </div>
                       )}
                     </div>
                     <Button
@@ -345,31 +305,76 @@ const TodoPage: React.FC = () => {
               </div>
             </ScrollArea>
           )}
-          <Button
-            variant="ghost"
-            onClick={() => setShowCompletedTasks(!showCompletedTasks)}
-            className="w-full flex items-center justify-center"
-          >
-            <ChevronDown className="mr-2 h-4 w-4" />
-            {showCompletedTasks ? "Hide" : "Show"} Completed Tasks (
-            {completedTasks.length})
-          </Button>
-        </div>
-      )}
-      {!canAccessPremiumFeatures && (
-        <div className="absolute -top-4 left-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-3xl flex flex-col space-y-8 justify-center items-center rounded-lg">
+          {/* Completed Tasks Section */}
+          {completedTasks.length > 0 && (
+            <div className="max-w-lg mx-auto">
+              {showCompletedTasks && (
+                <ScrollArea className="space-y-2 max-w-lg h-[450px] mx-auto">
+                  <div className="space-y-2 mt-2">
+                    {completedTasks.map((task) => (
+                      <div
+                        key={task.id}
+                        className="flex items-center space-x-2 p-2 bg-gray-500/20 hover:bg-gray-500/40 rounded-md group"
+                      >
+                        <Checkbox
+                          checked={task.status === "done"}
+                          onCheckedChange={() => toggleTaskStatus(task)}
+                          className="border-gray-300 rounded-full h-6 w-6 "
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm line-through ">{task.title}</p>
+                          {task.details && (
+                            <p className="text-xs text-gray-400 line-through">
+                              {task.details}
+                            </p>
+                          )}
+                          {task.deadline && (
+                            <p className="text-xs text-gray-400 line-through flex items-center">
+                              <CalendarIcon className="h-3 w-3 mr-1" />
+                              {format(new Date(task.deadline), "PPP")}
+                            </p>
+                          )}
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => deleteTask(task.id)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <Trash2 className="h-4 w-4 text-gray-500" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
+              <Button
+                variant="ghost"
+                onClick={() => setShowCompletedTasks(!showCompletedTasks)}
+                className="w-full flex items-center justify-center"
+              >
+                <ChevronDown className="mr-2 h-4 w-4" />
+                {showCompletedTasks ? "Hide" : "Show"} Completed Tasks (
+                {completedTasks.length})
+              </Button>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className=" w-full h-96 flex flex-col space-y-8 justify-center items-center rounded-lg">
           <h3 className="text-center text-white font-heading tracking-wide text-3xl">
             Your support will help the developer to make this project better &
             add more features.
           </h3>
           <Button asChild>
             <Link
-              to="https://blinkeye.vercel.app/pricing"
+              to="https://blinkeye.app/pricing?utm_source=app_todo_page&utm_medium=cta&utm_campaign=break_reminder_todo_page"
               target="_blank"
               className="flex items-center justify-center px-6 py-3 bg-[#FE4C55] text-black text-lg rounded-lg hover:bg-[#e4434b] focus:outline-none"
             >
               <CheckCircle2Icon className="mr-2" />
-              Get a License to Support this project, And Unlock All Features.
+              Get a License to Support this project,{" "}
+              <span className="font-bold"> And Unlock TODO List</span>
             </Link>
           </Button>
         </div>

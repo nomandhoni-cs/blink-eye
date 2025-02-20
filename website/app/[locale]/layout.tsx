@@ -14,7 +14,8 @@ import { Footer } from "@/components/layout/footer";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ReactNode } from "react";
-import localFont from "next/font/local";
+import { Urbanist } from "next/font/google";
+// import localFont from "next/font/local";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -27,11 +28,16 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-const fontHeading = localFont({
-  src: "../../assets/fonts/CalSans-SemiBold.woff2",
+// const fontHeading = localFont({
+//   src: "../../assets/fonts/CalSans-SemiBold.woff2",
+//   variable: "--font-heading",
+// });
+// use Urbanist for heading font
+const fontHeading = Urbanist({
+  subsets: ["latin"],
   variable: "--font-heading",
+  weight: "700",
 });
-
 type Props = {
   children: ReactNode;
   params: { locale: string };
@@ -41,9 +47,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: Omit<Props, "children">) {
+export async function generateMetadata({ params }: Omit<Props, "children">) {
+  const { locale } = await params; // Await params here
   const t = await getTranslations({ locale, namespace: "Metadata" });
   // Retrieve the raw value for keywords
   const rawKeywords = t.raw("keywords"); // Gets the raw data, which is expected to be an array
@@ -80,10 +85,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocaleLayout({
-  children,
-  params: { locale },
-}: Props) {
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params; // Await params here
+
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as any)) {
     notFound();

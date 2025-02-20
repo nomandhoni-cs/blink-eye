@@ -6,7 +6,7 @@ coverImage: "https://utfs.io/f/93hqarYp4cDdsaadu4UNASiI9CX5PrgkjQbqKTBdx0uaHocZ"
 date: "2024-01-16T05:35:07.322Z"
 author:
   name: Noman Dhoni
-  picture: "https://avatars.githubusercontent.com/u/92979541"
+  picture: "https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdZT8ddjm1DAJj4rLcIU0t8PKSXMxTZOyQYdbC"
 ogImage:
   url: "https://utfs.io/f/93hqarYp4cDdsaadu4UNASiI9CX5PrgkjQbqKTBdx0uaHocZ"
 ---

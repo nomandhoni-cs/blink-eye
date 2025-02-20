@@ -9,6 +9,7 @@ import { PremiumFeaturesProvider } from "./contexts/PremiumFeaturesContext";
 import ConfigDataLoader from "./components/ConfigDataLoader";
 import ReminderHandler from "./components/ReminderHandler";
 import { TriggerProvider } from "./contexts/TriggerReRender";
+import ScreenTimeTracker from "./components/ScreenTimeTracker";
 
 if (!import.meta.env.DEV) {
   document.oncontextmenu = (event) => {
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <EncryptionComponent />
     <ConfigDataLoader />
+    <ScreenTimeTracker />
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <PremiumFeaturesProvider>
         <DefaultStartMinimize />

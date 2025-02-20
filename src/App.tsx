@@ -1,10 +1,11 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import { TimeCountProvider } from "./contexts/TimeCountContext";
 import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import TimeCountProvider from "./contexts/TimeCountContext";
+
 const ReminderControl = lazy(() => import("./components/ReminderControl"));
 const BeamOfLifeBGWrapper = lazy(
   () => import("./components/ReminderWindows/BeamOfLifeBGWrapper")
@@ -34,7 +35,6 @@ const ShootingMeteorBGWrapper = lazy(
   () => import("./components/ReminderWindows/ShootingMeteorBGWrapper")
 );
 
-// Lazy load route components
 const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
 const ScreenSaverWindow = lazy(
   () => import("./components/window/ScreenSaverWindow")
@@ -56,6 +56,42 @@ const AboutPage = lazy(() => import("./components/window/AboutPage"));
 const Soon = lazy(() => import("./components/window/Soon"));
 const TodoPage = lazy(() => import("./components/window/TodoPage"));
 
+// Define routes that use a background wrapper around ReminderControl
+const reminderWindowRoutes = [
+  { path: "/PlainReminderWindow", Wrapper: PlainBGWrapper },
+  { path: "/AuroraReminderWindow", Wrapper: AuroraBGWrapper },
+  { path: "/BeamOfLifeReminderWindow", Wrapper: BeamOfLifeBGWrapper },
+  { path: "/FreeSpiritReminderWindow", Wrapper: FreeSpiritBGWrapper },
+  { path: "/CanvasShapesReminderWindow", Wrapper: CanvasShapesBGWrapper },
+  {
+    path: "/ParticleBackgroundReminderWindow",
+    Wrapper: ParticleBackgroundBGWrapper,
+  },
+  {
+    path: "/PlainGradientAnimationReminderWindow",
+    Wrapper: PlainGradientAnimationBGWrapper,
+  },
+  {
+    path: "/StarryBackgroundReminderWindow",
+    Wrapper: StarryBackgroundBGWrapper,
+  },
+  { path: "/ShootingMeteorReminderWindow", Wrapper: ShootingMeteorBGWrapper },
+];
+
+// Define main application routes
+const layoutRoutes = [
+  { index: true, element: Dashboard },
+  { path: "reminderthemes", element: ReminderStyles },
+  { path: "usagetime", element: UsageTime },
+  { path: "todoList", element: TodoPage },
+  { path: "workday", element: Workday },
+  { path: "activatelicense", element: ActivateLicense },
+  { path: "allSettings", element: AllSettings },
+  { path: "screenSavers", element: ScreenSavers },
+  { path: "about", element: AboutPage },
+  { path: "soon", element: Soon },
+];
+
 function App() {
   const { isInitialized, error, retry } = useAutoStart();
 
@@ -71,7 +107,7 @@ function App() {
     <TimeCountProvider>
       <Router>
         <Routes>
-          {/* Standalone routes - no loading state */}
+          {/* Standalone routes */}
           <Route path="/reminder" element={<Reminder />} />
           <Route path="/screenSaverWindow" element={<ScreenSaverWindow />} />
           <Route
@@ -82,178 +118,36 @@ function App() {
               </Suspense>
             }
           />
-          <Route
-            path="/PlainReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <PlainBGWrapper>
-                  <ReminderControl />
-                </PlainBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/AuroraReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <AuroraBGWrapper>
-                  <ReminderControl />
-                </AuroraBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/BeamOfLifeReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <BeamOfLifeBGWrapper>
-                  <ReminderControl />
-                </BeamOfLifeBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/FreeSpiritReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <FreeSpiritBGWrapper>
-                  <ReminderControl />
-                </FreeSpiritBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/CanvasShapesReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <CanvasShapesBGWrapper>
-                  <ReminderControl />
-                </CanvasShapesBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/ParticleBackgroundReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <ParticleBackgroundBGWrapper>
-                  <ReminderControl />
-                </ParticleBackgroundBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/PlainGradientAnimationReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <PlainGradientAnimationBGWrapper>
-                  <ReminderControl />
-                </PlainGradientAnimationBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/StarryBackgroundReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <StarryBackgroundBGWrapper>
-                  <ReminderControl />
-                </StarryBackgroundBGWrapper>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/ShootingMeteorReminderWindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <ShootingMeteorBGWrapper>
-                  <ReminderControl />
-                </ShootingMeteorBGWrapper>
-              </Suspense>
-            }
-          />
-          {/* Main application routes with Layout and loading states */}
+
+          {/* Reminder window routes using background wrappers */}
+          {reminderWindowRoutes.map(({ path, Wrapper }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Wrapper>
+                    <ReminderControl />
+                  </Wrapper>
+                </Suspense>
+              }
+            />
+          ))}
+
+          {/* Main application routes with Layout */}
           <Route element={<Layout />}>
-            <Route
-              index
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Dashboard />
-                </Suspense>
-              }
-            />
-            <Route
-              path="reminderthemes"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <ReminderStyles />
-                </Suspense>
-              }
-            />
-            <Route
-              path="usagetime"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <UsageTime />
-                </Suspense>
-              }
-            />
-            <Route
-              path="todoList"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <TodoPage />
-                </Suspense>
-              }
-            />
-            <Route
-              path="workday"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Workday />
-                </Suspense>
-              }
-            />
-            <Route
-              path="activatelicense"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <ActivateLicense />
-                </Suspense>
-              }
-            />
-            <Route
-              path="allSettings"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <AllSettings />
-                </Suspense>
-              }
-            />
-            <Route
-              path="screenSavers"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <ScreenSavers />
-                </Suspense>
-              }
-            />
-            <Route
-              path="about"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <AboutPage />
-                </Suspense>
-              }
-            />
-            <Route
-              path="soon"
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Soon />
-                </Suspense>
-              }
-            />
+            {layoutRoutes.map(({ index, path, element: Element }) => (
+              <Route
+                key={path || "index"}
+                index={index}
+                path={path}
+                element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Element />
+                  </Suspense>
+                }
+              />
+            ))}
           </Route>
         </Routes>
       </Router>

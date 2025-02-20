@@ -21,6 +21,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "p2myfh92qq.ufs.sh",
+        pathname: "/f/**",
+      },
+      {
+        protocol: "https",
         hostname: "api.producthunt.com",
         pathname: "/widgets/embed-image/v1/**",
       },

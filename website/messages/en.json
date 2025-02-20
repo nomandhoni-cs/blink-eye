@@ -45,7 +45,7 @@
   "Metadata": {
     "appName": "Blink Eye",
     "title": "Best Eye Care & Break Timer for Mac, Windows, Linux",
-    "description": "A minimalist eye care reminder app to reduce eye strain, featuring customizable timers, full-screen popups, audio mute.",
+    "description": "Reduce eye strain & boost focus! Eye strain relief with 202020 rule, customizable break timers, screen time tracking, and a built-in task manager to stay productive.",
     "keywords": [
       "prevent rsi app",
       "prevent cvs app",
@@ -122,10 +122,10 @@
     "blogs": "Blogs"
   },
   "HeroBanner": {
-    "tagline": "A minimalist eye care reminder app for Windows, macOS, and Linux.",
-    "span1": "To reduce eye strain, featuring reminder with timers, full-screen popups. Based on",
+    "tagline": "Protect Your Eyes & ⚡ Boost Productivity with ⏳ Smart Break Reminders",
+    "span1": "Prevent eye strain, improve posture, and stay productive with Blink Eye! Follow the",
     "202020": "20-20-20",
-    "span2": "rule.",
+    "span2": "rule with smart break reminders, screen time tracking, and a built-in task manager—helping you work smarter and feel better every day.",
     "institute": "American Academy of Ophthalmology"
   },
   "DownloadApp": {
@@ -133,7 +133,7 @@
   },
   "FeatureGrid": {
     "featureTitle": "Features",
-    "featureSubtitle": "All the necessary productivity tool in one place."
+    "featureSubtitle": "All-in-One Eye Care & Productivity Toolkit"
   },
   "PricingGrid": {
     "pricingTitle": "Pricing",
