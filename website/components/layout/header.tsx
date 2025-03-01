@@ -75,8 +75,8 @@ export const Header = () => {
       {/* Pill Navbar */}
       <div
         className={cn(
-          "transition-all duration-300 ease-in-out",
-          scrolled ? "block" : "hidden"
+          "transition-all duration-300 ease-in-out hidden ",
+          scrolled ? "sm:block" : "hidden"
         )}
       >
         <nav className="flex items-center justify-center py-2">

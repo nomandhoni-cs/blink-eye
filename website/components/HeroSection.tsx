@@ -8,7 +8,7 @@ const HeroSection = () => {
     <div className="flex max-w-[1440px] mx-auto flex-col items-center gap-4 text-center mt-10 mb-16">
       <div className="flex items-center justify-center gap-2 mb-4">
         <Image
-          src="https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdY0euKxvcTyVLEjQxOU1ovp9SM8PzDAnJKZs2"
+          src="https://utfs.io/f/93hqarYp4cDdY0euKxvcTyVLEjQxOU1ovp9SM8PzDAnJKZs2"
           alt="Blink Eye Logo"
           width={40}
           height={40}
@@ -44,12 +44,12 @@ const HeroSection = () => {
         {t("span2")}
       </div>
       <div className="flex items-center justify-center gap-2 mt-2 motion-preset-blur-right motion-duration-1000">
-        <img
-          src="https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdjZZQwahyxJHVZk154Yhc37X0ag2LBmlSIEqj"
+        <Image
+          src="https://utfs.io/f/93hqarYp4cDdRor7EOWs3IvZkCG1g7rYl8WhFVBbNozK265e"
           alt="User's of Blink Eye"
-          // width={80}
-          // height={40}
-          className="h-10 w-auto"
+          width={100}
+          height={40}
+          // className="h-10 w-auto"
         />
         <span className="text-muted-foreground">
           Used and Trusted by <b>5,000+</b> Users
