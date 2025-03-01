@@ -11,7 +11,7 @@ import {
   Check,
   Gift,
 } from "lucide-react";
-import Image from "next/image";
+// import Image from "next/image";
 
 const PROMO_END_DATE_KEY = "promoEndDate";
 const PROMO_CODE = "EXCLUSIVE10";
@@ -135,12 +135,12 @@ export default function OfferModal() {
                 {/* Middle section with image and trusted text side by side */}
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="relative">
-                    <Image
+                    <img
                       src="https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdjZZQwahyxJHVZk154Yhc37X0ag2LBmlSIEqj"
                       alt="Users of Blink Eye"
-                      width={140}
-                      height={50}
-                      className=""
+                      // width={140}
+                      // height={50}
+                      className="h-16 w-auto"
                     />
                     <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full">
                       <div className="flex space-x-1">
