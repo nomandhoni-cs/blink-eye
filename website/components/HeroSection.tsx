@@ -44,11 +44,12 @@ const HeroSection = () => {
         {t("span2")}
       </div>
       <div className="flex items-center justify-center gap-2 mt-2 motion-preset-blur-right motion-duration-1000">
-        <Image
+        <img
           src="https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdjZZQwahyxJHVZk154Yhc37X0ag2LBmlSIEqj"
           alt="User's of Blink Eye"
-          width={80}
-          height={40}
+          // width={80}
+          // height={40}
+          className="h-10 w-auto"
         />
         <span className="text-muted-foreground">
           Used and Trusted by <b>5,000+</b> Users
