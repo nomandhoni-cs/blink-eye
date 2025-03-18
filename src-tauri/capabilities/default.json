@@ -16,7 +16,8 @@
     "ParticleBackgroundReminderWindow",
     "PlainGradientAnimationReminderWindow",
     "StarryBackgroundReminderWindow",
-    "ShootingMeteorReminderWindow"
+    "ShootingMeteorReminderWindow",
+    "before_alert"
   ],
   "permissions": [
     {
