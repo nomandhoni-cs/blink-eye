@@ -1,8 +1,8 @@
 name: Blink Eye Auto Draft Release
 on:
   pull_request:
-    branches: [ master ]
-
+    branches: [master]
+  workflow_dispatch: # Allows manual triggering from GitHub UI
 jobs:
   build:
     permissions:
@@ -11,91 +11,91 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest' # for Arm based macs (M1 and above)
-            args: '--target aarch64-apple-darwin'
-          - platform: 'macos-latest' # for Intel based macs
-            args: '--target x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04' # for Tauri v2
-            args: ''
-          - platform: 'windows-latest'
-            args: ''
+          - platform: "macos-latest" # for Arm based macs (M1 and above)
+            args: "--target aarch64-apple-darwin"
+          - platform: "macos-latest" # for Intel based macs
+            args: "--target x86_64-apple-darwin"
+          - platform: "ubuntu-22.04" # for Tauri v2
+            args: ""
+          - platform: "windows-latest"
+            args: ""
 
     runs-on: ${{ matrix.platform }}
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 'lts/*'
-        
-    - name: Install Bun
-      uses: oven-sh/setup-bun@v2
-      with:
-        bun-version: latest
-        
-    - name: Cache Bun dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.bun/install/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
-        restore-keys: |
-          ${{ runner.os }}-bun-
+      - uses: actions/checkout@v4
 
-    - name: Cache Rust dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cargo/registry/index/
-          ~/.cargo/registry/cache/
-          ~/.cargo/git/
-          src-tauri/target/
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cargo-
-        
-    - name: Install Rust stable
-      uses: dtolnay/rust-toolchain@stable
-      with:
-        targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-        
-    - name: Install dependencies (ubuntu only)
-      if: matrix.platform == 'ubuntu-22.04'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          libwebkit2gtk-4.1-dev \
-          libappindicator3-dev \
-          librsvg2-dev \
-          libgtk-4-dev \
-          patchelf \
-          openssl \
-          libssl-dev \
-          build-essential
-        
-    - name: Install frontend dependencies
-      run: bun install
-      
-    - uses: tauri-apps/tauri-action@v0.5.16
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
-        TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-        TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        NODE_OPTIONS: --openssl-legacy-provider  # Add this for Web Crypto API
-      with:
-        tagName: v__VERSION__
-        releaseName: 'v__VERSION__'
-        releaseBody: 'See the assets to download this version and install.'
-        releaseDraft: true
-        prerelease: false
-        includeUpdaterJson: true
-        updaterJsonPreferNsis: true
-        args: ${{ matrix.args }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
 
-    - name: Upload release artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: release-${{ matrix.platform }}
-        path: src-tauri/target/release/bundle/**
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/
+            src-tauri/target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            libgtk-4-dev \
+            patchelf \
+            openssl \
+            libssl-dev \
+            build-essential
+
+      - name: Install frontend dependencies
+        run: bun install
+
+      - uses: tauri-apps/tauri-action@v0.5.16
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          NODE_OPTIONS: --openssl-legacy-provider # Add this for Web Crypto API
+        with:
+          tagName: v__VERSION__
+          releaseName: "v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: true
+          prerelease: false
+          includeUpdaterJson: true
+          updaterJsonPreferNsis: true
+          args: ${{ matrix.args }}
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}
+          path: src-tauri/target/release/bundle/**
