@@ -59,6 +59,14 @@
         }
       ]
     },
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        {
+          "path": "$RESOURCE/*"
+        }
+      ]
+    },
     "core:default",
     "shell:allow-open",
     "autostart:allow-enable",

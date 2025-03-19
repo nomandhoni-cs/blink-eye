@@ -4,18 +4,29 @@ import { XIcon } from "lucide-react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import logo from "./assets/newIcon.png";
 import { Button } from "./components/ui/button";
-import { handlePlayAudio } from "./lib/audioPlayer";
+// import { handlePlayAudio } from "./lib/audioPlayer";
 import AllSetText from "./components/AllSetText";
 import "./App.css";
+// import * as path from "@tauri-apps/api/path";
+// import { convertFileSrc } from "@tauri-apps/api/core";
+import audio from "./assets/before_alert_sound.mp3";
 
 const Alert = () => {
+  const handlePlayAudio = async () => {
+    try {
+      let reminderEndSound = new Audio(audio);
+      reminderEndSound.play();
+    } catch (error) {
+      console.error("Error playing audio:", error);
+    }
+  };
   const [timeLeft, setTimeLeft] = useState(13);
 
   const [showAllSet, setShowAllSet] = useState(true);
   const window = getCurrentWebviewWindow();
 
   useEffect(() => {
-    handlePlayAudio("before_alert.mp3");
+    handlePlayAudio();
 
     // Show AllSet text for 2.5 seconds, then switch to controls
     const timer = setTimeout(() => {
