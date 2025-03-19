@@ -10,10 +10,6 @@ import { useTrigger } from "../../contexts/TriggerReRender";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
-import BeforeAlert from "../BeforeAlert";
-import AnimatedIcon from "../../assets/AnimatedIcon";
-import AllSetText from "../AllSetText";
-
 // import IdleTimeButton from "../IdleTimeButton";
 
 const Dashboard = () => {
@@ -150,11 +146,6 @@ const Dashboard = () => {
 
   return (
     <div className="p-4 space-y-4">
-      <BeforeAlert />
-      <div className="flex item justify-between h-10 px-3">
-        {/* <AllSetText /> */}
-        {/* <AnimatedIcon /> */}
-      </div>
       <div className="flex justify-between items-center space-x-8">
         <div>
           <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">

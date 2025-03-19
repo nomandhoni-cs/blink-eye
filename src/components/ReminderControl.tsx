@@ -6,7 +6,7 @@ import { Progress } from "./ui/progress";
 import CurrentTime from "./CurrentTime";
 import ScreenOnTime from "./ScreenOnTime";
 import { Button } from "./ui/button";
-import { CloudDownload, SkipForward } from "lucide-react";
+import { ChevronsRight, CloudDownload } from "lucide-react";
 import Database from "@tauri-apps/plugin-sql";
 import { load } from "@tauri-apps/plugin-store";
 import { convertFileSrc } from "@tauri-apps/api/core";
@@ -238,9 +238,9 @@ const ReminderControl: React.FC = () => {
               <Button
                 onClick={() => appWindow.close()}
                 variant="outline"
-                className="bg-transparent hover:bg-[#FE4C55] border-[#FE4C55] hover:border-transparent transition-colors"
+                className="bg-gray-500/5 opacity-80 backdrop-blur-2xl rounded-full shadow-2xl transition-colors border"
               >
-                <SkipForward className="w-4 h-4 mr-2" />
+                <ChevronsRight className="w-4 h-4 mr-1" />
                 Skip this time
               </Button>
             )}

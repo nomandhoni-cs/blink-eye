@@ -43,7 +43,7 @@ const Alert = () => {
   };
 
   return (
-    <div className="h-screen w-full flex items-center justify-between bg-black/90 rounded-3xl px-4 backdrop-blur-3xl border border-white/20 shadow-lg shadow-[rgba(31,38,135,0.37)] animate-in slide-in-from-top duration-300">
+    <div className="h-screen w-full opacity-80 flex items-center justify-between bg-black/90 rounded-3xl px-4 backdrop-blur-3xl border border-white/20 shadow-lg shadow-[rgba(31,38,135,0.37)] animate-in slide-in-from-top duration-300">
       {!showAllSet && <img src={logo} className="h-12 w-12" alt="Blink Eye" />}
       <h2 className="font-heading text-white text-6xl mx-auto">
         {showAllSet ? (

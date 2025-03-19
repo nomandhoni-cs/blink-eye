@@ -54,6 +54,10 @@ const ConfigDataLoader: React.FC = () => {
           "usingStrictMode",
           "false",
         ]);
+        await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
+          "useCircleProgressTimerStyle",
+          "true",
+        ]);
         // await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
         //   "showPauseButton",
         //   "false",
