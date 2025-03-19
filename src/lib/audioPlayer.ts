@@ -5,7 +5,6 @@ export const handlePlayAudio = async (file_name: string) => {
     const resourceDirDataPath = await path.resourceDir();
     const filePath = await path.join(resourceDirDataPath, file_name);
     let reminderEndSound = new Audio(convertFileSrc(filePath));
-    reminderEndSound.volume = 0.5;
     reminderEndSound.play();
   } catch (error) {
     console.error("Error playing audio:", error);
