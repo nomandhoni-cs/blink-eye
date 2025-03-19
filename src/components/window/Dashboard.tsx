@@ -10,7 +10,6 @@ import { useTrigger } from "../../contexts/TriggerReRender";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
-
 // import IdleTimeButton from "../IdleTimeButton";
 
 const Dashboard = () => {

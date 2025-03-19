@@ -1,0 +1,269 @@
+
+
+.box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: #fe4c55;
+    border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    padding: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+    animation: morphShape 15s ease-in-out infinite;
+    -webkit-animation: morphShape 15s ease-in-out infinite;
+}
+
+.box:hover {
+    cursor: help;
+}
+
+.eyeContainer {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.eyeLid {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    background-color: white;
+    border-radius: 50% 50% 49% 51% / 67% 68% 32% 33%;
+    box-shadow: inset -17px -10px 12.5px rgba(0, 0, 0, 0.144);
+    -webkit-animation-name: blink;
+    -webkit-animation-duration: 15s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-transform-origin: 50%;
+    animation-name: blink;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+    transform-origin: 50%;
+    animation-play-state: running;
+    align-items: center;
+    justify-content: center;
+}
+
+.eyes {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eye {
+    width: 50%;
+    height: 50%;
+    background-color: #000;
+    border-radius: 50%;
+    position: relative;
+    top: 5%;
+    left: -5%;
+    animation: eyeball 15s ease-in-out infinite;
+    -webkit-animation: eyeball 15s ease-in-out infinite;
+}
+
+.eye:after {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    background-color: white;
+    border-radius: 50%;
+    top: -10%;
+    left: 20%;
+}
+
+@keyframes blink {
+    0% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    10% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    10.5% {
+        transform: scaleX(1.3) scaleY(0.1);
+    }
+
+    11% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    40% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    40.5% {
+        transform: scaleX(1.3) scaleY(0.1);
+    }
+
+    41% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    70% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    70.5% {
+        transform: scaleX(1.3) scaleY(0.1);
+    }
+
+    71% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    100% {
+        transform: scaleX(1) scaleY(1);
+    }
+}
+
+@-webkit-keyframes blink {
+
+    0%,
+    10%,
+    40%,
+    70%,
+    100% {
+        -webkit-transform: scaleX(1) scaleY(1);
+    }
+
+    10.5%,
+    40.5%,
+    70.5% {
+        -webkit-transform: scaleX(1.3) scaleY(0.1);
+    }
+
+    11%,
+    41%,
+    71% {
+        -webkit-transform: scaleX(1) scaleY(1);
+    }
+}
+
+@keyframes eyeball {
+
+    0%,
+    10% {
+        top: 5%;
+        left: -5%;
+    }
+
+    10.5% {
+        top: 2%;
+        left: -5%;
+    }
+
+    11%,
+    40% {
+        top: 5%;
+        left: -5%;
+    }
+
+    40.5% {
+        top: 0%;
+        left: 10%;
+    }
+
+    41%,
+    70% {
+        top: 2%;
+        left: 10%;
+    }
+
+    70.5% {
+        top: 4%;
+        left: -3%;
+    }
+
+    71%,
+    100% {
+        top: 5%;
+        left: -5%;
+    }
+}
+
+@-webkit-keyframes eyeball {
+
+    0%,
+    10% {
+        top: 5%;
+        left: -5%;
+    }
+
+    10.5% {
+        top: 2%;
+        left: -5%;
+    }
+
+    11%,
+    40% {
+        top: 5%;
+        left: -5%;
+    }
+
+    40.5% {
+        top: 0%;
+        left: 10%;
+    }
+
+    41%,
+    70% {
+        top: 2%;
+        left: 10%;
+    }
+
+    70.5% {
+        top: 4%;
+        left: -3%;
+    }
+
+    71%,
+    100% {
+        top: 5%;
+        left: -5%;
+    }
+}
+
+@keyframes morphShape {
+    0% {
+        border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    }
+
+    40% {
+        border-radius: 30% 70% 70% 30% / 40% 60% 40% 60%;
+    }
+
+    70% {
+        border-radius: 50% 50% 30% 70% / 60% 60% 40% 40%;
+    }
+
+    100% {
+        border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    }
+}
+
+@-webkit-keyframes morphShape {
+    0% {
+        border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    }
+
+    40% {
+        border-radius: 30% 70% 70% 30% / 40% 60% 40% 60%;
+    }
+
+    70% {
+        border-radius: 50% 50% 30% 70% / 60% 60% 40% 40%;
+    }
+
+    100% {
+        border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    }
+}

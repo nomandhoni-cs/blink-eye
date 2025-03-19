@@ -4,6 +4,7 @@ import Database from "@tauri-apps/plugin-sql";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { load } from "@tauri-apps/plugin-store";
 import { useTrigger } from "../contexts/TriggerReRender";
+import { currentMonitor } from "@tauri-apps/api/window";
 
 // Define the type for workday configuration
 type Workday = { [day: string]: { start: string; end: string } } | null;
@@ -88,10 +89,59 @@ const ReminderHandler = () => {
   useEffect(() => {
     console.log("Initializing reminder logic");
     let timer: number | null = null;
+    let demoTimer: number | null = null;
+
+    const showDemoReminder = async () => {
+      const monitor = await currentMonitor();
+      const windowWidth = 320;
+      const windowHeight = 80;
+
+      // // Calculate position for bottom center
+      // const x = monitor
+      //   ? Math.round((monitor.size.width - windowWidth) / 2) +
+      //     monitor.position.x
+      //   : 0;
+      // const y = monitor
+      //   ? monitor.size.height - windowHeight - 20 + monitor.position.y // 20px from bottom
+      //   : 0;
+      const x = monitor
+        ? Math.round((monitor.size.width - windowWidth) / 2) +
+          monitor.position.x
+        : 0;
+      const y = monitor
+        ? monitor.position.y + 80 // 20px from top
+        : 0;
+      const webview = new WebviewWindow("before_alert", {
+        url: `/alert.html`,
+        title: "Test Window - Blink Eye",
+        transparent: true,
+        shadow: false,
+        alwaysOnTop: true,
+        skipTaskbar: true,
+        focus: false,
+        height: windowHeight,
+        width: windowWidth,
+        decorations: false,
+        resizable: false,
+        x,
+        y,
+      });
+      webview.once("tauri://created", () => {
+        console.log("Test window created");
+      });
+      webview.once("tauri://error", (e) => {
+        console.error("Error creating test window:", e);
+      });
+    };
 
     const startReminder = () => {
       console.log("Starting reminder timer with interval:", interval);
       timer = window.setInterval(() => {
+        // Schedule demo 15 seconds before main reminder
+        demoTimer = window.setTimeout(() => {
+          showDemoReminder();
+        }, interval * 60 * 1000 - 15000);
+
         if (!canAccessPremiumFeatures) {
           openReminderWindow("PlainReminderWindow");
           return;
@@ -171,7 +221,8 @@ const ReminderHandler = () => {
     }
 
     return () => {
-      if (timer !== null) window.clearInterval(timer); // Cleanup previous timers
+      if (timer !== null) window.clearInterval(timer);
+      if (demoTimer !== null) window.clearTimeout(demoTimer);
     };
   }, [workday, isWorkdayEnabled, canAccessPremiumFeatures, interval]);
 

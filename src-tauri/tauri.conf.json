@@ -48,7 +48,8 @@
       "icons/icon.png"
     ],
     "resources": {
-      "assets/done.mp3": "done.mp3"
+      "assets/done.mp3": "done.mp3",
+      "assets/before_alert_sound.mp3": "before_alert_sound.mp3"
     },
     "externalBin": [],
     "copyright": "Noman Dhoni",
