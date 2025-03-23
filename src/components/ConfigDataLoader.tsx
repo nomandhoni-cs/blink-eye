@@ -54,6 +54,10 @@ const ConfigDataLoader: React.FC = () => {
           "usingStrictMode",
           "false",
         ]);
+        await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
+          "useCircleProgressTimerStyle",
+          "true",
+        ]);
         // await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
         //   "showPauseButton",
         //   "false",
@@ -72,7 +76,7 @@ const ConfigDataLoader: React.FC = () => {
         await store.set("blinkEyeReminderInterval", 20);
         await store.set(
           "blinkEyeReminderScreenText",
-          "Look 20 feet away to protect your eyes."
+          "Pause! Look into the distance, and best if you walk a bit."
         );
         await store.set("screenOnTimeLimit", 8);
         await store.save();

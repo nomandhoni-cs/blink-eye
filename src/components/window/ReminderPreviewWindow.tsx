@@ -165,7 +165,8 @@ const ReminderPreviewWindow: React.FC = () => {
           <ScreenOnTime timeCount={timeCount} />
         </div>
         <div className="text-5xl font-semibold text-center px-4 pb-4">
-          {reminderText || "Look 20 feet far away to protect your eyes."}
+          {reminderText ||
+            "Pause! Look into the distance, and best if you walk a bit."}
         </div>
         <Button
           onClick={() => appWindow.close()}

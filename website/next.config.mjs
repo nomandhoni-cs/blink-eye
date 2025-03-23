@@ -29,6 +29,12 @@ const nextConfig = {
         hostname: "api.producthunt.com",
         pathname: "/widgets/embed-image/v1/**",
       },
+      {
+        protocol: "https",
+        hostname: "contrib.rocks",
+        pathname: "/image",
+
+      },
     ],
   },
 };

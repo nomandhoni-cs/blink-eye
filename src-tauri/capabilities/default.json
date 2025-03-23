@@ -16,7 +16,8 @@
     "ParticleBackgroundReminderWindow",
     "PlainGradientAnimationReminderWindow",
     "StarryBackgroundReminderWindow",
-    "ShootingMeteorReminderWindow"
+    "ShootingMeteorReminderWindow",
+    "before_alert"
   ],
   "permissions": [
     {
@@ -55,6 +56,14 @@
       "allow": [
         {
           "path": "$APPDATA/*"
+        }
+      ]
+    },
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        {
+          "path": "$RESOURCE/*"
         }
       ]
     },
