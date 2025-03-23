@@ -1,4 +1,4 @@
-import OfferModal from "@/components/OfferModal";
+// import OfferModal from "@/components/OfferModal";
 import PricingSection from "@/components/pricing-section";
 import { SEO } from "@/configs/seo";
 import { routing } from "@/i18n/routing";
@@ -57,7 +57,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const Pricing = () => {
   return (
     <>
-      <OfferModal />
+      {/* <OfferModal /> */}
       <PricingSection />
     </>
   );
