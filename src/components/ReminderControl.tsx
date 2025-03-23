@@ -162,7 +162,8 @@ const ReminderControl: React.FC = () => {
                 <ScreenOnTime timeCount={timeCount} />
               </div>
               <div className="text-5xl font-semibold text-center px-4 pb-4">
-                {reminderText || "Look 20 feet far away to protect your eyes."}
+                {reminderText ||
+                  "Pause! Look into the distance, and best if you walk a bit."}
               </div>
               <div className="flex space-x-4">
                 {!isUsingStrictMode && (
@@ -224,11 +225,12 @@ const ReminderControl: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-6xl font-semibold text-center mb-6 max-w-7xl">
-              {reminderText || "Look 20 feet away to protect your eyes"}
+            <div className="text-6xl font-heading text-center mb-6 w-full max-w-screen-2xl">
+              {reminderText ||
+                "Pause! Look into the distance, and best if you walk a bit."}
             </div>
 
-            <div className="flex justify-center items-center space-x-4 mb-8">
+            <div className="flex justify-center items-center space-x-4 mb-8 font-heading opacity-70">
               <CurrentTime />
               <div className="w-1 h-8 opacity-20 bg-black dark:bg-white" />
               <ScreenOnTime timeCount={timeCount} />
@@ -238,9 +240,9 @@ const ReminderControl: React.FC = () => {
               <Button
                 onClick={() => appWindow.close()}
                 variant="outline"
-                className="bg-gray-500/5 opacity-80 backdrop-blur-2xl rounded-full shadow-2xl transition-colors border"
+                className="bg-white/5 opacity-70 backdrop-blur-2xl rounded-full shadow-2xl transition-colors border border-white/20 hover:bg-white/20"
               >
-                <ChevronsRight className="w-4 h-4 mr-1" />
+                <ChevronsRight className="w-5 h-5 mr-1" />
                 Skip this time
               </Button>
             )}

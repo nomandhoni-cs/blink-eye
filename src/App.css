@@ -5,9 +5,9 @@
   @font-face {
     font-family: 'CalSans';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     font-display: swap;
-    src: url(./assets/CalSans-SemiBold.woff2) format('woff2');
+    src: url(./assets/Urbanist-Bold.woff2) format('woff2');
   }
 }
 

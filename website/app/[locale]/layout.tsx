@@ -9,7 +9,7 @@ import { SEO } from "@/configs/seo";
 import { Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/utils/cn";
-import StarryBackground from "@/components/StarryBackground";
+// import StarryBackground from "@/components/StarryBackground";
 import { Footer } from "@/components/layout/footer";
 import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -119,16 +119,16 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Providers>
             <Header />
             <main className="flex flex-1 flex-col">
-              <div className="relative isolate">
-                <StarryBackground />
-                {/* <div
+              {/* <div className="relative isolate"> */}
+              {/* <StarryBackground /> */}
+              {/* <div
                 className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden"
                 aria-hidden="true"
               >
                 <AuroraBackground />
               </div> */}
-                {children}
-              </div>
+              {children}
+              {/* </div> */}
             </main>
             <Footer />
             <MediaQueriesDebug />

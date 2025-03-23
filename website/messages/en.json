@@ -122,7 +122,7 @@
     "blogs": "Blogs"
   },
   "HeroBanner": {
-    "tagline": "Protect Your Eyes & ⚡ Boost Productivity with ⏳ Smart Break Reminders",
+    "tagline": "Eye Care & ⏳ Break Time Reminder, with Screen time tracking and Task Reminder.",
     "span1": "Prevent eye strain, improve posture, and stay productive with Blink Eye! Follow the",
     "202020": "20-20-20",
     "span2": "rule with smart break reminders, screen time tracking, and a built-in task manager—helping you work smarter and feel better every day.",
@@ -136,8 +136,8 @@
     "featureSubtitle": "All-in-One Eye Care & Productivity Toolkit"
   },
   "PricingGrid": {
-    "pricingTitle": "Pricing",
-    "pricingDescription": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "pricingTitle": "Support & Unlock More Features",
+    "pricingDescription": "Blink Eye is open-source and community-driven. By purchasing a license, you're not just unlocking premium features—you’re supporting the developers, funding future improvements, and ensuring this project continues to grow. Your contribution helps keep innovation alive while making eye care accessible for everyone."
   },
   "FeatureDemoSlide1": {
     "title": "Customizable Reminders"
@@ -328,7 +328,7 @@
   ],
   "pricingSectionHeader": {
     "title": "Choose the right plan for you",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "description": "Blink Eye is open-source and community-driven. By purchasing a license, you're not just unlocking premium features—you’re supporting the developers, funding future improvements, and ensuring this project continues to grow. Your contribution helps keep innovation alive while making eye care accessible for everyone."
   },
   "ReleaseInfo": {
     "metaTitle": "Blink Eye {tag} Release Info",
@@ -349,7 +349,7 @@
   },
   "pricingPage": {
     "title": "Pricing",
-    "description": "Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales."
+    "description": "Blink Eye is open-source and community-driven. By purchasing a license, you're not just unlocking premium features—you’re supporting the developers, funding future improvements, and ensuring this project continues to grow. Your contribution helps keep innovation alive while making eye care accessible for everyone."
   },
   "howtousePage": {
     "title": "How to Use",

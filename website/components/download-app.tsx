@@ -18,6 +18,7 @@ import {
   EmptyButtonWithoutLink,
 } from "./ui/without-link-button";
 import { DownloadIcon } from "lucide-react";
+import TimerDemo from "./TimerDemo";
 
 const DownloadApp = ({ releaseData }) => {
   let downloadLinks: { [key: string]: string | null } = {
@@ -38,12 +39,15 @@ const DownloadApp = ({ releaseData }) => {
   }
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8">
+      <div className="space-y-4">
+        <DownloadButtons downloadLinks={downloadLinks} />
+      </div>
+      <TimerDemo />
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading text-center mb-8">
+        {/* <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading text-center mb-8">
           Download Free & Start Now
-        </h2>
-        <div className="space-y-4">
-          <DownloadButtons downloadLinks={downloadLinks} />
+          </h2> */}
+        <div className="max-w-5xl mx-auto">
           <Command />
           <SupportedPlatforms />
           <ReleaseInfo tag_name={tag_name} />
@@ -115,7 +119,7 @@ const DownloadButtons = ({ downloadLinks }) => (
     <DownloadOption
       name="Linux"
       icon={<LinuxIcon />}
-      mainLink={downloadLinks.linuxDeb}
+      mainLink={downloadLinks.linuxAppImage}
       dropdownLinks={[
         { href: downloadLinks.linuxAppImage, label: "Download (AppImage)" },
         { href: downloadLinks.linuxDeb, label: "Download (Debian)" },
