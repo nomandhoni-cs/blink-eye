@@ -30,7 +30,6 @@ import { Button } from "./ui/button";
 import { ModeToggle } from "./ThemeToggle";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Separator } from "./ui/separator";
-import BeforeAlert from "./BeforeAlert";
 
 // Menu items.
 const items = [
@@ -103,7 +102,6 @@ export function AppSidebar() {
             </SidebarGroupLabel>
             <ModeToggle />
           </div>
-          <BeforeAlert />
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item, index) => (

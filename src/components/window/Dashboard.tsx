@@ -217,7 +217,7 @@ const Dashboard = () => {
             <Input
               type="text"
               id="reminder-text"
-              placeholder="Look 20 feet away to protect your eyes."
+              placeholder="Pause! Look into the distance, and best if you walk a bit."
               value={reminderText}
               onChange={(e) => setReminderText(e.target.value)}
               className="bg-background"
