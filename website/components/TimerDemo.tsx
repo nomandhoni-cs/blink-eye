@@ -160,7 +160,7 @@ export default function TimerDemo() {
   return (
     <section
       ref={sectionRef}
-      className="py-16 px-4 flex justify-center items-center transition-all duration-300"
+      className="py-16 px-4 flex justify-center items-center transition-all duration-300 hidden sm:block"
     >
       <div className="w-full max-w-6xl mx-auto">
         {/* 16:9 aspect ratio container */}
