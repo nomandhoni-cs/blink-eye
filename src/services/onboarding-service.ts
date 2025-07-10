@@ -113,7 +113,7 @@ export class OnboardingService {
     // TODO: Validate and save license
     // const isValid = await validateLicense(licenseKey)
     // if (isValid) await db.user.update({ licenseKey })
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log("✅ License key saved");
   }
 

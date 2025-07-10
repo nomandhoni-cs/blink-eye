@@ -16,6 +16,7 @@ import GradientBackground from "./components/GradientBackground";
 import TodoPage from "./components/window/TodoPage";
 import ActivateLicense from "./components/window/ActivateLicense";
 import Database from "@tauri-apps/plugin-sql";
+import { ModeToggle } from "./components/ThemeToggle";
 
 export default function UserOnboarding() {
   // State Management
@@ -187,6 +188,10 @@ export default function UserOnboarding() {
         toColor="#FE4C55"
       />
       <div className="h-full pb-32 p-8 overflow-auto">{renderScreen()}</div>
+      {/* Top Right corner theme toggle  */}
+      <div className="absolute top-4 right-4">
+        <ModeToggle />
+      </div>
 
       {/* Fixed Bottom Navigation */}
       <div className="absolute bottom-0 left-0 right-0 border-t border-t-foreground/10 p-4 space-y-4 shadow-lg">
