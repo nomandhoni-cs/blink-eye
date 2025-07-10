@@ -20,7 +20,7 @@
     box-shadow: inset -17px -10px 12.5px rgba(0, 0, 0, 0.144);
 
     /* Animation for the blink */
-    animation: blink 15s infinite;
+    animation: blink 10s infinite;
     transform-origin: 50%;
 
     /* This is crucial to keep the moving pupil inside the white eyeball. */
@@ -41,7 +41,7 @@
     background-color: #08090a;
 
     /* Animation for the pupil movement */
-    animation: eyeball 15s infinite;
+    animation: eyeball 10s infinite;
     transform-origin: 30%;
 }
 

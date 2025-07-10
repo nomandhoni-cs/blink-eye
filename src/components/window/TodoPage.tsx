@@ -162,14 +162,16 @@ const TodoPage: React.FC = () => {
 
   return (
     <div className="max-w-full space-y-2 relative">
-      <h3 className="text-2xl font-heading tracking-wide">TODO List</h3>
+      <h3 className="text-2xl text-center font-heading tracking-wide">
+        TODO List
+      </h3>
       {canAccessPremiumFeatures ? (
         <>
           {/* Add Task Section */}
           <div className="space-y-2 max-w-lg mx-auto">
             <div className="flex space-x-2">
               <Input
-                placeholder="Add a new task"
+                placeholder="Add a new task or Reminder"
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addTask()}
@@ -226,7 +228,7 @@ const TodoPage: React.FC = () => {
 
           {/* Active Tasks Section */}
           {!showCompletedTasks && (
-            <ScrollArea className="space-y-2 max-w-lg h-[450px] mx-auto">
+            <ScrollArea className="space-y-2 max-w-lg h-[350px] mx-auto">
               <div className="space-y-2">
                 {tasks.map((task) => (
                   <div

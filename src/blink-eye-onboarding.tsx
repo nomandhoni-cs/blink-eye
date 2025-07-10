@@ -12,8 +12,9 @@ import type { Screen, OnboardingData, TodoItem } from "./types/onboarding";
 import { OnboardingService } from "./services/onboarding-service";
 import { Progress } from "./components/ui/progress";
 import { Button } from "./components/ui/button";
-import { Badge } from "./components/ui/badge";
 import GradientBackground from "./components/GradientBackground";
+import TodoPage from "./components/window/TodoPage";
+import ActivateLicense from "./components/window/ActivateLicense";
 
 export default function UserOnboarding() {
   // State Management
@@ -23,8 +24,6 @@ export default function UserOnboarding() {
   // Onboarding Data
   const [breakInterval, setBreakInterval] = useState(20);
   const [breakDuration, setBreakDuration] = useState(20);
-  const [customInterval, setCustomInterval] = useState("");
-  const [customDuration, setCustomDuration] = useState("");
   const [reminderText, setReminderText] = useState(
     "Pause! Look into the distance, and best if you walk a bit."
   );
@@ -47,8 +46,8 @@ export default function UserOnboarding() {
         await OnboardingService.saveBreakConfiguration({
           breakInterval,
           breakDuration,
-          customInterval,
-          customDuration,
+          customInterval: breakInterval.toString(),
+          customDuration: breakDuration.toString(),
           reminderText,
         });
       },
@@ -56,7 +55,7 @@ export default function UserOnboarding() {
     {
       id: 3,
       title: "Todo List",
-      component: TodoListScreen,
+      component: TodoPage,
       onNext: async () => {
         await OnboardingService.saveTodoList(todos);
       },
@@ -64,7 +63,7 @@ export default function UserOnboarding() {
     {
       id: 4,
       title: "License",
-      component: LicenseScreen,
+      component: ActivateLicense,
       onNext: async () => {
         await OnboardingService.saveLicenseKey(licenseKey);
 
@@ -72,8 +71,8 @@ export default function UserOnboarding() {
         const onboardingData: OnboardingData = {
           breakInterval,
           breakDuration,
-          customInterval,
-          customDuration,
+          customInterval: breakInterval.toString(),
+          customDuration: breakDuration.toString(),
           reminderText,
           licenseKey,
           todos,
@@ -102,6 +101,25 @@ export default function UserOnboarding() {
       } catch (error) {
         console.error("Error saving data:", error);
         // TODO: Show error toast/notification
+      } finally {
+        setIsLoading(false);
+      }
+    } else if (currentScreen === totalScreens) {
+      // Handle the final "Complete" button click
+      setIsLoading(true);
+      try {
+        // Execute the onNext function for the final screen
+        if (currentScreenConfig?.onNext) {
+          await currentScreenConfig.onNext();
+        }
+
+        // Set onboarding as completed in localStorage
+        localStorage.setItem("hasCompletedOnboarding", "true");
+
+        // Redirect to main app
+        window.location.href = "/";
+      } catch (error) {
+        console.error("Error completing onboarding:", error);
       } finally {
         setIsLoading(false);
       }
@@ -143,10 +161,6 @@ export default function UserOnboarding() {
             setBreakInterval,
             breakDuration,
             setBreakDuration,
-            customInterval,
-            setCustomInterval,
-            customDuration,
-            setCustomDuration,
             reminderText,
             setReminderText,
           };
@@ -219,14 +233,6 @@ export default function UserOnboarding() {
                       : "bg-gray-300"
                   }`}
                 />
-                {/* <Badge
-                  variant={
-                    currentScreen === screen.id ? "default" : "secondary"
-                  }
-                  className="text-xs"
-                >
-                  {screen.id}
-                </Badge> */}
               </div>
             ))}
           </div>
@@ -234,7 +240,7 @@ export default function UserOnboarding() {
           {/* Next Button */}
           <Button
             onClick={nextScreen}
-            disabled={currentScreen === totalScreens || isLoading}
+            disabled={isLoading}
             className="flex items-center space-x-2"
           >
             <span>

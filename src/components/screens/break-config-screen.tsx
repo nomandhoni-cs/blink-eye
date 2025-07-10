@@ -1,17 +1,13 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Clock, Timer } from "lucide-react";
-import { Card, CardContent } from "../ui/card"; // Assuming shadcn-ui paths
+import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 
 interface BreakConfigScreenProps {
-  breakInterval: number | null;
-  setBreakInterval: (value: number | null) => void;
-  breakDuration: number | null;
-  setBreakDuration: (value: number | null) => void;
-  customInterval: string;
-  setCustomInterval: (value: string) => void;
-  customDuration: string;
-  setCustomDuration: (value: string) => void;
+  breakInterval: number;
+  setBreakInterval: (value: number) => void;
+  breakDuration: number;
+  setBreakDuration: (value: number) => void;
   reminderText: string;
   setReminderText: (value: string) => void;
 }
@@ -21,10 +17,6 @@ export default function BreakConfigScreen({
   setBreakInterval,
   breakDuration,
   setBreakDuration,
-  customInterval,
-  setCustomInterval,
-  customDuration,
-  setCustomDuration,
   reminderText,
   setReminderText,
 }: BreakConfigScreenProps) {
@@ -38,8 +30,42 @@ export default function BreakConfigScreen({
     "bg-gray-500/5 dark:bg-white/10 border-gray-500/10 dark:border-white/20 hover:bg-gray-500/10 dark:hover:bg-white/20";
   const cardSelectedClasses =
     "bg-green-500/20 dark:bg-green-500/30 border-green-500/50 dark:border-green-400/80";
-  const customCardSelectedClasses =
-    "bg-green-500/20 dark:bg-green-500/30 border-green-500/50 dark:border-green-400/80";
+
+  // Handle custom interval input
+  const handleCustomIntervalChange = (value: string) => {
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue > 0) {
+      setBreakInterval(numValue);
+    } else if (value === "") {
+      // Keep the input empty but don't update breakInterval
+      customIntervalRef.current!.value = "";
+    }
+  };
+
+  // Handle custom duration input
+  const handleCustomDurationChange = (value: string) => {
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue > 0) {
+      setBreakDuration(numValue);
+    } else if (value === "") {
+      // Keep the input empty but don't update breakDuration
+      customDurationRef.current!.value = "";
+    }
+  };
+
+  // Check if current values match predefined options
+  const isCustomInterval = ![20, 30, 40].includes(breakInterval);
+  const isCustomDuration = ![20, 30, 40].includes(breakDuration);
+
+  // Update custom input fields when breakInterval/breakDuration change
+  useEffect(() => {
+    if (isCustomInterval && customIntervalRef.current) {
+      customIntervalRef.current.value = breakInterval.toString();
+    }
+    if (isCustomDuration && customDurationRef.current) {
+      customDurationRef.current.value = breakDuration.toString();
+    }
+  }, [breakInterval, breakDuration, isCustomInterval, isCustomDuration]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-4">
@@ -54,19 +80,16 @@ export default function BreakConfigScreen({
               <Card
                 key={minutes}
                 className={`${cardBaseClasses} ${
-                  breakInterval === minutes
+                  breakInterval === minutes && !isCustomInterval
                     ? cardSelectedClasses
                     : cardDefaultClasses
                 }`}
-                onClick={() => {
-                  setBreakInterval(minutes);
-                  setCustomInterval("");
-                }}
+                onClick={() => setBreakInterval(minutes)}
               >
                 <CardContent className="flex items-center justify-center gap-2 p-3">
                   <Clock
                     className={`w-5 h-5 ${
-                      breakInterval === minutes
+                      breakInterval === minutes && !isCustomInterval
                         ? "text-green-600 dark:text-green-300"
                         : "text-gray-500 dark:text-white/70"
                     }`}
@@ -82,7 +105,7 @@ export default function BreakConfigScreen({
             ))}
             <Card
               className={`${cardBaseClasses} cursor-text ${
-                customInterval ? customCardSelectedClasses : cardDefaultClasses
+                isCustomInterval ? cardSelectedClasses : cardDefaultClasses
               }`}
               onClick={() => customIntervalRef.current?.focus()}
             >
@@ -90,11 +113,8 @@ export default function BreakConfigScreen({
                 <Input
                   ref={customIntervalRef}
                   placeholder="Custom"
-                  value={customInterval}
-                  onChange={(e) => {
-                    setCustomInterval(e.target.value);
-                    setBreakInterval(null);
-                  }}
+                  defaultValue={isCustomInterval ? breakInterval : ""}
+                  onChange={(e) => handleCustomIntervalChange(e.target.value)}
                   className="w-full h-full p-0 text-lg font-bold text-center text-gray-900 bg-transparent border-0 rounded-none dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 dark:placeholder:text-white/50"
                 />
               </CardContent>
@@ -112,19 +132,16 @@ export default function BreakConfigScreen({
               <Card
                 key={seconds}
                 className={`${cardBaseClasses} ${
-                  breakDuration === seconds
+                  breakDuration === seconds && !isCustomDuration
                     ? cardSelectedClasses
                     : cardDefaultClasses
                 }`}
-                onClick={() => {
-                  setBreakDuration(seconds);
-                  setCustomDuration("");
-                }}
+                onClick={() => setBreakDuration(seconds)}
               >
                 <CardContent className="flex items-center justify-center gap-2 p-3">
                   <Timer
                     className={`w-5 h-5 ${
-                      breakDuration === seconds
+                      breakDuration === seconds && !isCustomDuration
                         ? "text-green-600 dark:text-green-300"
                         : "text-gray-500 dark:text-white/70"
                     }`}
@@ -140,7 +157,7 @@ export default function BreakConfigScreen({
             ))}
             <Card
               className={`${cardBaseClasses} cursor-text ${
-                customDuration ? customCardSelectedClasses : cardDefaultClasses
+                isCustomDuration ? cardSelectedClasses : cardDefaultClasses
               }`}
               onClick={() => customDurationRef.current?.focus()}
             >
@@ -148,11 +165,8 @@ export default function BreakConfigScreen({
                 <Input
                   ref={customDurationRef}
                   placeholder="Custom"
-                  value={customDuration}
-                  onChange={(e) => {
-                    setCustomDuration(e.target.value);
-                    setBreakDuration(null);
-                  }}
+                  defaultValue={isCustomDuration ? breakDuration : ""}
+                  onChange={(e) => handleCustomDurationChange(e.target.value)}
                   className="w-full h-full p-0 text-lg font-bold text-center text-gray-900 bg-transparent border-0 rounded-none dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 dark:placeholder:text-white/50"
                 />
               </CardContent>

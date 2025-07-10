@@ -96,7 +96,7 @@ const layoutRoutes = [
 function App() {
   const { isInitialized, error, retry } = useAutoStart();
   const hasCompletedOnboarding =
-    localStorage.getItem("hasCompletedOnboarding") === "true";
+    localStorage.getItem("hasCompletedOnboarding") !== "true";
 
   if (error) {
     return <ErrorDisplay message={error} onRetry={retry} />;
@@ -115,7 +115,6 @@ function App() {
       <Router>
         <Routes>
           {/* Standalone routes */}
-          <Route path="/" element={<UserOnboarding />} />
           <Route path="/reminder" element={<Reminder />} />
           <Route path="/screenSaverWindow" element={<ScreenSaverWindow />} />
           <Route
