@@ -15,6 +15,7 @@ import { Button } from "./components/ui/button";
 import GradientBackground from "./components/GradientBackground";
 import TodoPage from "./components/window/TodoPage";
 import ActivateLicense from "./components/window/ActivateLicense";
+import Database from "@tauri-apps/plugin-sql";
 
 export default function UserOnboarding() {
   // State Management
@@ -112,12 +113,6 @@ export default function UserOnboarding() {
         if (currentScreenConfig?.onNext) {
           await currentScreenConfig.onNext();
         }
-
-        // Set onboarding as completed in localStorage
-        localStorage.setItem("hasCompletedOnboarding", "true");
-
-        // Redirect to main app
-        window.location.href = "/";
       } catch (error) {
         console.error("Error completing onboarding:", error);
       } finally {

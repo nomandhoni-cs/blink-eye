@@ -1,11 +1,12 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import "./App.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
 import UserOnboarding from "./blink-eye-onboarding";
+import Database from "@tauri-apps/plugin-sql";
 
 const ReminderControl = lazy(() => import("./components/ReminderControl"));
 const BeamOfLifeBGWrapper = lazy(
@@ -95,14 +96,42 @@ const layoutRoutes = [
 
 function App() {
   const { isInitialized, error, retry } = useAutoStart();
-  const hasCompletedOnboarding =
-    localStorage.getItem("hasCompletedOnboarding") !== "true";
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        const db = await Database.load("sqlite:appconfig.db");
+        const result = await db.select(
+          "SELECT value FROM config WHERE key = 'isUserOnboarded'"
+        );
+
+        if (
+          Array.isArray(result) &&
+          result.length > 0 &&
+          "value" in result[0]
+        ) {
+          // Convert the string value to boolean
+          setHasCompletedOnboarding(result[0].value === "true");
+        }
+      } catch (error) {
+        console.error("Error checking onboarding status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (isInitialized) {
+      checkOnboardingStatus();
+    }
+  }, [isInitialized]);
 
   if (error) {
     return <ErrorDisplay message={error} onRetry={retry} />;
   }
 
-  if (!isInitialized) {
+  if (!isInitialized || isLoading) {
     return <LoadingSpinner />;
   }
 

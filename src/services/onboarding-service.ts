@@ -121,8 +121,21 @@ export class OnboardingService {
   static async completeOnboarding(data: OnboardingData): Promise<void> {
     console.log("🎉 Completing onboarding...", data);
     // TODO: Mark onboarding as complete, send analytics, etc.
-    // await db.user.update({ onboardingCompleted: true })
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    // Update database to mark onboarding as completed
+    const db = await Database.load("sqlite:appconfig.db");
+    const existingRow = await db.select(
+      "SELECT * FROM config WHERE key = 'isUserOnboarded'"
+    );
+    if ((existingRow as any[]).length > 0) {
+      await db.execute(
+        "UPDATE config SET value = 'true' WHERE key = 'isUserOnboarded'"
+      );
+    } else {
+      await db.execute(
+        "INSERT INTO config (key, value) VALUES ('isUserOnboarded', 'true')"
+      );
+    }
+    window.location.href = "/";
     console.log("✅ Onboarding completed successfully!");
   }
 }
