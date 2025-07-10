@@ -5,6 +5,7 @@ import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
+import UserOnboarding from "./blink-eye-onboarding";
 
 const ReminderControl = lazy(() => import("./components/ReminderControl"));
 const BeamOfLifeBGWrapper = lazy(
@@ -94,6 +95,8 @@ const layoutRoutes = [
 
 function App() {
   const { isInitialized, error, retry } = useAutoStart();
+  const hasCompletedOnboarding =
+    localStorage.getItem("hasCompletedOnboarding") === "true";
 
   if (error) {
     return <ErrorDisplay message={error} onRetry={retry} />;
@@ -103,11 +106,16 @@ function App() {
     return <LoadingSpinner />;
   }
 
+  if (!hasCompletedOnboarding) {
+    return <UserOnboarding />;
+  }
+
   return (
     <TimeCountProvider>
       <Router>
         <Routes>
           {/* Standalone routes */}
+          <Route path="/" element={<UserOnboarding />} />
           <Route path="/reminder" element={<Reminder />} />
           <Route path="/screenSaverWindow" element={<ScreenSaverWindow />} />
           <Route
