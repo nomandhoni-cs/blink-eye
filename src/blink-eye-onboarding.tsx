@@ -4,8 +4,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 // Screen Components
 import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
-import TodoListScreen from "./components/screens/todo-list-screen";
-import LicenseScreen from "./components/screens/license-screen";
+// import TodoListScreen from "./components/screens/todo-list-screen";
+// import LicenseScreen from "./components/screens/license-screen";
 
 // Types and Services
 import type { Screen, OnboardingData, TodoItem } from "./types/onboarding";
@@ -15,7 +15,7 @@ import { Button } from "./components/ui/button";
 import GradientBackground from "./components/GradientBackground";
 import TodoPage from "./components/window/TodoPage";
 import ActivateLicense from "./components/window/ActivateLicense";
-import Database from "@tauri-apps/plugin-sql";
+// import Database from "@tauri-apps/plugin-sql";
 import { ModeToggle } from "./components/ThemeToggle";
 
 export default function UserOnboarding() {
@@ -221,7 +221,7 @@ export default function UserOnboarding() {
           <div className="flex items-center space-x-2">
             {screens.map((screen, index) => (
               <div
-                key={screen.id}
+                key={screen.id || index}
                 className="flex flex-col items-center space-y-1"
               >
                 <div

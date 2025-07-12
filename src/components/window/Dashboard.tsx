@@ -10,6 +10,7 @@ import { useTrigger } from "../../contexts/TriggerReRender";
 import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
+import { currentMonitor } from "@tauri-apps/api/window";
 // import IdleTimeButton from "../IdleTimeButton";
 
 const Dashboard = () => {
@@ -143,9 +144,44 @@ const Dashboard = () => {
 
     console.log("Saved settings:", { interval, duration, reminderText });
   };
-
+  const opendev = async () => {
+    const monitor = await currentMonitor();
+    const windowWidth = 600;
+    const windowHeight = 300;
+    const x = monitor
+      ? Math.round((monitor.size.width - windowWidth) / 2) + monitor.position.x
+      : 0;
+    const y = monitor
+      ? monitor.position.y + 80 // 20px from top
+      : 0;
+    const webview = new WebviewWindow("support_reminder", {
+      url: `/support.html`,
+      title: "Support Developer - Blink Eye",
+      transparent: true,
+      shadow: false,
+      alwaysOnTop: true,
+      skipTaskbar: true,
+      focus: true,
+      height: windowHeight,
+      width: windowWidth,
+      decorations: false,
+      resizable: false,
+      x,
+      y,
+    });
+    webview.once("tauri://created", () => {
+      console.log("Test window created");
+    });
+    webview.once("tauri://error", (e) => {
+      console.error("Error creating test window:", e);
+    });
+  };
   return (
     <div className="p-4 space-y-4">
+      <Button onClick={opendev} variant="default">
+        <SaveIcon className="w-5 h-5" />
+        Support The Developer
+      </Button>
       <div className="flex justify-between items-center space-x-8">
         <div>
           <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">
