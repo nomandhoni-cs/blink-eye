@@ -114,7 +114,7 @@ function App() {
           "value" in result[0]
         ) {
           // Convert the string value to boolean
-          setHasCompletedOnboarding(result[0].value !== "true");
+          setHasCompletedOnboarding(result[0].value === "true");
         }
       } catch (error) {
         console.error("Error checking onboarding status:", error);
