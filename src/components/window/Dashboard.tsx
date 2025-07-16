@@ -147,7 +147,7 @@ const Dashboard = () => {
   const opendev = async () => {
     const monitor = await currentMonitor();
     const windowWidth = 600;
-    const windowHeight = 300;
+    const windowHeight = 260;
     const x = monitor
       ? Math.round((monitor.size.width - windowWidth) / 2) + monitor.position.x
       : 0;
