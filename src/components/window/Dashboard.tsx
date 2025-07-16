@@ -11,6 +11,7 @@ import { Card, CardContent } from "../ui/card";
 import { SaveIcon, WallpaperIcon } from "lucide-react";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { currentMonitor } from "@tauri-apps/api/window";
+import { platform } from "@tauri-apps/plugin-os";
 // import IdleTimeButton from "../IdleTimeButton";
 
 const Dashboard = () => {
@@ -180,7 +181,7 @@ const Dashboard = () => {
     <div className="p-4 space-y-4">
       <Button onClick={opendev} variant="default">
         <SaveIcon className="w-5 h-5" />
-        Support The Developer
+        Support The Developer {platform()}
       </Button>
       <div className="flex justify-between items-center space-x-8">
         <div>

@@ -5,6 +5,9 @@ import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
 import { nanoid } from "nanoid";
 import Database from "@tauri-apps/plugin-sql";
 import { encryptData } from "../lib/cryptoUtils";
+import { getVersion } from "@tauri-apps/api/app";
+import { fetch } from "@tauri-apps/plugin-http";
+import { platform } from "@tauri-apps/plugin-os";
 
 // Define a type for the result row
 interface UserDataRow {
@@ -12,7 +15,7 @@ interface UserDataRow {
   unique_nano_id: string;
   data: string | null;
 }
-
+const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 // Dummy functions for future database integration
 export class OnboardingService {
   // Screen 1: Welcome - No data to save
@@ -121,21 +124,50 @@ export class OnboardingService {
   static async completeOnboarding(data: OnboardingData): Promise<void> {
     console.log("🎉 Completing onboarding...", data);
     // TODO: Mark onboarding as complete, send analytics, etc.
-    // Update database to mark onboarding as completed
-    const db = await Database.load("sqlite:appconfig.db");
-    const existingRow = await db.select(
-      "SELECT * FROM config WHERE key = 'isUserOnboarded'"
-    );
-    if ((existingRow as any[]).length > 0) {
-      await db.execute(
-        "UPDATE config SET value = 'true' WHERE key = 'isUserOnboarded'"
+    const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
+    // Check if entry with id=1 exists
+    const result = (await dbInstance.select(
+      "SELECT id FROM user_data WHERE id = 1"
+    )) as UserDataRow[];
+
+    try {
+      const getAppVersion = await getVersion();
+      const operatingSystem = platform();
+      await fetch("https://blinkeye.vercel.app/api/basicUserData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          handshakePassword: handshakePassword,
+          userID: result[0].unique_nano_id,
+          userDevice: operatingSystem,
+          userLocale: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          installedTime: new Date().toISOString(),
+          appVersion: getAppVersion,
+        }),
+      });
+    } catch (error) {
+      console.error("Activation error:", error);
+      toast.error("Failed to activate license. Please try again.", {
+        duration: 2000,
+        position: "bottom-right",
+      });
+    } finally {
+      const db = await Database.load("sqlite:appconfig.db");
+      const existingRow = await db.select(
+        "SELECT * FROM config WHERE key = 'isUserOnboarded'"
       );
-    } else {
-      await db.execute(
-        "INSERT INTO config (key, value) VALUES ('isUserOnboarded', 'true')"
-      );
+      if ((existingRow as any[]).length > 0) {
+        await db.execute(
+          "UPDATE config SET value = 'true' WHERE key = 'isUserOnboarded'"
+        );
+      } else {
+        await db.execute(
+          "INSERT INTO config (key, value) VALUES ('isUserOnboarded', 'true')"
+        );
+      }
+      window.location.href = "/";
+      console.log("✅ Onboarding completed successfully!");
     }
-    window.location.href = "/";
-    console.log("✅ Onboarding completed successfully!");
+    // Update database to mark onboarding as completed
   }
 }

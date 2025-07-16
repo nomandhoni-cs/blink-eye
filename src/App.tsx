@@ -42,7 +42,7 @@ const ScreenSaverWindow = lazy(
   () => import("./components/window/ScreenSaverWindow")
 );
 const Reminder = lazy(() => import("./components/window/Reminder"));
-const Support = lazy(() => import("./components/window/support"));
+const Support = lazy(() => import("./components/window/Support"));
 const Layout = lazy(() => import("./components/window/Layout"));
 const ReminderPreviewWindow = lazy(
   () => import("./components/window/ReminderPreviewWindow")
@@ -114,7 +114,7 @@ function App() {
           "value" in result[0]
         ) {
           // Convert the string value to boolean
-          setHasCompletedOnboarding(result[0].value === "true");
+          setHasCompletedOnboarding(result[0].value !== "true");
         }
       } catch (error) {
         console.error("Error checking onboarding status:", error);
