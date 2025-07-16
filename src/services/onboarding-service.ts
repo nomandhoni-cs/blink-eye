@@ -126,19 +126,32 @@ export class OnboardingService {
     // TODO: Mark onboarding as complete, send analytics, etc.
     const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
     // Check if entry with id=1 exists
-    const result = (await dbInstance.select(
-      "SELECT id FROM user_data WHERE id = 1"
-    )) as UserDataRow[];
 
     try {
       const getAppVersion = await getVersion();
       const operatingSystem = platform();
+
+      interface UserData {
+        unique_nano_id: string;
+      }
+
+      const userResult = await dbInstance.select<UserData[]>(
+        "SELECT unique_nano_id FROM user_data WHERE id = 1"
+      );
+
+      // Type-safe extraction
+      let userUniqueNanoId: string | undefined;
+
+      if (userResult.length > 0) {
+        userUniqueNanoId = userResult[0].unique_nano_id;
+      }
+
       await fetch("https://blinkeye.vercel.app/api/basicUserData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           handshakePassword: handshakePassword,
-          userID: result[0].unique_nano_id,
+          userID: userUniqueNanoId,
           userDevice: operatingSystem,
           userLocale: Intl.DateTimeFormat().resolvedOptions().timeZone,
           installedTime: new Date().toISOString(),
