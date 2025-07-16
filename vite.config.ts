@@ -15,7 +15,6 @@ export default defineConfig(async () => ({
       input: {
         main: "index.html",
         alert: "alert.html",
-        support: "support.html",
       },
     },
   },
