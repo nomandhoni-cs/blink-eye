@@ -10,6 +10,7 @@ import ConfigDataLoader from "./components/ConfigDataLoader";
 import ReminderHandler from "./components/ReminderHandler";
 import { TriggerProvider } from "./contexts/TriggerReRender";
 import ScreenTimeTracker from "./components/ScreenTimeTracker";
+import SupportDeveloperHandler from "./components/SupportDeveloperHandler";
 
 if (!import.meta.env.DEV) {
   document.oncontextmenu = (event) => {
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <DefaultStartMinimize />
         <LicenseValidationComponent />
         <TriggerProvider>
+          <SupportDeveloperHandler />
           <ReminderHandler />
           <App />
         </TriggerProvider>

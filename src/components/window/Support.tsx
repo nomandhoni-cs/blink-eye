@@ -52,7 +52,6 @@ const remindScheduleData: RemindSchedule = {
 };
 
 const Support = () => {
-  const [lastRemindDay, setLastRemindDay] = useState("");
   const [closeBtnText, setCloseBtnText] = useState("");
   const [nextReminderDay, setNextReminderDay] = useState("");
 
