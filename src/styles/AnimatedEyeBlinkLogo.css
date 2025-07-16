@@ -1,0 +1,126 @@
+/* This is the outer red container with the custom irregular shape. */
+.logo-container {
+    width: 13rem;
+    height: 13rem;
+    background-color: #FE4C55;
+    border-radius: 48% 52% 48% 52% / 63% 65% 35% 37%;
+
+    /* Use flexbox to center the eye inside */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* This is the main white part of the eye which also blinks. */
+.eyeLid {
+    width: 10rem;
+    height: 10rem;
+    background-color: white;
+    border-radius: 50% 50% 49% 51%/67% 68% 32% 33%;
+    box-shadow: inset -17px -10px 12.5px rgba(0, 0, 0, 0.144);
+
+    /* Animation for the blink */
+    animation: blink 10s infinite;
+    transform-origin: 50%;
+
+    /* This is crucial to keep the moving pupil inside the white eyeball. */
+    overflow: hidden;
+
+    /* Added flex to center the pupil container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* This is the black pupil that moves around. */
+.eye {
+    position: relative;
+    border-radius: 50%;
+    width: 55%;
+    height: 55%;
+    background-color: #08090a;
+
+    /* Animation for the pupil movement */
+    animation: eyeball 10s infinite;
+    transform-origin: 30%;
+}
+
+/* This is the white reflection on the pupil. */
+.eye:after {
+    content: " ";
+    position: absolute;
+    bottom: 4rem;
+    left: 0.8rem;
+    width: 2rem;
+    height: 2rem;
+    background: white;
+    border-radius: 50%;
+}
+
+/* Animation for the eyelid blinking. */
+@keyframes blink {
+
+    0%,
+    10%,
+    11%,
+    40%,
+    41%,
+    70%,
+    71%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    10.5%,
+    40.5%,
+    70.5% {
+        transform: scaleY(0.1);
+    }
+}
+
+/* Animation for the pupil moving. (Corrected margins) */
+@keyframes eyeball {
+    0% {
+        margin: 0 0 0 0;
+    }
+
+    10% {
+        margin: 0 0 0 0;
+    }
+
+    10.5% {
+        margin: 0 0 0 0;
+    }
+
+    11% {
+        margin: 0 0 0 0;
+    }
+
+    40% {
+        margin: 0 0 0 0;
+    }
+
+    40.5% {
+        margin: 0 0 0 2rem;
+    }
+
+    41% {
+        margin: 0 0 0 2rem;
+    }
+
+    70% {
+        margin: 0 0 0 2rem;
+    }
+
+    70.5% {
+        margin: 0 0 0 0;
+    }
+
+    71% {
+        margin: 0 0 0 0;
+    }
+
+    100% {
+        margin: 0 0 0 0;
+    }
+}

@@ -61,7 +61,7 @@ const HeroSection = () => {
             // className="h-10 w-auto"
           />
           <span className="text-muted-foreground">
-            Used and Trusted by <b>5,000+</b> Users
+            Used and Trusted by <b>13,000+</b> Users
           </span>
         </div>
       </div>

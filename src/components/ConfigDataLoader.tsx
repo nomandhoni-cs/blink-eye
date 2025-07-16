@@ -58,6 +58,10 @@ const ConfigDataLoader: React.FC = () => {
           "useCircleProgressTimerStyle",
           "true",
         ]);
+        await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
+          "isUserOnboarded",
+          "false",
+        ]);
         // await db.execute(`INSERT INTO config (key, value) VALUES (?, ?);`, [
         //   "showPauseButton",
         //   "false",
