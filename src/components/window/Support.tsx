@@ -1,9 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import cat_gif_paw from "./assets/cute_cat_paw.gif";
-import "./App.css";
-import logo from "./assets/newIcon.png";
-import { Button } from "./components/ui/button";
+import cat_gif_paw from "../../assets/cute_cat_paw.gif";
+import logo from "../../assets/newIcon.png";
+import { Button } from "../ui/button";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 
 const handleClose = async () => {
@@ -55,9 +52,4 @@ const Support = () => {
     </div>
   );
 };
-
-ReactDOM.createRoot(document.getElementById("support-root")!).render(
-  <React.StrictMode>
-    <Support />
-  </React.StrictMode>
-);
+export default Support;

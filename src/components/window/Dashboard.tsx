@@ -155,7 +155,7 @@ const Dashboard = () => {
       ? monitor.position.y + 80 // 20px from top
       : 0;
     const webview = new WebviewWindow("support_reminder", {
-      url: `/support.html`,
+      url: `/support_reminder`,
       title: "Support Developer - Blink Eye",
       transparent: true,
       shadow: false,

@@ -42,6 +42,7 @@ const ScreenSaverWindow = lazy(
   () => import("./components/window/ScreenSaverWindow")
 );
 const Reminder = lazy(() => import("./components/window/Reminder"));
+const Support = lazy(() => import("./components/window/support"));
 const Layout = lazy(() => import("./components/window/Layout"));
 const ReminderPreviewWindow = lazy(
   () => import("./components/window/ReminderPreviewWindow")
@@ -145,6 +146,7 @@ function App() {
         <Routes>
           {/* Standalone routes */}
           <Route path="/reminder" element={<Reminder />} />
+          <Route path="/support_reminder" element={<Support />} />
           <Route path="/screenSaverWindow" element={<ScreenSaverWindow />} />
           <Route
             path="/reminderpreviewwindow"
