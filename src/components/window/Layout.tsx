@@ -7,6 +7,7 @@ import AnnouncementBar from "../AnnouncementBar";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { ScrollArea } from "../ui/scroll-area";
 import GradientBackground from "../GradientBackground";
+import SupportDeveloperHandler from "../SupportDeveloperHandler";
 
 export default function Layout() {
   const { isPaidUser } = usePremiumFeatures();
@@ -25,6 +26,7 @@ export default function Layout() {
         <UpdateDialog />
         <Outlet />
       </ScrollArea>
+      <SupportDeveloperHandler />
       <Toaster />
     </SidebarProvider>
   );

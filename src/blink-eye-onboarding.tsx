@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
 // import TodoListScreen from "./components/screens/todo-list-screen";
-// import LicenseScreen from "./components/screens/license-screen";
+import LicenseScreen from "./components/screens/license-screen";
 
 // Types and Services
 import type { Screen, OnboardingData, TodoItem } from "./types/onboarding";
@@ -13,10 +13,12 @@ import { OnboardingService } from "./services/onboarding-service";
 import { Progress } from "./components/ui/progress";
 import { Button } from "./components/ui/button";
 import GradientBackground from "./components/GradientBackground";
-import TodoPage from "./components/window/TodoPage";
-import ActivateLicense from "./components/window/ActivateLicense";
+// import TodoPage from "./components/window/TodoPage";
+// import ActivateLicense from "./components/window/ActivateLicense";
 // import Database from "@tauri-apps/plugin-sql";
 import { ModeToggle } from "./components/ThemeToggle";
+import { Toaster } from "react-hot-toast";
+import ToDoOnboarding from "./components/screens/todo-screen-copied";
 
 export default function UserOnboarding() {
   // State Management
@@ -30,6 +32,7 @@ export default function UserOnboarding() {
     "Pause! Look into the distance, and best if you walk a bit."
   );
   const [licenseKey, setLicenseKey] = useState("");
+  const [userName, setUserName] = useState("");
   const [todos, setTodos] = useState<TodoItem[]>([]);
 
   // Screen Configuration - Easy to add new screens!
@@ -57,7 +60,7 @@ export default function UserOnboarding() {
     {
       id: 3,
       title: "Todo List",
-      component: TodoPage,
+      component: ToDoOnboarding,
       onNext: async () => {
         await OnboardingService.saveTodoList(todos);
       },
@@ -65,7 +68,7 @@ export default function UserOnboarding() {
     {
       id: 4,
       title: "License",
-      component: ActivateLicense,
+      component: LicenseScreen,
       onNext: async () => {
         await OnboardingService.saveLicenseKey(licenseKey);
 
@@ -169,6 +172,8 @@ export default function UserOnboarding() {
           return {
             licenseKey,
             setLicenseKey,
+            userName,
+            setUserName,
           };
         default:
           return {};
@@ -254,6 +259,7 @@ export default function UserOnboarding() {
           </Button>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

@@ -1,95 +1,11 @@
-import { useEffect, useState } from "react";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import Database from "@tauri-apps/plugin-sql";
+import { useEffect } from "react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { currentMonitor } from "@tauri-apps/api/window";
+import Database from "@tauri-apps/plugin-sql";
 
-type DatabaseInstance = Awaited<ReturnType<typeof Database.load>>;
-type DateSetter = React.Dispatch<React.SetStateAction<string>>;
-
-const SupportDeveloperHandler = () => {
-  const { canAccessPremiumFeatures } = usePremiumFeatures();
-  const [lastReminded, setLastReminded] = useState("");
-  const [nextReminderDate, setNextReminderDay] = useState("");
-
-  useEffect(() => {
-    const fetchOrInitializeDate = async (
-      db: DatabaseInstance,
-      key: string,
-      setterFunction: DateSetter
-    ): Promise<void> => {
-      const result = await db.select<{ value: string }[]>(
-        "SELECT value FROM config WHERE key = ?",
-        [key]
-      );
-
-      if (Array.isArray(result) && result.length > 0 && result[0].value) {
-        setterFunction(result[0].value);
-      } else {
-        const currentDate = new Date().toISOString().split("T")[0];
-        await db.execute(
-          "INSERT OR REPLACE INTO config (key, value) VALUES (?, ?)",
-          [key, currentDate]
-        );
-        setterFunction(currentDate);
-      }
-    };
-
-    const initializeAllDates = async (): Promise<void> => {
-      try {
-        const db = await Database.load("sqlite:appconfig.db");
-        await fetchOrInitializeDate(db, "lastRemindDay", setLastReminded);
-        await fetchOrInitializeDate(db, "nextReminderDay", setNextReminderDay);
-
-        if (!canAccessPremiumFeatures) {
-          const today = new Date().toISOString().split("T")[0];
-
-          const daysDiff = Math.floor(
-            (new Date(nextReminderDate).getTime() -
-              new Date(lastReminded).getTime()) /
-              (1000 * 60 * 60 * 24)
-          );
-
-          if (daysDiff > 7) {
-            // Edge case: more than 7 days between reminders
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const tomorrowStr = tomorrow.toISOString().split("T")[0];
-
-            await db.execute(
-              "INSERT OR REPLACE INTO config (key, value) VALUES (?, ?)",
-              ["nextReminderDay", tomorrowStr]
-            );
-
-            setNextReminderDay(tomorrowStr);
-            openSupporReminder();
-          } else if (today === nextReminderDate) {
-            // Schedule a reminder within a random time window
-            const minMs = 60 * 60 * 1000; // 60 mins
-            const maxMs = 3 * 60 * 60 * 1000; // 3 hours
-            const randomDelay = Math.floor(
-              Math.random() * (maxMs - minMs) + minMs
-            );
-
-            console.log(
-              `Scheduling support reminder in ${
-                randomDelay / 1000 / 60
-              } minutes`
-            );
-            setTimeout(() => {
-              openSupporReminder();
-            }, randomDelay);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to initialize date values from database:", error);
-      }
-    };
-
-    initializeAllDates();
-  }, [canAccessPremiumFeatures]);
-
-  const openSupporReminder = async () => {
+const openSupportReminder = async () => {
+  try {
     const monitor = await currentMonitor();
     const windowWidth = 600;
     const windowHeight = 260;
@@ -122,7 +38,83 @@ const SupportDeveloperHandler = () => {
     webview.once("tauri://error", (e) => {
       console.error("Error creating support reminder window:", e);
     });
-  };
+  } catch (error) {
+    console.error("Failed to open support reminder window:", error);
+  }
+};
+
+const SupportDeveloperHandler = () => {
+  const { canAccessPremiumFeatures } = usePremiumFeatures();
+
+  useEffect(() => {
+    const minMs = 60 * 60 * 1000; // 60 mins
+    const maxMs = 3 * 60 * 60 * 1000; // 3 hours
+    const randomDelay = Math.floor(Math.random() * (maxMs - minMs) + minMs);
+
+    console.log(
+      `Reminder logic will evaluate after ${randomDelay / 1000} seconds`
+    );
+
+    const timeout = setTimeout(async () => {
+      // Get the latest value when the timer fires
+      if (canAccessPremiumFeatures === true) {
+        console.log("User is premium at time of check — exiting");
+        return;
+      }
+
+      console.log(
+        "User is NOT premium at time of check — running reminder logic"
+      );
+
+      try {
+        const db = await Database.load("sqlite:appconfig.db");
+
+        const fetchOrInitializeDate = async (key: string): Promise<string> => {
+          const result = await db.select<{ value: string }[]>(
+            "SELECT value FROM config WHERE key = ?",
+            [key]
+          );
+
+          if (Array.isArray(result) && result.length > 0 && result[0].value) {
+            return result[0].value;
+          } else {
+            const currentDate = new Date().toISOString().split("T")[0];
+            await db.execute(
+              "INSERT OR REPLACE INTO config (key, value) VALUES (?, ?)",
+              [key, currentDate]
+            );
+            return currentDate;
+          }
+        };
+
+        const lastRemind = await fetchOrInitializeDate("lastRemindDay");
+        const nextRemind = await fetchOrInitializeDate("nextReminderDay");
+
+        const today = new Date().toISOString().split("T")[0];
+        const daysDiff = Math.floor(
+          (new Date(nextRemind).getTime() - new Date(lastRemind).getTime()) /
+            (1000 * 60 * 60 * 24)
+        );
+
+        if (daysDiff > 7) {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          const tomorrowStr = tomorrow.toISOString().split("T")[0];
+          await db.execute(
+            "UPDATE config SET value = ? WHERE key = 'nextReminderDay'",
+            [tomorrowStr]
+          );
+          openSupportReminder();
+        } else if (today === nextRemind) {
+          openSupportReminder();
+        }
+      } catch (error) {
+        console.error("Error running reminder logic:", error);
+      }
+    }, randomDelay);
+
+    return () => clearTimeout(timeout);
+  }, [canAccessPremiumFeatures]);
 
   return null;
 };
