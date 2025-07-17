@@ -52,7 +52,7 @@ async function initializeDatabase() {
   return db;
 }
 
-async function storeLicenseData(data: any) {
+export async function storeLicenseData(data: any) {
   const db = await initializeDatabase();
 
   try {
