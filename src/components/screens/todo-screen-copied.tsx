@@ -5,20 +5,11 @@ import { Checkbox } from "../ui/checkbox";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { format } from "date-fns";
-import {
-  CalendarIcon,
-  CheckCircle2Icon,
-  ChevronDown,
-  Clock,
-  Text,
-  Trash2,
-} from "lucide-react";
+import { CalendarIcon, ChevronDown, Clock, Text, Trash2 } from "lucide-react";
 import Database from "@tauri-apps/plugin-sql";
 import { exists } from "@tauri-apps/plugin-fs";
 import { BaseDirectory } from "@tauri-apps/api/path";
 import { Textarea } from "../ui/textarea";
-import { Link } from "react-router-dom";
-import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { ScrollArea } from "../ui/scroll-area";
 import { TimePicker } from "../ui/TimePicker"; // Import the new component
 
