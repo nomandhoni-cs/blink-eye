@@ -45,10 +45,13 @@ const openSupportReminder = async () => {
 
 const SupportDeveloperHandler = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
-  const [isInitialized, setIsInitialized] = useState(false);
   const abortRef = useRef({ aborted: false });
+  const lastPremiumState = useRef<boolean | null>(null);
+  const timerRef = useRef<number | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // Still loading
     if (
       canAccessPremiumFeatures === null ||
       canAccessPremiumFeatures === undefined
@@ -56,13 +59,32 @@ const SupportDeveloperHandler = () => {
       return;
     }
 
+    // React to change: if user becomes premium again, abort
     if (canAccessPremiumFeatures === true) {
-      // Cancel any scheduled or running logic if user becomes premium
+      console.log("User has premium: aborting any logic");
       abortRef.current.aborted = true;
+      setIsInitialized(false); // reset init so it can re-run if needed
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
       return;
     }
 
-    if (isInitialized) return;
+    // Detect transition from true ➜ false
+    if (
+      lastPremiumState.current === true &&
+      canAccessPremiumFeatures === false
+    ) {
+      console.log("User just lost premium access");
+      abortRef.current.aborted = false; // re-enable logic
+      setIsInitialized(false); // allow reminder logic to run again
+    }
+
+    lastPremiumState.current = canAccessPremiumFeatures;
+
+    // Prevent re-running if already done
+    if (isInitialized || canAccessPremiumFeatures !== false) return;
 
     const fetchOrInitializeDate = async (
       db: Awaited<ReturnType<typeof Database.load>>,
@@ -123,7 +145,7 @@ const SupportDeveloperHandler = () => {
 
           console.log(`Scheduling reminder in ${randomDelay / 1000} sec`);
 
-          setTimeout(() => {
+          timerRef.current = window.setTimeout(() => {
             if (!abortRef.current.aborted) {
               openSupportReminder();
             }
