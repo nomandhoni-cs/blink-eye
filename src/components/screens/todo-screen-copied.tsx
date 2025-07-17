@@ -172,18 +172,18 @@ const ToDoOnboarding: React.FC = () => {
   return (
     <div className="max-w-full space-y-2 relative">
       <h3 className="text-2xl text-center font-heading tracking-wide">
-        TODO List
+        Add a Task, Or A Reminder to be notified on!
       </h3>
       <>
         {/* Add Task Section */}
-        <div className="space-y-2 max-w-lg mx-auto">
+        <div className="space-y-2 max-w-2xl mx-auto pt-4">
           <div className="flex space-x-2">
             <Input
               placeholder="Add a new task or Reminder"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addTask()}
-              className="flex-1"
+              className="flex-1 rounded-xl h-16 p-4 w-full"
             />
           </div>
           {showDetailsInput && (
@@ -251,12 +251,12 @@ const ToDoOnboarding: React.FC = () => {
 
         {/* Active Tasks Section */}
         {!showCompletedTasks && (
-          <ScrollArea className="space-y-2 max-w-lg h-[350px] mx-auto">
+          <ScrollArea className="space-y-2 max-w-2xl h-[350px] mx-auto">
             <div className="space-y-2">
               {tasks.map((task) => (
                 <div
                   key={task.id}
-                  className="flex items-start space-x-2 p-2 bg-gray-500/10 hover:bg-gray-500/20 rounded-md group"
+                  className="flex items-start space-x-2 p-2 bg-foreground/30 hover:bg-foreground/70 rounded-md group"
                 >
                   <Checkbox
                     checked={task.status === "done"}
@@ -367,14 +367,12 @@ const ToDoOnboarding: React.FC = () => {
                       </div>
                     ) : (
                       <div>
-                        <p className="text-sm">{task.title}</p>
+                        <p className="text-sm font-heading">{task.title}</p>
                         {task.details && (
-                          <p className="text-xs text-gray-500 mt-1">
-                            {task.details}
-                          </p>
+                          <p className="text-xs mt-1">{task.details}</p>
                         )}
                         {task.deadline && (
-                          <div className="text-xs text-gray-500 flex items-center flex-wrap mt-1">
+                          <div className="text-xs text-foreground opacity-80 flex items-center flex-wrap mt-1">
                             <span className="flex items-center mr-3">
                               <CalendarIcon className="h-3 w-3 mr-1" />
                               {format(new Date(task.deadline), "PPP")}
