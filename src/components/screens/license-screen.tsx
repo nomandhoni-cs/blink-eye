@@ -26,6 +26,8 @@ export default function LicenseScreen({
     activation: false,
     validation: false,
   });
+  const [isActivated, setIsActivated] = useState(false);
+
   const handleActivate = async (e: React.FormEvent) => {
     const instanceName = generatePhrase();
     e.preventDefault();
@@ -69,6 +71,7 @@ export default function LicenseScreen({
         });
         setLicenseKey(""); // Clear input field
         setUserName(""); // Clear input field
+        setIsActivated(true); // ✅ Mark as activated
       } else {
         console.log(
           "Store ID does not match required values. License data not stored."
@@ -91,58 +94,67 @@ export default function LicenseScreen({
         <h2 className="text-3xl font-bold  font-heading">License Activation</h2>
         <p className="text-foreground/80">
           If you have license key enter to activate Blink Eye here!{" "}
-          <b className="font-heading text-foreground">Else Click 'Continue'</b>
+          <b className="font-heading text-foreground">Else click 'Complete'</b>
         </p>
       </div>
 
       <div className="w-full max-w-xl space-y-6">
-        <form
-          className="w-full p-6 border bg-background rounded-lg shadow-sm space-x-4"
-          onSubmit={handleActivate}
-        >
-          {/* Input Section */}
-          <div className=" w-full space-y-2">
-            <div>
-              <Label htmlFor="activationKey" className="font-medium">
-                Enter Your License Key
-              </Label>
-              <Input
-                type="text"
-                id="activationKey"
-                value={licenseKey}
-                onChange={(e) => setLicenseKey(e.target.value)}
-                placeholder="AE4E6644-XXXX-4433-XXXX-FFB2FE668E23"
-                disabled={loading.activation}
-                className="w-full mt-1"
-              />
-            </div>
-            <div>
-              <Label htmlFor="userName" className="font-medium">
-                Enter Your Name (Optional)
-              </Label>
-              <Input
-                type="text"
-                id="userName"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="John Doe"
-                disabled={loading.activation}
-                className="w-full mt-1"
-              />
-            </div>
-
-            <Button
-              type="submit"
-              disabled={loading.activation}
-              className="w-full  font-semibold rounded-md"
-            >
-              {loading.activation && (
-                <Loader2Icon className="motion-safe:animate-spin" />
-              )}
-              {loading.activation ? "Activating..." : "Activate"}
-            </Button>
+        {isActivated ? (
+          <div className="w-full max-w-xl text-center space-y-4 p-6 border bg-background rounded-lg shadow-sm">
+            <h3 className="text-2xl font-heading text-green-600">
+              ✅ License Activated
+            </h3>
+            <p className="text-lg font-medium">Click Complete</p>
           </div>
-        </form>
+        ) : (
+          <form
+            className="w-full p-6 border bg-background rounded-lg shadow-sm space-x-4"
+            onSubmit={handleActivate}
+          >
+            {/* Input Section */}
+            <div className=" w-full space-y-2">
+              <div>
+                <Label htmlFor="activationKey" className="font-medium">
+                  Enter Your License Key
+                </Label>
+                <Input
+                  type="text"
+                  id="activationKey"
+                  value={licenseKey}
+                  onChange={(e) => setLicenseKey(e.target.value)}
+                  placeholder="AE4E6644-XXXX-4433-XXXX-FFB2FE668E23"
+                  disabled={loading.activation}
+                  className="w-full mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="userName" className="font-medium">
+                  Enter Your Name (Optional)
+                </Label>
+                <Input
+                  type="text"
+                  id="userName"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="John Doe"
+                  disabled={loading.activation}
+                  className="w-full mt-1"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading.activation}
+                className="w-full font-semibold rounded-md"
+              >
+                {loading.activation && (
+                  <Loader2Icon className="motion-safe:animate-spin" />
+                )}
+                {loading.activation ? "Activating..." : "Activate"}
+              </Button>
+            </div>
+          </form>
+        )}
 
         <div className="text-center space-y-4">
           <div className="text-sm text-gray-500 space-y-1">
