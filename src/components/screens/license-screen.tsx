@@ -85,12 +85,13 @@ export default function LicenseScreen({
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-4">
+    <div className="relative flex flex-col items-center justify-center h-full space-y-4 overflow-hidden">
       <div className="text-center space-y-2">
         <Shield className="w-16 h-16 mx-auto text-green-600 mb-4" />
         <h2 className="text-3xl font-bold  font-heading">License Activation</h2>
-        <p className="text-foreground/60">
-          If you have license key enter to activate Blink Eye
+        <p className="text-foreground/80">
+          If you have license key enter to activate Blink Eye here!{" "}
+          <b className="font-heading text-foreground">Else Click 'Continue'</b>
         </p>
       </div>
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
-
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Calendar } from "../ui/calendar";
@@ -10,6 +9,7 @@ import {
   CalendarIcon,
   CheckCircle2Icon,
   ChevronDown,
+  Clock,
   Text,
   Trash2,
 } from "lucide-react";
@@ -20,12 +20,14 @@ import { Textarea } from "../ui/textarea";
 import { Link } from "react-router-dom";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { ScrollArea } from "../ui/scroll-area";
+import { TimePicker } from "../ui/TimePicker"; // Import the new component
 
 type Task = {
   id: number;
   title: string;
   details?: string;
   deadline?: string;
+  reminder_time?: string;
   status: string;
   created_at: string;
 };
@@ -36,6 +38,7 @@ const TodoPage: React.FC = () => {
   const [newTask, setNewTask] = useState<string>("");
   const [newTaskDetails, setNewTaskDetails] = useState<string>("");
   const [newTaskDeadline, setNewTaskDeadline] = useState<Date | undefined>();
+  const [newTaskTime, setNewTaskTime] = useState<string>("");
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
   const [showDetailsInput, setShowDetailsInput] = useState(false);
@@ -60,10 +63,19 @@ const TodoPage: React.FC = () => {
           title TEXT NOT NULL,
           details TEXT,
           deadline TEXT,
+          reminder_time TEXT,
           status TEXT NOT NULL DEFAULT 'pending',
           created_at TEXT NOT NULL
         );
       `);
+      } else {
+        try {
+          await db.execute("ALTER TABLE todos ADD COLUMN reminder_time TEXT;");
+        } catch (error) {
+          console.log(
+            "Could not add reminder_time column, it might already exist."
+          );
+        }
       }
 
       await fetchTasks();
@@ -81,10 +93,8 @@ const TodoPage: React.FC = () => {
       const completed = await db.select<Task[]>(
         "SELECT * FROM todos WHERE status = 'done' ORDER BY created_at DESC"
       );
-      console.log(activeTasks);
       setTasks(activeTasks);
       setCompletedTasks(completed);
-      console.log(completed);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -101,8 +111,14 @@ const TodoPage: React.FC = () => {
         : null;
 
       await db.execute(
-        "INSERT INTO todos (title, details, deadline, status, created_at) VALUES (?, ?, ?, 'pending', ?)",
-        [newTask, newTaskDetails || "", deadlineString, currentDate]
+        "INSERT INTO todos (title, details, deadline, reminder_time, status, created_at) VALUES (?, ?, ?, ?, 'pending', ?)",
+        [
+          newTask,
+          newTaskDetails || null,
+          deadlineString,
+          newTaskTime || null,
+          currentDate,
+        ]
       );
 
       await fetchTasks();
@@ -111,6 +127,7 @@ const TodoPage: React.FC = () => {
       setNewTask("");
       setNewTaskDetails("");
       setNewTaskDeadline(undefined);
+      setNewTaskTime("");
       setShowDetailsInput(false);
     } catch (error) {
       console.error("Error adding task:", error);
@@ -120,12 +137,12 @@ const TodoPage: React.FC = () => {
   const toggleTaskStatus = async (task: Task) => {
     try {
       const db = await Database.load(`sqlite:${dbFileName}`);
-      const newStatus = task.status === "pending" ? "done" : "pending"; // Toggle between 'pending' and 'done'
+      const newStatus = task.status === "pending" ? "done" : "pending";
       await db.execute("UPDATE todos SET status = ? WHERE id = ?", [
         newStatus,
         task.id,
       ]);
-      await fetchTasks(); // Re-fetch tasks after updating the status
+      await fetchTasks();
     } catch (error) {
       console.error("Error toggling task status:", error);
     }
@@ -142,14 +159,16 @@ const TodoPage: React.FC = () => {
   };
 
   const updateTask = async (updatedTask: Task) => {
+    if (!updatedTask) return;
     try {
       const db = await Database.load(`sqlite:${dbFileName}`);
       await db.execute(
-        "UPDATE todos SET title = ?, details = ?, deadline = ? WHERE id = ?",
+        "UPDATE todos SET title = ?, details = ?, deadline = ?, reminder_time = ? WHERE id = ?",
         [
           updatedTask.title,
           updatedTask.details || null,
           updatedTask.deadline || null,
+          updatedTask.reminder_time || null,
           updatedTask.id,
         ]
       );
@@ -188,23 +207,23 @@ const TodoPage: React.FC = () => {
             )}
             {newTask && (
               <>
-                <div className="flex justify-end space-x-2">
+                <div className="flex justify-end items-center space-x-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setShowDetailsInput(!showDetailsInput)}
                   >
-                    <Text className="h-4 w-4 ml-2" />
-                    Add details
+                    <Text className="h-4 w-4 mr-1" />
+                    Details
                   </Button>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" size="sm">
-                        <CalendarIcon className="h-4 w-4 ml-2" />
+                        <CalendarIcon className="h-4 w-4 mr-1" />
                         {newTaskDeadline ? (
                           format(newTaskDeadline, "PPP")
                         ) : (
-                          <span>Pick a deadline</span>
+                          <span>Deadline</span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -212,13 +231,28 @@ const TodoPage: React.FC = () => {
                       <Calendar
                         mode="single"
                         selected={newTaskDeadline}
-                        onSelect={setNewTaskDeadline}
+                        onSelect={(date) => {
+                          setNewTaskDeadline(date);
+                          if (!date) {
+                            setNewTaskTime(""); // Clear time if date is cleared
+                          }
+                        }}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
 
-                  <Button onClick={addTask} className="h-full">
+                  <TimePicker
+                    value={newTaskTime}
+                    onChange={setNewTaskTime}
+                    onOpen={() => {
+                      if (!newTaskDeadline) {
+                        setNewTaskDeadline(new Date()); // Default to today
+                      }
+                    }}
+                  />
+
+                  <Button onClick={addTask} size="sm" className="h-9">
                     Add Task
                   </Button>
                 </div>
@@ -233,16 +267,18 @@ const TodoPage: React.FC = () => {
                 {tasks.map((task) => (
                   <div
                     key={task.id}
-                    className="flex items-center space-x-2 p-2 bg-gray-500/10 hover:bg-gray-500/20 rounded-md group"
+                    className="flex items-start space-x-2 p-2 bg-gray-500/10 hover:bg-gray-500/20 rounded-md group"
                   >
                     <Checkbox
                       checked={task.status === "done"}
                       onCheckedChange={() => toggleTaskStatus(task)}
-                      className="border-gray-300 rounded-full p-3"
+                      className="border-gray-300 rounded-full p-3 mt-1"
                     />
                     <div
                       className="flex-1 cursor-pointer"
-                      onClick={() => setEditingTask(task)}
+                      onClick={() =>
+                        editingTask?.id !== task.id && setEditingTask(task)
+                      }
                     >
                       {editingTask?.id === task.id ? (
                         <div className="space-y-2">
@@ -254,28 +290,94 @@ const TodoPage: React.FC = () => {
                                 title: e.target.value,
                               })
                             }
-                            onBlur={() => updateTask(editingTask)}
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && updateTask(editingTask)
-                            }
                             autoFocus
                           />
-                          {editingTask.details !== undefined && (
-                            <Textarea
-                              value={editingTask.details || ""}
-                              onChange={(e) =>
+                          <Textarea
+                            value={editingTask.details || ""}
+                            onChange={(e) =>
+                              setEditingTask({
+                                ...editingTask,
+                                details: e.target.value,
+                              })
+                            }
+                            placeholder="Optional details"
+                          />
+                          <div className="flex items-center space-x-2 pt-1">
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant={"outline"}
+                                  size="sm"
+                                  className="w-full justify-start text-left font-normal"
+                                >
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  {editingTask.deadline ? (
+                                    format(
+                                      new Date(editingTask.deadline),
+                                      "PPP"
+                                    )
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                  mode="single"
+                                  selected={
+                                    editingTask.deadline
+                                      ? new Date(editingTask.deadline)
+                                      : undefined
+                                  }
+                                  onSelect={(date) =>
+                                    setEditingTask({
+                                      ...editingTask,
+                                      deadline: date
+                                        ? date.toLocaleDateString()
+                                        : "",
+                                      reminder_time: date
+                                        ? editingTask.reminder_time
+                                        : "", // Clear time if date is cleared
+                                    })
+                                  }
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                            <TimePicker
+                              value={editingTask.reminder_time || ""}
+                              onChange={(time) =>
                                 setEditingTask({
                                   ...editingTask,
-                                  details: e.target.value,
+                                  reminder_time: time,
                                 })
                               }
-                              onBlur={() => updateTask(editingTask)}
-                              onKeyDown={(e) =>
-                                e.key === "Enter" && updateTask(editingTask)
-                              }
-                              placeholder="Optional details"
+                              onOpen={() => {
+                                if (!editingTask.deadline) {
+                                  setEditingTask({
+                                    ...editingTask,
+                                    deadline: new Date().toLocaleDateString(),
+                                  });
+                                }
+                              }}
                             />
-                          )}
+                          </div>
+
+                          <div className="flex justify-end space-x-2 pt-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setEditingTask(null)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              size="sm"
+                              onClick={() => updateTask(editingTask)}
+                            >
+                              Save Changes
+                            </Button>
+                          </div>
                         </div>
                       ) : (
                         <div>
@@ -286,22 +388,32 @@ const TodoPage: React.FC = () => {
                             </p>
                           )}
                           {task.deadline && (
-                            <p className="text-xs text-gray-500 flex items-center mt-1">
-                              <CalendarIcon className="h-3 w-3 mr-1" />
-                              {format(new Date(task.deadline), "PPP")}
-                            </p>
+                            <div className="text-xs text-gray-500 flex items-center flex-wrap mt-1">
+                              <span className="flex items-center mr-3">
+                                <CalendarIcon className="h-3 w-3 mr-1" />
+                                {format(new Date(task.deadline), "PPP")}
+                              </span>
+                              {task.reminder_time && (
+                                <span className="flex items-center">
+                                  <Clock className="h-3 w-3 mr-1" />
+                                  {task.reminder_time}
+                                </span>
+                              )}
+                            </div>
                           )}
                         </div>
                       )}
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => deleteTask(task.id)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <Trash2 className="h-4 w-4 text-gray-500" />
-                    </Button>
+                    {editingTask?.id !== task.id && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteTask(task.id)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 className="h-4 w-4 text-gray-500" />
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -331,10 +443,18 @@ const TodoPage: React.FC = () => {
                             </p>
                           )}
                           {task.deadline && (
-                            <p className="text-xs text-gray-400 line-through flex items-center">
-                              <CalendarIcon className="h-3 w-3 mr-1" />
-                              {format(new Date(task.deadline), "PPP")}
-                            </p>
+                            <div className="text-xs text-gray-400 line-through flex items-center flex-wrap">
+                              <span className="flex items-center mr-3">
+                                <CalendarIcon className="h-3 w-3 mr-1" />
+                                {format(new Date(task.deadline), "PPP")}
+                              </span>
+                              {task.reminder_time && (
+                                <span className="flex items-center">
+                                  <Clock className="h-3 w-3 mr-1" />
+                                  {task.reminder_time}
+                                </span>
+                              )}
+                            </div>
                           )}
                         </div>
                         <Button
