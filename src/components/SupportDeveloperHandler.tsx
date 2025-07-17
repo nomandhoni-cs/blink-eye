@@ -5,7 +5,6 @@ import Database from "@tauri-apps/plugin-sql";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 
 type DatabaseInstance = Awaited<ReturnType<typeof Database.load>>;
-type DateSetter = React.Dispatch<React.SetStateAction<string>>;
 
 /**
  * A utility function to open the reminder window.
