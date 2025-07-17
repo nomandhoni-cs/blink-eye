@@ -47,8 +47,8 @@ const SupportDeveloperHandler = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
 
   useEffect(() => {
-    const minMs = 0.6 * 60 * 1000;
-    const maxMs = 1 * 60 * 1000;
+    const minMs = 60 * 60 * 1000; // 60 mins
+    const maxMs = 3 * 60 * 60 * 1000; // 3 hours
     const randomDelay = Math.floor(Math.random() * (maxMs - minMs) + minMs);
 
     console.log(
