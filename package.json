@@ -1,7 +1,7 @@
 {
   "name": "blink-eye",
   "private": true,
-  "version": "2.7.1",
+  "version": "2.7.2",
   "type": "module",
   "displayName": "Blink Eye",
   "categories": ["Other"],
@@ -36,6 +36,7 @@
     "@tauri-apps/plugin-global-shortcut": "^2.0.0",
     "@tauri-apps/plugin-http": "^2.0.1",
     "@tauri-apps/plugin-notification": "2.0.0",
+    "@tauri-apps/plugin-os": "~2",
     "@tauri-apps/plugin-process": "^2.0.0",
     "@tauri-apps/plugin-shell": "2.0.1",
     "@tauri-apps/plugin-sql": "^2.0.1",

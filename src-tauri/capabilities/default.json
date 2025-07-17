@@ -17,7 +17,8 @@
     "PlainGradientAnimationReminderWindow",
     "StarryBackgroundReminderWindow",
     "ShootingMeteorReminderWindow",
-    "before_alert"
+    "before_alert",
+    "support_reminder"
   ],
   "permissions": [
     {
@@ -34,6 +35,12 @@
         },
         {
           "url": "https://blinkeye.vercel.app/api/validatelicense"
+        },
+        {
+          "url": "https://blinkeye.vercel.app/api/basicUserData"
+        },
+        {
+          "url": "https://blinkeye.vercel.app/api/basicUserData"
         },
         {
           "url": "https://www.blinkeye.app/api/activatelicense"
@@ -115,6 +122,7 @@
     "global-shortcut:allow-register",
     "global-shortcut:allow-unregister",
     "dialog:allow-message",
-    "dialog:default"
+    "dialog:default",
+    "os:default"
   ]
 }

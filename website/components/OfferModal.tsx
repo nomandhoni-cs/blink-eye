@@ -155,7 +155,7 @@ export default function OfferModal() {
                   </div>
 
                   <div className="text-xs font-heading sm:text-sm text-white/80 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
-                    Trusted by 5,000+ Professionals
+                    Trusted by 13,000+ Professionals
                   </div>
                 </div>
               </div>

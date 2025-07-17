@@ -52,7 +52,7 @@ async function initializeDatabase() {
   return db;
 }
 
-async function storeLicenseData(data: any) {
+export async function storeLicenseData(data: any) {
   const db = await initializeDatabase();
 
   try {
@@ -213,7 +213,7 @@ const ActivateLicense = () => {
   return (
     <div className="space-y-8 max-w-3xl mx-auto px-6 py-8">
       {/* License Status Section */}
-      <div className="p-6 border rounded-lg shadow-sm flex items-center justify-between space-x-4">
+      <div className="p-6 border rounded-lg bg-background shadow-sm flex items-center justify-between space-x-4">
         <div className="flex items-center space-x-2">
           <TooltipProvider>
             <Tooltip>
@@ -251,7 +251,7 @@ const ActivateLicense = () => {
         </div>
       </div>
       <form
-        className="flex items-center justify-between w-full p-6 border rounded-lg shadow-sm space-x-4"
+        className="flex items-center justify-between w-full p-6 border bg-background rounded-lg shadow-sm space-x-4"
         onSubmit={handleActivate}
       >
         {/* Input Section */}
