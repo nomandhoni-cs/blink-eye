@@ -4,35 +4,68 @@ import { XIcon } from "lucide-react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import logo from "./assets/newIcon.png";
 import { Button } from "./components/ui/button";
-// import { handlePlayAudio } from "./lib/audioPlayer";
 import AllSetText from "./components/AllSetText";
 import "./App.css";
-// import * as path from "@tauri-apps/api/path";
-// import { convertFileSrc } from "@tauri-apps/api/core";
-// import audio from "./assets/before_alert_sound.mp3";
+
+// Enhanced Animated Counter Component
+const AnimatedCounter: React.FC<{
+  value: number;
+  fontSize: string;
+  className?: string;
+}> = ({ value, fontSize, className = "" }) => {
+  const digitHeight = parseInt(fontSize.replace("px", ""));
+  const digits = String(value).padStart(2, "0").split("");
+
+  return (
+    <div
+      className={`flex font-semibold ${className}`}
+      style={{ fontSize, lineHeight: `${digitHeight}px` }}
+    >
+      {digits.map((d, index) => (
+        <div key={index} className="w-[0.6em]">
+          <Digit digit={parseInt(d)} height={digitHeight} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Digit Component with Enhanced Animation
+const Digit: React.FC<{ digit: number; height: number }> = ({
+  digit,
+  height,
+}) => {
+  return (
+    <div className="relative overflow-y-hidden" style={{ height }}>
+      {/* Digit container with smooth transition */}
+      <div
+        className="absolute w-full transition-transform duration-500 ease-in-out"
+        style={{ transform: `translateY(-${digit * height}px)` }}
+      >
+        {/* Render digits 0-9 */}
+        {Array.from({ length: 10 }, (_, i) => (
+          <div
+            key={i}
+            className="w-full text-center flex items-center justify-center"
+            style={{ height }}
+          >
+            {i}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const Alert = () => {
-  // const handlePlayAudio = async () => {
-  //   try {
-  //     let reminderEndSound = new Audio(audio);
-  //     reminderEndSound.play();
-  //   } catch (error) {
-  //     console.error("Error playing audio:", error);
-  //   }
-  // };
   const [timeLeft, setTimeLeft] = useState(13);
-
   const [showAllSet, setShowAllSet] = useState(true);
   const window = getCurrentWebviewWindow();
 
   useEffect(() => {
-    // handlePlayAudio();
-
-    // Show AllSet text for 2.5 seconds, then switch to controls
     const timer = setTimeout(() => {
       setShowAllSet(false);
 
-      // Start countdown
       const countdownTimer = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -54,22 +87,40 @@ const Alert = () => {
   };
 
   return (
-    <div className="h-screen w-full opacity-90 flex items-center justify-between bg-black/90 rounded-3xl px-4 backdrop-blur-3xl border border-white/20 shadow-lg shadow-[rgba(31,38,135,0.37)] animate-in slide-in-from-top duration-300">
-      {!showAllSet && <img src={logo} className="h-12 w-12" alt="Blink Eye" />}
-      <h2 className="font-heading text-white text-6xl mx-auto">
+    <div className="h-screen w-full opacity-90 flex items-center justify-between bg-black/70 rounded-2xl px-4 backdrop-blur-3xl border border-white/10 animate-in slide-in-from-top duration-300">
+      {!showAllSet && (
+        <img
+          src={logo}
+          className="h-12 w-12 animate-in slide-in-from-top duration-300"
+          alt="Blink Eye"
+        />
+      )}
+
+      <div className="font-heading text-white text-6xl mx-auto flex items-center justify-center">
         {showAllSet ? (
           <div className="p-10">
             <AllSetText />
           </div>
         ) : timeLeft > 0 ? (
-          `00:${String(timeLeft).padStart(2, "0")}`
+          <div className="flex items-center justify-center space-x-1 animate-in slide-in-from-top duration-300">
+            <span className="">00</span>
+            <span className="mb-3">:</span>
+            <AnimatedCounter value={timeLeft} fontSize="60px" />
+          </div>
         ) : (
-          "00:00"
+          <div className="flex items-center">
+            <span>00:</span>
+            <span className="ml-1">00</span>
+          </div>
         )}
-      </h2>
+      </div>
+
       {!showAllSet && (
-        <Button onClick={handleClose} className="rounded-lg h-10 w-10">
-          <XIcon className="w-6 h-6 hover:rotate-90" />
+        <Button
+          onClick={handleClose}
+          className="rounded-lg h-10 w-10 animate-in slide-in-from-top duration-300"
+        >
+          <XIcon className="w-6 h-6 hover:rotate-90 transition-transform" />
         </Button>
       )}
     </div>
