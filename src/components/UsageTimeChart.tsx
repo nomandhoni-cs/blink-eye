@@ -9,7 +9,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
-import { format, subDays, isAfter } from "date-fns";
+import { format, subDays, isAfter, isSameMonth, isSameYear } from "date-fns";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -19,7 +19,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   ChartConfig,
   ChartContainer,
@@ -27,6 +27,7 @@ import {
   ChartLegendContent,
   ChartTooltip,
 } from "./ui/chart";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type TimeEntry = {
   firstTimestamp: number;
@@ -43,43 +44,147 @@ type DatabaseRow = {
   second_timestamp: number;
 };
 
-type TimeRange = "today" | "7days" | "30days" | "365days" | "allTime";
+type TimeRange =
+  | "today"
+  | "7days"
+  | "30days"
+  | "monthly"
+  | "365days"
+  | "allTime";
 
 const timeRanges: { [key in TimeRange]: string } = {
   today: "Today",
   "7days": "Last 7 Days",
   "30days": "Last 30 Days",
+  monthly: "Monthly",
   "365days": "Last 365 Days",
   allTime: "All Time",
 };
 
+// Month selector component
+const MonthYearSelector: React.FC<{
+  selectedDate: Date;
+  onDateChange: (date: Date) => void;
+  availableDates: string[];
+}> = ({ selectedDate, onDateChange, availableDates }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Get unique months/years from available dates
+  const availableMonths = useMemo(() => {
+    const monthsSet = new Set<string>();
+    availableDates.forEach((dateStr) => {
+      const date = new Date(dateStr);
+      monthsSet.add(format(date, "yyyy-MM"));
+    });
+    return Array.from(monthsSet).sort().reverse();
+  }, [availableDates]);
+
+  const handleMonthChange = (direction: "prev" | "next") => {
+    const currentMonth = format(selectedDate, "yyyy-MM");
+    const currentIndex = availableMonths.indexOf(currentMonth);
+
+    if (direction === "prev" && currentIndex < availableMonths.length - 1) {
+      const [year, month] = availableMonths[currentIndex + 1].split("-");
+      onDateChange(new Date(parseInt(year), parseInt(month) - 1));
+    } else if (direction === "next" && currentIndex > 0) {
+      const [year, month] = availableMonths[currentIndex - 1].split("-");
+      onDateChange(new Date(parseInt(year), parseInt(month) - 1));
+    }
+  };
+
+  const canGoPrev =
+    availableMonths.indexOf(format(selectedDate, "yyyy-MM")) <
+    availableMonths.length - 1;
+  const canGoNext =
+    availableMonths.indexOf(format(selectedDate, "yyyy-MM")) > 0;
+
+  return (
+    <div className="flex items-center gap-2">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => handleMonthChange("prev")}
+        disabled={!canGoPrev}
+        className="h-8 w-8"
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </Button>
+
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className="justify-start text-left font-normal"
+          >
+            <Calendar className="mr-2 h-4 w-4" />
+            {format(selectedDate, "MMMM yyyy")}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <div className="p-3">
+            <div className="grid grid-cols-3 gap-2">
+              {availableMonths.map((monthStr) => {
+                const [year, month] = monthStr.split("-");
+                const date = new Date(parseInt(year), parseInt(month) - 1);
+                const isSelected = format(selectedDate, "yyyy-MM") === monthStr;
+
+                return (
+                  <Button
+                    key={monthStr}
+                    variant={isSelected ? "default" : "ghost"}
+                    className="h-9 px-3"
+                    onClick={() => {
+                      onDateChange(date);
+                      setIsOpen(false);
+                    }}
+                  >
+                    {format(date, "MMM yyyy")}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => handleMonthChange("next")}
+        disabled={!canGoNext}
+        className="h-8 w-8"
+      >
+        <ChevronRight className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+};
+
 export default function UsageTimeChart() {
   const [selectedRange, setSelectedRange] = useState<TimeRange>("7days");
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const [timeData, setTimeData] = useState<TimeData | null>(null);
   const [usageTimeLimit, setUsageTimeLimit] = useState<number>(8);
 
   const chartConfig: ChartConfig = {
     timeWithin: {
       label: "Within 8 Hours",
-      color: "#22c55e", // Color when time is within 8 hours
+      color: "#22c55e",
     },
     timeExceeds: {
       label: "Exceeds 8 Hours",
-      color: "#FE4C55", // Color when time exceeds 8 hours
+      color: "#FE4C55",
     },
   };
 
   useEffect(() => {
     const fetchDateData = async () => {
       try {
-        // Load SQLite database
         const db = await Database.load("sqlite:UserScreenTime.db");
-        // Query all records from the table
         const results = await db.select(
           "SELECT date, first_timestamp, second_timestamp FROM time_data"
         );
         const typedResults = results as DatabaseRow[];
-        // Group the results by date into a TimeData object
         const groupedData: TimeData = {};
         typedResults.forEach((row: any) => {
           const date = row.date;
@@ -93,7 +198,6 @@ export default function UsageTimeChart() {
         });
         setTimeData(groupedData);
 
-        // Load usage time limit from store.json if available
         const usageTimeLimitStore = await load("store.json", {
           autoSave: false,
         });
@@ -116,17 +220,24 @@ export default function UsageTimeChart() {
     const localToday = format(today, "yyyy-MM-dd");
 
     const filterDate = (date: string) => {
+      const dateObj = new Date(date);
+
       switch (selectedRange) {
         case "today":
           return date === localToday;
         case "7days":
-          return isAfter(new Date(date), subDays(today, 7));
+          return isAfter(dateObj, subDays(today, 7));
         case "30days":
-          return isAfter(new Date(date), subDays(today, 30));
+          return isAfter(dateObj, subDays(today, 30));
         case "365days":
-          return isAfter(new Date(date), subDays(today, 365));
+          return isAfter(dateObj, subDays(today, 365));
         case "allTime":
           return true;
+        case "monthly":
+          return (
+            isSameMonth(dateObj, selectedMonth) &&
+            isSameYear(dateObj, selectedMonth)
+          );
         default:
           return false;
       }
@@ -143,7 +254,7 @@ export default function UsageTimeChart() {
         return { date, totalTime };
       })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, [timeData, selectedRange]);
+  }, [timeData, selectedRange, selectedMonth]);
 
   const totalTime = useMemo(() => {
     if (!processedData.length) return "0h 0m";
@@ -177,6 +288,8 @@ export default function UsageTimeChart() {
     );
   }
 
+  const availableDates = Object.keys(timeData);
+
   return (
     <Card className="w-full max-w-7xl my-4">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -184,7 +297,22 @@ export default function UsageTimeChart() {
           <CardTitle className="font-heading tracking-wider">
             Device Usage Time
           </CardTitle>
-          <CardDescription>Total time: {totalTime}</CardDescription>
+          <CardDescription>
+            {selectedRange === "monthly"
+              ? `${format(selectedMonth, "MMMM yyyy")} - Total: ${totalTime}`
+              : `Total time: ${totalTime}`}
+          </CardDescription>
+        </div>
+        <div className="mr-14">
+          {selectedRange === "monthly" && (
+            <div className="ml-auto">
+              <MonthYearSelector
+                selectedDate={selectedMonth}
+                onDateChange={setSelectedMonth}
+                availableDates={availableDates}
+              />
+            </div>
+          )}
         </div>
         <div className="flex flex-col items-end space-y-1">
           <div className="flex items-center">
@@ -198,17 +326,20 @@ export default function UsageTimeChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-x-2 mb-4">
-          {Object.entries(timeRanges).map(([key, label]) => (
-            <Button
-              key={key}
-              variant={selectedRange === key ? "default" : "outline"}
-              onClick={() => setSelectedRange(key as TimeRange)}
-            >
-              {label}
-            </Button>
-          ))}
+        <div className="flex flex-wrap items-center gap-2 mb-4">
+          <div className="flex gap-2">
+            {Object.entries(timeRanges).map(([key, label]) => (
+              <Button
+                key={key}
+                variant={selectedRange === key ? "default" : "outline"}
+                onClick={() => setSelectedRange(key as TimeRange)}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
         </div>
+
         {processedData.length > 0 ? (
           <ChartContainer
             config={chartConfig}
@@ -262,7 +393,12 @@ export default function UsageTimeChart() {
         ) : (
           <Alert>
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>No Data for {timeRanges[selectedRange]}</AlertTitle>
+            <AlertTitle>
+              No Data for{" "}
+              {selectedRange === "monthly"
+                ? format(selectedMonth, "MMMM yyyy")
+                : timeRanges[selectedRange]}
+            </AlertTitle>
             <AlertDescription>
               No activity recorded for the selected time range. Please ensure
               the app is tracking your activity.
