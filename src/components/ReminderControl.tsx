@@ -12,6 +12,7 @@ import { load } from "@tauri-apps/plugin-store";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
 import { useTimeCountContext } from "../contexts/TimeCountContext";
+
 // In the component where you're using React.lazy
 const TodayTodoTasks = lazy(() =>
   import("./TodayTodoTasks").then((module) => ({
@@ -24,6 +25,81 @@ const appWindow = getCurrentWebviewWindow();
 interface ConfigRow {
   value: string;
 }
+
+// A single digit that "rolls" vertically like an odometer
+const Digit: React.FC<{ digit: number; height: number }> = ({
+  digit,
+  height,
+}) => {
+  // A "reel" of numbers from 0 to 9
+  const numbers = Array.from(Array(10).keys());
+
+  return (
+    // The container for a single digit, which masks the reel.
+    <div style={{ height }} className="overflow-hidden">
+      {/* The vertically scrolling reel of numbers */}
+      <div
+        className="transition-transform duration-700"
+        style={{
+          // This transform is the core of the animation.
+          // It moves the entire reel up or down to show the correct digit.
+          transform: `translateY(-${digit * height}px)`,
+          // A custom cubic-bezier for that smooth, slightly overshooting animation, mimicking SwiftUI.
+          transitionTimingFunction: "cubic-bezier(0.2, 1, 0.3, 1)",
+        }}
+      >
+        {numbers.map((num) => (
+          // Each number on the reel
+          <div
+            key={num}
+            style={{ height }}
+            className="flex items-center justify-center"
+          >
+            {num}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// The main animated counter component with the SwiftUI-style rolling animation
+const AnimatedCounter: React.FC<{
+  value: number;
+  fontSize: string;
+  className?: string;
+}> = ({ value, fontSize, className = "" }) => {
+  // Parse the numeric part of the font size for height calculations.
+  // e.g., "240px" -> 240
+  const digitHeight = parseInt(fontSize.replace("px", ""));
+
+  // Pad the number to ensure it's always two digits (e.g., 9 -> "09")
+  const digits = String(value).padStart(2, "0").split("");
+
+  return (
+    // Container for all the digits
+    <div
+      className={`flex font-semibold ${className}`}
+      style={{
+        fontSize: fontSize,
+        lineHeight: `${digitHeight}px`, // Match line-height to font-size for proper alignment
+      }}
+    >
+      {digits.map((d, index) => (
+        // Render a rolling Digit component for each digit in the value
+        <div
+          key={index}
+          // The width is set relative to the font size using 'em' units.
+          // This ensures the counter scales properly. '0.6em' is a good
+          // approximation for the width of a monospaced character.
+          className="w-[0.6em]"
+        >
+          <Digit digit={parseInt(d)} height={digitHeight} />
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const ReminderControl: React.FC = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
@@ -149,19 +225,26 @@ const ReminderControl: React.FC = () => {
           <div className="text-[12rem] font-heading tracking-wide">Ready?</div>
         ) : !isUsiningCircleProgressTimerStyle ? (
           <div className="flex flex-col items-center">
-            <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center">
-              <div className="text-[240px] font-semibold">{timeLeft}s</div>
+            <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center animate-in">
+              <div className="flex items-center font-heading">
+                <AnimatedCounter
+                  value={timeLeft}
+                  fontSize="240px"
+                  className="items-center"
+                />
+                <span className="text-[240px] font-normal ml-2">s</span>
+              </div>
               <div className="w-96 -mt-10">
                 <Progress value={progressPercentage} />
               </div>
             </div>
-            <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-4">
+            <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-4 animate-in">
               <div className="flex justify-center items-center space-x-4">
                 <CurrentTime />
                 <div className="w-1 h-8 opacity-20 bg-black dark:bg-white" />
                 <ScreenOnTime timeCount={timeCount} />
               </div>
-              <div className="text-5xl font-semibold text-center px-4 pb-4">
+              <div className="text-5xl font-heading text-center px-4 pb-4">
                 {reminderText ||
                   "Pause! Look into the distance, and best if you walk a bit."}
               </div>
@@ -188,27 +271,22 @@ const ReminderControl: React.FC = () => {
         ) : (
           <div className="flex flex-col items-center justify-center min-h-screen p-4">
             <div className="relative w-96 h-96 mb-8">
-              <svg
-                className="w-full h-full -rotate-90"
-                viewBox="0 0 110 110" /* Increased the viewBox to add padding */
-              >
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 110 110">
                 {/* Background Circle */}
                 <circle
                   className="text-gray-300 dark:text-gray-700"
                   strokeWidth="8"
                   stroke="currentColor"
                   fill="transparent"
-                  r="50" /* Adjusted the radius to fit within the new viewBox */
-                  cx="55" /* Centered circle to align with the new viewBox */
+                  r="50"
+                  cx="55"
                   cy="55"
                 />
                 {/* Progress Circle */}
                 <circle
                   className="text-primary dark:text-primary-dark"
                   strokeWidth="8"
-                  strokeDasharray={
-                    314.16
-                  } /* Updated to match the adjusted radius */
+                  strokeDasharray={314.16}
                   strokeDashoffset={314.16 * ((100 - progressPercentage) / 100)}
                   strokeLinecap="round"
                   stroke="currentColor"
@@ -219,9 +297,11 @@ const ReminderControl: React.FC = () => {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-[160px] font-semibold text-center">
-                  {timeLeft}
-                </span>
+                <AnimatedCounter
+                  value={timeLeft}
+                  fontSize="160px"
+                  className="justify-center"
+                />
               </div>
             </div>
 
