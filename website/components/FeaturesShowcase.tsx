@@ -14,8 +14,7 @@ const triplet = (e1: number, e2: number, e3: number) =>
   keyStr.charAt(e3 & 63);
 
 const rgbDataURL = (r: number, g: number, b: number) =>
-  `data:image/gif;base64,R0lGODlhAQABAPAA${
-    triplet(0, r, g) + triplet(b, 255, 255)
+  `data:image/gif;base64,R0lGODlhAQABAPAA${triplet(0, r, g) + triplet(b, 255, 255)
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
 // Define image URLs directly in the component
@@ -49,35 +48,35 @@ export default function FeatureShowcase() {
           {featuresDemo.map((feature, index) => (
             <div
               key={index}
-              className="relative group animate-in fade-in slide-in-from-bottom-10 duration-1000 fill-mode-both"
-              style={{ animationDelay: `${index * 150}ms` }}
+              className="relative group animate-in fade-in slide-in-from-bottom-10 duration-100 fill-mode-both"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Glassmorphism glow effect */}
               <div className="absolute -inset-6 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out group-hover:animate-pulse"></div>
 
               {/* Main glassmorphism card */}
-              <Card className="relative overflow-hidden border border-white/20 dark:border-white/10 shadow-2xl backdrop-blur-xl bg-white/10 dark:bg-black/20 transition-all duration-500 hover:bg-white/20 dark:hover:bg-black/30 rounded-2xl hover:scale-[1.02] hover:shadow-3xl transform-gpu">
+              <Card className="relative overflow-hidden border border-white/20 dark:border-white/10 shadow-2xl backdrop-blur-xl bg-white/10 dark:bg-black/20 transition-all duration-100 hover:bg-white/20 dark:hover:bg-black/30 rounded-2xl hover:scale-[1.02] hover:shadow-3xl transform-gpu">
                 <CardContent className="p-0">
                   <div className="flex flex-col">
                     {/* Full-width Image Content */}
                     <div className="w-full relative">
                       <div className="relative group/image">
                         {/* Enhanced glassmorphism container */}
-                        <div className="relative bg-white/10 dark:bg-black/20 rounded-t-2xl overflow-hidden shadow-2xl backdrop-blur-xl border-b border-white/20 dark:border-white/10 hover:border-white/30 dark:hover:border-white/20 transition-all duration-500">
+                        <div className="relative bg-white/10 dark:bg-black/20 rounded-t-2xl overflow-hidden shadow-2xl backdrop-blur-xl border-b border-white/20 dark:border-white/10 hover:border-white/30 dark:hover:border-white/20 transition-all duration-100">
                           {/* Browser Mockup Header with glassmorphism */}
                           <div className="h-12 bg-white/20 dark:bg-black/30 backdrop-blur-sm flex items-center justify-between px-6 border-b border-white/20 dark:border-white/10">
                             {/* Traffic lights */}
                             <div className="flex space-x-2">
-                              <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm hover:scale-110 transition-transform duration-200 hover:animate-pulse"></div>
-                              <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-sm hover:scale-110 transition-transform duration-200 hover:animate-pulse"></div>
-                              <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm hover:scale-110 transition-transform duration-200 hover:animate-pulse"></div>
+                              <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm hover:scale-110 transition-transform duration-100 hover:animate-pulse"></div>
+                              <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-sm hover:scale-110 transition-transform duration-100 hover:animate-pulse"></div>
+                              <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm hover:scale-110 transition-transform duration-100 hover:animate-pulse"></div>
                             </div>
 
                             {/* URL bar glassmorphism */}
                             <div className="flex-1 mx-6 px-4 py-1 bg-white/10 dark:bg-black/20 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/10 transition-all duration-300 hover:bg-white/20 dark:hover:bg-black/30">
                               <p className="text-sm font-medium text-slate-700 dark:text-slate-200 text-center">
                                 Blink Eye -{" "}
-                                <span className="text-xs font-normal opacity-75 animate-in fade-in duration-500 delay-300">
+                                <span className="text-xs font-normal opacity-75 animate-in fade-in duration-100 delay-100">
                                   {feature.moto}
                                 </span>
                               </p>
