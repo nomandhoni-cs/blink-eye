@@ -277,68 +277,66 @@ export default function PricingSection() {
   };
 
   return (
-    <div className="relative px-6 py-12 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-12">
-          <h2 className="text-5xl font-heading font-bold tracking-tight sm:text-6xl">
-            {pricingHeader("title")}
-          </h2>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-4xl mx-auto">
-            {pricingHeader("description")}
-          </p>
-        </div>
-
-        <Tabs
-          defaultValue="yearly"
-          className="w-full"
-          onValueChange={(value) =>
-            setBillingCycle(value as "yearly" | "lifetime")
-          }
-        >
-          <div className="flex justify-center mb-12">
-            <TabsList className="h-11 p-1 bg-gray-100 dark:bg-gray-900 rounded-full border border-gray-200 dark:border-gray-800">
-              <TabsTrigger
-                value="yearly"
-                className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
-              >
-                Yearly
-              </TabsTrigger>
-              <TabsTrigger
-                value="lifetime"
-                className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
-              >
-                Lifetime
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          <TabsContent value="yearly" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
-              {yearlyPlans.map((plan, index) => (
-                <div key={index}>{renderPricingCard(plan, "yearly")}</div>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="lifetime" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
-              {lifetimePlans.map((plan, index) => (
-                <div key={index}>{renderPricingCard(plan, "lifetime")}</div>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        <p className="mt-12 text-sm text-gray-500 dark:text-gray-400 text-center">
-          For discounts, enterprise, or student pricing:{" "}
-          <a
-            href="mailto:alnoman.dhoni@gmail.com"
-            className="text-[#FE4C55] hover:underline font-medium"
-          >
-            alnoman.dhoni@gmail.com
-          </a>
+    <div className="mx-auto container">
+      <div className="text-center mb-12">
+        <h2 className="text-5xl font-heading font-bold tracking-tight sm:text-6xl">
+          {pricingHeader("title")}
+        </h2>
+        <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-6xl mx-auto">
+          {pricingHeader("description")}
         </p>
       </div>
+
+      <Tabs
+        defaultValue="yearly"
+        className="w-full"
+        onValueChange={(value) =>
+          setBillingCycle(value as "yearly" | "lifetime")
+        }
+      >
+        <div className="flex justify-center mb-12">
+          <TabsList className="h-11 p-1 bg-gray-100 dark:bg-gray-900 rounded-full border border-gray-200 dark:border-gray-800">
+            <TabsTrigger
+              value="yearly"
+              className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+            >
+              Yearly
+            </TabsTrigger>
+            <TabsTrigger
+              value="lifetime"
+              className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+            >
+              Lifetime
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
+        <TabsContent value="yearly" className="mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+            {yearlyPlans.map((plan, index) => (
+              <div key={index}>{renderPricingCard(plan, "yearly")}</div>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="lifetime" className="mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+            {lifetimePlans.map((plan, index) => (
+              <div key={index}>{renderPricingCard(plan, "lifetime")}</div>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      <p className="mt-12 text-sm text-gray-500 dark:text-gray-400 text-center">
+        For discounts, enterprise, or student pricing:{" "}
+        <a
+          href="mailto:alnoman.dhoni@gmail.com"
+          className="text-[#FE4C55] hover:underline font-medium"
+        >
+          alnoman.dhoni@gmail.com
+        </a>
+      </p>
     </div>
   );
 }

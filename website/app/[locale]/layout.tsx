@@ -99,7 +99,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="scroll-smooth">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
