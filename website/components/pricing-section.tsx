@@ -41,10 +41,10 @@ export default function PricingSection() {
   const yearlyPlans: PricingPlan[] = [
     {
       devices: 1,
-      price: "$9.99",
+      price: "$6.99",
       originalPrice: "$9.99",
-      savings: null,
-      savingsPercentage: null,
+      savings: "$3.00",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -55,10 +55,10 @@ export default function PricingSection() {
     },
     {
       devices: 2,
-      price: "$16.99",
-      originalPrice: "$19.98",
-      savings: "$3.00",
-      savingsPercentage: "15%",
+      price: "$11.89",
+      originalPrice: "$16.99",
+      savings: "$5.10",
+      savingsPercentage: "30%",
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -69,10 +69,10 @@ export default function PricingSection() {
     },
     {
       devices: 5,
-      price: "$39.99",
-      originalPrice: "$49.95",
-      savings: "$9.96",
-      savingsPercentage: "20%",
+      price: "$27.99",
+      originalPrice: "$39.99",
+      savings: "$12.00",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -86,10 +86,10 @@ export default function PricingSection() {
   const lifetimePlans: PricingPlan[] = [
     {
       devices: 1,
-      price: "$28.99",
+      price: "$20.29",
       originalPrice: "$28.99",
-      savings: null,
-      savingsPercentage: null,
+      savings: "$8.70",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -100,10 +100,10 @@ export default function PricingSection() {
     },
     {
       devices: 2,
-      price: "$49.99",
-      originalPrice: "$57.98",
-      savings: "$8.00",
-      savingsPercentage: "14%",
+      price: "$34.99",
+      originalPrice: "$49.99",
+      savings: "$15.00",
+      savingsPercentage: "30%",
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -114,10 +114,10 @@ export default function PricingSection() {
     },
     {
       devices: 5,
-      price: "$109.99",
-      originalPrice: "$144.95",
-      savings: "$34.96",
-      savingsPercentage: "24%",
+      price: "$76.99",
+      originalPrice: "$109.99",
+      savings: "$33.00",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -176,30 +176,22 @@ export default function PricingSection() {
           <div className="sticky top-0 z-20 border-b border-gray-100 dark:border-gray-800">
             <CardContent className="pt-0 pb-4">
               <div className="text-center mb-3">
-                <div className="flex items-baseline justify-center gap-1">
+                <div className="flex items-baseline justify-center gap-2">
                   <span className={`text-5xl font-heading font-bold ${plan.isRecommended
                     ? "text-[#FE4C55]"
                     : "text-gray-900 dark:text-gray-100"
                     }`}>
                     {plan.price}
                   </span>
+                  {plan.savings && (
+                    <span className="text-4xl font-heading text-gray-400 dark:text-gray-500 line-through">
+                      {plan.originalPrice}
+                    </span>
+                  )}
                   <span className="text-gray-500 text-sm">
                     {cycle === "yearly" ? "/year" : ""}
                   </span>
                 </div>
-
-                {plan.savings && (
-                  <div className="mt-2 space-y-1">
-                    <p className="text-xs text-gray-400 line-through">
-                      {plan.originalPrice}
-                    </p>
-                    <div className="inline-flex items-center gap-2">
-                      <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                        Save {plan.savingsPercentage}
-                      </span>
-                    </div>
-                  </div>
-                )}
               </div>
 
               <Button
