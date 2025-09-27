@@ -41,10 +41,10 @@ export default function PricingSection() {
   const yearlyPlans: PricingPlan[] = [
     {
       devices: 1,
-      price: "$9.99",
+      price: "$6.99",
       originalPrice: "$9.99",
-      savings: null,
-      savingsPercentage: null,
+      savings: "$3.00",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -55,10 +55,10 @@ export default function PricingSection() {
     },
     {
       devices: 2,
-      price: "$16.99",
-      originalPrice: "$19.98",
-      savings: "$3.00",
-      savingsPercentage: "15%",
+      price: "$11.89",
+      originalPrice: "$16.99",
+      savings: "$5.10",
+      savingsPercentage: "30%",
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -69,10 +69,10 @@ export default function PricingSection() {
     },
     {
       devices: 5,
-      price: "$39.99",
-      originalPrice: "$49.95",
-      savings: "$9.96",
-      savingsPercentage: "20%",
+      price: "$27.99",
+      originalPrice: "$39.99",
+      savings: "$12.00",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -86,10 +86,10 @@ export default function PricingSection() {
   const lifetimePlans: PricingPlan[] = [
     {
       devices: 1,
-      price: "$28.99",
+      price: "$20.29",
       originalPrice: "$28.99",
-      savings: null,
-      savingsPercentage: null,
+      savings: "$8.70",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -100,10 +100,10 @@ export default function PricingSection() {
     },
     {
       devices: 2,
-      price: "$49.99",
-      originalPrice: "$57.98",
-      savings: "$8.00",
-      savingsPercentage: "14%",
+      price: "$34.99",
+      originalPrice: "$49.99",
+      savings: "$15.00",
+      savingsPercentage: "30%",
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -114,10 +114,10 @@ export default function PricingSection() {
     },
     {
       devices: 5,
-      price: "$109.99",
-      originalPrice: "$144.95",
-      savings: "$34.96",
-      savingsPercentage: "24%",
+      price: "$76.99",
+      originalPrice: "$109.99",
+      savings: "$33.00",
+      savingsPercentage: "30%",
       isRecommended: false,
       checkoutLink: {
         yearly:
