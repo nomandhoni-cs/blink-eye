@@ -176,30 +176,22 @@ export default function PricingSection() {
           <div className="sticky top-0 z-20 border-b border-gray-100 dark:border-gray-800">
             <CardContent className="pt-0 pb-4">
               <div className="text-center mb-3">
-                <div className="flex items-baseline justify-center gap-1">
+                <div className="flex items-baseline justify-center gap-2">
                   <span className={`text-5xl font-heading font-bold ${plan.isRecommended
                     ? "text-[#FE4C55]"
                     : "text-gray-900 dark:text-gray-100"
                     }`}>
                     {plan.price}
                   </span>
+                  {plan.savings && (
+                    <span className="text-4xl font-heading text-gray-400 dark:text-gray-500 line-through">
+                      {plan.originalPrice}
+                    </span>
+                  )}
                   <span className="text-gray-500 text-sm">
                     {cycle === "yearly" ? "/year" : ""}
                   </span>
                 </div>
-
-                {plan.savings && (
-                  <div className="mt-2 space-y-1">
-                    <p className="text-xs text-gray-400 line-through">
-                      {plan.originalPrice}
-                    </p>
-                    <div className="inline-flex items-center gap-2">
-                      <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                        Save {plan.savingsPercentage}
-                      </span>
-                    </div>
-                  </div>
-                )}
               </div>
 
               <Button
