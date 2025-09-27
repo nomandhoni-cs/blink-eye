@@ -15,6 +15,7 @@ import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ReactNode } from "react";
 import { Urbanist } from "next/font/google";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 // import localFont from "next/font/local";
 
 export const viewport: Viewport = {
@@ -131,6 +132,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               {/* </div> */}
             </main>
             <Footer />
+            <AnnouncementBar />
             <MediaQueriesDebug />
           </Providers>
         </NextIntlClientProvider>
