@@ -154,7 +154,21 @@
 
 /* Bengali locale font helper: apply Hind Siliguri when .font-bn is present on the html/body */
 .font-bn {
+  /* Apply Hind Siliguri as the primary font for body text */
+  --heading-font: "Hind Siliguri", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+
   font-family: "Hind Siliguri", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Ensure headings use the same Hind Siliguri font when `.font-bn` is present */
+.font-bn h1,
+.font-bn h2,
+.font-bn h3,
+.font-bn h4,
+.font-bn h5,
+.font-bn h6 {
+  font-family: var(--heading-font);
 }
