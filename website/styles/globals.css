@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -153,7 +152,9 @@
   animation: slide-up 0.3s ease-out;
 }
 
-/* Bangla Font Only */
-html[lang="bn"] body {
-  font-family: 'Hind Siliguri', sans-serif !important;
+/* Bengali locale font helper: apply Hind Siliguri when .font-bn is present on the html/body */
+.font-bn {
+  font-family: "Hind Siliguri", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
 }

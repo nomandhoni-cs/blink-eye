@@ -103,12 +103,21 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} suppressHydrationWarning className="scroll-smooth">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* Load Hind Siliguri only for Bengali locale */}
+        {locale === "bn" && (
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap"
+          />
+        )}
       </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
-          fontHeading.variable
+          fontHeading.variable,
+          // add a class to enable Hind Siliguri only for Bengali locale
+          locale === "bn" ? "font-bn" : undefined
         )}
       >
         <meta
