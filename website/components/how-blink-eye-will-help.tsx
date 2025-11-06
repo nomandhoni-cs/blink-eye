@@ -169,11 +169,11 @@ export default function HowBlinkEyeWillHelp() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl text-center py-4">
-        <h2 className="mt-2 text-balance text-5xl font-heading tracking-wide sm:text-6xl">
+        <h2 className="mt-2 text-5xl font-heading font-bold tracking-tight sm:text-6xl">
           {t("heading")}
         </h2>
       </div>
-      <p className="mx-auto mt-6 max-w-6xl text-pretty text-center text-lg font-medium text-gray-600 dark:text-gray-300 sm:text-xl/8 py-4">
+      <p className="mx-auto mt-6 max-w-6xl text-pretty text-center text-lg font-heading font-medium text-gray-600 dark:text-gray-300 sm:text-xl/8 py-4">
         <b>{t("body1")}</b> {t("body2")}
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
