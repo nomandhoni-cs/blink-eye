@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Check } from "lucide-react";
 import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
@@ -19,12 +19,11 @@ export const metadata: Metadata = {
   title: "Pricing",
 };
 
-interface PricingPlan {
+// Configuration interface - only define these fields
+interface PricingPlanConfig {
   devices: number;
-  price: string;
-  originalPrice: string;
-  savings: string | null;
-  savingsPercentage: string | null;
+  originalPrice: string; // e.g., "9.99" (without $)
+  savingsPercentage: string; // e.g., "60%" - ONLY CHANGE THIS for discount
   isRecommended: boolean;
   checkoutLink: {
     yearly: string;
@@ -32,19 +31,40 @@ interface PricingPlan {
   };
 }
 
+// Full plan interface with calculated fields
+interface PricingPlan extends PricingPlanConfig {
+  price: string;
+  savings: string;
+}
+
+// Helper function to automatically calculate pricing based on savingsPercentage
+const calculatePricing = (config: PricingPlanConfig): PricingPlan => {
+  const original = parseFloat(config.originalPrice.replace(/[$,]/g, ''));
+  const percentage = parseFloat(config.savingsPercentage.replace('%', '')) / 100;
+
+  const savingsAmount = original * percentage;
+  const finalPrice = original - savingsAmount;
+
+  return {
+    ...config,
+    price: `$${finalPrice.toFixed(2)}`,
+    savings: `$${savingsAmount.toFixed(2)}`,
+    originalPrice: `$${original.toFixed(2)}`
+  };
+};
+
 export default function PricingSection() {
   const pricingHeader = useTranslations("pricingSectionHeader");
   const [billingCycle, setBillingCycle] = useState<"yearly" | "lifetime">(
     "yearly"
   );
 
-  const yearlyPlans: PricingPlan[] = [
+  // Define ONLY base configuration - prices are calculated automatically
+  const yearlyPlansConfig: PricingPlanConfig[] = [
     {
       devices: 1,
-      price: "$6.99",
-      originalPrice: "$9.99",
-      savings: "$3.00",
-      savingsPercentage: "30%",
+      originalPrice: "9.99",
+      savingsPercentage: "60%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -55,10 +75,8 @@ export default function PricingSection() {
     },
     {
       devices: 2,
-      price: "$11.89",
-      originalPrice: "$16.99",
-      savings: "$5.10",
-      savingsPercentage: "30%",
+      originalPrice: "16.99",
+      savingsPercentage: "60%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -69,10 +87,8 @@ export default function PricingSection() {
     },
     {
       devices: 5,
-      price: "$27.99",
-      originalPrice: "$39.99",
-      savings: "$12.00",
-      savingsPercentage: "30%",
+      originalPrice: "39.99",
+      savingsPercentage: "60%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -83,13 +99,11 @@ export default function PricingSection() {
     },
   ];
 
-  const lifetimePlans: PricingPlan[] = [
+  const lifetimePlansConfig: PricingPlanConfig[] = [
     {
       devices: 1,
-      price: "$20.29",
-      originalPrice: "$28.99",
-      savings: "$8.70",
-      savingsPercentage: "30%",
+      originalPrice: "28.99",
+      savingsPercentage: "60%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -100,10 +114,8 @@ export default function PricingSection() {
     },
     {
       devices: 2,
-      price: "$34.99",
-      originalPrice: "$49.99",
-      savings: "$15.00",
-      savingsPercentage: "30%",
+      originalPrice: "49.99",
+      savingsPercentage: "60%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -114,10 +126,8 @@ export default function PricingSection() {
     },
     {
       devices: 5,
-      price: "$76.99",
-      originalPrice: "$109.99",
-      savings: "$33.00",
-      savingsPercentage: "30%",
+      originalPrice: "109.99",
+      savingsPercentage: "60%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -127,6 +137,17 @@ export default function PricingSection() {
       },
     },
   ];
+
+  // Calculate pricing automatically using useMemo for performance
+  const yearlyPlans = useMemo(
+    () => yearlyPlansConfig.map(calculatePricing),
+    [yearlyPlansConfig]
+  );
+
+  const lifetimePlans = useMemo(
+    () => lifetimePlansConfig.map(calculatePricing),
+    [lifetimePlansConfig]
+  );
 
   const renderPricingCard = (
     plan: PricingPlan,
@@ -192,11 +213,19 @@ export default function PricingSection() {
                     {cycle === "yearly" ? "/year" : ""}
                   </span>
                 </div>
+                {/* Display savings percentage */}
+                {plan.savingsPercentage && (
+                  <div className="mt-2">
+                    <span className="inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-heading font-semibold">
+                      Save {plan.savingsPercentage} ({plan.savings})
+                    </span>
+                  </div>
+                )}
               </div>
 
               <Button
                 asChild
-                className={`w-full h-11 font-semibold ${plan.isRecommended
+                className={`w-full h-11 font-heading font-semibold ${plan.isRecommended
                   ? "bg-[#FE4C55] hover:bg-[#FE4C55]/90 text-white shadow-lg"
                   : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-100 dark:hover:bg-gray-200 dark:text-gray-900"
                   }`}
@@ -290,13 +319,13 @@ export default function PricingSection() {
           <TabsList className="h-11 p-1 bg-gray-100 dark:bg-gray-900 rounded-full border border-gray-200 dark:border-gray-800">
             <TabsTrigger
               value="yearly"
-              className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+              className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-heading font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
             >
               Yearly
             </TabsTrigger>
             <TabsTrigger
               value="lifetime"
-              className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+              className="px-6 rounded-full data-[state=active]:bg-[#FE4C55] data-[state=active]:text-black data-[state=active]:shadow-md transition-all duration-200 font-heading font-medium text-black dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
             >
               Lifetime
             </TabsTrigger>

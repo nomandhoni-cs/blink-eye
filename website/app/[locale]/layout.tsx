@@ -128,6 +128,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <GoogleTagManager gtmId="GTM-5C4XTNHM" />
           <Providers>
             <Header />
+            <AnnouncementBar />
             <main className="flex flex-1 flex-col">
               {/* <div className="relative isolate"> */}
               {/* <StarryBackground /> */}
@@ -141,7 +142,6 @@ export default async function LocaleLayout({ children, params }: Props) {
               {/* </div> */}
             </main>
             <Footer />
-            <AnnouncementBar />
             <MediaQueriesDebug />
           </Providers>
         </NextIntlClientProvider>
