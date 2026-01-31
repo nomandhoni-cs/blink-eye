@@ -151,16 +151,17 @@ const SupportedPlatforms = () => {
 };
 
 const ReleaseInfo = ({ tag_name }) => (
-  <div className="relative pt-8">
-     {/* Subtle gradient separator */}
-     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-zinc-800 to-transparent opacity-50"></div>
-    
-    <Link 
-      href="/changelog" 
-      className="block text-center text-gray-800 dark:text-zinc-200 font-semibold mb-6 hover:text-[#FE4C55] transition-colors duration-300"
-    >
-      Release Notes
-    </Link>
+  <div className="relative pt-8 max-w-2xl mx-auto">
+    <div className="flex items-center gap-4 mb-6">
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 dark:via-zinc-700 to-gray-300 dark:to-zinc-700"></div>
+      <Link 
+        href="/changelog" 
+        className="shrink-0 text-gray-800 dark:text-zinc-200 font-semibold hover:text-[#FE4C55] dark:hover:text-[#FE4C55] transition-colors duration-300"
+      >
+        Release Notes
+      </Link>
+      <div className="h-px flex-1 bg-gradient-to-l from-transparent via-gray-300 dark:via-zinc-700 to-gray-300 dark:to-zinc-700"></div>
+    </div>
     
     <div className="flex justify-center gap-4">
       <VersionTolatDownloads tag_name={tag_name} />
