@@ -51,7 +51,7 @@ export function Command({ children }: { children?: React.ReactNode }) {
         </div>
       </div>
 
-      {children && <div className="space-y-6 pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">{children}</div>}
+      {children && <div className="space-y-6 pt-2 animate-in fade-in slide-in-from-bottom-4 duration-700">{children}</div>}
     </div>
   );
 }

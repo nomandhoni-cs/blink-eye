@@ -151,7 +151,7 @@ const SupportedPlatforms = () => {
 };
 
 const ReleaseInfo = ({ tag_name }) => (
-  <div className="relative pt-8 max-w-2xl mx-auto">
+  <div className="relative pt-4 max-w-2xl mx-auto">
     <div className="flex items-center gap-4 mb-6">
       <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 dark:via-zinc-700 to-gray-300 dark:to-zinc-700"></div>
       <Link 
