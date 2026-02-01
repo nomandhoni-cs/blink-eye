@@ -44,13 +44,11 @@ const DownloadApp = ({ releaseData }) => {
       </div>
       <TimerDemo />
       <div className="max-w-5xl mx-auto">
-        {/* <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading text-center mb-8">
-          Download Free & Start Now
-          </h2> */}
         <div className="max-w-5xl mx-auto">
-          <Command />
-          <SupportedPlatforms />
-          <ReleaseInfo tag_name={tag_name} />
+          <Command>
+            <SupportedPlatforms />
+            <ReleaseInfo tag_name={tag_name} />
+          </Command>
         </div>
       </div>
     </section>
@@ -145,14 +143,28 @@ const DownloadOption = ({ name, icon, mainLink, dropdownLinks }) => (
 
 const SupportedPlatforms = () => {
   const t = useTranslations("DownloadApp");
-  return <p className="text-sm text-center">{t("supportedPlatforms")}</p>;
+  return (
+    <p className="text-gray-500 dark:text-zinc-500 text-sm text-center transition-colors duration-300">
+      {t("supportedPlatforms")}
+    </p>
+  );
 };
 
 const ReleaseInfo = ({ tag_name }) => (
-  <div className="text-center space-x-1 md:space-y-2 flex flex-col items-center">
-    <Link href="/changelog" className="text-base font-semibold">
-      Release Notes
-    </Link>
-    <VersionTolatDownloads tag_name={tag_name} />
+  <div className="relative pt-4 max-w-2xl mx-auto">
+    <div className="flex items-center gap-4 mb-6">
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 dark:via-zinc-700 to-gray-300 dark:to-zinc-700"></div>
+      <Link 
+        href="/changelog" 
+        className="shrink-0 text-gray-800 dark:text-zinc-200 font-semibold hover:text-[#FE4C55] dark:hover:text-[#FE4C55] transition-colors duration-300"
+      >
+        Release Notes
+      </Link>
+      <div className="h-px flex-1 bg-gradient-to-l from-transparent via-gray-300 dark:via-zinc-700 to-gray-300 dark:to-zinc-700"></div>
+    </div>
+    
+    <div className="flex justify-center gap-4">
+      <VersionTolatDownloads tag_name={tag_name} />
+    </div>
   </div>
 );
