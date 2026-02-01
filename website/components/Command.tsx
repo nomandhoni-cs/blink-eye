@@ -21,13 +21,13 @@ export function Command({ children }: { children?: React.ReactNode }) {
       <div className="flex justify-center items-center">
         <div className="inline-flex items-center bg-gray-100 dark:bg-[#111111] border border-gray-200 dark:border-white/10 rounded-full p-1.5 backdrop-blur-sm transition-colors duration-300">
           <ToggleButton
-            icon={<MacIcon className="w-4 h-4" />}
+            icon={<MacIcon className="w-8 h-8" />}
             label="macOS"
             isActive={isMac}
             onClick={() => setIsMac(true)}
           />
           <ToggleButton
-            icon={<WindowsIcon className="w-4 h-4" />}
+            icon={<WindowsIcon className="w-8 h-8" />}
             label="Windows"
             isActive={!isMac}
             onClick={() => setIsMac(false)}
@@ -36,7 +36,7 @@ export function Command({ children }: { children?: React.ReactNode }) {
       </div>
 
       <div className="text-center space-y-4">
-        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white transition-colors duration-300">
+        <h2 className="text-2xl font-heading sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white transition-colors duration-300">
           Kindly install with {isMac ? "Homebrew on macOS" : "winget on Windows"}
         </h2>
         
@@ -51,7 +51,7 @@ export function Command({ children }: { children?: React.ReactNode }) {
         </div>
       </div>
 
-      {children && <div className="space-y-6 pt-2 animate-in fade-in slide-in-from-bottom-4 duration-700">{children}</div>}
+      {children && <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">{children}</div>}
     </div>
   );
 }
@@ -61,8 +61,8 @@ function ToggleButton({ icon, label, isActive, onClick }) {
     <button
       className={`flex items-center space-x-2 px-6 py-2 rounded-full transition-all duration-300 font-medium ${
         isActive
-          ? "bg-[#FE4C55] text-white shadow-lg shadow-red-500/20"
-          : "text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
+          ? "bg-[#FE4C55] text-black shadow-lg shadow-red-500/20"
+          : "text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
       }`}
       onClick={onClick}
     >
