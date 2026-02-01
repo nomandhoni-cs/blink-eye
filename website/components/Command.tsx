@@ -21,13 +21,13 @@ export function Command({ children }: { children?: React.ReactNode }) {
       <div className="flex justify-center items-center">
         <div className="inline-flex items-center bg-gray-100 dark:bg-[#111111] border border-gray-200 dark:border-white/10 rounded-full p-1.5 backdrop-blur-sm transition-colors duration-300">
           <ToggleButton
-            icon={<MacIcon className="w-8 h-8" />}
+            icon={<MacIcon className="w-8 h-8 fill-current" />}
             label="macOS"
             isActive={isMac}
             onClick={() => setIsMac(true)}
           />
           <ToggleButton
-            icon={<WindowsIcon className="w-8 h-8" />}
+            icon={<WindowsIcon className="w-8 h-8 fill-current" />}
             label="Windows"
             isActive={!isMac}
             onClick={() => setIsMac(false)}
@@ -62,7 +62,7 @@ function ToggleButton({ icon, label, isActive, onClick }) {
       className={`flex items-center space-x-2 px-6 py-2 rounded-full transition-all duration-300 font-medium ${
         isActive
           ? "bg-[#FE4C55] text-black shadow-lg shadow-red-500/20"
-          : "text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
+          : "text-gray-800 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
       }`}
       onClick={onClick}
     >
