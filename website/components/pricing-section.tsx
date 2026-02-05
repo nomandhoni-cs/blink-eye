@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 interface PricingPlanConfig {
   devices: number;
   originalPrice: string; // e.g., "9.99" (without $)
-  savingsPercentage: string; // e.g., "25%" - ONLY CHANGE THIS for discount
+  savingsPercentage: string; // e.g., "30%" - ONLY CHANGE THIS for discount
   isRecommended: boolean;
   checkoutLink: {
     yearly: string;
@@ -64,7 +64,7 @@ export default function PricingSection() {
     {
       devices: 1,
       originalPrice: "9.99",
-      savingsPercentage: "25%", // 👈 ONLY CHANGE THIS for discount
+      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -76,7 +76,7 @@ export default function PricingSection() {
     {
       devices: 2,
       originalPrice: "16.99",
-      savingsPercentage: "25%", // 👈 ONLY CHANGE THIS for discount
+      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -88,7 +88,7 @@ export default function PricingSection() {
     {
       devices: 5,
       originalPrice: "39.99",
-      savingsPercentage: "25%", // 👈 ONLY CHANGE THIS for discount
+      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -103,7 +103,7 @@ export default function PricingSection() {
     {
       devices: 1,
       originalPrice: "28.99",
-      savingsPercentage: "25%", // 👈 ONLY CHANGE THIS for discount
+      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
@@ -115,7 +115,7 @@ export default function PricingSection() {
     {
       devices: 2,
       originalPrice: "49.99",
-      savingsPercentage: "25%", // 👈 ONLY CHANGE THIS for discount
+      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: true,
       checkoutLink: {
         yearly:
@@ -127,7 +127,7 @@ export default function PricingSection() {
     {
       devices: 5,
       originalPrice: "109.99",
-      savingsPercentage: "25%", // 👈 ONLY CHANGE THIS for discount
+      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
         yearly:
