@@ -8,6 +8,7 @@ import { encryptData } from "../lib/cryptoUtils";
 import { getVersion } from "@tauri-apps/api/app";
 import { fetch } from "@tauri-apps/plugin-http";
 import { platform } from "@tauri-apps/plugin-os";
+import { saveTokens } from "../lib/authUtils";
 
 // Define a type for the result row
 interface UserDataRow {
@@ -42,6 +43,7 @@ export class OnboardingService {
             data TEXT
           );
         `);
+
 
         // Check if entry with id=1 exists
         const result = (await dbInstance.select(
@@ -123,9 +125,7 @@ export class OnboardingService {
   // Final onboarding completion
   static async completeOnboarding(data: OnboardingData): Promise<void> {
     console.log("🎉 Completing onboarding...", data);
-    // TODO: Mark onboarding as complete, send analytics, etc.
     const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
-    // Check if entry with id=1 exists
 
     try {
       const getAppVersion = await getVersion();
@@ -146,7 +146,7 @@ export class OnboardingService {
         userUniqueNanoId = userResult[0].unique_nano_id;
       }
 
-      await fetch("https://blinkeye.vercel.app/api/basicUserData", {
+      const response = await fetch("https://api.blinkeye.app/user-info", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -158,6 +158,19 @@ export class OnboardingService {
           appVersion: getAppVersion,
         }),
       });
+
+      if (response.ok) {
+        const resultData = await response.json();
+        if (
+          resultData.success &&
+          resultData.accessToken &&
+          resultData.refreshToken
+        ) {
+          // Store tokens in database without encryption
+          await saveTokens(resultData.accessToken, resultData.refreshToken);
+          console.log("✅ Auth tokens stored successfully");
+        }
+      }
     } catch (error) {
       console.error("Activation error:", error);
       toast.error("Failed to activate license. Please try again.", {
@@ -166,10 +179,10 @@ export class OnboardingService {
       });
     } finally {
       const db = await Database.load("sqlite:appconfig.db");
-      const existingRow = await db.select(
+      const existingRow = (await db.select(
         "SELECT * FROM config WHERE key = 'isUserOnboarded'"
-      );
-      if ((existingRow as any[]).length > 0) {
+      )) as any[];
+      if (existingRow.length > 0) {
         await db.execute(
           "UPDATE config SET value = 'true' WHERE key = 'isUserOnboarded'"
         );
@@ -181,6 +194,5 @@ export class OnboardingService {
       window.location.href = "/";
       console.log("✅ Onboarding completed successfully!");
     }
-    // Update database to mark onboarding as completed
   }
 }
