@@ -84,7 +84,7 @@ async function fetchAllReleases(): Promise<{ tag_name: string }[]> {
 
 // Generate static params for all locale + tag_name combinations (SSG)
 export async function generateStaticParams() {
-  const releases = (await fetchAllReleases()).slice(0, 1);
+  const releases = await fetchAllReleases();
 
   const params: { locale: string; tag_name: string }[] = [];
   for (const locale of routing.locales) {
@@ -96,6 +96,7 @@ export async function generateStaticParams() {
   return params;
 }
 
+export const dynamic = "force-static";
 export const dynamicParams = false;
 
 // Dynamic metadata
@@ -107,7 +108,7 @@ export async function generateMetadata({
   const { tag_name, locale } = await params;
   setRequestLocale(locale);
   const releaseInfo = await getData(tag_name);
-  const t = await getTranslations("ReleaseInfo");
+  const t = await getTranslations({ locale, namespace: "ReleaseInfo" });
   return {
     title: t("metaTitle", { tag: releaseInfo.tag_name }),
     description: releaseInfo.body?.slice(0, 160),

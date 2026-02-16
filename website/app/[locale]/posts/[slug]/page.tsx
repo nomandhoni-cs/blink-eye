@@ -7,12 +7,15 @@ import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SEO } from "@/configs/seo";
+import { routing } from "@/i18n/routing";
 
 export default async function Post(props: Params) {
   const params = await props.params;
-  const post = getPostBySlug(params.slug);
+  const { locale, slug } = params;
+  setRequestLocale(locale);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     return notFound();
@@ -41,6 +44,7 @@ export default async function Post(props: Params) {
 
 type Params = {
   params: Promise<{
+    locale: string;
     slug: string;
   }>;
 };
@@ -55,7 +59,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
 
   // Use `getTranslations` to get the translation for the app name in server-side code
   const t = await getTranslations({
-    locale: params.slug,
+    locale: params.locale,
     namespace: "Metadata",
   }); // Use the locale dynamically if needed
   const title = `${post.title} | ${t("appName")}`; // Using the translation key
@@ -76,9 +80,13 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
 export async function generateStaticParams() {
   const posts = getAllPosts();
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts.flatMap((post) =>
+    routing.locales.map((locale) => ({
+      locale,
+      slug: post.slug,
+    }))
+  );
 }
 
+export const dynamic = "force-static";
 export const dynamicParams = false;
