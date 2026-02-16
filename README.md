@@ -147,10 +147,4 @@ Contributions for improving the dashboard, enhancing customizability, and adding
     bun run dev
     ```
 
-## Support the Project
-
-If you find Blink Eye helpful and want to support the project, you can buy me a coffee! ☕️
-
-[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-red.png)](https://www.buymeacoffee.com/nomandhoni)
-
-Your contribution helps keep the project alive and supports ongoing development. Thank you for your generosity!
+    Thank You!

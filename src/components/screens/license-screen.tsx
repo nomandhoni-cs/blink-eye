@@ -41,7 +41,7 @@ export default function LicenseScreen({
 
     try {
       const response = await fetch(
-        "https://blinkeye.vercel.app/api/activatelicense",
+        "https://api.blinkeye.app/activate-license",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

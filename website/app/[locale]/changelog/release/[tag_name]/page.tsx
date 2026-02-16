@@ -1,73 +1,138 @@
 import React from "react";
-import { remark } from "remark";
-import html from "remark-html";
-import DOMPurify from "dompurify";
-import { JSDOM } from "jsdom";
-import { Button } from "@/components/ui/button";
+import { marked } from "marked";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Metadata } from "next";
+import { routing } from "@/i18n/routing";
+import { Button } from "@/components/ui/button";
 
-// Dynamic metadata
-export async function generateMetadata({ params }): Promise<Metadata> {
-  const { tag_name } = params;
-  const releaseInfo = await getData(tag_name);
-  const t = await getTranslations("ReleaseInfo");
-  return {
-    title: t("metaTitle", { tag: releaseInfo.tag_name }),
-    description: releaseInfo.body,
-  };
+// Define types for release data
+interface ReleaseAsset {
+  id: number;
+  name: string;
+  size: number;
+  browser_download_url: string;
 }
 
-// Create a DOMPurify instance for SSR
-const createDOMPurify = () => {
-  if (typeof window === "undefined") {
-    const { window } = new JSDOM("");
-    return DOMPurify(window as unknown as Window);
+interface ReleaseData {
+  name: string;
+  tag_name: string;
+  published_at: string;
+  body: string;
+  author: {
+    login: string;
+    avatar_url: string;
+    html_url: string;
+  };
+  assets: ReleaseAsset[];
+  tarball_url: string;
+  zipball_url: string;
+}
+
+// Fetch a single release by tag name
+async function getData(tag_name: string): Promise<ReleaseData> {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github+json",
+  };
+
+  if (process.env.BLINK_EYE_WEBSITE_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.BLINK_EYE_WEBSITE_TOKEN}`;
   }
-  return DOMPurify;
-};
 
-// Function to sanitize and render markdown
-const renderMarkdown = async (markdownText: string) => {
-  // Convert Markdown to HTML using remark
-  const processedContent = await remark().use(html).process(markdownText);
-  const htmlContent = processedContent.toString();
-
-  // Create a DOMPurify instance
-  const purify = createDOMPurify();
-
-  // Sanitize the HTML to avoid any malicious scripts using DOMPurify
-  return purify.sanitize(htmlContent);
-};
-
-async function getData(tag_name: string) {
   const res = await fetch(
     `https://api.github.com/repos/nomandhoni-cs/blink-eye/releases/tags/${tag_name}`,
     {
-      headers: {
-        Authorization: `Bearer ${process.env.BLINK_EYE_WEBSITE_TOKEN}`,
-      },
-      next: { revalidate: 3600 },
+      headers,
     }
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch release data");
+    throw new Error(
+      `Failed to fetch release data: ${res.status} ${res.statusText}`
+    );
   }
 
   return res.json();
 }
 
-const ReleaseInfoPage = async ({ params }) => {
-  const { tag_name } = params;
-  const locale = await getLocale();
+// Fetch all releases to generate static params for each tag
+async function fetchAllReleases(): Promise<{ tag_name: string }[]> {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github+json",
+  };
+
+  if (process.env.BLINK_EYE_WEBSITE_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.BLINK_EYE_WEBSITE_TOKEN}`;
+  }
+
+  const res = await fetch(
+    "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
+    {
+      headers,
+      cache: "force-cache",
+    }
+  );
+
+  if (!res.ok) {
+    return [];
+  }
+
+  const releases: { tag_name: string }[] = await res.json();
+  return releases;
+}
+
+// Generate static params for all locale + tag_name combinations (SSG)
+export async function generateStaticParams() {
+  const releases = await fetchAllReleases();
+
+  const params: { locale: string; tag_name: string }[] = [];
+  for (const locale of routing.locales) {
+    for (const release of releases) {
+      params.push({ locale, tag_name: release.tag_name });
+    }
+  }
+
+  return params;
+}
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
+// Dynamic metadata
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tag_name: string; locale: string }>;
+}): Promise<Metadata> {
+  const { tag_name, locale } = await params;
+  setRequestLocale(locale);
+  const releaseInfo = await getData(tag_name);
+  const t = await getTranslations({ locale, namespace: "ReleaseInfo" });
+  return {
+    title: t("metaTitle", { tag: releaseInfo.tag_name }),
+    description: releaseInfo.body?.slice(0, 160),
+  };
+}
+
+// Convert markdown to HTML using marked (lightweight, no jsdom needed)
+function renderMarkdown(markdownText: string): string {
+  return marked.parse(markdownText, { async: false }) as string;
+}
+
+const ReleaseInfoPage = async ({
+  params,
+}: {
+  params: Promise<{ tag_name: string; locale: string }>;
+}) => {
+  const { tag_name, locale } = await params;
+  setRequestLocale(locale);
+
   const t = await getTranslations("ReleaseInfo");
   const releaseData = await getData(tag_name);
 
-  // Render the sanitized and markdown-converted body
-  const releaseBody = await renderMarkdown(releaseData.body);
+  // Render the markdown-converted body
+  const releaseBody = renderMarkdown(releaseData.body || "");
 
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8">

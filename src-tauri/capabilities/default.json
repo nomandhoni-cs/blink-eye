@@ -53,6 +53,18 @@
         },
         {
           "url": "https://blinkeye.app/api/validatelicense"
+        },
+        {
+          "url": "https://api.blinkeye.app/activate-license"
+        },
+        {
+          "url": "https://api.blinkeye.app/validate-license"
+        },
+        {
+          "url": "https://api.blinkeye.app/refresh-token"
+        },
+        {
+          "url": "https://api.blinkeye.app/user-info"
         }
       ],
       "deny": []

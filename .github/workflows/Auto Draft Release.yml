@@ -2,7 +2,13 @@ name: Blink Eye Auto Draft Release
 on:
   pull_request:
     branches: [master]
+    paths-ignore:
+      - 'website/**'           # Ignore all website directory changes
+      - 'website/**/*'         # Ignore all nested files in website
+      - '**.md'                # Optional: ignore markdown files
+      - 'docs/**'              # Optional: ignore docs
   workflow_dispatch: # Allows manual triggering from GitHub UI
+
 jobs:
   build:
     permissions:
@@ -42,7 +48,7 @@ jobs:
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
-
+            
       - name: Cache Rust dependencies
         uses: actions/cache@v4
         with:
@@ -54,7 +60,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
-
+            
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -73,7 +79,7 @@ jobs:
             openssl \
             libssl-dev \
             build-essential
-
+            
       - name: Install frontend dependencies
         run: bun install
 

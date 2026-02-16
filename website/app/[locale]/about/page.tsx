@@ -3,17 +3,25 @@ import Features from "../features/page";
 import HowToUse from "../howtouse/page";
 import Privacy from "../privacy/page";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import { SEO } from "@/configs/seo";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("aboutPage");
-  const appInfo = await getTranslations("Metadata");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "aboutPage" });
+  const appInfo = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
     title: `${t("title")} | ${appInfo("appName")}`,
@@ -26,7 +34,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function About() {
+export default async function About({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="container mx-auto px-4 py-8">
@@ -145,9 +160,9 @@ export default async function About() {
         </ul>
       </div>
 
-      <Features />
-      <HowToUse />
-      <Privacy />
+      <Features params={params} />
+      <HowToUse params={params} />
+      <Privacy params={params} />
     </div>
   );
 }

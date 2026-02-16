@@ -15,6 +15,7 @@ import { MediaQueriesDebug } from "@/components/debug/media-queries";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ReactNode } from "react";
 import { Urbanist } from "next/font/google";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 // import localFont from "next/font/local";
 
 export const viewport: Viewport = {
@@ -42,6 +43,9 @@ type Props = {
   children: ReactNode;
   params: { locale: string };
 };
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -99,15 +103,24 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="scroll-smooth">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* Load Hind Siliguri only for Bengali locale */}
+        {locale === "bn" && (
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap"
+          />
+        )}
       </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
-          fontHeading.variable
+          fontHeading.variable,
+          // add a class to enable Hind Siliguri only for Bengali locale
+          locale === "bn" ? "font-bn" : undefined
         )}
       >
         <meta
@@ -118,6 +131,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <GoogleTagManager gtmId="GTM-5C4XTNHM" />
           <Providers>
             <Header />
+            <AnnouncementBar />
             <main className="flex flex-1 flex-col">
               {/* <div className="relative isolate"> */}
               {/* <StarryBackground /> */}

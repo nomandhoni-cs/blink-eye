@@ -1,25 +1,28 @@
-import { remark } from "remark";
-import html from "remark-html";
-import DOMPurify from "dompurify";
-import { JSDOM } from "jsdom";
+import { marked } from "marked";
 import Link from "next/link";
 import { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
-    title: "Changelog of Version",
+    title: `Changelog - ${t("appName")}`,
   };
 }
 
-// Create a DOMPurify instance for SSR
-const createDOMPurify = () => {
-  if (typeof window === "undefined") {
-    const { window } = new JSDOM("");
-    return DOMPurify(window as unknown as Window);
-  }
-  return DOMPurify;
-};
+// Generate static params for all locales (SSG)
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 // Define types for release data
 interface Release {
@@ -31,44 +34,55 @@ interface Release {
 }
 
 async function fetchReleases(): Promise<Release[]> {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github+json",
+  };
+
+  // Use GitHub token if available (avoids rate limits)
+  if (process.env.BLINK_EYE_WEBSITE_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.BLINK_EYE_WEBSITE_TOKEN}`;
+  }
+
   const res = await fetch(
     "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
     {
-      next: { revalidate: 3600 },
+      headers,
     }
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch releases");
+    throw new Error(`Failed to fetch releases: ${res.status} ${res.statusText}`);
   }
 
-  const data = await res.json();
-  return data;
+  return res.json();
 }
 
-// Function to process markdown with remark
-async function processMarkdown(content: string): Promise<string> {
-  const result = await remark().use(html).process(content);
-  return result.toString();
+// Convert markdown to HTML using marked (lightweight, no jsdom needed)
+function renderMarkdown(content: string): string {
+  return marked.parse(content, { async: false }) as string;
 }
 
-const ReleasesPage = async () => {
-  const locale = await getLocale();
+const ReleasesPage = async ({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) => {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const data = await fetchReleases();
-  const purify = createDOMPurify();
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Changelog</h1>
       <div className="grid gap-10">
-        {data.map(async (release) => {
-          const processedBody = await processMarkdown(release.body || "");
-          const sanitizedHtml = purify.sanitize(processedBody);
+        {data.map((release) => {
+          const processedBody = renderMarkdown(release.body || "");
 
           return (
             <div key={release.id} className="p-4 shadow-md rounded-lg">
               <Link
-                href={`/${locale}/changelog/release/${release.name}`}
+                href={`/${locale}/changelog/release/${release.tag_name}`}
                 className="text-3xl font-semibold "
               >
                 {release.name}
@@ -83,11 +97,11 @@ const ReleasesPage = async () => {
                 })}
               </p>
 
-              {/* Display the processed and sanitized release body as HTML */}
+              {/* Display the processed release body as HTML */}
               <div
                 className="mt-10 prose max-w-none space-y-8"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizedHtml,
+                  __html: processedBody,
                 }}
               />
             </div>

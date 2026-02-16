@@ -8,6 +8,14 @@ import HeroSection from "@/components/HeroSection";
 import Blogs from "@/components/Blogs";
 import { fetchReleaseData } from "@/utils/fetch-github-release";
 import { ReleaseData } from "@/utils/github-fetch-types";
+import { routing } from "@/i18n/routing";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 const RootPage = async () => {
   let releaseData: ReleaseData | null = null;

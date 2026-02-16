@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -78,8 +79,13 @@
 
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
@@ -87,6 +93,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -98,14 +105,17 @@
     transform: scale(1.2);
     opacity: 0;
   }
+
   20% {
     transform: scale(1);
     opacity: 1;
   }
+
   80% {
     transform: scale(1);
     opacity: 1;
   }
+
   100% {
     transform: scale(0.8);
     opacity: 0;
@@ -124,3 +134,41 @@
   animation: countDown 1s ease-out;
 }
 
+
+/* AnnouncementBar Animation */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* Bengali locale font helper: apply Hind Siliguri when .font-bn is present on the html/body */
+.font-bn {
+  /* Apply Hind Siliguri as the primary font for body text */
+  --heading-font: "Hind Siliguri", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+
+  font-family: "Hind Siliguri", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Ensure headings use the same Hind Siliguri font when `.font-bn` is present */
+.font-bn h1,
+.font-bn h2,
+.font-bn h3,
+.font-bn h4,
+.font-bn h5,
+.font-bn h6 {
+  font-family: var(--heading-font);
+}
