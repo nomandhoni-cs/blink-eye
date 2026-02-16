@@ -33,12 +33,20 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "app/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "pages/**/*.{ts,tsx}",
     ".next/types/**/*.ts",
     "types/*.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.stories.tsx",
+    "**/*.stories.ts",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    ".storybook",
+    "vitest.config.mjs",
+    "vite.config.mjs"
   ]
 }
