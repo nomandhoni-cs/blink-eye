@@ -7,6 +7,7 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const dynamic = "force-static";
 export const dynamicParams = false;
 
 export const generateMetadata = async ({

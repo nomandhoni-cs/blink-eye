@@ -14,7 +14,7 @@ async function fetchReleases(): Promise<Release[]> {
   const res = await fetch(
     "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
     {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      cache: "force-cache",
     }
   );
 

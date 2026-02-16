@@ -7,6 +7,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import { SEO } from "@/configs/seo";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
