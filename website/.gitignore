@@ -3,6 +3,7 @@
 # dependencies
 node_modules
 .open-next
+.wrangler
 .pnp
 .pnp.js
 

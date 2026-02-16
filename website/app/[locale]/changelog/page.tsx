@@ -15,6 +15,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const dynamicParams = false;
+
 // Define types for release data
 interface Release {
   id: number;

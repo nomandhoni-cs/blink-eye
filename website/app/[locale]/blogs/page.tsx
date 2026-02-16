@@ -6,6 +6,9 @@ import { getTranslations } from "next-intl/server";
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+export const dynamicParams = false;
+
 export const generateMetadata = async (): Promise<Metadata> => {
   try {
     // Await getTranslations to fetch translations for the current locale

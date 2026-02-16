@@ -80,3 +80,5 @@ export async function generateStaticParams() {
     slug: post.slug,
   }));
 }
+
+export const dynamicParams = false;

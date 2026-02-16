@@ -84,7 +84,7 @@ async function fetchAllReleases(): Promise<{ tag_name: string }[]> {
 
 // Generate static params for all locale + tag_name combinations (SSG)
 export async function generateStaticParams() {
-  const releases = await fetchAllReleases();
+  const releases = (await fetchAllReleases()).slice(0, 1);
 
   const params: { locale: string; tag_name: string }[] = [];
   for (const locale of routing.locales) {
@@ -95,6 +95,8 @@ export async function generateStaticParams() {
 
   return params;
 }
+
+export const dynamicParams = false;
 
 // Dynamic metadata
 export async function generateMetadata({
