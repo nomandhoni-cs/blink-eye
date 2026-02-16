@@ -4,9 +4,15 @@ import { Metadata } from "next";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
-    title: "Changelog of Version",
+    title: `Changelog - ${t("appName")}`,
   };
 }
 

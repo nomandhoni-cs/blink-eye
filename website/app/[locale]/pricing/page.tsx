@@ -3,16 +3,21 @@ import PricingSection from "@/components/pricing-section";
 import { SEO } from "@/configs/seo";
 import { routing } from "@/i18n/routing";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-export const generateMetadata = async (): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> => {
   try {
+    const { locale } = await params;
     // Await getTranslations to fetch translations for the current locale
-    const t = await getTranslations("pricingPage");
-    const appInfo = await getTranslations("Metadata");
+    const t = await getTranslations({ locale, namespace: "pricingPage" });
+    const appInfo = await getTranslations({ locale, namespace: "Metadata" });
 
     return {
       title: t("title") + " | " + appInfo("appName"),
@@ -54,7 +59,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
   }
 };
 
-const Pricing = () => {
+const Pricing = async ({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) => {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return (
     <>
       {/* <OfferModal /> */}

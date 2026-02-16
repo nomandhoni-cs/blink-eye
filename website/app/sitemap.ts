@@ -3,6 +3,8 @@ import { MetadataRoute } from "next";
 import { SEO } from "@/configs/seo";
 import { getAllPosts } from "@/lib/api";
 
+export const dynamic = "force-static";
+
 interface Release {
   tag_name: string;
 }

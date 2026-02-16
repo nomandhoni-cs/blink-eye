@@ -3,16 +3,21 @@ import cat from "@/public/images/cat-gif.gif";
 import sadface from "@/public/images/sadface.png";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-export const generateMetadata = async (): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> => {
   try {
+    const { locale } = await params;
     // Await getTranslations to fetch translations for the current locale
-    const t = await getTranslations("goodbyePage");
-    const appInfo = await getTranslations("Metadata");
+    const t = await getTranslations({ locale, namespace: "goodbyePage" });
+    const appInfo = await getTranslations({ locale, namespace: "Metadata" });
 
     return {
       title: t("title") + " | " + appInfo("appName"),
@@ -31,7 +36,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
     };
   }
 };
-const Page = () => {
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) => {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return (
     <div className="continer px-2 mx-auto flex flex-col justify-center items-center">
       <h1 className="text-center py-3 text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1]">
