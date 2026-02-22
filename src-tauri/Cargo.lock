@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "Blink-Eye"
-version = "2.7.3"
+version = "2.7.5"
 dependencies = [
  "idle",
  "serde",

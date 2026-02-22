@@ -1,201 +1,215 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
-  @font-face {
-    font-family: 'CalSans';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url(./assets/Urbanist-Bold.woff2) format('woff2');
-  }
+    @font-face {
+        font-family: "CalSans";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(./assets/Urbanist-Bold.woff2) format("woff2");
+    }
 }
 
 #particle-canvas {
-  pointer-events: auto;
-  /* Allow pointer events */
-}
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    pointer-events: auto;
+    /* Allow pointer events */
 }
 
 @layer base {
-* {
-    @apply m-0 p-0 border-border;
-    -webkit-user-select: none;
-    /* Safari */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* IE10+/Edge */
-    user-select: none;
-    /* Standard */
-  }
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
 
-  html,
-  body,
-  :root {
-    @apply w-full h-full;
-  }
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
 
-  body {
-    @apply bg-background text-foreground;
-  }
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
 
-  #root {
-    @apply w-full h-full flex flex-col;
-  }
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
+
+        --radius: 0.5rem;
+
+        --sidebar-background: 0 0% 98%;
+
+        --sidebar-foreground: 240 5.3% 26.1%;
+
+        --sidebar-primary: 240 5.9% 10%;
+
+        --sidebar-primary-foreground: 0 0% 98%;
+
+        --sidebar-accent: 240 4.8% 95.9%;
+
+        --sidebar-accent-foreground: 240 5.9% 10%;
+
+        --sidebar-border: 220 13% 91%;
+
+        --sidebar-ring: 217.2 91.2% 59.8%;
+    }
+
+    .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+
+        --primary: 0 0% 98%;
+        --primary-foreground: 0 0% 9%;
+
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 0 0% 83.1%;
+        --sidebar-background: 240 5.9% 10%;
+        --sidebar-foreground: 240 4.8% 95.9%;
+        --sidebar-primary: 224.3 76.3% 48%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 240 3.7% 15.9%;
+        --sidebar-accent-foreground: 240 4.8% 95.9%;
+        --sidebar-border: 240 3.7% 15.9%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
+    }
 }
+
+@layer base {
+    * {
+        @apply m-0 p-0 border-border;
+        -webkit-user-select: none;
+        /* Safari */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* IE10+/Edge */
+        user-select: none;
+        /* Standard */
+    }
+
+    html,
+    body,
+    :root {
+        @apply w-full h-full;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    #root {
+        @apply w-full h-full flex flex-col;
+    }
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family:
+        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes countDown {
-  0% {
-    transform: scale(1.2);
-    opacity: 0;
-  }
-  20% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  80% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
+    0% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    20% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    80% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.5s ease-out;
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out;
+    animation: fadeInUp 0.5s ease-out;
 }
 
 .animate-count-down {
-  animation: countDown 1s ease-out;
+    animation: countDown 1s ease-out;
 }
-

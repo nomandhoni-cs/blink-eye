@@ -102,6 +102,7 @@
     "core:window:allow-is-maximized",
     "core:window:allow-is-fullscreen",
     "core:window:allow-start-dragging",
+    "core:window:allow-toggle-maximize",
     "core:window:allow-show",
     "core:window:allow-hide",
     "core:window:allow-center",
