@@ -237,10 +237,7 @@ export function AppSidebar() {
                   tooltip="Unlock Premium"
                   className="hover:bg-amber-500/10 transition-colors"
                 >
-                  <Link
-                    to="https://blinkeye.vercel.app/pricing"
-                    target="_blank"
-                  >
+                  <Link to="https://blinkeye.app/en/pricing" target="_blank">
                     <IoSparkles
                       className="text-[1.1rem] drop-shadow-sm shrink-0"
                       style={{ fill: "url(#amberGradient)" }}
