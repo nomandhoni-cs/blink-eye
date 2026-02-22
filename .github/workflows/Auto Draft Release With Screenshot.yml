@@ -1,7 +1,7 @@
 name: Blink Eye Auto Draft Release with Screenshots
 on:
   pull_request:
-    branches: [master]
+    branches: [develop]
     paths-ignore:
       - 'website/**'           # Ignore all website directory changes
       - 'website/**/*'         # Ignore all nested files in website

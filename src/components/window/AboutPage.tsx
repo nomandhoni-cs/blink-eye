@@ -13,7 +13,6 @@ import {
   IoOpenOutline, // Kept outline ONLY for the tiny 10px external arrow to keep it sharp
   IoLogoWindows,
   IoLogoApple,
-  IoCloudDownload,
   IoBarChart,
   IoColorPalette,
   IoTimer,
@@ -93,35 +92,8 @@ function FeatureCard({
   );
 }
 
-// ── Stat Badge ───────────────────────────────────────────────────
 
-function StatBadge({
-  icon: Icon,
-  value,
-  label,
-}: {
-  icon: React.ElementType;
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="flex items-center gap-2.5 rounded-xl border border-border/40 bg-card/20 px-3 py-2">
-      <div className="flex size-6 items-center justify-center rounded-md bg-foreground/5 text-foreground/70">
-        <Icon className="text-[14px]" />
-      </div>
-      <div className="flex flex-col">
-        <span className="font-heading text-[13px] font-bold text-foreground leading-none">
-          {value}
-        </span>
-        <span className="font-heading text-[10px] font-medium text-muted-foreground mt-0.5 uppercase tracking-wider">
-          {label}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// ── Benefit Pill ─────────────────────────────────────────────────
+// ── Benefit Pill ──
 
 function BenefitPill({
   icon: Icon,
