@@ -5,7 +5,7 @@ import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
-import UserOnboarding from "./blink-eye-onboarding";
+// import UserOnboarding from "./blink-eye-onboarding";
 import Database from "@tauri-apps/plugin-sql";
 
 const ReminderControl = lazy(() => import("./components/ReminderControl"));
@@ -136,8 +136,8 @@ function App() {
     return <LoadingSpinner />;
   }
 
-  if (!hasCompletedOnboarding) {
-    return <UserOnboarding />;
+  if (hasCompletedOnboarding) {
+    // return <UserOnboarding />;
   }
 
   return (
