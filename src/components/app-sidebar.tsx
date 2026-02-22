@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 // Perfectly filled, rounded, modern icons
 import {
@@ -13,7 +14,6 @@ import {
   IoFlame,
   IoCheckmarkCircle,
   IoSparkles,
-  IoList,
 } from "react-icons/io5";
 
 import {
@@ -30,13 +30,14 @@ import {
   SidebarSeparator,
 } from "./ui/sidebar";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
+import { LucideListTodo } from "lucide-react";
 
 // ── 1. Grouped Navigation Data ──
 
 const mainNav = [{ title: "Dashboard", url: "/", icon: IoGrid }];
 
 const proNav = [
-  { title: "Todo List", url: "/todoList", icon: IoList },
+  { title: "Todo List", url: "/todoList", icon: LucideListTodo },
   { title: "Usage Time", url: "/usageTime", icon: IoBarChart },
   { title: "Reminder Themes", url: "/reminderthemes", icon: IoColorPalette },
   { title: "Workday Setup", url: "/workday", icon: IoCalendar },
@@ -64,7 +65,7 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
     <SidebarMenuBadge className="pointer-events-none pr-1">
       <span className="flex items-center gap-1">
         <IoFlame
-          className="text-sm drop-shadow-sm"
+          className="text-[13px] drop-shadow-sm"
           style={{ fill: "url(#amberGradient)" }}
         />
         <span className="font-heading text-[10px] font-bold uppercase tracking-widest text-amber-500 dark:text-amber-400">
@@ -83,16 +84,41 @@ export function AppSidebar() {
 
   return (
     <>
+      {/* Invisible SVG for Icon Gradients */}
+      <svg width="0" height="0" className="absolute pointer-events-none">
+        <defs>
+          <linearGradient
+            id="emeraldGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop stopColor="#10B981" offset="0%" />
+            <stop stopColor="#0EA5E9" offset="100%" />
+          </linearGradient>
+          <linearGradient
+            id="amberGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop stopColor="#F59E0B" offset="0%" />
+            <stop stopColor="#E11D48" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       <Sidebar
         variant="floating"
         collapsible="icon"
-        // ── THE CENTERING FIX ──
-        // 1. !bottom-auto !h-fit: Stops shadcn from stretching it to 100vh (which caused the footer clip)
-        // 2. !top-[calc(50vh+16px)]: 16px is exactly half of your 38px titlebar. This pushes the mathematical center perfectly.
-        // 3. -translate-y-1/2: Pulls the sidebar up by half its own height, perfectly centering it.
-        className="!top-[calc(50vh+16px)] !bottom-auto -translate-y-1/2 !h-fit max-h-[calc(100vh-38px-24px)] transition-all duration-300 z-40"
+        // ── THE MATH FIX ──
+        // !top-[38px] ensures it starts exactly under the custom titlebar.
+        // !h-[calc(100svh-38px)] forces exact height, preventing the footer from clipping off-screen.
+        className="!top-[38px] !h-[calc(100svh-38px)] border-none shadow-md z-40"
       >
-        <SidebarContent className="gap-4 px-2 pt-4 pb-2 custom-scrollbar">
+        <SidebarContent className="gap-4 px-2 pt-3 pb-2 custom-scrollbar">
           {/* ── General Section ── */}
           <SidebarGroup className="p-0">
             <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1">
@@ -121,9 +147,9 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* ── Productivity Section ── */}
+          {/* ── Features Section ── */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1 flex items-center gap-1.5">
+            <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1">
               Features
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -152,7 +178,7 @@ export function AppSidebar() {
 
           {/* ── System Section ── */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1 flex items-center gap-1.5">
+            <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1">
               System
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -184,29 +210,28 @@ export function AppSidebar() {
 
         <SidebarSeparator className="mx-4 my-0 opacity-50" />
 
-        {/* ── Footer: Minimal & Distinguishable ── */}
+        {/* ── Footer ── */}
         <SidebarFooter className="p-2 pb-3">
           <SidebarMenu>
             {isPaidUser ? (
               <SidebarMenuItem>
+                {/* FIX: Removed the wrapper div. Shadcn handles transition perfectly when Icon + Span are direct children */}
                 <SidebarMenuButton
                   tooltip="Pro Active"
                   className="cursor-default opacity-100 hover:bg-transparent"
                 >
-                  <div className="flex items-center gap-2">
-                    {/* The beautiful gradient emerald icon */}
-                    <IoCheckmarkCircle
-                      className="text-[1.1rem] drop-shadow-sm"
-                      style={{ fill: "url(#emeraldGradient)" }}
-                    />
-                    <span className="font-heading text-[13px] font-semibold tracking-wide text-foreground">
-                      Pro Active
-                    </span>
-                  </div>
+                  <IoCheckmarkCircle
+                    className="text-[1.1rem] drop-shadow-sm shrink-0"
+                    style={{ fill: "url(#emeraldGradient)" }}
+                  />
+                  <span className="font-heading text-[13px] font-semibold tracking-wide text-foreground">
+                    Pro Active
+                  </span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ) : (
               <SidebarMenuItem>
+                {/* FIX: Same here. Anchor tag contains Icon + Span as direct children. Smooth as butter. */}
                 <SidebarMenuButton
                   asChild
                   tooltip="Unlock Premium"
@@ -216,9 +241,8 @@ export function AppSidebar() {
                     to="https://blinkeye.vercel.app/pricing"
                     target="_blank"
                   >
-                    {/* The beautiful gradient amber icon */}
                     <IoSparkles
-                      className="text-[1.1rem] drop-shadow-sm"
+                      className="text-[1.1rem] drop-shadow-sm shrink-0"
                       style={{ fill: "url(#amberGradient)" }}
                     />
                     <span className="font-heading text-[13px] font-bold tracking-wide text-foreground">

@@ -13,13 +13,13 @@
     "windows": [
       {
         "title": "Blink Eye",
-        "width": 1000,
-        "height": 650,
+        "width": 1200,
+        "height": 750,
         "center": true,
-        "maxHeight": 650,
-        "maxWidth": 1000,
-        "minHeight": 650,
-        "minWidth": 1000,
+        "maxHeight": 750,
+        "maxWidth": 1200,
+        "minHeight": 750,
+        "minWidth": 1200,
         "decorations": false
       }
     ],
@@ -27,11 +27,7 @@
       "csp": "null",
       "assetProtocol": {
         "enable": true,
-        "scope": [
-          "$RESOURCE/*",
-          "$APPDATA/blink_eye_license.db",
-          "$APPDATA/*"
-        ]
+        "scope": ["$RESOURCE/*", "$APPDATA/blink_eye_license.db", "$APPDATA/*"]
       }
     }
   },
@@ -85,8 +81,8 @@
           "y": 170
         },
         "windowSize": {
-          "height": 650,
-          "width": 1000
+          "height": 750,
+          "width": 1200
         }
       }
     },

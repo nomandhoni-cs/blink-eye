@@ -285,7 +285,7 @@ export function CustomTitlebar() {
           />
           <span
             data-tauri-drag-region
-            className="text-sm font-medium tracking-wide text-muted-foreground/80 font-heading"
+            className="text-sm font-light tracking-wide font-heading"
           >
             blinkeye
           </span>
@@ -298,7 +298,7 @@ export function CustomTitlebar() {
       >
         <span
           data-tauri-drag-region
-          className="text-[13px] font-medium text-foreground/60 font-heading"
+          className="text-[13px] font-medium text-foreground/95 font-heading"
         >
           {currentTitle}
         </span>
