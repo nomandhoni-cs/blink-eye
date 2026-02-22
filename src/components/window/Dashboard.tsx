@@ -93,13 +93,13 @@ const Dashboard = () => {
     const fetchSettings = async () => {
       const store = await load("store.json", { autoSave: false });
       const storedInterval = await store.get<number>(
-        "blinkEyeReminderInterval"
+        "blinkEyeReminderInterval",
       );
       const storedDuration = await store.get<number>(
-        "blinkEyeReminderDuration"
+        "blinkEyeReminderDuration",
       );
       const storedReminderText = await store.get<string>(
-        "blinkEyeReminderScreenText"
+        "blinkEyeReminderScreenText",
       );
       const reminderStyleData = await load("ReminderThemeStyle.json");
       const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
@@ -147,7 +147,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-2 space-y-3">
-      <div className="flex justify-between items-center space-x-8 -mt-6">
+      <div className="flex justify-between items-center space-x-8 mt-6">
         <div>
           <h1 className="text-5xl font-heading tracking-wider text-[#FE4C55]">
             {currentDate.toLocaleString("en-US", { weekday: "long" })}
@@ -197,7 +197,7 @@ const Dashboard = () => {
                     value={interval}
                     onChange={(e) =>
                       setInterval(
-                        Math.max(1, parseInt(e.target.value, 10) || 1)
+                        Math.max(1, parseInt(e.target.value, 10) || 1),
                       )
                     }
                     className="bg-background rounded-r-none w-24"
@@ -219,7 +219,7 @@ const Dashboard = () => {
                     value={duration}
                     onChange={(e) =>
                       setDuration(
-                        Math.max(1, parseInt(e.target.value, 10) || 1)
+                        Math.max(1, parseInt(e.target.value, 10) || 1),
                       )
                     }
                     className="bg-background rounded-r-none w-24"
