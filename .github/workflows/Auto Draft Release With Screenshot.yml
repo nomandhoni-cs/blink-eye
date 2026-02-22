@@ -1,4 +1,4 @@
-name: Blink Eye Auto Draft Release with Screenshots
+name: Blink Eye Auto Draft Release with Screenshots (macOS Only)
 on:
   pull_request:
     branches: [develop]
@@ -10,7 +10,7 @@ on:
   workflow_dispatch: # Allows manual triggering from GitHub UI
 
 jobs:
-  build:
+  build-macos:
     permissions:
       contents: write
     strategy:
@@ -23,12 +23,6 @@ jobs:
           - platform: "macos-latest" # for Intel based macs
             args: "--target x86_64-apple-darwin"
             architecture: "x86_64"
-          - platform: "ubuntu-22.04" # for Tauri v2
-            args: ""
-            architecture: ""
-          - platform: "windows-latest"
-            args: ""
-            architecture: ""
 
     runs-on: ${{ matrix.platform }}
 
@@ -68,21 +62,7 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-
-      - name: Install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libwebkit2gtk-4.1-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            libgtk-4-dev \
-            patchelf \
-            openssl \
-            libssl-dev \
-            build-essential
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
             
       - name: Install frontend dependencies
         run: bun install
@@ -105,8 +85,7 @@ jobs:
           args: ${{ matrix.args }}
 
       # macOS-specific steps: Install and test the built app
-      - name: Log Device Architecture (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Log Device Architecture
         run: |
           DEVICE_ARCH=$(uname -m)
           echo "Detected device architecture: $DEVICE_ARCH"
@@ -119,8 +98,47 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Find and Install Built App (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Get Current Screen Resolution
+        run: |
+          echo "Current screen resolution:"
+          system_profiler SPDisplaysDataType | grep Resolution || true
+        continue-on-error: true
+
+      - name: Install displayplacer for Resolution Control
+        run: |
+          brew tap jakehilborn/jakehilborn
+          brew install displayplacer
+        continue-on-error: true
+
+      - name: Get Display Configuration
+        run: |
+          echo "Getting current display configuration..."
+          displayplacer list || true
+        continue-on-error: true
+
+      - name: Set Higher Resolution
+        run: |
+          # Get the current display ID and available resolutions
+          echo "Setting display to higher resolution..."
+          
+          # Try to set a common higher resolution (1920x1080 or 1680x1050)
+          # This will attempt to set the highest available resolution
+          displayplacer "id:1 res:1920x1080 scaling:off" || \
+          displayplacer "id:1 res:1680x1050 scaling:off" || \
+          displayplacer "id:1 res:1440x900 scaling:off" || \
+          echo "Could not set higher resolution, using default"
+          
+          # Verify new resolution
+          echo "New screen resolution:"
+          system_profiler SPDisplaysDataType | grep Resolution || true
+        continue-on-error: true
+
+      - name: Take Screenshot of Desktop Before Installation
+        run: |
+          screencapture -x /tmp/screenshot_desktop_before.png || true
+        continue-on-error: true
+
+      - name: Find and Install Built App
         run: |
           # Determine the target directory based on architecture
           if [[ "${{ matrix.architecture }}" == "arm64" ]]; then
@@ -151,8 +169,7 @@ jobs:
           screencapture -x /tmp/screenshot_install.png || true
         continue-on-error: true
 
-      - name: Verify Installation (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Verify Installation
         run: |
           if [ -d "/Applications/Blink Eye.app" ]; then
             echo "Blink Eye installed successfully."
@@ -163,8 +180,7 @@ jobs:
           screencapture -x /tmp/screenshot_verify_install.png || true
         continue-on-error: true
 
-      - name: Test App Architecture (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Test App Architecture
         run: |
           if [ ! -f "/Applications/Blink Eye.app/Contents/MacOS/Blink-Eye" ]; then
             echo "Blink Eye binary not found, but continuing workflow."
@@ -180,26 +196,37 @@ jobs:
           screencapture -x /tmp/screenshot_architecture.png || true
         continue-on-error: true
 
-      - name: Launch Blink Eye App 5 Times with Delay (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Launch Blink Eye App 5 Times with Delay
         run: |
           for i in {1..5}; do
             echo "Launch attempt $i..."
             open "/Applications/Blink Eye.app" || true
-            sleep 10  # Wait for the app UI to render
+            sleep 15  # Wait longer for the app UI to fully render at higher resolution
             screencapture -x "/tmp/screenshot_launch_$i.png" || true
+            
+            # Close the app before next launch
+            osascript -e 'quit app "Blink Eye"' || killall "Blink-Eye" || true
+            sleep 2
           done
         continue-on-error: true
 
-      - name: Cleanup - Uninstall App (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Take Final Desktop Screenshot
         run: |
+          screencapture -x /tmp/screenshot_desktop_after.png || true
+        continue-on-error: true
+
+      - name: Cleanup - Uninstall App
+        run: |
+          # Close app if still running
+          osascript -e 'quit app "Blink Eye"' || killall "Blink-Eye" || true
+          sleep 2
+          
+          # Remove app
           sudo rm -rf "/Applications/Blink Eye.app" || true
           screencapture -x /tmp/screenshot_uninstall.png || true
         continue-on-error: true
 
-      - name: Verify Uninstallation (macOS only)
-        if: matrix.platform == 'macos-latest'
+      - name: Verify Uninstallation
         run: |
           if [ ! -d "/Applications/Blink Eye.app" ]; then
             echo "Blink Eye uninstalled successfully."
@@ -210,7 +237,6 @@ jobs:
         continue-on-error: true
 
       - name: Upload macOS Screenshots
-        if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v4
         with:
           name: BlinkEyeScreenshots-${{ matrix.architecture }}
@@ -221,5 +247,5 @@ jobs:
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: release-${{ matrix.platform }}-${{ matrix.architecture || 'default' }}
+          name: release-macos-${{ matrix.architecture }}
           path: src-tauri/target/release/bundle/**
