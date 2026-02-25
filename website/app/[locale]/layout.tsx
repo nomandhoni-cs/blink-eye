@@ -41,7 +41,7 @@ const fontHeading = Urbanist({
 });
 type Props = {
   children: ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export const dynamic = "force-static";
