@@ -95,12 +95,13 @@ const DownloadPage = async ({
     linuxTar: null,
     linuxRPM: null,
   };
-  try {
-    const releaseData = await fetchReleaseData();
+
+  const releaseData = await fetchReleaseData();
+
+  if (releaseData) {
     downloadLinks = getDownloadLinks(releaseData.assets);
-  } catch (error) {
-    console.error("Error fetching release data:", error);
-    return <div>Error loading download links.</div>;
+  } else {
+    console.warn("Release data not available, showing page without download links");
   }
 
   return (

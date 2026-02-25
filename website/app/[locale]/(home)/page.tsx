@@ -18,12 +18,7 @@ export function generateStaticParams() {
 }
 
 const RootPage = async () => {
-  let releaseData: ReleaseData | null = null;
-  try {
-    releaseData = await fetchReleaseData();
-  } catch (error) {
-    console.error("Error fetching release data:", error);
-  }
+  const releaseData = await fetchReleaseData();
 
   return (
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-32 lg:pb-8 px-4 sm:px-6 lg:px-8">
