@@ -45,52 +45,10 @@ export const routing = defineRouting({
     "zh-CN", // Simplified Chinese [Done] - Gemini Experimental
     "zh-TW", // Traditional Chinese [Done] - Gemini Experimental
   ],
-  pathnames: {
-    "/": "/",
-    "/pathnames": {
-      en: "/pathnames",
-      zh: "/pathnames",
-      hi: "/pathnames",
-      "es-ES": "/pathnames",
-      ar: "/pathnames",
-      bn: "/pathnames",
-      pt: "/pathnames",
-      ru: "/pathnames",
-      ja: "/pathnames",
-      de: "/pathnames",
-      fr: "/pathnames",
-      ur: "/pathnames",
-      id: "/pathnames",
-      ko: "/pathnames",
-      it: "/pathnames",
-      tr: "/pathnames",
-      vi: "/pathnames",
-      th: "/pathnames",
-      fa: "/pathnames",
-      pl: "/pathnames",
-      nl: "/pathnames",
-      af: "/pathnames",
-      ca: "/pathnames",
-      cs: "/pathnames",
-      da: "/pathnames",
-      el: "/pathnames",
-      fi: "/pathnames",
-      he: "/pathnames",
-      hu: "/pathnames",
-      no: "/pathnames",
-      "pt-BR": "/pathnames",
-      "pt-PT": "/pathnames",
-      ro: "/pathnames",
-      sr: "/pathnames",
-      "sv-SE": "/pathnames",
-      uk: "/pathnames",
-      "zh-CN": "/pathnames",
-      "zh-TW": "/pathnames",
-    },
-  },
+  // Removed pathnames configuration for static export compatibility
+  // This allows dynamic routes like /posts/[slug] to work properly
 });
 
-export type Pathnames = keyof typeof routing.pathnames;
 export type Locale = (typeof routing.locales)[number];
 export const { Link, redirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);
