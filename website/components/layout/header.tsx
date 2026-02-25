@@ -30,9 +30,8 @@ export const Header = () => {
     <header className="sticky top-2 z-40 w-full transition-all duration-300 ease-in-out">
       {/* Full Navbar */}
       <div
-        className={`max-w-[1440px] mx-auto flex items-center justify-between h-16 transition-all duration-300 ease-in-out px-4 ${
-          scrolled ? "hidden" : "block"
-        }
+        className={`max-w-[1440px] mx-auto flex items-center justify-between h-16 transition-all duration-300 ease-in-out px-4 ${scrolled ? "hidden" : "block"
+          }
         `}
       >
         {/* Logo Section */}
@@ -122,7 +121,7 @@ const SocialIcons = () => (
     <Button
       variant="ghost"
       size="icon"
-      className="motion-preset-confetti motion-duration-1000"
+      // className="motion-preset-confetti motion-duration-1000"
       asChild
     >
       <Link

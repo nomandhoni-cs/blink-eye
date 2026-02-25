@@ -1,14 +1,11 @@
 @import "tailwindcss";
+@plugin "tailwindcss-motion";
 
 @plugin "tailwindcss-animate";
-@plugin "tailwindcss-motion";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* Font Family */
-  --font-family-heading: var(--font-heading);
-
   /* Container */
   --container-center: true;
   --container-padding: 2rem;
@@ -65,6 +62,12 @@
   --animate-gradient: gradient 8s linear infinite;
   --animate-float: float 6s ease-in-out infinite;
   --animate-bounce-slow: bounce 3s infinite;
+}
+
+@theme inline {
+  /* Map font CSS variables to Tailwind utilities */
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
 }
 
 @theme dark {
