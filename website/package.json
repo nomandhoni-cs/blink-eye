@@ -10,9 +10,7 @@
     "serve": "npx serve out"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.2",
     "@next/third-parties": "^16.1.6",
-    "@opennextjs/cloudflare": "^1.17.1",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
@@ -25,14 +23,13 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@t3-oss/env-nextjs": "^0.13.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dompurify": "^3.3.1",
     "eslint-config-next": "^16.1.6",
     "gray-matter": "^4.0.3",
-    "lucide-react": "0.575.0",
+    "lucide-react": "^0.575.0",
     "marked": "^17.0.3",
     "next": "16.1.6",
     "next-intl": "^4.8.3",
@@ -42,10 +39,10 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^4.3.6"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^25.3.0",
     "@types/react": "^19.2.14",
