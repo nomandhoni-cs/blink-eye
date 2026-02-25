@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "npx serve out",
+    "export": "next build",
+    "serve": "npx serve out"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
