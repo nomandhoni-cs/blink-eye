@@ -1,7 +1,6 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
-import { useLocale } from "next-intl";
 
 type Props = {
   title: string;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 const CoverImage = ({ title, src, slug }: Props) => {
-  const locale = useLocale();
   const image = (
     <Image
       src={src}
