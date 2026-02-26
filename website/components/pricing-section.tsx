@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Check } from "lucide-react";
-import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import {
   Card,
@@ -14,16 +13,13 @@ import {
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Skeleton } from "./ui/skeleton";
+import { getDiscount } from "@/utils/fetchDiscount";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-};
-
-// Configuration interface - only define these fields
+// Configuration interface
 interface PricingPlanConfig {
   devices: number;
-  originalPrice: string; // e.g., "9.99" (without $)
-  savingsPercentage: string; // e.g., "30%" - ONLY CHANGE THIS for discount
+  originalPrice: string;
   isRecommended: boolean;
   checkoutLink: {
     yearly: string;
@@ -35,12 +31,13 @@ interface PricingPlanConfig {
 interface PricingPlan extends PricingPlanConfig {
   price: string;
   savings: string;
+  savingsPercentage: string;
 }
 
-// Helper function to automatically calculate pricing based on savingsPercentage
-const calculatePricing = (config: PricingPlanConfig): PricingPlan => {
+// Helper function to calculate pricing
+const calculatePricing = (config: PricingPlanConfig, discountPercent: number): PricingPlan => {
   const original = parseFloat(config.originalPrice.replace(/[$,]/g, ''));
-  const percentage = parseFloat(config.savingsPercentage.replace('%', '')) / 100;
+  const percentage = discountPercent / 100;
 
   const savingsAmount = original * percentage;
   const finalPrice = original - savingsAmount;
@@ -49,104 +46,109 @@ const calculatePricing = (config: PricingPlanConfig): PricingPlan => {
     ...config,
     price: `$${finalPrice.toFixed(2)}`,
     savings: `$${savingsAmount.toFixed(2)}`,
-    originalPrice: `$${original.toFixed(2)}`
+    originalPrice: `$${original.toFixed(2)}`,
+    savingsPercentage: `${discountPercent}%`,
   };
 };
 
 export default function PricingSection() {
   const pricingHeader = useTranslations("pricingSectionHeader");
-  const [billingCycle, setBillingCycle] = useState<"yearly" | "lifetime">(
-    "yearly"
-  );
+  const [billingCycle, setBillingCycle] = useState<"yearly" | "lifetime">("yearly");
 
-  // Define ONLY base configuration - prices are calculated automatically
-  const yearlyPlansConfig: PricingPlanConfig[] = [
+  // State for API Discount
+  const [discountPercent, setDiscountPercent] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch Discount on Mount
+  useEffect(() => {
+    const fetchDiscountData = async () => {
+      try {
+        const data = await getDiscount();
+        // Only update if active and percentage is valid
+        if (data && data.isActive && data.percentage > 0) {
+          setDiscountPercent(data.percentage);
+        }
+      } catch (error) {
+        console.error("Failed to fetch discount", error);
+        // Optional: fallback to a default discount or 0
+        setDiscountPercent(0);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDiscountData();
+  }, []);
+
+  // Base Configuration
+  const baseYearlyPlans: PricingPlanConfig[] = [
     {
       devices: 1,
       originalPrice: "9.99",
-      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
-        yearly:
-          "https://blinkeye.lemonsqueezy.com/buy/704b74da-300e-49ee-a7e0-2cf334c3a6e5",
-        lifetime:
-          "https://blinkeye.lemonsqueezy.com/buy/ee6eb115-6292-4985-a0f0-39e82e97fcf5",
+        yearly: "https://blinkeye.lemonsqueezy.com/buy/704b74da-300e-49ee-a7e0-2cf334c3a6e5",
+        lifetime: "https://blinkeye.lemonsqueezy.com/buy/ee6eb115-6292-4985-a0f0-39e82e97fcf5",
       },
     },
     {
       devices: 2,
       originalPrice: "16.99",
-      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: true,
       checkoutLink: {
-        yearly:
-          "https://blinkeye.lemonsqueezy.com/buy/6811a31d-421d-4e96-bdde-32a1eb4627e4",
-        lifetime:
-          "https://blinkeye.lemonsqueezy.com/buy/96664a60-99d5-4958-a943-1430e7ec926f",
+        yearly: "https://blinkeye.lemonsqueezy.com/buy/6811a31d-421d-4e96-bdde-32a1eb4627e4",
+        lifetime: "https://blinkeye.lemonsqueezy.com/buy/96664a60-99d5-4958-a943-1430e7ec926f",
       },
     },
     {
       devices: 5,
       originalPrice: "39.99",
-      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
-        yearly:
-          "https://blinkeye.lemonsqueezy.com/buy/4e31ecd7-b0b8-4c3c-9ff4-d250c6fb9d87",
-        lifetime:
-          "https://blinkeye.lemonsqueezy.com/buy/088e8a66-d9e1-4606-b3ff-ffb807394ab7",
+        yearly: "https://blinkeye.lemonsqueezy.com/buy/4e31ecd7-b0b8-4c3c-9ff4-d250c6fb9d87",
+        lifetime: "https://blinkeye.lemonsqueezy.com/buy/088e8a66-d9e1-4606-b3ff-ffb807394ab7",
       },
     },
   ];
 
-  const lifetimePlansConfig: PricingPlanConfig[] = [
+  const baseLifetimePlans: PricingPlanConfig[] = [
     {
       devices: 1,
       originalPrice: "28.99",
-      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
-        yearly:
-          "https://blinkeye.lemonsqueezy.com/buy/704b74da-300e-49ee-a7e0-2cf334c3a6e5",
-        lifetime:
-          "https://blinkeye.lemonsqueezy.com/buy/ee6eb115-6292-4985-a0f0-39e82e97fcf5",
+        yearly: "https://blinkeye.lemonsqueezy.com/buy/704b74da-300e-49ee-a7e0-2cf334c3a6e5",
+        lifetime: "https://blinkeye.lemonsqueezy.com/buy/ee6eb115-6292-4985-a0f0-39e82e97fcf5",
       },
     },
     {
       devices: 2,
       originalPrice: "49.99",
-      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: true,
       checkoutLink: {
-        yearly:
-          "https://blinkeye.lemonsqueezy.com/buy/6811a31d-421d-4e96-bdde-32a1eb4627e4",
-        lifetime:
-          "https://blinkeye.lemonsqueezy.com/buy/96664a60-99d5-4958-a943-1430e7ec926f",
+        yearly: "https://blinkeye.lemonsqueezy.com/buy/6811a31d-421d-4e96-bdde-32a1eb4627e4",
+        lifetime: "https://blinkeye.lemonsqueezy.com/buy/96664a60-99d5-4958-a943-1430e7ec926f",
       },
     },
     {
       devices: 5,
       originalPrice: "109.99",
-      savingsPercentage: "30%", // 👈 ONLY CHANGE THIS for discount
       isRecommended: false,
       checkoutLink: {
-        yearly:
-          "https://blinkeye.lemonsqueezy.com/buy/4e31ecd7-b0b8-4c3c-9ff4-d250c6fb9d87",
-        lifetime:
-          "https://blinkeye.lemonsqueezy.com/buy/088e8a66-d9e1-4606-b3ff-ffb807394ab7",
+        yearly: "https://blinkeye.lemonsqueezy.com/buy/4e31ecd7-b0b8-4c3c-9ff4-d250c6fb9d87",
+        lifetime: "https://blinkeye.lemonsqueezy.com/buy/088e8a66-d9e1-4606-b3ff-ffb807394ab7",
       },
     },
   ];
 
-  // Calculate pricing automatically using useMemo for performance
+  // Calculate pricing dynamically
   const yearlyPlans = useMemo(
-    () => yearlyPlansConfig.map(calculatePricing),
-    [yearlyPlansConfig]
+    () => baseYearlyPlans.map(plan => calculatePricing(plan, discountPercent)),
+    [discountPercent]
   );
 
   const lifetimePlans = useMemo(
-    () => lifetimePlansConfig.map(calculatePricing),
-    [lifetimePlansConfig]
+    () => baseLifetimePlans.map(plan => calculatePricing(plan, discountPercent)),
+    [discountPercent]
   );
 
   const renderPricingCard = (
@@ -171,6 +173,11 @@ export default function PricingSection() {
       "Screen savers",
       "All features from future updates",
     ];
+
+    // Construct Checkout URL (Without auto-applying coupon)
+    const checkoutUrl = cycle === "yearly"
+      ? plan.checkoutLink.yearly
+      : plan.checkoutLink.lifetime;
 
     return (
       <div className={`relative ${plan.isRecommended ? 'scale-105 z-10' : ''}`}>
@@ -197,24 +204,31 @@ export default function PricingSection() {
           <div className="sticky top-0 z-20 border-b border-gray-100 dark:border-gray-800">
             <CardContent className="pt-0 pb-4">
               <div className="text-center mb-3">
-                <div className="flex items-baseline justify-center gap-2">
-                  <span className={`text-5xl font-heading font-bold ${plan.isRecommended
-                    ? "text-[#FE4C55]"
-                    : "text-gray-900 dark:text-gray-100"
-                    }`}>
-                    {plan.price}
-                  </span>
-                  {plan.savings && (
-                    <span className="text-4xl font-heading text-gray-400 dark:text-gray-500 line-through">
-                      {plan.originalPrice}
-                    </span>
+                <div className="flex items-baseline justify-center gap-2 min-h-[48px]">
+                  {isLoading ? (
+                    <Skeleton className="h-10 w-24" />
+                  ) : (
+                    <>
+                      <span className={`text-5xl font-heading font-bold ${plan.isRecommended
+                        ? "text-[#FE4C55]"
+                        : "text-gray-900 dark:text-gray-100"
+                        }`}>
+                        {plan.price}
+                      </span>
+                      {discountPercent > 0 && (
+                        <span className="text-2xl sm:text-4xl font-heading text-gray-400 dark:text-gray-500 line-through">
+                          {plan.originalPrice}
+                        </span>
+                      )}
+                      <span className="text-gray-500 text-sm">
+                        {cycle === "yearly" ? "/year" : ""}
+                      </span>
+                    </>
                   )}
-                  <span className="text-gray-500 text-sm">
-                    {cycle === "yearly" ? "/year" : ""}
-                  </span>
                 </div>
+
                 {/* Display savings percentage */}
-                {plan.savingsPercentage && (
+                {!isLoading && discountPercent > 0 && (
                   <div className="mt-2">
                     <span className="inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-heading font-semibold">
                       Save {plan.savingsPercentage} ({plan.savings})
@@ -225,21 +239,18 @@ export default function PricingSection() {
 
               <Button
                 asChild
+                disabled={isLoading}
                 className={`w-full h-11 font-heading font-semibold ${plan.isRecommended
                   ? "bg-[#FE4C55] hover:bg-[#FE4C55]/90 text-white shadow-lg"
                   : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-100 dark:hover:bg-gray-200 dark:text-gray-900"
                   }`}
               >
                 <a
-                  href={
-                    cycle === "yearly"
-                      ? plan.checkoutLink.yearly
-                      : plan.checkoutLink.lifetime
-                  }
+                  href={checkoutUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Get Started
+                  {isLoading ? "Loading..." : "Get Started"}
                 </a>
               </Button>
             </CardContent>
