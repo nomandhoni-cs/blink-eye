@@ -7,12 +7,12 @@ import {
   IoCalendar,
   IoDesktop,
   IoSettings,
-  IoDocumentText,
   IoChatbubble,
   IoInformationCircle,
   IoFlame,
   IoCheckmarkCircle,
   IoSparkles,
+  IoKey,
 } from "react-icons/io5";
 import { motion } from "framer-motion";
 import {
@@ -31,6 +31,7 @@ import {
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { LucideListTodo } from "lucide-react";
 import { PiMonitorFill } from "react-icons/pi";
+import { UpdateChecker } from "./UpdateChecker";
 
 // ── 1. Grouped Navigation Data ──
 
@@ -47,7 +48,7 @@ const proNav = [
 
 const systemNav = [
   { title: "Settings", url: "/allSettings", icon: IoSettings },
-  { title: "Activate License", url: "/activatelicense", icon: IoDocumentText },
+  { title: "Activate License", url: "/activatelicense", icon: IoKey },
   {
     title: "Submit Feedback",
     url: "https://tally.so/r/wo0ZrN",
@@ -213,24 +214,70 @@ export function AppSidebar() {
 
         {/* ── Footer ── */}
         <SidebarFooter className="p-2 pb-3">
-          <SidebarMenu>
-            {isPaidUser ? (
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  tooltip="Pro Active"
-                  className="relative overflow-hidden cursor-default border border-green-500/25 dark:border-green-400/20 bg-green-500/5 dark:bg-green-400/5 hover:bg-green-500/5 dark:hover:bg-green-400/5 group"
-                >
-                  {/* Green sweep */}
+          <SidebarMenu>            {isPaidUser ? (
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                tooltip="Pro Active"
+                className="relative overflow-hidden cursor-default border border-green-500/25 dark:border-green-400/20 bg-green-500/5 dark:bg-green-400/5 hover:bg-green-500/5 dark:hover:bg-green-400/5 group"
+              >
+                {/* Green sweep */}
+                <motion.div
+                  className="absolute inset-0 z-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, transparent 0%, rgba(34,197,94,0.25) 40%, rgba(74,222,128,0.35) 50%, rgba(34,197,94,0.25) 60%, transparent 100%)",
+                    backgroundSize: "200% 100%",
+                  }}
+                  animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                {/* White shimmer */}
+                <motion.div
+                  className="absolute inset-0 z-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.12) 55%, transparent 70%)",
+                    backgroundSize: "200% 100%",
+                  }}
+                  animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.8,
+                  }}
+                />
+
+                <IoCheckmarkCircle className="relative z-10 text-[1.1rem] drop-shadow-[0_0_4px_rgba(34,197,94,0.5)] shrink-0 text-green-500 dark:text-green-400" />
+                <span className="relative z-10 font-heading text-[13px] font-semibold tracking-wide text-green-700 dark:text-green-400">
+                  Activated
+                </span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ) : (
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                tooltip="Unlock Premium"
+                className="relative overflow-hidden border border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35 shadow-sm transition-all group"
+              >
+                <Link to="https://blinkeye.app/en/pricing" target="_blank">
+                  {/* Amber/rose sweep */}
                   <motion.div
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(90deg, transparent 0%, rgba(34,197,94,0.25) 40%, rgba(74,222,128,0.35) 50%, rgba(34,197,94,0.25) 60%, transparent 100%)",
+                        "linear-gradient(90deg, transparent 0%, rgba(245,158,11,0.25) 35%, rgba(225,29,72,0.3) 50%, rgba(245,158,11,0.25) 65%, transparent 100%)",
                       backgroundSize: "200% 100%",
                     }}
                     animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
                     transition={{
-                      duration: 3,
+                      duration: 2.5,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
@@ -241,80 +288,36 @@ export function AppSidebar() {
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.12) 55%, transparent 70%)",
+                        "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.12) 55%, transparent 70%)",
                       backgroundSize: "200% 100%",
                     }}
                     animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
                     transition={{
-                      duration: 2.5,
+                      duration: 2,
                       repeat: Infinity,
                       ease: "easeInOut",
-                      delay: 0.8,
+                      delay: 0.6,
                     }}
                   />
 
-                  <IoCheckmarkCircle className="relative z-10 text-[1.1rem] drop-shadow-[0_0_4px_rgba(34,197,94,0.5)] shrink-0 text-green-500 dark:text-green-400" />
-                  <span className="relative z-10 font-heading text-[13px] font-semibold tracking-wide text-green-700 dark:text-green-400">
-                    Activated
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 z-0 bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                  <IoSparkles
+                    className="relative z-10 text-[1.1rem] drop-shadow-[0_0_4px_rgba(245,158,11,0.5)] shrink-0"
+                    style={{ fill: "url(#amberGradient)" }}
+                  />
+                  <span className="relative z-10 font-heading text-[13px] font-bold tracking-wide text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-colors">
+                    Unlock Premium
                   </span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ) : (
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  tooltip="Unlock Premium"
-                  className="relative overflow-hidden border border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35 shadow-sm transition-all group"
-                >
-                  <Link to="https://blinkeye.app/en/pricing" target="_blank">
-                    {/* Amber/rose sweep */}
-                    <motion.div
-                      className="absolute inset-0 z-0 pointer-events-none"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, transparent 0%, rgba(245,158,11,0.25) 35%, rgba(225,29,72,0.3) 50%, rgba(245,158,11,0.25) 65%, transparent 100%)",
-                        backgroundSize: "200% 100%",
-                      }}
-                      animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
-                      transition={{
-                        duration: 2.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-
-                    {/* White shimmer */}
-                    <motion.div
-                      className="absolute inset-0 z-0 pointer-events-none"
-                      style={{
-                        background:
-                          "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.12) 55%, transparent 70%)",
-                        backgroundSize: "200% 100%",
-                      }}
-                      animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.6,
-                      }}
-                    />
-
-                    {/* Hover glow */}
-                    <div className="absolute inset-0 z-0 bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-                    <IoSparkles
-                      className="relative z-10 text-[1.1rem] drop-shadow-[0_0_4px_rgba(245,158,11,0.5)] shrink-0"
-                      style={{ fill: "url(#amberGradient)" }}
-                    />
-                    <span className="relative z-10 font-heading text-[13px] font-bold tracking-wide text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-colors">
-                      Unlock Premium
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            )}
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
           </SidebarMenu>
+
+          {/* ── Version & Update Check ── */}
+          <UpdateChecker />
         </SidebarFooter>
       </Sidebar>
     </>
