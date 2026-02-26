@@ -30,15 +30,17 @@ import {
 } from "./ui/sidebar";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { LucideListTodo } from "lucide-react";
+import { PiMonitorFill } from "react-icons/pi";
 
 // ── 1. Grouped Navigation Data ──
 
 const mainNav = [{ title: "Dashboard", url: "/", icon: IoGrid }];
 
 const proNav = [
-  { title: "Todo List", url: "/todoList", icon: LucideListTodo },
   { title: "Usage Time", url: "/usageTime", icon: IoBarChart },
   { title: "Reminder Themes", url: "/reminderthemes", icon: IoColorPalette },
+  { title: "Multi-Monitor", url: "/multimonitor", icon: PiMonitorFill },
+  { title: "Todo List", url: "/todoList", icon: LucideListTodo },
   { title: "Workday Setup", url: "/workday", icon: IoCalendar },
   { title: "Screen Savers", url: "/screenSavers", icon: IoDesktop },
 ];

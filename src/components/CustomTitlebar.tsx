@@ -20,6 +20,7 @@ const routeTitles: Record<string, string> = {
   "/todoList": "Todo List",
   "/usageTime": "Usage Time",
   "/reminderthemes": "Reminder Themes",
+  "/multimonitor": "Multi-Monitor Setup",
   "/workday": "Workday Setup",
   "/screenSavers": "Screen Savers",
   "/allSettings": "Settings",

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import Database from "@tauri-apps/plugin-sql";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { load } from "@tauri-apps/plugin-store";
 import { useTrigger } from "../contexts/TriggerReRender";
 import { currentMonitor, availableMonitors } from "@tauri-apps/api/window";
 import { emit } from "@tauri-apps/api/event";
+import { getBooleanConfig, getJsonConfig } from "../utils/configUtils";
 
 // Define the type for workday configuration
 type Workday = { [day: string]: { start: string; end: string } } | null;
@@ -20,15 +20,22 @@ const ReminderHandler = () => {
 
   // Function to open reminder windows on all monitors
   const openReminderWindow = async (reminderWindow: string) => {
-    console.log("Opening reminder windows on all monitors...");
-
     try {
+      // Check if multi-monitor is enabled
+      const isMultiMonitorEnabled = await getBooleanConfig("isMultiMonitorEnabled");
+      // Multi-monitor requires premium access
+      const canUseMultiMonitor = isMultiMonitorEnabled && canAccessPremiumFeatures;
+
       const monitors = await availableMonitors();
-      console.log(`Found ${monitors.length} monitor(s)`);
+
+      // Determine how many monitors to use
+      // Only use multiple monitors if user has premium AND multi-monitor is enabled
+      const monitorsToUse = canUseMultiMonitor ? monitors : [monitors[0]];
+
 
       // Create a reminder window for each monitor
-      for (let index = 0; index < monitors.length; index++) {
-        const monitor = monitors[index];
+      for (let index = 0; index < monitorsToUse.length; index++) {
+        const monitor = monitorsToUse[index];
         const uniqueLabel = `reminder_monitor_${index}`;
         const isPrimaryMonitor = index === 0;
 
@@ -69,13 +76,13 @@ const ReminderHandler = () => {
       }
 
       // Emit event to notify all windows were created
-      await emit("reminder-windows-opened", { count: monitors.length });
+      await emit("reminder-windows-opened", { count: monitorsToUse.length });
 
     } catch (error) {
       console.error("Error getting monitors:", error);
       // Fallback to single window if monitor detection fails
       const webview = new WebviewWindow("reminder_monitor_0", {
-        url: `/${reminderWindow}`,
+        url: `/${reminderWindow}?style=${backgroundStyle}`,
         fullscreen: true,
         alwaysOnTop: true,
         title: "Take A Break Reminder - Blink Eye",
@@ -96,7 +103,6 @@ const ReminderHandler = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       console.log("Fetching settings due to trigger:", trigger);
-      const db = await Database.load("sqlite:appconfig.db");
       const store = await load("store.json", { autoSave: false });
       const reminderStyleData = await load("ReminderThemeStyle.json");
       const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
@@ -109,32 +115,14 @@ const ReminderHandler = () => {
       if (storedInterval) setInterval(storedInterval);
 
       // Fetch workday setup from the database
-      type ConfigResult = { value: string };
-      const workdayData = (await db.select(
-        "SELECT value FROM config WHERE key = ?",
-        ["blinkEyeWorkday"]
-      )) as ConfigResult[];
-      if (workdayData.length > 0 && workdayData[0].value) {
-        try {
-          const parsedWorkday = JSON.parse(workdayData[0].value) as Workday;
-          setWorkday(parsedWorkday);
-        } catch (error) {
-          console.error("Failed to parse workday data:", error);
-        }
+      const parsedWorkday = await getJsonConfig<Workday>("blinkEyeWorkday");
+      if (parsedWorkday) {
+        setWorkday(parsedWorkday);
       }
 
       // Fetch whether workday is enabled
-      const isEnabledData = (await db.select(
-        "SELECT value FROM config WHERE key = ?",
-        ["isWorkdayEnabled"]
-      )) as ConfigResult[];
-
-      if (isEnabledData.length > 0 && isEnabledData[0].value) {
-        setIsWorkdayEnabled(isEnabledData[0].value === "true");
-      }
-      console.log(workdayData, "workdayData");
-      console.log(storedInterval, "storedInterval");
-      console.log(isWorkdayEnabled, "isWorkdayEnabled");
+      const isEnabled = await getBooleanConfig("isWorkdayEnabled");
+      setIsWorkdayEnabled(isEnabled);
     };
 
     fetchSettings();

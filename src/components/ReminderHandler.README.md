@@ -56,29 +56,37 @@ if (now >= startTime && now <= endTime) {
 }
 ```
 
-### 4. Opens Reminder Windows on ALL Monitors (Optimized!)
-This is the **multi-monitor magic** with **60% less memory usage**:
+### 4. Opens Reminder Windows on Monitors (Premium Multi-Monitor Support!)
+This is the **multi-monitor magic** with **60% less memory usage** (Premium Feature):
 
 ```typescript
 const openReminderWindow = async (reminderWindow: string) => {
+  // Check if multi-monitor is enabled in settings
+  const isMultiMonitorEnabled = await checkDatabase("isMultiMonitorEnabled");
+  
+  // Multi-monitor requires BOTH:
+  // 1. Premium access (canAccessPremiumFeatures)
+  // 2. Multi-monitor setting enabled
+  const canUseMultiMonitor = isMultiMonitorEnabled && canAccessPremiumFeatures;
+  
   // Get all connected monitors
   const monitors = await availableMonitors();
-  // Example: User has 3 monitors
-  // monitors = [
-  //   { position: {x: 0, y: 0}, size: {width: 1920, height: 1080} },
-  //   { position: {x: 1920, y: 0}, size: {width: 1920, height: 1080} },
-  //   { position: {x: 3840, y: 0}, size: {width: 2560, height: 1440} }
-  // ]
-
-  // Create windows for EACH monitor
-  for (let index = 0; index < monitors.length; index++) {
-    const monitor = monitors[index];
+  
+  // Free users: Only primary monitor
+  // Premium users with multi-monitor enabled: All monitors
+  const monitorsToUse = canUseMultiMonitor ? monitors : [monitors[0]];
+  
+  // Create windows
+  for (let index = 0; index < monitorsToUse.length; index++) {
+    const monitor = monitorsToUse[index];
     const isPrimaryMonitor = index === 0;
     
     new WebviewWindow(`reminder_monitor_${index}`, {
       // PRIMARY MONITOR: Full app with all features
-      // SECONDARY MONITORS: Minimal HTML with just background
-      url: isPrimaryMonitor ? `/AuroraReminderWindow` : `/reminder-minimal.html`,
+      // SECONDARY MONITORS: Minimal HTML with just background (Premium only)
+      url: isPrimaryMonitor 
+        ? `/AuroraReminderWindow?style=aurora` 
+        : `/reminder-minimal.html?style=aurora`,
       fullscreen: true,
       alwaysOnTop: true,
       x: monitor.position.x,
@@ -87,21 +95,19 @@ const openReminderWindow = async (reminderWindow: string) => {
       height: monitor.size.height,
     });
   }
-  
-  // Result:
-  // - Monitor 0: Full app (~50MB) with timer, skip button, etc.
-  // - Monitor 1: Just background (~5MB) - beautiful animation only
-  // - Monitor 2: Just background (~5MB) - beautiful animation only
-  // Total: ~60MB instead of ~150MB! 🎉
 };
 ```
 
-**Why This is Better:**
+**Premium Multi-Monitor Benefits:**
 - Primary monitor gets full React app with all logic and UI
 - Secondary monitors get lightweight HTML with just the background animation
 - 60% less memory usage (60MB vs 150MB for 3 monitors)
 - No permission errors on secondary windows
 - Faster window creation
+
+**Free vs Premium:**
+- **Free users**: Reminders show on primary monitor only (regardless of setting)
+- **Premium users**: Can enable multi-monitor mode to show on all displays
 ```
 
 ### 5. Shows "Before Alert" Notification
@@ -217,17 +223,20 @@ openReminderWindow("AuroraReminderWindow");
 |---------|------|---------|-------------|
 | `blinkEyeReminderInterval` | number | 20 | Minutes between reminders |
 | `backgroundStyle` | string | "aurora" | Visual theme for reminder |
-| `blinkEyeWorkday` | JSON | null | Workday schedule per day |
-| `isWorkdayEnabled` | boolean | false | Whether to use workday schedule |
+| `blinkEyeWorkday` | JSON | null | Workday schedule per day (Premium) |
+| `isWorkdayEnabled` | boolean | false | Whether to use workday schedule (Premium) |
+| `isMultiMonitorEnabled` | boolean | false | Whether to show on all monitors (Premium) |
 
 ## Example Flow
 
 ```
-User sets: 20-minute interval, Aurora style, Workday Mon-Fri 9-5
+User sets: 20-minute interval, Aurora style, Multi-monitor enabled, Workday Mon-Fri 9-5
 
 1. Component loads settings:
    - interval = 20
    - backgroundStyle = "aurora"
+   - isMultiMonitorEnabled = true
+   - canAccessPremiumFeatures = true (Premium user)
    - workday = { Monday: {start: "09:00", end: "17:00"}, ... }
    - isWorkdayEnabled = true
 
@@ -240,7 +249,7 @@ User sets: 20-minute interval, Aurora style, Workday Mon-Fri 9-5
    - 19 min 45 sec: Shows "before alert" (countdown notification)
    - 20 min: Opens Aurora reminder windows:
      * Monitor 1 (primary): Full app with timer, skip button, todo list
-     * Monitor 2-3 (secondary): Just Aurora background animation
+     * Monitor 2-3 (secondary): Just Aurora background animation (Premium!)
    
 4. User sees:
    - Primary monitor: Full break screen with all features
@@ -250,6 +259,21 @@ User sets: 20-minute interval, Aurora style, Workday Mon-Fri 9-5
 5. User clicks "Skip" on primary monitor:
    - Primary emits "close-all-reminders" event
    - All windows (primary + secondary) close instantly
+```
+
+**Free User Example:**
+```
+Free user with 3 monitors, multi-monitor setting enabled:
+
+1. Component checks:
+   - isMultiMonitorEnabled = true (user enabled it)
+   - canAccessPremiumFeatures = false (free user)
+   - canUseMultiMonitor = false (requires premium!)
+
+2. Result:
+   - Only Monitor 1 (primary) shows reminder
+   - Monitors 2-3 remain usable
+   - User can still work on secondary monitors
 ```
 
 ## Why It Returns `null`
@@ -276,29 +300,37 @@ All the visual stuff happens in the windows it creates!
 
 It's the invisible orchestrator that makes the whole reminder system work!
 
-## Multi-Monitor Architecture
+## Multi-Monitor Architecture (Premium Feature)
 
 ```
 ReminderHandler
       ↓
-Detects 3 monitors
+Checks Premium Access + Multi-Monitor Setting
       ↓
-   ┌──┴──┬────────┐
-   ↓     ↓        ↓
-Monitor 0  Monitor 1  Monitor 2
-(Primary)  (Secondary)(Secondary)
-   ↓        ↓         ↓
-Full App  Minimal   Minimal
-50MB RAM  5MB RAM   5MB RAM
-   ↓        ↓         ↓
-Timer +   Aurora    Aurora
-Skip +    BG Only   BG Only
-Todo +
-All UI
+   ┌──────────────┬─────────────────┐
+   ↓              ↓                 ↓
+FREE USER    PREMIUM USER      PREMIUM USER
+             (Disabled)        (Enabled)
+   ↓              ↓                 ↓
+Monitor 0    Monitor 0         Detects 3 monitors
+(Primary)    (Primary)              ↓
+   ↓              ↓            ┌──┴──┬────────┐
+Full App     Full App         ↓     ↓        ↓
+50MB RAM     50MB RAM    Monitor 0  Monitor 1  Monitor 2
+                         (Primary)  (Secondary)(Secondary)
+                            ↓        ↓         ↓
+                         Full App  Minimal   Minimal
+                         50MB RAM  5MB RAM   5MB RAM
+                            ↓        ↓         ↓
+                         Timer +   Aurora    Aurora
+                         Skip +    BG Only   BG Only
+                         Todo +
+                         All UI
 ```
 
 **Key Innovation:**
 - Primary monitor = Full experience (logic + UI)
-- Secondary monitors = Visual only (just background)
+- Secondary monitors = Visual only (just background) - **Premium Only**
 - Event system = Perfect synchronization
 - Result = 60% less memory, same great UX!
+- **Premium gate** = Ensures fair monetization

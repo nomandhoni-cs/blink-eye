@@ -58,6 +58,7 @@ const AllSettings = lazy(() => import("./components/window/AllSettings"));
 const AboutPage = lazy(() => import("./components/window/AboutPage"));
 const Soon = lazy(() => import("./components/window/Soon"));
 const TodoPage = lazy(() => import("./components/window/TodoPage"));
+const MultiMonitor = lazy(() => import("./components/window/MultiMonitor"));
 
 // Define routes that use a background wrapper around ReminderControl
 const reminderWindowRoutes = [
@@ -87,6 +88,7 @@ const layoutRoutes = [
   { path: "reminderthemes", element: ReminderStyles },
   { path: "usagetime", element: UsageTime },
   { path: "todoList", element: TodoPage },
+  { path: "multimonitor", element: MultiMonitor },
   { path: "workday", element: Workday },
   { path: "activatelicense", element: ActivateLicense },
   { path: "allSettings", element: AllSettings },
