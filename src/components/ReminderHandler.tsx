@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import Database from "@tauri-apps/plugin-sql";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { load } from "@tauri-apps/plugin-store";
 import { useTrigger } from "../contexts/TriggerReRender";
-import { currentMonitor } from "@tauri-apps/api/window";
+import { currentMonitor, availableMonitors } from "@tauri-apps/api/window";
+import { emit } from "@tauri-apps/api/event";
+import { getBooleanConfig, getJsonConfig } from "../utils/configUtils";
 
 // Define the type for workday configuration
 type Workday = { [day: string]: { start: string; end: string } } | null;
@@ -17,31 +18,91 @@ const ReminderHandler = () => {
   const [isWorkdayEnabled, setIsWorkdayEnabled] = useState<boolean>(false);
   const { canAccessPremiumFeatures } = usePremiumFeatures();
 
-  // Function to open the reminder window
-  const openReminderWindow = (reminderWindow: string) => {
-    console.log("Opening reminder window...");
-    const webview = new WebviewWindow(reminderWindow, {
-      url: `/${reminderWindow}`,
-      fullscreen: true,
-      alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
-      skipTaskbar: true,
-    });
+  // Function to open reminder windows on all monitors
+  const openReminderWindow = async (reminderWindow: string) => {
+    try {
+      // Check if multi-monitor is enabled
+      const isMultiMonitorEnabled = await getBooleanConfig("isMultiMonitorEnabled");
+      // Multi-monitor requires premium access
+      const canUseMultiMonitor = isMultiMonitorEnabled && canAccessPremiumFeatures;
 
-    webview.once("tauri://created", () => {
-      console.log("Reminder window created");
-    });
+      const monitors = await availableMonitors();
 
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating reminder window:", e);
-    });
-  };
+      // Determine how many monitors to use
+      // Only use multiple monitors if user has premium AND multi-monitor is enabled
+      const monitorsToUse = canUseMultiMonitor ? monitors : [monitors[0]];
+
+
+      // Create a reminder window for each monitor
+      for (let index = 0; index < monitorsToUse.length; index++) {
+        const monitor = monitorsToUse[index];
+        const uniqueLabel = `reminder_monitor_${index}`;
+        const isPrimaryMonitor = index === 0;
+
+        console.log(`Creating window on monitor ${index}:`, {
+          name: monitor.name,
+          size: monitor.size,
+          position: monitor.position,
+          isPrimary: isPrimaryMonitor,
+        });
+
+        const windowUrl = isPrimaryMonitor
+          ? `/${reminderWindow}?style=${backgroundStyle}`
+          : `/reminder-minimal.html?style=${backgroundStyle}`;
+
+        console.log(`[ReminderHandler] Creating ${isPrimaryMonitor ? 'PRIMARY' : 'SECONDARY'} window with URL:`, windowUrl);
+        console.log(`[ReminderHandler] Background style being passed:`, backgroundStyle);
+
+        const webview = new WebviewWindow(uniqueLabel, {
+          // Both primary and secondary get style via URL parameter for consistency
+          url: windowUrl,
+          fullscreen: true,
+          alwaysOnTop: true,
+          title: "Take A Break Reminder - Blink Eye",
+          skipTaskbar: true,
+          x: monitor.position.x,
+          y: monitor.position.y,
+          width: monitor.size.width,
+          height: monitor.size.height,
+        });
+
+        webview.once("tauri://created", () => {
+          console.log(`Reminder window created on monitor ${index} (${isPrimaryMonitor ? 'primary' : 'secondary'})`);
+        });
+
+        webview.once("tauri://error", (e) => {
+          console.error(`Error creating reminder window on monitor ${index}:`, e);
+        });
+      }
+
+      // Emit event to notify all windows were created
+      await emit("reminder-windows-opened", { count: monitorsToUse.length });
+
+    } catch (error) {
+      console.error("Error getting monitors:", error);
+      // Fallback to single window if monitor detection fails
+      const webview = new WebviewWindow("reminder_monitor_0", {
+        url: `/${reminderWindow}?style=${backgroundStyle}`,
+        fullscreen: true,
+        alwaysOnTop: true,
+        title: "Take A Break Reminder - Blink Eye",
+        skipTaskbar: true,
+      });
+
+      webview.once("tauri://created", () => {
+        console.log("Fallback reminder window created");
+      });
+
+      webview.once("tauri://error", (e) => {
+        console.error("Error creating fallback reminder window:", e);
+      });
+    }
+  }
 
   // Fetch settings when `trigger` changes
   useEffect(() => {
     const fetchSettings = async () => {
       console.log("Fetching settings due to trigger:", trigger);
-      const db = await Database.load("sqlite:appconfig.db");
       const store = await load("store.json", { autoSave: false });
       const reminderStyleData = await load("ReminderThemeStyle.json");
       const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
@@ -54,32 +115,14 @@ const ReminderHandler = () => {
       if (storedInterval) setInterval(storedInterval);
 
       // Fetch workday setup from the database
-      type ConfigResult = { value: string };
-      const workdayData = (await db.select(
-        "SELECT value FROM config WHERE key = ?",
-        ["blinkEyeWorkday"]
-      )) as ConfigResult[];
-      if (workdayData.length > 0 && workdayData[0].value) {
-        try {
-          const parsedWorkday = JSON.parse(workdayData[0].value) as Workday;
-          setWorkday(parsedWorkday);
-        } catch (error) {
-          console.error("Failed to parse workday data:", error);
-        }
+      const parsedWorkday = await getJsonConfig<Workday>("blinkEyeWorkday");
+      if (parsedWorkday) {
+        setWorkday(parsedWorkday);
       }
 
       // Fetch whether workday is enabled
-      const isEnabledData = (await db.select(
-        "SELECT value FROM config WHERE key = ?",
-        ["isWorkdayEnabled"]
-      )) as ConfigResult[];
-
-      if (isEnabledData.length > 0 && isEnabledData[0].value) {
-        setIsWorkdayEnabled(isEnabledData[0].value === "true");
-      }
-      console.log(workdayData, "workdayData");
-      console.log(storedInterval, "storedInterval");
-      console.log(isWorkdayEnabled, "isWorkdayEnabled");
+      const isEnabled = await getBooleanConfig("isWorkdayEnabled");
+      setIsWorkdayEnabled(isEnabled);
     };
 
     fetchSettings();
@@ -96,21 +139,13 @@ const ReminderHandler = () => {
       const windowWidth = 320;
       const windowHeight = 80;
 
-      // // Calculate position for bottom center
-      // const x = monitor
-      //   ? Math.round((monitor.size.width - windowWidth) / 2) +
-      //     monitor.position.x
-      //   : 0;
-      // const y = monitor
-      //   ? monitor.size.height - windowHeight - 20 + monitor.position.y // 20px from bottom
-      //   : 0;
       const x = monitor
-        ? Math.round((monitor.size.width - windowWidth) / 2) +
-          monitor.position.x
+        ? Math.round((monitor.size.width - windowWidth) / 2) + monitor.position.x
         : 0;
       const y = monitor
-        ? monitor.position.y + 80 // 20px from top
+        ? monitor.position.y + 80 // 80px from top
         : 0;
+
       const webview = new WebviewWindow("before_alert", {
         url: `/alert.html`,
         title: "Test Window - Blink Eye",
@@ -126,11 +161,13 @@ const ReminderHandler = () => {
         x,
         y,
       });
+
       webview.once("tauri://created", () => {
-        console.log("Test window created");
+        console.log("Before alert window created");
       });
+
       webview.once("tauri://error", (e) => {
-        console.error("Error creating test window:", e);
+        console.error("Error creating before alert window:", e);
       });
     };
 

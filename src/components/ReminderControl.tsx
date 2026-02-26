@@ -12,6 +12,8 @@ import { load } from "@tauri-apps/plugin-store";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
 import { useTimeCountContext } from "../contexts/TimeCountContext";
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { emit, listen } from "@tauri-apps/api/event";
 
 // In the component where you're using React.lazy
 const TodayTodoTasks = lazy(() =>
@@ -19,8 +21,6 @@ const TodayTodoTasks = lazy(() =>
     default: module.TodayTodoTasks,
   }))
 );
-
-const appWindow = getCurrentWebviewWindow();
 
 interface ConfigRow {
   value: string;
@@ -115,6 +115,42 @@ const ReminderControl: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCountdownStarted, setIsCountdownStarted] = useState<boolean>(false);
 
+  // Function to close all reminder windows across all monitors
+  const closeAllReminderWindows = async () => {
+    try {
+      // Emit event to close all reminder windows
+      await emit("close-all-reminders");
+
+      // Close all windows with reminder_monitor pattern
+      for (let i = 0; i < 10; i++) {
+        try {
+          const windowLabel = `reminder_monitor_${i}`;
+          const window = await WebviewWindow.getByLabel(windowLabel);
+          if (window) {
+            await window.close();
+            console.log(`Closed window: ${windowLabel}`);
+          }
+        } catch (error) {
+          // Window doesn't exist, continue
+        }
+      }
+    } catch (error) {
+      console.error("Error closing reminder windows:", error);
+    }
+  };
+
+  // Listen for close event from other windows
+  useEffect(() => {
+    const unlisten = listen("close-all-reminders", () => {
+      const currentWindow = getCurrentWebviewWindow();
+      currentWindow.close();
+    });
+
+    return () => {
+      unlisten.then((fn) => fn());
+    };
+  }, []);
+
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
       const store = await load("store.json", { autoSave: false });
@@ -205,7 +241,7 @@ const ReminderControl: React.FC = () => {
       handlePlayAudio();
     }
     if (timeLeft <= 0) {
-      appWindow.close();
+      closeAllReminderWindows();
       return;
     }
 
@@ -251,7 +287,7 @@ const ReminderControl: React.FC = () => {
               <div className="flex space-x-4">
                 {!isUsingStrictMode && (
                   <Button
-                    onClick={() => appWindow.close()}
+                    onClick={closeAllReminderWindows}
                     className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center transform transition-transform hover:scale-105"
                   >
                     <span className="text-base">Skip this Time</span>
@@ -318,7 +354,7 @@ const ReminderControl: React.FC = () => {
 
             {!isUsingStrictMode && (
               <Button
-                onClick={() => appWindow.close()}
+                onClick={closeAllReminderWindows}
                 variant="outline"
                 className="bg-white/5 opacity-70 backdrop-blur-2xl rounded-full shadow-2xl transition-colors border border-white/20 hover:bg-white/20"
               >
