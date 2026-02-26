@@ -4,7 +4,8 @@ import Database from "@tauri-apps/plugin-sql";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { load } from "@tauri-apps/plugin-store";
 import { useTrigger } from "../contexts/TriggerReRender";
-import { currentMonitor } from "@tauri-apps/api/window";
+import { currentMonitor, availableMonitors } from "@tauri-apps/api/window";
+import { emit } from "@tauri-apps/api/event";
 
 // Define the type for workday configuration
 type Workday = { [day: string]: { start: string; end: string } } | null;
@@ -17,24 +18,68 @@ const ReminderHandler = () => {
   const [isWorkdayEnabled, setIsWorkdayEnabled] = useState<boolean>(false);
   const { canAccessPremiumFeatures } = usePremiumFeatures();
 
-  // Function to open the reminder window
-  const openReminderWindow = (reminderWindow: string) => {
-    console.log("Opening reminder window...");
-    const webview = new WebviewWindow(reminderWindow, {
-      url: `/${reminderWindow}`,
-      fullscreen: true,
-      alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
-      skipTaskbar: true,
-    });
+  // Function to open reminder windows on all monitors
+  const openReminderWindow = async (reminderWindow: string) => {
+    console.log("Opening reminder windows on all monitors...");
 
-    webview.once("tauri://created", () => {
-      console.log("Reminder window created");
-    });
+    try {
+      const monitors = await availableMonitors();
+      console.log(`Found ${monitors.length} monitor(s)`);
 
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating reminder window:", e);
-    });
+      // Create a reminder window for each monitor
+      for (let index = 0; index < monitors.length; index++) {
+        const monitor = monitors[index];
+        const uniqueLabel = `reminder_monitor_${index}`;
+
+        console.log(`Creating window on monitor ${index}:`, {
+          name: monitor.name,
+          size: monitor.size,
+          position: monitor.position,
+        });
+
+        const webview = new WebviewWindow(uniqueLabel, {
+          url: `/${reminderWindow}`,
+          fullscreen: false,
+          alwaysOnTop: true,
+          title: "Take A Break Reminder - Blink Eye",
+          skipTaskbar: false,
+          x: monitor.position.x,
+          y: monitor.position.y,
+          width: monitor.size.width,
+          height: monitor.size.height,
+        });
+
+        webview.once("tauri://created", () => {
+          console.log(`Reminder window created on monitor ${index}`);
+        });
+
+        webview.once("tauri://error", (e) => {
+          console.error(`Error creating reminder window on monitor ${index}:`, e);
+        });
+      }
+
+      // Emit event to notify all windows were created
+      await emit("reminder-windows-opened", { count: monitors.length });
+
+    } catch (error) {
+      console.error("Error getting monitors:", error);
+      // Fallback to single window if monitor detection fails
+      const webview = new WebviewWindow("reminder_monitor_0", {
+        url: `/${reminderWindow}`,
+        fullscreen: true,
+        alwaysOnTop: true,
+        title: "Take A Break Reminder - Blink Eye",
+        skipTaskbar: true,
+      });
+
+      webview.once("tauri://created", () => {
+        console.log("Fallback reminder window created");
+      });
+
+      webview.once("tauri://error", (e) => {
+        console.error("Error creating fallback reminder window:", e);
+      });
+    }
   };
 
   // Fetch settings when `trigger` changes
@@ -96,21 +141,13 @@ const ReminderHandler = () => {
       const windowWidth = 320;
       const windowHeight = 80;
 
-      // // Calculate position for bottom center
-      // const x = monitor
-      //   ? Math.round((monitor.size.width - windowWidth) / 2) +
-      //     monitor.position.x
-      //   : 0;
-      // const y = monitor
-      //   ? monitor.size.height - windowHeight - 20 + monitor.position.y // 20px from bottom
-      //   : 0;
       const x = monitor
-        ? Math.round((monitor.size.width - windowWidth) / 2) +
-          monitor.position.x
+        ? Math.round((monitor.size.width - windowWidth) / 2) + monitor.position.x
         : 0;
       const y = monitor
-        ? monitor.position.y + 80 // 20px from top
+        ? monitor.position.y + 80 // 80px from top
         : 0;
+
       const webview = new WebviewWindow("before_alert", {
         url: `/alert.html`,
         title: "Test Window - Blink Eye",
@@ -126,11 +163,13 @@ const ReminderHandler = () => {
         x,
         y,
       });
+
       webview.once("tauri://created", () => {
-        console.log("Test window created");
+        console.log("Before alert window created");
       });
+
       webview.once("tauri://error", (e) => {
-        console.error("Error creating test window:", e);
+        console.error("Error creating before alert window:", e);
       });
     };
 
