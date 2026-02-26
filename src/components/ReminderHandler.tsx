@@ -30,19 +30,29 @@ const ReminderHandler = () => {
       for (let index = 0; index < monitors.length; index++) {
         const monitor = monitors[index];
         const uniqueLabel = `reminder_monitor_${index}`;
+        const isPrimaryMonitor = index === 0;
 
         console.log(`Creating window on monitor ${index}:`, {
           name: monitor.name,
           size: monitor.size,
           position: monitor.position,
+          isPrimary: isPrimaryMonitor,
         });
 
+        const windowUrl = isPrimaryMonitor
+          ? `/${reminderWindow}?style=${backgroundStyle}`
+          : `/reminder-minimal.html?style=${backgroundStyle}`;
+
+        console.log(`[ReminderHandler] Creating ${isPrimaryMonitor ? 'PRIMARY' : 'SECONDARY'} window with URL:`, windowUrl);
+        console.log(`[ReminderHandler] Background style being passed:`, backgroundStyle);
+
         const webview = new WebviewWindow(uniqueLabel, {
-          url: `/${reminderWindow}`,
-          fullscreen: false,
+          // Both primary and secondary get style via URL parameter for consistency
+          url: windowUrl,
+          fullscreen: true,
           alwaysOnTop: true,
           title: "Take A Break Reminder - Blink Eye",
-          skipTaskbar: false,
+          skipTaskbar: true,
           x: monitor.position.x,
           y: monitor.position.y,
           width: monitor.size.width,
@@ -50,7 +60,7 @@ const ReminderHandler = () => {
         });
 
         webview.once("tauri://created", () => {
-          console.log(`Reminder window created on monitor ${index}`);
+          console.log(`Reminder window created on monitor ${index} (${isPrimaryMonitor ? 'primary' : 'secondary'})`);
         });
 
         webview.once("tauri://error", (e) => {
@@ -80,7 +90,7 @@ const ReminderHandler = () => {
         console.error("Error creating fallback reminder window:", e);
       });
     }
-  };
+  }
 
   // Fetch settings when `trigger` changes
   useEffect(() => {

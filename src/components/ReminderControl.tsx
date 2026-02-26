@@ -107,6 +107,7 @@ const ReminderControl: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setStoredReminderText] = useState<string>("");
+  const [backgroundStyle, setBackgroundStyle] = useState<string>("aurora");
   const [isUsingStrictMode, setIsUsingStrictMode] = useState<boolean>(false);
   const [
     isUsiningCircleProgressTimerStyle,
@@ -153,6 +154,9 @@ const ReminderControl: React.FC = () => {
 
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
+      console.log('[ReminderControl] URL:', window.location.href);
+      console.log('[ReminderControl] Search params:', window.location.search);
+
       const store = await load("store.json", { autoSave: false });
       const storedDuration = await store.get<number>(
         "blinkEyeReminderDuration"
@@ -160,6 +164,18 @@ const ReminderControl: React.FC = () => {
       const storedReminderText = await store.get<string>(
         "blinkEyeReminderScreenText"
       );
+
+      // Background style comes from URL parameter, not from settings
+      // This ensures consistency with ReminderHandler
+      const params = new URLSearchParams(window.location.search);
+      const styleFromUrl = params.get('style');
+      console.log('[ReminderControl] Received style from URL:', styleFromUrl);
+
+      if (styleFromUrl) {
+        setBackgroundStyle(styleFromUrl);
+        console.log('[ReminderControl] Set background style to:', styleFromUrl);
+      }
+
       if (
         typeof storedReminderText === "string" &&
         storedReminderText.length > 0
