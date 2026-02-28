@@ -10,7 +10,6 @@ export default function TimerDemo() {
   const [timeCount, setTimeCount] = useState(0);
   const [isBreakComplete, setIsBreakComplete] = useState(false);
   const [progressPercentage, setProgressPercentage] = useState(0);
-  //   const [isUsingStrictMode, setIsUsingStrictMode] = useState(false);
   const [fullScreenProgress, setFullScreenProgress] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -31,7 +30,6 @@ export default function TimerDemo() {
       setIsBreakComplete(true);
     }
 
-    // Screen time counter
     screenTimeCounter = setInterval(() => {
       setTimeCount((prev) => prev + 1);
     }, 1000);
@@ -50,23 +48,17 @@ export default function TimerDemo() {
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Calculate how much of the section is visible
       const visibleHeight =
         Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
       const sectionHeight = rect.height;
 
-      // Calculate progress (0 to 1)
       let progress = visibleHeight / sectionHeight;
-
-      // Enhance the effect by making it more dramatic
       progress = Math.max(0, Math.min(1, progress * 1.5));
 
       setFullScreenProgress(progress);
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    // Initial calculations
     handleScroll();
 
     return () => {
@@ -79,12 +71,12 @@ export default function TimerDemo() {
     const handleFullScreenChange = () => {
       setIsFullScreen(
         document.fullscreenElement !== null ||
-          // @ts-ignore - These prefixed properties are not in the TypeScript DOM definitions
+          // @ts-ignore
           document.webkitFullscreenElement !== null ||
           // @ts-ignore
           document.mozFullScreenElement !== null ||
           // @ts-ignore
-          document.msFullscreenElement !== null
+          document.msFullscreenElement !== null,
       );
     };
 
@@ -97,27 +89,24 @@ export default function TimerDemo() {
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
       document.removeEventListener(
         "webkitfullscreenchange",
-        handleFullScreenChange
+        handleFullScreenChange,
       );
       document.removeEventListener(
         "mozfullscreenchange",
-        handleFullScreenChange
+        handleFullScreenChange,
       );
       document.removeEventListener(
         "MSFullscreenChange",
-        handleFullScreenChange
+        handleFullScreenChange,
       );
     };
   }, []);
 
-  // Mock function for appWindow.close()
   const closeWindow = () => {
-    console.log("Window closed");
     setTimeLeft(0);
     setIsBreakComplete(true);
   };
 
-  // Toggle fullscreen
   const toggleFullScreen = () => {
     if (!containerRef.current) return;
 
@@ -144,137 +133,144 @@ export default function TimerDemo() {
     }
   };
 
-  // Reset timer function
   const resetTimer = () => {
     setTimeLeft(20);
     setProgressPercentage(0);
     setIsBreakComplete(false);
   };
 
-  // Calculate dynamic styles based on scroll progress
   const containerStyle = {
-    transform: `scale(${1 + fullScreenProgress * 0.2})`,
+    transform: `scale(${1 + fullScreenProgress * 0.03})`,
     transition: "transform 0.3s ease-out",
   };
 
   return (
     <section
       ref={sectionRef}
-      className="py-16 px-4 flex justify-center items-center transition-all duration-300 hidden sm:block"
+      className="w-full max-w-6xl mx-auto py-8 px-3 sm:px-4 md:py-16 flex justify-center items-center relative z-10"
     >
-      <div className="w-full max-w-6xl mx-auto">
-        {/* 16:9 aspect ratio container */}
-        <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-          <div
-            ref={containerRef}
-            className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
-            style={isFullScreen ? undefined : containerStyle}
-          >
-            {/* Particle background */}
-            <div className="absolute inset-0 z-0 overflow-hidden rounded-3xl">
-              <GradientBackground
-                position="top"
-                fromColor="#FF4C55"
-                toColor="#9089fc"
-              />
-            </div>
+      <div className="w-full relative">
+        {/*
+          Responsive aspect ratios:
+          - Mobile portrait: 9/14 (tall, phone-like)
+          - Small tablet / landscape mobile: 3/4
+          - Tablet landscape: 4/3
+          - Desktop: 16/9
+        */}
+        <div
+          ref={containerRef}
+          className="relative w-full aspect-[9/14] sm:aspect-[3/4] md:aspect-[4/3] lg:aspect-video rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-background"
+          style={isFullScreen ? undefined : containerStyle}
+        >
+          {/* Background gradient */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <GradientBackground
+              position="top"
+              fromColor="#FF4C55"
+              toColor="#9089fc"
+            />
+          </div>
 
-            {/* Content with glass effect */}
-            <div className="relative z-10 p-8 rounded-3xl border-4 border-white/20 border-opacity-5 h-full flex items-center justify-center">
-              <div className="flex flex-col items-center justify-center w-full">
-                {isBreakComplete ? (
-                  <div className="text-4xl md:text-5xl font-heading text-center mb-6 ">
-                    Congrats, You took the break!
-                  </div>
-                ) : (
-                  <>
-                    <div className="relative w-40 h-40 md:w-52 md:h-52 mb-6">
-                      <svg
-                        className="w-full h-full -rotate-90"
-                        viewBox="0 0 110 110"
-                      >
-                        {/* Background Circle */}
-                        <circle
-                          className="text-gray-300/30"
-                          strokeWidth="8"
-                          stroke="currentColor"
-                          fill="transparent"
-                          r="50"
-                          cx="55"
-                          cy="55"
-                        />
-                        {/* Progress Circle */}
-                        <circle
-                          className=""
-                          strokeWidth="8"
-                          strokeDasharray={314.16}
-                          strokeDashoffset={
-                            314.16 * ((100 - progressPercentage) / 100)
-                          }
-                          strokeLinecap="round"
-                          stroke="currentColor"
-                          fill="transparent"
-                          r="50"
-                          cx="55"
-                          cy="55"
-                        />
-                      </svg>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-[70px] md:text-[90px] font-semibold text-center">
-                          {timeLeft}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="text-xl md:text-2xl lg:text-3xl font-heading text-center mb-4">
-                      {reminderText ||
-                        "Pause, look into the distance, and best if walk a bit."}
-                    </div>
-
-                    <div className="flex justify-center items-center space-x-4 mb-6">
-                      <CurrentTime />
-                      <div className="w-1 h-6 opacity-20 bg-white" />
-                      <ScreenOnTime timeCount={timeCount} />
-                    </div>
-
-                    {/* {!isUsingStrictMode && (  */}
-                    <Button
-                      onClick={closeWindow}
-                      variant="outline"
-                      className="opacity-80 backdrop-blur-2xl rounded-full shadow-2xl text-muted-foreground transition-colors border border-white/20 hover:bg-white/20"
-                    >
-                      <ChevronsRight className="w-4 h-4 mr-1" />
-                      Skip this time
-                    </Button>
-                    {/* )} */}
-                  </>
-                )}
-
-                {/* Control buttons in bottom right corner */}
-                <div className="absolute bottom-8 right-8 flex space-x-3">
-                  <Button
-                    onClick={resetTimer}
-                    variant="outline"
-                    size="icon"
-                    className="opacity-80 backdrop-blur-2xl rounded-full shadow-lg transition-colors border border-white/20 hover:bg-white/20 h-12 w-12"
-                    title="Reset timer"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    onClick={toggleFullScreen}
-                    variant="outline"
-                    size="icon"
-                    className="opacity-80 backdrop-blur-2xl rounded-full shadow-lg transition-colors border border-white/20 hover:bg-white/20 h-12 w-12"
-                    title={
-                      isFullScreen ? "Exit full screen" : "Enter full screen"
-                    }
-                  >
-                    <Maximize className="w-4 h-4" />
-                  </Button>
+          {/* Content */}
+          <div className="relative z-10 h-full w-full p-4 sm:p-6 md:p-8 flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center w-full max-w-3xl mx-auto">
+              {isBreakComplete ? (
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading text-center px-2 animate-in fade-in zoom-in duration-500">
+                  Congrats, You took the break!
                 </div>
+              ) : (
+                <>
+                  {/* Timer circle — scales per breakpoint */}
+                  <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 mb-4 sm:mb-5 md:mb-6 shrink-0">
+                    <svg
+                      className="w-full h-full -rotate-90"
+                      viewBox="0 0 110 110"
+                    >
+                      <circle
+                        className="text-gray-300/20 dark:text-gray-600/30"
+                        strokeWidth="8"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="50"
+                        cx="55"
+                        cy="55"
+                      />
+                      <circle
+                        className="text-primary transition-all duration-1000 ease-linear"
+                        strokeWidth="8"
+                        strokeDasharray={314.16}
+                        strokeDashoffset={
+                          314.16 * ((100 - progressPercentage) / 100)
+                        }
+                        strokeLinecap="round"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="50"
+                        cx="55"
+                        cy="55"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-4xl sm:text-5xl md:text-[70px] lg:text-[90px] font-semibold tracking-tighter leading-none">
+                        {timeLeft}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Reminder text */}
+                  <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-heading text-center mb-4 sm:mb-5 md:mb-6 px-2 sm:px-4 leading-snug max-w-xl lg:max-w-2xl">
+                    {reminderText}
+                  </div>
+
+                  {/* Time info — stacks vertically on mobile */}
+                  <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 mb-5 sm:mb-6 md:mb-8 space-y-1.5 sm:space-y-0 text-xs sm:text-sm md:text-base">
+                    <CurrentTime />
+                    <div className="hidden sm:block w-px h-5 bg-foreground/20 rounded-full" />
+                    <ScreenOnTime timeCount={timeCount} />
+                  </div>
+
+                  {/* Skip button */}
+                  <Button
+                    onClick={closeWindow}
+                    variant="outline"
+                    className="opacity-90 backdrop-blur-2xl rounded-full shadow-xl transition-colors border-white/20 hover:bg-white/10 dark:hover:bg-white/20 px-5 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-5"
+                  >
+                    <ChevronsRight className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" />
+                    <span className="text-xs sm:text-sm md:text-base">
+                      Skip this time
+                    </span>
+                  </Button>
+                </>
+              )}
+
+              {/* Control buttons — smaller on mobile, bottom-right */}
+              <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 flex space-x-2 md:space-x-3">
+                <Button
+                  onClick={resetTimer}
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full shadow-lg border-white/20 hover:bg-white/10 backdrop-blur-md h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
+                  title="Reset timer"
+                >
+                  <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                </Button>
+                <Button
+                  onClick={toggleFullScreen}
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full shadow-lg border-white/20 hover:bg-white/10 backdrop-blur-md h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
+                  title={
+                    isFullScreen ? "Exit full screen" : "Enter full screen"
+                  }
+                >
+                  <Maximize className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                </Button>
               </div>
             </div>
+          </div>
+
+          {/* Bottom gradient */}
+          <div className="absolute inset-0 z-0 overflow-hidden rotate-180 pointer-events-none">
             <GradientBackground
               position="bottom"
               fromColor="#FF4C55"
@@ -305,8 +301,8 @@ function CurrentTime() {
   }, []);
 
   return (
-    <div className="text-md font-medium text-muted-foreground">
-      Current Time: {time}
+    <div className="font-medium text-muted-foreground whitespace-nowrap">
+      Current Time: <span className="text-foreground">{time}</span>
     </div>
   );
 }
@@ -321,8 +317,9 @@ function ScreenOnTime({ timeCount }: { timeCount: number }) {
   };
 
   return (
-    <div className="text-md font-medium text-muted-foreground">
-      Screen on Time: {formatTime(timeCount)}
+    <div className="font-medium text-muted-foreground whitespace-nowrap">
+      Screen on Time:{" "}
+      <span className="text-foreground">{formatTime(timeCount)}</span>
     </div>
   );
 }

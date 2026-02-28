@@ -1,9 +1,6 @@
-// import { CONFIG } from "@/configs/site";
-// import { CopyButton } from "./copy-button";
-
+// components/download-app.tsx
 import Link from "next/link";
 import VersionTolatDownloads from "./version-total-downloads";
-import { fetchReleaseData } from "@/utils/fetch-github-release";
 import { LinuxIcon, WindowsIcon, MacIcon } from "@/utils/mac-win-linicon";
 import DownloadDropdown from "./DownloadDropdown";
 import DownloadButton from "./ui/download-button";
@@ -42,7 +39,6 @@ const DownloadApp = ({ releaseData }) => {
       <div className="space-y-4">
         <DownloadButtons downloadLinks={downloadLinks} />
       </div>
-      <TimerDemo />
       <div className="max-w-5xl mx-auto">
         <div className="max-w-5xl mx-auto">
           <Command>

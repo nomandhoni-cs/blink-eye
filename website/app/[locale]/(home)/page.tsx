@@ -7,8 +7,8 @@ import FeatureShowcase from "@/components/FeaturesShowcase";
 import HeroSection from "@/components/HeroSection";
 import Blogs from "@/components/Blogs";
 import { fetchReleaseData } from "@/utils/fetch-github-release";
-import { ReleaseData } from "@/utils/github-fetch-types";
 import { routing } from "@/i18n/routing";
+import TimerDemo from "@/components/TimerDemo";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -23,7 +23,8 @@ const RootPage = async () => {
   return (
     <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-32 lg:pb-8 px-4 sm:px-6 lg:px-8">
       <HeroSection />
-      <DownloadApp releaseData={releaseData} />
+      {/*<DownloadApp releaseData={releaseData} />*/}
+      <TimerDemo />
       <FeatureGrid />
       <PricingSection />
       <FeatureShowcase />
