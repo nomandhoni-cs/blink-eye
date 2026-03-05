@@ -1,4 +1,4 @@
-import DownloadApp from "@/components/download-app";
+import DownloadApp from "@/components/DownloadApp";
 import { FeatureGrid } from "@/components/features";
 import OpenSource from "@/components/open-source";
 import PricingSection from "@/components/pricing-section";
@@ -6,9 +6,12 @@ import HowBlinkEyeWillHelp from "@/components/how-blink-eye-will-help";
 import FeatureShowcase from "@/components/FeaturesShowcase";
 import HeroSection from "@/components/HeroSection";
 import Blogs from "@/components/Blogs";
-import { fetchReleaseData } from "@/utils/fetch-github-release";
+import { fetchGithubStats } from "@/utils/fetch-github-release";
 import { routing } from "@/i18n/routing";
 import TimerDemo from "@/components/TimerDemo";
+import Command from "@/components/Command";
+import SupportedPlatforms from "@/components/SupportedPlatforms";
+import ReleaseInfo from "@/components/ReleaseInfo";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -18,20 +21,45 @@ export function generateStaticParams() {
 }
 
 const RootPage = async () => {
-  const releaseData = await fetchReleaseData();
+  const { latestRelease, tagName, totalDownloads } = await fetchGithubStats();
 
   return (
-    <section className="mx-auto flex flex-col items-center gap-3 sm:gap-5 py-8 md:py-16 md:pb-8 lg:py-32 lg:pb-8 px-4 sm:px-6 lg:px-8">
+    <div className="w-full">
+      {/* Hero Section - Full width, handles its own container */}
       <HeroSection />
-      {/*<DownloadApp releaseData={releaseData} />*/}
-      <TimerDemo />
-      <FeatureGrid />
-      <PricingSection />
-      <FeatureShowcase />
-      <HowBlinkEyeWillHelp />
-      <Blogs />
-      <OpenSource />
-    </section>
+      <div className="flex flex-col space-y-12">
+        {/* Download & Install Group */}
+        <div className="flex flex-col space-y-8 pt-16">
+          <DownloadApp latestRelease={latestRelease} />
+          <Command />
+          <div className="flex flex-col space-y-4">
+            <SupportedPlatforms />
+            <ReleaseInfo tagName={tagName} totalDownloads={totalDownloads} />
+          </div>
+        </div>
+
+        {/* Timer Demo */}
+        <TimerDemo />
+
+        {/* Features */}
+        <FeatureGrid />
+
+        {/* Pricing */}
+        <PricingSection />
+
+        {/* Feature Showcase */}
+        <FeatureShowcase />
+
+        {/* How It Helps */}
+        <HowBlinkEyeWillHelp />
+
+        {/* Blogs */}
+        <Blogs />
+
+        {/* Open Source */}
+        <OpenSource />
+      </div>
+    </div>
   );
 };
 
