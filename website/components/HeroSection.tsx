@@ -104,7 +104,7 @@ const HeroSection = () => {
                 ))}
               </div>
               <p className="text-sm text-muted-foreground">
-                Used and Trusted by <b>13,000+</b> Users
+                Used and Trusted by <b>25,000++</b> Users
               </p>
             </div>
           </div>

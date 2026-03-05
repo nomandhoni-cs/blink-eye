@@ -68,7 +68,7 @@ export const Footer = () => {
             </p>
           </div>
           <Link
-            href="/download"
+            href="/en/download"
             className="group flex items-center justify-center gap-2 rounded-full bg-foreground text-background px-6 py-3 text-sm font-semibold transition-all hover:scale-105 hover:bg-[#FE4C55] hover:text-white shadow-sm"
           >
             Start taking care
