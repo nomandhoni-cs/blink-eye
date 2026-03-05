@@ -1,11 +1,11 @@
-import { fetchReleaseData } from "@/utils/fetch-github-release";
-import DownloadButton from "@/components/ui/download-button";
 import { getDownloadLinks } from "@/utils/getReleaseData";
 import { LinuxIcon, MacIcon, WindowsIcon } from "@/utils/mac-win-linicon";
 import { SEO } from "@/configs/seo";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { fetchGithubStats } from "@/utils/fetch-github-release";
+import DownloadButton from "@/components/ui/DownloadButton";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -13,6 +13,7 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
 export const generateMetadata = async ({
   params,
 }: {
@@ -20,7 +21,6 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   try {
     const { locale } = await params;
-    // Await getTranslations to fetch translations for the current locale
     const t = await getTranslations({ locale, namespace: "downloadPage" });
     const appInfo = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -31,7 +31,7 @@ export const generateMetadata = async ({
       openGraph: {
         title: t("title") + " | " + appInfo("appName"),
         description: t("description"),
-        url: "https://blinkeye.vercel.app/download",
+        url: "https://blinkeye.app/en/download",
         type: "website",
         images: [
           {
@@ -48,7 +48,6 @@ export const generateMetadata = async ({
       },
     };
   } catch (e) {
-    // Fallback metadata in case of errors
     return {
       title: "Download",
       description:
@@ -59,7 +58,7 @@ export const generateMetadata = async ({
         title: "Download",
         description:
           "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
-        url: "https://blinkeye.vercel.app/download",
+        url: "https://blinkeye.app/en/download",
         type: "website",
         images: [
           {
@@ -77,6 +76,7 @@ export const generateMetadata = async ({
     };
   }
 };
+
 const DownloadPage = async ({
   params,
 }: {
@@ -96,102 +96,111 @@ const DownloadPage = async ({
     linuxRPM: null,
   };
 
-  const releaseData = await fetchReleaseData();
+  // Fetch the unified Github Stats object
+  const githubStats = await fetchGithubStats();
 
-  if (releaseData) {
-    downloadLinks = getDownloadLinks(releaseData.assets);
+  // FIX: Access the assets from `latestRelease` safely
+  if (githubStats && githubStats.latestRelease?.assets) {
+    downloadLinks = getDownloadLinks(githubStats.latestRelease.assets);
   } else {
     console.warn("Release data not available, showing page without download links");
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="relative h-full py-8 rounded-xl">
-        <div className="relative z-10 flex flex-col justify-center items-center space-y-4">
-          <h2 className="font-bold text-2xl leading-[1.1] sm:text-2xl md:text-4xl">
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="relative h-full py-8">
+        <div className="relative z-10 flex flex-col justify-center items-center w-full space-y-12">
+
+          <h2 className="font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-center">
             Download Now
           </h2>
 
-          {/* Windows Download Options */}
-          <div className="p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg shadow-md">
-            <h3 className="font-bold text-2xl leading-tight text-center sm:text-2xl md:text-4xl lg:text-4xl mb-4">
-              Windows
-            </h3>
-            <div className="flex items-center h-16 py-4 pr-2 space-x-8 rounded-full">
-              {downloadLinks.windowsSetup && (
-                <DownloadButton
-                  href={downloadLinks.windowsSetup}
-                  label="Download for Windows (EXE)"
-                  icon={<WindowsIcon />}
-                />
-              )}
-              {downloadLinks.windowsMSI && (
-                <DownloadButton
-                  href={downloadLinks.windowsMSI}
-                  label="Download for Windows (MSI)"
-                  icon={<WindowsIcon />}
-                />
-              )}
+          <div className="w-full flex flex-col gap-8">
+            {/* Windows Download Options */}
+            <div className="p-6 md:p-10 rounded-2xl shadow-sm border border-black/5 dark:border-white/5 bg-foreground/5 w-full">
+              <h3 className="font-bold text-2xl text-center mb-6">
+                Windows
+              </h3>
+              {/* FIX: Used CSS Grid to make buttons strictly responsive */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                {downloadLinks.windowsSetup && (
+                  <DownloadButton
+                    href={downloadLinks.windowsSetup}
+                    label="Download (EXE)"
+                    icon={<WindowsIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+                {downloadLinks.windowsMSI && (
+                  <DownloadButton
+                    href={downloadLinks.windowsMSI}
+                    label="Download (MSI)"
+                    icon={<WindowsIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* MacOS Download Options */}
+            <div className="p-6 md:p-10 rounded-2xl shadow-sm border border-black/5 dark:border-white/5 bg-foreground/5 w-full">
+              <h3 className="font-bold text-2xl text-center mb-6">
+                MacOS
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                {downloadLinks.macSilicon && (
+                  <DownloadButton
+                    href={downloadLinks.macSilicon}
+                    label="Apple Silicon"
+                    icon={<MacIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+                {downloadLinks.macIntel && (
+                  <DownloadButton
+                    href={downloadLinks.macIntel}
+                    label="Intel Chip"
+                    icon={<MacIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Linux Download Options */}
+            <div className="p-6 md:p-10 rounded-2xl shadow-sm border border-black/5 dark:border-white/5 bg-foreground/5 w-full">
+              <h3 className="font-bold text-2xl text-center mb-6">
+                Linux
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
+                {downloadLinks.linuxDeb && (
+                  <DownloadButton
+                    href={downloadLinks.linuxDeb}
+                    label="Debian (.deb)"
+                    icon={<LinuxIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+                {downloadLinks.linuxAppImage && (
+                  <DownloadButton
+                    href={downloadLinks.linuxAppImage}
+                    label="AppImage"
+                    icon={<LinuxIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+                {downloadLinks.linuxRPM && (
+                  <DownloadButton
+                    href={downloadLinks.linuxRPM}
+                    label="RPM"
+                    icon={<LinuxIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+                {downloadLinks.linuxTar && (
+                  <DownloadButton
+                    href={downloadLinks.linuxTar}
+                    label="Tar.gz"
+                    icon={<LinuxIcon className="w-6 h-6 shrink-0" />}
+                  />
+                )}
+              </div>
             </div>
           </div>
-          {/* MacOS  */}
-          <div className="p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg shadow-md ">
-            <h3 className="font-bold text-2xl leading-tight text-center sm:text-2xl md:text-4xl lg:text-4xl mb-4">
-              MacOS
-            </h3>
-            <div className="flex items-center h-16 py-4 pr-2 space-x-8 rounded-full">
-              {downloadLinks.macSilicon && (
-                <DownloadButton
-                  href={downloadLinks.macSilicon}
-                  label="Download for MacOS (Apple Silicon)"
-                  icon={<MacIcon />}
-                />
-              )}
-              {downloadLinks.macIntel && (
-                <DownloadButton
-                  href={downloadLinks.macIntel}
-                  label="Download for MacOS (Intel Chip)"
-                  icon={<MacIcon />}
-                />
-              )}
-            </div>
-          </div>
-          {/* Linux  */}
-          <div className="p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg shadow-md">
-            <h3 className="font-bold text-2xl leading-tight text-center sm:text-2xl md:text-4xl lg:text-4xl mb-4">
-              Linux
-            </h3>
-            <div className="flex items-center h-16 py-4 pr-2 space-x-8 rounded-full">
-              {downloadLinks.linuxDeb && (
-                <DownloadButton
-                  href={downloadLinks.linuxDeb}
-                  label="Download for Linux (Debian)"
-                  icon={<LinuxIcon />}
-                />
-              )}
-              {downloadLinks.linuxAppImage && (
-                <DownloadButton
-                  href={downloadLinks.linuxAppImage}
-                  label="Download for Linux (Appimage)"
-                  icon={<LinuxIcon />}
-                />
-              )}
-              {downloadLinks.linuxRPM && (
-                <DownloadButton
-                  href={downloadLinks.linuxRPM}
-                  label="Download for Linux (RPM)"
-                  icon={<LinuxIcon />}
-                />
-              )}
-              {downloadLinks.linuxTar && (
-                <DownloadButton
-                  href={downloadLinks.linuxTar}
-                  label="Download for Linux (Tar.gz)"
-                  icon={<LinuxIcon />}
-                />
-              )}
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
