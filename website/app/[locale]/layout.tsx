@@ -17,7 +17,7 @@ import { AnnouncementBar } from "@/components/AnnouncementBar";
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#FFF" },
-    { media: "(prefers-color-scheme: dark)", color: "000" },
+    { media: "(prefers-color-scheme: dark)", color: "#000" },
   ],
 };
 

@@ -167,7 +167,11 @@ export function AnnouncementBar() {
                                     <Link href={`/${locale}/pricing`} className="px-3 py-1 text-white rounded-full text-xs font-semibold" style={{ backgroundColor: theme.primary }}>
                                         Claim
                                     </Link>
-                                    <button onClick={handleClose} className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full">
+                                    <button
+                                        onClick={handleClose}
+                                        className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full"
+                                        aria-label="Close announcement"
+                                    >
                                         <X className="h-3.5 w-3.5 text-gray-500" />
                                     </button>
                                 </div>
