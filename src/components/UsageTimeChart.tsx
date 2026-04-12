@@ -20,8 +20,8 @@ import {
 } from "./ui/card";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { AlertCircle, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { type ChartConfig } from "@/components/ui/chart";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
