@@ -2,60 +2,12 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { XIcon } from "lucide-react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { Ticker } from "@tombcato/smart-ticker";
+import "@tombcato/smart-ticker/style.css";
 import logo from "./assets/newIcon.png";
 import { Button } from "./components/ui/button";
 import AllSetText from "./components/AllSetText";
-import "./App.css";
-
-// Enhanced Animated Counter Component
-const AnimatedCounter: React.FC<{
-  value: number;
-  fontSize: string;
-  className?: string;
-}> = ({ value, fontSize, className = "" }) => {
-  const digitHeight = parseInt(fontSize.replace("px", ""));
-  const digits = String(value).padStart(2, "0").split("");
-
-  return (
-    <div
-      className={`flex font-semibold ${className}`}
-      style={{ fontSize, lineHeight: `${digitHeight}px` }}
-    >
-      {digits.map((d, index) => (
-        <div key={index} className="w-[0.6em]">
-          <Digit digit={parseInt(d)} height={digitHeight} />
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// Digit Component with Enhanced Animation
-const Digit: React.FC<{ digit: number; height: number }> = ({
-  digit,
-  height,
-}) => {
-  return (
-    <div className="relative overflow-y-hidden" style={{ height }}>
-      {/* Digit container with smooth transition */}
-      <div
-        className="absolute w-full transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateY(-${digit * height}px)` }}
-      >
-        {/* Render digits 0-9 */}
-        {Array.from({ length: 10 }, (_, i) => (
-          <div
-            key={i}
-            className="w-full text-center flex items-center justify-center"
-            style={{ height }}
-          >
-            {i}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+import "./index.css";
 
 const Alert = () => {
   const [timeLeft, setTimeLeft] = useState(13);
@@ -102,15 +54,22 @@ const Alert = () => {
             <AllSetText />
           </div>
         ) : timeLeft > 0 ? (
-          <div className="flex items-center justify-center space-x-1 animate-in slide-in-from-top duration-300">
-            <span className="">00</span>
-            <span className="mb-3">:</span>
-            <AnimatedCounter value={timeLeft} fontSize="60px" />
+          <div className="flex items-center justify-center tabular-nums animate-in slide-in-from-top duration-300">
+            {/* Comments must be inside the HTML/JSX elements! */}
+            <span className="mr-1">00:</span>
+            <Ticker
+              value={String(timeLeft).padStart(2, "0")}
+              duration={500}
+              easing="easeInOut"
+              characterLists={["0123456789"]}
+              charWidth={0.8}
+              className="!font-heading tabular-nums"
+            />
           </div>
         ) : (
-          <div className="flex items-center">
-            <span>00:</span>
-            <span className="ml-1">00</span>
+          <div className="flex items-center tabular-nums">
+            <span className="mr-1">00:</span>
+            <span>00</span>
           </div>
         )}
       </div>
@@ -130,5 +89,5 @@ const Alert = () => {
 ReactDOM.createRoot(document.getElementById("alert-root")!).render(
   <React.StrictMode>
     <Alert />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

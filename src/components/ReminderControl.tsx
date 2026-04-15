@@ -1,6 +1,8 @@
 import React, { lazy, useEffect, useState } from "react";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
+import { Ticker } from "@tombcato/smart-ticker";
+import "@tombcato/smart-ticker/style.css";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Progress } from "./ui/progress";
 import CurrentTime from "./CurrentTime";
@@ -15,91 +17,15 @@ import { useTimeCountContext } from "../contexts/TimeCountContext";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { emit, listen } from "@tauri-apps/api/event";
 
-// In the component where you're using React.lazy
 const TodayTodoTasks = lazy(() =>
   import("./TodayTodoTasks").then((module) => ({
     default: module.TodayTodoTasks,
-  }))
+  })),
 );
 
 interface ConfigRow {
   value: string;
 }
-
-// A single digit that "rolls" vertically like an odometer
-const Digit: React.FC<{ digit: number; height: number }> = ({
-  digit,
-  height,
-}) => {
-  // A "reel" of numbers from 0 to 9
-  const numbers = Array.from(Array(10).keys());
-
-  return (
-    // The container for a single digit, which masks the reel.
-    <div style={{ height }} className="overflow-hidden">
-      {/* The vertically scrolling reel of numbers */}
-      <div
-        className="transition-transform duration-700"
-        style={{
-          // This transform is the core of the animation.
-          // It moves the entire reel up or down to show the correct digit.
-          transform: `translateY(-${digit * height}px)`,
-          // A custom cubic-bezier for that smooth, slightly overshooting animation, mimicking SwiftUI.
-          transitionTimingFunction: "cubic-bezier(0.2, 1, 0.3, 1)",
-        }}
-      >
-        {numbers.map((num) => (
-          // Each number on the reel
-          <div
-            key={num}
-            style={{ height }}
-            className="flex items-center justify-center"
-          >
-            {num}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// The main animated counter component with the SwiftUI-style rolling animation
-const AnimatedCounter: React.FC<{
-  value: number;
-  fontSize: string;
-  className?: string;
-}> = ({ value, fontSize, className = "" }) => {
-  // Parse the numeric part of the font size for height calculations.
-  // e.g., "240px" -> 240
-  const digitHeight = parseInt(fontSize.replace("px", ""));
-
-  // Pad the number to ensure it's always two digits (e.g., 9 -> "09")
-  const digits = String(value).padStart(2, "0").split("");
-
-  return (
-    // Container for all the digits
-    <div
-      className={`flex font-semibold ${className}`}
-      style={{
-        fontSize: fontSize,
-        lineHeight: `${digitHeight}px`, // Match line-height to font-size for proper alignment
-      }}
-    >
-      {digits.map((d, index) => (
-        // Render a rolling Digit component for each digit in the value
-        <div
-          key={index}
-          // The width is set relative to the font size using 'em' units.
-          // This ensures the counter scales properly. '0.6em' is a good
-          // approximation for the width of a monospaced character.
-          className="w-[0.6em]"
-        >
-          <Digit digit={parseInt(d)} height={digitHeight} />
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const ReminderControl: React.FC = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
@@ -115,13 +41,10 @@ const ReminderControl: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCountdownStarted, setIsCountdownStarted] = useState<boolean>(false);
 
-  // Function to close all reminder windows across all monitors
   const closeAllReminderWindows = async () => {
     try {
-      // Emit event to close all reminder windows
       await emit("close-all-reminders");
 
-      // Close all windows with reminder_monitor pattern
       for (let i = 0; i < 10; i++) {
         try {
           const windowLabel = `reminder_monitor_${i}`;
@@ -139,7 +62,6 @@ const ReminderControl: React.FC = () => {
     }
   };
 
-  // Listen for close event from other windows
   useEffect(() => {
     const unlisten = listen("close-all-reminders", () => {
       const currentWindow = getCurrentWebviewWindow();
@@ -155,10 +77,10 @@ const ReminderControl: React.FC = () => {
     const fetchReminderScreenInfo = async () => {
       const store = await load("store.json", { autoSave: false });
       const storedDuration = await store.get<number>(
-        "blinkEyeReminderDuration"
+        "blinkEyeReminderDuration",
       );
       const storedReminderText = await store.get<string>(
-        "blinkEyeReminderScreenText"
+        "blinkEyeReminderScreenText",
       );
       if (
         typeof storedReminderText === "string" &&
@@ -174,7 +96,7 @@ const ReminderControl: React.FC = () => {
       const db = await Database.load("sqlite:appconfig.db");
 
       const updateAvailableResult: ConfigRow[] = await db.select(
-        "SELECT value FROM config WHERE key = 'isUpdateAvailable';"
+        "SELECT value FROM config WHERE key = 'isUpdateAvailable';",
       );
 
       if (
@@ -189,25 +111,25 @@ const ReminderControl: React.FC = () => {
       }
 
       const strictModeResult: ConfigRow[] = await db.select(
-        "SELECT value FROM config WHERE key = 'usingStrictMode';"
+        "SELECT value FROM config WHERE key = 'usingStrictMode';",
       );
 
       if (strictModeResult.length > 0) {
         setIsUsingStrictMode(strictModeResult[0].value === "true");
       }
       const useCircleProgressTimerStyleResult: ConfigRow[] = await db.select(
-        "SELECT value FROM config WHERE key = 'useCircleProgressTimerStyle';"
+        "SELECT value FROM config WHERE key = 'useCircleProgressTimerStyle';",
       );
 
       if (useCircleProgressTimerStyleResult.length > 0) {
         setIsUsingCircleProgressTimerStyle(
-          useCircleProgressTimerStyleResult[0].value === "true"
+          useCircleProgressTimerStyleResult[0].value === "true",
         );
       }
-      // Delay setting isLoading to false to show "Ready?" for longer
+
       setTimeout(() => {
         setIsLoading(false);
-      }, 500); // Adjust this value to change how long "Ready?" is shown
+      }, 500);
     };
 
     fetchReminderScreenInfo();
@@ -258,29 +180,41 @@ const ReminderControl: React.FC = () => {
     <>
       <div className="flex flex-col items-center justify-center h-full w-full px-4 relative">
         {isLoading ? (
-          <div className="text-[12rem] font-heading tracking-wide">Ready?</div>
+          <div className="text-[12rem] font-heading font-semibold tracking-wide">
+            Ready?
+          </div>
         ) : !isUsiningCircleProgressTimerStyle ? (
           <div className="flex flex-col items-center">
             <div className="absolute top-[40%] transform -translate-y-1/2 flex flex-col items-center animate-in">
-              <div className="flex items-center font-heading">
-                <AnimatedCounter
-                  value={timeLeft}
-                  fontSize="240px"
-                  className="items-center"
+              <div className="flex items-end font-heading text-[240px] leading-none">
+                {/*
+                  1. `charWidth={0.8}` tightly pulls the characters together (Default is 1). Adjust to 0.75 or 0.85 if needed.
+                  2. `className="!font-heading tabular-nums"` cleanly forces the Outfit font and geometric alignment.
+                */}
+                <Ticker
+                  value={String(timeLeft).padStart(2, "0")}
+                  duration={700}
+                  easing="easeInOut"
+                  characterLists={["0123456789"]}
+                  charWidth={0.8}
+                  className="!font-heading tabular-nums"
                 />
-                <span className="text-[240px] font-normal ml-2">s</span>
+                <span className="font-sans text-5xl mb-8 ml-2 font-medium opacity-70">
+                  s
+                </span>
               </div>
-              <div className="w-96 -mt-10">
+              <div className="w-96 mt-2">
                 <Progress value={progressPercentage} />
               </div>
             </div>
+
             <div className="absolute top-[70%] transform -translate-y-1/2 flex flex-col items-center space-y-4 animate-in">
-              <div className="flex justify-center items-center space-x-4">
+              <div className="flex justify-center items-center space-x-4 font-sans text-lg font-medium opacity-80">
                 <CurrentTime />
-                <div className="w-1 h-8 opacity-20 bg-black dark:bg-white" />
+                <div className="w-1.5 h-1.5 rounded-full bg-black/40 dark:bg-white/40" />
                 <ScreenOnTime timeCount={timeCount} />
               </div>
-              <div className="text-5xl font-heading text-center px-4 pb-4">
+              <div className="text-5xl font-heading font-medium text-center px-4 pb-4">
                 {reminderText ||
                   "Pause! Look into the distance, and best if you walk a bit."}
               </div>
@@ -288,14 +222,16 @@ const ReminderControl: React.FC = () => {
                 {!isUsingStrictMode && (
                   <Button
                     onClick={closeAllReminderWindows}
-                    className="bg-[#FE4C55] rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center transform transition-transform hover:scale-105"
+                    className="bg-[#FE4C55] font-sans rounded-full hover:bg-[#e9464e] text-base px-6 space-x-2 flex items-center transform transition-transform hover:scale-105"
                   >
-                    <span className="text-base">Skip this Time</span>
+                    <span className="text-base font-medium">
+                      Skip this Time
+                    </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="h-6 w-6"
+                      className="h-5 w-5"
                     >
                       <path d="M5.055 7.06C3.805 6.347 2.25 7.25 2.25 8.69v8.122c0 1.44 1.555 2.343 2.805 1.628L12 14.471v2.34c0 1.44 1.555 2.343 2.805 1.628l7.108-4.061c1.26-.72 1.26-2.536 0-3.256l-7.108-4.061C13.555 6.346 12 7.249 12 8.689v2.34L5.055 7.061Z" />
                     </svg>
@@ -308,47 +244,46 @@ const ReminderControl: React.FC = () => {
           <div className="flex flex-col items-center justify-center min-h-screen p-4">
             <div className="relative w-96 h-96 mb-8">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 110 110">
-                {/* Background Circle */}
                 <circle
-                  className="text-gray-300 dark:text-gray-700"
-                  strokeWidth="8"
-                  stroke="currentColor"
+                  className="stroke-black/10 dark:stroke-white/10 transition-colors"
+                  strokeWidth="6"
                   fill="transparent"
                   r="50"
                   cx="55"
                   cy="55"
                 />
-                {/* Progress Circle */}
                 <circle
-                  className="text-primary dark:text-primary-dark"
-                  strokeWidth="8"
+                  className="stroke-black dark:stroke-white transition-colors"
+                  strokeWidth="6"
                   strokeDasharray={314.16}
                   strokeDashoffset={314.16 * ((100 - progressPercentage) / 100)}
                   strokeLinecap="round"
-                  stroke="currentColor"
                   fill="transparent"
                   r="50"
                   cx="55"
                   cy="55"
                 />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <AnimatedCounter
-                  value={timeLeft}
-                  fontSize="160px"
-                  className="justify-center"
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-[160px] leading-none">
+                <Ticker
+                  value={String(timeLeft).padStart(2, "0")}
+                  duration={700}
+                  easing="easeInOut"
+                  characterLists={["0123456789"]}
+                  charWidth={0.8}
+                  className="!font-heading tabular-nums"
                 />
               </div>
             </div>
 
-            <div className="text-6xl font-heading text-center mb-6 w-full max-w-screen-2xl">
+            <div className="text-6xl font-heading font-semibold text-center mb-6 w-full max-w-screen-2xl">
               {reminderText ||
                 "Pause! Look into the distance, and best if you walk a bit."}
             </div>
 
-            <div className="flex justify-center items-center space-x-4 mb-8 font-heading opacity-70">
+            <div className="flex justify-center items-center space-x-4 mb-8 font-sans text-xl opacity-70 font-medium">
               <CurrentTime />
-              <div className="w-1 h-8 opacity-20 bg-black dark:bg-white" />
+              <div className="w-1.5 h-1.5 rounded-full bg-black/40 dark:bg-white/40" />
               <ScreenOnTime timeCount={timeCount} />
             </div>
 
@@ -356,7 +291,7 @@ const ReminderControl: React.FC = () => {
               <Button
                 onClick={closeAllReminderWindows}
                 variant="outline"
-                className="bg-white/5 opacity-70 backdrop-blur-2xl rounded-full shadow-2xl transition-colors border border-white/20 hover:bg-white/20"
+                className="bg-white/5 font-sans font-medium opacity-90 backdrop-blur-2xl rounded-full shadow-lg transition-all border border-white/20 hover:bg-white/10 hover:scale-105"
               >
                 <ChevronsRight className="w-5 h-5 mr-1" />
                 Skip this time
