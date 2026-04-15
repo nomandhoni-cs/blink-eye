@@ -20,8 +20,8 @@ import {
 } from "./ui/card";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { AlertCircle, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { type ChartConfig } from "@/components/ui/chart";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -182,7 +182,7 @@ export default function UsageTimeChart() {
       try {
         const db = await Database.load("sqlite:UserScreenTime.db");
         const results = await db.select(
-          "SELECT date, first_timestamp, second_timestamp FROM time_data"
+          "SELECT date, first_timestamp, second_timestamp FROM time_data",
         );
         const typedResults = results as DatabaseRow[];
         const groupedData: TimeData = {};
@@ -201,9 +201,8 @@ export default function UsageTimeChart() {
         const usageTimeLimitStore = await load("store.json", {
           autoSave: false,
         });
-        const usageLimit = await usageTimeLimitStore.get<number>(
-          "usageTimeLimit"
-        );
+        const usageLimit =
+          await usageTimeLimitStore.get<number>("usageTimeLimit");
         if (usageLimit) setUsageTimeLimit(usageLimit);
       } catch (error) {
         console.error("Failed to load time data:", error);
@@ -249,7 +248,7 @@ export default function UsageTimeChart() {
         const totalTime = timestamps.reduce(
           (sum, { firstTimestamp, secondTimestamp }) =>
             sum + (secondTimestamp - firstTimestamp),
-          0
+          0,
         );
         return { date, totalTime };
       })
@@ -260,11 +259,11 @@ export default function UsageTimeChart() {
     if (!processedData.length) return "0h 0m";
     const totalMilliseconds = processedData.reduce(
       (sum, { totalTime }) => sum + totalTime,
-      0
+      0,
     );
     const hours = Math.floor(totalMilliseconds / (60 * 60 * 1000));
     const minutes = Math.floor(
-      (totalMilliseconds % (60 * 60 * 1000)) / (60 * 1000)
+      (totalMilliseconds % (60 * 60 * 1000)) / (60 * 1000),
     );
     return `${hours}h ${minutes}m`;
   }, [processedData]);
@@ -362,7 +361,7 @@ export default function UsageTimeChart() {
                             {format(new Date(data.date), "MMMM dd, yyyy")}
                           </p>
                           <p>{`Screen On Time: ${formatTime(
-                            data.totalTime
+                            data.totalTime,
                           )}`}</p>
                         </div>
                       );

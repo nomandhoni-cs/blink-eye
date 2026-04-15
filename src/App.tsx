@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
-import "./App.css";
+import "./index.css";
 import { useAutoStart } from "./hooks/useAutoStart";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
@@ -10,54 +10,55 @@ import Database from "@tauri-apps/plugin-sql";
 
 const ReminderControl = lazy(() => import("./components/ReminderControl"));
 const BeamOfLifeBGWrapper = lazy(
-  () => import("./components/ReminderWindows/BeamOfLifeBGWrapper")
+  () => import("./components/ReminderWindows/BeamOfLifeBGWrapper"),
 );
 const AuroraBGWrapper = lazy(
-  () => import("./components/ReminderWindows/AuroraBGWrapper")
+  () => import("./components/ReminderWindows/AuroraBGWrapper"),
 );
 const PlainBGWrapper = lazy(
-  () => import("./components/ReminderWindows/PlainBGWrapper")
+  () => import("./components/ReminderWindows/PlainBGWrapper"),
 );
 const FreeSpiritBGWrapper = lazy(
-  () => import("./components/ReminderWindows/FreeSpiritBGWrapper")
+  () => import("./components/ReminderWindows/FreeSpiritBGWrapper"),
 );
 const CanvasShapesBGWrapper = lazy(
-  () => import("./components/ReminderWindows/CanvasShapesBGWrapper")
+  () => import("./components/ReminderWindows/CanvasShapesBGWrapper"),
 );
 const ParticleBackgroundBGWrapper = lazy(
-  () => import("./components/ReminderWindows/ParticleBackgroundBGWrapper")
+  () => import("./components/ReminderWindows/ParticleBackgroundBGWrapper"),
 );
 const PlainGradientAnimationBGWrapper = lazy(
-  () => import("./components/ReminderWindows/PlainGradientAnimationBGWrapper")
+  () => import("./components/ReminderWindows/PlainGradientAnimationBGWrapper"),
 );
 const StarryBackgroundBGWrapper = lazy(
-  () => import("./components/ReminderWindows/StarryBackgroundBGWrapper")
+  () => import("./components/ReminderWindows/StarryBackgroundBGWrapper"),
 );
 const ShootingMeteorBGWrapper = lazy(
-  () => import("./components/ReminderWindows/ShootingMeteorBGWrapper")
+  () => import("./components/ReminderWindows/ShootingMeteorBGWrapper"),
 );
 
 const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
 const ScreenSaverWindow = lazy(
-  () => import("./components/window/ScreenSaverWindow")
+  () => import("./components/window/ScreenSaverWindow"),
 );
 const Reminder = lazy(() => import("./components/window/Reminder"));
 const Support = lazy(() => import("./components/window/Support"));
 const Layout = lazy(() => import("./components/window/Layout"));
 const ReminderPreviewWindow = lazy(
-  () => import("./components/window/ReminderPreviewWindow")
+  () => import("./components/window/ReminderPreviewWindow"),
 );
 const Workday = lazy(() => import("./components/window/Workday"));
 const Dashboard = lazy(() => import("./components/window/Dashboard"));
 const UsageTime = lazy(() => import("./components/window/UsageTime"));
 const ReminderStyles = lazy(() => import("./components/ReminderStyles"));
 const ActivateLicense = lazy(
-  () => import("./components/window/ActivateLicense")
+  () => import("./components/window/ActivateLicense"),
 );
 const AllSettings = lazy(() => import("./components/window/AllSettings"));
 const AboutPage = lazy(() => import("./components/window/AboutPage"));
 const Soon = lazy(() => import("./components/window/Soon"));
 const TodoPage = lazy(() => import("./components/window/TodoPage"));
+const MultiMonitor = lazy(() => import("./components/window/MultiMonitor"));
 
 // Define routes that use a background wrapper around ReminderControl
 const reminderWindowRoutes = [
@@ -87,6 +88,7 @@ const layoutRoutes = [
   { path: "reminderthemes", element: ReminderStyles },
   { path: "usagetime", element: UsageTime },
   { path: "todoList", element: TodoPage },
+  { path: "multimonitor", element: MultiMonitor },
   { path: "workday", element: Workday },
   { path: "activatelicense", element: ActivateLicense },
   { path: "allSettings", element: AllSettings },
@@ -105,7 +107,7 @@ function App() {
       try {
         const db = await Database.load("sqlite:appconfig.db");
         const result = await db.select(
-          "SELECT value FROM config WHERE key = 'isUserOnboarded'"
+          "SELECT value FROM config WHERE key = 'isUserOnboarded'",
         );
 
         if (

@@ -1,6 +1,6 @@
 "use client"
 
-import { Laptop, Moon, Sun } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import * as React from "react"
 
@@ -32,10 +32,6 @@ export const ThemeToggle = () => {
 				<DropdownMenuItem onClick={() => setTheme("dark")}>
 					<Moon className="mr-2 h-4 w-4" />
 					<span>Dark</span>
-				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("system")}>
-					<Laptop className="mr-2 h-4 w-4" />
-					<span>System</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

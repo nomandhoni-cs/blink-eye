@@ -190,7 +190,7 @@ export function FeatureGrid() {
   ];
 
   return (
-    <section id="features" className="container space-y-12 py-16 md:py-20 lg:pb-28">
+    <section id="features" className="container space-y-12 py-16 md:py-20 lg:pb-28 mx-auto">
       {/* Section Header */}
       <div className="mx-auto flex max-w-4xl flex-col items-center space-y-6 text-center">
         <h2 className="text-balance text-4xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight 

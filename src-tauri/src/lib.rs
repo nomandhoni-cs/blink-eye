@@ -7,6 +7,9 @@ use tauri::{
 // use idle::IdleStrategy;
 // use std::time::Duration;
 
+mod screen_time_tracker;
+use screen_time_tracker::ScreenTimeTracker;
+
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
@@ -60,6 +63,35 @@ pub fn run() {
             }
             #[cfg(desktop)]
             let _ = app.handle().plugin(tauri_plugin_updater::Builder::new().build());
+            
+            // Initialize Screen Time Tracker
+            let app_handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                // Get the app data directory
+                let app_data_dir = app_handle
+                    .path()
+                    .app_data_dir()
+                    .expect("Failed to get app data directory");
+                
+                // Ensure the directory exists
+                std::fs::create_dir_all(&app_data_dir)
+                    .expect("Failed to create app data directory");
+                
+                // Construct the database path
+                let db_path = app_data_dir.join("UserScreenTime.db");
+                let db_url = format!("sqlite://{}", db_path.display());
+                
+                match ScreenTimeTracker::new(&db_url).await {
+                    Ok(tracker) => {
+                        println!("[ScreenTimeTracker] Initialized successfully");
+                        tracker.start_tracking();
+                    }
+                    Err(e) => {
+                        eprintln!("[ScreenTimeTracker] Failed to initialize: {}", e);
+                    }
+                }
+            });
+            
             // Send Notification
              use tauri_plugin_notification::NotificationExt;
             app.notification()

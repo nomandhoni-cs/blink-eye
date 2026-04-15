@@ -1,0 +1,251 @@
+name: Blink Eye Auto Draft Release with Screenshots (macOS Only)
+on:
+  pull_request:
+    branches: [develop]
+    paths-ignore:
+      - 'website/**'           # Ignore all website directory changes
+      - 'website/**/*'         # Ignore all nested files in website
+      - '**.md'                # Optional: ignore markdown files
+      - 'docs/**'              # Optional: ignore docs
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  build-macos:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: "macos-latest" # for Arm based macs (M1 and above)
+            args: "--target aarch64-apple-darwin"
+            architecture: "arm64"
+          - platform: "macos-latest" # for Intel based macs
+            args: "--target x86_64-apple-darwin"
+            architecture: "x86_64"
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+            
+      - name: Cache Rust dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/
+            src-tauri/target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+            
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+            
+      - name: Install frontend dependencies
+        run: bun install
+
+      - uses: tauri-apps/tauri-action@v0.6.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          NODE_OPTIONS: --openssl-legacy-provider # Add this for Web Crypto API
+        with:
+          tagName: v__VERSION__
+          releaseName: "v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: true
+          prerelease: false
+          includeUpdaterJson: true
+          updaterJsonPreferNsis: true
+          args: ${{ matrix.args }}
+
+      # macOS-specific steps: Install and test the built app
+      - name: Log Device Architecture
+        run: |
+          DEVICE_ARCH=$(uname -m)
+          echo "Detected device architecture: $DEVICE_ARCH"
+          if [[ "$DEVICE_ARCH" == "arm64" ]]; then
+            echo "This is an Apple Silicon device (ARM64)."
+          elif [[ "$DEVICE_ARCH" == "x86_64" ]]; then
+            echo "This is an Intel-based device (x86_64)."
+          else
+            echo "Unknown architecture detected!"
+          fi
+        continue-on-error: true
+
+      - name: Get Current Screen Resolution
+        run: |
+          echo "Current screen resolution:"
+          system_profiler SPDisplaysDataType | grep Resolution || true
+        continue-on-error: true
+
+      - name: Install displayplacer for Resolution Control
+        run: |
+          brew tap jakehilborn/jakehilborn
+          brew install displayplacer
+        continue-on-error: true
+
+      - name: Get Display Configuration
+        run: |
+          echo "Getting current display configuration..."
+          displayplacer list || true
+        continue-on-error: true
+
+      - name: Set Higher Resolution
+        run: |
+          # Get the current display ID and available resolutions
+          echo "Setting display to higher resolution..."
+          
+          # Try to set a common higher resolution (1920x1080 or 1680x1050)
+          # This will attempt to set the highest available resolution
+          displayplacer "id:1 res:1920x1080 scaling:off" || \
+          displayplacer "id:1 res:1680x1050 scaling:off" || \
+          displayplacer "id:1 res:1440x900 scaling:off" || \
+          echo "Could not set higher resolution, using default"
+          
+          # Verify new resolution
+          echo "New screen resolution:"
+          system_profiler SPDisplaysDataType | grep Resolution || true
+        continue-on-error: true
+
+      - name: Take Screenshot of Desktop Before Installation
+        run: |
+          screencapture -x /tmp/screenshot_desktop_before.png || true
+        continue-on-error: true
+
+      - name: Find and Install Built App
+        run: |
+          # Determine the target directory based on architecture
+          if [[ "${{ matrix.architecture }}" == "arm64" ]]; then
+            TARGET_DIR="src-tauri/target/aarch64-apple-darwin/release/bundle/macos"
+          else
+            TARGET_DIR="src-tauri/target/x86_64-apple-darwin/release/bundle/macos"
+          fi
+          
+          echo "Looking for app in: $TARGET_DIR"
+          
+          # Find the .app bundle
+          APP_PATH=$(find "$TARGET_DIR" -name "*.app" -type d | head -n 1)
+          
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: Could not find .app bundle in $TARGET_DIR"
+            exit 1
+          fi
+          
+          echo "Found app at: $APP_PATH"
+          
+          # Copy to Applications folder
+          sudo cp -R "$APP_PATH" /Applications/
+          
+          APP_NAME=$(basename "$APP_PATH")
+          echo "Installed: /Applications/$APP_NAME"
+          
+          # Take screenshot after installation
+          screencapture -x /tmp/screenshot_install.png || true
+        continue-on-error: true
+
+      - name: Verify Installation
+        run: |
+          if [ -d "/Applications/Blink Eye.app" ]; then
+            echo "Blink Eye installed successfully."
+            ls -la "/Applications/Blink Eye.app"
+          else
+            echo "Blink Eye installation failed, but continuing workflow."
+          fi
+          screencapture -x /tmp/screenshot_verify_install.png || true
+        continue-on-error: true
+
+      - name: Test App Architecture
+        run: |
+          if [ ! -f "/Applications/Blink Eye.app/Contents/MacOS/Blink-Eye" ]; then
+            echo "Blink Eye binary not found, but continuing workflow."
+          else
+            ARCH=$(file "/Applications/Blink Eye.app/Contents/MacOS/Blink-Eye" | awk '{print $NF}')
+            echo "Detected architecture: $ARCH"
+            if [ "$ARCH" != "${{ matrix.architecture }}" ]; then
+              echo "Architecture test failed! Detected: $ARCH, Expected: ${{ matrix.architecture }}, but continuing workflow."
+            else
+              echo "Architecture test passed! Detected: $ARCH matches ${{ matrix.architecture }}"
+            fi
+          fi
+          screencapture -x /tmp/screenshot_architecture.png || true
+        continue-on-error: true
+
+      - name: Launch Blink Eye App 5 Times with Delay
+        run: |
+          for i in {1..5}; do
+            echo "Launch attempt $i..."
+            open "/Applications/Blink Eye.app" || true
+            sleep 15  # Wait longer for the app UI to fully render at higher resolution
+            screencapture -x "/tmp/screenshot_launch_$i.png" || true
+            
+            # Close the app before next launch
+            osascript -e 'quit app "Blink Eye"' || killall "Blink-Eye" || true
+            sleep 2
+          done
+        continue-on-error: true
+
+      - name: Take Final Desktop Screenshot
+        run: |
+          screencapture -x /tmp/screenshot_desktop_after.png || true
+        continue-on-error: true
+
+      - name: Cleanup - Uninstall App
+        run: |
+          # Close app if still running
+          osascript -e 'quit app "Blink Eye"' || killall "Blink-Eye" || true
+          sleep 2
+          
+          # Remove app
+          sudo rm -rf "/Applications/Blink Eye.app" || true
+          screencapture -x /tmp/screenshot_uninstall.png || true
+        continue-on-error: true
+
+      - name: Verify Uninstallation
+        run: |
+          if [ ! -d "/Applications/Blink Eye.app" ]; then
+            echo "Blink Eye uninstalled successfully."
+          else
+            echo "Blink Eye uninstallation failed, but continuing workflow."
+          fi
+          screencapture -x /tmp/screenshot_verify_uninstall.png || true
+        continue-on-error: true
+
+      - name: Upload macOS Screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlinkEyeScreenshots-${{ matrix.architecture }}
+          path: /tmp/screenshot_*.png
+          retention-days: 7
+        continue-on-error: true
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-macos-${{ matrix.architecture }}
+          path: src-tauri/target/release/bundle/**

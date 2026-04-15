@@ -17,6 +17,16 @@
     "PlainGradientAnimationReminderWindow",
     "StarryBackgroundReminderWindow",
     "ShootingMeteorReminderWindow",
+    "reminder_monitor_0",
+    "reminder_monitor_1",
+    "reminder_monitor_2",
+    "reminder_monitor_3",
+    "reminder_monitor_4",
+    "reminder_monitor_5",
+    "reminder_monitor_6",
+    "reminder_monitor_7",
+    "reminder_monitor_8",
+    "reminder_monitor_9",
     "before_alert",
     "support_reminder"
   ],
@@ -65,6 +75,9 @@
         },
         {
           "url": "https://api.blinkeye.app/user-info"
+        },
+        {
+          "url": "https://api.blinkeye.app/discount"
         }
       ],
       "deny": []
@@ -102,6 +115,9 @@
     "core:window:allow-is-maximized",
     "core:window:allow-is-fullscreen",
     "core:window:allow-start-dragging",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-set-fullscreen",
+    "core:window:allow-set-decorations",
     "core:window:allow-show",
     "core:window:allow-hide",
     "core:window:allow-center",

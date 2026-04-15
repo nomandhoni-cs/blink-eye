@@ -9,3 +9,10 @@ export interface ReleaseData {
   tag_name: string;
   assets: Asset[];
 }
+
+// Add a new type for our unified response
+export interface GithubStats {
+  latestRelease: ReleaseData | null;
+  tagName: string;
+  totalDownloads: number;
+}

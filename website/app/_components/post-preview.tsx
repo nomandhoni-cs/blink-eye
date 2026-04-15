@@ -1,5 +1,5 @@
 import { type Author } from "@/interfaces/author";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Avatar from "./avatar";
 import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";

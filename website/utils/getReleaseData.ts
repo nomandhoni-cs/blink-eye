@@ -1,7 +1,7 @@
+//utils/getReleaseData.ts
 import { ReleaseData } from "./github-fetch-types";
 
-export // Utility function to filter assets by type
-const getDownloadLinks = (assets: ReleaseData["assets"]) => {
+export const getDownloadLinks = (assets: ReleaseData["assets"]) => {
   return {
     windowsSetup:
       assets.find(

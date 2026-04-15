@@ -95,6 +95,7 @@ const ContributorsPage = () => {
           <Link
             href="https://github.com/nomandhoni-cs/blink-eye/graphs/contributors"
             target="_blank"
+            aria-label="View all contributors on GitHub"
           >
             {/* <Image
               src="https://contrib.rocks/image?repo=nomandhoni-cs/blink-eye"

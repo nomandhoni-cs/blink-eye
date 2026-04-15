@@ -20,6 +20,8 @@ export function LocaleToggle() {
   const pathname = usePathname();
 
   const handleLocaleChange = (newLocale: string) => {
+    if (!pathname) return;
+
     // Get the current path segments after the locale
     const pathSegments = pathname.split("/").slice(2);
     // Create new path with the selected locale and the rest of the path
