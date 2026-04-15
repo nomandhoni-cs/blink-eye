@@ -15,7 +15,10 @@ async function fetchReleases(): Promise<Release[]> {
     "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
     {
       cache: "force-cache",
-    }
+      headers: {
+        Authorization: `Bearer ${process.env.BLINK_EYE_WEBSITE_TOKEN}`,
+      },
+    },
   );
 
   if (!res.ok) {
@@ -53,7 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date().toISOString(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
-    }))
+    })),
   );
 
   // Generate release-specific routes
@@ -63,7 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date().toISOString(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
-    }))
+    })),
   );
 
   // Generate routes for all locales
@@ -73,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: route === "" ? 1 : 0.9,
-    }))
+    })),
   );
 
   return [

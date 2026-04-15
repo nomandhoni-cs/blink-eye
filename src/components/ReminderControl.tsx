@@ -15,7 +15,6 @@ import { convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
 import { useTimeCountContext } from "../contexts/TimeCountContext";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { emit, listen } from "@tauri-apps/api/event";
 
 const TodayTodoTasks = lazy(() =>
   import("./TodayTodoTasks").then((module) => ({
@@ -42,36 +41,42 @@ const ReminderControl: React.FC = () => {
   const [isCountdownStarted, setIsCountdownStarted] = useState<boolean>(false);
 
   const closeAllReminderWindows = async () => {
-    try {
-      await emit("close-all-reminders");
+    console.log("[ReminderControl] closeAllReminderWindows called");
+    
+    const currentWin = getCurrentWebviewWindow();
+    console.log("[ReminderControl] Current window label:", currentWin.label);
 
-      for (let i = 0; i < 10; i++) {
-        try {
-          const windowLabel = `reminder_monitor_${i}`;
-          const window = await WebviewWindow.getByLabel(windowLabel);
-          if (window) {
-            await window.close();
-            console.log(`Closed window: ${windowLabel}`);
+    // Close all OTHER reminder windows first
+    const closePromises: Promise<void>[] = [];
+
+    for (let i = 0; i < 10; i++) {
+      const windowLabel = `reminder_monitor_${i}`;
+      closePromises.push(
+        (async () => {
+          try {
+            const win = await WebviewWindow.getByLabel(windowLabel);
+            if (win && win.label !== currentWin.label) {
+              await win.close();
+              console.log(`[ReminderControl] Closed: ${windowLabel}`);
+            }
+          } catch (error) {
+            // Window doesn't exist, skip
           }
-        } catch (error) {
-          // Window doesn't exist, continue
-        }
-      }
+        })()
+      );
+    }
+
+    // Wait for all secondary windows to close
+    await Promise.allSettled(closePromises);
+    console.log("[ReminderControl] All secondary windows closed");
+
+    // Close ourselves last
+    try {
+      await currentWin.close();
     } catch (error) {
-      console.error("Error closing reminder windows:", error);
+      console.error("[ReminderControl] Error closing current window:", error);
     }
   };
-
-  useEffect(() => {
-    const unlisten = listen("close-all-reminders", () => {
-      const currentWindow = getCurrentWebviewWindow();
-      currentWindow.close();
-    });
-
-    return () => {
-      unlisten.then((fn) => fn());
-    };
-  }, []);
 
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
