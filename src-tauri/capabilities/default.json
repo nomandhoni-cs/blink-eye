@@ -75,6 +75,9 @@
         },
         {
           "url": "https://api.blinkeye.app/user-info"
+        },
+        {
+          "url": "https://api.blinkeye.app/discount"
         }
       ],
       "deny": []

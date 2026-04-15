@@ -15,6 +15,7 @@ export interface OnboardingData {
   reminderText: string;
   licenseKey: string;
   todos: TodoItem[];
+  email?: string;
 }
 
 export interface TodoItem {

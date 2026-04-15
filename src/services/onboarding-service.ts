@@ -156,6 +156,7 @@ export class OnboardingService {
           userLocale: Intl.DateTimeFormat().resolvedOptions().timeZone,
           installedTime: new Date().toISOString(),
           appVersion: getAppVersion,
+          ...(data.email && { email: data.email }),
         }),
       });
 
