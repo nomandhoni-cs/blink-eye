@@ -16,7 +16,7 @@ export default function Layout() {
       <CustomTitlebar />
       <AppSidebar />
       <ScrollArea className="h-[calc(100vh-38px)] px-4 py-2 w-full mt-[38px]">
-        {isPaidUser && <AnnouncementBar />}
+        {!isPaidUser && <AnnouncementBar />}
         <UpdateDialog />
         <Outlet />
       </ScrollArea>
