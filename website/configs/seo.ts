@@ -66,6 +66,6 @@ export const SEO = {
     "20 20 20 rule app for windows",
   ],
   thumb: "https://utfs.io/f/93hqarYp4cDdRfdEFOs3IvZkCG1g7rYl8WhFVBbNozK265eA",
-  url: "https://blinkeye.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://blinkeye.app",
   twitter: "@blinkeyeapp",
 };

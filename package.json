@@ -1,7 +1,7 @@
 {
   "name": "blink-eye",
   "private": true,
-  "version": "2.7.5",
+  "version": "2.7.6",
   "type": "module",
   "displayName": "Blink Eye",
   "categories": [
