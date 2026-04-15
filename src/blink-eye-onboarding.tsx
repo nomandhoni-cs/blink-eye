@@ -18,6 +18,7 @@ import GradientBackground from "./components/GradientBackground";
 // import Database from "@tauri-apps/plugin-sql";
 import { ModeToggle } from "./components/ThemeToggle";
 import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import ToDoOnboarding from "./components/screens/todo-screen-copied";
 
 export default function UserOnboarding() {
@@ -29,10 +30,11 @@ export default function UserOnboarding() {
   const [breakInterval, setBreakInterval] = useState(20);
   const [breakDuration, setBreakDuration] = useState(20);
   const [reminderText, setReminderText] = useState(
-    "Pause! Look into the distance, and best if you walk a bit."
+    "Pause! Look into the distance, and best if you walk a bit.",
   );
   const [licenseKey, setLicenseKey] = useState("");
   const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [todos, setTodos] = useState<TodoItem[]>([]);
 
   // Screen Configuration - Easy to add new screens!
@@ -81,6 +83,7 @@ export default function UserOnboarding() {
           reminderText,
           licenseKey,
           todos,
+          email: email || undefined,
         };
         await OnboardingService.completeOnboarding(onboardingData);
       },
@@ -92,33 +95,83 @@ export default function UserOnboarding() {
   const currentScreenConfig = screens.find((s) => s.id === currentScreen);
 
   // Navigation Functions
+
   const nextScreen = async () => {
+    if (currentScreen === 1) {
+      const trimmed = email.trim();
+
+      if (!trimmed) {
+        toast(
+          "📬 Drop your email real quick!\n\nWe only use it if there's something important about the app — zero spam, we're not that kind of app.",
+          {
+            duration: 4000,
+            style: {
+              borderRadius: "12px",
+              background: "var(--background)",
+              color: "var(--foreground)",
+              border: "1px solid rgba(254, 76, 85, 0.3)",
+              fontSize: "13px",
+              textAlign: "center",
+            },
+            icon: "🙅",
+          },
+        );
+        return;
+      }
+
+      // RFC-compliant-ish email validation
+      const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(trimmed)) {
+        toast(
+          "🤔 Hmm, that email looks a little off.\nDouble-check it? We need it to be real — just in case!",
+          {
+            duration: 4000,
+            style: {
+              borderRadius: "12px",
+              background: "var(--background)",
+              color: "var(--foreground)",
+              border: "1px solid rgba(254, 76, 85, 0.3)",
+              fontSize: "13px",
+              textAlign: "center",
+            },
+            icon: "✉️",
+          },
+        );
+        return;
+      }
+
+      // Success feedback when valid
+      toast.success("Got it! 🎉 No spam — pinky promise. Let's keep going!", {
+        duration: 2000,
+        style: {
+          borderRadius: "12px",
+          fontSize: "13px",
+        },
+      });
+    }
+
     if (currentScreen < totalScreens) {
       setIsLoading(true);
-
       try {
-        // Execute the onNext function for current screen
         if (currentScreenConfig?.onNext) {
           await currentScreenConfig.onNext();
         }
-
         setCurrentScreen(currentScreen + 1);
       } catch (error) {
         console.error("Error saving data:", error);
-        // TODO: Show error toast/notification
+        toast.error("Oops! Something went wrong. Try again?");
       } finally {
         setIsLoading(false);
       }
     } else if (currentScreen === totalScreens) {
-      // Handle the final "Complete" button click
       setIsLoading(true);
       try {
-        // Execute the onNext function for the final screen
         if (currentScreenConfig?.onNext) {
           await currentScreenConfig.onNext();
         }
       } catch (error) {
         console.error("Error completing onboarding:", error);
+        toast.error("Couldn't complete setup. Try again!");
       } finally {
         setIsLoading(false);
       }
@@ -153,7 +206,7 @@ export default function UserOnboarding() {
     const getScreenProps = () => {
       switch (currentScreen) {
         case 1:
-          return {};
+          return { email, setEmail };
         case 2:
           return {
             breakInterval,
@@ -234,8 +287,8 @@ export default function UserOnboarding() {
                     currentScreen === screen.id
                       ? "bg-[#FE4C55]"
                       : currentScreen > screen.id
-                      ? "bg-green-500"
-                      : "bg-gray-300"
+                        ? "bg-green-500"
+                        : "bg-gray-300"
                   }`}
                 />
               </div>
@@ -252,8 +305,8 @@ export default function UserOnboarding() {
               {isLoading
                 ? "Saving..."
                 : currentScreen === totalScreens
-                ? "Complete"
-                : "Next"}
+                  ? "Complete"
+                  : "Next"}
             </span>
             <ChevronRight className="w-4 h-4" />
           </Button>
