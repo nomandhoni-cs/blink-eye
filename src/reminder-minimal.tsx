@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { listen } from "@tauri-apps/api/event";
-import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import "./index.css";
 
 // Import backgrounds
@@ -24,18 +22,6 @@ const MinimalReminder: React.FC = () => {
     console.log('[MinimalReminder] URL:', window.location.href);
     console.log('[MinimalReminder] Search params:', window.location.search);
     console.log('[MinimalReminder] Received style from URL:', backgroundStyle);
-
-    useEffect(() => {
-        // Only listen for close signal
-        const unlistenClose = listen("close-all-reminders", () => {
-            console.log('[MinimalReminder] Received close-all-reminders event');
-            getCurrentWebviewWindow().close();
-        });
-
-        return () => {
-            unlistenClose.then((fn) => fn());
-        };
-    }, []);
 
     const renderBackground = () => {
         console.log('[MinimalReminder] Rendering background for style:', backgroundStyle);
