@@ -7,7 +7,8 @@ import ProductHuntWidget from "../ProductHunt";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 
-import { ArrowUpRight, Linkedin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Linkedin } from "@/components/ui/svgs/linkedin";
 import GradientBackground from "../GradientBackground";
 
 // Restructured navigation with logical SaaS categories
