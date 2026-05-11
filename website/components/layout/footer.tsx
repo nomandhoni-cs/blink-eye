@@ -21,7 +21,7 @@ const navigation = {
   ],
   resources: [
     { name: "How To Use", link: "howtouse" },
-    { name: "How BlinkEye Helps", link: "howblinkeyehelps" },
+    { name: "How blinkeye Helps", link: "howblinkeyehelps" },
   ],
   company: [
     { name: "About", link: "about" },
@@ -55,7 +55,7 @@ export const Footer = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-14 sm:pb-16">
 
         {/* TOP CTA SECTION */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-12 mb-12 border-b border-border/50">
@@ -207,8 +207,16 @@ export const Footer = () => {
         </div>
 
         {/* GIANT WATERMARK TEXT */}
-        <div className="mt-12 flex justify-center pointer-events-none select-none overflow-hidden">
-          <span className="text-[18vw] sm:text-[15vw] font-heading font-bold leading-none tracking-tighter text-foreground/[0.03] dark:text-foreground/[0.02]">
+        <div
+          className="relative mt-12 flex justify-center pointer-events-none select-none overflow-visible pb-2 sm:pb-4"
+          aria-hidden="true"
+        >
+          {/* soft glow layer */}
+          <span className="absolute inset-x-0 -bottom-2 text-center text-[18vw] sm:text-[15vw] font-heading font-bold leading-none tracking-tighter text-foreground/10 blur-2xl dark:text-white/10">
+            blinkeye
+          </span>
+          {/* crisp gradient layer */}
+          <span className="relative text-[18vw] sm:text-[15vw] font-heading font-bold leading-none tracking-tighter bg-gradient-to-r from-[#FE4C55]/25 via-[#9089fc]/25 to-[#FE4C55]/25 bg-clip-text text-transparent dark:from-[#FE4C55]/18 dark:via-[#9089fc]/18 dark:to-[#FE4C55]/18 drop-shadow-[0_1px_1px_rgba(0,0,0,0.08)]">
             blinkeye
           </span>
         </div>
