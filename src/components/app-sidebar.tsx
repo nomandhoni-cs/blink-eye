@@ -33,6 +33,21 @@ import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { LucideListTodo } from "lucide-react";
 import { PiMonitorFill } from "react-icons/pi";
 import { UpdateChecker } from "./UpdateChecker";
+import { TitleBarOverlay, TITLEBAR_OVERLAY_H } from "./TitleBarOverlay";
+import { SidebarNotch } from "./SidebarNotch";
+import { cn } from "../lib/utils";
+import { platform } from "@tauri-apps/plugin-os";
+
+// ── Platform ─────────────────────────────────────────────────────
+// Read once at module load (consistent for the session).
+// On macOS the TitleBarOverlay extends into the native titlebar area
+// (titleBarStyle: Overlay). On Windows/Linux the OS draws its own
+// titlebar above the overlay.
+const isMac = platform() === "macos";
+
+// Total padding above sidebar content = native titlebar (Win/Linux only)
+// + TitleBarOverlay height.
+const SIDEBAR_TOP_OFFSET = (isMac ? 0 : 32) + TITLEBAR_OVERLAY_H;
 
 // ── 1. Grouped Navigation Data ──
 
@@ -62,7 +77,7 @@ const systemNav = [
 // ── 2. The Original Flame Pro Badge (Refined) ──
 
 function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
-  if (isPaidUser) return null; // Clean UI for paid users
+  if (isPaidUser) return null;
 
   return (
     <SidebarMenuBadge className="pointer-events-none pr-1">
@@ -79,7 +94,9 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
   );
 }
 
-// ── 3. Main Component ──
+// ── 3. (Removed: brand now lives in TitleBarOverlay) ──────────────
+
+// ── 4. Main Component ───────────────────────────────────────────
 
 export function AppSidebar() {
   const { isPaidUser } = usePremiumFeatures();
@@ -87,7 +104,12 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* Invisible SVG for Icon Gradients */}
+      {/* Overlay bar with route title + theme toggle. Sits in the
+          native titlebar area on macOS (Overlay style) or just below
+          the OS-rendered titlebar on Win/Linux. */}
+      <TitleBarOverlay />
+
+      {/* SVG gradient defs for icons */}
       <svg width="0" height="0" className="absolute pointer-events-none">
         <defs>
           <linearGradient
@@ -116,12 +138,20 @@ export function AppSidebar() {
       <Sidebar
         variant="floating"
         collapsible="icon"
-        // ── THE MATH FIX ──
-        // !top-[38px] ensures it starts exactly under the custom titlebar.
-        // !h-[calc(100svh-38px)] forces exact height, preventing the footer from clipping off-screen.
-        className="!top-[38px] !h-[calc(100svh-38px)] border-none shadow-md z-40"
+        // Dedicated left rail for navigation. Sits below the native
+        // window titlebar (~32px on Win/Linux) and the TitleBarOverlay.
+        // All native OS window features (Mission Control, Snap Assist,
+        // fullscreen animations, native close/minimize transitions) are
+        // preserved by keeping decorations: true in tauri.conf.json.
+        className={cn(
+          "!top-0 !h-svh border-none z-40",
+          isMac ? "pt-[32px]" : "pt-[64px]",
+        )}
       >
-        <SidebarContent className="gap-4 px-2 pt-3 pb-2 custom-scrollbar">
+        <SidebarContent
+          className="gap-4 px-2 pt-3 pb-2 custom-scrollbar"
+          style={{ height: `calc(100svh - ${SIDEBAR_TOP_OFFSET}px)` }}
+        >
           {/* ── General Section ── */}
           <SidebarGroup className="p-0">
             <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1">
@@ -223,7 +253,6 @@ export function AppSidebar() {
                   tooltip="Pro Active"
                   className="relative overflow-hidden cursor-default border border-green-500/25 dark:border-green-400/20 bg-green-500/5 dark:bg-green-400/5 hover:bg-green-500/5 dark:hover:bg-green-400/5 group"
                 >
-                  {/* Green sweep */}
                   <motion.div
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
@@ -239,7 +268,6 @@ export function AppSidebar() {
                     }}
                   />
 
-                  {/* White shimmer */}
                   <motion.div
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
@@ -270,7 +298,6 @@ export function AppSidebar() {
                   className="relative overflow-hidden border border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35 shadow-sm transition-all group"
                 >
                   <Link to="https://blinkeye.app/en/pricing" target="_blank">
-                    {/* Amber/rose sweep */}
                     <motion.div
                       className="absolute inset-0 z-0 pointer-events-none"
                       style={{
@@ -286,7 +313,6 @@ export function AppSidebar() {
                       }}
                     />
 
-                    {/* White shimmer */}
                     <motion.div
                       className="absolute inset-0 z-0 pointer-events-none"
                       style={{
@@ -303,7 +329,6 @@ export function AppSidebar() {
                       }}
                     />
 
-                    {/* Hover glow */}
                     <div className="absolute inset-0 z-0 bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                     <IoSparkles
@@ -321,6 +346,9 @@ export function AppSidebar() {
           {/* ── Version & Update Check ── */}
           <UpdateChecker />
         </SidebarFooter>
+
+        {/* ── Notch button on the right edge — toggles sidebar open/closed ── */}
+        <SidebarNotch />
       </Sidebar>
     </>
   );
