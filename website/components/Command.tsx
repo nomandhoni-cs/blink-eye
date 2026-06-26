@@ -165,8 +165,8 @@ function MacOSWarning({ xattrCommand }: { xattrCommand: string }) {
                 <CommandBox command="brew install --cask nomandhoni-cs/blinkeye/blinkeye" small />
               </div>
               <div className="mt-3 text-sm text-gray-600 dark:text-zinc-400">
-                <p>==> Installing Cask blinkeye</p>
-                <p>==> Moving App &apos;Blink Eye.app&apos; to &apos;/Applications/Blink Eye.app&apos;</p>
+                <p>{`==> Installing Cask blinkeye`}</p>
+                <p>{`==> Moving App 'Blink Eye.app' to '/Applications/Blink Eye.app'`}</p>
                 <p>🍺  blinkeye was successfully installed!</p>
                 <div className="mt-2">
                   <CommandBox command="xattr -d com.apple.quarantine '/Applications/Blink Eye.app'" small />
