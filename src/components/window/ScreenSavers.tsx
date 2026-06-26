@@ -1,4 +1,4 @@
-import { Flame } from "lucide-react";
+import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useEffect, useState } from "react";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
@@ -6,6 +6,31 @@ import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { load } from "@tauri-apps/plugin-store";
 import HowToCloseScreenSaver from "../HowToCloseScreenSaver";
+import { cn } from "../../lib/utils";
+
+// Thumbnails — diagonal split showing light (top-left) and dark (bottom-right)
+import auroraThumb from "../../assets/thumbnails/aurora.png";
+import freespritThumb from "../../assets/thumbnails/freesprit.png";
+import particleThumb from "../../assets/thumbnails/particleBackground.png";
+import starryThumb from "../../assets/thumbnails/starryBackground.png";
+import beamThumb from "../../assets/thumbnails/beamoflife.png";
+import meteorThumb from "../../assets/thumbnails/shootingmeteor.png";
+import gradientThumb from "../../assets/thumbnails/plainGradientAnimation.png";
+import polygonThumb from "../../assets/thumbnails/polygonAnimation.png";
+import canvasThumb from "../../assets/thumbnails/canvasShapes.png";
+
+const thumbMap: Record<string, string> = {
+  aurora: auroraThumb,
+  freesprit: freespritThumb,
+  particleBackground: particleThumb,
+  starryBackground: starryThumb,
+  beamoflife: beamThumb,
+  shootingmeteor: meteorThumb,
+  plainGradientAnimation: gradientThumb,
+  polygonAnimation: polygonThumb,
+  canvasShapes: canvasThumb,
+};
+
 const styles = [
   { value: "aurora", label: "Aurora" },
   { value: "freesprit", label: "Free Sprit" },
@@ -33,6 +58,7 @@ const openScreenSaverWindow = () => {
     console.error("Error creating webview:", e);
   });
 };
+
 const ScreenSavers: React.FC = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const [backgroundStyle, setBackgroundStyle] = useState<string>("freesprit");
@@ -68,6 +94,7 @@ const ScreenSavers: React.FC = () => {
       openScreenSaverWindow();
     }
   };
+
   const handleSaveScreenSaver = async (style: string) => {
     if (!canAccessPremiumFeatures) {
       toast.error(
@@ -92,37 +119,78 @@ const ScreenSavers: React.FC = () => {
       }
     }
   };
+
   return (
-    <div className="space-y-2 px-4">
-      <h3 className="text-2xl font-heading tracking-wide">Screen Savers</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {styles.map((style) => (
-          <div
-            key={style.value}
-            className={`cursor-pointer transition-all duration-300 ease-in-out border-2 border-card-border rounded-lg shadow-sm overflow-hidden ${
-              backgroundStyle === style.value
-                ? "ring-2 ring-primary"
-                : "hover:ring-2 hover:ring-primary/50"
-            }`}
-            onClick={() => handleSaveScreenSaver(style.value)}
-          >
-            <div className="p-2 h-full flex flex-col justify-between bg-card text-card-foreground">
-              <div className="flex flex-col items-center justify-between mb-4 space-y-4">
-                <span className="font-medium">{style.label}</span>
+    <div className="space-y-8 px-4 py-2">
+      <div className="flex flex-col gap-1">
+        <h3 className="text-2xl font-heading tracking-tight">Screen Savers</h3>
+        <p className="text-sm text-muted-foreground">
+          Choose a visual style for your screen saver breaks.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {styles.map((style) => {
+          const isActive = backgroundStyle === style.value;
+          return (
+            <div
+              key={style.value}
+              role="button"
+              tabIndex={0}
+              className={cn(
+                "group relative cursor-pointer overflow-hidden rounded-xl border bg-card text-card-foreground transition-all duration-300 ease-out outline-none",
+                "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                isActive
+                  ? "border-primary shadow-md ring-1 ring-primary"
+                  : "border-border shadow-sm hover:border-primary/50 hover:shadow-md"
+              )}
+              onClick={() => handleSaveScreenSaver(style.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleSaveScreenSaver(style.value);
+                }
+              }}
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                <img
+                  src={thumbMap[style.value]}
+                  alt={`${style.label} preview`}
+                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  loading="lazy"
+                />
+                {/* Subtle gradient overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                {/* Premium Badge */}
                 {style.value !== "default" && (
-                  <div className="flex items-center space-x-1 text-yellow-500 dark:text-yellow-400">
-                    <Flame className="w-4 h-4" />
-                    <span className="text-xs font-semibold">Premium</span>
+                  <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-amber-500/30 bg-background/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 shadow-sm backdrop-blur-md dark:text-amber-400">
+                    <Flame className="h-3 w-3" />
+                    Premium
+                  </div>
+                )}
+
+                {/* Active Checkmark Badge */}
+                {isActive && (
+                  <div className="absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg ring-2 ring-background">
+                    <Check className="h-4 w-4" strokeWidth={3} />
                   </div>
                 )}
               </div>
+
+              <div className="p-4">
+                <h4 className="truncate text-sm font-medium tracking-tight">
+                  {style.label}
+                </h4>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-      <div className="flex justify-between items-center mb-4">
+
+      <div className="flex flex-col-reverse items-center justify-between gap-4 border-t pt-6 sm:flex-row">
         <HowToCloseScreenSaver />
-        <Button onClick={() => handleOpenScreenSaver()}>
+        <Button onClick={() => handleOpenScreenSaver()} size="lg" className="w-full sm:w-auto">
           Open Screen Saver
         </Button>
       </div>

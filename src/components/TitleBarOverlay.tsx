@@ -101,33 +101,56 @@ export function TitleBarOverlay() {
     <div
       data-tauri-drag-region
       className={cn(
-        "fixed left-0 right-0 z-50 flex items-center h-[32px] select-none top-0",
-        !isMac && "bg-background border-b border-border/50",
+        "fixed top-0 z-50 flex items-center h-[32px] select-none",
+        isMac ? "left-0 right-0" : "left-(--sidebar-width) right-0 bg-background border-b border-border/50",
       )}
     >
       {/* Left padding to clear macOS traffic lights */}
-      <div data-tauri-drag-region className="pl-[80px] h-full" />
+      {isMac && <div data-tauri-drag-region className="pl-[80px] h-full" />}
 
-      {/* Left half — brand right-aligned to center point */}
-      <div data-tauri-drag-region className="flex-1 h-full flex items-center justify-end gap-2.5 shrink-0">
-        <img
-          src={logo}
-          alt=""
-          draggable={false}
-          className="size-4 shrink-0 pointer-events-none"
-        />
-        <span className="text-[13px] font-light tracking-wide font-heading text-foreground/85 pointer-events-none">
-          blinkeye
-        </span>
-        <Separator orientation="vertical" className="self-center bg-border/80 mx-1" />
-      </div>
+      {/* Left half — brand right-aligned to center point (macOS) */}
+      {isMac && (
+        <>
+          <div data-tauri-drag-region className="flex-1 h-full flex items-center justify-end gap-2.5 shrink-0">
+            <img
+              src={logo}
+              alt=""
+              draggable={false}
+              className="size-4 shrink-0 pointer-events-none"
+            />
+            <span className="text-[13px] font-light tracking-wide font-heading text-foreground/85 pointer-events-none">
+              blinkeye
+            </span>
+            <Separator orientation="vertical" className="self-center bg-border/80 mx-1" />
+          </div>
 
-      {/* Right half — title flows left from center */}
-      <div data-tauri-drag-region className="flex-1 h-full flex items-center shrink-0">
-        <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none ml-1.5">
-          {currentTitle}
-        </span>
-      </div>
+          {/* Right half — title flows left from center (macOS) */}
+          <div data-tauri-drag-region className="flex-1 h-full flex items-center shrink-0">
+            <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none ml-1.5">
+              {currentTitle}
+            </span>
+          </div>
+        </>
+      )}
+
+      {/* Windows/Linux — left-aligned: logo + brand + separator + title */}
+      {!isMac && (
+        <div data-tauri-drag-region className="flex items-center gap-2.5 h-full shrink-0 pl-3">
+          <img
+            src={logo}
+            alt=""
+            draggable={false}
+            className="size-4 shrink-0 pointer-events-none"
+          />
+          <span className="text-[13px] font-light tracking-wide font-heading text-foreground/85 pointer-events-none">
+            blinkeye
+          </span>
+          <Separator orientation="vertical" className="self-center bg-border/80 mx-0.5" />
+          <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none">
+            {currentTitle}
+          </span>
+        </div>
+      )}
 
       {/* Right: theme toggle + Windows caption buttons */}
       <div
