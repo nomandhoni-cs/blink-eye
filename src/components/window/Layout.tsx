@@ -7,7 +7,14 @@ import AnnouncementBar from "../AnnouncementBar";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { ScrollArea } from "../ui/scroll-area";
 import SupportDeveloperHandler from "../SupportDeveloperHandler";
-import { TITLEBAR_OVERLAY_H } from "../TitleBarOverlay";
+import { platform } from "@tauri-apps/plugin-os";
+
+const isMac = platform() === "macos";
+
+// Content area top padding:
+//   macOS Overlay: 32px (only the TitleBarOverlay height)
+//   Win/Linux:    64px (32px native titlebar + 32px TitleBarOverlay)
+const CONTENT_TOP_OFFSET = isMac ? 32 : 64;
 
 export default function Layout() {
   const { isPaidUser } = usePremiumFeatures();
@@ -24,7 +31,7 @@ export default function Layout() {
       <SidebarInset className="h-svh">
         <div
           className="h-full w-full"
-          style={{ paddingTop: `${TITLEBAR_OVERLAY_H}px` }}
+          style={{ paddingTop: `${CONTENT_TOP_OFFSET}px` }}
         >
           <ScrollArea className="h-full w-full px-4 py-2">
             {!isPaidUser && <AnnouncementBar />}

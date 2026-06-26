@@ -34,9 +34,6 @@ import { PiMonitorFill } from "react-icons/pi";
 import { UpdateChecker } from "./UpdateChecker";
 import { TitleBarOverlay, TITLEBAR_OVERLAY_H } from "./TitleBarOverlay";
 import { SidebarNotch } from "./SidebarNotch";
-import { platform } from "@tauri-apps/plugin-os";
-
-const isMac = platform() === "macos";
 
 
 const SIDEBAR_TOP_OFFSET = TITLEBAR_OVERLAY_H;
@@ -123,7 +120,7 @@ export function AppSidebar() {
 
       <Sidebar
         variant="floating"
-        collapsible={isMac ? "icon" : "none"}
+        collapsible="icon"
         className={"!top-0 !h-svh border-none z-40"}
       >
         <SidebarContent
@@ -322,8 +319,8 @@ export function AppSidebar() {
           <UpdateChecker />
         </SidebarFooter>
 
-        {/* ── Notch button on the right edge — toggles sidebar open/closed (macOS only) ── */}
-        {isMac && <SidebarNotch />}
+        {/* ── Notch button on the right edge — toggles sidebar open/closed ── */}
+        <SidebarNotch />
       </Sidebar>
     </>
   );
