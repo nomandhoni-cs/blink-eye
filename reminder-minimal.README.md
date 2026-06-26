@@ -81,13 +81,15 @@ All the same beautiful backgrounds as the primary window:
 ## Event Communication
 
 ### Listens For:
-- `close-all-reminders`: Signal to close
+- **None** - Passive window, gets closed directly by primary window
 
 ### Emits:
-- Nothing! This component only listens.
+- **None** - No event system needed
 
-### Does NOT Listen For:
-- ~~`reminder-background-style`~~ - No longer needed! Style comes from URL parameter.
+### Architecture:
+- Primary window uses `WebviewWindow.getByLabel()` to close this window directly
+- No cross-webview events required
+- Simpler and more reliable
 
 ## Why This Exists
 
@@ -141,11 +143,12 @@ To keep it lightweight, this component skips:
    - Primary: Reads ?style=aurora from URL → shows full UI + Aurora
    - Secondary 1: Reads ?style=aurora from URL → shows Aurora only
    - Secondary 2: Reads ?style=aurora from URL → shows Aurora only
-   - All render instantly, no waiting for broadcasts!
+   - All render instantly!
 
 5. User clicks "Skip" on primary:
-   - Primary emits: "close-all-reminders"
-   - All windows close together
+   - Primary directly closes Monitor 1 and 2 using WebviewWindow.getByLabel()
+   - Primary closes itself last
+   - All windows close in <100ms
 ```
 
 ## Code Structure
@@ -153,8 +156,8 @@ To keep it lightweight, this component skips:
 ```typescript
 // Super simple - just 2 things:
 1. Read style from URL parameter (instant)
-2. Listen for close event
-3. Render background component
+2. Render background component
+// No event listeners needed - primary window closes us directly
 ```
 
 ## Benefits
@@ -198,10 +201,10 @@ ReminderHandler          ReminderControl          reminder-minimal
 **reminder-minimal.tsx** = The efficient visual companion:
 - 🎨 Shows beautiful backgrounds
 - 📡 Reads style from URL (instant)
-- 📡 Listens for close signals
+- 🪟 Passive window - gets closed by primary
 - 🚀 90% lighter than full app
 - 🖥️ Makes all monitors beautiful
-- ⚡ Zero latency - no broadcasts needed
+- ⚡ No event system needed
 
 It's the secret to efficient multi-monitor support - all the beauty, none of the bloat!
 

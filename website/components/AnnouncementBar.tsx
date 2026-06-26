@@ -53,6 +53,17 @@ export function AnnouncementBar() {
             try {
                 const data = await getDiscount();
                 if (data && data.isActive) {
+                    // Check if the discount has expired
+                    const now = new Date().getTime();
+                    const endDate = new Date(data.endDate).getTime();
+                    
+                    if (now > endDate) {
+                        // Discount has expired, don't show it
+                        setIsVisible(false);
+                        setIsLoading(false);
+                        return;
+                    }
+                    
                     const closedKey = `announcement_closed_${data.couponCode}`;
                     const isClosed = localStorage.getItem(closedKey);
                     if (!isClosed) setDiscount(data);

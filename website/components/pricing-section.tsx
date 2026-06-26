@@ -64,9 +64,18 @@ export default function PricingSection() {
     const fetchDiscountData = async () => {
       try {
         const data = await getDiscount();
-        // Only update if active and percentage is valid
+        // Check if active, percentage is valid, and not expired
         if (data && data.isActive && data.percentage > 0) {
-          setDiscountPercent(data.percentage);
+          const now = new Date().getTime();
+          const endDate = new Date(data.endDate).getTime();
+          
+          // Only set discount if it hasn't expired
+          if (now <= endDate) {
+            setDiscountPercent(data.percentage);
+          } else {
+            // Discount has expired, set to 0
+            setDiscountPercent(0);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch discount", error);

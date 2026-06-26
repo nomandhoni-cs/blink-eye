@@ -9,25 +9,34 @@ type Props = {
   coverImage: string;
   date: string;
   author: Author;
+  readingTime: string;
 };
 
-export function PostHeader({ title, coverImage, date, author }: Props) {
+export function PostHeader({
+  title,
+  coverImage,
+  date,
+  author,
+  readingTime,
+}: Props) {
   return (
     <>
       <PostTitle>{title}</PostTitle>
-      <div className="hidden md:block md:mb-12">
+
+      {/* Author, Date & Reading Time */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8 pb-8 border-b border-border">
         <Avatar name={author.name} picture={author.picture} />
-      </div>
-      <div className="mb-8 md:mb-16 sm:mx-0">
-        <CoverImage title={title} src={coverImage} />
-      </div>
-      <div className="max-w-2xl mx-auto">
-        <div className="block md:hidden mb-6">
-          <Avatar name={author.name} picture={author.picture} />
-        </div>
-        <div className="mb-6 text-lg">
+        <span className="text-muted-foreground/50 hidden sm:inline">·</span>
+        <time dateTime={date} className="text-sm text-muted-foreground">
           <DateFormatter dateString={date} />
-        </div>
+        </time>
+        <span className="text-muted-foreground/50 hidden sm:inline">·</span>
+        <span className="text-sm text-muted-foreground">{readingTime}</span>
+      </div>
+
+      {/* Cover image — same width as content */}
+      <div className="mb-12">
+        <CoverImage title={title} src={coverImage} />
       </div>
     </>
   );

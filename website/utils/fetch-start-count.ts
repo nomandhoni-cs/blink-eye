@@ -16,7 +16,8 @@ export const fetchStarCount = async () => {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch star count");
+    console.warn("Failed to fetch star count from GitHub API, using fallback.");
+    return "0";
   }
   const json = await res.json();
 

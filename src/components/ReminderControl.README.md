@@ -107,26 +107,35 @@ useEffect(() => {
 **Purpose**: Close ALL reminder windows across ALL monitors
 
 **How it works**:
-1. Emits `close-all-reminders` event (broadcasts to all windows)
+1. Gets reference to current (primary) window
 2. Loops through `reminder_monitor_0` to `reminder_monitor_9`
-3. Closes each window it finds
+3. Directly closes each window except itself using `WebviewWindow.getByLabel()`
+4. Uses `Promise.allSettled()` to close all secondary windows in parallel
+5. Closes itself last
 
 ```typescript
 const closeAllReminderWindows = async () => {
-  // Broadcast: "Everyone close!"
-  await emit("close-all-reminders");
+  const currentWin = getCurrentWebviewWindow();
   
-  // Also manually close (backup)
+  // Close all OTHER windows first (in parallel)
+  const closePromises = [];
   for (let i = 0; i < 10; i++) {
-    const window = await WebviewWindow.getByLabel(`reminder_monitor_${i}`);
-    if (window) await window.close();
+    const win = await WebviewWindow.getByLabel(`reminder_monitor_${i}`);
+    if (win && win.label !== currentWin.label) {
+      closePromises.push(win.close());
+    }
   }
+  
+  await Promise.allSettled(closePromises);
+  await currentWin.close(); // Close self last
 };
 ```
 
-**Why both emit AND manual close?**
-- `emit()`: Fast, instant broadcast to all windows
-- Manual loop: Backup in case event doesn't reach a window
+**Why direct window management?**
+- **No event system dependency**: More reliable than cross-webview events
+- **Primary window authority**: Single source of truth for closing
+- **No race conditions**: Sequential close (others first, self last)
+- **Works across all contexts**: Direct process-level window management
 
 ### `handlePlayAudio()`
 **Purpose**: Play completion sound when break is almost done
@@ -212,13 +221,15 @@ Starts Countdown (20 → 19 → 18...)
 ## Event Communication
 
 ### Emits:
-- `close-all-reminders`: Signal to close all windows (primary + secondary)
+- **None** - Uses direct window management instead of events
 
 ### Listens For:
-- `close-all-reminders`: Signal to close this window (from other windows or itself)
+- **None** - Primary window directly closes all windows
 
-### Does NOT Emit:
-- ~~`reminder-background-style`~~ - No longer needed! Background style is passed via URL parameter when windows are created.
+### Architecture:
+- Primary window uses `WebviewWindow.getByLabel()` to directly close secondary windows
+- No cross-webview event system needed
+- More reliable than event-based approach
 
 ## Example Scenarios
 
@@ -227,8 +238,9 @@ Starts Countdown (20 → 19 → 18...)
 1. Window opens, shows "Ready?"
 2. Countdown starts: 20 → 19 → 18...
 3. At 1 second: 🔊 Plays "done.mp3"
-4. At 0 seconds: Emits "close-all-reminders"
-5. All windows close simultaneously
+4. At 0 seconds: Primary window directly closes all secondary windows
+5. Primary window closes itself last
+```
 ```
 
 ### Scenario 2: User Skips Break (Multi-Monitor)
@@ -237,11 +249,9 @@ Starts Countdown (20 → 19 → 18...)
    - Monitor 1 (primary): Full app with skip button
    - Monitor 2-3 (secondary): Just Aurora background
 2. User clicks "Skip" on Monitor 1 (primary)
-3. Primary emits "close-all-reminders"
-4. Monitor 1 closes itself
-5. Monitor 2 hears event → closes
-6. Monitor 3 hears event → closes
-7. All windows gone in <100ms
+3. Primary directly closes Monitor 2 and 3 using WebviewWindow.getByLabel()
+4. Primary closes itself last
+5. All windows gone in <100ms
 ```
 
 
@@ -255,7 +265,7 @@ Starts Countdown (20 → 19 → 18...)
 
 ## Multi-Monitor Architecture
 
-This is the **magic** of the optimized event system:
+This is the **magic** of direct window management:
 
 ```
 Primary Monitor (Monitor 0)          Secondary Monitors (1, 2, 3...)
@@ -266,43 +276,46 @@ Primary Monitor (Monitor 0)          Secondary Monitors (1, 2, 3...)
 │  • Timer: 20s           │         │  • Aurora BG Only    │
 │  • Skip Button          │         │  • No UI             │
 │  • Todo List            │         │  • No Logic          │
-│  • All Features         │         │                      │
+│  • All Features         │         │  • Passive window    │
 │                         │         │                      │
 │  Gets style from URL:   │         │  Gets style from URL:│
 │  ?style=aurora          │         │  ?style=aurora       │
 │                         │         │                      │
-│  Broadcasts:            │────────►│  Listens:            │
-│  - close-all-reminders  │         │  - close-all-reminders│
+│  Direct Management:     │────────►│  Gets closed by:     │
+│  - getByLabel()         │         │  - Primary window    │
+│  - win.close()          │         │  - Direct API call   │
 └─────────────────────────┘         └──────────────────────┘
          ↓                                    ↓
-    User clicks Skip                    Receives event
+    User clicks Skip                    Waits passively
          ↓                                    ↓
-    Emits "close-all"                   Closes itself
+    Loops through monitors              Gets closed directly
          ↓                                    ↓
-    Closes itself                       All synced!
+    Closes each secondary               No event needed
+         ↓                                    ↓
+    Closes itself last                  All synced!
 ```
 
 **Key Benefits:**
-- Primary = Full experience (50MB)
-- Secondary = Visual only (5MB each)
-- Event system = Perfect sync
+- Primary = Full experience (50MB) + window authority
+- Secondary = Visual only (5MB each) + passive
+- Direct management = No event system needed
 - Total = 60MB for 3 monitors (vs 150MB before)
 
-**Without events**, you'd need:
+**Direct window management approach:**
 ```typescript
-// Monitor 2 would need to know about Monitor 1 and 3
-const window1 = WebviewWindow.getByLabel("reminder_monitor_0");
-const window3 = WebviewWindow.getByLabel("reminder_monitor_2");
-window1.close();
-window3.close();
-// What if there are 4 monitors? 5? You'd need to check each!
-```
+// Primary window has full authority
+const currentWin = getCurrentWebviewWindow();
 
-**With events**:
-```typescript
-// Monitor 2 just broadcasts
-emit("close-all-reminders");
-// Everyone listening closes themselves automatically!
+// Close all other windows directly
+for (let i = 0; i < 10; i++) {
+  const win = await WebviewWindow.getByLabel(`reminder_monitor_${i}`);
+  if (win && win.label !== currentWin.label) {
+    await win.close(); // Direct close - no events
+  }
+}
+
+// Close self last
+await currentWin.close();
 ```
 
 **Background Style Passing**:
