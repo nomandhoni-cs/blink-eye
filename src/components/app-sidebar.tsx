@@ -1,4 +1,3 @@
-// src\components\app-sidebar.tsx
 import { Link, useLocation } from "react-router-dom";
 // Perfectly filled, rounded, modern icons
 import {
@@ -33,6 +32,11 @@ import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { LucideListTodo } from "lucide-react";
 import { PiMonitorFill } from "react-icons/pi";
 import { UpdateChecker } from "./UpdateChecker";
+import { TitleBarOverlay, TITLEBAR_OVERLAY_H } from "./TitleBarOverlay";
+import { SidebarNotch } from "./SidebarNotch";
+
+
+const SIDEBAR_TOP_OFFSET = TITLEBAR_OVERLAY_H;
 
 // ── 1. Grouped Navigation Data ──
 
@@ -62,7 +66,7 @@ const systemNav = [
 // ── 2. The Original Flame Pro Badge (Refined) ──
 
 function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
-  if (isPaidUser) return null; // Clean UI for paid users
+  if (isPaidUser) return null;
 
   return (
     <SidebarMenuBadge className="pointer-events-none pr-1">
@@ -79,7 +83,7 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
   );
 }
 
-// ── 3. Main Component ──
+// ── 4. Main Component ───────────────────────────────────────────
 
 export function AppSidebar() {
   const { isPaidUser } = usePremiumFeatures();
@@ -87,7 +91,8 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* Invisible SVG for Icon Gradients */}
+      <TitleBarOverlay />
+
       <svg width="0" height="0" className="absolute pointer-events-none">
         <defs>
           <linearGradient
@@ -116,17 +121,14 @@ export function AppSidebar() {
       <Sidebar
         variant="floating"
         collapsible="icon"
-        // ── THE MATH FIX ──
-        // !top-[38px] ensures it starts exactly under the custom titlebar.
-        // !h-[calc(100svh-38px)] forces exact height, preventing the footer from clipping off-screen.
-        className="!top-[38px] !h-[calc(100svh-38px)] border-none shadow-md z-40"
+        className={"!top-0 !h-svh border-none z-40"}
       >
-        <SidebarContent className="gap-4 px-2 pt-3 pb-2 custom-scrollbar">
+        <SidebarContent
+          className="gap-4 px-2 pt-8 pb-2 custom-scrollbar group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:gap-2"
+          style={{ height: `calc(100svh - ${SIDEBAR_TOP_OFFSET}px)` }}
+        >
           {/* ── General Section ── */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1">
-              General
-            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
                 {mainNav.map((item) => (
@@ -211,7 +213,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarSeparator className="mx-4 my-0 opacity-50" />
+        <SidebarSeparator className="opacity-50"/>
 
         {/* ── Footer ── */}
         <SidebarFooter className="p-2 pb-3">
@@ -223,7 +225,6 @@ export function AppSidebar() {
                   tooltip="Pro Active"
                   className="relative overflow-hidden cursor-default border border-green-500/25 dark:border-green-400/20 bg-green-500/5 dark:bg-green-400/5 hover:bg-green-500/5 dark:hover:bg-green-400/5 group"
                 >
-                  {/* Green sweep */}
                   <motion.div
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
@@ -239,7 +240,6 @@ export function AppSidebar() {
                     }}
                   />
 
-                  {/* White shimmer */}
                   <motion.div
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
@@ -270,7 +270,6 @@ export function AppSidebar() {
                   className="relative overflow-hidden border border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35 shadow-sm transition-all group"
                 >
                   <Link to="https://blinkeye.app/en/pricing" target="_blank">
-                    {/* Amber/rose sweep */}
                     <motion.div
                       className="absolute inset-0 z-0 pointer-events-none"
                       style={{
@@ -286,7 +285,6 @@ export function AppSidebar() {
                       }}
                     />
 
-                    {/* White shimmer */}
                     <motion.div
                       className="absolute inset-0 z-0 pointer-events-none"
                       style={{
@@ -303,7 +301,6 @@ export function AppSidebar() {
                       }}
                     />
 
-                    {/* Hover glow */}
                     <div className="absolute inset-0 z-0 bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                     <IoSparkles
@@ -321,6 +318,9 @@ export function AppSidebar() {
           {/* ── Version & Update Check ── */}
           <UpdateChecker />
         </SidebarFooter>
+
+        {/* ── Notch button on the right edge — toggles sidebar open/closed ── */}
+        <SidebarNotch />
       </Sidebar>
     </>
   );
