@@ -19,10 +19,10 @@ interface CommandProps {
 export default function Command({ children, className = "" }: CommandProps) {
   const [isMac, setIsMac] = useState(true);
   const macCommand =
-    "brew tap nomandhoni-cs/blinkeye && brew install --cask blinkeye";
+    "brew install --cask nomandhoni-cs/blinkeye/blinkeye";
   const winCommand = "winget install NomanDhoni.BlinkEye";
   const xattrCommand =
-    "xattr -d com.apple.quarantine /path/to/Blink\\ Eye.app";
+    "xattr -d com.apple.quarantine '/Applications/Blink Eye.app'";
 
   return (
     <div
@@ -161,6 +161,17 @@ function MacOSWarning({ xattrCommand }: { xattrCommand: string }) {
                 Your understanding and support for independent developers like
                 me are greatly appreciated! 💡
               </p>
+              <div className="mt-3">
+                <CommandBox command="brew install --cask nomandhoni-cs/blinkeye/blinkeye" small />
+              </div>
+              <div className="mt-3 text-sm text-gray-600 dark:text-zinc-400">
+                <p>==> Installing Cask blinkeye</p>
+                <p>==> Moving App &apos;Blink Eye.app&apos; to &apos;/Applications/Blink Eye.app&apos;</p>
+                <p>🍺  blinkeye was successfully installed!</p>
+                <div className="mt-2">
+                  <CommandBox command="xattr -d com.apple.quarantine '/Applications/Blink Eye.app'" small />
+                </div>
+              </div>
             </div>
           </PopoverContent>
         </Popover>
