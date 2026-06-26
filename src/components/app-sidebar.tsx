@@ -34,6 +34,9 @@ import { PiMonitorFill } from "react-icons/pi";
 import { UpdateChecker } from "./UpdateChecker";
 import { TitleBarOverlay, TITLEBAR_OVERLAY_H } from "./TitleBarOverlay";
 import { SidebarNotch } from "./SidebarNotch";
+import { platform } from "@tauri-apps/plugin-os";
+
+const isMac = platform() === "macos";
 
 
 const SIDEBAR_TOP_OFFSET = TITLEBAR_OVERLAY_H;
@@ -124,7 +127,7 @@ export function AppSidebar() {
         className={"!top-0 !h-svh border-none z-40"}
       >
         <SidebarContent
-          className="gap-4 px-2 pt-8 pb-2 custom-scrollbar group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:gap-2"
+          className={`gap-4 px-2 ${isMac ? "pt-8" : "pt-2"} pb-2 custom-scrollbar group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:gap-2`}
           style={{ height: `calc(100svh - ${SIDEBAR_TOP_OFFSET}px)` }}
         >
           {/* ── General Section ── */}
