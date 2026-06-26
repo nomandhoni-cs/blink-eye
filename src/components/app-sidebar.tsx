@@ -1,4 +1,3 @@
-// src\components\app-sidebar.tsx
 import { Link, useLocation } from "react-router-dom";
 // Perfectly filled, rounded, modern icons
 import {
@@ -39,14 +38,8 @@ import { cn } from "../lib/utils";
 import { platform } from "@tauri-apps/plugin-os";
 
 // ── Platform ─────────────────────────────────────────────────────
-// Read once at module load (consistent for the session).
-// On macOS the TitleBarOverlay extends into the native titlebar area
-// (titleBarStyle: Overlay). On Windows/Linux the OS draws its own
-// titlebar above the overlay.
 const isMac = platform() === "macos";
 
-// Total padding above sidebar content = native titlebar (Win/Linux only)
-// + TitleBarOverlay height.
 const SIDEBAR_TOP_OFFSET = (isMac ? 0 : 32) + TITLEBAR_OVERLAY_H;
 
 // ── 1. Grouped Navigation Data ──
@@ -94,8 +87,6 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
   );
 }
 
-// ── 3. (Removed: brand now lives in TitleBarOverlay) ──────────────
-
 // ── 4. Main Component ───────────────────────────────────────────
 
 export function AppSidebar() {
@@ -104,12 +95,8 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* Overlay bar with route title + theme toggle. Sits in the
-          native titlebar area on macOS (Overlay style) or just below
-          the OS-rendered titlebar on Win/Linux. */}
       <TitleBarOverlay />
 
-      {/* SVG gradient defs for icons */}
       <svg width="0" height="0" className="absolute pointer-events-none">
         <defs>
           <linearGradient
@@ -138,25 +125,17 @@ export function AppSidebar() {
       <Sidebar
         variant="floating"
         collapsible="icon"
-        // Dedicated left rail for navigation. Sits below the native
-        // window titlebar (~32px on Win/Linux) and the TitleBarOverlay.
-        // All native OS window features (Mission Control, Snap Assist,
-        // fullscreen animations, native close/minimize transitions) are
-        // preserved by keeping decorations: true in tauri.conf.json.
         className={cn(
           "!top-0 !h-svh border-none z-40",
-          isMac ? "pt-[32px]" : "pt-[64px]",
+          isMac ? "" : "pt-[64px]",
         )}
       >
         <SidebarContent
-          className="gap-4 px-2 pt-3 pb-2 custom-scrollbar"
+          className="gap-4 px-2 pt-8 pb-2 custom-scrollbar group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:gap-2"
           style={{ height: `calc(100svh - ${SIDEBAR_TOP_OFFSET}px)` }}
         >
           {/* ── General Section ── */}
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="font-heading text-[11px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-1">
-              General
-            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
                 {mainNav.map((item) => (

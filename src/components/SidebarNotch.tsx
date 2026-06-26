@@ -38,21 +38,15 @@ export function SidebarNotch() {
       // spirit), left side is flat — so it reads as a tab emerging
       // FROM the sidebar edge, not a separate pill.
       className={cn(
-        // `-right-3` puts the notch's left edge exactly at the
-        // sidebar-inner's right edge (the container has p-2 = 8px
-        // outer padding, so the visible inner box ends 8px in from
-        // the container's right). The notch is 20px wide, so it
-        // sits ENTIRELY outside the visible sidebar surface,
-        // touching it at exactly the right edge — like a tab
-        // attached flush, not a button glued onto the side.
-        "absolute -right-3 top-1/2 -translate-y-1/2 z-30",
-        "flex items-center justify-center h-8 w-5 pr-1.5",
+        // Positioned flush against the sidebar's right edge — entirely
+        // outside the content area, no overlap. `-ml-px` seals any
+        // sub-pixel gap between the notch and the sidebar border.
+        "absolute right-0 top-1/2 -translate-y-1/2 translate-x-full -ml-px z-30",
+        "flex items-center justify-center h-8 w-5 pr-1",
         "rounded-r-full bg-sidebar",
-        // Top + right + bottom border match the sidebar's outer ring
-        // color (sidebar-border). No left border — that's the seam
-        // where the notch meets the sidebar edge.
+        // Top + right + bottom border only — no left border so the
+        // notch reads as an extension of the sidebar edge.
         "border border-l-0 border-sidebar-border",
-        // A whisper of outward shadow only.
         "shadow-[1px_0_2px_rgba(0,0,0,0.05)]",
         "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent",
         "transition-all duration-200 ease-out",
