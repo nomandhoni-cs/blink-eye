@@ -20,7 +20,8 @@
         "maxWidth": 1200,
         "minHeight": 750,
         "minWidth": 1200,
-        "decorations": false
+        "decorations": true,
+        "titleBarStyle": "Overlay"
       }
     ],
     "security": {
