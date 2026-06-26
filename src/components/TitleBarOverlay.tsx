@@ -101,8 +101,8 @@ export function TitleBarOverlay() {
     <div
       data-tauri-drag-region
       className={cn(
-        "fixed left-0 right-0 z-50 flex items-center h-[32px] select-none top-0",
-        !isMac && "bg-background border-b border-border/50",
+        "fixed top-0 z-50 flex items-center h-[32px] select-none",
+        isMac ? "left-0 right-0" : "left-(--sidebar-width) right-0 bg-background border-b border-border/50",
       )}
     >
       {/* Left padding to clear macOS traffic lights */}
