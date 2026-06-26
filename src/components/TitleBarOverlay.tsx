@@ -156,7 +156,7 @@ export function TitleBarOverlay() {
       <div
         className={cn(
           "flex items-center h-full shrink-0",
-          isMac && "pr-2",
+          isMac ? "pr-2" : "ml-auto",
         )}
       >
         <ModeToggle />
