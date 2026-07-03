@@ -1,4 +1,4 @@
-name: Release Publish Package
+name: Publish to Homebrew & Winget
 
 on:
   workflow_dispatch:

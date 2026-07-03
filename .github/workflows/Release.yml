@@ -1,4 +1,4 @@
-name: Blink Eye Final Release
+name: Release (Signed)
 on:
   workflow_dispatch:
     inputs:
