@@ -71,7 +71,9 @@
       }
     },
     "macOS": {
-      "signingIdentity": "-",
+      "signingIdentity": "",
+      "entitlements": "./Entitlements.plist",
+      "minimumSystemVersion": "11.0",
       "dmg": {
         "appPosition": {
           "x": 180,
