@@ -1,4 +1,4 @@
-name: Blink Eye Auto Draft Release with Screenshots (macOS Only)
+name: Test macOS Build
 on:
   pull_request:
     branches: [develop]

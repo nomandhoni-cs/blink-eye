@@ -168,7 +168,7 @@ const DownloadPage = async ({
               <span className="inline-flex items-center gap-1.5">
                 <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                 Trusted by{" "}
-                <span className="font-semibold text-foreground">25,000++</span>{" "}
+                <span className="font-semibold text-foreground">31,347+</span>{" "}
                 users
               </span>
               <span className="hidden sm:inline w-px h-4 bg-border" />
