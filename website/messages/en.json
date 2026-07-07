@@ -129,7 +129,7 @@
     "institute": "American Academy of Ophthalmology"
   },
   "DownloadApp": {
-    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, TAR)"
+    "supportedPlatforms": "Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, Tar.gz)"
   },
   "FeatureGrid": {
     "featureTitle": "Features",
