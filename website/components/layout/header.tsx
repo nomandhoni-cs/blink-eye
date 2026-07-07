@@ -2,7 +2,7 @@
 
 import { CONFIG } from "@/configs/site";
 import Link from "next/link";
-import logo from "../../public/logo.png";
+import newLogo from "../../public/newlogo.svg";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -35,9 +35,9 @@ export const Header = () => {
         `}
       >
         {/* Logo Section */}
-        <Link href={`/${locale}`} className="flex items-center space-x-3">
-          <Image src={logo} alt="Blink Eye Logo" height={32} width={32} />
-          <span className="font-heading text-xl">Blink Eye</span>
+        <Link href={`/${locale}`} className="flex items-center space-x-2">
+          <Image src={newLogo} alt="Blink Eye Logo" height={28} width={28} />
+          <span className="font-heading text-lg">blinkeye</span>
         </Link>
 
         {/* Navigation Links */}
@@ -82,10 +82,10 @@ export const Header = () => {
           <div className="flex items-center space-x-4 bg-background/30 backdrop-blur-md rounded-full px-4 py-2 motion-preset-expand motion-duration-1000">
             <Link href={`/${locale}`}>
               <Image
-                src={logo}
+                src={newLogo}
                 alt="Blink Eye Logo"
-                height={32}
-                width={32}
+                height={24}
+                width={24}
                 className="mr-2"
               />
             </Link>

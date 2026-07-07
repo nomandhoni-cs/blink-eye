@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { DownloadIcon } from "lucide-react";
 
@@ -10,6 +9,8 @@ import DownloadDropdown from "./DownloadDropdown";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { EmptyButtonWitLink } from "./ui/EmptyButtonWitLink";
 import { getDownloadLinks } from "@/utils/getReleaseData";
+import { usePlatform } from "@/utils/usePlatform";
+import { Link } from "@/i18n/routing";
 
 export default function DownloadApp({ latestRelease }: { latestRelease?: any }) {
   const rawLinks = getDownloadLinks(latestRelease?.assets || []);
@@ -36,43 +37,98 @@ const DownloadButtons = ({
   downloadLinks,
 }: {
   downloadLinks: Record<string, string | undefined>;
-}) => (
-  /*
-   * Layout Strategy:
-   * - Mobile (default): flex-col, items-center (stacked, centered)
-   * - Desktop (lg+): flex-row, justify-center (row, centered)
-   * - Each button has w-full on mobile, w-auto on desktop
-   * - max-w-sm on mobile prevents buttons from being too wide on tablets
-   */
-  <div className="flex flex-col lg:flex-row justify-center items-center gap-4 lg:gap-5 w-full">
-    {/* WINDOWS */}
-    <DownloadOption
-      name="Windows"
-      icon={<WindowsIcon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />}
-      mainLink={downloadLinks.windowsSetup}
-      dropdownLinks={[
-        { href: downloadLinks.windowsSetup, label: "Download (EXE)" },
-        { href: downloadLinks.windowsMSI, label: "Download (MSI)" },
-      ]}
-    />
+}) => {
+  const detected = usePlatform();
 
-    {/* MAC */}
-    <MacDownloadButton downloadLinks={downloadLinks} />
+  if (detected === "unknown") {
+    return (
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-4 lg:gap-5 w-full">
+        <DownloadOption
+          name="Windows"
+          icon={<WindowsIcon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />}
+          mainLink={downloadLinks.windowsSetup}
+          dropdownLinks={[
+            { href: downloadLinks.windowsSetup, label: "Download (EXE)" },
+            { href: downloadLinks.windowsMSI, label: "Download (MSI)" },
+          ]}
+        />
+        <MacDownloadButton downloadLinks={downloadLinks} />
+        <DownloadOption
+          name="Linux"
+          icon={<LinuxIcon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />}
+          mainLink={downloadLinks.linuxAppImage}
+          dropdownLinks={[
+            { href: downloadLinks.linuxAppImage, label: "AppImage" },
+            { href: downloadLinks.linuxDeb, label: "Debian (.deb)" },
+            { href: downloadLinks.linuxRPM, label: "RPM (.rpm)" },
+            { href: downloadLinks.linuxTar, label: "Tar.gz" },
+          ]}
+        />
+      </div>
+    );
+  }
 
-    {/* LINUX */}
-    <DownloadOption
-      name="Linux"
-      icon={<LinuxIcon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />}
-      mainLink={downloadLinks.linuxAppImage}
-      dropdownLinks={[
-        { href: downloadLinks.linuxAppImage, label: "AppImage" },
-        { href: downloadLinks.linuxDeb, label: "Debian (.deb)" },
-        { href: downloadLinks.linuxRPM, label: "RPM (.rpm)" },
-        { href: downloadLinks.linuxTar, label: "Tar.gz" },
-      ]}
-    />
-  </div>
-);
+  return (
+    <div className="flex flex-col items-center gap-6 w-full">
+      {/* Primary + Secondary inline */}
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-4 lg:gap-5 w-full">
+        {/* Primary: detected platform shown large */}
+        {detected === "windows" && (
+          <DownloadOption
+            name="Windows"
+            icon={<WindowsIcon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />}
+            mainLink={downloadLinks.windowsSetup}
+            dropdownLinks={[
+              { href: downloadLinks.windowsSetup, label: "Download (EXE)" },
+              { href: downloadLinks.windowsMSI, label: "Download (MSI)" },
+            ]}
+          />
+        )}
+        {detected === "mac" && (
+          <MacDownloadButton downloadLinks={downloadLinks} />
+        )}
+        {detected === "linux" && (
+          <DownloadOption
+            name="Linux"
+            icon={<LinuxIcon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />}
+            mainLink={downloadLinks.linuxAppImage}
+            dropdownLinks={[
+              { href: downloadLinks.linuxAppImage, label: "AppImage" },
+              { href: downloadLinks.linuxDeb, label: "Debian (.deb)" },
+              { href: downloadLinks.linuxRPM, label: "RPM (.rpm)" },
+              { href: downloadLinks.linuxTar, label: "Tar.gz" },
+            ]}
+          />
+        )}
+
+        {/* Secondary: other platforms */}
+        <Link
+          href="/download"
+          className={`
+            inline-flex items-center gap-2.5 px-5 py-3.5 lg:h-16 rounded-full
+            text-sm lg:text-base font-medium text-muted-foreground
+            border border-border bg-background/60
+            hover:bg-muted hover:text-foreground hover:border-foreground/10
+            transition-colors duration-200
+          `}
+        >
+          <span className="flex items-center gap-1.5">
+            {detected !== "mac" && <MacIcon className="w-4 h-4 shrink-0" />}
+            {detected !== "mac" && detected !== "windows" && (
+              <span className="text-muted-foreground/40">/</span>
+            )}
+            {detected !== "windows" && <WindowsIcon className="w-4 h-4 shrink-0" />}
+            {detected !== "windows" && detected !== "linux" && (
+              <span className="text-muted-foreground/40">/</span>
+            )}
+            {detected !== "linux" && <LinuxIcon className="w-4 h-4 shrink-0" />}
+          </span>
+          <span>Download for other platforms</span>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 // Split-Button for Windows & Linux
 const DownloadOption = ({
@@ -198,12 +254,12 @@ const MacDownloadButton = ({
                 <strong className="text-foreground">.dmg</strong> file for your Mac.
               </li>
               <li>
-                <strong className="text-foreground">Right-Click</strong> the app and
-                select <strong className="text-foreground">Open</strong>.
+                Open the <strong className="text-foreground">.dmg</strong> file and drag
+                Blink Eye to your Applications folder.
               </li>
               <li>
-                Click <strong className="text-foreground">Open</strong> again if a
-                security warning appears.
+                Launch <strong className="text-foreground">Blink Eye</strong> from
+                Applications.
               </li>
             </ol>
 
@@ -216,11 +272,6 @@ const MacDownloadButton = ({
                 sizes="(max-width: 640px) 100vw, 480px"
               />
             </div>
-
-            <p className="text-xs text-muted-foreground">
-              * First-time users may need to right-click and select &quot;Open&quot;
-              to bypass Gatekeeper.
-            </p>
           </div>
 
           {/* Download Buttons */}
