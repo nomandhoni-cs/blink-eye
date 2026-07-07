@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Screen Components
@@ -6,6 +6,7 @@ import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
 // import TodoListScreen from "./components/screens/todo-list-screen";
 import LicenseScreen from "./components/screens/license-screen";
+import ThemePickerOnboarding from "./components/screens/theme-picker-onboarding";
 
 // Types and Services
 import type { Screen, OnboardingData, TodoItem } from "./types/onboarding";
@@ -20,11 +21,34 @@ import { ModeToggle } from "./components/ThemeToggle";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import ToDoOnboarding from "./components/screens/todo-screen-copied";
+import welcomeAudio from "./assets/audio/welcome-onboarding.mp3";
 
 export default function UserOnboarding() {
   // State Management
   const [currentScreen, setCurrentScreen] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Play welcome audio once on mount
+  useEffect(() => {
+    const audio = new Audio(welcomeAudio);
+    audio.volume = 0.8;
+    audioRef.current = audio;
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay blocked, will play on first user interaction
+      });
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   // Onboarding Data
   const [breakInterval, setBreakInterval] = useState(20);
@@ -47,6 +71,14 @@ export default function UserOnboarding() {
     },
     {
       id: 2,
+      title: "Theme",
+      component: ThemePickerOnboarding,
+      onNext: async () => {
+        // Theme is already saved to DB by AccentColorContext.setAccentTheme
+      },
+    },
+    {
+      id: 3,
       title: "Break Settings",
       component: BreakConfigScreen,
       onNext: async () => {
@@ -60,7 +92,7 @@ export default function UserOnboarding() {
       },
     },
     {
-      id: 3,
+      id: 4,
       title: "Todo List",
       component: ToDoOnboarding,
       onNext: async () => {
@@ -68,7 +100,7 @@ export default function UserOnboarding() {
       },
     },
     {
-      id: 4,
+      id: 5,
       title: "License",
       component: LicenseScreen,
       onNext: async () => {
@@ -208,6 +240,9 @@ export default function UserOnboarding() {
         case 1:
           return { email, setEmail };
         case 2:
+          // Theme picker - no props needed
+          return {};
+        case 3:
           return {
             breakInterval,
             setBreakInterval,
@@ -216,12 +251,12 @@ export default function UserOnboarding() {
             reminderText,
             setReminderText,
           };
-        case 3:
+        case 4:
           return {
             todos,
             setTodos,
           };
-        case 4:
+        case 5:
           return {
             licenseKey,
             setLicenseKey,
@@ -237,7 +272,7 @@ export default function UserOnboarding() {
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative">
+    <div className="w-screen h-screen overflow-hidden relative select-none" data-tauri-drag-region>
       {/* Main Content Area */}
       <GradientBackground
         position="top"
@@ -245,14 +280,14 @@ export default function UserOnboarding() {
         fromColor="#ff80b5"
         toColor="#FE4C55"
       />
-      <div className="h-full pb-32 p-8 overflow-auto">{renderScreen()}</div>
+      <div className="h-full pb-32 p-8 overflow-auto select-auto" data-tauri-drag-region>{renderScreen()}</div>
       {/* Top Right corner theme toggle  */}
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4" data-tauri-drag-region={false}>
         <ModeToggle />
       </div>
 
       {/* Fixed Bottom Navigation */}
-      <div className="absolute bottom-0 left-0 right-0 border-t border-t-foreground/10 p-4 space-y-4 shadow-lg">
+      <div className="absolute bottom-0 left-0 right-0 border-t border-t-foreground/10 p-4 space-y-4 shadow-lg" data-tauri-drag-region={false}>
         {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex justify-between text-sm text-foreground/50">
@@ -312,7 +347,7 @@ export default function UserOnboarding() {
           </Button>
         </div>
       </div>
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
   );
 }

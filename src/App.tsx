@@ -55,6 +55,7 @@ const ActivateLicense = lazy(
   () => import("./components/window/ActivateLicense"),
 );
 const AllSettings = lazy(() => import("./components/window/AllSettings"));
+const ThemePickerPage = lazy(() => import("./components/window/ThemePickerPage"));
 const AboutPage = lazy(() => import("./components/window/AboutPage"));
 const Soon = lazy(() => import("./components/window/Soon"));
 const TodoPage = lazy(() => import("./components/window/TodoPage"));
@@ -92,6 +93,7 @@ const layoutRoutes = [
   { path: "workday", element: Workday },
   { path: "activatelicense", element: ActivateLicense },
   { path: "allSettings", element: AllSettings },
+  { path: "themePicker", element: ThemePickerPage },
   { path: "screenSavers", element: ScreenSavers },
   { path: "about", element: AboutPage },
   { path: "soon", element: Soon },
