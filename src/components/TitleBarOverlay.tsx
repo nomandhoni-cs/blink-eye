@@ -6,7 +6,8 @@ import { Minus, Square, Copy, X } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { ModeToggle } from "./ThemeToggle";
 import { cn } from "../lib/utils";
-import logo from "../assets/new-icon.svg";
+import { AppIcon } from "./AppIcon";
+import { useAccentColor } from "../contexts/AccentColorContext";
 
 const isMac = platform() === "macos";
 const OVERLAY_H = 32;
@@ -20,6 +21,7 @@ const routeTitles: Record<string, string> = {
   "/workday": "Workday Setup",
   "/screenSavers": "Screen Savers",
   "/allSettings": "Settings",
+  "/themePicker": "Theme Picker",
   "/activatelicense": "Activate License",
   "/about": "About",
 };
@@ -86,6 +88,7 @@ function WinCaptionButtons() {
 export function TitleBarOverlay() {
   const appWindow = getCurrentWindow();
   const { pathname } = useLocation();
+  const { accentHex } = useAccentColor();
   const currentTitle = routeTitles[pathname] ?? "Blink Eye";
 
   useEffect(() => {
@@ -107,10 +110,8 @@ export function TitleBarOverlay() {
 
         {/* Left half — brand right-aligned to center */}
         <div data-tauri-drag-region className="flex-1 h-full flex items-center justify-end gap-2.5">
-          <img
-            src={logo}
-            alt=""
-            draggable={false}
+          <AppIcon
+            color={accentHex}
             className="size-4 shrink-0 pointer-events-none"
           />
           <span className="text-[13px] font-light tracking-wide font-heading text-foreground/85 pointer-events-none">
@@ -142,10 +143,8 @@ export function TitleBarOverlay() {
     >
       {/* Left-aligned: logo + brand + separator + title */}
       <div data-tauri-drag-region className="flex items-center gap-2.5 h-full shrink-0 pl-3">
-        <img
-          src={logo}
-          alt=""
-          draggable={false}
+        <AppIcon
+          color={accentHex}
           className="size-4 shrink-0 pointer-events-none"
         />
         <span className="text-[13px] font-light tracking-wide font-heading text-foreground/85 pointer-events-none">

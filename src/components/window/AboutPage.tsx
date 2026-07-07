@@ -22,7 +22,8 @@ import {
   IoCheckmarkCircle,
 } from "react-icons/io5";
 import { SiLinux } from "react-icons/si";
-import logo from "../../assets/new-icon.svg";
+import { AppIcon } from "../AppIcon";
+import { useAccentColor } from "../../contexts/AccentColorContext";
 
 // ── Link card ────────────────────────────────────────────────────
 
@@ -135,6 +136,7 @@ function PlatformBadge({
 
 const AboutPage = () => {
   const [version, setVersion] = useState<string>("");
+  const { accentHex } = useAccentColor();
 
   useEffect(() => {
     getVersion().then(setVersion);
@@ -147,10 +149,8 @@ const AboutPage = () => {
         <div className="flex items-center gap-4">
           <div className="relative shrink-0">
             <div className="absolute inset-0 rounded-xl bg-primary/20 blur-md" />
-            <img
-              src={logo}
-              alt="Blink Eye"
-              draggable={false}
+            <AppIcon
+              color={accentHex}
               className="relative size-14 rounded-xl p-1.5 shadow-sm border border-border/30 bg-background"
             />
           </div>

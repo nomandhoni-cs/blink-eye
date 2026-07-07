@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AccentColorProvider } from "@/contexts/AccentColorContext";
 import DefaultStartMinimize from "@/components/DefaultStartMinimize";
 import EncryptionComponent from "@/components/EncryptionComponent";
 import LicenseValidationComponent from "@/components/LicenseValidationComponent";
@@ -22,16 +23,18 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <EncryptionComponent />
     <ConfigDataLoader />
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <PremiumFeaturesProvider>
-        <DefaultStartMinimize />
-        <LicenseValidationComponent />
-        <TriggerProvider>
-          <ReminderHandler />
-          <TooltipProvider>
-            <App />
-          </TooltipProvider>
-        </TriggerProvider>
-      </PremiumFeaturesProvider>
+      <AccentColorProvider>
+        <PremiumFeaturesProvider>
+          <DefaultStartMinimize />
+          <LicenseValidationComponent />
+          <TriggerProvider>
+            <ReminderHandler />
+            <TooltipProvider>
+              <App />
+            </TooltipProvider>
+          </TriggerProvider>
+        </PremiumFeaturesProvider>
+      </AccentColorProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );

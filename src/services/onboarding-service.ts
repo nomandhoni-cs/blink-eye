@@ -112,7 +112,32 @@ export class OnboardingService {
     console.log("✅ Todo list saved");
   }
 
-  // Screen 4: License Activation
+  // Screen 4: Theme Selection
+  static async saveTheme(themeName: string): Promise<void> {
+    console.log("💾 Saving theme...", themeName);
+    try {
+      const db = await Database.load("sqlite:appconfig.db");
+      const existingRow = (await db.select(
+        "SELECT * FROM config WHERE key = 'selectedTheme'"
+      )) as any[];
+      if (existingRow.length > 0) {
+        await db.execute(
+          "UPDATE config SET value = $1 WHERE key = 'selectedTheme'",
+          [themeName]
+        );
+      } else {
+        await db.execute(
+          "INSERT INTO config (key, value) VALUES ('selectedTheme', $1)",
+          [themeName]
+        );
+      }
+      console.log("✅ Theme saved");
+    } catch (error) {
+      console.error("Error saving theme:", error);
+    }
+  }
+
+  // Screen 5: License Activation
   static async saveLicenseKey(licenseKey: string): Promise<void> {
     console.log("💾 Saving license key...", licenseKey);
     // TODO: Validate and save license

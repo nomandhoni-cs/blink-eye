@@ -110,7 +110,7 @@ const ScrollableSelector = ({
               }}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 active:scale-95 ${
                 isSelected
-                  ? "bg-[#FE4C55] text-white shadow-md shadow-[#FE4C55]/20 ring-2 ring-[#FE4C55]/50 ring-offset-1 ring-offset-background"
+                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 ring-2 ring-primary/50 ring-offset-1 ring-offset-background"
                   : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border"
               }`}
             >
@@ -259,7 +259,7 @@ const Dashboard = () => {
       {/* Header & Progress */}
       <div className="flex justify-between items-center space-x-8 mt-6 mb-6">
         <div>
-          <h1 className="text-5xl font-heading font-semibold tracking-wider text-[#FE4C55]">
+          <h1 className="text-5xl font-heading font-semibold tracking-wider text-primary">
             {currentDate.toLocaleString("en-US", { weekday: "long" })}
           </h1>
           <p className="text-xl text-muted-foreground">{formattedDate}</p>
@@ -278,7 +278,7 @@ const Dashboard = () => {
               cy="96"
               r="86"
               className={`stroke-[20px] fill-none transition-all duration-500 ease-in-out ${
-                isOverLimit ? "stroke-[#FE4C55]" : "stroke-green-500"
+                isOverLimit ? "stroke-primary" : "stroke-green-500"
               }`}
               strokeDasharray={`${(percentage * 540.4) / 100} 540.4`}
               strokeLinecap="round"
@@ -298,7 +298,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <Label className="flex items-center gap-2 text-base font-semibold">
-                <ClockIcon className="h-4 w-4 text-[#FE4C55]" />
+                <ClockIcon className="h-4 w-4 text-primary" />
                 Break Frequency
               </Label>
               <p className="text-xs text-muted-foreground mb-2">
@@ -314,7 +314,7 @@ const Dashboard = () => {
 
             <div className="space-y-3">
               <Label className="flex items-center gap-2 text-base font-semibold">
-                <Hourglass className="h-4 w-4 text-[#FE4C55]" />
+                <Hourglass className="h-4 w-4 text-primary" />
                 Break Duration
               </Label>
               <p className="text-xs text-muted-foreground mb-2">
@@ -332,7 +332,7 @@ const Dashboard = () => {
           {/* Reminder Message */}
           <div className="space-y-3 pt-2">
             <Label className="flex items-center gap-2 text-base font-semibold">
-              <TextIcon className="h-4 w-4 text-[#FE4C55]" />
+              <TextIcon className="h-4 w-4 text-primary" />
               Reminder Message
             </Label>
             <Input
@@ -340,7 +340,7 @@ const Dashboard = () => {
               placeholder="Pause! Look into the distance, and best if you walk a bit."
               value={reminderText}
               onChange={(e) => setReminderText(e.target.value)}
-              className="bg-background/50 h-12 text-base focus-visible:ring-[#FE4C55]/50 border-white/10"
+              className="bg-background/50 h-12 text-base focus-visible:ring-primary/50 border-white/10"
             />
           </div>
 

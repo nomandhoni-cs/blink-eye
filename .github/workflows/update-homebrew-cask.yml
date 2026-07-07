@@ -1,0 +1,51 @@
+name: Update Homebrew Cask
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to release'
+        required: true
+        default: 'release'
+
+jobs:
+  update-cask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get release version
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Download DMG and compute SHA256
+        id: sha
+        run: |
+          curl -sL "https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/Blink.Eye_${{ steps.version.outputs.version }}_aarch64.dmg" -o blinkeye.dmg
+          echo "sha256=$(shasum -a 256 blinkeye.dmg | awk '{print $1}')" >> "$GITHUB_OUTPUT"
+
+      - name: Clone homebrew-cask fork
+        run: |
+          git clone https://x-access-token:${{ secrets.HOMEBREW_CASK_TOKEN }}@github.com/nomandhoni-cs/homebrew-cask.git /tmp/homebrew-cask
+
+      - name: Update cask file
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          SHA="${{ steps.sha.outputs.sha256 }}"
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" /tmp/homebrew-cask/Casks/b/blinkeye.rb
+          sed -i "s/sha256 \".*\"/sha256 \"${SHA}\"/" /tmp/homebrew-cask/Casks/b/blinkeye.rb
+
+      - name: Create PR
+        run: |
+          cd /tmp/homebrew-cask
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "blinkeye-${{ steps.version.outputs.version }}"
+          git add Casks/b/blinkeye.rb
+          git commit -m "blinkeye ${{ steps.version.outputs.version }}"
+          git push origin "blinkeye-${{ steps.version.outputs.version }}"
+          gh pr create \
+            --repo Homebrew/homebrew-cask \
+            --head nomandhoni-cs:blinkeye-${{ steps.version.outputs.version }} \
+            --title "blinkeye ${{ steps.version.outputs.version }}" \
+            --body "Automated PR to update blinkeye to ${{ steps.version.outputs.version }}."
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_CASK_TOKEN }}
