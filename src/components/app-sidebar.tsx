@@ -13,6 +13,7 @@ import {
   IoCheckmarkCircle,
   IoSparkles,
   IoKey,
+  IoColorWand,
 } from "react-icons/io5";
 import { motion } from "framer-motion";
 import {
@@ -29,17 +30,16 @@ import {
   SidebarSeparator,
 } from "./ui/sidebar";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
+import { useAccentColor } from "../contexts/AccentColorContext";
 import { LucideListTodo } from "lucide-react";
 import { PiMonitorFill } from "react-icons/pi";
 import { UpdateChecker } from "./UpdateChecker";
 import { TitleBarOverlay, TITLEBAR_OVERLAY_H } from "./TitleBarOverlay";
 import { SidebarNotch } from "./SidebarNotch";
 import { platform } from "@tauri-apps/plugin-os";
+import { generateBrandShades } from "../lib/color-utils";
 
 const isMac = platform() === "macos";
-
-
-const SIDEBAR_TOP_OFFSET = TITLEBAR_OVERLAY_H;
 
 // ── 1. Grouped Navigation Data ──
 
@@ -56,6 +56,7 @@ const proNav = [
 
 const systemNav = [
   { title: "Settings", url: "/allSettings", icon: IoSettings },
+  { title: "Theme Picker", url: "/themePicker", icon: IoColorWand },
   { title: "Activate License", url: "/activatelicense", icon: IoKey },
   {
     title: "Submit Feedback",
@@ -66,6 +67,49 @@ const systemNav = [
   { title: "About", url: "/about", icon: IoInformationCircle },
 ];
 
+// Dynamically collect all nav URLs for shade assignment
+const allNavItems = [...mainNav, ...proNav, ...systemNav];
+const allNavUrls = allNavItems.map((item) => item.url);
+
+// Generate brand shades from base color (dynamic, based on nav count)
+function getBrandShades(baseColor: string) {
+  const shades = generateBrandShades(baseColor, allNavUrls.length);
+  return allNavUrls.reduce((acc, route, index) => {
+    acc[route] = {
+      bg: shades[index],
+      icon: "text-white",
+      index,
+    };
+    return acc;
+  }, {} as Record<string, { bg: string; icon: string; index: number }>);
+}
+
+// macOS-style Icon Badge Component with rounded corners
+function IconBadge({
+  url,
+  brandColor,
+  isActive,
+  children,
+}: {
+  url: string;
+  brandColor: string;
+  isActive?: boolean;
+  children: React.ReactNode;
+}) {
+  const iconColors = getBrandShades(brandColor);
+  const colors = iconColors[url] || { bg: "#690000", icon: "text-white", index: 9 };
+  return (
+    <div
+      className={`flex items-center justify-center w-7 h-7 rounded-[8px] ${colors.icon} shadow-sm ${isActive ? "ring-2 ring-foreground/30 ring-offset-1 ring-offset-background" : ""}`}
+      style={{ backgroundColor: colors.bg }}
+    >
+      {children}
+    </div>
+  );
+}
+
+const SIDEBAR_TOP_OFFSET = TITLEBAR_OVERLAY_H;
+
 // ── 2. The Original Flame Pro Badge (Refined) ──
 
 function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
@@ -73,15 +117,9 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
 
   return (
     <SidebarMenuBadge className="pointer-events-none pr-1">
-      <span className="flex items-center gap-1">
-        <IoFlame
-          className="text-[13px] drop-shadow-sm"
-          style={{ fill: "url(#amberGradient)" }}
-        />
-        <span className="font-heading text-[10px] font-bold uppercase tracking-widest text-amber-500 dark:text-amber-400">
-          Pro
-        </span>
-      </span>
+      <IoFlame
+        className="text-[13px] drop-shadow-sm text-amber-500 dark:text-amber-400"
+      />
     </SidebarMenuBadge>
   );
 }
@@ -90,6 +128,7 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
 
 export function AppSidebar() {
   const { isPaidUser } = usePremiumFeatures();
+  const { accentHex } = useAccentColor();
   const { pathname } = useLocation();
 
   return (
@@ -140,11 +179,13 @@ export function AppSidebar() {
                       asChild
                       isActive={pathname === item.url}
                       tooltip={item.title}
-                      className="transition-all duration-200 hover:bg-accent/80"
+                      className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground data-active:font-bold"
                     >
                       <Link to={item.url}>
-                        <item.icon className="text-[1.1rem] opacity-80" />
-                        <span className="font-heading text-[13px] font-medium tracking-wide">
+                        <IconBadge url={item.url} brandColor={accentHex} isActive={pathname === item.url}>
+                          <item.icon className="text-[0.9rem]" />
+                        </IconBadge>
+                        <span className="font-heading text-[13px] font-normal tracking-wide">
                           {item.title}
                         </span>
                       </Link>
@@ -168,11 +209,13 @@ export function AppSidebar() {
                       asChild
                       isActive={pathname === item.url}
                       tooltip={item.title}
-                      className="transition-all duration-200 hover:bg-accent/80"
+                      className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground data-active:font-bold"
                     >
                       <Link to={item.url}>
-                        <item.icon className="text-[1.1rem] opacity-80 " />
-                        <span className="font-heading text-[13px] font-medium tracking-wide">
+                        <IconBadge url={item.url} brandColor={accentHex} isActive={pathname === item.url}>
+                          <item.icon className="text-[0.9rem]" />
+                        </IconBadge>
+                        <span className="font-heading text-[13px] font-normal tracking-wide">
                           {item.title}
                         </span>
                       </Link>
@@ -197,14 +240,16 @@ export function AppSidebar() {
                       asChild
                       isActive={pathname === item.url}
                       tooltip={item.title}
-                      className="transition-all duration-200 hover:bg-accent/80 text-muted-foreground hover:text-foreground"
+                      className="transition-all duration-200 hover:bg-accent/80 text-muted-foreground hover:text-foreground data-active:bg-transparent data-active:text-foreground data-active:font-bold"
                     >
                       <Link
                         to={item.url}
                         target={item.external ? "_blank" : "_self"}
                       >
-                        <item.icon className="text-[1.1rem] opacity-60" />
-                        <span className="font-heading text-[13px] font-medium tracking-wide">
+                        <IconBadge url={item.url} brandColor={accentHex} isActive={pathname === item.url}>
+                          <item.icon className="text-[0.9rem]" />
+                        </IconBadge>
+                        <span className="font-heading text-[13px] font-normal tracking-wide">
                           {item.title}
                         </span>
                       </Link>
