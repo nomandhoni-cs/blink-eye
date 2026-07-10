@@ -384,77 +384,6 @@ const ReminderSettings = () => {
             className="bg-background/50 text-base"
           />
         </SettingRow>
-
-        <SettingRow
-          icon={
-            <SettingIconBadge color={accentHex}>
-              <IoAlarm className="size-4" />
-            </SettingIconBadge>
-          }
-          label="Snoozes per session"
-          description="Skip clicks allowed until you restart the app (0 = unlimited)"
-        >
-          <Select
-            value={String(snoozesPerSession)}
-            onValueChange={(val) => setSnoozesPerSession(Number(val))}
-            disabled={isLoading}
-          >
-            <SelectTrigger className="w-full rounded-3xl bg-background/50">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {SNOOZE_LIMIT_OPTIONS.map((opt) => (
-                <SelectItem key={opt} value={String(opt)}>
-                  {formatSnoozeLimit(opt)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </SettingRow>
-
-        <SettingRow
-          icon={
-            <SettingIconBadge color={accentHex}>
-              <IoAlarm className="size-4" />
-            </SettingIconBadge>
-          }
-          label="Snoozes per day"
-          description="Skip clicks allowed per calendar day (0 = unlimited)"
-        >
-          <Select
-            value={String(snoozesPerDay)}
-            onValueChange={(val) => setSnoozesPerDay(Number(val))}
-            disabled={isLoading}
-          >
-            <SelectTrigger className="w-full rounded-3xl bg-background/50">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {SNOOZE_LIMIT_OPTIONS.map((opt) => (
-                <SelectItem key={opt} value={String(opt)}>
-                  {formatSnoozeLimit(opt)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </SettingRow>
-
-        <SettingRow
-          icon={
-            <SettingIconBadge color={accentHex}>
-              <IoLockClosed className="size-4" />
-            </SettingIconBadge>
-          }
-          label="Strict mode"
-          description="Hides the Skip this time button during breaks"
-        >
-          <Switch
-            id="usingStrictMode"
-            checked={isStrictModeEnabled}
-            onCheckedChange={handleStrictModeChange}
-            disabled={isLoading}
-          />
-        </SettingRow>
       </div>
 
       <div className="flex flex-col gap-3.5 sm:flex-row sm:items-center sm:justify-between">
@@ -479,6 +408,89 @@ const ReminderSettings = () => {
           <IoEye className="mr-2 size-4" />
           Preview break
         </Button>
+      </div>
+
+      <div className="space-y-2">
+        <div className="px-1">
+          <h2 className="text-sm font-medium">Skip limits</h2>
+          <p className="text-xs text-muted-foreground">
+            Control how often you can skip a break and whether skipping is
+            allowed.
+          </p>
+        </div>
+
+        <div className="divide-y divide-border rounded-xl border border-border bg-card">
+          <SettingRow
+            icon={
+              <SettingIconBadge color={accentHex}>
+                <IoAlarm className="size-4" />
+              </SettingIconBadge>
+            }
+            label="Snoozes per session"
+            description="Skip clicks allowed until you restart the app (0 = unlimited)"
+          >
+            <Select
+              value={String(snoozesPerSession)}
+              onValueChange={(val) => setSnoozesPerSession(Number(val))}
+              disabled={isLoading}
+            >
+              <SelectTrigger className="w-full rounded-3xl bg-background/50">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SNOOZE_LIMIT_OPTIONS.map((opt) => (
+                  <SelectItem key={opt} value={String(opt)}>
+                    {formatSnoozeLimit(opt)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </SettingRow>
+
+          <SettingRow
+            icon={
+              <SettingIconBadge color={accentHex}>
+                <IoAlarm className="size-4" />
+              </SettingIconBadge>
+            }
+            label="Snoozes per day"
+            description="Skip clicks allowed per calendar day (0 = unlimited)"
+          >
+            <Select
+              value={String(snoozesPerDay)}
+              onValueChange={(val) => setSnoozesPerDay(Number(val))}
+              disabled={isLoading}
+            >
+              <SelectTrigger className="w-full rounded-3xl bg-background/50">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SNOOZE_LIMIT_OPTIONS.map((opt) => (
+                  <SelectItem key={opt} value={String(opt)}>
+                    {formatSnoozeLimit(opt)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </SettingRow>
+
+          <SettingRow
+            icon={
+              <SettingIconBadge color={accentHex}>
+                <IoLockClosed className="size-4" />
+              </SettingIconBadge>
+            }
+            label="Strict mode"
+            description="Removes the Skip this time button during breaks"
+          >
+            <Switch
+              id="usingStrictMode"
+              checked={isStrictModeEnabled}
+              onCheckedChange={handleStrictModeChange}
+              disabled={isLoading}
+            />
+          </SettingRow>
+        </div>
       </div>
 
       {(isDirty || isSaving) && (

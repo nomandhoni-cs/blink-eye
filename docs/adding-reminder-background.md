@@ -38,7 +38,7 @@ Background paints first → DeferredReminderOverlay loads later (primary only)
 | 6 | `src-tauri/src/reminder_scheduler.rs` → `BACKGROUND_STYLE_TO_ENTRY` | Yes |
 | 7 | `src/components/ReminderStyles.tsx` | Yes (theme picker UI) |
 | 8 | `src/assets/thumbnails/{styleKey}.png` | Yes (picker thumbnail) |
-| 9 | `src/components/window/ReminderPreviewWindow.tsx` | If theme preview still uses inline switch |
+| 9 | — | Theme preview uses `entryForStyle()` in Reminder Themes / Settings |
 
 Steps 1–8 are enough for real breaks fired by the Rust scheduler.
 
@@ -230,15 +230,11 @@ Recommended: show light and dark appearance in one image, matching existing thum
 
 ---
 
-## Optional — Preview / legacy routes
+## Optional — Preview routes
 
-These paths use a **switch** on `backgroundStyle` instead of per-entry HTML. Update them only if you still use them:
+Theme preview uses the same per-entry bundles as scheduled breaks via `entryForStyle()` in `ReminderStyles.tsx` and `ReminderSettings.tsx`.
 
-| File | Purpose |
-|------|---------|
-| `src/components/window/ReminderPreviewWindow.tsx` | Full-screen theme preview from Reminder Themes (legacy inline switch) |
-
-For new work, prefer **Reminder Settings → Preview break**, which uses `entryForStyle()` from the registry and opens the correct entry bundle directly.
+For new work, prefer **Reminder Settings → Preview break** or selecting a theme in **Reminder Themes**.
 
 ---
 

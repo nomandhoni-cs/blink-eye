@@ -14,7 +14,7 @@ The app has four Rust modules that expose Tauri commands:
 | `crypto.rs` | Encryption, install data, license, config, trial | 10 commands |
 | `reminder_scheduler.rs` | Break scheduling, tray timer, window spawning | 4 commands |
 | `data_backup.rs` | Export/import user data zip archives | 2 commands |
-| `snooze_tracker.rs` | Break streak and snooze limits | 1 command |
+| `snooze_tracker.rs` | Break streak and snooze limits | 2 commands |
 
 **Data flow:**
 
@@ -77,6 +77,7 @@ reminder_scheduler.rs (tokio async loop, 1s tick)
   - [import_user_data](#import_user_data)
 - [snooze_tracker.rs](#snooze_trackerrs)
   - [get_break_stats](#get_break_stats)
+  - [get_weekly_break_report](#get_weekly_break_report)
 
 ---
 
@@ -488,6 +489,33 @@ interface BreakStats {
 **Config keys** (via `update_reminder_setting`):
 - `snoozesAllowedPerSession` — Max skips until app restart (`0` = unlimited)
 - `snoozesAllowedPerDay` — Max skips per calendar day (`0` = unlimited)
+
+---
+
+### `get_weekly_break_report`
+
+```ts
+invoke("get_weekly_break_report") → WeeklyBreakReport
+```
+
+Returns the last 7 days of full breaks vs snoozes for the dashboard chart and CSV export.
+
+**Parameters:** None
+
+**Returns:**
+
+```ts
+interface WeeklyBreakReport {
+  days: Array<{
+    date: string
+    label: string      // e.g. "Mon"
+    completed: number
+    snoozed: number
+  }>
+  totalCompleted: number
+  totalSnoozed: number
+}
+```
 
 ---
 

@@ -1,16 +1,28 @@
-use chrono::Local;
-use serde::Serialize;
+use chrono::{Duration, Local, NaiveDate};
+use serde::{Deserialize, Serialize};
 use sqlx::{
     sqlite::{SqliteConnectOptions, SqlitePoolOptions},
     Pool, Sqlite,
 };
+use std::collections::HashMap;
 use std::{path::PathBuf, str::FromStr, sync::Arc};
 use tauri::{AppHandle, Manager};
+use tauri_plugin_notification::NotificationExt;
 
 use crate::reminder_scheduler::ReminderScheduler;
 
 const DEFAULT_SNOOZES_PER_SESSION: u32 = 3;
 const DEFAULT_SNOOZES_PER_DAY: u32 = 10;
+const HISTORY_KEY: &str = "breakDailyHistory";
+const MILESTONE_LAST_KEY: &str = "lastStreakMilestoneNotified";
+const STREAK_MILESTONES: [u32; 3] = [5, 10, 30];
+const HISTORY_RETENTION_DAYS: i64 = 90;
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+struct DayBreakCounts {
+    completed: u32,
+    snoozed: u32,
+}
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -26,7 +38,24 @@ pub struct BreakStats {
     pub total_snoozes: u32,
 }
 
-pub fn default_config_entries() -> [(&'static str, &'static str); 8] {
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DailyBreakReport {
+    pub date: String,
+    pub label: String,
+    pub completed: u32,
+    pub snoozed: u32,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WeeklyBreakReport {
+    pub days: Vec<DailyBreakReport>,
+    pub total_completed: u32,
+    pub total_snoozed: u32,
+}
+
+pub fn default_config_entries() -> [(&'static str, &'static str); 10] {
     [
         ("snoozesAllowedPerSession", "3"),
         ("snoozesAllowedPerDay", "10"),
@@ -36,6 +65,8 @@ pub fn default_config_entries() -> [(&'static str, &'static str); 8] {
         ("bestBreakStreakCount", "0"),
         ("totalBreaksCompleted", "0"),
         ("totalSnoozes", "0"),
+        (HISTORY_KEY, "{}"),
+        (MILESTONE_LAST_KEY, "0"),
     ]
 }
 
@@ -71,6 +102,39 @@ pub async fn get_break_stats(
     })
 }
 
+/// Returns the last 7 days of completed breaks vs snoozes.
+#[tauri::command]
+pub async fn get_weekly_break_report(app_handle: AppHandle) -> Result<WeeklyBreakReport, String> {
+    let pool = open_app_config_pool(&app_handle).await?;
+    ensure_snooze_defaults(&pool).await?;
+    let history = read_history(&pool).await?;
+
+    let today = Local::now().date_naive();
+    let mut days = Vec::with_capacity(7);
+    let mut total_completed = 0u32;
+    let mut total_snoozed = 0u32;
+
+    for offset in (0..7).rev() {
+        let date = today - Duration::days(offset);
+        let key = date.to_string();
+        let counts = history.get(&key).cloned().unwrap_or_default();
+        total_completed += counts.completed;
+        total_snoozed += counts.snoozed;
+        days.push(DailyBreakReport {
+            date: key,
+            label: date.format("%a").to_string(),
+            completed: counts.completed,
+            snoozed: counts.snoozed,
+        });
+    }
+
+    Ok(WeeklyBreakReport {
+        days,
+        total_completed,
+        total_snoozed,
+    })
+}
+
 /// Records a user snooze (skip) and enforces session/day limits.
 pub async fn record_snooze(
     app_handle: &AppHandle,
@@ -101,6 +165,8 @@ pub async fn record_snooze(
     let total_snoozes = read_u32_config(&pool, "totalSnoozes").await? + 1;
     write_config(&pool, "totalSnoozes", &total_snoozes.to_string()).await?;
     write_config(&pool, "breakStreakCount", "0").await?;
+    write_config(&pool, MILESTONE_LAST_KEY, "0").await?;
+    increment_daily_history(&pool, false).await?;
 
     Ok(())
 }
@@ -117,8 +183,78 @@ pub async fn record_break_completed(app_handle: &AppHandle) -> Result<(), String
     write_config(&pool, "breakStreakCount", &streak.to_string()).await?;
     write_config(&pool, "bestBreakStreakCount", &best.to_string()).await?;
     write_config(&pool, "totalBreaksCompleted", &total_breaks.to_string()).await?;
+    increment_daily_history(&pool, true).await?;
+    maybe_notify_streak_milestone(app_handle, &pool, streak).await?;
 
     Ok(())
+}
+
+async fn maybe_notify_streak_milestone(
+    app_handle: &AppHandle,
+    pool: &Pool<Sqlite>,
+    streak: u32,
+) -> Result<(), String> {
+    if !STREAK_MILESTONES.contains(&streak) {
+        return Ok(());
+    }
+
+    let last_notified = read_u32_config(pool, MILESTONE_LAST_KEY).await?;
+    if last_notified >= streak {
+        return Ok(());
+    }
+
+    write_config(pool, MILESTONE_LAST_KEY, &streak.to_string()).await?;
+
+    let _ = app_handle
+        .notification()
+        .builder()
+        .title("Break streak milestone")
+        .body(format!(
+            "Nice work — {streak} breaks in a row without snoozing."
+        ))
+        .show();
+
+    Ok(())
+}
+
+async fn increment_daily_history(pool: &Pool<Sqlite>, completed: bool) -> Result<(), String> {
+    let today = Local::now().date_naive().to_string();
+    let mut history = read_history(pool).await?;
+    let entry = history.entry(today).or_default();
+
+    if completed {
+        entry.completed += 1;
+    } else {
+        entry.snoozed += 1;
+    }
+
+    prune_history(&mut history);
+    write_history(pool, &history).await
+}
+
+async fn read_history(pool: &Pool<Sqlite>) -> Result<HashMap<String, DayBreakCounts>, String> {
+    let raw = read_string_config(pool, HISTORY_KEY).await?;
+    if raw.is_empty() || raw == "{}" {
+        return Ok(HashMap::new());
+    }
+    serde_json::from_str(&raw).map_err(|error| format!("Invalid break history: {error}"))
+}
+
+async fn write_history(
+    pool: &Pool<Sqlite>,
+    history: &HashMap<String, DayBreakCounts>,
+) -> Result<(), String> {
+    let json = serde_json::to_string(history).map_err(|error| error.to_string())?;
+    write_config(pool, HISTORY_KEY, &json).await
+}
+
+fn prune_history(history: &mut HashMap<String, DayBreakCounts>) {
+    let cutoff = Local::now().date_naive() - Duration::days(HISTORY_RETENTION_DAYS);
+    history.retain(|date, _| {
+        NaiveDate::parse_from_str(date, "%Y-%m-%d")
+            .map(|parsed| parsed >= cutoff)
+            .unwrap_or(false)
+    });
 }
 
 /// `0` limit means unlimited snoozes for that window.

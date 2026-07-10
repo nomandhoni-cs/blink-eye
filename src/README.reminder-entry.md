@@ -91,7 +91,7 @@ Example entry (`src/reminder-aurora.tsx`):
 | Source | How preview opens |
 |--------|-------------------|
 | Reminder Settings | `entryForStyle()` → `/reminder-{style}.html?config=...` (matches real breaks) |
-| Reminder Themes | `/reminderpreviewwindow` (legacy in-app route with inline background switch) |
+| Reminder Themes | `entryForStyle()` → per-style entry bundle (same as real breaks) |
 
 ---
 

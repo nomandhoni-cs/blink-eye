@@ -18,7 +18,7 @@ use crypto::{
     store_license_data, update_license_fields, update_reminder_setting,
 };
 use data_backup::{export_user_data, import_user_data};
-use snooze_tracker::get_break_stats;
+use snooze_tracker::{get_break_stats, get_weekly_break_report};
 use reminder_scheduler::{ReminderScheduler, TrayUpdate};
 use screen_time_tracker::ScreenTimeTracker;
 
@@ -254,6 +254,7 @@ pub fn run() {
             export_user_data,
             import_user_data,
             get_break_stats,
+            get_weekly_break_report,
         ])
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_notification::init())

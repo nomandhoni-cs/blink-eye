@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { entryForStyle } from "../backgrounds/registry";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
@@ -78,7 +79,7 @@ export default function ReminderStyles() {
       }
       await invoke("update_reminder_setting", { key: "reminderBackgroundStylePreview", value: selectedStyle });
       setBackgroundStyle(selectedStyle);
-      openReminderWindow();
+      openReminderWindow(selectedStyle);
       console.log("Background style saved:", selectedStyle);
     } catch (err) {
       console.error("Error saving theme:", err);
@@ -88,19 +89,19 @@ export default function ReminderStyles() {
     }
   };
 
-  const openReminderWindow = () => {
-    const webview = new WebviewWindow("ReminderPreviewWindow", {
-      url: "/reminderpreviewwindow",
+  const openReminderWindow = (style: string) => {
+    const isPremium = canAccessPremiumFeatures;
+    const requestedStyle = isPremium ? style : "default";
+    const entry = entryForStyle(requestedStyle);
+    const webview = new WebviewWindow("reminder_monitor_0", {
+      url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
+      title: "Take A Break Reminder - Blink Eye",
       fullscreen: true,
       alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
       skipTaskbar: true,
     });
-    webview.once("tauri://created", () => {
-      console.log("Webview created");
-    });
     webview.once("tauri://error", (e) => {
-      console.error("Error creating webview:", e);
+      console.error("Error creating reminder window:", e);
     });
   };
 
