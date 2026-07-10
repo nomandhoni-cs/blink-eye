@@ -23,6 +23,12 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import {
+  dashboardBlockClassName,
+  DashboardIconBadge,
+} from "./dashboard/dashboardBlock";
+import { useAccentColor } from "../contexts/AccentColorContext";
 
 type Task = {
   id: number;
@@ -34,11 +40,12 @@ type Task = {
   created_at: string;
 };
 
-const DashboardPendingTasks = () => {
+const DashboardPendingTasks = ({ className }: { className?: string }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const dbFileName = "UserLocalTodoList.db";
   const { canAccessPremiumFeatures } = usePremiumFeatures();
+  const { accentHex } = useAccentColor();
 
   useEffect(() => {
     initializeDatabase();
@@ -54,7 +61,7 @@ const DashboardPendingTasks = () => {
 
       const db = await Database.load(`sqlite:${dbFileName}`);
       const activeTasks = await db.select<Task[]>(
-        "SELECT * FROM todos WHERE status = 'pending' ORDER BY created_at DESC LIMIT 5"
+        "SELECT * FROM todos WHERE status = 'pending' ORDER BY created_at DESC LIMIT 8"
       );
 
       setTasks(activeTasks);
@@ -93,20 +100,28 @@ const DashboardPendingTasks = () => {
 
   if (!canAccessPremiumFeatures) {
     return (
-      <Card className="h-[200px] flex flex-col">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-primary">
-            <ClipboardList className="h-5 w-5" />
+      <Card
+        className={cn(
+          "flex h-full flex-col gap-3 py-4 shadow-none ring-0",
+          dashboardBlockClassName,
+          className,
+        )}
+      >
+        <CardHeader className="rounded-t-xl px-4 py-0">
+          <CardTitle className="flex items-center gap-2">
+            <DashboardIconBadge color={accentHex}>
+              <ClipboardList className="size-4" />
+            </DashboardIconBadge>
             <span>Pending Tasks</span>
           </CardTitle>
           <CardDescription>Upgrade to manage your tasks</CardDescription>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
-          <Button asChild className="bg-[#FE4C55] hover:bg-[#FE4C55]/90">
+          <Button asChild style={{ backgroundColor: accentHex }}>
             <Link
               to="https://blinkeye.app/pricing"
               target="_blank"
-              className="text-center"
+              className="text-center hover:opacity-90"
             >
               Unlock Task Management
             </Link>
@@ -117,10 +132,18 @@ const DashboardPendingTasks = () => {
   }
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader className="pb-1">
-        <CardTitle className="flex items-center gap-1 font-heading">
-          <ClipboardList className="h-4 w-4 text-[#FE4C55]" />
+    <Card
+      className={cn(
+        "flex h-full min-h-0 flex-col gap-3 py-4 shadow-none ring-0",
+        dashboardBlockClassName,
+        className,
+      )}
+    >
+      <CardHeader className="shrink-0 rounded-t-xl px-4 py-0">
+        <CardTitle className="flex items-center gap-2 font-heading">
+          <DashboardIconBadge color={accentHex}>
+            <ClipboardList className="size-4" />
+          </DashboardIconBadge>
           <span>Pending Tasks</span>
           {tasks.length > 0 && (
             <span className="ml-auto text-sm text-muted-foreground">
@@ -129,10 +152,13 @@ const DashboardPendingTasks = () => {
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 p-0 overflow-hidden">
+      <CardContent className="min-h-0 flex-1 overflow-hidden p-0">
         {loading ? (
           <div className="flex items-center justify-center h-full">
-            <Loader2 className="h-6 w-6 animate-spin text-[#FE4C55]" />
+            <Loader2
+              className="h-6 w-6 animate-spin"
+              style={{ color: accentHex }}
+            />
           </div>
         ) : tasks.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center p-4">
@@ -143,15 +169,18 @@ const DashboardPendingTasks = () => {
             </p>
           </div>
         ) : (
-          <ScrollArea className="h-40">
-            <div className="space-y-2 p-2">
+          <ScrollArea className="h-full min-h-0">
+            <div
+              className="grid grid-cols-1 gap-2 p-2 md:grid-cols-2"
+              style={{ "--task-accent": accentHex } as React.CSSProperties}
+            >
               {tasks.map((task) => (
                 <div
                   key={task.id}
-                  className="flex items-center gap-3 p-2 rounded-md hover:bg-muted transition-colors group"
+                  className="flex items-start gap-3 rounded-lg border border-border/60 bg-background/40 p-3 transition-colors hover:bg-muted/60 group"
                 >
                   <Checkbox
-                    className="h-5 w-5 rounded-full border-2 border-[#FE4C55] data-[state=checked]:bg-[#FE4C55]"
+                    className="h-5 w-5 rounded-full border-2 border-[var(--task-accent)] data-[state=checked]:bg-[var(--task-accent)] data-[state=checked]:text-white"
                     onClick={() => toggleTaskStatus(task)}
                   />
                   <div className="flex-1 min-w-0">

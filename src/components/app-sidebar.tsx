@@ -14,6 +14,7 @@ import {
   IoSparkles,
   IoKey,
   IoColorWand,
+  IoTimer,
 } from "react-icons/io5";
 import { motion } from "framer-motion";
 import {
@@ -46,6 +47,7 @@ const isMac = platform() === "macos";
 const mainNav = [{ title: "Dashboard", url: "/", icon: IoGrid }];
 
 const proNav = [
+  { title: "Reminder Settings", url: "/reminderSettings", icon: IoTimer },
   { title: "Usage Time", url: "/usageTime", icon: IoBarChart },
   { title: "Reminder Themes", url: "/reminderthemes", icon: IoColorPalette },
   { title: "Multi-Monitor", url: "/multimonitor", icon: PiMonitorFill },
@@ -100,7 +102,7 @@ function IconBadge({
   const colors = iconColors[url] || { bg: "#690000", icon: "text-white", index: 9 };
   return (
     <div
-      className={`flex items-center justify-center w-7 h-7 rounded-[8px] ${colors.icon} shadow-sm ${isActive ? "ring-2 ring-foreground/30 ring-offset-1 ring-offset-background" : ""}`}
+      className={`flex items-center justify-center w-6 h-6 rounded-[6px] ${colors.icon} shadow-sm ${isActive ? "ring-2 ring-foreground/30 ring-offset-1 ring-offset-background" : ""}`}
       style={{ backgroundColor: colors.bg }}
     >
       {children}
@@ -118,7 +120,7 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
   return (
     <SidebarMenuBadge className="pointer-events-none pr-1">
       <IoFlame
-        className="text-[13px] drop-shadow-sm text-amber-500 dark:text-amber-400"
+        className="text-[11px] drop-shadow-sm text-amber-500 dark:text-amber-400"
       />
     </SidebarMenuBadge>
   );
@@ -179,13 +181,13 @@ export function AppSidebar() {
                       asChild
                       isActive={pathname === item.url}
                       tooltip={item.title}
-                      className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground data-active:font-bold"
+                      className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground"
                     >
                       <Link to={item.url}>
                         <IconBadge url={item.url} brandColor={accentHex} isActive={pathname === item.url}>
-                          <item.icon className="text-[0.9rem]" />
+                          <item.icon className="text-[0.75rem]" />
                         </IconBadge>
-                        <span className="font-heading text-[13px] font-normal tracking-wide">
+                        <span className="font-heading text-[13px] font-normal tracking-wide group-data-[active=true]/menu-button:font-semibold">
                           {item.title}
                         </span>
                       </Link>
@@ -209,13 +211,13 @@ export function AppSidebar() {
                       asChild
                       isActive={pathname === item.url}
                       tooltip={item.title}
-                      className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground data-active:font-bold"
+                      className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground"
                     >
                       <Link to={item.url}>
                         <IconBadge url={item.url} brandColor={accentHex} isActive={pathname === item.url}>
-                          <item.icon className="text-[0.9rem]" />
+                          <item.icon className="text-[0.75rem]" />
                         </IconBadge>
-                        <span className="font-heading text-[13px] font-normal tracking-wide">
+                        <span className="font-heading text-[13px] font-normal tracking-wide group-data-[active=true]/menu-button:font-semibold">
                           {item.title}
                         </span>
                       </Link>
@@ -240,16 +242,16 @@ export function AppSidebar() {
                       asChild
                       isActive={pathname === item.url}
                       tooltip={item.title}
-                      className="transition-all duration-200 hover:bg-accent/80 text-muted-foreground hover:text-foreground data-active:bg-transparent data-active:text-foreground data-active:font-bold"
+                      className="transition-all duration-200 hover:bg-accent/80 text-muted-foreground hover:text-foreground data-active:bg-transparent data-active:text-foreground"
                     >
                       <Link
                         to={item.url}
                         target={item.external ? "_blank" : "_self"}
                       >
                         <IconBadge url={item.url} brandColor={accentHex} isActive={pathname === item.url}>
-                          <item.icon className="text-[0.9rem]" />
+                          <item.icon className="text-[0.75rem]" />
                         </IconBadge>
-                        <span className="font-heading text-[13px] font-normal tracking-wide">
+                        <span className="font-heading text-[13px] font-normal tracking-wide group-data-[active=true]/menu-button:font-semibold">
                           {item.title}
                         </span>
                       </Link>
@@ -304,7 +306,7 @@ export function AppSidebar() {
                     }}
                   />
 
-                  <IoCheckmarkCircle className="relative z-10 text-[1.1rem] drop-shadow-[0_0_4px_rgba(34,197,94,0.5)] shrink-0 text-green-500 dark:text-green-400" />
+                  <IoCheckmarkCircle className="relative z-10 text-[0.95rem] drop-shadow-[0_0_4px_rgba(34,197,94,0.5)] shrink-0 text-green-500 dark:text-green-400" />
                   <span className="relative z-10 font-heading text-[13px] font-semibold tracking-wide text-green-700 dark:text-green-400">
                     Activated
                   </span>
@@ -352,7 +354,7 @@ export function AppSidebar() {
                     <div className="absolute inset-0 z-0 bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                     <IoSparkles
-                      className="relative z-10 text-[1.1rem] drop-shadow-[0_0_4px_rgba(245,158,11,0.5)] shrink-0"
+                      className="relative z-10 text-[0.95rem] drop-shadow-[0_0_4px_rgba(245,158,11,0.5)] shrink-0"
                       style={{ fill: "url(#amberGradient)" }}
                     />
                     <span className="relative z-10 font-heading text-[13px] font-bold tracking-wide text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-colors">

@@ -1,21 +1,12 @@
 import toast from "react-hot-toast";
 import type { OnboardingData, TodoItem } from "../types/onboarding";
-import { load } from "@tauri-apps/plugin-store";
-import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
-import { nanoid } from "nanoid";
+import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
-import { encryptData } from "../lib/cryptoUtils";
 import { getVersion } from "@tauri-apps/api/app";
 import { fetch } from "@tauri-apps/plugin-http";
 import { platform } from "@tauri-apps/plugin-os";
 import { saveTokens } from "../lib/authUtils";
 
-// Define a type for the result row
-interface UserDataRow {
-  id: number;
-  unique_nano_id: string;
-  data: string | null;
-}
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 // Dummy functions for future database integration
 export class OnboardingService {
@@ -24,52 +15,7 @@ export class OnboardingService {
     console.log("💾 Saving welcome screen data...");
 
     try {
-      // Check if database file exists
-      const dbFileExists = await exists("basicapplicationdata.db", {
-        baseDir: BaseDirectory.AppData,
-      });
-
-      if (!dbFileExists) {
-        // Database doesn't exist, create it
-        const dbInstance = await Database.load(
-          "sqlite:basicapplicationdata.db"
-        );
-
-        // Create the table if it doesn't exist
-        await dbInstance.execute(`
-          CREATE TABLE IF NOT EXISTS user_data (
-            id INTEGER PRIMARY KEY,
-            unique_nano_id TEXT,
-            data TEXT
-          );
-        `);
-
-
-        // Check if entry with id=1 exists
-        const result = (await dbInstance.select(
-          "SELECT id FROM user_data WHERE id = 1"
-        )) as UserDataRow[];
-
-        if (result.length === 0) {
-          // Generate a unique nano ID
-          const uniqueNanoId = nanoid();
-
-          // Encrypt the current date in YYYY-MM-DD format
-          const currentDate = new Date().toISOString().split("T")[0];
-          const encryptedData = await encryptData(currentDate, uniqueNanoId);
-
-          // Insert the new record with id=1
-          await dbInstance.execute(
-            "INSERT INTO user_data (id, unique_nano_id, data) VALUES (1, $1, $2)",
-            [uniqueNanoId, JSON.stringify(encryptedData)]
-          );
-        } else {
-          console.log("Entry with id=1 already exists.");
-        }
-      } else {
-        console.log("Database already exists, skipping initialization.");
-      }
-
+      await invoke("ensure_install_data");
       console.log("✅ Welcome data saved");
     } catch (error) {
       console.error("Error in saveWelcomeData:", error);
@@ -86,7 +32,6 @@ export class OnboardingService {
     reminderText: string;
   }): Promise<void> {
     console.log("💾 Saving break configuration...", data);
-    // TODO: Save to database
     if (data.breakInterval <= 0) {
       toast.error("Interval must be greater than 0 minutes.");
       return;
@@ -95,11 +40,9 @@ export class OnboardingService {
       toast.error("Duration must be greater than 0 seconds.");
       return;
     }
-    const store = await load("store.json", { autoSave: false });
-    await store.set("blinkEyeReminderDuration", data.breakDuration);
-    await store.set("blinkEyeReminderInterval", data.breakInterval);
-    await store.set("blinkEyeReminderScreenText", data.reminderText);
-    await store.save();
+    await invoke("update_reminder_setting", { key: "blinkEyeReminderInterval", value: String(data.breakInterval) });
+    await invoke("update_reminder_setting", { key: "blinkEyeReminderDuration", value: String(data.breakDuration) });
+    await invoke("update_reminder_setting", { key: "blinkEyeReminderScreenText", value: data.reminderText });
     console.log("✅ Break configuration saved");
   }
 

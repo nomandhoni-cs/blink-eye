@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { BaseDirectory } from "@tauri-apps/api/path";
 import { exists } from "@tauri-apps/plugin-fs";
 import Database from "@tauri-apps/plugin-sql";
-import { load } from "@tauri-apps/plugin-store";
 import { migrateScreenTimeToSQLite } from "../lib/migrateScreenTimeToSQLite";
 
 const ConfigDataLoader: React.FC = () => {
@@ -69,23 +68,6 @@ const ConfigDataLoader: React.FC = () => {
         console.log("Database initialized with default configuration.");
       } else {
         console.log("Database already exists. No action needed.");
-      }
-
-      const storeExists = await exists("store.json", {
-        baseDir: BaseDirectory.AppData,
-      });
-      if (!storeExists) {
-        const store = await load("store.json", { autoSave: false });
-        await store.set("blinkEyeReminderDuration", 20);
-        await store.set("blinkEyeReminderInterval", 20);
-        await store.set(
-          "blinkEyeReminderScreenText",
-          "Pause! Look into the distance, and best if you walk a bit."
-        );
-        await store.set("screenOnTimeLimit", 8);
-        await store.save();
-      } else {
-        console.log("Store already exists. No action needed.");
       }
 
       //! Creating Initial Local Tasks Data
