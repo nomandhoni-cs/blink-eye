@@ -8,13 +8,17 @@ use tauri::{
 use tokio::sync::mpsc;
 
 mod crypto;
+mod data_backup;
 mod reminder_scheduler;
 mod screen_time_tracker;
+mod snooze_tracker;
 use crypto::{
     ensure_install_data, get_config_bool, get_config_string, get_install_date,
     get_license_info, get_reminder_settings, get_trial_info,
     store_license_data, update_license_fields, update_reminder_setting,
 };
+use data_backup::{export_user_data, import_user_data};
+use snooze_tracker::get_break_stats;
 use reminder_scheduler::{ReminderScheduler, TrayUpdate};
 use screen_time_tracker::ScreenTimeTracker;
 
@@ -247,6 +251,9 @@ pub fn run() {
             store_license_data,
             update_license_fields,
             update_reminder_setting,
+            export_user_data,
+            import_user_data,
+            get_break_stats,
         ])
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_notification::init())

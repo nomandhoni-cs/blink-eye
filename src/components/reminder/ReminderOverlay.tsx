@@ -51,14 +51,22 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
   const [screenTime, setScreenTime] = useState({ hours: 0, minutes: 0 });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [countdownStarted, setCountdownStarted] = useState<boolean>(false);
+  const [canSnooze, setCanSnooze] = useState(true);
 
-  const closeAll = async () => {
+  const finishBreak = async (snoozed: boolean) => {
     const currentWin = getCurrentWebviewWindow();
 
     try {
-      await invoke("skip_reminder");
+      await invoke("skip_reminder", { snoozed });
     } catch (error) {
       console.error("[ReminderOverlay] skip_reminder failed:", error);
+      if (snoozed) {
+        toast.error("Snooze limit reached for this session or today.", {
+          duration: 2500,
+          position: "bottom-right",
+        });
+      }
+      return;
     }
 
     const closePromises: Promise<void>[] = [];
@@ -86,6 +94,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
       console.error("[ReminderOverlay] close failed:", error);
     }
   };
+
+  const handleSnooze = () => finishBreak(true);
+  const handleBreakComplete = () => finishBreak(false);
 
   useEffect(() => {
     const load = async () => {
@@ -142,6 +153,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
             icon: <CloudDownload />,
           });
         }
+
+        const stats = await invoke<{ canSnooze: boolean }>("get_break_stats");
+        setCanSnooze(stats.canSnooze);
       } catch (error) {
         console.error("[ReminderOverlay] failed to load settings:", error);
       } finally {
@@ -177,7 +191,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
       handlePlayAudio();
     }
     if (timeLeft <= 0) {
-      closeAll();
+      handleBreakComplete();
       return;
     }
 
@@ -233,9 +247,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                 {displayText}
               </div>
               <div className="flex space-x-4">
-                {!isStrictMode && (
+                {!isStrictMode && canSnooze && (
                   <Button
-                    onClick={closeAll}
+                    onClick={handleSnooze}
                     className="flex transform items-center space-x-2 rounded-full bg-[#FE4C55] px-6 font-sans text-base transition-transform hover:scale-105 hover:bg-[#e9464e]"
                   >
                     <span className="text-base font-medium">Skip this Time</span>
@@ -300,9 +314,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               <ScreenOnTime timeCount={screenTime} />
             </div>
 
-            {!isStrictMode && (
+            {!isStrictMode && canSnooze && (
               <Button
-                onClick={closeAll}
+                onClick={handleSnooze}
                 variant="outline"
                 className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
               >

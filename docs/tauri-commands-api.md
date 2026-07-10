@@ -6,13 +6,15 @@ All commands are invoked from the frontend via `invoke("command_name", { ...args
 
 ## Architecture Overview
 
-The app has three Rust modules that expose Tauri commands:
+The app has four Rust modules that expose Tauri commands:
 
 | Module | Responsibility | Commands |
 |--------|---------------|----------|
 | `lib.rs` | App setup, tray menu, greeting | `greet`, `check_minimized_argument` |
 | `crypto.rs` | Encryption, install data, license, config, trial | 10 commands |
 | `reminder_scheduler.rs` | Break scheduling, tray timer, window spawning | 4 commands |
+| `data_backup.rs` | Export/import user data zip archives | 2 commands |
+| `snooze_tracker.rs` | Break streak and snooze limits | 1 command |
 
 **Data flow:**
 
@@ -26,6 +28,7 @@ Tauri IPC Bridge
 Rust Commands
   ├── crypto.rs: encrypts/decrypts data, reads SQLite
   ├── reminder_scheduler.rs: runs 1s tick loop, spawns windows
+  ├── data_backup.rs: zips/restores app data directory files
   └── lib.rs: manages tray menu, app lifecycle
 ```
 
@@ -69,6 +72,11 @@ reminder_scheduler.rs (tokio async loop, 1s tick)
   - [refresh_reminder_scheduler_settings](#refresh_reminder_scheduler_settings)
   - [show_reminder_now](#show_reminder_now)
   - [get_next_reminder_info](#get_next_reminder_info)
+- [data_backup.rs](#data_backuprs)
+  - [export_user_data](#export_user_data)
+  - [import_user_data](#import_user_data)
+- [snooze_tracker.rs](#snooze_trackerrs)
+  - [get_break_stats](#get_break_stats)
 
 ---
 
@@ -368,12 +376,13 @@ interface TrialInfo {
 ### `skip_reminder`
 
 ```ts
-invoke("skip_reminder") → void
+invoke("skip_reminder", { snoozed?: boolean }) → void
 ```
 
-Skips the current break/reminder and closes all reminder windows.
+Ends the current break. Pass `snoozed: true` when the user clicks Skip (counts toward limits and resets the streak). Pass `snoozed: false` or omit when the timer finishes naturally (increments the break streak).
 
-**Parameters:** None
+**Parameters:**
+- `snoozed` — Optional. `true` = user skipped; `false` = break completed.
 
 **Returns:** `void`
 
@@ -444,6 +453,124 @@ interface NextReminderInfo {
 const info = await invoke("get_next_reminder_info");
 // { nextReminderInSecs: 847, intervalSecs: 1200, isOnBreak: false, ... }
 // → next break in ~14 minutes
+```
+
+---
+
+## snooze_tracker.rs
+
+### `get_break_stats`
+
+```ts
+invoke("get_break_stats") → BreakStats
+```
+
+Returns break streak, snooze usage, and limit info for the dashboard and overlay.
+
+**Parameters:** None
+
+**Returns:**
+
+```ts
+interface BreakStats {
+  breakStreak: number
+  bestBreakStreak: number
+  snoozesToday: number
+  snoozesSession: number
+  snoozesAllowedPerSession: number  // 0 = unlimited
+  snoozesAllowedPerDay: number      // 0 = unlimited
+  canSnooze: boolean
+  totalBreaksCompleted: number
+  totalSnoozes: number
+}
+```
+
+**Config keys** (via `update_reminder_setting`):
+- `snoozesAllowedPerSession` — Max skips until app restart (`0` = unlimited)
+- `snoozesAllowedPerDay` — Max skips per calendar day (`0` = unlimited)
+
+---
+
+## data_backup.rs
+
+Exports and imports a zip archive of user settings, screen time, and todos.
+
+**Included files:** `appconfig.db`, `UserScreenTime.db`, `UserLocalTodoList.db`
+
+**Excluded (stay on this device):** `basicapplicationdata.db`, `blink_eye_license.db`, `userScreenOnTime.json`
+
+> ⚠️ Import replaces the included files. A pre-import copy is saved to `{app_data}/.backup-before-import-{timestamp}/`. Relaunch the app after import so database connections reload.
+
+### `export_user_data`
+
+```ts
+invoke("export_user_data", { destinationPath: string }) → ExportUserDataResult
+```
+
+Creates a `.zip` backup of settings, screen time, and todos.
+
+**Parameters:**
+- `destinationPath` — Absolute path for the output `.zip` file
+
+**Returns:**
+
+```ts
+interface ExportUserDataResult {
+  path: string        // path written
+  file_count: number  // number of data files included
+}
+```
+
+**Example:**
+
+```ts
+import { save } from "@tauri-apps/plugin-dialog";
+
+const path = await save({
+  defaultPath: "blink-eye-backup.zip",
+  filters: [{ name: "Blink Eye Backup", extensions: ["zip"] }],
+});
+if (path) {
+  await invoke("export_user_data", { destinationPath: path });
+}
+```
+
+---
+
+### `import_user_data`
+
+```ts
+invoke("import_user_data", { sourcePath: string }) → ImportUserDataResult
+```
+
+Restores settings, screen time, and todos from a backup zip.
+
+**Parameters:**
+- `sourcePath` — Absolute path to a `.zip` from `export_user_data`
+
+**Returns:**
+
+```ts
+interface ImportUserDataResult {
+  file_count: number  // number of files restored
+  backup_dir: string  // folder with pre-import copy of replaced files
+}
+```
+
+**Example:**
+
+```ts
+import { open } from "@tauri-apps/plugin-dialog";
+import { relaunch } from "@tauri-apps/plugin-process";
+
+const path = await open({
+  filters: [{ name: "Blink Eye Backup", extensions: ["zip"] }],
+});
+if (path && !Array.isArray(path)) {
+  await invoke("import_user_data", { sourcePath: path });
+  await invoke("refresh_reminder_scheduler_settings");
+  await relaunch();
+}
 ```
 
 ---

@@ -151,6 +151,8 @@ pub struct ReminderScheduler {
     tray_tx: mpsc::Sender<TrayUpdate>,
     /// Last tray update sent, used for deduplication.
     last_tray_update: Arc<Mutex<TrayUpdate>>,
+    /// Snoozes used since this app session started.
+    session_snooze_count: Arc<Mutex<u32>>,
 }
 
 impl ReminderScheduler {
@@ -164,7 +166,19 @@ impl ReminderScheduler {
                 remaining_secs: 0,
                 is_on_break: false,
             })),
+            session_snooze_count: Arc::new(Mutex::new(0)),
         })
+    }
+
+    /// Snoozes used in the current app session.
+    pub async fn session_snooze_count(&self) -> u32 {
+        *self.session_snooze_count.lock().await
+    }
+
+    /// Increments the in-memory session snooze counter.
+    pub async fn increment_session_snooze_count(&self) {
+        let mut count = self.session_snooze_count.lock().await;
+        *count += 1;
     }
 
     /// Spawns the scheduler's tick loop as an async task. Loads initial settings then ticks every `SCHEDULER_TICK_SECS`.
@@ -697,6 +711,8 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
             .map_err(|error| error.to_string())?;
     }
 
+    crate::snooze_tracker::ensure_snooze_defaults(pool).await?;
+
     Ok(())
 }
 
@@ -890,10 +906,13 @@ fn url_encode(value: &str) -> String {
     encoded
 }
 
-/// Skip the current reminder and finish the break immediately.
+/// Skip or complete the current reminder.
 ///
-/// Called by the frontend when the user clicks "Skip" or when the timer hits 0.
-/// Closes all reminder windows and resets the break state.
+/// Pass `snoozed: true` when the user clicks Skip (counts toward limits and
+/// resets the break streak). Pass `false` when the timer finishes naturally.
+///
+/// # Parameters
+/// - `snoozed` — Whether the user snoozed/skipped the break.
 ///
 /// # Returns
 /// `()` on success, or error string on failure.
@@ -901,7 +920,14 @@ fn url_encode(value: &str) -> String {
 pub async fn skip_reminder(
     app_handle: AppHandle,
     scheduler: tauri::State<'_, Arc<ReminderScheduler>>,
+    snoozed: Option<bool>,
 ) -> Result<(), String> {
+    if snoozed.unwrap_or(false) {
+        crate::snooze_tracker::record_snooze(&app_handle, &scheduler).await?;
+    } else {
+        crate::snooze_tracker::record_break_completed(&app_handle).await?;
+    }
+
     scheduler.finish_break(&app_handle).await;
     Ok(())
 }

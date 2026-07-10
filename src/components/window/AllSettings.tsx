@@ -8,7 +8,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { invoke } from "@tauri-apps/api/core";
+import { save, open } from "@tauri-apps/plugin-dialog";
+import { relaunch } from "@tauri-apps/plugin-process";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast from "react-hot-toast";
 import { useAccentColor } from "../../contexts/AccentColorContext";
@@ -17,6 +30,8 @@ import {
   IoEllipseOutline,
   IoBarChart,
   IoSave,
+  IoDownloadOutline,
+  IoCloudUploadOutline,
 } from "react-icons/io5";
 
 const USAGE_LIMIT_OPTIONS = Array.from({ length: 24 }, (_, i) => i + 1);
@@ -79,6 +94,8 @@ const AllSettings = () => {
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
   const [isCircleTimerEnabled, setIsCircleTimerEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
 
   useEffect(() => {
     const initialize = async () => {
@@ -194,6 +211,71 @@ const AllSettings = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      setIsExporting(true);
+      const date = new Date().toISOString().slice(0, 10);
+      const destination = await save({
+        defaultPath: `blink-eye-backup-${date}.zip`,
+        filters: [{ name: "Blink Eye Backup", extensions: ["zip"] }],
+      });
+
+      if (!destination) return;
+
+      const result = await invoke<{ path: string; file_count: number }>(
+        "export_user_data",
+        { destinationPath: destination },
+      );
+
+      toast.success(`Exported ${result.file_count} data files.`, {
+        duration: 2500,
+        position: "bottom-right",
+      });
+    } catch (error) {
+      console.error("Failed to export data:", error);
+      toast.error("Couldn't export data. Try again.", {
+        duration: 2500,
+        position: "bottom-right",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleImportData = async () => {
+    try {
+      setIsImporting(true);
+      const source = await open({
+        multiple: false,
+        filters: [{ name: "Blink Eye Backup", extensions: ["zip"] }],
+      });
+
+      if (!source || Array.isArray(source)) return;
+
+      const result = await invoke<{ file_count: number; backup_dir: string }>(
+        "import_user_data",
+        { sourcePath: source },
+      );
+
+      await invoke("refresh_reminder_scheduler_settings");
+
+      toast.success(
+        `Imported ${result.file_count} files. Relaunching to apply changes.`,
+        { duration: 3000, position: "bottom-right" },
+      );
+
+      await relaunch();
+    } catch (error) {
+      console.error("Failed to import data:", error);
+      toast.error("Couldn't import data. Check the backup file and try again.", {
+        duration: 3000,
+        position: "bottom-right",
+      });
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   return (
     <div className="space-y-5 p-2">
       <div className="divide-y divide-border rounded-xl border border-border bg-card">
@@ -260,6 +342,69 @@ const AllSettings = () => {
               ))}
             </SelectContent>
           </Select>
+        </SettingRow>
+      </div>
+
+      <div className="divide-y divide-border rounded-xl border border-border bg-card">
+        <SettingRow
+          icon={
+            <SettingIconBadge color={accentHex}>
+              <IoDownloadOutline className="size-4" />
+            </SettingIconBadge>
+          }
+          label="Export data"
+          description="Save settings, screen time, and todos (license stays on this device)"
+        >
+          <Button
+            variant="outline"
+            onClick={handleExportData}
+            disabled={isLoading || isExporting || isImporting}
+            className="gap-2"
+          >
+            <IoDownloadOutline className="size-4" />
+            {isExporting ? "Exporting…" : "Export"}
+          </Button>
+        </SettingRow>
+
+        <SettingRow
+          icon={
+            <SettingIconBadge color={accentHex}>
+              <IoCloudUploadOutline className="size-4" />
+            </SettingIconBadge>
+          }
+          label="Import data"
+          description="Replace settings, screen time, and todos. License stays on this device."
+        >
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="outline"
+                disabled={isLoading || isExporting || isImporting}
+                className="gap-2"
+              >
+                <IoCloudUploadOutline className="size-4" />
+                {isImporting ? "Importing…" : "Import"}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Replace all app data?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Importing will replace your settings, screen time, and todos
+                  with the backup. Your license and install data on this device
+                  are not changed. A copy of the replaced files is saved in the
+                  app data folder before import. The app will relaunch when
+                  finished.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleImportData}>
+                  Import and relaunch
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </SettingRow>
       </div>
 

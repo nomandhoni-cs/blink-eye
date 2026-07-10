@@ -22,18 +22,26 @@ import {
   IoSave,
   IoEye,
   IoLockClosed,
+  IoAlarm,
 } from "react-icons/io5";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useAccentColor } from "../../contexts/AccentColorContext";
 
 const FREQUENCY_OPTIONS = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120];
 const DURATION_OPTIONS = [10, 15, 20, 30, 45, 60, 90, 120, 300];
+const SNOOZE_LIMIT_OPTIONS = [0, 1, 2, 3, 5, 10, 15, 20];
 
 type ReminderSettingsState = {
   interval: number;
   duration: number;
   reminderText: string;
+  snoozesPerSession: number;
+  snoozesPerDay: number;
 };
+
+function formatSnoozeLimit(value: number) {
+  return value === 0 ? "Unlimited" : String(value);
+}
 
 function SettingIconBadge({
   color,
@@ -98,8 +106,12 @@ const ReminderSettings = () => {
     interval: 20,
     duration: 20,
     reminderText: "",
+    snoozesPerSession: 3,
+    snoozesPerDay: 10,
   });
   const [isStrictModeEnabled, setIsStrictModeEnabled] = useState(false);
+  const [snoozesPerSession, setSnoozesPerSession] = useState(3);
+  const [snoozesPerDay, setSnoozesPerDay] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -117,12 +129,32 @@ const ReminderSettings = () => {
           interval: settings.intervalMins ?? 20,
           duration: settings.durationSecs ?? 20,
           reminderText: settings.reminderText ?? "",
+          snoozesPerSession: 3,
+          snoozesPerDay: 10,
         };
+
+        const [sessionLimit, dayLimit] = await Promise.all([
+          invoke<string | null>("get_config_string", {
+            key: "snoozesAllowedPerSession",
+          }),
+          invoke<string | null>("get_config_string", {
+            key: "snoozesAllowedPerDay",
+          }),
+        ]);
+
+        if (sessionLimit !== null && sessionLimit !== "") {
+          loaded.snoozesPerSession = Number(sessionLimit);
+        }
+        if (dayLimit !== null && dayLimit !== "") {
+          loaded.snoozesPerDay = Number(dayLimit);
+        }
 
         if (settings.backgroundStyle) setBackgroundStyle(settings.backgroundStyle);
         setInterval(loaded.interval);
         setDuration(loaded.duration);
         setReminderText(loaded.reminderText);
+        setSnoozesPerSession(loaded.snoozesPerSession);
+        setSnoozesPerDay(loaded.snoozesPerDay);
         setSaved(loaded);
 
         const strictMode = await invoke<boolean>("get_config_bool", {
@@ -147,7 +179,9 @@ const ReminderSettings = () => {
   const isDirty =
     interval !== saved.interval ||
     duration !== saved.duration ||
-    reminderText !== saved.reminderText;
+    reminderText !== saved.reminderText ||
+    snoozesPerSession !== saved.snoozesPerSession ||
+    snoozesPerDay !== saved.snoozesPerDay;
 
   const handleSave = async () => {
     if (interval <= 0 || duration <= 0) {
@@ -161,8 +195,18 @@ const ReminderSettings = () => {
     const intervalChanged = interval !== saved.interval;
     const durationChanged = duration !== saved.duration;
     const textChanged = reminderText !== saved.reminderText;
+    const sessionLimitChanged = snoozesPerSession !== saved.snoozesPerSession;
+    const dayLimitChanged = snoozesPerDay !== saved.snoozesPerDay;
 
-    if (!intervalChanged && !durationChanged && !textChanged) return;
+    if (
+      !intervalChanged &&
+      !durationChanged &&
+      !textChanged &&
+      !sessionLimitChanged &&
+      !dayLimitChanged
+    ) {
+      return;
+    }
 
     setIsSaving(true);
     try {
@@ -184,12 +228,36 @@ const ReminderSettings = () => {
           value: reminderText,
         });
       }
+      if (sessionLimitChanged) {
+        await invoke("update_reminder_setting", {
+          key: "snoozesAllowedPerSession",
+          value: String(snoozesPerSession),
+        });
+      }
+      if (dayLimitChanged) {
+        await invoke("update_reminder_setting", {
+          key: "snoozesAllowedPerDay",
+          value: String(snoozesPerDay),
+        });
+      }
 
-      if (intervalChanged || durationChanged || textChanged) {
+      if (
+        intervalChanged ||
+        durationChanged ||
+        textChanged ||
+        sessionLimitChanged ||
+        dayLimitChanged
+      ) {
         await invoke("refresh_reminder_scheduler_settings");
       }
 
-      setSaved({ interval, duration, reminderText });
+      setSaved({
+        interval,
+        duration,
+        reminderText,
+        snoozesPerSession,
+        snoozesPerDay,
+      });
       triggerUpdate();
 
       toast.success("Saved reminder settings", {
@@ -315,6 +383,60 @@ const ReminderSettings = () => {
             disabled={isLoading}
             className="bg-background/50 text-base"
           />
+        </SettingRow>
+
+        <SettingRow
+          icon={
+            <SettingIconBadge color={accentHex}>
+              <IoAlarm className="size-4" />
+            </SettingIconBadge>
+          }
+          label="Snoozes per session"
+          description="Skip clicks allowed until you restart the app (0 = unlimited)"
+        >
+          <Select
+            value={String(snoozesPerSession)}
+            onValueChange={(val) => setSnoozesPerSession(Number(val))}
+            disabled={isLoading}
+          >
+            <SelectTrigger className="w-full rounded-3xl bg-background/50">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {SNOOZE_LIMIT_OPTIONS.map((opt) => (
+                <SelectItem key={opt} value={String(opt)}>
+                  {formatSnoozeLimit(opt)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </SettingRow>
+
+        <SettingRow
+          icon={
+            <SettingIconBadge color={accentHex}>
+              <IoAlarm className="size-4" />
+            </SettingIconBadge>
+          }
+          label="Snoozes per day"
+          description="Skip clicks allowed per calendar day (0 = unlimited)"
+        >
+          <Select
+            value={String(snoozesPerDay)}
+            onValueChange={(val) => setSnoozesPerDay(Number(val))}
+            disabled={isLoading}
+          >
+            <SelectTrigger className="w-full rounded-3xl bg-background/50">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {SNOOZE_LIMIT_OPTIONS.map((opt) => (
+                <SelectItem key={opt} value={String(opt)}>
+                  {formatSnoozeLimit(opt)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </SettingRow>
 
         <SettingRow
