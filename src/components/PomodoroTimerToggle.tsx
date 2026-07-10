@@ -1,6 +1,6 @@
 import { Label } from "./ui/label";
 import { useEffect, useState } from "react";
-import { load } from "@tauri-apps/plugin-store";
+import { invoke } from "@tauri-apps/api/core";
 import { Switch } from "./ui/switch";
 import { useTrigger } from "../contexts/TriggerReRender";
 
@@ -11,24 +11,23 @@ const PomodoroTimerToggle = () => {
   const [previousInterval, setPreviousInterval] = useState<number | null>(null);
 
   useEffect(() => {
-    // Load the initial value from the store when the component mounts
     const loadPomodoroSetting = async () => {
-      const store = await load("store.json", { autoSave: true });
-      const isPomodoroTimer = await store.get<boolean>("PomodoroStyleBreak");
-      const duration = await store.get<number>("blinkEyeReminderDuration");
-      const interval = await store.get<number>("blinkEyeReminderInterval");
-      const prevDuration = await store.get<number>(
-        "previousblinkEyeReminderDuration"
-      );
-      const prevInterval = await store.get<number>(
-        "previousblinkEyeReminderInterval"
-      );
+      const pomodoroFlag = await invoke<string | null>("get_config_string", { key: "pomodoroStyleBreak" });
+      const prevDuration = await invoke<string | null>("get_config_string", { key: "previousblinkEyeReminderDuration" });
+      const prevInterval = await invoke<string | null>("get_config_string", { key: "previousblinkEyeReminderInterval" });
 
-      setIsPomodoroTimerEnabled(isPomodoroTimer || false);
+      const settings: {
+        intervalMins: number | null;
+        durationSecs: number | null;
+      } = await invoke("get_reminder_settings");
 
-      // Save the previous duration and interval if they exist
-      setPreviousDuration(prevDuration || duration || 20); // Default 20
-      setPreviousInterval(prevInterval || interval || 20); // Default 20
+      setIsPomodoroTimerEnabled(pomodoroFlag === "true");
+      setPreviousDuration(
+        prevDuration ? Number(prevDuration) : settings.durationSecs || 20
+      );
+      setPreviousInterval(
+        prevInterval ? Number(prevInterval) : settings.intervalMins || 20
+      );
     };
 
     loadPomodoroSetting();
@@ -37,31 +36,19 @@ const PomodoroTimerToggle = () => {
   const handleCheckboxChange = async (checked: boolean) => {
     setIsPomodoroTimerEnabled(checked);
 
-    const store = await load("store.json", { autoSave: true });
-
     if (checked) {
-      // Set to Pomodoro values when enabled
-      await store.set("PomodoroStyleBreak", true);
-      await store.set("blinkEyeReminderDuration", 300); // 5 minutes break
-      await store.set("blinkEyeReminderInterval", 25); // 25 minutes work
+      await invoke("update_reminder_setting", { key: "previousblinkEyeReminderDuration", value: String(previousDuration || 20) });
+      await invoke("update_reminder_setting", { key: "previousblinkEyeReminderInterval", value: String(previousInterval || 20) });
 
-      // Store the current values as previous
-      await store.set(
-        "previousblinkEyeReminderDuration",
-        previousDuration || 20
-      );
-      await store.set(
-        "previousblinkEyeReminderInterval",
-        previousInterval || 20
-      );
+      await invoke("update_reminder_setting", { key: "blinkEyeReminderDuration", value: "300" });
+      await invoke("update_reminder_setting", { key: "blinkEyeReminderInterval", value: "25" });
     } else {
-      // Restore previous values when disabled
-      await store.set("PomodoroStyleBreak", false);
-      await store.set("blinkEyeReminderDuration", previousDuration || 20);
-      await store.set("blinkEyeReminderInterval", previousInterval || 20);
+      await invoke("update_reminder_setting", { key: "blinkEyeReminderDuration", value: String(previousDuration || 20) });
+      await invoke("update_reminder_setting", { key: "blinkEyeReminderInterval", value: String(previousInterval || 20) });
     }
 
-    await store.save();
+    await invoke("update_reminder_setting", { key: "pomodoroStyleBreak", value: String(checked) });
+    await invoke("refresh_reminder_scheduler_settings");
     triggerUpdate();
   };
 

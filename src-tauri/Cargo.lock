@@ -8,6 +8,7 @@ version = "2.8.1"
 dependencies = [
  "chrono",
  "idle",
+ "ring",
  "serde",
  "serde_json",
  "sqlx",

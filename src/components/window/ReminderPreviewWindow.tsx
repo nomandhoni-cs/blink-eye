@@ -3,8 +3,7 @@ import { Button } from "../ui/button";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import * as path from "@tauri-apps/api/path";
-import { convertFileSrc } from "@tauri-apps/api/core";
-import { load } from "@tauri-apps/plugin-store";
+import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import { Progress } from "../ui/progress";
 import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
@@ -59,26 +58,20 @@ const ReminderPreviewWindow: React.FC = () => {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
-      const reminderStyleData = await load("ReminderThemePreviewStyle.json");
-      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
+      const savedStyle = await invoke<string | null>("get_config_string", { key: "reminderBackgroundStylePreview" });
       if (savedStyle) setBackgroundStyle(savedStyle);
 
-      const store = await load("store.json", { autoSave: false });
-      const storedDuration = await store.get<number>(
-        "blinkEyeReminderDuration"
-      );
-      const storedReminderText = await store.get<string>(
-        "blinkEyeReminderScreenText"
-      );
-      if (
-        typeof storedReminderText === "string" &&
-        storedReminderText.length > 0
-      ) {
-        setStoredReminderText(storedReminderText);
+      const settings: {
+        durationSecs: number | null;
+        reminderText: string | null;
+      } = await invoke("get_reminder_settings");
+      
+      if (settings.reminderText && settings.reminderText.length > 0) {
+        setStoredReminderText(settings.reminderText);
       }
-      if (typeof storedDuration === "number") {
-        setReminderDuration(storedDuration);
-        setTimeLeft(storedDuration);
+      if (settings.durationSecs) {
+        setReminderDuration(settings.durationSecs);
+        setTimeLeft(settings.durationSecs);
       }
     };
     if (!canAccessPremiumFeatures) {

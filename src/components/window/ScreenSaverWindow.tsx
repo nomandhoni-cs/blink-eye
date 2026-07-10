@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AuroraBackground } from "../backgrounds/Aurora";
 import { BeamOfLife } from "../backgrounds/BeamOfLife";
 import { FreeSpirit } from "../backgrounds/FreeSpirit";
-import { load } from "@tauri-apps/plugin-store";
+import { invoke } from "@tauri-apps/api/core";
 import { register, unregister } from "@tauri-apps/plugin-global-shortcut";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import HowToCloseScreenSaver from "../HowToCloseScreenSaver";
@@ -36,8 +36,7 @@ const ScreenSaverWindow: React.FC = () => {
   // Load saved background style from storage
   useEffect(() => {
     const fetchReminderScreenInfo = async () => {
-      const reminderStyleData = await load("ScreenSaverStyle.json");
-      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
+      const savedStyle = await invoke<string | null>("get_config_string", { key: "screenSaverBackgroundStyle" });
       if (savedStyle) setBackgroundStyle(savedStyle);
       else setBackgroundStyle("aurora");
     };

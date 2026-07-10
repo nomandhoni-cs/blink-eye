@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { load } from "@tauri-apps/plugin-store";
+import { invoke } from "@tauri-apps/api/core";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
@@ -55,8 +55,7 @@ export default function ReminderStyles() {
   useEffect(() => {
     const fetchBackgroundStyle = async () => {
       try {
-        const store = await load("ReminderThemeStyle.json", { autoSave: true });
-        const savedStyle = await store.get<string>("backgroundStyle");
+        const savedStyle = await invoke<string | null>("get_config_string", { key: "reminderBackgroundStyle" });
         if (savedStyle) {
           setBackgroundStyle(savedStyle);
         }
@@ -74,18 +73,10 @@ export default function ReminderStyles() {
     try {
       setIsLoading(true);
       if (canAccessPremiumFeatures) {
-        const store = await load("ReminderThemeStyle.json", {
-          autoSave: false,
-        });
-        await store.set("backgroundStyle", selectedStyle);
-        await store.save();
+        await invoke("update_reminder_setting", { key: "reminderBackgroundStyle", value: selectedStyle });
         triggerUpdate();
       }
-      const themePreviewStore = await load("ReminderThemePreviewStyle.json", {
-        autoSave: false,
-      });
-      await themePreviewStore.set("backgroundStyle", selectedStyle);
-      await themePreviewStore.save();
+      await invoke("update_reminder_setting", { key: "reminderBackgroundStylePreview", value: selectedStyle });
       setBackgroundStyle(selectedStyle);
       openReminderWindow();
       console.log("Background style saved:", selectedStyle);

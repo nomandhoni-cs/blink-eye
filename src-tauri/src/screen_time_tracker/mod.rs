@@ -4,26 +4,57 @@ use std::sync::Arc;
 use tauri::async_runtime::spawn;
 use tokio::time::{interval, Duration, MissedTickBehavior};
 
+// How often we check if the screen is on and update the database.
+// Every 60 seconds balances accuracy with low CPU usage.
 const TRACKING_INTERVAL_SECS: u64 = 60;
+
+// If the gap between the last recorded timestamp and the current tick exceeds
+// this threshold, we treat it as a new session (e.g., after sleep/suspend).
+// Set to tracking interval (60s) + 30s buffer to tolerate minor delays.
 const MAX_CONTIGUOUS_GAP_MS: i64 = (TRACKING_INTERVAL_SECS as i64 * 1000) + 30_000;
 
+/// Tracks how long the user's screen has been on by periodically checking
+/// display power state and recording session data to SQLite.
+///
+/// ## Data Model
+///
+/// Each row in `time_data` represents a contiguous "screen on" session:
+///
+/// ```text
+/// | id | date       | first_timestamp  | second_timestamp |
+/// |----|------------|------------------|------------------|
+/// | 1  | 2026-07-07 | 1720339200000    | 1720339260000    |
+/// ```
+///
+/// - `first_timestamp`: When the session started (ms since epoch, local time)
+/// - `second_timestamp`: When the session was last updated (extended)
+///
+/// On each tick, if the screen is still on:
+///   - If the gap from `second_timestamp` is small → extend the session
+///     (update `second_timestamp` to now)
+///   - If the gap is too large (sleep/suspend) or clock went backwards →
+///     start a new session (insert a new row)
+///
+/// The frontend sums `(second_timestamp - first_timestamp)` for all rows
+/// on a given date to compute total screen-on time.
 pub struct ScreenTimeTracker {
     db_pool: Arc<Pool<Sqlite>>,
 }
 
+/// Decision logic for whether to extend the current session or start a new one.
 #[derive(Debug, Eq, PartialEq)]
 enum TimeDataUpdate {
+    /// The screen was on continuously — update `second_timestamp` to now.
     ExtendCurrentSession,
+    /// A gap was detected (sleep, suspend, or clock change) — insert a new row.
     StartNewSession,
 }
 
 impl ScreenTimeTracker {
-    /// Initialize the screen time tracker with a database connection
-    /// Uses sqlx directly for backend-only database access
+    /// Create a new tracker and ensure the `time_data` table exists.
     pub async fn new(db_path: &str) -> Result<Self, Box<dyn std::error::Error>> {
         let db_pool = SqlitePool::connect(db_path).await?;
 
-        // Create table if not exists
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS time_data (
@@ -44,25 +75,34 @@ impl ScreenTimeTracker {
         })
     }
 
-    /// Get current date in 'YYYY-MM-DD' format
+    /// Current date as `YYYY-MM-DD` in local timezone.
     fn get_current_date() -> String {
         Local::now().format("%Y-%m-%d").to_string()
     }
 
-    /// Get current timestamp adjusted for local time (in milliseconds)
+    /// Current time as milliseconds since Unix epoch (local timezone).
     fn get_current_local_timestamp() -> i64 {
         Local::now().timestamp_millis()
     }
 
+    /// Decide whether to extend the existing session or start a new one.
+    ///
+    /// A new session is started when:
+    /// 1. The current timestamp is earlier than either stored timestamp
+    ///    (clock went backwards — e.g., NTP sync or manual change)
+    /// 2. The gap since `second_timestamp` exceeds `MAX_CONTIGUOUS_GAP_MS`
+    ///    (screen was likely off — sleep, suspend, or locked for a while)
     fn classify_time_data_update(
         timestamp: i64,
         first_timestamp: i64,
         second_timestamp: i64,
     ) -> TimeDataUpdate {
+        // Clock moved backwards — unreliable, start fresh
         if timestamp < first_timestamp || timestamp < second_timestamp {
             return TimeDataUpdate::StartNewSession;
         }
 
+        // Gap too large — screen was probably off during this period
         if timestamp - second_timestamp > MAX_CONTIGUOUS_GAP_MS {
             return TimeDataUpdate::StartNewSession;
         }
@@ -70,11 +110,15 @@ impl ScreenTimeTracker {
         TimeDataUpdate::ExtendCurrentSession
     }
 
-    fn is_screen_on() -> bool {
+    /// Check if the display is currently powered on (platform-specific).
+    pub(crate) fn is_screen_on() -> bool {
         platform::is_screen_on()
     }
 
-    /// Insert a new record for the given date
+    /// Insert a new session row for the given date.
+    ///
+    /// Both `first_timestamp` and `second_timestamp` are set to now,
+    /// since this marks the start of a new tracking session.
     async fn initialize_new_date(&self, date: &str) -> Result<(), Box<dyn std::error::Error>> {
         let timestamp = Self::get_current_local_timestamp();
 
@@ -95,11 +139,14 @@ impl ScreenTimeTracker {
         Ok(())
     }
 
-    /// Update the last record's `second_timestamp` for the given date
+    /// Update the most recent session row for the given date.
+    ///
+    /// Fetches the latest row, classifies the update, then either:
+    /// - Extends the session by updating `second_timestamp`
+    /// - Starts a new session by inserting a new row
     async fn update_last_time_data(&self, date: &str) -> Result<(), Box<dyn std::error::Error>> {
         let timestamp = Self::get_current_local_timestamp();
 
-        // Get the latest record for the day
         let result = sqlx::query_as::<_, (i64, i64, i64)>(
             "SELECT id, first_timestamp, second_timestamp FROM time_data WHERE date = ? ORDER BY id DESC LIMIT 1",
         )
@@ -129,7 +176,7 @@ impl ScreenTimeTracker {
                 }
             }
         } else {
-            // No record found for date
+            // No records exist for today yet — create the first one
             println!("[updateLastTimeData] No record found for date. Inserting new row.");
             self.initialize_new_date(date).await?;
         }
@@ -137,11 +184,17 @@ impl ScreenTimeTracker {
         Ok(())
     }
 
-    /// Start the background tracking task
+    /// Spawn the background tracking loop on Tauri's async runtime.
+    ///
+    /// The loop runs forever, ticking every `TRACKING_INTERVAL_SECS`:
+    /// 1. Skip if screen is off
+    /// 2. If date rolled over (midnight), initialize a new date row
+    /// 3. Otherwise, extend or start a new session for today
     pub fn start_tracking(self) {
         spawn(async move {
-            // Initialize time data for current date
             let current_date = Self::get_current_date();
+
+            // Create the first row if screen is already on at startup
             if Self::is_screen_on() {
                 if let Err(e) = self.initialize_new_date(&current_date).await {
                     eprintln!("[ScreenTimeTracker] Error initializing date: {}", e);
@@ -152,11 +205,14 @@ impl ScreenTimeTracker {
 
             let mut last_date = current_date;
             let mut interval = interval(Duration::from_secs(TRACKING_INTERVAL_SECS));
+            // If a tick is missed (e.g., system suspend), delay the next one
+            // instead of firing multiple catches-ups at once.
             interval.set_missed_tick_behavior(MissedTickBehavior::Delay);
 
             loop {
                 interval.tick().await;
 
+                // Don't record time when the screen is off
                 if !Self::is_screen_on() {
                     println!("[Interval] Display is off. Skipping screen time update.");
                     continue;
@@ -164,7 +220,7 @@ impl ScreenTimeTracker {
 
                 let current_date = Self::get_current_date();
 
-                // If the date has changed, initialize new date data
+                // Date changed (midnight crossed) — start tracking the new day
                 if current_date != last_date {
                     println!(
                         "[Interval] Date changed from {} to {}",
@@ -177,7 +233,7 @@ impl ScreenTimeTracker {
                     continue;
                 }
 
-                // Update the latest record for the current date
+                // Normal tick — extend or start a new session
                 if let Err(e) = self.update_last_time_data(&current_date).await {
                     eprintln!("[ScreenTimeTracker] Error updating time data: {}", e);
                 }
@@ -185,6 +241,19 @@ impl ScreenTimeTracker {
         });
     }
 }
+
+// =============================================================================
+// Platform-specific screen power detection
+// =============================================================================
+//
+// Each platform has its own `is_screen_on()` implementation with multiple
+// fallback strategies. The pattern is: try the most reliable method first,
+// fall back to alternatives, and default to `true` (assume screen is on)
+// if nothing works — better to over-count than miss active time.
+//
+// macOS:  ioreg + CoreGraphics
+// Windows: WMI + kernel32 GetDevicePowerState
+// Linux:  X11 DPMS + Wayland D-Bus + backlight sysfs
 
 #[cfg(target_os = "macos")]
 mod platform {
@@ -204,21 +273,35 @@ mod platform {
         ) -> CGError;
     }
 
+    /// Check if any connected display is powered on.
+    ///
+    /// Strategy:
+    /// 1. Check `ioreg` for `DevicePowerState` (most reliable on macOS)
+    /// 2. Fall back to CoreGraphics `CGDisplayIsAsleep` API
+    /// 3. Default to `true` if both fail
     pub fn is_screen_on() -> bool {
+        // Fast path: ioreg reports display power state directly
         if let Some(is_on) = ioreg_display_power_state() {
             if !is_on {
                 return false;
             }
         }
 
+        // Fallback: CoreGraphics API checks if any display is asleep
         if let Some(is_on) = core_graphics_display_state() {
             return is_on;
         }
 
+        // Assume screen is on if we can't determine the state
         true
     }
 
+    /// Use CoreGraphics to check if any active display is not asleep.
+    ///
+    /// `CGDisplayIsAsleep` returns 0 when the display is awake.
+    /// We check all connected displays — if ANY is awake, screen is on.
     fn core_graphics_display_state() -> Option<bool> {
+        // First call: get the number of active displays
         let mut display_count = 0;
         let count_result =
             unsafe { CGGetActiveDisplayList(0, std::ptr::null_mut(), &mut display_count) };
@@ -231,6 +314,7 @@ mod platform {
             return Some(false);
         }
 
+        // Second call: get the actual display IDs
         let mut displays = vec![0; display_count as usize];
         let list_result = unsafe {
             CGGetActiveDisplayList(display_count, displays.as_mut_ptr(), &mut display_count)
@@ -240,6 +324,7 @@ mod platform {
             return None;
         }
 
+        // `CGDisplayIsAsleep` returns 0 when display is awake
         Some(
             displays
                 .into_iter()
@@ -248,6 +333,10 @@ mod platform {
         )
     }
 
+    /// Parse `DevicePowerState` from `ioreg` output.
+    ///
+    /// Runs: `ioreg -n IODisplayWrangler -r -d 1`
+    /// Power state >= 3 means the display is active.
     fn ioreg_display_power_state() -> Option<bool> {
         let output = Command::new("ioreg")
             .args(["-n", "IODisplayWrangler", "-r", "-d", "1"])
@@ -262,6 +351,10 @@ mod platform {
         parse_device_power_state(&stdout).map(|state| state >= 3)
     }
 
+    /// Extract the numeric value after `"DevicePowerState"=` from ioreg output.
+    ///
+    /// Example input: `    "DevicePowerState"=4`
+    /// Returns: `Some(4)`
     pub(super) fn parse_device_power_state(output: &str) -> Option<u32> {
         let key_index = output.find("DevicePowerState")?;
         let output_after_key = &output[key_index..];
@@ -304,18 +397,28 @@ mod platform {
         fn GetDevicePowerState(hDevice: Handle, pfOn: *mut Bool) -> Bool;
     }
 
+    /// Check if any connected display is powered on.
+    ///
+    /// Strategy:
+    /// 1. Query WMI for `WmiMonitorBasicDisplayParams.Active` via PowerShell
+    /// 2. Fall back to `GetDevicePowerState` on each `\\.\DISPLAY{n}` handle
+    /// 3. Default to `true` if both fail
     pub fn is_screen_on() -> bool {
         if let Some(is_on) = wmi_monitor_active_state() {
             return is_on;
         }
 
         if let Some(is_on) = device_power_state() {
-            return is_on;
+            return on;
         }
 
         true
     }
 
+    /// Use PowerShell/WMI to check if any monitor reports as active.
+    ///
+    /// Runs: `(Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorBasicDisplayParams).Active`
+    /// Returns `Some(true)` if any monitor is active, `Some(false)` if all are inactive.
     fn wmi_monitor_active_state() -> Option<bool> {
         let output = Command::new("powershell")
             .args([
@@ -337,6 +440,12 @@ mod platform {
         parse_powershell_booleans(&stdout)
     }
 
+    /// Parse multi-line PowerShell output of "True"/"False" values.
+    ///
+    /// Returns:
+    /// - `Some(true)` if ANY line is "True" (at least one monitor active)
+    /// - `Some(false)` if ALL lines are "False" (no monitors active)
+    /// - `None` if no recognizable output
     pub(super) fn parse_powershell_booleans(output: &str) -> Option<bool> {
         let mut observed_state = false;
 
@@ -355,6 +464,10 @@ mod platform {
         observed_state.then_some(false)
     }
 
+    /// Use kernel32 `GetDevicePowerState` to check display power.
+    ///
+    /// Opens handles for `\\.\DISPLAY1` through `\\.\DISPLAY16` and queries
+    /// each one's power state. Returns `true` if any display is on.
     fn device_power_state() -> Option<bool> {
         let mut queried_display_power = false;
 
@@ -405,22 +518,33 @@ mod platform {
 mod platform {
     use std::{env, fs, process::Command};
 
+    /// Check if any connected display is powered on.
+    ///
+    /// Strategy (in order of reliability):
+    /// 1. X11: `xset q` for DPMS monitor state
+    /// 2. Wayland: D-Bus query to GNOME/freedesktop ScreenSaver
+    /// 3. Backlight: `/sys/class/backlight/*/bl_power` sysfs check
+    /// 4. Default to `true` if all fail
     pub fn is_screen_on() -> bool {
         if let Some(is_on) = x11_dpms_state() {
             return is_on;
         }
 
         if let Some(is_on) = wayland_screensaver_state() {
-            return is_on;
+            return on;
         }
 
         if let Some(is_on) = backlight_power_state() {
-            return is_on;
+            return on;
         }
 
         true
     }
 
+    /// Check X11 Display Power Management Signaling (DPMS) state.
+    ///
+    /// Runs `xset q` and parses the "Monitor is On/Off/Suspend/Standby" output.
+    /// Only runs if we're actually in an X11 session.
     fn x11_dpms_state() -> Option<bool> {
         let session_type = env::var("XDG_SESSION_TYPE").unwrap_or_default();
         let has_display = env::var_os("DISPLAY").is_some();
@@ -451,6 +575,11 @@ mod platform {
         None
     }
 
+    /// Check Wayland screensaver state via D-Bus.
+    ///
+    /// Queries GNOME ScreenSaver and freedesktop ScreenSaver interfaces.
+    /// `GetActive` returns `true` when the screensaver IS active (screen off).
+    /// Only runs if we're NOT in an X11 session.
     fn wayland_screensaver_state() -> Option<bool> {
         let session_type = env::var("XDG_SESSION_TYPE").unwrap_or_default();
 
@@ -458,6 +587,7 @@ mod platform {
             return None;
         }
 
+        // Try multiple D-Bus paths — different desktop environments use different ones
         let dbus_queries = [
             (
                 "org.gnome.ScreenSaver",
@@ -498,10 +628,12 @@ mod platform {
 
             let stdout = String::from_utf8_lossy(&output.stdout);
 
+            // "boolean true" = screensaver active = screen OFF
             if stdout.contains("boolean true") {
                 return Some(false);
             }
 
+            // "boolean false" = screensaver inactive = screen ON
             if stdout.contains("boolean false") {
                 return Some(true);
             }
@@ -510,6 +642,10 @@ mod platform {
         None
     }
 
+    /// Check backlight power state via sysfs.
+    ///
+    /// Reads `/sys/class/backlight/*/bl_power` where `0` = on, `1-4` = off/standby.
+    /// Works on most Linux laptops with backlight control.
     fn backlight_power_state() -> Option<bool> {
         let entries = fs::read_dir("/sys/class/backlight").ok()?;
         let mut observed_backlight_state = false;
@@ -526,6 +662,7 @@ mod platform {
 
             observed_backlight_state = true;
 
+            // bl_power: 0 = on, anything else = off/suspend/standby
             if power_state == 0 {
                 return Some(true);
             }
@@ -535,6 +672,7 @@ mod platform {
     }
 }
 
+// Fallback for unsupported platforms — always assume screen is on
 #[cfg(not(any(target_os = "macos", windows, target_os = "linux")))]
 mod platform {
     pub fn is_screen_on() -> bool {
@@ -549,6 +687,7 @@ mod tests {
     #[test]
     fn extends_session_when_tick_is_within_gap_budget() {
         let second_timestamp = 1_000_000;
+        // Exactly at the boundary — should still extend
         let timestamp = second_timestamp + MAX_CONTIGUOUS_GAP_MS;
 
         assert_eq!(
@@ -560,6 +699,7 @@ mod tests {
     #[test]
     fn starts_new_session_after_sleep_or_suspension_gap() {
         let second_timestamp = 1_000_000;
+        // One millisecond over the threshold — should start new session
         let timestamp = second_timestamp + MAX_CONTIGUOUS_GAP_MS + 1;
 
         assert_eq!(
@@ -570,6 +710,7 @@ mod tests {
 
     #[test]
     fn starts_new_session_when_clock_moves_backwards() {
+        // Current timestamp is before both stored timestamps — clock went back
         assert_eq!(
             ScreenTimeTracker::classify_time_data_update(1_000_000, 900_000, 1_100_000),
             TimeDataUpdate::StartNewSession

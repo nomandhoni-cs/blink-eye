@@ -1,8 +1,8 @@
 // src/components/TrialRemaining.tsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { invoke } from "@tauri-apps/api/core";
 import { Button } from "./ui/button";
-import { useOnlineStatus } from "../hooks/useOnlineStatus";
 import { fetch } from "@tauri-apps/plugin-http";
 import {
   RiTimeFill,
@@ -51,12 +51,34 @@ function useCountdown(endDate: string | null) {
   return timeLeft;
 }
 
+interface TrialInfo {
+  install_date: string | null;
+  days_remaining: number;
+  is_active: boolean;
+  clock_manipulated: boolean;
+}
+
 // ── Main Component ────────────────────────────────────────────────────────────
 const TrialRemaining: React.FC = () => {
-  const { isTrialOn, remainingDays } = useOnlineStatus();
+  const [trialInfo, setTrialInfo] = useState<TrialInfo | null>(null);
   const [discount, setDiscount] = useState<DiscountData | null>(null);
   const [discountLoading, setDiscountLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const loadTrial = async () => {
+      try {
+        const info: TrialInfo = await invoke("get_trial_info");
+        setTrialInfo(info);
+      } catch (err) {
+        console.error("[TrialRemaining] Failed to get trial info:", err);
+      }
+    };
+    loadTrial();
+  }, []);
+
+  const isTrialOn = trialInfo?.is_active ?? false;
+  const remainingDays = trialInfo?.days_remaining ?? null;
 
   const countdown = useCountdown(discount?.endDate ?? null);
 
