@@ -409,7 +409,7 @@ mod platform {
         }
 
         if let Some(is_on) = device_power_state() {
-            return on;
+            return is_on;
         }
 
         true
@@ -531,11 +531,11 @@ mod platform {
         }
 
         if let Some(is_on) = wayland_screensaver_state() {
-            return on;
+            return is_on;
         }
 
         if let Some(is_on) = backlight_power_state() {
-            return on;
+            return is_on;
         }
 
         true
