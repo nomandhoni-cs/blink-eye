@@ -64,7 +64,7 @@ jobs:
           ref: ${{ inputs.branch }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
 
@@ -115,7 +115,7 @@ jobs:
       - name: Install frontend dependencies
         run: bun install
 
-      - uses: tauri-apps/tauri-action@v0.6.1
+      - uses: tauri-apps/tauri-action@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
@@ -128,12 +128,12 @@ jobs:
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
           prerelease: false
-          includeUpdaterJson: true
+          uploadUpdaterJson: true
           updaterJsonPreferNsis: true
           args: ${{ matrix.args }}
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-${{ matrix.artifact }}
           path: src-tauri/target/${{ matrix.target != '' && format('{0}/', matrix.target) || '' }}release/bundle/**
