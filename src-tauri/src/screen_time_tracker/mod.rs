@@ -1,6 +1,8 @@
+// src-tauri/src/screen_time_tracker/mod.rs
 use chrono::Local;
 use sqlx::{Pool, Sqlite, SqlitePool};
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
+use std::time::{Duration as StdDuration, Instant};
 use tauri::async_runtime::spawn;
 use tokio::time::{interval, Duration, MissedTickBehavior};
 
@@ -12,6 +14,11 @@ const TRACKING_INTERVAL_SECS: u64 = 60;
 // this threshold, we treat it as a new session (e.g., after sleep/suspend).
 // Set to tracking interval (60s) + 30s buffer to tolerate minor delays.
 const MAX_CONTIGUOUS_GAP_MS: i64 = (TRACKING_INTERVAL_SECS as i64 * 1000) + 30_000;
+
+// Avoid spawning external processes every scheduler tick (1s).
+// Native checks are cheap; process-based fallbacks are expensive and can flash
+// console windows on Windows if not hidden.
+const SCREEN_ON_CACHE_TTL: StdDuration = StdDuration::from_secs(5);
 
 /// Tracks how long the user's screen has been on by periodically checking
 /// display power state and recording session data to SQLite.
@@ -48,6 +55,11 @@ enum TimeDataUpdate {
     ExtendCurrentSession,
     /// A gap was detected (sleep, suspend, or clock change) — insert a new row.
     StartNewSession,
+}
+
+struct ScreenOnCache {
+    value: bool,
+    checked_at: Instant,
 }
 
 impl ScreenTimeTracker {
@@ -111,8 +123,30 @@ impl ScreenTimeTracker {
     }
 
     /// Check if the display is currently powered on (platform-specific).
+    ///
+    /// Result is cached briefly so the 1s reminder tick does not spawn
+    /// external processes (PowerShell/xset/dbus-send) every second.
     pub(crate) fn is_screen_on() -> bool {
-        platform::is_screen_on()
+        static CACHE: Mutex<Option<ScreenOnCache>> = Mutex::new(None);
+
+        if let Ok(cache) = CACHE.lock() {
+            if let Some(entry) = cache.as_ref() {
+                if entry.checked_at.elapsed() < SCREEN_ON_CACHE_TTL {
+                    return entry.value;
+                }
+            }
+        }
+
+        let value = platform::is_screen_on();
+
+        if let Ok(mut cache) = CACHE.lock() {
+            *cache = Some(ScreenOnCache {
+                value,
+                checked_at: Instant::now(),
+            });
+        }
+
+        value
     }
 
     /// Insert a new session row for the given date.
@@ -206,7 +240,7 @@ impl ScreenTimeTracker {
             let mut last_date = current_date;
             let mut interval = interval(Duration::from_secs(TRACKING_INTERVAL_SECS));
             // If a tick is missed (e.g., system suspend), delay the next one
-            // instead of firing multiple catches-ups at once.
+            // instead of firing multiple catch-ups at once.
             interval.set_missed_tick_behavior(MissedTickBehavior::Delay);
 
             loop {
@@ -247,13 +281,13 @@ impl ScreenTimeTracker {
 // =============================================================================
 //
 // Each platform has its own `is_screen_on()` implementation with multiple
-// fallback strategies. The pattern is: try the most reliable method first,
-// fall back to alternatives, and default to `true` (assume screen is on)
+// fallback strategies. The pattern is: try the most reliable / cheapest method
+// first, fall back to alternatives, and default to `true` (assume screen is on)
 // if nothing works — better to over-count than miss active time.
 //
-// macOS:  ioreg + CoreGraphics
-// Windows: WMI + kernel32 GetDevicePowerState
-// Linux:  X11 DPMS + Wayland D-Bus + backlight sysfs
+// macOS:  CoreGraphics + ioreg
+// Windows: kernel32 GetDevicePowerState + WMI (hidden PowerShell)
+// Linux:  backlight sysfs + X11 DPMS + Wayland D-Bus
 
 #[cfg(target_os = "macos")]
 mod platform {
@@ -276,23 +310,18 @@ mod platform {
     /// Check if any connected display is powered on.
     ///
     /// Strategy:
-    /// 1. Check `ioreg` for `DevicePowerState` (most reliable on macOS)
-    /// 2. Fall back to CoreGraphics `CGDisplayIsAsleep` API
+    /// 1. CoreGraphics `CGDisplayIsAsleep` API (no process spawn)
+    /// 2. Fall back to `ioreg` for `DevicePowerState`
     /// 3. Default to `true` if both fail
     pub fn is_screen_on() -> bool {
-        // Fast path: ioreg reports display power state directly
-        if let Some(is_on) = ioreg_display_power_state() {
-            if !is_on {
-                return false;
-            }
-        }
-
-        // Fallback: CoreGraphics API checks if any display is asleep
         if let Some(is_on) = core_graphics_display_state() {
             return is_on;
         }
 
-        // Assume screen is on if we can't determine the state
+        if let Some(is_on) = ioreg_display_power_state() {
+            return is_on;
+        }
+
         true
     }
 
@@ -371,7 +400,7 @@ mod platform {
 
 #[cfg(windows)]
 mod platform {
-    use std::{ffi::c_void, process::Command};
+    use std::{ffi::c_void, os::windows::process::CommandExt, process::Command};
 
     type Bool = i32;
     type Dword = u32;
@@ -381,6 +410,8 @@ mod platform {
     const FILE_SHARE_WRITE: Dword = 0x0000_0002;
     const OPEN_EXISTING: Dword = 3;
     const INVALID_HANDLE_VALUE: Handle = -1isize as Handle;
+    /// Prevents a console window from flashing when spawning PowerShell.
+    const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
     #[link(name = "kernel32")]
     extern "system" {
@@ -400,15 +431,15 @@ mod platform {
     /// Check if any connected display is powered on.
     ///
     /// Strategy:
-    /// 1. Query WMI for `WmiMonitorBasicDisplayParams.Active` via PowerShell
-    /// 2. Fall back to `GetDevicePowerState` on each `\\.\DISPLAY{n}` handle
+    /// 1. Prefer `GetDevicePowerState` (native, no process spawn, no flash)
+    /// 2. Fall back to WMI via hidden PowerShell
     /// 3. Default to `true` if both fail
     pub fn is_screen_on() -> bool {
-        if let Some(is_on) = wmi_monitor_active_state() {
+        if let Some(is_on) = device_power_state() {
             return is_on;
         }
 
-        if let Some(is_on) = device_power_state() {
+        if let Some(is_on) = wmi_monitor_active_state() {
             return is_on;
         }
 
@@ -417,8 +448,7 @@ mod platform {
 
     /// Use PowerShell/WMI to check if any monitor reports as active.
     ///
-    /// Runs: `(Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorBasicDisplayParams).Active`
-    /// Returns `Some(true)` if any monitor is active, `Some(false)` if all are inactive.
+    /// Runs with `CREATE_NO_WINDOW` so no terminal window appears.
     fn wmi_monitor_active_state() -> Option<bool> {
         let output = Command::new("powershell")
             .args([
@@ -426,9 +456,12 @@ mod platform {
                 "-NonInteractive",
                 "-ExecutionPolicy",
                 "Bypass",
+                "-WindowStyle",
+                "Hidden",
                 "-Command",
                 "(Get-CimInstance -Namespace root\\wmi -ClassName WmiMonitorBasicDisplayParams).Active",
             ])
+            .creation_flags(CREATE_NO_WINDOW)
             .output()
             .ok()?;
 
@@ -520,21 +553,21 @@ mod platform {
 
     /// Check if any connected display is powered on.
     ///
-    /// Strategy (in order of reliability):
-    /// 1. X11: `xset q` for DPMS monitor state
-    /// 2. Wayland: D-Bus query to GNOME/freedesktop ScreenSaver
-    /// 3. Backlight: `/sys/class/backlight/*/bl_power` sysfs check
+    /// Strategy (cheapest / least visible first):
+    /// 1. Backlight: `/sys/class/backlight/*/bl_power` (no process spawn)
+    /// 2. X11: `xset q` for DPMS monitor state
+    /// 3. Wayland: D-Bus query to GNOME/freedesktop ScreenSaver
     /// 4. Default to `true` if all fail
     pub fn is_screen_on() -> bool {
+        if let Some(is_on) = backlight_power_state() {
+            return is_on;
+        }
+
         if let Some(is_on) = x11_dpms_state() {
             return is_on;
         }
 
         if let Some(is_on) = wayland_screensaver_state() {
-            return is_on;
-        }
-
-        if let Some(is_on) = backlight_power_state() {
             return is_on;
         }
 
