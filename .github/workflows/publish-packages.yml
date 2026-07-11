@@ -122,7 +122,6 @@ jobs:
         path: src-tauri/target/release/bundle/**
     
   publish-packages:
-    if: inputs.platform == 'all' || inputs.platform == matrix.platform
     needs: build
     runs-on: ubuntu-latest
     steps:
