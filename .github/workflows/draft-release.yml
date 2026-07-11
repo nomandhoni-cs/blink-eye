@@ -1,16 +1,25 @@
-name: Draft Release (PR to master)
+name: Draft Release
 on:
-  pull_request:
-    branches: [master]
-    paths-ignore:
-      - 'website/**'           # Ignore all website directory changes
-      - 'website/**/*'         # Ignore all nested files in website
-      - '**.md'                # Optional: ignore markdown files
-      - 'docs/**'              # Optional: ignore docs
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build from'
+        required: true
+        default: 'master'
+      platform:
+        description: 'Platform to build'
+        required: false
+        type: choice
+        options:
+          - all
+          - macos-latest
+          - ubuntu-22.04
+          - windows-latest
+        default: 'all'
 
 jobs:
   build:
+    if: inputs.platform == 'all' || inputs.platform == matrix.platform
     permissions:
       contents: write
     strategy:
@@ -29,7 +38,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -42,7 +53,7 @@ jobs:
           bun-version: latest
 
       - name: Cache Bun dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
@@ -50,7 +61,7 @@ jobs:
             ${{ runner.os }}-bun-
             
       - name: Cache Rust dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry/index/

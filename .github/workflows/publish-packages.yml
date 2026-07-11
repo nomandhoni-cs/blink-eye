@@ -7,12 +7,22 @@ on:
         description: 'Branch to release'
         required: true
         default: 'release'
+      platform:
+        description: 'Platform to publish'
+        required: false
+        type: choice
+        options:
+          - all
+          - macos-latest
+          - windows-latest
+        default: 'all'
 
 env:
   APP_NAME: "Blink Eye"
 
 jobs:
   build:
+    if: inputs.platform == 'all' || inputs.platform == matrix.platform
     permissions:
       contents: write
     strategy:
@@ -31,7 +41,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
+      with:
+        ref: ${{ inputs.branch }}
 
     - name: Setup Node
       uses: actions/setup-node@v4
@@ -44,7 +56,7 @@ jobs:
         bun-version: latest
 
     - name: Cache Bun dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.bun/install/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
@@ -52,7 +64,7 @@ jobs:
           ${{ runner.os }}-bun-
 
     - name: Cache Rust dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           ~/.cargo/registry/index/
@@ -110,11 +122,14 @@ jobs:
         path: src-tauri/target/release/bundle/**
     
   publish-packages:
+    if: inputs.platform == 'all' || inputs.platform == matrix.platform
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
       
       - name: Extract version from tag
         id: extract-version
