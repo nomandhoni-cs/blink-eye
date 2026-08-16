@@ -216,12 +216,12 @@ const TrialRemaining: React.FC = () => {
                   isUrgent ? "bg-primary" : "bg-foreground/30",
                 ].join(" ")}
                 style={{
-                  width: `${Math.min((remainingDays / 14) * 100, 100)}%`,
+                  width: `${Math.min((remainingDays / 7) * 100, 100)}%`,
                 }}
               />
             </div>
             <p className="text-[10px] text-foreground/35 text-right">
-              of 14-day trial
+              of 7-day trial
             </p>
           </div>
         )}
