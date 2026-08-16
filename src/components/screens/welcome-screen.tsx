@@ -12,35 +12,40 @@ import { Input } from "../ui/input";
 interface WelcomeScreenProps {
   email: string;
   setEmail: (email: string) => void;
+  emailError: string | null;
 }
 
 const features = [
   {
-    icon: <RiTimerFill className="w-5 h-5 text-[#FE4C55]" />,
+    icon: <RiTimerFill className="w-5 h-5 text-primary" />,
     label: "Smart Breaks",
   },
   {
-    icon: <RiComputerFill className="w-5 h-5 text-[#FE4C55]" />,
+    icon: <RiComputerFill className="w-5 h-5 text-primary" />,
     label: "Screen Time",
   },
   {
-    icon: <RiCheckboxCircleFill className="w-5 h-5 text-[#FE4C55]" />,
+    icon: <RiCheckboxCircleFill className="w-5 h-5 text-primary" />,
     label: "TODO List",
   },
   {
-    icon: <RiShieldFill className="w-5 h-5 text-[#FE4C55]" />,
+    icon: <RiShieldFill className="w-5 h-5 text-primary" />,
     label: "Open Source",
   },
 ];
 
-export default function WelcomeScreen({ email, setEmail }: WelcomeScreenProps) {
+export default function WelcomeScreen({
+  email,
+  setEmail,
+  emailError,
+}: WelcomeScreenProps) {
   return (
     <div className="flex flex-col items-center justify-between h-full text-center py-4">
       {/* Top Section */}
       <div className="flex flex-col items-center space-y-3">
         <h1 className="text-3xl font-heading font-bold leading-tight">
           Thank you for installing{" "}
-          <span className="text-[#FE4C55]">Blink Eye</span>
+          <span className="text-primary">Blink Eye</span>
         </h1>
         <p className="text-sm text-foreground/50 font-heading">
           Your eye health companion — let's get you set up in 1 minute.
@@ -70,7 +75,7 @@ export default function WelcomeScreen({ email, setEmail }: WelcomeScreenProps) {
       {/* Email Section - Pinned to bottom */}
       <div className="w-full max-w-sm space-y-2 mt-4">
         <div className="flex items-center justify-center space-x-1.5 text-xs text-foreground/50">
-          <RiMailAddFill className="w-3.5 h-3.5 text-[#FE4C55]" />
+          <RiMailAddFill className="w-3.5 h-3.5 text-primary" />
           <span>Only used if we ever need to reach you about the app</span>
         </div>
         <Input
@@ -78,11 +83,25 @@ export default function WelcomeScreen({ email, setEmail }: WelcomeScreenProps) {
           placeholder="your@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="text-center w-full"
+          aria-invalid={emailError !== null}
+          aria-describedby={emailError ? "onboarding-email-error" : undefined}
+          className={`text-center w-full ${
+            emailError ? "border-destructive focus-visible:ring-destructive/40" : ""
+          }`}
         />
-        <p className="text-xs text-foreground/40">
-          🙅 No newsletters. No spam. Pinky promise.
-        </p>
+        {emailError ? (
+          <p
+            id="onboarding-email-error"
+            className="text-xs font-medium text-destructive"
+            role="alert"
+          >
+            {emailError}
+          </p>
+        ) : (
+          <p className="text-xs text-foreground/40">
+            No newsletters. No spam. Just important app updates.
+          </p>
+        )}
       </div>
     </div>
   );

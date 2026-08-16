@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
-import Database from "@tauri-apps/plugin-sql";
+import { invoke } from "@tauri-apps/api/core";
 import toast from "react-hot-toast";
-import { decryptData } from "../lib/cryptoUtils";
 
 interface LicenseData {
   license_key: string;
@@ -17,46 +15,6 @@ interface UseLicenseKeyReturn {
   refreshLicenseData: () => Promise<void>;
 }
 
-async function initializeDatabase() {
-  const dbFileExists = await exists("blink_eye_license.db", {
-    baseDir: BaseDirectory.AppData,
-  });
-  const db = await Database.load("sqlite:blink_eye_license.db");
-
-  if (!dbFileExists) {
-    try {
-      await db.execute(`
-        CREATE TABLE IF NOT EXISTS licenses (
-          id INTEGER PRIMARY KEY,
-          license_key TEXT UNIQUE,
-          status TEXT,
-          activation_limit TEXT,
-          activation_usage TEXT,
-          created_at TEXT,
-          expires_at TEXT,
-          test_mode TEXT,
-          instance_name TEXT,
-          store_id TEXT,
-          order_id TEXT,
-          order_item_id TEXT,
-          variant_name TEXT,
-          product_name TEXT,
-          customer_name TEXT,
-          customer_email TEXT,
-          last_validated TEXT
-        );
-      `);
-      console.log("Database and table created successfully.");
-    } catch (error) {
-      console.error("Error creating table:", error);
-      throw error;
-    }
-  } else {
-    console.log("Database file already exists.");
-  }
-  return db;
-}
-
 export function useLicenseKey(): UseLicenseKeyReturn {
   const [licenseData, setLicenseData] = useState<LicenseData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -67,18 +25,17 @@ export function useLicenseKey(): UseLicenseKeyReturn {
       setLoading(true);
       setError(null);
 
-      const db = await initializeDatabase();
-      const result = (await db.select(`
-        SELECT license_key, status, last_validated
-        FROM licenses
-        LIMIT 1
-      `)) as LicenseData[];
+      const info: {
+        license_key: string | null;
+        status: string | null;
+        last_validated: string | null;
+      } = await invoke("get_license_info");
 
-      if (result.length > 0) {
+      if (info.license_key && info.status) {
         setLicenseData({
-          license_key: await decryptData(result[0].license_key),
-          status: await decryptData(result[0].status),
-          last_validated: await decryptData(result[0].last_validated),
+          license_key: info.license_key,
+          status: info.status,
+          last_validated: info.last_validated ?? "",
         });
       } else {
         setLicenseData(null);
@@ -93,7 +50,6 @@ export function useLicenseKey(): UseLicenseKeyReturn {
     }
   };
 
-  // Initial fetch on mount
   useEffect(() => {
     fetchLicenseData();
   }, []);

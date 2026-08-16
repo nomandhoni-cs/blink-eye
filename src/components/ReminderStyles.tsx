@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { load } from "@tauri-apps/plugin-store";
+import { invoke } from "@tauri-apps/api/core";
+import { entryForStyle } from "../backgrounds/registry";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
@@ -55,8 +56,7 @@ export default function ReminderStyles() {
   useEffect(() => {
     const fetchBackgroundStyle = async () => {
       try {
-        const store = await load("ReminderThemeStyle.json", { autoSave: true });
-        const savedStyle = await store.get<string>("backgroundStyle");
+        const savedStyle = await invoke<string | null>("get_config_string", { key: "reminderBackgroundStyle" });
         if (savedStyle) {
           setBackgroundStyle(savedStyle);
         }
@@ -74,20 +74,12 @@ export default function ReminderStyles() {
     try {
       setIsLoading(true);
       if (canAccessPremiumFeatures) {
-        const store = await load("ReminderThemeStyle.json", {
-          autoSave: false,
-        });
-        await store.set("backgroundStyle", selectedStyle);
-        await store.save();
+        await invoke("update_reminder_setting", { key: "reminderBackgroundStyle", value: selectedStyle });
         triggerUpdate();
       }
-      const themePreviewStore = await load("ReminderThemePreviewStyle.json", {
-        autoSave: false,
-      });
-      await themePreviewStore.set("backgroundStyle", selectedStyle);
-      await themePreviewStore.save();
+      await invoke("update_reminder_setting", { key: "reminderBackgroundStylePreview", value: selectedStyle });
       setBackgroundStyle(selectedStyle);
-      openReminderWindow();
+      openReminderWindow(selectedStyle);
       console.log("Background style saved:", selectedStyle);
     } catch (err) {
       console.error("Error saving theme:", err);
@@ -97,19 +89,19 @@ export default function ReminderStyles() {
     }
   };
 
-  const openReminderWindow = () => {
-    const webview = new WebviewWindow("ReminderPreviewWindow", {
-      url: "/reminderpreviewwindow",
+  const openReminderWindow = (style: string) => {
+    const isPremium = canAccessPremiumFeatures;
+    const requestedStyle = isPremium ? style : "default";
+    const entry = entryForStyle(requestedStyle);
+    const webview = new WebviewWindow("reminder_monitor_0", {
+      url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
+      title: "Take A Break Reminder - Blink Eye",
       fullscreen: true,
       alwaysOnTop: true,
-      title: "Take A Break Reminder - Blink Eye",
       skipTaskbar: true,
     });
-    webview.once("tauri://created", () => {
-      console.log("Webview created");
-    });
     webview.once("tauri://error", (e) => {
-      console.error("Error creating webview:", e);
+      console.error("Error creating reminder window:", e);
     });
   };
 

@@ -91,8 +91,8 @@ const MultiMonitorToggle = () => {
 
             toast.success(
                 enableMultiMonitor
-                    ? "Multi-monitor mode enabled!"
-                    : "Primary monitor mode enabled!",
+                    ? "Backgrounds on all displays; controls on primary."
+                    : "Break reminders on primary display only.",
                 {
                     duration: 2000,
                     position: "bottom-right",
@@ -121,9 +121,9 @@ const MultiMonitorToggle = () => {
     return (
         <div className="rounded-lg border border-muted p-6 space-y-4">
             <div>
-                <Label className="text-base font-semibold">Monitor Display Mode</Label>
+                <Label className="text-base font-semibold">Monitor display mode</Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                    Choose where to show break reminders
+                    Choose whether the break background fills one screen or every screen
                 </p>
             </div>
 
@@ -146,9 +146,9 @@ const MultiMonitorToggle = () => {
                             <PiMonitorFill size={40} />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-lg">Primary Monitor</h3>
+                            <h3 className="font-semibold text-lg">Primary monitor</h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Show reminders on main screen only
+                                Background and controls on your main display only
                             </p>
                         </div>
                         {!isMultiMonitorEnabled && (
@@ -231,7 +231,7 @@ const MultiMonitorToggle = () => {
                                 />
                             </h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Show reminders on all screens
+                                Background on every display; timer and skip on primary only
                             </p>
                             {!canAccessPremiumFeatures && (
                                 <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/20">

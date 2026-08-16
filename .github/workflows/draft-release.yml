@@ -1,38 +1,70 @@
-name: Draft Release (PR to master)
+name: Draft Release
+
 on:
-  pull_request:
-    branches: [master]
-    paths-ignore:
-      - 'website/**'           # Ignore all website directory changes
-      - 'website/**/*'         # Ignore all nested files in website
-      - '**.md'                # Optional: ignore markdown files
-      - 'docs/**'              # Optional: ignore docs
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build from'
+        required: true
+        default: 'master'
+      platform:
+        description: 'Platform to build'
+        required: false
+        type: choice
+        options:
+          - all
+          - macos-latest
+          - ubuntu-22.04
+          - windows-latest
+        default: 'all'
 
 jobs:
+  prepare-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Set matrix based on input
+        id: set-matrix
+        run: |
+          case "${{ inputs.platform }}" in
+            "all")
+              MATRIX='[{"platform":"macos-latest","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin","artifact":"macos-aarch64"},{"platform":"macos-latest","args":"--target x86_64-apple-darwin","target":"x86_64-apple-darwin","artifact":"macos-x86_64"},{"platform":"ubuntu-22.04","args":"","target":"","artifact":"ubuntu"},{"platform":"windows-latest","args":"","target":"","artifact":"windows"}]'
+              ;;
+            "macos-latest")
+              MATRIX='[{"platform":"macos-latest","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin","artifact":"macos-aarch64"},{"platform":"macos-latest","args":"--target x86_64-apple-darwin","target":"x86_64-apple-darwin","artifact":"macos-x86_64"}]'
+              ;;
+            "ubuntu-22.04")
+              MATRIX='[{"platform":"ubuntu-22.04","args":"","target":"","artifact":"ubuntu"}]'
+              ;;
+            "windows-latest")
+              MATRIX='[{"platform":"windows-latest","args":"","target":"","artifact":"windows"}]'
+              ;;
+            *)
+              MATRIX='[]'
+              ;;
+          esac
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+          echo "Matrix set to: $MATRIX"
+
   build:
+    needs: prepare-matrix
+    if: ${{ needs.prepare-matrix.outputs.matrix != '[]' }}
     permissions:
       contents: write
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - platform: "macos-latest" # for Arm based macs (M1 and above)
-            args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest" # for Intel based macs
-            args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-22.04" # for Tauri v2
-            args: ""
-          - platform: "windows-latest"
-            args: ""
-
+        include: ${{ fromJSON(needs.prepare-matrix.outputs.matrix) }}
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
 
@@ -42,15 +74,15 @@ jobs:
           bun-version: latest
 
       - name: Cache Bun dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
-            
+
       - name: Cache Rust dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry/index/
@@ -60,11 +92,11 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
-            
+
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets: ${{ matrix.target }}
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -79,29 +111,29 @@ jobs:
             openssl \
             libssl-dev \
             build-essential
-            
+
       - name: Install frontend dependencies
         run: bun install
 
-      - uses: tauri-apps/tauri-action@v0.6.1
+      - uses: tauri-apps/tauri-action@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_HANDSHAKE_PASSWORD: ${{ secrets.VITE_HANDSHAKE_PASSWORD }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          NODE_OPTIONS: --openssl-legacy-provider # Add this for Web Crypto API
+          NODE_OPTIONS: --openssl-legacy-provider
         with:
           tagName: v__VERSION__
           releaseName: "v__VERSION__"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
           prerelease: false
-          includeUpdaterJson: true
+          uploadUpdaterJson: true
           updaterJsonPreferNsis: true
           args: ${{ matrix.args }}
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: release-${{ matrix.platform }}
-          path: src-tauri/target/release/bundle/**
+          name: release-${{ matrix.artifact }}
+          path: src-tauri/target/${{ matrix.target != '' && format('{0}/', matrix.target) || '' }}release/bundle/**

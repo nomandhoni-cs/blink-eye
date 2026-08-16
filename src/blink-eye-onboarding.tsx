@@ -1,31 +1,30 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Screen Components
 import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
-// import TodoListScreen from "./components/screens/todo-list-screen";
-import LicenseScreen from "./components/screens/license-screen";
 import ThemePickerOnboarding from "./components/screens/theme-picker-onboarding";
+import DoneScreen from "./components/screens/done-screen";
 
 // Types and Services
-import type { Screen, OnboardingData, TodoItem } from "./types/onboarding";
+import type { Screen } from "./types/onboarding";
 import { OnboardingService } from "./services/onboarding-service";
 import { Progress } from "./components/ui/progress";
 import { Button } from "./components/ui/button";
 import GradientBackground from "./components/GradientBackground";
-// import TodoPage from "./components/window/TodoPage";
-// import ActivateLicense from "./components/window/ActivateLicense";
-// import Database from "@tauri-apps/plugin-sql";
 import { ModeToggle } from "./components/ThemeToggle";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
-import ToDoOnboarding from "./components/screens/todo-screen-copied";
 import welcomeAudio from "./assets/audio/welcome-onboarding.mp3";
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
 
 export default function UserOnboarding() {
   // State Management
   const [currentScreen, setCurrentScreen] = useState(1);
+  const [direction, setDirection] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -56,10 +55,8 @@ export default function UserOnboarding() {
   const [reminderText, setReminderText] = useState(
     "Pause! Look into the distance, and best if you walk a bit.",
   );
-  const [licenseKey, setLicenseKey] = useState("");
-  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   // Screen Configuration - Easy to add new screens!
   const screens: Screen[] = [
@@ -85,39 +82,21 @@ export default function UserOnboarding() {
         await OnboardingService.saveBreakConfiguration({
           breakInterval,
           breakDuration,
-          customInterval: breakInterval.toString(),
-          customDuration: breakDuration.toString(),
           reminderText,
         });
       },
     },
     {
       id: 4,
-      title: "Todo List",
-      component: ToDoOnboarding,
+      title: "Done",
+      component: DoneScreen,
       onNext: async () => {
-        await OnboardingService.saveTodoList(todos);
-      },
-    },
-    {
-      id: 5,
-      title: "License",
-      component: LicenseScreen,
-      onNext: async () => {
-        await OnboardingService.saveLicenseKey(licenseKey);
-
-        // Complete onboarding on final screen
-        const onboardingData: OnboardingData = {
+        await OnboardingService.completeOnboarding({
           breakInterval,
           breakDuration,
-          customInterval: breakInterval.toString(),
-          customDuration: breakDuration.toString(),
           reminderText,
-          licenseKey,
-          todos,
           email: email || undefined,
-        };
-        await OnboardingService.completeOnboarding(onboardingData);
+        });
       },
     },
   ];
@@ -128,85 +107,46 @@ export default function UserOnboarding() {
 
   // Navigation Functions
 
-  const nextScreen = async () => {
-    if (currentScreen === 1) {
-      const trimmed = email.trim();
+  const validateEmail = (): boolean => {
+    const trimmed = email.trim();
 
-      if (!trimmed) {
-        toast(
-          "📬 Drop your email real quick!\n\nWe only use it if there's something important about the app — zero spam, we're not that kind of app.",
-          {
-            duration: 4000,
-            style: {
-              borderRadius: "12px",
-              background: "var(--background)",
-              color: "var(--foreground)",
-              border: "1px solid rgba(254, 76, 85, 0.3)",
-              fontSize: "13px",
-              textAlign: "center",
-            },
-            icon: "🙅",
-          },
-        );
-        return;
-      }
-
-      // RFC-compliant-ish email validation
-      const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
-      if (!emailRegex.test(trimmed)) {
-        toast(
-          "🤔 Hmm, that email looks a little off.\nDouble-check it? We need it to be real — just in case!",
-          {
-            duration: 4000,
-            style: {
-              borderRadius: "12px",
-              background: "var(--background)",
-              color: "var(--foreground)",
-              border: "1px solid rgba(254, 76, 85, 0.3)",
-              fontSize: "13px",
-              textAlign: "center",
-            },
-            icon: "✉️",
-          },
-        );
-        return;
-      }
-
-      // Success feedback when valid
-      toast.success("Got it! 🎉 No spam — pinky promise. Let's keep going!", {
-        duration: 2000,
-        style: {
-          borderRadius: "12px",
-          fontSize: "13px",
-        },
-      });
+    if (!trimmed) {
+      setEmailError("Please enter your email to continue.");
+      return false;
     }
 
-    if (currentScreen < totalScreens) {
-      setIsLoading(true);
-      try {
-        if (currentScreenConfig?.onNext) {
-          await currentScreenConfig.onNext();
-        }
+    if (!EMAIL_REGEX.test(trimmed)) {
+      setEmailError("That email doesn't look right. Double-check it?");
+      return false;
+    }
+
+    setEmailError(null);
+    return true;
+  };
+
+  const nextScreen = async () => {
+    if (currentScreen === 1 && !validateEmail()) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      if (currentScreenConfig?.onNext) {
+        await currentScreenConfig.onNext();
+      }
+      if (currentScreen < totalScreens) {
+        setDirection(1);
         setCurrentScreen(currentScreen + 1);
-      } catch (error) {
-        console.error("Error saving data:", error);
-        toast.error("Oops! Something went wrong. Try again?");
-      } finally {
-        setIsLoading(false);
       }
-    } else if (currentScreen === totalScreens) {
-      setIsLoading(true);
-      try {
-        if (currentScreenConfig?.onNext) {
-          await currentScreenConfig.onNext();
-        }
-      } catch (error) {
-        console.error("Error completing onboarding:", error);
-        toast.error("Couldn't complete setup. Try again!");
-      } finally {
-        setIsLoading(false);
-      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+      toast.error(
+        error instanceof Error && error.message
+          ? error.message
+          : "Oops! Something went wrong. Try again?",
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -215,11 +155,7 @@ export default function UserOnboarding() {
       setIsLoading(true);
 
       try {
-        // Execute the onPrevious function if exists
-        if (currentScreenConfig?.onPrevious) {
-          await currentScreenConfig.onPrevious();
-        }
-
+        setDirection(-1);
         setCurrentScreen(currentScreen - 1);
       } catch (error) {
         console.error("Error on previous:", error);
@@ -238,7 +174,7 @@ export default function UserOnboarding() {
     const getScreenProps = () => {
       switch (currentScreen) {
         case 1:
-          return { email, setEmail };
+          return { email, setEmail, emailError };
         case 2:
           // Theme picker - no props needed
           return {};
@@ -253,15 +189,9 @@ export default function UserOnboarding() {
           };
         case 4:
           return {
-            todos,
-            setTodos,
-          };
-        case 5:
-          return {
-            licenseKey,
-            setLicenseKey,
-            userName,
-            setUserName,
+            breakInterval,
+            breakDuration,
+            reminderText,
           };
         default:
           return {};
@@ -271,8 +201,23 @@ export default function UserOnboarding() {
     return <ScreenComponent {...getScreenProps()} />;
   };
 
+  const slideVariants = {
+    enter: (dir: number) => ({
+      opacity: 0,
+      x: dir > 0 ? 48 : -48,
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+    },
+    exit: (dir: number) => ({
+      opacity: 0,
+      x: dir > 0 ? -48 : 48,
+    }),
+  };
+
   return (
-    <div className="w-screen h-screen overflow-hidden relative select-none" data-tauri-drag-region>
+    <div className="w-screen h-screen overflow-hidden relative select-none">
       {/* Main Content Area */}
       <GradientBackground
         position="top"
@@ -280,21 +225,39 @@ export default function UserOnboarding() {
         fromColor="#ff80b5"
         toColor="#FE4C55"
       />
-      <div className="h-full pb-32 p-8 overflow-auto select-auto" data-tauri-drag-region>{renderScreen()}</div>
+      <div className="h-full pb-28 p-8 overflow-auto">
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
+          <motion.div
+            key={currentScreen}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="h-full"
+          >
+            {renderScreen()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
       {/* Top Right corner theme toggle  */}
-      <div className="absolute top-4 right-4" data-tauri-drag-region={false}>
+      <div className="absolute top-4 right-4">
         <ModeToggle />
       </div>
 
       {/* Fixed Bottom Navigation */}
-      <div className="absolute bottom-0 left-0 right-0 border-t border-t-foreground/10 p-4 space-y-4 shadow-lg" data-tauri-drag-region={false}>
+      <div className="absolute bottom-0 left-0 right-0 border-t border-t-foreground/10 bg-background/60 backdrop-blur-md p-4 space-y-3">
         {/* Progress Bar */}
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm text-foreground/50">
-            <span>Progress</span>
-            <span>{Math.round(progress)}% Complete</span>
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs text-foreground/50">
+            <span className="font-medium">
+              Step {currentScreen} of {totalScreens} —{" "}
+              {currentScreenConfig?.title}
+            </span>
+            <span>{Math.round(progress)}%</span>
           </div>
-          <Progress value={progress} className="h-2" />
+          <Progress value={progress} className="h-1.5" />
         </div>
 
         {/* Screen Indicators and Navigation */}
@@ -315,18 +278,14 @@ export default function UserOnboarding() {
             {screens.map((screen, index) => (
               <div
                 key={screen.id || index}
-                className="flex flex-col items-center space-y-1"
-              >
-                <div
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    currentScreen === screen.id
-                      ? "bg-[#FE4C55]"
-                      : currentScreen > screen.id
-                        ? "bg-green-500"
-                        : "bg-gray-300"
-                  }`}
-                />
-              </div>
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  currentScreen === screen.id
+                    ? "w-6 bg-primary"
+                    : currentScreen > screen.id
+                      ? "w-2 bg-primary/50"
+                      : "w-2 bg-foreground/15"
+                }`}
+              />
             ))}
           </div>
 

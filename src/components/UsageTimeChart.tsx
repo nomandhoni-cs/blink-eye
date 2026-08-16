@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { load } from "@tauri-apps/plugin-store";
+import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
 import {
   Bar,
@@ -198,12 +198,8 @@ export default function UsageTimeChart() {
         });
         setTimeData(groupedData);
 
-        const usageTimeLimitStore = await load("store.json", {
-          autoSave: false,
-        });
-        const usageLimit =
-          await usageTimeLimitStore.get<number>("usageTimeLimit");
-        if (usageLimit) setUsageTimeLimit(usageLimit);
+        const usageLimit = await invoke<string | null>("get_config_string", { key: "usageTimeLimit" });
+        if (usageLimit) setUsageTimeLimit(Number(usageLimit));
       } catch (error) {
         console.error("Failed to load time data:", error);
       }
