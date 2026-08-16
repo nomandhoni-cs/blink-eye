@@ -3,8 +3,8 @@ import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useEffect, useState } from "react";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Button } from "../ui/button";
+import { invoke } from "@tauri-apps/api/core";
 import toast from "react-hot-toast";
-import { load } from "@tauri-apps/plugin-store";
 import HowToCloseScreenSaver from "../HowToCloseScreenSaver";
 import { cn } from "../../lib/utils";
 
@@ -66,10 +66,7 @@ const ScreenSavers: React.FC = () => {
   useEffect(() => {
     const fetchBackgroundStyle = async () => {
       try {
-        const store = await load("ScreenSaverStyle.json", {
-          autoSave: true,
-        });
-        const savedStyle = await store.get<string>("backgroundStyle");
+        const savedStyle = await invoke<string | null>("get_config_string", { key: "screenSaverBackgroundStyle" });
         if (savedStyle) {
           setBackgroundStyle(savedStyle);
         }
@@ -107,11 +104,7 @@ const ScreenSavers: React.FC = () => {
       return;
     } else {
       try {
-        const themePreviewStore = await load("ScreenSaverStyle.json", {
-          autoSave: false,
-        });
-        await themePreviewStore.set("backgroundStyle", style);
-        await themePreviewStore.save();
+        await invoke("update_reminder_setting", { key: "screenSaverBackgroundStyle", value: style });
         setBackgroundStyle(style);
         console.log("Background style saved:", style);
       } catch (err) {

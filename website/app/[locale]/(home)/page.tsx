@@ -10,8 +10,6 @@ import { fetchGithubStats } from "@/utils/fetch-github-release";
 import { routing } from "@/i18n/routing";
 import TimerDemo from "@/components/TimerDemo";
 import Command from "@/components/Command";
-import SupportedPlatforms from "@/components/SupportedPlatforms";
-import ReleaseInfo from "@/components/ReleaseInfo";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -31,11 +29,7 @@ const RootPage = async () => {
         {/* Download & Install Group */}
         <div className="flex flex-col space-y-8 pt-16">
           <DownloadApp latestRelease={latestRelease} />
-          <Command />
-          <div className="flex flex-col space-y-4">
-            <SupportedPlatforms />
-            <ReleaseInfo tagName={tagName} totalDownloads={totalDownloads} />
-          </div>
+          <Command tagName={tagName} totalDownloads={totalDownloads} />
         </div>
 
         {/* Timer Demo */}

@@ -1,4 +1,4 @@
-import { useUpdater } from "../hooks/useAutoUpdater";
+import { useUpdate } from "../contexts/UpdateContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,26 +9,31 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
+
 export function UpdateDialog() {
-  const { isUpdateAvailable, handleUpdate, setIsUpdateAvailable } =
-    useUpdater();
+  const { latestVersion, dialogOpen, dismissUpdate, downloadAndInstall } =
+    useUpdate();
 
   return (
-    <AlertDialog open={isUpdateAvailable} onOpenChange={setIsUpdateAvailable}>
+    <AlertDialog open={dialogOpen} onOpenChange={(open) => {
+      if (!open) void dismissUpdate();
+    }}>
       <div className="w-80">
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Update Available</AlertDialogTitle>
             <AlertDialogDescription>
-              A new version of Blink Eye is available. Would you like to update
+              Blink Eye v{latestVersion} is available. Would you like to update
               now?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsUpdateAvailable(false)}>
-              Cancel
+            <AlertDialogCancel onClick={() => void dismissUpdate()}>
+              Not now
             </AlertDialogCancel>
-            <AlertDialogAction onClick={handleUpdate}>Update</AlertDialogAction>
+            <AlertDialogAction onClick={() => void downloadAndInstall()}>
+              Update
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </div>

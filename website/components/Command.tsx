@@ -1,182 +1,132 @@
 // components/Command.tsx
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { CopyButton } from "./copy-button";
+import { MacIcon, WindowsIcon } from "@/utils/mac-win-linicon";
+import { Terminal } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CopyButton } from "./copy-button";
-import { MacIcon, WindowsIcon } from "@/utils/mac-win-linicon";
-import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "@/i18n/routing";
 
 interface CommandProps {
   children?: React.ReactNode;
   className?: string;
+  tagName?: string;
+  totalDownloads?: number;
 }
 
-export default function Command({ children, className = "" }: CommandProps) {
-  const [isMac, setIsMac] = useState(true);
+export default function Command({
+  children,
+  className = "",
+  tagName,
+  totalDownloads,
+}: CommandProps) {
   const macCommand =
     "brew install --cask nomandhoni-cs/blinkeye/blinkeye";
   const winCommand = "winget install NomanDhoni.BlinkEye";
-  const xattrCommand =
-    "xattr -d com.apple.quarantine '/Applications/Blink Eye.app'";
 
   return (
     <div
-      className={`w-full max-w-3xl mx-auto space-y-8 px-4 sm:px-0 font-sans ${className}`}
+      className={`w-full max-w-3xl mx-auto px-4 sm:px-0 font-sans ${className}`}
     >
-      {/* Platform Toggle */}
-      <div className="flex justify-center items-center">
-        <div className="inline-flex items-center bg-gray-100 dark:bg-[#111111] border border-gray-200 dark:border-white/10 rounded-full p-1.5 backdrop-blur-sm transition-colors duration-300">
-          <ToggleButton
-            icon={<MacIcon className="w-8 h-8 fill-current" />}
-            label="macOS"
-            isActive={isMac}
-            onClick={() => setIsMac(true)}
-          />
-          <ToggleButton
-            icon={<WindowsIcon className="w-8 h-8 fill-current" />}
-            label="Windows"
-            isActive={!isMac}
-            onClick={() => setIsMac(false)}
-          />
-        </div>
+      <div className="flex flex-col items-center text-center space-y-3">
+        {/* CLI install line */}
+        <p className="text-sm text-gray-500 dark:text-zinc-400">
+          Install using{" "}
+          <CommandPopover
+            command={macCommand}
+            label="Homebrew"
+            icon={<MacIcon className="w-3.5 h-3.5 fill-current" />}
+          />{" "}
+          on macOS or{" "}
+          <CommandPopover
+            command={winCommand}
+            label="winget"
+            icon={<WindowsIcon className="w-3.5 h-3.5 fill-current" />}
+          />{" "}
+          on Windows
+        </p>
+
+        {/* Supported platforms */}
+        <p className="text-xs text-gray-400 dark:text-zinc-500">
+          Supports macOS Intel/M Chip (ARM) | Windows 10, 11 (MSI, EXE) | Linux (Debian, AppImage, RPM, Tar.gz)
+        </p>
+
+        {/* Release info */}
+        {(tagName || totalDownloads) && (
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-gray-400 dark:text-zinc-500 pt-1">
+            {tagName && (
+              <Badge variant="outline">Latest: {tagName}</Badge>
+            )}
+            <span className="text-gray-300 dark:text-zinc-600">|</span>
+            <Link
+              href="/changelog"
+              className="text-gray-500 dark:text-zinc-400 hover:text-[#FE4C55] dark:hover:text-[#FE4C55] font-medium transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-zinc-600 hover:decoration-[#FE4C55]"
+            >
+              Release Notes
+            </Link>
+            <span className="text-gray-300 dark:text-zinc-600">|</span>
+            {totalDownloads != null && (
+              <Badge variant="outline">Downloaded: {totalDownloads.toLocaleString()} times</Badge>
+            )}
+          </div>
+        )}
+
+        {/* Optional children slot */}
+        {children && (
+          <div className="pt-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {children}
+          </div>
+        )}
       </div>
-
-      {/* Heading + macOS warning */}
-      <div className="text-center space-y-4">
-        <h2 className="text-2xl font-heading sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white transition-colors duration-300">
-          Kindly install with{" "}
-          {isMac ? "Homebrew on macOS" : "winget on Windows"}
-        </h2>
-
-        <div
-          className={`transition-all duration-500 ease-in-out ${isMac
-            ? "opacity-100 max-h-20"
-            : "opacity-0 max-h-0 overflow-hidden"
-            }`}
-        >
-          <MacOSWarning xattrCommand={xattrCommand} />
-        </div>
-      </div>
-
-      {/* Command Box */}
-      <div className="flex justify-center w-full">
-        <div className="w-full transition-all duration-300 transform">
-          <CommandBox command={isMac ? macCommand : winCommand} />
-        </div>
-      </div>
-
-      {/* Optional children slot */}
-      {children && (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          {children}
-        </div>
-      )}
     </div>
   );
 }
 
-// --- Internal sub-components ---
-
-function ToggleButton({
-  icon,
+function CommandPopover({
+  command,
   label,
-  isActive,
-  onClick,
+  icon,
 }: {
-  icon: React.ReactNode;
+  command: string;
   label: string;
-  isActive: boolean;
-  onClick: () => void;
+  icon: React.ReactNode;
 }) {
   return (
-    <button
-      className={`flex items-center space-x-2 px-6 py-2 rounded-full transition-all duration-300 font-medium ${isActive
-        ? "bg-[#FE4C55] text-black shadow-lg shadow-red-500/20"
-        : "text-gray-800 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
-        }`}
-      onClick={onClick}
-    >
-      {icon}
-      <span className="text-sm">{label}</span>
-    </button>
-  );
-}
-
-function MacOSWarning({ xattrCommand }: { xattrCommand: string }) {
-  return (
-    <div className="max-w-2xl mx-auto">
-      <p className="text-gray-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed transition-colors duration-300">
-        Blink Eye is not notarized yet, so you might encounter an error due to
-        MacOS Gatekeeper. If you face this issue, follow the{" "}
-        <Popover>
-          <PopoverTrigger>
-            <span className="cursor-pointer text-[#FE4C55] hover:text-[#ff6b73] hover:underline font-medium transition-colors">
-              Installation guide
-            </span>
-          </PopoverTrigger>
-          <PopoverContent className="w-[320px] sm:w-[400px] bg-white dark:bg-[#111111] border border-gray-200 dark:border-white/10 text-gray-800 dark:text-zinc-300 shadow-xl">
-            <h3 className="font-semibold mb-3 text-gray-900 dark:text-white text-base">
-              Bypass Gatekeeper - Installation Instructions:
-            </h3>
-            <div className="text-sm space-y-3">
-              <p>
-                <strong className="text-[#FE4C55]">Important Notice</strong>:
-                Apple requires developers to pay $100/year for app
-                notarization. As a small developer, this cost is significant,
-                so this app has not been notarized.
-              </p>
-              <p>
-                As a result, macOS Gatekeeper might block the app. You can
-                bypass this restriction using one of the following methods:
-              </p>
-              <ol className="list-decimal pl-5 space-y-2 marker:text-gray-500 dark:marker:text-zinc-500">
-                <li>
-                  <strong className="text-gray-900 dark:text-white">
-                    Via Finder:
-                  </strong>
-                  <ul className="list-disc pl-5 mt-1 space-y-1 text-gray-600 dark:text-zinc-400">
-                    <li>Right-click the app in Finder.</li>
-                    <li>Select &quot;Open&quot; to allow it to run.</li>
-                  </ul>
-                </li>
-                <li>
-                  <strong className="text-gray-900 dark:text-white">
-                    Via Terminal:
-                  </strong>
-                  <div className="mt-2 text-gray-600 dark:text-zinc-400">
-                    Run the following command to remove the Gatekeeper
-                    quarantine attribute:
-                    <div className="mt-2">
-                      <CommandBox command={xattrCommand} small />
-                    </div>
-                  </div>
-                </li>
-              </ol>
-              <p className="font-medium text-gray-900 dark:text-white mt-4 border-t border-gray-200 dark:border-white/10 pt-3">
-                Your understanding and support for independent developers like
-                me are greatly appreciated! 💡
-              </p>
-              <div className="mt-3">
-                <CommandBox command="brew install --cask nomandhoni-cs/blinkeye/blinkeye" small />
-              </div>
-              <div className="mt-3 text-sm text-gray-600 dark:text-zinc-400">
-                <p>{`==> Installing Cask blinkeye`}</p>
-                <p>{`==> Moving App 'Blink Eye.app' to '/Applications/Blink Eye.app'`}</p>
-                <p>🍺  blinkeye was successfully installed!</p>
-                <div className="mt-2">
-                  <CommandBox command="xattr -d com.apple.quarantine '/Applications/Blink Eye.app'" small />
-                </div>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </p>
-    </div>
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="inline-flex items-center gap-1 text-[#FE4C55] hover:text-[#ff6b73] underline underline-offset-4 decoration-[#FE4C55]/40 hover:decoration-[#FE4C55] transition-colors font-medium">
+          {icon}
+          {label}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="center"
+        sideOffset={8}
+        className="w-[calc(100vw-2rem)] sm:w-[440px] rounded-2xl border shadow-2xl p-5"
+      >
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+            <Terminal className="w-4 h-4 text-[#FE4C55]" />
+            <span>Run this command</span>
+          </div>
+          <div className="flex items-center justify-between gap-3 bg-muted rounded-xl px-4 py-3">
+            <code className="font-mono text-sm text-foreground overflow-x-auto whitespace-nowrap">
+              {command}
+            </code>
+            <CopyButton
+              value={command}
+              className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+            />
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 

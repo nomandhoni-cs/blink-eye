@@ -1,392 +1,239 @@
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { load } from "@tauri-apps/plugin-store";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { useState, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
-import { useTrigger } from "../../contexts/TriggerReRender";
-import { Card, CardContent } from "../ui/card";
-import {
-  ClockIcon,
-  SaveIcon,
-  TextIcon,
-  WallpaperIcon,
-  Hourglass,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { invoke } from "@tauri-apps/api/core";
+import { cn } from "@/lib/utils";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
+import { useAccentColor } from "../../contexts/AccentColorContext";
 import DashboardPendingTasks from "../DashboardPendingTasks";
+import DashboardWeeklyReport from "../dashboard/DashboardWeeklyReport";
+import { DashboardStatCard } from "../dashboard/DashboardStatCard";
+import {
+  dashboardBlockClassName,
+  DashboardIconBadge,
+} from "../dashboard/dashboardBlock";
+import {
+  IoFlame,
+  IoCheckmarkCircle,
+  IoAlarm,
+  IoTimer,
+  IoTime,
+} from "react-icons/io5";
 
-// Pre-defined options for smooth UX selection
-const FREQUENCY_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60, 90, 120];
-const DURATION_OPTIONS = [10, 15, 20, 30, 45, 60, 90, 120, 300];
-
-// ==========================================
-// SCROLLABLE SELECTOR COMPONENT
-// ==========================================
-const ScrollableSelector = ({
-  options,
-  value,
-  onChange,
-  unit,
-}: {
-  options: number[];
-  value: number;
-  onChange: (val: number) => void;
-  unit: string;
-}) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeftPos, setScrollLeftPos] = useState(0);
-  const [hasDragged, setHasDragged] = useState(false);
-
-  // Merge the current value into options if it's custom, and sort them numerically
-  const displayOptions = Array.from(new Set([...options, value]))
-    .filter((v) => v > 0)
-    .sort((a, b) => a - b);
-
-  // Convert vertical mouse wheel to horizontal scrolling
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    };
-
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, []);
-
-  // Drag-to-scroll handlers
-  const onMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setHasDragged(false);
-    setStartX(e.pageX - scrollRef.current!.offsetLeft);
-    setScrollLeftPos(scrollRef.current!.scrollLeft);
-  };
-
-  const onMouseLeave = () => setIsDragging(false);
-  const onMouseUp = () => {
-    setIsDragging(false);
-    // Reset drag state slightly after to allow click events to process
-    setTimeout(() => setHasDragged(false), 50);
-  };
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    setHasDragged(true); // User is actually dragging, not just clicking
-    const x = e.pageX - scrollRef.current!.offsetLeft;
-    const walk = (x - startX) * 1.5; // Scroll speed multiplier
-    scrollRef.current!.scrollLeft = scrollLeftPos - walk;
-  };
-
-  return (
-    <div className="relative w-full overflow-hidden">
-      <div
-        ref={scrollRef}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseLeave}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
-        className={`flex gap-2 overflow-x-auto py-2 px-1 select-none ${
-          isDragging ? "cursor-grabbing" : "cursor-grab"
-        } [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden`}
-      >
-        {displayOptions.map((opt) => {
-          const isSelected = value === opt;
-          return (
-            <button
-              key={opt}
-              onClick={(e) => {
-                if (hasDragged) {
-                  e.stopPropagation();
-                  return;
-                }
-                onChange(opt);
-              }}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 active:scale-95 ${
-                isSelected
-                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 ring-2 ring-primary/50 ring-offset-1 ring-offset-background"
-                  : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border"
-              }`}
-            >
-              {opt} {unit}
-            </button>
-          );
-        })}
-      </div>
-      {/* Subtle fade effect on the right edge to indicate scrollability */}
-      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none" />
-    </div>
-  );
+type BreakStats = {
+  breakStreak: number;
+  bestBreakStreak: number;
+  snoozesToday: number;
+  snoozesSession: number;
+  snoozesAllowedPerDay: number;
+  snoozesAllowedPerSession: number;
+  totalBreaksCompleted: number;
 };
 
-// ==========================================
-// MAIN DASHBOARD COMPONENT
-// ==========================================
-const Dashboard = () => {
-  const { triggerUpdate } = useTrigger();
-  const [interval, setInterval] = useState<number>(20);
-  const [duration, setDuration] = useState<number>(20);
-  const [reminderText, setReminderText] = useState<string>("");
-  const [usageTimeLimit, setUsageTimeLimit] = useState<number>(8);
-  const [backgroundStyle, setBackgroundStyle] = useState<string>("");
-  const { timeCount } = useTimeCountContext();
+type NextReminderInfo = {
+  nextReminderInSecs: number;
+  isOnBreak: boolean;
+};
 
-  // Calculate total hours for the progress circle
+function formatLimit(used: number, limit: number) {
+  if (limit === 0) return `${used} · unlimited`;
+  return `${used} / ${limit}`;
+}
+
+function formatCountdown(info: NextReminderInfo | null) {
+  if (!info) return "—";
+  if (info.isOnBreak) return "On break";
+  if (info.nextReminderInSecs <= 0) return "Soon";
+
+  const mins = Math.floor(info.nextReminderInSecs / 60);
+  const secs = info.nextReminderInSecs % 60;
+  if (mins === 0) return `${secs}s`;
+  if (secs === 0) return `${mins}m`;
+  return `${mins}m ${secs}s`;
+}
+
+const Dashboard = () => {
+  const usageTimeLimit = 8;
+  const { timeCount } = useTimeCountContext();
+  const { accentHex } = useAccentColor();
+  const [stats, setStats] = useState<BreakStats | null>(null);
+  const [nextReminder, setNextReminder] = useState<NextReminderInfo | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const data = await invoke<BreakStats>("get_break_stats");
+        setStats(data);
+      } catch (error) {
+        console.error("Failed to load break stats:", error);
+      }
+    };
+
+    loadStats();
+    const interval = setInterval(loadStats, 30_000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const loadCountdown = async () => {
+      try {
+        const data = await invoke<NextReminderInfo>("get_next_reminder_info");
+        setNextReminder(data);
+      } catch (error) {
+        console.error("Failed to load next reminder info:", error);
+      }
+    };
+
+    loadCountdown();
+    const interval = setInterval(loadCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const totalHours = timeCount.hours + timeCount.minutes / 60;
-  const percentage = (totalHours / 24) * 100;
+  const percentage = Math.min((totalHours / 24) * 100, 100);
   const isOverLimit = totalHours > usageTimeLimit;
 
-  // Get current date
   const currentDate = new Date();
-  const dateOptions: Intl.DateTimeFormatOptions = {
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
-  };
-  const formattedDate = currentDate.toLocaleDateString("en-US", dateOptions);
-
-  // Function to open the reminder window
-  const openReminderWindow = (reminderWindow: string) => {
-    console.log("Opening reminder window...");
-    const webview = new WebviewWindow(reminderWindow, {
-      url: `/${reminderWindow}`,
-      title: "Take A Break Reminder - Blink Eye",
-      fullscreen: true,
-      alwaysOnTop: true,
-      skipTaskbar: true,
-    });
-
-    webview.once("tauri://created", () => {
-      console.log("Reminder window created");
-    });
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating reminder window:", e);
-    });
-  };
-
-  const handleOpenReminderWindow = () => {
-    console.log("Opening reminder window for", backgroundStyle);
-    switch (backgroundStyle) {
-      case "aurora":
-        openReminderWindow("AuroraReminderWindow");
-        break;
-      case "beamoflife":
-        openReminderWindow("BeamOfLifeReminderWindow");
-        break;
-      case "freesprit":
-        openReminderWindow("FreeSpiritReminderWindow");
-        break;
-      case "canvasShapes":
-        openReminderWindow("CanvasShapesReminderWindow");
-        break;
-      case "particleBackground":
-        openReminderWindow("ParticleBackgroundReminderWindow");
-        break;
-      case "plainGradientAnimation":
-        openReminderWindow("PlainGradientAnimationReminderWindow");
-        break;
-      case "starryBackground":
-        openReminderWindow("StarryBackgroundReminderWindow");
-        break;
-      case "shootingmeteor":
-        openReminderWindow("ShootingMeteorReminderWindow");
-        break;
-      default:
-        openReminderWindow("AuroraReminderWindow");
-    }
-  };
-
-  // Load settings from the store when the component mounts
-  useEffect(() => {
-    const fetchSettings = async () => {
-      const store = await load("store.json", { autoSave: false });
-      const storedInterval = await store.get<number>(
-        "blinkEyeReminderInterval",
-      );
-      const storedDuration = await store.get<number>(
-        "blinkEyeReminderDuration",
-      );
-      const storedReminderText = await store.get<string>(
-        "blinkEyeReminderScreenText",
-      );
-      const reminderStyleData = await load("ReminderThemeStyle.json");
-      const savedStyle = await reminderStyleData.get<string>("backgroundStyle");
-      if (savedStyle) setBackgroundStyle(savedStyle);
-      const usageTimeLimit = await store.get<number>("usageTimeLimit");
-      if (usageTimeLimit) setUsageTimeLimit(usageTimeLimit);
-
-      if (storedInterval) setInterval(storedInterval);
-      if (storedDuration) setDuration(storedDuration);
-      if (storedReminderText) setReminderText(storedReminderText);
-    };
-
-    fetchSettings();
-  }, []);
-
-  // Save settings to the store when the save button is clicked
-  const handleSave = async () => {
-    if (interval <= 0) {
-      toast.error("Interval must be greater than 0 minutes.");
-      return;
-    }
-    if (duration <= 0) {
-      toast.error("Duration must be greater than 0 seconds.");
-      return;
-    }
-
-    const store = await load("store.json", { autoSave: false });
-    await store.set("blinkEyeReminderDuration", duration);
-    await store.set("blinkEyeReminderInterval", interval);
-    await store.set("blinkEyeReminderScreenText", reminderText);
-    await store.save();
-
-    triggerUpdate();
-
-    toast.success("Successfully saved the settings!", {
-      duration: 2000,
-      position: "bottom-right",
-    });
-  };
+  });
 
   return (
-    <div className="p-2 space-y-3 flex flex-col h-full relative">
-      {/* Header & Progress */}
-      <div className="flex justify-between items-center space-x-8 mt-6 mb-6">
-        <div>
-          <h1 className="text-5xl font-heading font-semibold tracking-wider text-primary">
-            {currentDate.toLocaleString("en-US", { weekday: "long" })}
-          </h1>
-          <p className="text-xl text-muted-foreground">{formattedDate}</p>
-        </div>
-        <div className="relative w-48 h-48">
-          <svg className="w-full h-full transform -rotate-90">
-            <circle
-              cx="96"
-              cy="96"
-              r="86"
-              className="stroke-muted stroke-[20px] fill-none"
-              strokeLinecap="round"
-            />
-            <circle
-              cx="96"
-              cy="96"
-              r="86"
-              className={`stroke-[20px] fill-none transition-all duration-500 ease-in-out ${
-                isOverLimit ? "stroke-primary" : "stroke-green-500"
-              }`}
-              strokeDasharray={`${(percentage * 540.4) / 100} 540.4`}
-              strokeLinecap="round"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-heading tracking-wide">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
-            <span className="text-sm text-muted-foreground">Usage Time</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Settings Section */}
-      <Card className="bg-black/5 dark:bg-white/5 backdrop-blur-3xl border-white/10 shadow-xl overflow-hidden flex-shrink-0">
-        <CardContent className="p-6 space-y-8">
-          {/* Scrollable Selectors Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-semibold">
-                <ClockIcon className="h-4 w-4 text-primary" />
-                Break Frequency
-              </Label>
-              <p className="text-xs text-muted-foreground mb-2">
-                How often you want to be reminded
+    <div className="flex h-[calc(100svh-5rem)] flex-col gap-4 p-2">
+      <div className="flex min-h-0 flex-1 flex-col gap-4">
+        <section className="grid min-h-0 flex-[14] basis-0 grid-cols-1 gap-3 lg:grid-cols-3">
+          <div
+            className={cn(
+              "flex h-full min-h-0 flex-col justify-between gap-6 px-4 py-5",
+              dashboardBlockClassName,
+            )}
+          >
+            <div>
+              <h1 className="text-3xl font-heading font-semibold tracking-wide text-foreground sm:text-4xl">
+                {currentDate.toLocaleString("en-US", { weekday: "long" })}
+              </h1>
+              <p className="mt-1 text-base text-muted-foreground sm:text-lg">
+                {formattedDate}
               </p>
-              <ScrollableSelector
-                options={FREQUENCY_OPTIONS}
-                value={interval}
-                onChange={setInterval}
-                unit="min"
-              />
             </div>
 
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-semibold">
-                <Hourglass className="h-4 w-4 text-primary" />
-                Break Duration
-              </Label>
-              <p className="text-xs text-muted-foreground mb-2">
-                How long the break screen should last
-              </p>
-              <ScrollableSelector
-                options={DURATION_OPTIONS}
-                value={duration}
-                onChange={setDuration}
-                unit="sec"
-              />
-            </div>
-          </div>
-
-          {/* Reminder Message */}
-          <div className="space-y-3 pt-2">
-            <Label className="flex items-center gap-2 text-base font-semibold">
-              <TextIcon className="h-4 w-4 text-primary" />
-              Reminder Message
-            </Label>
-            <Input
-              type="text"
-              placeholder="Pause! Look into the distance, and best if you walk a bit."
-              value={reminderText}
-              onChange={(e) => setReminderText(e.target.value)}
-              className="bg-background/50 h-12 text-base focus-visible:ring-primary/50 border-white/10"
-            />
-          </div>
-
-          {/* Footer Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border/50">
-            <div className="flex w-full sm:w-auto gap-3">
-              <Button onClick={handleSave} className="flex-1 sm:flex-none">
-                <SaveIcon className="w-4 h-4 mr-2" />
-                Save Settings
-              </Button>
-              <Button
-                onClick={handleOpenReminderWindow}
-                variant="secondary"
-                className="flex-1 sm:flex-none bg-secondary/50 hover:bg-secondary"
-              >
-                <WallpaperIcon className="w-4 h-4 mr-2" />
-                Preview
-              </Button>
-            </div>
-
-            <a
-              href="http://github.com/nomandhoni-cs/blink-eye"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center hover:opacity-80 transition-opacity mt-2 sm:mt-0"
-            >
-              <div className="flex h-8 w-8 items-center justify-center">
-                <svg
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 fill-current text-foreground"
-                >
-                  <title>GitHub</title>
-                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                </svg>
+            <div className="mt-auto">
+              <div className="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
+                <DashboardIconBadge color={accentHex}>
+                  <IoTimer className="size-4" />
+                </DashboardIconBadge>
+                Next break
               </div>
-            </a>
+              <div className="text-4xl font-heading font-semibold tracking-tight sm:text-5xl">
+                {formatCountdown(nextReminder)}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {nextReminder?.isOnBreak
+                  ? "Finish your current break"
+                  : "Countdown until your next reminder"}
+              </p>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+          <div className="flex h-full min-h-0 lg:col-span-2">
+            <DashboardPendingTasks className="h-full w-full" />
+          </div>
+        </section>
 
-      {/* Adjusted the spacing so tasks render properly below */}
-      <div className="flex-1 pb-4">
-        <DashboardPendingTasks />
+        <section className="grid min-h-0 flex-[15] basis-0 grid-cols-1 gap-3 lg:grid-cols-3">
+          <div className="flex h-full min-h-0 lg:col-span-2">
+            <DashboardWeeklyReport className="h-full w-full" />
+          </div>
+          <div
+            className={cn(
+              "flex h-full min-h-0 items-center justify-center px-4 py-4",
+              dashboardBlockClassName,
+            )}
+          >
+            <div className="relative h-40 w-40 sm:h-44 sm:w-44">
+              <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  className="fill-none stroke-muted stroke-[8px]"
+                  strokeLinecap="round"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  className={`fill-none stroke-[8px] transition-all duration-500 ${
+                    isOverLimit ? "stroke-destructive" : "stroke-primary"
+                  }`}
+                  strokeDasharray={`${(percentage * 264) / 100} 264`}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <IoTime className="mb-1 size-4 text-muted-foreground" />
+                <span className="text-2xl font-heading font-semibold sm:text-3xl">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
+                <span className="text-xs text-muted-foreground">Screen time</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
+
+      <section className={cn("shrink-0 overflow-hidden", dashboardBlockClassName)}>
+        <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {stats ? (
+            <div className="px-4 py-5">
+              <DashboardStatCard
+                className="h-full border-0 bg-transparent p-0 shadow-none"
+                icon={
+                  <DashboardIconBadge color={accentHex}>
+                    <IoAlarm className="size-4" />
+                  </DashboardIconBadge>
+                }
+                label="Snoozes today"
+                value={formatLimit(
+                  stats.snoozesToday,
+                  stats.snoozesAllowedPerDay,
+                )}
+                detail={`Session ${formatLimit(stats.snoozesSession, stats.snoozesAllowedPerSession)}`}
+              />
+            </div>
+          ) : null}
+
+          {stats ? (
+            <>
+              <div className="px-4 py-5">
+                <DashboardStatCard
+                  className="h-full border-0 bg-transparent p-0 shadow-none"
+                  icon={
+                    <DashboardIconBadge color={accentHex}>
+                      <IoFlame className="size-4" />
+                    </DashboardIconBadge>
+                  }
+                  label="Break streak"
+                  value={stats.breakStreak}
+                  detail={`Best ${stats.bestBreakStreak} in a row`}
+                />
+              </div>
+              <div className="px-4 py-5">
+                <DashboardStatCard
+                  className="h-full border-0 bg-transparent p-0 shadow-none"
+                  icon={
+                    <DashboardIconBadge color={accentHex}>
+                      <IoCheckmarkCircle className="size-4" />
+                    </DashboardIconBadge>
+                  }
+                  label="Full breaks"
+                  value={stats.totalBreaksCompleted}
+                  detail="Completed without skipping"
+                />
+              </div>
+            </>
+          ) : null}
+        </div>
+      </section>
     </div>
   );
 };

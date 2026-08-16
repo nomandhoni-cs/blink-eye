@@ -4,11 +4,9 @@ import App from "./App";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AccentColorProvider } from "@/contexts/AccentColorContext";
 import DefaultStartMinimize from "@/components/DefaultStartMinimize";
-import EncryptionComponent from "@/components/EncryptionComponent";
 import LicenseValidationComponent from "@/components/LicenseValidationComponent";
 import { PremiumFeaturesProvider } from "@/contexts/PremiumFeaturesContext";
 import ConfigDataLoader from "@/components/ConfigDataLoader";
-import ReminderHandler from "@/components/ReminderHandler";
 import { TriggerProvider } from "./contexts/TriggerReRender";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -20,7 +18,6 @@ if (!import.meta.env.DEV) {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <EncryptionComponent />
     <ConfigDataLoader />
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <AccentColorProvider>
@@ -28,7 +25,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <DefaultStartMinimize />
           <LicenseValidationComponent />
           <TriggerProvider>
-            <ReminderHandler />
             <TooltipProvider>
               <App />
             </TooltipProvider>

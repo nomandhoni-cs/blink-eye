@@ -6,8 +6,16 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { useOnlineStatus } from "../hooks/useOnlineStatus";
+import { invoke } from "@tauri-apps/api/core";
+import { message } from "@tauri-apps/plugin-dialog";
 import { useLicenseKey } from "../hooks/useLicenseKey";
+
+interface TrialInfo {
+  install_date: string | null;
+  days_remaining: number;
+  is_active: boolean;
+  clock_manipulated: boolean;
+}
 
 interface PremiumFeaturesContextType {
   canAccessPremiumFeatures: boolean;
@@ -24,11 +32,29 @@ export const PremiumFeaturesProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const { isTrialOn } = useOnlineStatus();
   const { licenseData } = useLicenseKey();
   const [canAccessPremiumFeatures, setCanAccessPremiumFeatures] =
     useState(false);
   const [isPaidUser, setIsPaidUser] = useState(false);
+  const [isTrialOn, setIsTrialOn] = useState(false);
+
+  useEffect(() => {
+    const checkTrial = async () => {
+      try {
+        const info: TrialInfo = await invoke("get_trial_info");
+        if (info.clock_manipulated) {
+          await message(
+            "System clock manipulation detected: Current date is before installation date.",
+            { title: "Blink Eye", kind: "error" }
+          );
+        }
+        setIsTrialOn(info.is_active);
+      } catch (err) {
+        console.error("[PremiumFeatures] Failed to get trial info:", err);
+      }
+    };
+    checkTrial();
+  }, []);
 
   useEffect(() => {
     const paidUser = licenseData?.status === "active";

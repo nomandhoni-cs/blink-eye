@@ -1,54 +1,24 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
 import "./index.css";
-import { useAutoStart } from "./hooks/useAutoStart";
+import { invoke } from "@tauri-apps/api/core";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
 import UserOnboarding from "./blink-eye-onboarding";
-import Database from "@tauri-apps/plugin-sql";
+import DebugPremiumPanel from "./components/DebugPremiumPanel";
 
-const ReminderControl = lazy(() => import("./components/ReminderControl"));
-const BeamOfLifeBGWrapper = lazy(
-  () => import("./components/ReminderWindows/BeamOfLifeBGWrapper"),
-);
-const AuroraBGWrapper = lazy(
-  () => import("./components/ReminderWindows/AuroraBGWrapper"),
-);
-const PlainBGWrapper = lazy(
-  () => import("./components/ReminderWindows/PlainBGWrapper"),
-);
-const FreeSpiritBGWrapper = lazy(
-  () => import("./components/ReminderWindows/FreeSpiritBGWrapper"),
-);
-const CanvasShapesBGWrapper = lazy(
-  () => import("./components/ReminderWindows/CanvasShapesBGWrapper"),
-);
-const ParticleBackgroundBGWrapper = lazy(
-  () => import("./components/ReminderWindows/ParticleBackgroundBGWrapper"),
-);
-const PlainGradientAnimationBGWrapper = lazy(
-  () => import("./components/ReminderWindows/PlainGradientAnimationBGWrapper"),
-);
-const StarryBackgroundBGWrapper = lazy(
-  () => import("./components/ReminderWindows/StarryBackgroundBGWrapper"),
-);
-const ShootingMeteorBGWrapper = lazy(
-  () => import("./components/ReminderWindows/ShootingMeteorBGWrapper"),
-);
+
 
 const ScreenSavers = lazy(() => import("./components/window/ScreenSavers"));
 const ScreenSaverWindow = lazy(
   () => import("./components/window/ScreenSaverWindow"),
 );
-const Reminder = lazy(() => import("./components/window/Reminder"));
 const Support = lazy(() => import("./components/window/Support"));
 const Layout = lazy(() => import("./components/window/Layout"));
-const ReminderPreviewWindow = lazy(
-  () => import("./components/window/ReminderPreviewWindow"),
-);
 const Workday = lazy(() => import("./components/window/Workday"));
 const Dashboard = lazy(() => import("./components/window/Dashboard"));
+const ReminderSettings = lazy(() => import("./components/window/ReminderSettings"));
 const UsageTime = lazy(() => import("./components/window/UsageTime"));
 const ReminderStyles = lazy(() => import("./components/ReminderStyles"));
 const ActivateLicense = lazy(
@@ -61,31 +31,10 @@ const Soon = lazy(() => import("./components/window/Soon"));
 const TodoPage = lazy(() => import("./components/window/TodoPage"));
 const MultiMonitor = lazy(() => import("./components/window/MultiMonitor"));
 
-// Define routes that use a background wrapper around ReminderControl
-const reminderWindowRoutes = [
-  { path: "/PlainReminderWindow", Wrapper: PlainBGWrapper },
-  { path: "/AuroraReminderWindow", Wrapper: AuroraBGWrapper },
-  { path: "/BeamOfLifeReminderWindow", Wrapper: BeamOfLifeBGWrapper },
-  { path: "/FreeSpiritReminderWindow", Wrapper: FreeSpiritBGWrapper },
-  { path: "/CanvasShapesReminderWindow", Wrapper: CanvasShapesBGWrapper },
-  {
-    path: "/ParticleBackgroundReminderWindow",
-    Wrapper: ParticleBackgroundBGWrapper,
-  },
-  {
-    path: "/PlainGradientAnimationReminderWindow",
-    Wrapper: PlainGradientAnimationBGWrapper,
-  },
-  {
-    path: "/StarryBackgroundReminderWindow",
-    Wrapper: StarryBackgroundBGWrapper,
-  },
-  { path: "/ShootingMeteorReminderWindow", Wrapper: ShootingMeteorBGWrapper },
-];
-
 // Define main application routes
 const layoutRoutes = [
   { index: true, element: Dashboard },
+  { path: "reminderSettings", element: ReminderSettings },
   { path: "reminderthemes", element: ReminderStyles },
   { path: "usagetime", element: UsageTime },
   { path: "todoList", element: TodoPage },
@@ -100,43 +49,38 @@ const layoutRoutes = [
 ];
 
 function App() {
-  const { isInitialized, error, retry } = useAutoStart();
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkOnboardingStatus = async () => {
       try {
-        const db = await Database.load("sqlite:appconfig.db");
-        const result = await db.select(
-          "SELECT value FROM config WHERE key = 'isUserOnboarded'",
-        );
-
-        if (
-          Array.isArray(result) &&
-          result.length > 0 &&
-          "value" in result[0]
-        ) {
-          // Convert the string value to boolean
-          setHasCompletedOnboarding(result[0].value === "true");
-        }
-      } catch (error) {
-        console.error("Error checking onboarding status:", error);
+        const value = await invoke<string | null>("get_config_string", {
+          key: "isUserOnboarded",
+        });
+        setHasCompletedOnboarding(value === "true");
+      } catch (err) {
+        console.error("Error checking onboarding status:", err);
+        setError("Failed to load app configuration. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (isInitialized) {
-      checkOnboardingStatus();
-    }
-  }, [isInitialized]);
+    checkOnboardingStatus();
+  }, []);
 
   if (error) {
-    return <ErrorDisplay message={error} onRetry={retry} />;
+    return (
+      <ErrorDisplay
+        message={error}
+        onRetry={() => window.location.reload()}
+      />
+    );
   }
 
-  if (!isInitialized || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -149,32 +93,8 @@ function App() {
       <Router>
         <Routes>
           {/* Standalone routes */}
-          <Route path="/reminder" element={<Reminder />} />
           <Route path="/support_reminder" element={<Support />} />
           <Route path="/screenSaverWindow" element={<ScreenSaverWindow />} />
-          <Route
-            path="/reminderpreviewwindow"
-            element={
-              <Suspense fallback={<LoadingSpinner />}>
-                <ReminderPreviewWindow />
-              </Suspense>
-            }
-          />
-
-          {/* Reminder window routes using background wrappers */}
-          {reminderWindowRoutes.map(({ path, Wrapper }) => (
-            <Route
-              key={path}
-              path={path}
-              element={
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Wrapper>
-                    <ReminderControl />
-                  </Wrapper>
-                </Suspense>
-              }
-            />
-          ))}
 
           {/* Main application routes with Layout */}
           <Route element={<Layout />}>
@@ -193,6 +113,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      {/*<DebugPremiumPanel />*/}
     </TimeCountProvider>
   );
 }

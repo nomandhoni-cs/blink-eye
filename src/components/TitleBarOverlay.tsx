@@ -14,6 +14,7 @@ const OVERLAY_H = 32;
 
 const routeTitles: Record<string, string> = {
   "/": "Dashboard",
+  "/reminderSettings": "Reminder Settings",
   "/usageTime": "Usage Time",
   "/reminderthemes": "Reminder Themes",
   "/multimonitor": "Multi-Monitor",

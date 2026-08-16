@@ -1,160 +1,60 @@
 import toast from "react-hot-toast";
-import type { OnboardingData, TodoItem } from "../types/onboarding";
-import { load } from "@tauri-apps/plugin-store";
-import { BaseDirectory, exists } from "@tauri-apps/plugin-fs";
-import { nanoid } from "nanoid";
+import type { OnboardingData } from "../types/onboarding";
+import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
-import { encryptData } from "../lib/cryptoUtils";
 import { getVersion } from "@tauri-apps/api/app";
 import { fetch } from "@tauri-apps/plugin-http";
 import { platform } from "@tauri-apps/plugin-os";
 import { saveTokens } from "../lib/authUtils";
 
-// Define a type for the result row
-interface UserDataRow {
-  id: number;
-  unique_nano_id: string;
-  data: string | null;
-}
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
-// Dummy functions for future database integration
+
 export class OnboardingService {
-  // Screen 1: Welcome - No data to save
+  // Screen 1: Welcome — install data is already ensured by Rust at startup;
+  // this call is a safety net for the trial/license flow.
   static async saveWelcomeData(): Promise<void> {
-    console.log("💾 Saving welcome screen data...");
-
-    try {
-      // Check if database file exists
-      const dbFileExists = await exists("basicapplicationdata.db", {
-        baseDir: BaseDirectory.AppData,
-      });
-
-      if (!dbFileExists) {
-        // Database doesn't exist, create it
-        const dbInstance = await Database.load(
-          "sqlite:basicapplicationdata.db"
-        );
-
-        // Create the table if it doesn't exist
-        await dbInstance.execute(`
-          CREATE TABLE IF NOT EXISTS user_data (
-            id INTEGER PRIMARY KEY,
-            unique_nano_id TEXT,
-            data TEXT
-          );
-        `);
-
-
-        // Check if entry with id=1 exists
-        const result = (await dbInstance.select(
-          "SELECT id FROM user_data WHERE id = 1"
-        )) as UserDataRow[];
-
-        if (result.length === 0) {
-          // Generate a unique nano ID
-          const uniqueNanoId = nanoid();
-
-          // Encrypt the current date in YYYY-MM-DD format
-          const currentDate = new Date().toISOString().split("T")[0];
-          const encryptedData = await encryptData(currentDate, uniqueNanoId);
-
-          // Insert the new record with id=1
-          await dbInstance.execute(
-            "INSERT INTO user_data (id, unique_nano_id, data) VALUES (1, $1, $2)",
-            [uniqueNanoId, JSON.stringify(encryptedData)]
-          );
-        } else {
-          console.log("Entry with id=1 already exists.");
-        }
-      } else {
-        console.log("Database already exists, skipping initialization.");
-      }
-
-      console.log("✅ Welcome data saved");
-    } catch (error) {
-      console.error("Error in saveWelcomeData:", error);
-      throw error;
-    }
+    await invoke("ensure_install_data");
   }
 
-  // Screen 2: Break Configuration
+  // Screen 3: Break configuration
   static async saveBreakConfiguration(data: {
     breakInterval: number;
     breakDuration: number;
-    customInterval: string;
-    customDuration: string;
     reminderText: string;
   }): Promise<void> {
-    console.log("💾 Saving break configuration...", data);
-    // TODO: Save to database
     if (data.breakInterval <= 0) {
-      toast.error("Interval must be greater than 0 minutes.");
-      return;
+      throw new Error("Interval must be greater than 0 minutes.");
     }
     if (data.breakDuration <= 0) {
-      toast.error("Duration must be greater than 0 seconds.");
-      return;
+      throw new Error("Duration must be greater than 0 seconds.");
     }
-    const store = await load("store.json", { autoSave: false });
-    await store.set("blinkEyeReminderDuration", data.breakDuration);
-    await store.set("blinkEyeReminderInterval", data.breakInterval);
-    await store.set("blinkEyeReminderScreenText", data.reminderText);
-    await store.save();
-    console.log("✅ Break configuration saved");
+    await invoke("update_reminder_setting", {
+      key: "blinkEyeReminderInterval",
+      value: String(data.breakInterval),
+    });
+    await invoke("update_reminder_setting", {
+      key: "blinkEyeReminderDuration",
+      value: String(data.breakDuration),
+    });
+    await invoke("update_reminder_setting", {
+      key: "blinkEyeReminderScreenText",
+      value: data.reminderText,
+    });
+    // Required: reload settings in the running Rust scheduler.
+    await invoke("refresh_reminder_scheduler_settings");
   }
 
-  // Screen 3: Todo List
-  static async saveTodoList(todos: TodoItem[]): Promise<void> {
-    console.log("💾 Saving todo list...", todos);
-    // TODO: Save to database
-    // await db.todos.createMany({ data: todos })
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    console.log("✅ Todo list saved");
-  }
-
-  // Screen 4: Theme Selection
-  static async saveTheme(themeName: string): Promise<void> {
-    console.log("💾 Saving theme...", themeName);
-    try {
-      const db = await Database.load("sqlite:appconfig.db");
-      const existingRow = (await db.select(
-        "SELECT * FROM config WHERE key = 'selectedTheme'"
-      )) as any[];
-      if (existingRow.length > 0) {
-        await db.execute(
-          "UPDATE config SET value = $1 WHERE key = 'selectedTheme'",
-          [themeName]
-        );
-      } else {
-        await db.execute(
-          "INSERT INTO config (key, value) VALUES ('selectedTheme', $1)",
-          [themeName]
-        );
-      }
-      console.log("✅ Theme saved");
-    } catch (error) {
-      console.error("Error saving theme:", error);
-    }
-  }
-
-  // Screen 5: License Activation
-  static async saveLicenseKey(licenseKey: string): Promise<void> {
-    console.log("💾 Saving license key...", licenseKey);
-    // TODO: Validate and save license
-    // const isValid = await validateLicense(licenseKey)
-    // if (isValid) await db.user.update({ licenseKey })
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("✅ License key saved");
-  }
-
-  // Final onboarding completion
+  // Final onboarding completion.
+  // User-info registration is best-effort: onboarding always completes and
+  // redirects, even if the network call fails.
   static async completeOnboarding(data: OnboardingData): Promise<void> {
-    console.log("🎉 Completing onboarding...", data);
-    const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
-
     try {
       const getAppVersion = await getVersion();
       const operatingSystem = platform();
+
+      // The install identity DB is not exposed through Rust commands,
+      // so it is read directly here.
+      const dbInstance = await Database.load("sqlite:basicapplicationdata.db");
 
       interface UserData {
         unique_nano_id: string;
@@ -164,12 +64,7 @@ export class OnboardingService {
         "SELECT unique_nano_id FROM user_data WHERE id = 1"
       );
 
-      // Type-safe extraction
-      let userUniqueNanoId: string | undefined;
-
-      if (userResult.length > 0) {
-        userUniqueNanoId = userResult[0].unique_nano_id;
-      }
+      const userUniqueNanoId = userResult[0]?.unique_nano_id;
 
       const response = await fetch("https://api.blinkeye.app/user-info", {
         method: "POST",
@@ -192,33 +87,21 @@ export class OnboardingService {
           resultData.accessToken &&
           resultData.refreshToken
         ) {
-          // Store tokens in database without encryption
           await saveTokens(resultData.accessToken, resultData.refreshToken);
-          console.log("✅ Auth tokens stored successfully");
         }
       }
     } catch (error) {
-      console.error("Activation error:", error);
-      toast.error("Failed to activate license. Please try again.", {
-        duration: 2000,
+      console.error("Failed to register user info:", error);
+      toast.error("Couldn't reach the server. Setup finished anyway.", {
+        duration: 3000,
         position: "bottom-right",
       });
     } finally {
-      const db = await Database.load("sqlite:appconfig.db");
-      const existingRow = (await db.select(
-        "SELECT * FROM config WHERE key = 'isUserOnboarded'"
-      )) as any[];
-      if (existingRow.length > 0) {
-        await db.execute(
-          "UPDATE config SET value = 'true' WHERE key = 'isUserOnboarded'"
-        );
-      } else {
-        await db.execute(
-          "INSERT INTO config (key, value) VALUES ('isUserOnboarded', 'true')"
-        );
-      }
+      await invoke("update_reminder_setting", {
+        key: "isUserOnboarded",
+        value: "true",
+      });
       window.location.href = "/";
-      console.log("✅ Onboarding completed successfully!");
     }
   }
 }
