@@ -8,7 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: "Outfit Variable", sans-serif;
+    --font-heading: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+        "SF Pro Text", "Outfit Variable", sans-serif;
     --font-sans: "Geist Variable", sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
