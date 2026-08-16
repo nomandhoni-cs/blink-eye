@@ -1,12 +1,11 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
 import "./index.css";
-import { useAutoStart } from "./hooks/useAutoStart";
+import { invoke } from "@tauri-apps/api/core";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
 import UserOnboarding from "./blink-eye-onboarding";
-import Database from "@tauri-apps/plugin-sql";
 import DebugPremiumPanel from "./components/DebugPremiumPanel";
 
 
@@ -50,43 +49,38 @@ const layoutRoutes = [
 ];
 
 function App() {
-  const { isInitialized, error, retry } = useAutoStart();
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkOnboardingStatus = async () => {
       try {
-        const db = await Database.load("sqlite:appconfig.db");
-        const result = await db.select(
-          "SELECT value FROM config WHERE key = 'isUserOnboarded'",
-        );
-
-        if (
-          Array.isArray(result) &&
-          result.length > 0 &&
-          "value" in result[0]
-        ) {
-          // Convert the string value to boolean
-          setHasCompletedOnboarding(result[0].value === "true");
-        }
-      } catch (error) {
-        console.error("Error checking onboarding status:", error);
+        const value = await invoke<string | null>("get_config_string", {
+          key: "isUserOnboarded",
+        });
+        setHasCompletedOnboarding(value === "true");
+      } catch (err) {
+        console.error("Error checking onboarding status:", err);
+        setError("Failed to load app configuration. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (isInitialized) {
-      checkOnboardingStatus();
-    }
-  }, [isInitialized]);
+    checkOnboardingStatus();
+  }, []);
 
   if (error) {
-    return <ErrorDisplay message={error} onRetry={retry} />;
+    return (
+      <ErrorDisplay
+        message={error}
+        onRetry={() => window.location.reload()}
+      />
+    );
   }
 
-  if (!isInitialized || isLoading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
