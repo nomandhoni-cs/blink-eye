@@ -17,6 +17,15 @@ const NONCE_LENGTH: usize = 12;
 // Password length for the generated nanoid-like secret
 const PASSWORD_LENGTH: usize = 21;
 
+/// Returns up to `max_chars` characters of a string for log output.
+/// Slicing by byte index would panic on multi-byte UTF-8 boundaries.
+fn log_preview(value: &str, max_chars: usize) -> &str {
+    match value.char_indices().nth(max_chars) {
+        Some((index, _)) => &value[..index],
+        None => value,
+    }
+}
+
 // =============================================================================
 // Encrypted payload format
 // =============================================================================
@@ -101,7 +110,7 @@ pub fn decrypt_data(encrypted_text: &str, password: &str) -> Option<String> {
         Ok(p) => p,
         Err(e) => {
             eprintln!("[Crypto] Failed to parse encrypted payload: {e}");
-            eprintln!("[Crypto] Input (first 100 chars): {}", &encrypted_text[..encrypted_text.len().min(100)]);
+            eprintln!("[Crypto] Input (first 100 chars): {}", log_preview(encrypted_text, 100));
             return None;
         }
     };
@@ -360,8 +369,8 @@ pub async fn get_license_info(app_handle: AppHandle) -> Result<LicenseInfo, Stri
         });
     };
 
-    println!("[Crypto] Raw license_key (first 80 chars): {}", &encrypted_key[..encrypted_key.len().min(80)]);
-    println!("[Crypto] Raw status (first 80 chars): {}", &encrypted_status[..encrypted_status.len().min(80)]);
+    println!("[Crypto] Raw license_key (first 80 chars): {}", log_preview(&encrypted_key, 80));
+    println!("[Crypto] Raw status (first 80 chars): {}", log_preview(&encrypted_status, 80));
 
     // Get the decryption password from basicapplicationdata.db
     let user_pool = open_user_db(&app_handle).await?;
@@ -381,7 +390,7 @@ pub async fn get_license_info(app_handle: AppHandle) -> Result<LicenseInfo, Stri
         });
     };
 
-    println!("[Crypto] Password (first 8 chars): {}", &password[..password.len().min(8)]);
+    println!("[Crypto] Password (first 8 chars): {}", log_preview(&password, 8));
 
     let key = decrypt_data(&encrypted_key, &password);
     let status = decrypt_data(&encrypted_status, &password);
@@ -474,11 +483,34 @@ pub async fn store_license_data(app_handle: AppHandle, data: serde_json::Value) 
 }
 
 /// Update specific license fields (encrypts values before writing).
+///
+/// Only keys that are actual columns of the `licenses` table are accepted;
+/// anything else is rejected so the column name can never be injected into
+/// the SQL statement.
 #[tauri::command]
 pub async fn update_license_fields(
     app_handle: AppHandle,
     fields: serde_json::Value,
 ) -> Result<(), String> {
+    const ALLOWED_COLUMNS: &[&str] = &[
+        "license_key",
+        "status",
+        "activation_limit",
+        "activation_usage",
+        "created_at",
+        "expires_at",
+        "test_mode",
+        "instance_name",
+        "store_id",
+        "order_id",
+        "order_item_id",
+        "variant_name",
+        "product_name",
+        "customer_name",
+        "customer_email",
+        "last_validated",
+    ];
+
     let pool = open_license_db(&app_handle).await?;
     ensure_license_table(&pool).await?;
 
@@ -495,6 +527,10 @@ pub async fn update_license_fields(
 
     if let Some(obj) = fields.as_object() {
         for (key, value) in obj {
+            if !ALLOWED_COLUMNS.contains(&key.as_str()) {
+                return Err(format!("Unknown license field: {key}"));
+            }
+
             let plain = if value.is_string() {
                 value.as_str().unwrap_or("").to_string()
             } else {
