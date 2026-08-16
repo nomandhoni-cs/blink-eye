@@ -229,7 +229,23 @@ impl ReminderScheduler {
     /// Force-refreshes settings and immediately starts a break (used for debug/testing).
     pub async fn show_now(&self, app_handle: &AppHandle) -> Result<(), String> {
         self.refresh_settings().await?;
-        self.start_break(app_handle).await
+
+        // Mark the break as active so the tick loop doesn't keep counting
+        // down and re-spawn the reminder windows mid-break.
+        {
+            let mut state = self.state.lock().await;
+            state.is_on_break = true;
+        }
+
+        if let Err(error) = self.start_break(app_handle).await {
+            // Roll back so the scheduler doesn't get stuck on a break
+            // that never showed any window.
+            let mut state = self.state.lock().await;
+            state.is_on_break = false;
+            return Err(error);
+        }
+
+        Ok(())
     }
 
     /// Send a tray update only if the state actually changed.
@@ -251,26 +267,48 @@ impl ReminderScheduler {
 
         let should_refresh = {
             let state = self.state.lock().await;
-            !state.is_on_break
-                && state.seconds_since_last_break % CONFIG_REFRESH_SECS == 0
+            !state.is_on_break && state.seconds_since_last_break % CONFIG_REFRESH_SECS == 0
         };
 
         if should_refresh {
             self.refresh_settings().await?;
         }
 
+        // Decide the action for this tick. The state lock is released before
+        // any window spawning or tray I/O happens.
         let action = {
             let mut state = self.state.lock().await;
 
-            if !is_inside_workday_window(&state.settings) {
+            if state.is_on_break {
+                // Safety net: if the reminder windows are gone but the break
+                // was never finished (e.g. overlay crashed), reset the state
+                // so the scheduler doesn't stay stuck on "Break in progress".
+                let windows_open = app_handle
+                    .webview_windows()
+                    .keys()
+                    .any(|label| label.starts_with("reminder_monitor_"));
+                if !windows_open {
+                    let interval = state.settings.interval_secs;
+                    state.seconds_since_last_break = 0;
+                    state.is_on_break = false;
+                    drop(state);
+                    self.send_tray_update(TrayUpdate {
+                        remaining_secs: interval,
+                        is_on_break: false,
+                    })
+                    .await;
+                } else {
+                    drop(state);
+                    self.send_tray_update(TrayUpdate {
+                        remaining_secs: 0,
+                        is_on_break: true,
+                    })
+                    .await;
+                }
                 return Ok(());
             }
 
-            if state.is_on_break {
-                self.send_tray_update(TrayUpdate {
-                    remaining_secs: 0,
-                    is_on_break: true,
-                }).await;
+            if !is_inside_workday_window(&state.settings) {
                 return Ok(());
             }
 
@@ -279,23 +317,28 @@ impl ReminderScheduler {
             let frequency = state.settings.interval_secs.max(SCHEDULER_TICK_SECS);
             let remaining = frequency.saturating_sub(state.seconds_since_last_break);
 
-            self.send_tray_update(TrayUpdate {
-                remaining_secs: remaining,
-                is_on_break: false,
-            }).await;
-
             let should_show_alert = frequency > BEFORE_ALERT_SECONDS
                 && state.seconds_since_last_break == frequency - BEFORE_ALERT_SECONDS;
             let should_start_break = state.seconds_since_last_break >= frequency;
 
-            if should_start_break {
+            let action = if should_start_break {
                 state.is_on_break = true;
                 ReminderAction::StartBreak
             } else if should_show_alert {
                 ReminderAction::ShowBeforeAlert
             } else {
                 ReminderAction::None
-            }
+            };
+
+            drop(state);
+
+            self.send_tray_update(TrayUpdate {
+                remaining_secs: remaining,
+                is_on_break: false,
+            })
+            .await;
+
+            action
         };
 
         match action {
@@ -698,8 +741,8 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
         ("usageTimeLimit", "8"),
         ("screenOnTimeLimit", "8"),
         ("pomodoroStyleBreak", "false"),
-        ("previousBlinkEyeReminderDuration", "20"),
-        ("previousBlinkEyeReminderInterval", "20"),
+        ("previousblinkEyeReminderDuration", "20"),
+        ("previousblinkEyeReminderInterval", "20"),
     ];
 
     for (key, value) in defaults {
