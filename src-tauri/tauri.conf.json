@@ -10,14 +10,15 @@
     "frontendDist": "../dist"
   },
   "app": {
+    "macOSPrivateApi": true,
     "windows": [
       {
         "title": "Blink Eye",
-        "width": 1200,
-        "height": 750,
+        "width": 1280,
+        "height": 720,
         "center": true,
-        "minHeight": 500,
-        "minWidth": 800,
+        "minHeight": 540,
+        "minWidth": 960,
         "decorations": true,
         "titleBarStyle": "Overlay",
         "resizable": true

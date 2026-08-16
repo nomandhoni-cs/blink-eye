@@ -585,6 +585,10 @@ fn close_before_alert(app_handle: &AppHandle) {
 }
 
 /// Spawns the "break soon" pre-alert window centered on the primary monitor.
+///
+/// Monitor geometry is in physical pixels; window position expects logical
+/// points, so values are divided by the scale factor. The window is
+/// transparent so only the rounded pill card from `alert.html` is visible.
 fn spawn_before_alert(app_handle: &AppHandle) {
     close_before_alert(app_handle);
 
@@ -593,11 +597,13 @@ fn spawn_before_alert(app_handle: &AppHandle) {
         .ok()
         .flatten()
         .map(|monitor| {
+            let scale = monitor.scale_factor();
             let position = monitor.position();
             let size = monitor.size();
             (
-                position.x as f64 + ((size.width as f64 - 320.0) / 2.0).max(0.0),
-                position.y as f64 + 80.0,
+                position.x as f64 / scale
+                    + ((size.width as f64 / scale - 320.0) / 2.0).max(0.0),
+                position.y as f64 / scale + 80.0,
             )
         })
         .unwrap_or((0.0, 0.0));
@@ -616,6 +622,7 @@ fn spawn_before_alert(app_handle: &AppHandle) {
     .skip_taskbar(true)
     .focused(false)
     .shadow(false)
+    .transparent(true)
     .build();
 
     if let Err(error) = result {
@@ -624,6 +631,18 @@ fn spawn_before_alert(app_handle: &AppHandle) {
 }
 
 /// Spawns fullscreen reminder overlay windows on one or all monitors.
+///
+/// Monitor geometry from Tauri is in **physical pixels**, while window
+/// positioning/sizing expects **logical points**, so all values are divided
+/// by the monitor's scale factor.
+///
+/// On macOS, native fullscreen is avoided: a window spawned from a tray app
+/// is not key, so the fullscreen transition can silently fail and leave the
+/// window sized to the screen's visible frame (below the menu bar). A
+/// borderless always-on-top window covering the exact display bounds is
+/// edge-to-edge instantly, with no Space animation. It is then raised to
+/// `NSScreenSaverWindowLevel` (see `raise_window_above_menu_bar`) because the
+/// floating level alone stays below the menu bar.
 ///
 /// # Parameters
 /// - `app_handle` — Tauri app handle for creating webview windows.
@@ -634,7 +653,21 @@ fn spawn_reminder_windows(
     config: &ReminderWindowConfig,
     use_all_monitors: bool,
 ) -> Result<(), String> {
-    let monitors = app_handle.available_monitors().map_err(|error| error.to_string())?;
+    let mut monitors = app_handle
+        .available_monitors()
+        .map_err(|error| error.to_string())?;
+
+    // Put the primary monitor first so `reminder_monitor_0` (the one that
+    // gets the interactive overlay) always lands on the primary display.
+    if let Ok(Some(primary)) = app_handle.primary_monitor() {
+        if let Some(index) = monitors
+            .iter()
+            .position(|monitor| monitor.position() == primary.position())
+        {
+            monitors.swap(0, index);
+        }
+    }
+
     let monitors_to_use = if use_all_monitors {
         monitors
     } else {
@@ -645,25 +678,99 @@ fn spawn_reminder_windows(
         let label = format!("reminder_monitor_{index}");
         let is_primary = index == 0;
         let url = reminder_url(config, &config.background_style, is_primary)?;
+
+        let scale = monitor.scale_factor();
         let position = monitor.position();
         let size = monitor.size();
+        let x = position.x as f64 / scale;
+        let y = position.y as f64 / scale;
+        let width = size.width as f64 / scale;
+        let height = size.height as f64 / scale;
 
-        let result =
+        let mut builder =
             WebviewWindowBuilder::new(app_handle, &label, WebviewUrl::App(url.into()))
                 .title("Take A Break Reminder - Blink Eye")
-                .fullscreen(true)
                 .always_on_top(true)
                 .skip_taskbar(true)
-                .position(position.x as f64, position.y as f64)
-                .inner_size(size.width as f64, size.height as f64)
-                .build();
+                .position(x, y)
+                .inner_size(width, height);
 
-        if let Err(error) = result {
-            eprintln!("[ReminderScheduler] Failed to spawn {label}: {error}");
+        #[cfg(target_os = "macos")]
+        {
+            // Fake fullscreen: borderless window covering the exact display
+            // bounds. Covers menu bar and Dock without a Space transition.
+            builder = builder.decorations(false).shadow(false);
+        }
+        #[cfg(not(target_os = "macos"))]
+        {
+            builder = builder.fullscreen(true);
+        }
+
+        match builder.build() {
+            Ok(window) => {
+                // `always_on_top` only reaches the floating level (3), which
+                // sits below the macOS menu bar (level 24). Raise the overlay
+                // to screen-saver level so the break truly cannot be bypassed.
+                #[cfg(target_os = "macos")]
+                raise_window_above_menu_bar(&window, &label);
+            }
+            Err(error) => {
+                eprintln!("[ReminderScheduler] Failed to spawn {label}: {error}");
+            }
         }
     }
 
     Ok(())
+}
+
+/// Raises a window above the macOS menu bar and pins it to every Space.
+///
+/// `always_on_top` maps to `NSFloatingWindowLevel` (3), which stays below the
+/// menu bar (`NSMainMenuWindowLevel` + 1 = 24). Setting the level to
+/// `NSScreenSaverWindowLevel` (1000) covers the menu bar and Dock, and the
+/// collection behavior keeps the overlay visible on all Spaces and on top of
+/// other apps' fullscreen windows.
+///
+/// The AppKit calls are dispatched to the main thread: the scheduler runs on
+/// a tokio worker, and macOS (Tahoe and later) traps with `EXC_BREAKPOINT`
+/// if window properties are mutated off the main thread.
+#[cfg(target_os = "macos")]
+fn raise_window_above_menu_bar(window: &tauri::WebviewWindow, label: &str) {
+    let dispatcher = window.clone();
+    let closure_window = window.clone();
+    let closure_label = label.to_string();
+
+    let result = dispatcher.run_on_main_thread(move || {
+        use objc2::rc::Retained;
+        use objc2_app_kit::{NSWindow, NSWindowCollectionBehavior};
+
+        let Ok(handle) = closure_window.ns_window() else {
+            eprintln!(
+                "[ReminderScheduler] No NSWindow handle for {closure_label}; window level not raised"
+            );
+            return;
+        };
+
+        // SAFETY: the handle is a valid NSWindow retained by Tauri for the
+        // lifetime of the cloned window handle, and this closure runs on the
+        // main thread where AppKit requires window changes.
+        unsafe {
+            let Some(ns_window) = Retained::<NSWindow>::retain(handle.cast()) else {
+                eprintln!("[ReminderScheduler] Null NSWindow handle for {closure_label}");
+                return;
+            };
+            ns_window.setLevel(objc2_app_kit::NSScreenSaverWindowLevel);
+            ns_window.setCollectionBehavior(
+                NSWindowCollectionBehavior::CanJoinAllSpaces
+                    | NSWindowCollectionBehavior::FullScreenAuxiliary
+                    | NSWindowCollectionBehavior::Stationary,
+            );
+        }
+    });
+
+    if let Err(error) = result {
+        eprintln!("[ReminderScheduler] Failed to raise {label} above menu bar: {error}");
+    }
 }
 
 /// Builds the reminder webview URL for the given background style and monitor role.
