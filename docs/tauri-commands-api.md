@@ -249,6 +249,8 @@ await invoke("update_license_fields", {
 
 **Valid column names:** `license_key`, `status`, `activation_limit`, `activation_usage`, `created_at`, `expires_at`, `test_mode`, `instance_name`, `store_id`, `order_id`, `order_item_id`, `variant_name`, `product_name`, `customer_name`, `customer_email`, `last_validated`
 
+Any other key is rejected with `Err("Unknown license field: <key>")`.
+
 ---
 
 ### `get_config_bool`
@@ -326,7 +328,7 @@ Despite the name, this is the **generic write path** for appconfig.db — used f
 - `blinkEyeReminderDuration` — break duration in seconds
 - `blinkEyeReminderScreenText` — break message
 - `pomodoroStyleBreak` — Pomodoro mode flag (`"true"` / `"false"`)
-- `previousBlinkEyeReminderDuration` / `previousBlinkEyeReminderInterval` — saved values before Pomodoro toggle
+- `previousblinkEyeReminderDuration` / `previousblinkEyeReminderInterval` — saved values before Pomodoro toggle
 
 **Style keys:**
 - `reminderBackgroundStyle` — selected background for break windows
@@ -386,6 +388,8 @@ Ends the current break. Pass `snoozed: true` when the user clicks Skip (counts t
 - `snoozed` — Optional. `true` = user skipped; `false` = break completed.
 
 **Returns:** `void`
+
+**Errors:** `Err("Snooze limit reached for this session or today.")` when `snoozed: true` but the session/day snooze limit is exhausted. The break stays open in that case.
 
 ---
 
@@ -651,8 +655,8 @@ Generic key/value store for all app settings. Replaces the legacy Tauri `store.j
 | `blinkEyeReminderInterval` | number | `20` | Break interval (minutes) |
 | `blinkEyeReminderDuration` | number | `20` | Break duration (seconds) |
 | `blinkEyeReminderScreenText` | string | `"Pause! Look into..."` | Break message |
-| `previousBlinkEyeReminderDuration` | number | `20` | Saved duration before Pomodoro |
-| `previousBlinkEyeReminderInterval` | number | `20` | Saved interval before Pomodoro |
+| `previousblinkEyeReminderDuration` | number | `20` | Saved duration before Pomodoro |
+| `previousblinkEyeReminderInterval` | number | `20` | Saved interval before Pomodoro |
 | `pomodoroStyleBreak` | bool | `"false"` | Pomodoro mode flag |
 | `reminderBackgroundStyle` | string | `"default"` | Selected reminder background |
 | `reminderBackgroundStylePreview` | string | `"default"` | Preview-only reminder style |
