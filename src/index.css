@@ -64,6 +64,17 @@
         }
     }
     /*Aurora Background Stop */
+
+    /* Premium button hover shine — plays once per hover */
+    --animate-shine: shine 1.1s ease-in-out forwards;
+    @keyframes shine {
+        from {
+            background-position: 200% 0;
+        }
+        to {
+            background-position: -200% 0;
+        }
+    }
 }
 
 :root {
