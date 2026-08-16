@@ -14,11 +14,11 @@
     "windows": [
       {
         "title": "Blink Eye",
-        "width": 1280,
-        "height": 720,
+        "width": 1100,
+        "height": 750,
         "center": true,
-        "minHeight": 540,
-        "minWidth": 960,
+        "minHeight": 640,
+        "minWidth": 900,
         "decorations": true,
         "titleBarStyle": "Overlay",
         "resizable": true
