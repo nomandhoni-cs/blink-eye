@@ -140,18 +140,21 @@ pub fn run() {
 
             // Send Notification
             use tauri_plugin_notification::NotificationExt;
-            app.notification()
+            if let Err(e) = app
+                .notification()
                 .builder()
                 .icon("icons/icon.png")
                 .large_icon("icons/icon.png")
                 .title("Blink Eye")
                 .body("Blink Eye has started running in the background and can be found on the system tray.")
                 .show()
-                .unwrap();
+            {
+                eprintln!("[Setup] Failed to show startup notification: {e}");
+            }
 
             // Create Tray Icon with menu
             let initial_menu = build_tray_menu(app.handle(), "Next break in -- sec")?;
-            let tray = TrayIconBuilder::new()
+            let tray = TrayIconBuilder::with_id("main")
                 .icon(app.default_window_icon().unwrap().clone())
                 .on_tray_icon_event(|tray, event| match event {
                     TrayIconEvent::Click {
@@ -159,14 +162,13 @@ pub fn run() {
                         button_state: MouseButtonState::Up,
                         ..
                     } => {
-                        // Show menu on left click so user can see the timer
-                        tray.app_handle().tray_by_id("main").map(|t| {
-                            let _ = t.app_handle().get_webview_window("main").map(|w| {
-                                let _ = w.unminimize();
-                                let _ = w.set_skip_taskbar(false);
-                                let _ = w.set_focus();
-                            });
-                        });
+                        // Focus the main window on left click
+                        let app_handle = tray.app_handle();
+                        if let Some(window) = app_handle.get_webview_window("main") {
+                            let _ = window.unminimize();
+                            let _ = window.set_skip_taskbar(false);
+                            let _ = window.set_focus();
+                        }
                     }
                     _ => {}
                 })
