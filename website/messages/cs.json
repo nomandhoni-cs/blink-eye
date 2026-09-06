@@ -374,5 +374,191 @@
   "blogsPage": {
     "title": "Blog",
     "description": "Přečtěte si nejnovější blogy a aktualizace novinek."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Objevte funkce, díky nimž vynikáme",
+    "description": "Prozkoumejte funkce, díky nimž naše aplikace vyniká. Od přizpůsobitelných připomínek po více motivů, máme vše, co potřebujete."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Přehled",
+      "title": "Panel",
+      "motto": "Panel péče o oči pro sledování času obrazovky a pauz 20-20-20 | Blink Eye",
+      "longMotto": "Jednoduchý panel pro práci z domova i studium: příští pauza, dnešní čas obrazovky a série na jeden pohled.",
+      "description": "Vaše základna pro zdraví očí. Vidíte zda jsou pauzy aktivní, kdy přijde další připomínka 20-20-20 a kolik času obrazovky máte dnes. Vše na jeden pohled, bez otevírání menu.",
+      "bullets": [
+        "Živý odpočet s pauzou a pokračováním",
+        "Dnešní čas a série na jeden pohled",
+        "Přístup ke všem 11 nástrojům jedním klikem",
+        "Známé nativní rozložení s postranním panelem"
+      ],
+      "keywords": "panel péče o oči, sledování času obrazovky, připomínka pauz 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Základ",
+      "title": "Nastavení připomínek",
+      "motto": "Připomínka pravidla 20-20-20 proti únavě očí a suchým očím | Blink Eye",
+      "longMotto": "Vlastní časovač 20-20-20 s intervalem, délkou, zprávou a zvukem proti počítačovému syndromu vidění.",
+      "description": "Zvolte rytmus své práce. Přísné pravidlo 20-20-20 nebo styl Pomodoro. Interval, délka, vlastní zpráva, zvuk a přísný režim, vše zde.",
+      "bullets": [
+        "Interval a délka v sekundách nebo minutách",
+        "Vlastní zpráva s přísným režimem",
+        "Zvuk s náhledem",
+        "Okamžitý test připomínky"
+      ],
+      "keywords": "pravidlo 20-20-20, únava očí, suché oči, časovač pauz, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Statistiky",
+      "title": "Doba použití",
+      "motto": "Sledování času obrazovky s denními, týdenními a měsíčními reporty | Blink Eye",
+      "longMotto": "Sledujte používání počítače v přehledných grafech a budujte zdravé návyky.",
+      "description": "Vidíte reálné použití v přehledných grafech. Odhalte dlouhé seance unavující oči, srovnávejte týdny a budujte zdravé návyky z reálných dat.",
+      "bullets": [
+        "Den, týden, měsíc, rok i celkem",
+        "Grafy součtu a průměrných seancí",
+        "Odhalte přetížení před škodou",
+        "Bez dalších aplikací"
+      ],
+      "keywords": "sledování času obrazovky, používání počítače, statistiky, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Přizpůsobení",
+      "title": "Motivy připomínek",
+      "motto": "Pohodlná celoobrazovková témata pro odpočinek očí | Blink Eye",
+      "longMotto": "Vyberte klidné celoobrazovkové téma bez rušení, světlé či tmavé.",
+      "description": "Pauza má působit jako pauza, ne jako přerušení. Vyberte uklidňující či povzbuzující pozadí od minimálního po pohlcující, vše pro komfort očí.",
+      "bullets": [
+        "Více témat pro každou náladu",
+        "Bez rušení, šetrné k očím",
+        "Náhled před použitím",
+        "Ve světlém i tmavém režimu"
+      ],
+      "keywords": "témata obrazovky pauzy, komfort očí, témata, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Profi",
+      "title": "Více monitorů",
+      "motto": "Připomínka pauz pro sestavy se dvěma a třemi monitory | Blink Eye",
+      "longMotto": "Pauza na každé obrazovce či jen hlavní, pro vývojáře, designéry a tradery.",
+      "description": "Dva či tři displeje nesmí být skulinkou pro únavu očí. Zobrazujte pauzu na všech monitorech či jen hlavním, jak pracujete vy.",
+      "bullets": [
+        "Pauza na všech či jen hlavním",
+        "Žádné okno neunikne",
+        "Pro vývojáře, designéry a tradery",
+        "Na Windows, macOS i Linux"
+      ],
+      "keywords": "připomínka více monitorů, dva displeje, tři displeje, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktivita",
+      "title": "Seznam úkolů",
+      "motto": "Pomodoro správce úkolů pro soustředění bez přepínání aplikací | Blink Eye",
+      "longMotto": "Zapisujte úkoly tam, kde pauzujete, se soustředěnými seancemi Pomodoro.",
+      "description": "Zapisujte úkoly tam, kde pauzujete. Tvořte, odškrtávejte a řaďte bez přepínání aplikací, abyste se z každé pauzy vraceli s jasným dalším krokem.",
+      "bullets": [
+        "Rychlá tvorba a plnění úkolů",
+        "Vždy po ruce při pauzách",
+        "S Pomodoro a rozvrhem dne",
+        "Méně přepínání, více soustředění"
+      ],
+      "keywords": "časovač Pomodoro, správce úkolů, seznam, soustředění, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Rozvrh",
+      "title": "Nastavení dne",
+      "motto": "Plánovač hodin, který po práci zastaví připomínky | Blink Eye",
+      "longMotto": "Začátek a konec každého dne, aby noci a víkendy byly tiché.",
+      "description": "Řekněte Blink Eye kdy opravdu pracujete. Hodiny na každý den, klidné víkendy, pauzy se mimo čas samy zastaví.",
+      "bullets": [
+        "Začátek a konec každého dne",
+        "Samo se zastaví mimo hodiny",
+        "Žádné připomínky v noci a o víkendech",
+        "Nastav jednou, běží celý týden"
+      ],
+      "keywords": "plánovač hodin, pracovní den, plán pauz, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Spořiče",
+      "motto": "Animované spořiče pro relaxační pauzy očí | Blink Eye",
+      "longMotto": "9 prémiových vizuálů: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon a Bouncy Balls.",
+      "description": "Proměňte 20 sekund klidu v oddech. Devět prémiových animací: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon a Bouncy Balls. Plynulé, lehké, relaxační.",
+      "bullets": [
+        "Devět vizuálů: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Plynulý pohyb bez sekání",
+        "Jeden klik pro výběr a otevření",
+        "Ctrl plus mezerník pro okamžité zavření"
+      ],
+      "keywords": "animované spořiče, animace pauzy, relaxace, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Ovládání",
+      "title": "Nastavení",
+      "motto": "Nastavení pauz s přísným režimem a denním limitem | Blink Eye",
+      "longMotto": "Start, přísný režim, nečinnost, zvuky a denní limit na jednom místě.",
+      "description": "Seriózní řídicí místnost. Start se systémem, vynucené pauzy přísným režimem, nečinnost, zvuky a denní limit obrazovky.",
+      "bullets": [
+        "Start se systémem, potichu",
+        "Přísný režim a nečinnost",
+        "Globální zkratka a zvuky",
+        "Denní limit s varováním"
+      ],
+      "keywords": "nastavení pauz, přísný režim, limit obrazovky, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Vzhled",
+      "title": "Výběr motivu",
+      "motto": "Blink Eye nabízí přes 24 témat k výběru a doladění podle sebe | Blink Eye",
+      "longMotto": "Blink Eye přináší přes 24 hotových témat a nechá vás ladit barvy i pozadí podle chuti.",
+      "description": "Vaše pauzy, váš styl. Prohlédněte galerii přes 24 ručně dělaných témat, každé živě náhledněte, jedním klikem vyberte oblíbené a pak laďte barvy i pozadí dokud nebude vaše. Od klidného minimalismu po odvážná a hravá, pro každou náladu, stůl i pracovní postup se téma najde.",
+      "bullets": [
+        "Přes 24 hotových témat na výběr",
+        "Živý náhled a přepnutí jedním klikem",
+        "Barvy a pozadí po vašem",
+        "Světlé i tmavé volby na den i noc"
+      ],
+      "keywords": "témata připomínek, 24 témat, přizpůsobit téma, vybrat téma, komfort očí, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktivovat licenci",
+      "motto": "Prémiové odemčení všech animovaných spořičů | Blink Eye",
+      "longMotto": "Jeden klíč otevře každý prémiový spořič plus budoucí animace a aktualizace.",
+      "description": "Vložte licenci jednou a odemkněte devět prémiových spořičů, budoucí animace a prioritní aktualizace. Váš nákup drží tuto open source aplikaci naživu pro všechny.",
+      "bullets": [
+        "Snadná aktivace v jednom kroku",
+        "Odemkne devět prémiových",
+        "Podporuje open source vývoj",
+        "Ověření hned bez restartu"
+      ],
+      "keywords": "prémiové odemčení, licenční klíč, spořiče, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "O aplikaci",
+      "motto": "Zdarma open source péče o oči pro Windows, Mac a Linux | Blink Eye",
+      "longMotto": "Verze, aktualizace jedním klikem, pomoc, docs a GitHub.",
+      "description": "Zkontrolujte verzi, aktualizujte jedním klikem a najděte pomoc. Postranní panel ukazuje aktivaci, verzi a kontrolu aktualizací.",
+      "bullets": [
+        "Verze a aktivace na jeden pohled",
+        "Kontrola aktualizací jedním klikem",
+        "Odkazy docs, GitHub a pomoc",
+        "Tvořeno open source komunitou"
+      ],
+      "keywords": "péče o oči zdarma, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

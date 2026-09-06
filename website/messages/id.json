@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Blog",
     "description": "Baca blog terbaru dan pembaruan berita kami."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Temukan Fitur yang Membuat Kami Menonjol",
+    "description": "Jelajahi fitur-fitur yang membuat aplikasi kami menonjol. Dari pengingat yang dapat disesuaikan hingga beragam tema, kami siap membantu Anda."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Ringkasan",
+      "title": "Dasbor",
+      "motto": "Dasbor kesehatan mata untuk melacak waktu layar dan jeda 20-20-20 | Blink Eye",
+      "longMotto": "Dasbor sederhana untuk pekerja remote dan pelajar: jeda berikutnya, waktu layar hari ini dan streak sekilas.",
+      "description": "Markas kesehatan matamu. Lihat apakah jeda aktif, kapan pengingat 20-20-20 berikutnya tiba dan waktu layar hari ini. Semua sekilas, tanpa membuka menu.",
+      "bullets": [
+        "Hitung mundur live dengan jeda dan lanjut",
+        "Waktu layar dan streak hari ini sekilas",
+        "Akses 11 alat dalam satu klik",
+        "Tata letak familiar dengan bilah sisi"
+      ],
+      "keywords": "dasbor kesehatan mata, pelacak waktu layar, pengingat jeda 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Inti",
+      "title": "Pengaturan Pengingat",
+      "motto": "Pengingat aturan 20-20-20 untuk meredakan mata lelah dan kering | Blink Eye",
+      "longMotto": "Timer 20-20-20 kustom dengan interval, durasi, pesan dan suara melawan sindrom penglihatan komputer.",
+      "description": "Pilih ritme kerjamu. Aturan 20-20-20 ketat atau gaya Pomodoro. Interval, durasi, pesan sendiri, suara dan mode ketat, semua di sini.",
+      "bullets": [
+        "Interval dan durasi dalam detik atau menit",
+        "Pesan sendiri dengan mode ketat",
+        "Suara notifikasi dengan pratinjau",
+        "Uji pengingat seketika"
+      ],
+      "keywords": "aturan 20-20-20, mata lelah, mata kering, timer jeda, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Statistik",
+      "title": "Waktu Pakai",
+      "motto": "Pelacak waktu layar dengan laporan harian, mingguan dan bulanan | Blink Eye",
+      "longMotto": "Pantau pemakaian komputer dengan grafik jelas untuk menangkap kerja berlebih dan membangun kebiasaan sehat.",
+      "description": "Lihat pemakaian nyata dengan grafik jelas. Tangkap sesi panjang yang melelahkan mata, bandingkan minggu dan bangun kebiasaan sehat dari data nyata.",
+      "bullets": [
+        "Tampilan hari, minggu, bulan, tahun dan total",
+        "Grafik total dan rata-rata sesi",
+        "Tangkap kerja berlebih sebelum merugikan",
+        "Tanpa aplikasi pelacak lain"
+      ],
+      "keywords": "pelacak waktu layar, pemakaian komputer, statistik, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personalisasi",
+      "title": "Tema Pengingat",
+      "motto": "Tema layar jeda yang nyaman untuk mengistirahatkan mata | Blink Eye",
+      "longMotto": "Pilih tema layar penuh yang tenang tanpa gangguan, terang atau gelap.",
+      "description": "Jeda harus terasa seperti jeda, bukan gangguan. Pilih latar layar penuh yang menenangkan atau menyegarkan, dari minimal hingga imersif, semua untuk kenyamanan mata.",
+      "bullets": [
+        "Banyak tema layar penuh tiap suasana",
+        "Tanpa gangguan, lembut di mata",
+        "Pratinjau sebelum menerapkan",
+        "Mode terang dan gelap"
+      ],
+      "keywords": "tema layar jeda, kenyamanan mata, tema, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Multi Monitor",
+      "motto": "Pengingat jeda untuk setup dua dan tiga monitor | Blink Eye",
+      "longMotto": "Jeda di setiap layar atau hanya utama, untuk developer, desainer dan trader.",
+      "description": "Dua atau tiga layar tak boleh jadi celah untuk mata lelah. Tampilkan jeda di semua monitor atau hanya utama, sesuai caramu bekerja.",
+      "bullets": [
+        "Jeda di semua atau hanya utama",
+        "Tak ada jendela lolos dari pengingat",
+        "Untuk developer, desainer dan trader",
+        "Di Windows, macOS dan Linux"
+      ],
+      "keywords": "pengingat multi monitor, dua layar, tiga layar, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktivitas",
+      "title": "Daftar Tugas",
+      "motto": "Manajer tugas Pomodoro agar fokus tanpa ganti aplikasi | Blink Eye",
+      "longMotto": "Catat tugas di tempatmu beristirahat, dengan sesi fokus Pomodoro.",
+      "description": "Catat tugas di tempatmu beristirahat. Buat, centang dan atur tanpa ganti aplikasi, agar tiap kembali dari jeda tahu langkah berikutnya.",
+      "bullets": [
+        "Buat dan selesaikan tugas cepat",
+        "Selalu di tangan saat jeda",
+        "Dengan Pomodoro dan jadwal kerja",
+        "Sedikit beralih, banyak fokus"
+      ],
+      "keywords": "timer Pomodoro, manajer tugas, daftar, fokus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Jadwal",
+      "title": "Atur Hari Kerja",
+      "motto": "Penjadwal jam kerja yang menghentikan pengingat sepulang kerja | Blink Eye",
+      "longMotto": "Atur mulai dan selesai tiap hari agar malam dan akhir pekan tenang.",
+      "description": "Beri tahu Blink Eye kapan kamu benar-benar bekerja. Jam per hari, akhir pekan tenang, jeda berhenti sendiri di luar jam kerja.",
+      "bullets": [
+        "Mulai dan selesai tiap hari",
+        "Berhenti sendiri di luar jam",
+        "Tanpa pengingat malam atau akhir pekan",
+        "Atur sekali, jalan seminggu"
+      ],
+      "keywords": "penjadwal jam kerja, hari kerja, rencana jeda, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Screen Saver",
+      "motto": "Screen saver animasi untuk jeda mata yang santai | Blink Eye",
+      "longMotto": "9 visual premium: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon dan Bouncy Balls.",
+      "description": "Ubah 20 detik istirahat jadi pelepas lelah. Sembilan animasi premium: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon dan Bouncy Balls. Mulus, ringan, santai.",
+      "bullets": [
+        "Sembilan visual: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Gerakan mulus tanpa lag",
+        "Satu klik untuk memilih dan membuka",
+        "Ctrl plus Spasi untuk langsung tutup"
+      ],
+      "keywords": "screen saver animasi, animasi jeda, santai, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Kontrol",
+      "title": "Pengaturan",
+      "motto": "Pengaturan jeda dengan mode ketat dan batas harian | Blink Eye",
+      "longMotto": "Jalan saat mulai, mode ketat, deteksi idle, suara dan batas harian di satu tempat.",
+      "description": "Ruang kontrol yang serius. Jalan saat startup, paksa jeda dengan mode ketat, deteksi idle, suara dan batas layar harian.",
+      "bullets": [
+        "Jalan saat startup dengan tenang",
+        "Mode ketat dan deteksi idle",
+        "Shortcut global dan suara",
+        "Batas harian dengan peringatan"
+      ],
+      "keywords": "pengaturan jeda, mode ketat, batas layar, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Tampilan",
+      "title": "Pilih Tema",
+      "motto": "Blink Eye punya 24 lebih tema untuk dipilih dan dikustom sesukamu | Blink Eye",
+      "longMotto": "Blink Eye membawa 24 lebih tema siap pakai dan membiarkanmu mengatur warna dan latar sesuai selera.",
+      "description": "Jedamu, gayamu. Jelajahi galeri 24 lebih tema buatan tangan, pratinjau tiap tema secara live, pilih favorit dalam satu klik, lalu atur warna dan latar sampai terasa milikmu. Dari minimal yang tenang sampai berani dan seru, ada tema untuk tiap suasana, meja dan alur kerja.",
+      "bullets": [
+        "24 lebih tema siap pakai untuk dipilih",
+        "Pratinjau live dan ganti satu klik",
+        "Warna dan latar sesukamu",
+        "Opsi terang dan gelap untuk siang dan malam"
+      ],
+      "keywords": "tema pengingat, 24 tema, kustom tema, pilih tema, kenyamanan mata, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktifkan Lisensi",
+      "motto": "Buka premium semua screen saver animasi | Blink Eye",
+      "longMotto": "Satu kunci membuka tiap saver premium plus animasi dan update mendatang.",
+      "description": "Tempel lisensimu sekali dan buka sembilan saver premium, animasi mendatang dan update prioritas. Pembelianmu menjaga aplikasi open source ini hidup untuk semua.",
+      "bullets": [
+        "Aktivasi simpel satu langkah",
+        "Membuka sembilan premium",
+        "Mendukung open source",
+        "Terverifikasi instan tanpa restart"
+      ],
+      "keywords": "buka premium, kunci lisensi, screen saver, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "Tentang",
+      "motto": "Aplikasi kesehatan mata gratis open source untuk Windows, Mac dan Linux | Blink Eye",
+      "longMotto": "Lihat versi, update satu klik, bantuan, docs dan GitHub.",
+      "description": "Lihat versimu, update satu klik dan temukan bantuan. Bilah sisi menunjukkan aktivasi, versi dan cek update.",
+      "bullets": [
+        "Versi dan aktivasi sekilas",
+        "Cek update satu klik",
+        "Tautan docs, GitHub dan bantuan",
+        "Dibangun komunitas open source"
+      ],
+      "keywords": "aplikasi mata gratis, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

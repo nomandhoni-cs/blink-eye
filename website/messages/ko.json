@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "블로그",
     "description": "최신 블로그 및 뉴스 업데이트를 읽어보세요."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "우리를 돋보이게 하는 기능을 확인하세요",
+    "description": "우리 app을 돋보이게 하는 기능을 살펴보세요. 사용자 맞춤 알림부터 다양한 테마까지, 필요한 모든 것을 갖추고 있습니다."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "개요",
+      "title": "대시보드",
+      "motto": "화면 시간과 20-20-20 휴식을 추적하는 눈 건강 대시보드 | Blink Eye",
+      "longMotto": "재택근무자와 학생을 위한 간단한 대시보드. 다음 휴식, 오늘 화면 시간, 연속 기록을 한눈에.",
+      "description": "눈 건강의 중심입니다. 휴식 활성 여부, 다음 20-20-20 알림 시간, 오늘 화면 시간을 한눈에 확인. 메뉴를 열지 않고 집중하세요.",
+      "bullets": [
+        "일시정지와 계속이 되는 실시간 카운트다운",
+        "오늘 화면 시간과 연속 기록 한눈에",
+        "11개 도구 원클릭 접근",
+        "사이드바의 익숙한 네이티브 레이아웃"
+      ],
+      "keywords": "눈 건강 대시보드, 화면 시간 추적, 20-20-20 휴식 알림, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "핵심",
+      "title": "알림 설정",
+      "motto": "눈 피로와 안구건조를 덜어주는 20-20-20 규칙 알림 | Blink Eye",
+      "longMotto": "간격, 휴식 길이, 메시지, 소리를 직접 정하는 20-20-20 타이머로 VDT 증후군 예방.",
+      "description": "내 일에 맞는 리듬을 설정하세요. 엄격한 20-20-20 규칙도 뽀모도로식도 가능. 간격, 휴식 길이, 메시지, 소리, 엄격 모드는 여기에서.",
+      "bullets": [
+        "초·분 단위 간격과 휴식 길이",
+        "엄격 모드의 나만의 메시지",
+        "미리듣기 되는 알림 소리",
+        "알림 즉시 테스트"
+      ],
+      "keywords": "20-20-20 규칙, 눈 피로, 안구건조, 휴식 타이머, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "분석",
+      "title": "사용 시간",
+      "motto": "일별·주별·월별 리포트 화면 시간 추적기 | Blink Eye",
+      "longMotto": "명확한 차트로 컴퓨터 사용을 기록하고 과로를 찾아 건강한 습관을 만드세요.",
+      "description": "명확한 차트로 실제 사용을 확인. 눈에 무리 주는 장시간 세션을 찾고, 주를 비교하며 실제 데이터로 건강한 습관을 만드세요.",
+      "bullets": [
+        "일·주·월·년·전체 보기",
+        "총 시간과 평균 세션 차트",
+        "과로 경향을 미리 발견",
+        "다른 추적 앱 불필요"
+      ],
+      "keywords": "화면 시간 추적, 컴퓨터 사용 시간, 사용 통계, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "꾸미기",
+      "title": "알림 테마",
+      "motto": "눈을 쉬게 하는 편안한 휴식 화면 테마 | Blink Eye",
+      "longMotto": "산만하지 않은 차분한 전체화면 테마를 라이트·다크로 선택.",
+      "description": "휴식은 방해가 아닌 쉼이어야 합니다. 차분하거나 활기찬 전체화면 테마를 미니멀부터 몰입형까지 선택. 모두 눈 편안함을 위해.",
+      "bullets": [
+        "기분별 다양한 전체화면 테마",
+        "산만함 없이 눈에 부드럽게",
+        "적용 전 미리보기",
+        "라이트·다크 모드 지원"
+      ],
+      "keywords": "휴식 화면 테마, 눈 편안함, 알림 테마, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "파워유저",
+      "title": "멀티 모니터",
+      "motto": "듀얼·트리플 모니터용 휴식 알림 | Blink Eye",
+      "longMotto": "모든 화면 또는 주 화면에만 표시. 개발자, 디자이너, 트레이더용.",
+      "description": "2~3개 화면이 눈 피로의 빈틈이 되면 안 됩니다. 모든 모니터 또는 주 모니터에만 휴식을 표시. 내 방식대로.",
+      "bullets": [
+        "전체 또는 주 화면에만",
+        "어떤 창도 알림을 피할 수 없음",
+        "개발자·디자이너·트레이더용",
+        "Windows·macOS·Linux 지원"
+      ],
+      "keywords": "멀티 모니터 알림, 듀얼 모니터, 트리플 모니터, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "생산성",
+      "title": "할 일 목록",
+      "motto": "앱 전환 없이 집중하는 뽀모도로 작업 관리 | Blink Eye",
+      "longMotto": "휴식하는 곳에서 할 일을 적고 뽀모도로 집중 세션과 연결.",
+      "description": "휴식하는 곳에서 할 일을 적으세요. 앱 전환 없이 만들고·완료하고·정리. 매 휴식 후 다음 할 일을 알고 돌아옵니다.",
+      "bullets": [
+        "할 일 빠르게 만들기·완료",
+        "휴식 중 항상 손안에",
+        "뽀모도로·근무 일정과 연결",
+        "전환은 줄고 집중은 증가"
+      ],
+      "keywords": "뽀모도로 타이머, 작업 관리, 할 일, 집중, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "일정",
+      "title": "근무일 설정",
+      "motto": "퇴근 후 알림을 멈추는 근무 시간 스케줄러 | Blink Eye",
+      "longMotto": "요일별 시작·종료를 정하고 밤과 주말엔 조용히.",
+      "description": "실제 일하는 시간을 Blink Eye에 알려주세요. 요일별 시작·종료, 조용한 주말, 근무 외 시간엔 자동 정지.",
+      "bullets": [
+        "요일별 시작·종료",
+        "근무 외 자동 정지",
+        "밤·주말 알림 없음",
+        "한 번 설정으로 일주일"
+      ],
+      "keywords": "근무 시간 스케줄러, 근무 시간, 휴식 계획, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "프리미엄",
+      "title": "화면 보호기",
+      "motto": "눈이 쉬는 릴렉스 휴식 애니메이션 | Blink Eye",
+      "longMotto": "9종 프리미엄 비주얼: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls.",
+      "description": "20초 휴식을 작은 쉼으로. Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls 9종. 부드럽고 가볍게 눈을 쉬게 합니다.",
+      "bullets": [
+        "9종 비주얼: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "부드럽고 끊김 없음",
+        "원클릭 선택·실행",
+        "Ctrl+Space로 즉시 닫기"
+      ],
+      "keywords": "애니메이션 화면 보호기, 휴식 애니메이션, 릴렉스, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "관리",
+      "title": "설정",
+      "motto": "엄격 모드와 일일 한도의 휴식 설정 | Blink Eye",
+      "longMotto": "시작, 엄격 모드, 자리비움 감지, 소리, 일일 한도를 한 곳에서.",
+      "description": "본격 설정 제어실. 시작 시 실행, 엄격 모드 강제 휴식, 자리비움 감지, 소리, 일일 화면 한도 설정.",
+      "bullets": [
+        "시작 시 조용히 실행",
+        "엄격 모드와 자리비움 감지",
+        "전역 단축키와 소리",
+        "경고와 함께하는 일일 한도"
+      ],
+      "keywords": "휴식 설정, 엄격 모드, 화면 시간 한도, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "외관",
+      "title": "테마 선택",
+      "motto": "Blink Eye의 24종 이상 테마를 골라 내 취향대로 꾸미기 | Blink Eye",
+      "longMotto": "Blink Eye는 24종 이상 완성 테마를 갖추고 색과 배경을 취향대로 바꿀 수 있습니다.",
+      "description": "휴식도 내 스타일대로. 24종 이상 수제 테마를 둘러보고, 실시간 미리보기로 확인하고, 원클릭으로 마음에 드는 것을 고른 뒤, 색과 배경을 꼭 맞을 때까지 조정하세요. 차분한 미니멀부터 대담하고 재미있는 것까지, 기분과 책상, 일하는 방식에 맞는 테마가 있습니다.",
+      "bullets": [
+        "24종 이상 완성 테마 중 선택",
+        "실시간 미리보기와 원클릭 전환",
+        "색과 배경을 내 방식대로",
+        "낮과 밤에 맞는 라이트·다크"
+      ],
+      "keywords": "알림 테마, 24 테마, 테마 꾸미기, 테마 선택, 눈 편안함, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "프리미엄",
+      "title": "라이선스 활성화",
+      "motto": "모든 애니메이션 프리미엄 잠금 해제 | Blink Eye",
+      "longMotto": "하나의 키로 모든 프리미엄과 향후 애니·업데이트 잠금 해제.",
+      "description": "라이선스를 한 번 붙여넣으면 9종 프리미엄, 향후 애니, 우선 업데이트 해제. 구매가 이 오픈소스를 지킵니다.",
+      "bullets": [
+        "간단한 1단계 활성화",
+        "9종 프리미엄 해제",
+        "오픈소스 개발 지원",
+        "재시작 없이 즉시 인증"
+      ],
+      "keywords": "프리미엄 해제, 라이선스 키, 화면 보호기, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "정보",
+      "title": "정보",
+      "motto": "Windows·Mac·Linux용 무료 오픈소스 눈 건강 앱 | Blink Eye",
+      "longMotto": "버전, 원클릭 업데이트, 도움말·문서·GitHub.",
+      "description": "버전 확인, 원클릭 업데이트, 도움말. 사이드바에 활성화, 업데이트 확인 표시.",
+      "bullets": [
+        "버전·활성화 한눈에",
+        "원클릭 업데이트 확인",
+        "문서·GitHub·지원 링크",
+        "오픈소스 기여로 제작"
+      ],
+      "keywords": "무료 눈 건강 앱, 오픈소스, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }
