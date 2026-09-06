@@ -387,5 +387,191 @@
   "blogsPage": {
     "title": "Blog",
     "description": "Citește cele mai recente bloguri și actualizări de știri."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Descoperă Funcționalitățile Care Ne Fac să Ieșim în Evidență",
+    "description": "Explorează funcționalitățile care fac ca aplicația noastră să iasă în evidență. De la memento-uri personalizabile la teme multiple, te susținem."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Rezumat",
+      "title": "Panou",
+      "motto": "Panou de sănătate oculară pentru timp de ecran și pauze 20-20-20 | Blink Eye",
+      "longMotto": "Un panou simplu pentru telemuncă și studiu: pauza următoare, timpul de ecran de azi și seria dintr-o privire.",
+      "description": "Baza ta pentru sănătatea ochilor. Vezi dacă pauzele sunt active, când vine următorul memento 20-20-20 și timpul de ecran de azi. Tot dintr-o privire, fără meniuri.",
+      "bullets": [
+        "Numărătoare live cu pauză și continuare",
+        "Timpul și seria de azi dintr-o privire",
+        "Acces la 11 unelte dintr-un clic",
+        "Aspect nativ familiar cu bară laterală"
+      ],
+      "keywords": "panou sănătate oculară, timp de ecran, memento pauze 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Esențial",
+      "title": "Setări memento-uri",
+      "motto": "Memento regula 20-20-20 contra oboselii și uscăciunii ochilor | Blink Eye",
+      "longMotto": "Cronometru 20-20-20 propriu cu interval, durată, mesaj și sunet contra sindromului vederii la computer.",
+      "description": "Alege ritmul muncii tale. Regula strictă 20-20-20 sau stil Pomodoro. Interval, durată, mesaj propriu, sunet și mod strict, toate aici.",
+      "bullets": [
+        "Interval și durată în secunde sau minute",
+        "Mesaj propriu cu mod strict",
+        "Sunet cu previzualizare",
+        "Testează mementoul instant"
+      ],
+      "keywords": "regula 20-20-20, oboseală oculară, ochi uscați, cronometru pauze, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Statistici",
+      "title": "Timp de utilizare",
+      "motto": "Urmăritor timp de ecran cu rapoarte zilnice, săptămânale și lunare | Blink Eye",
+      "longMotto": "Urmărește utilizarea computerului în grafice clare și construiește obiceiuri sănătoase.",
+      "description": "Vezi utilizarea reală în grafice clare. Prinde sesiunile lungi ce obosesc ochii, compară săptămâni și construiește obiceiuri sănătoase din date reale.",
+      "bullets": [
+        "Zi, săptămână, lună, an și total",
+        "Grafice de total și sesiuni",
+        "Prinde suprasolicitarea înainte de rău",
+        "Fără altă aplicație"
+      ],
+      "keywords": "urmăritor timp ecran, utilizare computer, statistici, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personalizare",
+      "title": "Teme memento-uri",
+      "motto": "Teme confortabile de ecran de pauză pentru odihna ochilor | Blink Eye",
+      "longMotto": "Alege o temă ecran complet liniștită fără distrageri, deschisă sau închisă.",
+      "description": "Pauza trebuie să se simtă ca pauză, nu ca întrerupere. Alege un fundal ecran complet calmant sau energizant, de la minimal la imersiv, toate pentru confortul ochilor.",
+      "bullets": [
+        "Mai multe teme ecran complet pentru orice stare",
+        "Fără distrageri, blând cu ochii",
+        "Previzualizare înainte de aplicare",
+        "În mod deschis și închis"
+      ],
+      "keywords": "teme ecran de pauză, confort ocular, teme, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Monitoare multiple",
+      "motto": "Memento de pauze pentru setup-uri cu două și trei monitoare | Blink Eye",
+      "longMotto": "Pauză pe fiecare ecran sau doar pe principal, pentru dezvoltatori, designeri și traderi.",
+      "description": "Două sau trei ecrane nu trebuie să fie o portiță pentru oboseală. Arată pauza pe toate monitoarele sau doar pe principal, cum lucrezi tu.",
+      "bullets": [
+        "Pauză pe toate sau doar pe principal",
+        "Nicio fereastră nu scapă",
+        "Pentru dezvoltatori, designeri și traderi",
+        "Pe Windows, macOS și Linux"
+      ],
+      "keywords": "memento monitoare multiple, două ecrane, trei ecrane, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Productivitate",
+      "title": "Listă de sarcini",
+      "motto": "Manager de sarcini Pomodoro pentru focus fără schimb de aplicații | Blink Eye",
+      "longMotto": "Notează sarcini unde iei pauze, cu sesiuni de focus Pomodoro.",
+      "description": "Notează sarcini unde iei pauze. Creează, bifează și organizează fără schimb de aplicații, ca din fiecare pauză să revii știind pasul următor.",
+      "bullets": [
+        "Creare și finalizare rapidă",
+        "Mereu la îndemână în pauze",
+        "Cu Pomodoro și program de lucru",
+        "Mai puține comutări, mai mult focus"
+      ],
+      "keywords": "cronometru Pomodoro, manager sarcini, listă, focus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Program",
+      "title": "Setare zi de lucru",
+      "motto": "Planificator de program ce oprește mementourile după serviciu | Blink Eye",
+      "longMotto": "Început și sfârșit pentru fiecare zi, ca nopțile și weekendurile să fie liniștite.",
+      "description": "Spune-i lui Blink Eye când lucrezi cu adevărat. Ore pe zi, weekenduri liniștite, pauzele se opresc singure în afara programului.",
+      "bullets": [
+        "Început și sfârșit pentru fiecare zi",
+        "Se oprește singur în afara orelor",
+        "Fără mementouri noaptea sau în weekend",
+        "Setat o dată, rulează toată săptămâna"
+      ],
+      "keywords": "planificator program, zi de lucru, plan pauze, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Screen savere",
+      "motto": "Screen savere animate pentru pauze relaxante ale ochilor | Blink Eye",
+      "longMotto": "9 vizualuri premium: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon și Bouncy Balls.",
+      "description": "Transformă 20 de secunde de odihnă într-un respiro. Nouă animații premium: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon și Bouncy Balls. Fluide, ușoare, relaxante.",
+      "bullets": [
+        "Nouă vizualuri: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Mișcare fluidă fără sacadări",
+        "Un clic pentru alegere și deschidere",
+        "Ctrl plus spațiu pentru închidere instantă"
+      ],
+      "keywords": "screen savere animate, animație de pauză, relaxare, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Control",
+      "title": "Setări",
+      "motto": "Setări de pauze cu mod strict și limită zilnică | Blink Eye",
+      "longMotto": "Pornire, mod strict, inactivitate, sunete și limită zilnică într-un loc.",
+      "description": "Camera serioasă de control. Pornire cu sistemul, pauze forțate cu mod strict, inactivitate, sunete și limită zilnică de ecran.",
+      "bullets": [
+        "Pornire cu sistemul, discret",
+        "Mod strict și inactivitate",
+        "Scurtătură globală și sunete",
+        "Limită zilnică cu avertismente"
+      ],
+      "keywords": "setări de pauze, mod strict, limită de ecran, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Aspect",
+      "title": "Alegere temă",
+      "motto": "Blink Eye oferă peste 24 de teme de ales și personalizat pe gustul tău | Blink Eye",
+      "longMotto": "Blink Eye aduce peste 24 de teme gata făcute și te lasă să ajustezi culorile și fundalurile după gust.",
+      "description": "Pauzele tale, stilul tău. Explorează peste 24 de teme artizanale, previzualizează fiecare în direct, alege favorita dintr-un clic, apoi ajustează culorile și fundalurile până se simte a ta. De la minimal calm la îndrăzneț și jucăuș, există o temă pentru orice stare, birou și flux de lucru.",
+      "bullets": [
+        "Peste 24 de teme gata de ales",
+        "Previzualizare live și schimbare dintr-un clic",
+        "Culori și fundaluri în felul tău",
+        "Opțiuni deschise și închise pentru zi și noapte"
+      ],
+      "keywords": "teme de memento, 24 de teme, personalizează tema, alege tema, confort ocular, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Activează licența",
+      "motto": "Deblocare premium a tuturor screen saverelor animate | Blink Eye",
+      "longMotto": "O cheie deschide fiecare saver premium plus animații și actualizări viitoare.",
+      "description": "Lipește licența o dată și deschide cele nouă savere premium, animații viitoare și actualizări prioritare. Cumpărătura ta ține vie această aplicație open source pentru toți.",
+      "bullets": [
+        "Activare simplă într-un pas",
+        "Deschide toate cele nouă premium",
+        "Sprijină dezvoltarea open source",
+        "Verificat instant fără restart"
+      ],
+      "keywords": "deblocare premium, cheie de licență, screen savere, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "Despre",
+      "motto": "Aplicație gratuită open source de sănătate oculară pentru Windows, Mac și Linux | Blink Eye",
+      "longMotto": "Vezi versiunea, actualizează dintr-un clic, ajutor, docs și GitHub.",
+      "description": "Vezi versiunea ta, actualizează dintr-un clic și găsește ajutor. Bara laterală arată activarea, versiunea și verificarea actualizărilor.",
+      "bullets": [
+        "Versiune și activare dintr-o privire",
+        "Verificare actualizări dintr-un clic",
+        "Linkuri docs, GitHub și ajutor",
+        "Construit de comunitatea open source"
+      ],
+      "keywords": "aplicație gratuită sănătate oculară, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

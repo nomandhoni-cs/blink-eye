@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "博客",
     "description": "阅读我们的最新博客和新闻更新。"
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "探索让我们脱颖而出的功能",
+    "description": "探索使我们的应用脱颖而出的功能。从可定制的提醒到多样化主题，我们都能满足您的需求。"
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "总览",
+      "title": "仪表盘",
+      "motto": "追踪屏幕时间和20-20-20休息的眼部护理仪表盘 | Blink Eye",
+      "longMotto": "为远程办公和学生打造的简洁仪表盘,下次休息、今日屏幕时间和连续记录一目了然。",
+      "description": "你的眼部健康大本营。查看休息是否开启、下次20-20-20提醒何时到来、今日屏幕时间。不用打开菜单,一眼掌握,保持专注。",
+      "bullets": [
+        "下次眼部休息实时倒计时,可暂停和继续",
+        "今日屏幕时间和连续记录一目了然",
+        "一键直达全部11个工具",
+        "带侧边栏的熟悉原生布局"
+      ],
+      "keywords": "眼部护理 仪表盘, 屏幕时间 追踪, 20-20-20 休息提醒, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "核心",
+      "title": "提醒设置",
+      "motto": "缓解视疲劳和干眼的20-20-20规则提醒 | Blink Eye",
+      "longMotto": "自定义20-20-20休息计时器,自由设置间隔、时长、消息和声音,预防电脑视力综合征。",
+      "description": "按你的工作节奏设置。严格20-20-20或番茄工作法都行。间隔、休息时长、自定义消息、声音和严格模式都在这里。",
+      "bullets": [
+        "按秒或分钟设置间隔和时长",
+        "自定义消息加严格模式强制休息",
+        "通知声音可预览",
+        "即时测试提醒"
+      ],
+      "keywords": "20-20-20规则, 视疲劳, 干眼, 休息计时器, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "洞察",
+      "title": "使用时长",
+      "motto": "带每日、每周和每月报告的屏幕时间追踪 | Blink Eye",
+      "longMotto": "用清晰图表记录电脑使用,发现过度用眼,养成健康用屏习惯。",
+      "description": "用清晰图表查看真实使用情况。发现伤害眼睛的长时间会话,对比各周,用真实数据养成健康习惯。",
+      "bullets": [
+        "日、周、月、年和全部视图",
+        "总时长和平均会话图表",
+        "提前发现过度使用趋势",
+        "无需其他追踪应用"
+      ],
+      "keywords": "屏幕时间 追踪, 电脑使用时长, 使用统计, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "个性化",
+      "title": "提醒主题",
+      "motto": "让眼睛舒适休息的自定义休息屏主题 | Blink Eye",
+      "longMotto": "选择安静无打扰的全屏主题,浅色深色都有。",
+      "description": "休息就该像休息,而不是打扰。选择舒缓或提神的全屏背景,从极简到沉浸,全部为眼睛舒适而设计。",
+      "bullets": [
+        "多种全屏主题随心情换",
+        "无打扰,对眼睛温和",
+        "应用前可预览",
+        "浅色深色都支持"
+      ],
+      "keywords": "休息屏 主题, 眼睛舒适, 提醒主题, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "进阶",
+      "title": "多显示器",
+      "motto": "双屏和三屏配置的休息提醒 | Blink Eye",
+      "longMotto": "在所有屏幕或仅主屏显示休息,适合开发者、设计师和交易员。",
+      "description": "两三块屏幕不应成为视疲劳的漏洞。按你的工作方式,在所有显示器或仅主屏显示休息。",
+      "bullets": [
+        "全部显示或仅主屏",
+        "任何窗口都逃不过提醒",
+        "适合开发者、设计师和交易员",
+        "支持Windows、macOS和Linux"
+      ],
+      "keywords": "多显示器 提醒, 双屏, 三屏, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "效率",
+      "title": "待办清单",
+      "motto": "不用切换应用就能专注的番茄任务管理 | Blink Eye",
+      "longMotto": "在休息的地方记录任务,配合番茄专注时段。",
+      "description": "在休息的地方记录任务。不用切换应用就能创建、勾选和整理,每次休息回来都知道下一步。",
+      "bullets": [
+        "快速创建和完成任务",
+        "休息时随时在手边",
+        "配合番茄钟和工作日程",
+        "少切换,多专注"
+      ],
+      "keywords": "番茄钟, 任务管理, 待办, 专注, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "日程",
+      "title": "工作日设置",
+      "motto": "下班后自动暂停提醒的工作时间计划 | Blink Eye",
+      "longMotto": "设置每天的开始和结束,夜晚和周末保持安静。",
+      "description": "告诉Blink Eye你真正的上班时间。设置每天起止、安静周末,工作时间外自动暂停休息。",
+      "bullets": [
+        "每天的开始和结束",
+        "工作时间外自动暂停",
+        "夜晚和周末无打扰",
+        "设置一次,管用一周"
+      ],
+      "keywords": "工作时间 计划, 工作日, 休息计划, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "高级版",
+      "title": "屏保",
+      "motto": "放松眼睛的动画休息屏保 | Blink Eye",
+      "longMotto": "9款高级视觉:Aurora、Free Sprit、Infinite Wave、Starry、Beam of Life、Shooting Meteor、Plain Gradient、Polygon和Bouncy Balls。",
+      "description": "把20秒休息变成小憩。九款高级动画:Aurora、Free Sprit、Infinite Wave、Starry Background、Beam of Life、Shooting Meteor、Plain Gradient、Polygon和Bouncy Balls。流畅轻量,放松双眼。",
+      "bullets": [
+        "九款视觉:Aurora、Free Sprit、Infinite Wave、Starry、Beam of Life、Shooting Meteor、Plain Gradient、Polygon、Bouncy Balls",
+        "流畅无卡顿",
+        "一键选择并打开",
+        "Ctrl加空格即时关闭"
+      ],
+      "keywords": "动画屏保, 休息动画, 放松, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "控制",
+      "title": "设置",
+      "motto": "带严格模式和每日上限的休息设置 | Blink Eye",
+      "longMotto": "开机启动、严格模式、空闲检测、声音和每日上限都在一处。",
+      "description": "严肃偏好的控制室。开机启动、严格模式强制休息、空闲检测、声音和每日屏幕上限。",
+      "bullets": [
+        "开机启动,静默运行",
+        "严格模式和空闲检测",
+        "全局快捷键和声音",
+        "带提醒的每日上限"
+      ],
+      "keywords": "休息设置, 严格模式, 屏幕上限, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "外观",
+      "title": "主题选择",
+      "motto": "Blink Eye 提供 24 款以上提醒主题,随心挑选和定制 | Blink Eye",
+      "longMotto": "Blink Eye 内置 24 款以上现成主题,颜色和背景都可按喜好定制。",
+      "description": "你的休息,你做主。浏览 24 款以上手工主题,实时预览每一款,一键选中最爱,再把颜色和背景调到满意为止。从安静极简到大胆活泼,每种心情、桌面和工作流都有对应主题。",
+      "bullets": [
+        "24 款以上现成主题任选",
+        "实时预览,一键切换",
+        "颜色背景按你的方式定制",
+        "浅色深色兼顾,昼夜都好用"
+      ],
+      "keywords": "提醒主题, 24 主题, 定制主题, 选择主题, 眼睛舒适, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "高级版",
+      "title": "激活许可证",
+      "motto": "解锁全部动画屏保的高级版 | Blink Eye",
+      "longMotto": "一个密钥解锁全部高级屏保及未来动画和更新。",
+      "description": "粘贴一次许可证,解锁九款高级屏保、未来动画和优先更新。你的购买让这个开源眼部护理应用长久发展。",
+      "bullets": [
+        "一步简单激活",
+        "解锁全部九款高级版",
+        "支持开源开发",
+        "即时验证,无需重启"
+      ],
+      "keywords": "高级解锁, 许可证密钥, 屏保, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "信息",
+      "title": "关于",
+      "motto": "Windows、Mac和Linux免费开源眼部护理应用 | Blink Eye",
+      "longMotto": "查看版本,一键更新,获取帮助、文档和GitHub。",
+      "description": "查看版本,一键更新,找到帮助。侧边栏显示激活状态、版本和检查更新,永远保持最新。",
+      "bullets": [
+        "版本和激活一目了然",
+        "一键检查更新",
+        "文档、GitHub和支持链接",
+        "开源社区打造"
+      ],
+      "keywords": "免费眼部护理, 开源, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

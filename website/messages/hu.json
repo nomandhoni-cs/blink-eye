@@ -384,5 +384,191 @@
   "blogsPage": {
     "title": "Blogok",
     "description": "Olvassa el legújabb blogbejegyzéseinket és híreinket."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Fedezze fel azokat a funkciókat, amelyek kiemelnek minket",
+    "description": "Fedezze fel azokat a funkciókat, amelyek kiemelik alkalmazásunkat. A testreszabható emlékeztetőktől a többféle témáig mindenre gondoltunk."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Áttekintés",
+      "title": "Irányítópult",
+      "motto": "Szemápolási irányítópult képernyőidő és 20-20-20 szünetek követésére | Blink Eye",
+      "longMotto": "Egyszerű pult távmunkához és tanuláshoz: következő szünet, mai képernyőidő és sorozat egy pillantásra.",
+      "description": "Bázisod a szem egészségéért. Lásd aktívak-e a szünetek, mikor jön a következő 20-20-20 emlékeztető és mennyi a mai képernyőidőd. Minden egy pillantásra, menük nélkül.",
+      "bullets": [
+        "Élő visszaszámlálás szünettel és folytatással",
+        "Mai képernyőidő és sorozat egy pillantásra",
+        "11 eszköz egy kattintásra",
+        "Ismerős natív elrendezés oldalsávval"
+      ],
+      "keywords": "szemápolási pult, képernyőidő követés, 20-20-20 szünet emlékeztető, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Alap",
+      "title": "Emlékeztető beállítások",
+      "motto": "20-20-20 szabály emlékeztető szemfáradtság és száraz szem ellen | Blink Eye",
+      "longMotto": "Egyéni 20-20-20 időzítő intervallummal, hosszal, üzenettel és hanggal a számítógépes látás szindróma ellen.",
+      "description": "Válaszd munkád ritmusát. Szigorú 20-20-20 szabály vagy Pomodoro stílus. Intervallum, hossz, saját üzenet, hang és szigorú mód, mind itt.",
+      "bullets": [
+        "Intervallum és hossz másodpercben vagy percben",
+        "Saját üzenet szigorú móddal",
+        "Értesítési hang előnézettel",
+        "Emlékeztető azonnali tesztje"
+      ],
+      "keywords": "20-20-20 szabály, szemfáradtság, száraz szem, szünet időzítő, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Statisztika",
+      "title": "Használati idő",
+      "motto": "Képernyőidő követés napi, heti és havi jelentésekkel | Blink Eye",
+      "longMotto": "Kövesd a számítógép-használatot átlátható grafikonokon és építs egészséges szokásokat.",
+      "description": "Lásd valós használatod átlátható grafikonokon. Kapd el a szemet fárasztó hosszú szakaszokat, hasonlíts heteket és építs egészséges szokásokat valós adatokból.",
+      "bullets": [
+        "Nap, hét, hónap, év és összes nézet",
+        "Összesített és átlagos grafikonok",
+        "Kapd el a túlterhelést kár előtt",
+        "Nincs szükség más appra"
+      ],
+      "keywords": "képernyőidő követés, számítógép-használat, statisztika, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Személyre szabás",
+      "title": "Emlékeztető témák",
+      "motto": "Kényelmes szünetképernyő témák a szem pihentetésére | Blink Eye",
+      "longMotto": "Válassz nyugodt teljes képernyős témát zavarás nélkül, világosat vagy sötétet.",
+      "description": "A szünetnek szünetnek kell érződnie, nem megszakításnak. Válassz nyugtató vagy élénkítő teljes képernyős hátteret minimáltól magával ragadóig, mind a szem kényelméért.",
+      "bullets": [
+        "Több téma minden hangulathoz",
+        "Zavarásmentes, szemkímélő",
+        "Előnézet alkalmazás előtt",
+        "Világos és sötét módban"
+      ],
+      "keywords": "szünetképernyő témák, szemkomfort, témák, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Több monitor",
+      "motto": "Szünet emlékeztető két- és hárommonitoros összeállításokhoz | Blink Eye",
+      "longMotto": "Szünet minden képernyőn vagy csak a főn, fejlesztőknek, tervezőknek és tradereknek.",
+      "description": "Két vagy három képernyő nem lehet kiskapu a szemfáradtságnak. Mutasd a szünetet minden monitoron vagy csak az elsődlegesen, ahogy dolgozol.",
+      "bullets": [
+        "Szünet mindenhol vagy csak a főn",
+        "Egy ablak sem szökik meg",
+        "Fejlesztőknek, tervezőknek, tradereknek",
+        "Windows, macOS és Linux alatt"
+      ],
+      "keywords": "többmonitoros emlékeztető, két képernyő, három képernyő, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktivitás",
+      "title": "Teendőlista",
+      "motto": "Pomodoro feladatkezelő fókuszhoz appváltás nélkül | Blink Eye",
+      "longMotto": "Írd a feladatokat ahol szünetelsz, Pomodoro fókusz szakaszokkal.",
+      "description": "Írd a feladatokat ahol szünetelsz. Hozz létre, pipálj és rendezz appváltás nélkül, hogy minden szünetből tudd a következő lépést.",
+      "bullets": [
+        "Feladatok gyors létrehozása és elvégzése",
+        "Mindig kéznél szünetekben",
+        "Pomodoróval és munkarenddel",
+        "Kevesebb váltás, több fókusz"
+      ],
+      "keywords": "Pomodoro időzítő, feladatkezelő, lista, fókusz, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Ütemezés",
+      "title": "Munkanap beállítás",
+      "motto": "Munkaidő ütemező, amely munka után leállítja az emlékeztetőket | Blink Eye",
+      "longMotto": "Kezdés és vég minden napra, hogy éjjel és hétvégén csend legyen.",
+      "description": "Mondd meg Blink Eye-nak mikor dolgozol igazán. Órák naponta, csendes hétvégék, szünetek maguktól leállnak munkaidőn kívül.",
+      "bullets": [
+        "Kezdés és vég minden napra",
+        "Magától leáll időn kívül",
+        "Nincs emlékeztető éjjel és hétvégén",
+        "Egyszer beállít, egész héten fut"
+      ],
+      "keywords": "munkaidő ütemező, munkanap, szünetterv, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Prémium",
+      "title": "Képernyővédők",
+      "motto": "Animált képernyővédők pihentető szemszünetekhez | Blink Eye",
+      "longMotto": "9 prémium látvány: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon és Bouncy Balls.",
+      "description": "Válts 20 másodperc pihenőt fellélegzéssé. Kilenc prémium animáció: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon és Bouncy Balls. Folyamatos, könnyű, pihentető.",
+      "bullets": [
+        "Kilenc látvány: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Folyamatos mozgás akadás nélkül",
+        "Egy kattintás választáshoz és nyitáshoz",
+        "Ctrl plusz Szóköz az azonnali záráshoz"
+      ],
+      "keywords": "animált képernyővédő, szünet animáció, pihenés, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Vezérlés",
+      "title": "Beállítások",
+      "motto": "Szünetbeállítások szigorú móddal és napi limittel | Blink Eye",
+      "longMotto": "Indítás, szigorú mód, tétlenség, hangok és napi limit egy helyen.",
+      "description": "A komoly vezérlőszoba. Indítás a rendszerrel, kényszerített szünetek szigorú móddal, tétlenség, hangok és napi képernyőlimit.",
+      "bullets": [
+        "Indítás csendben a rendszerrel",
+        "Szigorú mód és tétlenség",
+        "Globális gyorsbillentyű és hangok",
+        "Napi limit figyelmeztetéssel"
+      ],
+      "keywords": "szünetbeállítások, szigorú mód, képernyőlimit, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Megjelenés",
+      "title": "Témaválasztó",
+      "motto": "A Blink Eye 24-nél is több témát kínál választásra és saját ízlésre | Blink Eye",
+      "longMotto": "A Blink Eye 24-nél is több kész témát hoz, és engedi a színek és hátterek ízlés szerinti állítását.",
+      "description": "A szüneteid, a stílusod. Böngéssz 24-nél is több kézzel készült témát, nézd meg mindegyiket élőben, válaszd ki a kedvenced egy kattintással, majd állítsd a színeket és háttereket amíg igazán tiédnek nem érzed. A nyugodt minimáltól a merész és játékosig minden hangulathoz, asztalhoz és munkafolyamathoz van téma.",
+      "bullets": [
+        "24-nél is több kész téma választásra",
+        "Élő előnézet és váltás egy kattintással",
+        "Színek és hátterek a te ízlésed szerint",
+        "Világos és sötét opciók nappalra és éjszakára"
+      ],
+      "keywords": "emlékeztető témák, 24 téma, téma testreszabás, téma választás, szemkomfort, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Prémium",
+      "title": "Licenc aktiválása",
+      "motto": "Prémium feloldás minden animált képernyővédőhöz | Blink Eye",
+      "longMotto": "Egy kulcs nyit minden prémium védőt plusz jövőbeli animációkat és frissítéseket.",
+      "description": "Illeszd be a licenced egyszer és oldd fel a kilenc prémium védőt, jövőbeli animációkat és prioritásos frissítéseket. Vásárlásod életben tartja ezt az open source appot mindenkinek.",
+      "bullets": [
+        "Egyszerű egy-lépéses aktiválás",
+        "Feloldja mind a kilenc prémiumot",
+        "Támogatja az open source fejlesztést",
+        "Azonnali ellenőrzés újraindítás nélkül"
+      ],
+      "keywords": "prémium feloldás, licenckulcs, képernyővédő, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Infó",
+      "title": "Névjegy",
+      "motto": "Ingyenes open source szemápolás Windowsra, Macre és Linuxra | Blink Eye",
+      "longMotto": "Lásd a verziót, frissíts egy kattintással, súgó, docs és GitHub.",
+      "description": "Nézd meg a verziód, frissíts egy kattintással és találj súgót. Az oldalsáv mutatja az aktiválást és a frissítés-ellenőrzést.",
+      "bullets": [
+        "Verzió és aktiválás egy pillantásra",
+        "Frissítés-ellenőrzés egy kattintással",
+        "Docs, GitHub és súgó linkek",
+        "Open source közösség építette"
+      ],
+      "keywords": "ingyenes szemápolás, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

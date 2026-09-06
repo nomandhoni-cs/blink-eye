@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Blog",
     "description": "Przeczytaj nasze najnowsze blogi i aktualności."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Odkryj funkcje, które nas wyróżniają",
+    "description": "Poznaj funkcje, które wyróżniają naszą aplikację. Od konfigurowalnych przypomnień po wiele motywów - mamy wszystko, czego potrzebujesz."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Przegląd",
+      "title": "Panel",
+      "motto": "Panel zdrowia oczu do śledzenia czasu ekranu i przerw 20-20-20 | Blink Eye",
+      "longMotto": "Prosty panel do pracy zdalnej i nauki: następna przerwa, dzisiejszy czas ekranu i seria na jeden rzut oka.",
+      "description": "Twoja baza zdrowia oczu. Zobacz czy przerwy są aktywne, kiedy nadejdzie kolejne przypomnienie 20-20-20 i ile czasu ekranu masz dziś. Wszystko na jeden rzut oka, bez otwierania menu.",
+      "bullets": [
+        "Licznik na żywo z pauzą i wznowieniem",
+        "Dzisiejszy czas i seria na jeden rzut oka",
+        "Dostęp do 11 narzędzi jednym klikiem",
+        "Znany natywny układ z paskiem bocznym"
+      ],
+      "keywords": "panel zdrowia oczu, licznik czasu ekranu, przypomnienie o przerwach 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Podstawa",
+      "title": "Ustawienia przypomnień",
+      "motto": "Przypomnienie o zasadzie 20-20-20 na zmęczone i suche oczy | Blink Eye",
+      "longMotto": "Własny zegar 20-20-20 z interwałem, długością, wiadomością i dźwiękiem przeciw syndromowi widzenia komputerowego.",
+      "description": "Wybierz rytm swojej pracy. Surowa zasada 20-20-20 albo styl Pomodoro. Interwał, długość, własna wiadomość, dźwięk i tryb surowy, wszystko tutaj.",
+      "bullets": [
+        "Interwał i długość w sekundach lub minutach",
+        "Własna wiadomość z trybem surowym",
+        "Dźwięk z podglądem",
+        "Natychmiastowy test przypomnienia"
+      ],
+      "keywords": "zasada 20-20-20, zmęczenie oczu, suche oczy, zegar przerw, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Statystyki",
+      "title": "Czas użycia",
+      "motto": "Licznik czasu ekranu z raportami dziennymi, tygodniowymi i miesięcznymi | Blink Eye",
+      "longMotto": "Śledź użycie komputera na czytelnych wykresach, wyłap przemęczenie i buduj zdrowe nawyki.",
+      "description": "Zobacz realne użycie na czytelnych wykresach. Wyłap długie sesje męczące oczy, porównuj tygodnie i buduj zdrowe nawyki na prawdziwych danych.",
+      "bullets": [
+        "Widok dnia, tygodnia, miesiąca, roku i całości",
+        "Wykresy sumy i średnich sesji",
+        "Wyłap przemęczenie przed szkodą",
+        "Bez dodatkowych aplikacji"
+      ],
+      "keywords": "licznik czasu ekranu, użycie komputera, statystyki, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personalizacja",
+      "title": "Motywy przypomnień",
+      "motto": "Wygodne ekrany przerwy dla odpoczynku oczu | Blink Eye",
+      "longMotto": "Wybierz spokojny pełnoekranowy motyw bez rozpraszaczy, jasny lub ciemny.",
+      "description": "Przerwa ma być przerwą, nie przeszkodą. Wybierz pełnoekranowe tło kojące lub pobudzające, od minimalnego po immersyjne, wszystkie dla komfortu oczu.",
+      "bullets": [
+        "Wiele pełnoekranowych motywów na każdy nastrój",
+        "Bez rozpraszaczy, łagodne dla oczu",
+        "Podgląd przed zastosowaniem",
+        "W trybie jasnym i ciemnym"
+      ],
+      "keywords": "motywy ekranu przerwy, komfort oczu, motywy, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Wiele monitorów",
+      "motto": "Przypomnienie o przerwach do zestawów z dwoma i trzema monitorami | Blink Eye",
+      "longMotto": "Przerwa na każdym ekranie albo tylko głównym, dla deweloperów, designerów i traderów.",
+      "description": "Dwa czy trzy ekrany nie mogą być furtką dla zmęczenia oczu. Pokazuj przerwę na wszystkich monitorach albo tylko głównym, tak jak pracujesz.",
+      "bullets": [
+        "Przerwa na wszystkich albo tylko głównym",
+        "Żadne okno nie umknie przypomnieniu",
+        "Dla deweloperów, designerów i traderów",
+        "Na Windows, macOS i Linux"
+      ],
+      "keywords": "przypomnienie wiele monitorów, dwa ekrany, trzy ekrany, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktywność",
+      "title": "Lista zadań",
+      "motto": "Menedżer zadań Pomodoro do skupienia bez zmiany aplikacji | Blink Eye",
+      "longMotto": "Zapisuj zadania tam, gdzie robisz przerwy, z sesjami skupienia Pomodoro.",
+      "description": "Zapisuj zadania tam, gdzie robisz przerwy. Twórz, odhaczaj i porządkuj bez zmiany aplikacji, by z każdej przerwy wracać wiedząc co dalej.",
+      "bullets": [
+        "Szybkie tworzenie i kończenie zadań",
+        "Zawsze pod ręką na przerwach",
+        "Z Pomodoro i planem dnia",
+        "Mniej przełączania, więcej skupienia"
+      ],
+      "keywords": "zegar Pomodoro, menedżer zadań, lista, skupienie, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Plan",
+      "title": "Ustawienia dnia pracy",
+      "motto": "Planer godzin pracy, który wstrzymuje przypomnienia po pracy | Blink Eye",
+      "longMotto": "Początek i koniec każdego dnia, by noce i weekendy były ciche.",
+      "description": "Powiedz Blink Eye kiedy naprawdę pracujesz. Godziny na każdy dzień, spokojne weekendy, przerwy same zatrzymują się poza godzinami.",
+      "bullets": [
+        "Początek i koniec każdego dnia",
+        "Samo zatrzymuje się poza godzinami",
+        "Brak przypomnień nocą i w weekendy",
+        "Ustaw raz, działa cały tydzień"
+      ],
+      "keywords": "planer godzin pracy, dzień pracy, plan przerw, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Wygaszacze",
+      "motto": "Animowane wygaszacze na relaksujące przerwy dla oczu | Blink Eye",
+      "longMotto": "9 wizualizacji premium: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon i Bouncy Balls.",
+      "description": "Zamień 20 sekund odpoczynku w wytchnienie. Dziewięć animacji premium: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon i Bouncy Balls. Płynne, lekkie, relaksujące.",
+      "bullets": [
+        "Dziewięć wizualizacji: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Płynny ruch bez zacięć",
+        "Jeden klik by wybrać i otworzyć",
+        "Ctrl plus spacja by natychmiast zamknąć"
+      ],
+      "keywords": "animowane wygaszacze, animacja przerwy, relaks, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Kontrola",
+      "title": "Ustawienia",
+      "motto": "Ustawienia przerw z trybem surowym i dziennym limitem | Blink Eye",
+      "longMotto": "Start, tryb surowy, wykrywanie bezczynności, dźwięki i dzienny limit w jednym miejscu.",
+      "description": "Poważne centrum sterowania. Start z systemem, wymuszanie przerw trybem surowym, bezczynność, dźwięki i dzienny limit ekranu.",
+      "bullets": [
+        "Start z systemem, po cichu",
+        "Tryb surowy i bezczynność",
+        "Globalny skrót i dźwięki",
+        "Dzienny limit z ostrzeżeniami"
+      ],
+      "keywords": "ustawienia przerw, tryb surowy, limit ekranu, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Wygląd",
+      "title": "Wybór motywu",
+      "motto": "Blink Eye daje ponad 24 motywy do wyboru i urządzenia po swojemu | Blink Eye",
+      "longMotto": "Blink Eye ma ponad 24 gotowe motywy i pozwala dopasować kolory i tła do własnego gustu.",
+      "description": "Twoje przerwy, twój styl. Przeglądaj galerię ponad 24 ręcznie robionych motywów, podglądaj każdy na żywo, wybierz ulubiony jednym klikiem, a potem dostrajaj kolory i tła aż poczujesz że jest twój. Od spokojnego minimalizmu po odważne i zabawne, na każdy nastrój, biurko i przepływ pracy jest motyw.",
+      "bullets": [
+        "Ponad 24 gotowe motywy do wyboru",
+        "Podgląd na żywo i zmiana jednym klikiem",
+        "Kolory i tła po twojemu",
+        "Jasne i ciemne opcje na dzień i noc"
+      ],
+      "keywords": "motywy przypomnień, 24 motywy, dostosuj motyw, wybierz motyw, komfort oczu, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktywuj licencję",
+      "motto": "Odblokowanie premium wszystkich animowanych wygaszaczy | Blink Eye",
+      "longMotto": "Jeden klucz otwiera każdy wygaszacz premium plus przyszłe animacje i aktualizacje.",
+      "description": "Wklej licencję raz i odblokuj dziewięć wygaszaczy premium, przyszłe animacje i priorytetowe aktualizacje. Twój zakup utrzymuje tę aplikację open source dla wszystkich.",
+      "bullets": [
+        "Prosta aktywacja w jednym kroku",
+        "Odblokowuje dziewięć premium",
+        "Wspiera rozwój open source",
+        "Weryfikacja od razu bez restartu"
+      ],
+      "keywords": "odblokowanie premium, klucz licencji, wygaszacze, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "O aplikacji",
+      "motto": "Darmowa open source ochrona oczu na Windows, Mac i Linux | Blink Eye",
+      "longMotto": "Zobacz wersję, zaktualizuj jednym klikiem, znajdź pomoc, docs i GitHub.",
+      "description": "Sprawdź wersję, zaktualizuj jednym klikiem i znajdź pomoc. Panel boczny pokazuje aktywację, wersję i sprawdzanie aktualizacji.",
+      "bullets": [
+        "Wersja i aktywacja na jeden rzut oka",
+        "Sprawdzanie aktualizacji jednym klikiem",
+        "Linki do docs, GitHub i pomocy",
+        "Zbudowane przez społeczność open source"
+      ],
+      "keywords": "darmowa ochrona oczu, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

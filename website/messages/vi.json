@@ -393,5 +393,191 @@
   "blogsPage": {
     "title": "Blogs",
     "description": "Đọc các blog và cập nhật tin tức mới nhất của chúng tôi."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Khám phá các tính năng làm cho chúng tôi nổi bật",
+    "description": "Khám phá các tính năng làm cho ứng dụng của chúng tôi trở nên nổi bật. Từ các lời nhắc có thể tùy chỉnh đến nhiều chủ đề, chúng tôi đã cung cấp cho bạn."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Tổng quan",
+      "title": "Bảng điều khiển",
+      "motto": "Bảng chăm sóc mắt theo dõi thời gian màn hình và giờ nghỉ 20-20-20 | Blink Eye",
+      "longMotto": "Bảng đơn giản cho người làm từ xa và học sinh: giờ nghỉ tiếp theo, thời gian màn hình hôm nay và chuỗi ngày trong một cái nhìn.",
+      "description": "Trung tâm sức khỏe mắt của bạn. Xem giờ nghỉ có bật không, nhắc 20-20-20 tiếp theo khi nào đến và thời gian màn hình hôm nay. Mọi thứ trong một cái nhìn, không cần mở menu.",
+      "bullets": [
+        "Đếm ngược trực tiếp với tạm dừng và tiếp tục",
+        "Thời gian màn hình và chuỗi hôm nay trong một cái nhìn",
+        "Truy cập 11 công cụ bằng một cú nhấp",
+        "Bố cục quen thuộc với thanh bên"
+      ],
+      "keywords": "bảng chăm sóc mắt, theo dõi thời gian màn hình, nhắc giờ nghỉ 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Cốt lõi",
+      "title": "Cài đặt nhắc nhở",
+      "motto": "Nhắc quy tắc 20-20-20 giảm mỏi mắt và khô mắt | Blink Eye",
+      "longMotto": "Hẹn giờ 20-20-20 tùy chỉnh với khoảng cách, thời lượng, thông điệp và âm thanh chống hội chứng thị giác máy tính.",
+      "description": "Chọn nhịp phù hợp việc của bạn. Quy tắc 20-20-20 nghiêm hay kiểu Pomodoro. Khoảng cách, thời lượng, thông điệp riêng, âm thanh và chế độ nghiêm đều ở đây.",
+      "bullets": [
+        "Khoảng cách và thời lượng theo giây hoặc phút",
+        "Thông điệp riêng với chế độ nghiêm",
+        "Âm thanh thông báo có xem trước",
+        "Thử nhắc nhở ngay"
+      ],
+      "keywords": "quy tắc 20-20-20, mỏi mắt, khô mắt, hẹn giờ nghỉ, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Thống kê",
+      "title": "Thời gian dùng",
+      "motto": "Theo dõi thời gian màn hình với báo cáo ngày, tuần và tháng | Blink Eye",
+      "longMotto": "Theo dõi dùng máy tính bằng biểu đồ rõ ràng để phát hiện làm quá sức và xây thói quen lành mạnh.",
+      "description": "Xem mức dùng thật bằng biểu đồ rõ ràng. Phát hiện phiên dài hại mắt, so sánh các tuần và xây thói quen lành mạnh từ dữ liệu thật.",
+      "bullets": [
+        "Xem theo ngày, tuần, tháng, năm và tổng",
+        "Biểu đồ tổng thời gian và phiên trung bình",
+        "Phát hiện quá sức trước khi hại",
+        "Không cần app theo dõi khác"
+      ],
+      "keywords": "theo dõi thời gian màn hình, dùng máy tính, thống kê, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Cá nhân",
+      "title": "Chủ đề nhắc",
+      "motto": "Chủ đề màn hình nghỉ dễ chịu cho mắt thư giãn | Blink Eye",
+      "longMotto": "Chọn chủ đề toàn màn hình yên tĩnh không xao nhãng, sáng hoặc tối.",
+      "description": "Giờ nghỉ phải giống nghỉ ngơi chứ không phải gián đoạn. Chọn nền toàn màn hình dịu hoặc tràn đầy năng lượng, từ tối giản đến đắm chìm, tất cả vì mắt dễ chịu.",
+      "bullets": [
+        "Nhiều chủ đề toàn màn hình cho mọi tâm trạng",
+        "Không xao nhãng, dịu cho mắt",
+        "Xem trước trước khi áp dụng",
+        "Cả chế độ sáng và tối"
+      ],
+      "keywords": "chủ đề màn hình nghỉ, mắt dễ chịu, chủ đề, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Chuyên sâu",
+      "title": "Nhiều màn hình",
+      "motto": "Nhắc giờ nghỉ cho dàn hai và ba màn hình | Blink Eye",
+      "longMotto": "Giờ nghỉ trên mọi màn hình hoặc chỉ màn hình chính, cho lập trình viên, thiết kế và trader.",
+      "description": "Hai hay ba màn hình không nên là kẽ hở cho mỏi mắt. Hiện giờ nghỉ trên mọi màn hình hoặc chỉ màn hình chính, đúng cách bạn làm việc.",
+      "bullets": [
+        "Giờ nghỉ trên tất cả hoặc chỉ màn hình chính",
+        "Không cửa sổ nào thoát được nhắc nhở",
+        "Cho lập trình viên, thiết kế và trader",
+        "Trên Windows, macOS và Linux"
+      ],
+      "keywords": "nhắc nhiều màn hình, hai màn hình, ba màn hình, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Năng suất",
+      "title": "Danh sách việc",
+      "motto": "Quản lý việc Pomodoro để tập trung không cần chuyển app | Blink Eye",
+      "longMotto": "Ghi việc ngay nơi bạn nghỉ, cùng phiên tập trung Pomodoro.",
+      "description": "Ghi việc ngay nơi bạn nghỉ. Tạo, đánh dấu và sắp xếp không cần chuyển app, để mỗi lần nghỉ xong đều biết bước tiếp theo.",
+      "bullets": [
+        "Tạo và xong việc nhanh",
+        "Luôn trong tay khi nghỉ",
+        "Cùng Pomodoro và lịch làm việc",
+        "Ít chuyển đổi, nhiều tập trung"
+      ],
+      "keywords": "hẹn giờ Pomodoro, quản lý việc, danh sách, tập trung, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Lịch",
+      "title": "Cài đặt ngày làm",
+      "motto": "Lịch giờ làm tự dừng nhắc nhở sau giờ làm | Blink Eye",
+      "longMotto": "Đặt giờ bắt đầu và kết thúc mỗi ngày để đêm và cuối tuần yên tĩnh.",
+      "description": "Cho Blink Eye biết khi nào bạn thật sự làm việc. Giờ theo ngày, cuối tuần yên tĩnh, giờ nghỉ tự dừng ngoài giờ làm.",
+      "bullets": [
+        "Giờ bắt đầu và kết thúc mỗi ngày",
+        "Tự dừng ngoài giờ làm",
+        "Không nhắc ban đêm hay cuối tuần",
+        "Đặt một lần, chạy cả tuần"
+      ],
+      "keywords": "lịch giờ làm, ngày làm việc, kế hoạch nghỉ, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Cao cấp",
+      "title": "Màn hình chờ",
+      "motto": "Màn hình chờ động cho giờ nghỉ thư giãn mắt | Blink Eye",
+      "longMotto": "9 hình cao cấp: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon và Bouncy Balls.",
+      "description": "Biến 20 giây nghỉ thành phút thư giãn. Chín animation cao cấp: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon và Bouncy Balls. Mượt, nhẹ, thư giãn.",
+      "bullets": [
+        "Chín hình: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Chuyển động mượt không giật",
+        "Một cú nhấp để chọn và mở",
+        "Ctrl cộng Space để đóng ngay"
+      ],
+      "keywords": "màn hình chờ động, animation nghỉ, thư giãn, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Điều khiển",
+      "title": "Cài đặt",
+      "motto": "Cài đặt giờ nghỉ với chế độ nghiêm và giới hạn ngày | Blink Eye",
+      "longMotto": "Khởi động, chế độ nghiêm, phát hiện rảnh, âm thanh và giới hạn ngày ở một nơi.",
+      "description": "Phòng điều khiển nghiêm túc. Chạy khi khởi động, ép nghỉ bằng chế độ nghiêm, phát hiện rảnh, âm thanh và giới hạn màn hình mỗi ngày.",
+      "bullets": [
+        "Chạy khi khởi động, lặng lẽ",
+        "Chế độ nghiêm và phát hiện rảnh",
+        "Phím tắt chung và âm thanh",
+        "Giới hạn ngày có cảnh báo"
+      ],
+      "keywords": "cài đặt giờ nghỉ, chế độ nghiêm, giới hạn màn hình, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Giao diện",
+      "title": "Chọn chủ đề",
+      "motto": "Blink Eye tặng hơn 24 chủ đề để chọn và tùy biến theo ý bạn | Blink Eye",
+      "longMotto": "Blink Eye có hơn 24 chủ đề làm sẵn và cho bạn chỉnh màu sắc, hình nền theo ý thích.",
+      "description": "Giờ nghỉ của bạn, phong cách của bạn. Duyệt hơn 24 chủ đề thủ công, xem trước trực tiếp từng mẫu, chọn mẫu thích nhất bằng một cú nhấp, rồi chỉnh màu sắc, hình nền đến khi thật sự là của bạn. Từ tối giản yên tĩnh đến táo bạo vui nhộn, tâm trạng, bàn làm việc và quy trình nào cũng có chủ đề hợp.",
+      "bullets": [
+        "Hơn 24 chủ đề làm sẵn để chọn",
+        "Xem trước trực tiếp, đổi bằng một cú nhấp",
+        "Màu sắc, hình nền theo cách của bạn",
+        "Tùy chọn sáng và tối cho ngày và đêm"
+      ],
+      "keywords": "chủ đề nhắc nhở, 24 chủ đề, tùy biến chủ đề, chọn chủ đề, mắt dễ chịu, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Cao cấp",
+      "title": "Kích hoạt bản quyền",
+      "motto": "Mở khóa cao cấp mọi màn hình chờ động | Blink Eye",
+      "longMotto": "Một khóa mở mọi màn hình chờ cao cấp cùng animation và cập nhật tương lai.",
+      "description": "Dán giấy phép một lần để mở chín màn hình chờ cao cấp, animation tương lai và cập nhật ưu tiên. Mua hàng của bạn giữ app mã nguồn mở này sống cho mọi người.",
+      "bullets": [
+        "Kích hoạt đơn giản một bước",
+        "Mở cả chín cao cấp",
+        "Hỗ trợ phát triển mã nguồn mở",
+        "Xác minh ngay không cần khởi động lại"
+      ],
+      "keywords": "mở khóa cao cấp, khóa bản quyền, màn hình chờ, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Thông tin",
+      "title": "Giới thiệu",
+      "motto": "App chăm sóc mắt miễn phí mã nguồn mở cho Windows, Mac và Linux | Blink Eye",
+      "longMotto": "Xem phiên bản, cập nhật một cú nhấp, trợ giúp, docs và GitHub.",
+      "description": "Xem phiên bản, cập nhật một cú nhấp và tìm trợ giúp. Thanh bên hiện kích hoạt, phiên bản và kiểm tra cập nhật.",
+      "bullets": [
+        "Phiên bản và kích hoạt trong một cái nhìn",
+        "Kiểm tra cập nhật một cú nhấp",
+        "Liên kết docs, GitHub và trợ giúp",
+        "Cộng đồng mã nguồn mở xây dựng"
+      ],
+      "keywords": "app chăm sóc mắt miễn phí, mã nguồn mở, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }
