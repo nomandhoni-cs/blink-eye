@@ -7,6 +7,8 @@ name = "Blink-Eye"
 version = "2.8.1"
 dependencies = [
  "chrono",
+ "gdk",
+ "gtk",
  "idle",
  "objc2",
  "objc2-app-kit",

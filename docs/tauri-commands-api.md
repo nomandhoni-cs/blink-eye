@@ -6,13 +6,13 @@ All commands are invoked from the frontend via `invoke("command_name", { ...args
 
 ## Architecture Overview
 
-The app has four Rust modules that expose Tauri commands:
+The app has five Rust modules that expose Tauri commands:
 
 | Module | Responsibility | Commands |
 |--------|---------------|----------|
 | `lib.rs` | App setup, tray menu, greeting | `greet`, `check_minimized_argument` |
 | `crypto.rs` | Encryption, install data, license, config, trial | 10 commands |
-| `reminder_scheduler.rs` | Break scheduling, tray timer, window spawning | 4 commands |
+| `reminder_scheduler.rs` | Break scheduling, session ownership, previews, window spawning | 8 commands |
 | `data_backup.rs` | Export/import user data zip archives | 2 commands |
 | `snooze_tracker.rs` | Break streak and snooze limits | 2 commands |
 
@@ -45,8 +45,8 @@ reminder_scheduler.rs (tokio async loop, 1s tick)
   └── Spawns WebviewWindow when break starts
         │
         ├── Primary:   /reminder-{style}.html?config=...
-        └── Secondary: /reminder-{style}.html?minimal=true&config=...
-              (same per-style entry; overlay omitted when minimal=true)
+        └── Secondary: /reminder-{style}.html?config=...
+              (same timer/message/Skip; one primary todo/audio owner)
 ```
 
 ---
@@ -69,6 +69,10 @@ reminder_scheduler.rs (tokio async loop, 1s tick)
   - [get_trial_info](#get_trial_info)
 - [reminder_scheduler.rs](#reminder_schedulerrs)
   - [skip_reminder](#skip_reminder)
+  - [preview_reminder](#preview_reminder)
+  - [get_reminder_status](#get_reminder_status)
+  - [claim_reminder_audio](#claim_reminder_audio)
+  - [dismiss_reminder_preview](#dismiss_reminder_preview)
   - [refresh_reminder_scheduler_settings](#refresh_reminder_scheduler_settings)
   - [show_reminder_now](#show_reminder_now)
   - [get_next_reminder_info](#get_next_reminder_info)
@@ -261,6 +265,10 @@ invoke("get_config_bool", { key: string, default_value: boolean }) → boolean
 
 Reads a boolean value from the `config` table in `appconfig.db`. Generic — accepts any key.
 
+Startup prepares the canonical AppData configuration before scheduler or IPC use.
+On the first unmarked upgrade, a valid `isMultiMonitorEnabled` value from the old
+AppConfig database is imported once. The legacy file is never changed.
+
 **Parameters:**
 
 | Name | Type | Description |
@@ -323,6 +331,11 @@ Sets a value for any key in the `config` table of `appconfig.db`. Upserts (inser
 
 Despite the name, this is the **generic write path** for appconfig.db — used for any setting, not only reminder-related ones.
 
+For `isMultiMonitorEnabled`, `value` must be `"true"` or `"false"`. The choice and
+the internal one-time migration marker are saved in the same transaction, so a
+later retry of a failed legacy import cannot overwrite this new choice. Other
+keys retain the generic upsert behavior.
+
 **Reminders/scheduling keys:**
 - `blinkEyeReminderInterval` — break interval in minutes
 - `blinkEyeReminderDuration` — break duration in seconds
@@ -340,6 +353,7 @@ Despite the name, this is the **generic write path** for appconfig.db — used f
 
 **Other keys:**
 - `usageTimeLimit` — daily usage limit in hours (chart)
+- `isMultiMonitorEnabled` — saved monitor selection (`"true"` / `"false"`)
 
 **Parameters:**
 - `key` — Config key string
@@ -348,6 +362,9 @@ Despite the name, this is the **generic write path** for appconfig.db — used f
 **Returns:** `void`
 
 > ⚠️ After updating `blinkEyeReminderInterval`, `blinkEyeReminderDuration`, or `blinkEyeReminderScreenText`, also call `refresh_reminder_scheduler_settings` so the scheduler picks up the changes without restarting.
+
+Also refresh the scheduler after saving `isMultiMonitorEnabled`; it applies to
+the next session, without changing the active session's deadline.
 
 ---
 
@@ -379,17 +396,121 @@ interface TrialInfo {
 ### `skip_reminder`
 
 ```ts
-invoke("skip_reminder", { snoozed?: boolean }) → void
+invoke("skip_reminder", { sessionId: number, snoozed: boolean }) → void
 ```
 
-Ends the current break. Pass `snoozed: true` when the user clicks Skip (counts toward limits and resets the streak). Pass `snoozed: false` or omit when the timer finishes naturally (increments the break streak).
+Requests a terminal transition for an actual break owned by the calling reminder
+window. Rust owns natural expiry; the renderer does not need to invoke completion.
+An optional acknowledgement with `snoozed: false` cannot end a break early.
+Skip is available on every selected output. Requests from different owned windows
+compete for one terminal transition and one accounting update; all session windows
+close for the winner.
 
 **Parameters:**
-- `snoozed` — Optional. `true` = user skipped; `false` = break completed.
+- `sessionId` — Generation supplied in the reminder URL/status.
+- `snoozed` — `true` requests Skip; `false` acknowledges an elapsed deadline.
 
 **Returns:** `void`
 
-**Errors:** `Err("Snooze limit reached for this session or today.")` when `snoozed: true` but the session/day snooze limit is exhausted. The break stays open in that case.
+**Errors:** Strict mode, exhausted snooze quota, early completion, wrong caller,
+stale generation or duplicate completion. Rejected requests have no terminal
+effects. Successful terminal transitions release input and destroy owned windows
+before awaiting statistics. Persistence errors are returned after cleanup.
+
+---
+
+### `preview_reminder`
+
+```ts
+invoke("preview_reminder", { style?: string }) → void
+```
+
+Opens a clearly labeled, always-dismissible preview from the `main` dashboard.
+It uses saved settings and the same output policy as an actual break, with
+separate session labels and no statistics or interval reset. Actual breaks
+preempt previews; preview requests during an actual break return an error.
+
+**Parameters:**
+- `style` — Optional known theme key; non-default themes still require premium.
+
+**Returns:** `void`
+
+**Errors:** Unknown style, non-dashboard caller, actual break in progress,
+no outputs or incomplete presentation. Failed presentation rolls back.
+
+---
+
+### `get_reminder_status`
+
+```ts
+invoke("get_reminder_status", { sessionId: number }) → ReminderStatus
+```
+
+Reads the calling reminder window's settings snapshot and backend remaining
+duration. Subscribe to `reminder-status` before this initial read and filter
+events by `sessionId`. The renderer displays time; it never owns the deadline.
+
+**Parameters:**
+- `sessionId` — Generation from the URL config.
+
+**Returns:**
+```ts
+interface ReminderStatus {
+  sessionId: number
+  kind: "actual" | "preview"
+  controlWindowLabel: string | null // primary todo/audio owner; Skip is available on all owned outputs
+  remainingMs: number
+  durationSecs: number
+  backgroundStyle: string
+  reminderText: string
+  isPremium: boolean
+  isStrictMode: boolean
+  useCircleTimer: boolean
+  screenTimeHours: number
+  screenTimeMinutes: number
+  isUpdateAvailable: boolean
+}
+```
+
+**Errors:** Missing/stale session or a caller that does not own its window.
+
+---
+
+### `claim_reminder_audio`
+
+```ts
+invoke("claim_reminder_audio", { sessionId: number }) → boolean
+```
+
+Grants the current primary window at most one completion sound for this session.
+The claim requires premium access, an active session and the final second before
+expiry. All other callers/times and repeated claims return `false`, including
+after primary promotion. The renderer displays mirrored content independently.
+
+**Parameters:**
+- `sessionId` — The owned session generation.
+
+**Returns:** `true` only for the one accepted audio claim.
+
+**Errors:** Missing or stale session.
+
+---
+
+### `dismiss_reminder_preview`
+
+```ts
+invoke("dismiss_reminder_preview", { sessionId: number }) → void
+```
+
+Destroys this preview's windows from any owned output, without statistics or interval changes.
+Strict-mode settings never prevent preview dismissal.
+
+**Parameters:**
+- `sessionId` — The owned preview generation.
+
+**Returns:** `void`
+
+**Errors:** Actual session, stale generation or non-owning caller.
 
 ---
 
@@ -402,7 +523,10 @@ invoke("refresh_reminder_scheduler_settings") → void
 Reloads reminder settings (`reminderBackgroundStyle`, `blinkEyeReminderInterval`, `blinkEyeReminderDuration`, `blinkEyeReminderScreenText`, workday config) from `appconfig.db` and reschedules the next reminder without restarting.
 
 **When to call:**
-After any write to `blinkEyeReminderInterval`, `blinkEyeReminderDuration`, `blinkEyeReminderScreenText`, or `pomodoroStyleBreak`. Without this call the running scheduler keeps using the cached settings until next reload.
+After any write to `blinkEyeReminderInterval`, `blinkEyeReminderDuration`,
+`blinkEyeReminderScreenText`, `reminderBackgroundStyle`, `isMultiMonitorEnabled`,
+`usingStrictMode`, snooze limits or `pomodoroStyleBreak`. Refresh affects future
+sessions; it never resets an active session's deadline or settings snapshot.
 
 **Example:**
 ```ts
@@ -422,7 +546,9 @@ await invoke("refresh_reminder_scheduler_settings");
 invoke("show_reminder_now") → void
 ```
 
-Immediately shows a reminder window (bypasses the timer).
+Starts an actual break from `main`, bypassing the interval and workday check.
+It preempts a preview, rejects an already-active actual break, and respects saved
+monitor selection and premium access. It is not a stat-neutral preview command.
 
 **Parameters:** None
 

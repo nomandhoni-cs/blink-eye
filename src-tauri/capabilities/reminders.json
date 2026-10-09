@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "reminders",
+  "description": "Reminder content can read its theme and todos, but cannot destroy or create windows.",
+  "windows": ["reminder_actual_*", "reminder_preview_*"],
+  "permissions": [
+    "core:default",
+    "core:path:allow-join",
+    "store:allow-get",
+    "store:allow-load",
+    "sql:allow-load",
+    "sql:allow-select"
+  ]
+}

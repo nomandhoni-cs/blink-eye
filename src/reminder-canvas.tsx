@@ -9,12 +9,12 @@ import {
 } from "./components/reminder/DeferredReminderOverlay";
 
 const ReminderCanvasShapes: React.FC = () => {
-  const { isPremium, minimal } = parseReminderWindowConfig();
+  const { isPremium } = parseReminderWindowConfig();
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="relative h-screen w-screen overflow-hidden">
         <CanvasShapes shape="circle" speed={8} numberOfItems={60} />
-        {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
+        <DeferredReminderOverlay isPremium={isPremium} />
       </div>
     </ThemeProvider>
   );

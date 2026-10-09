@@ -9,12 +9,12 @@ import {
 } from "./components/reminder/DeferredReminderOverlay";
 
 const ReminderFreeSpirit: React.FC = () => {
-  const { isPremium, minimal } = parseReminderWindowConfig();
+  const { isPremium } = parseReminderWindowConfig();
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="relative h-screen w-screen overflow-hidden">
         <FreeSpirit />
-        {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
+        <DeferredReminderOverlay isPremium={isPremium} />
       </div>
     </ThemeProvider>
   );

@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
 import { Card } from "./ui/card";
 import { Label } from "./ui/label";
-import Database from "@tauri-apps/plugin-sql";
+import { invoke } from "@tauri-apps/api/core";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import toast from "react-hot-toast";
 import { PiMonitorFill } from "react-icons/pi";
 import { IoSparkles } from "react-icons/io5";
 import { motion } from "framer-motion";
-
-interface ConfigRow {
-    value: string;
-}
 
 // Multiple monitors icon component using PiMonitorFill
 function MultiMonitorIcon({ className }: { className?: string }) {
@@ -43,19 +39,10 @@ const MultiMonitorToggle = () => {
     useEffect(() => {
         const initializeMultiMonitor = async () => {
             try {
-                const db = await Database.load("sqlite:appconfig.db");
-
-                // Retrieve the 'isMultiMonitorEnabled' value from the config table
-                const result: ConfigRow[] = await db.select(
-                    "SELECT value FROM config WHERE key = 'isMultiMonitorEnabled';"
-                );
-
-                if (result.length > 0) {
-                    setIsMultiMonitorEnabled(result[0].value === "true");
-                } else {
-                    // Default to false (Primary Monitor only)
-                    setIsMultiMonitorEnabled(false);
-                }
+                setIsMultiMonitorEnabled(await invoke<boolean>("get_config_bool", {
+                    key: "isMultiMonitorEnabled",
+                    defaultValue: false,
+                }));
             } catch (error) {
                 console.error("Failed to initialize multi-monitor setting:", error);
             } finally {
@@ -76,22 +63,17 @@ const MultiMonitorToggle = () => {
         }
 
         try {
-            const db = await Database.load("sqlite:appconfig.db");
-
-            // Update the database
-            await db.execute(
-                `
-        INSERT INTO config (key, value) VALUES ('isMultiMonitorEnabled', ?)
-        ON CONFLICT(key) DO UPDATE SET value = excluded.value;
-      `,
-                [enableMultiMonitor ? "true" : "false"]
-            );
+            await invoke("update_reminder_setting", {
+                key: "isMultiMonitorEnabled",
+                value: String(enableMultiMonitor),
+            });
+            await invoke("refresh_reminder_scheduler_settings");
 
             setIsMultiMonitorEnabled(enableMultiMonitor);
 
             toast.success(
                 enableMultiMonitor
-                    ? "Backgrounds on all displays; controls on primary."
+                    ? "Timer, message and break controls on all displays."
                     : "Break reminders on primary display only.",
                 {
                     duration: 2000,
@@ -123,7 +105,7 @@ const MultiMonitorToggle = () => {
             <div>
                 <Label className="text-base font-semibold">Monitor display mode</Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                    Choose whether the break background fills one screen or every screen
+                    Choose whether the break timer and message fill one screen or every screen
                 </p>
             </div>
 
@@ -148,7 +130,7 @@ const MultiMonitorToggle = () => {
                         <div>
                             <h3 className="font-semibold text-lg">Primary monitor</h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Background and controls on your main display only
+                                Timer, message and controls on your main display only
                             </p>
                         </div>
                         {!isMultiMonitorEnabled && (
@@ -231,7 +213,7 @@ const MultiMonitorToggle = () => {
                                 />
                             </h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Background on every display; timer and skip on primary only
+                                Timer, message and break controls on every display
                             </p>
                             {!canAccessPremiumFeatures && (
                                 <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/20">

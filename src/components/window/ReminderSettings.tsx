@@ -10,8 +10,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import { invoke } from "@tauri-apps/api/core";
-import { entryForStyle } from "../../backgrounds/registry";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
@@ -24,7 +22,6 @@ import {
   IoLockClosed,
   IoAlarm,
 } from "react-icons/io5";
-import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useAccentColor } from "../../contexts/AccentColorContext";
 
 const FREQUENCY_OPTIONS = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120];
@@ -96,12 +93,10 @@ function SettingRow({
 
 const ReminderSettings = () => {
   const { triggerUpdate } = useTrigger();
-  const { canAccessPremiumFeatures } = usePremiumFeatures();
   const { accentHex } = useAccentColor();
   const [interval, setInterval] = useState<number>(20);
   const [duration, setDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
-  const [backgroundStyle, setBackgroundStyle] = useState<string>("");
   const [saved, setSaved] = useState<ReminderSettingsState>({
     interval: 20,
     duration: 20,
@@ -149,7 +144,6 @@ const ReminderSettings = () => {
           loaded.snoozesPerDay = Number(dayLimit);
         }
 
-        if (settings.backgroundStyle) setBackgroundStyle(settings.backgroundStyle);
         setInterval(loaded.interval);
         setDuration(loaded.duration);
         setReminderText(loaded.reminderText);
@@ -281,6 +275,7 @@ const ReminderSettings = () => {
         key: "usingStrictMode",
         value: String(checked),
       });
+      await invoke("refresh_reminder_scheduler_settings");
       setIsStrictModeEnabled(checked);
     } catch (error) {
       console.error("Failed to update strict mode:", error);
@@ -291,21 +286,12 @@ const ReminderSettings = () => {
     }
   };
 
-  const openReminderWindow = () => {
-    const isPremium = canAccessPremiumFeatures;
-    const requestedStyle = isPremium ? backgroundStyle : "default";
-    const entry = entryForStyle(requestedStyle);
-    const webview = new WebviewWindow("reminder_monitor_0", {
-      url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
-      title: "Take A Break Reminder - Blink Eye",
-      fullscreen: true,
-      alwaysOnTop: true,
-      skipTaskbar: true,
-    });
-
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating reminder window:", e);
-    });
+  const openReminderWindow = async () => {
+    try {
+      await invoke("preview_reminder");
+    } catch (error) {
+      toast.error(String(error), { position: "bottom-right" });
+    }
   };
 
   return (

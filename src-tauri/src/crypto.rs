@@ -657,7 +657,7 @@ pub async fn get_reminder_settings(app_handle: AppHandle) -> Result<ReminderSett
     })
 }
 
-/// Update a single reminder setting in `appconfig.db`.
+/// Update a reminder setting; a valid monitor choice atomically completes legacy preference migration.
 #[tauri::command]
 pub async fn update_reminder_setting(
     app_handle: AppHandle,
@@ -665,6 +665,13 @@ pub async fn update_reminder_setting(
     value: String,
 ) -> Result<(), String> {
     let pool = open_app_config_db(&app_handle).await?;
+
+    if key == "isMultiMonitorEnabled" {
+        let value = value
+            .parse::<bool>()
+            .map_err(|_| "Monitor preference must be true or false")?;
+        return crate::reminder_scheduler::save_multi_monitor_preference(&pool, value).await;
+    }
 
     // Upsert: update if exists, insert otherwise
     sqlx::query(

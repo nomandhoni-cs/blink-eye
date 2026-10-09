@@ -1,5 +1,6 @@
-import React, { lazy, useEffect, useState } from "react";
-import { getCurrentWebviewWindow, WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import React, { lazy, useEffect, useRef, useState } from "react";
+import { listen } from "@tauri-apps/api/event";
+import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
 import { Ticker } from "@tombcato/smart-ticker";
 import "@tombcato/smart-ticker/style.css";
@@ -17,136 +18,106 @@ const TodayTodoTasks = lazy(() =>
   })),
 );
 
-type WindowConfig = {
-  reminderText?: string;
-  isStrictMode?: boolean;
-  useCircleTimer?: boolean;
-  durationSecs?: number;
-  screenTimeHours?: number;
-  screenTimeMinutes?: number;
-  isUpdateAvailable?: boolean;
+type ReminderStatus = {
+  readonly sessionId: number;
+  readonly kind: "actual" | "preview";
+  readonly controlWindowLabel: string | null;
+  readonly reminderText: string;
+  readonly isStrictMode: boolean;
+  readonly useCircleTimer: boolean;
+  readonly durationSecs: number;
+  readonly remainingMs: number;
+  readonly screenTimeHours: number;
+  readonly screenTimeMinutes: number;
+  readonly isUpdateAvailable: boolean;
 };
 
-function parseWindowConfig(): WindowConfig {
+function parseSessionId(): number | null {
   try {
-    const params = new URLSearchParams(window.location.search);
-    const raw = params.get("config");
-    if (!raw) return {};
-    return JSON.parse(raw) as WindowConfig;
+    const raw = new URLSearchParams(window.location.search).get("config");
+    const parsed: unknown = raw ? JSON.parse(raw) : null;
+    if (typeof parsed === "object" && parsed !== null && "sessionId" in parsed
+      && typeof parsed.sessionId === "number" && Number.isSafeInteger(parsed.sessionId)) {
+      return parsed.sessionId;
+    }
+    return null;
   } catch {
-    return {};
+    return null;
   }
 }
 
 /**
- * Break overlay on the primary monitor (timer, skip, todos).
+ * Shared timer, message and dismissal on every output; primary-only todos/audio.
  * Scheduling lives in Rust (`skip_reminder`, etc.).
  */
 const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
-  const [timeLeft, setTimeLeft] = useState<number>(20);
-  const [reminderDuration, setReminderDuration] = useState<number>(20);
-  const [reminderText, setReminderText] = useState<string>("");
-  const [isStrictMode, setIsStrictMode] = useState<boolean>(false);
-  const [useCircleTimer, setUseCircleTimer] = useState<boolean>(false);
-  const [screenTime, setScreenTime] = useState({ hours: 0, minutes: 0 });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [countdownStarted, setCountdownStarted] = useState<boolean>(false);
-  const [canSnooze, setCanSnooze] = useState(true);
+  const [sessionId] = useState(parseSessionId);
+  const [windowLabel] = useState(() => getCurrentWebviewWindow().label);
+  const [status, setStatus] = useState<ReminderStatus | null>(null);
+  const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }));
+  const [canSnooze, setCanSnooze] = useState(false);
+  const audioPlayed = useRef(false);
+  const audioClaimPending = useRef(false);
+  const mounted = useRef(false);
+  const timeLeft = Math.ceil((status?.remainingMs ?? 0) / 1000);
+  const reminderDuration = status?.durationSecs ?? 20;
+  const reminderText = status?.reminderText ?? "";
+  const isStrictMode = status?.isStrictMode ?? true;
+  const useCircleTimer = status?.useCircleTimer ?? true;
+  const isPreview = status?.kind === "preview";
+  const isPrimary = status?.controlWindowLabel === windowLabel;
+  const isLoading = status === null;
+  const screenTime = { hours: status?.screenTimeHours ?? 0, minutes: status?.screenTimeMinutes ?? 0 };
+  const circleSize = Math.min(384, viewport.height * 0.36, viewport.width * 0.65);
+  const timerDigits = Math.max(2, String(timeLeft).length);
+  const circleFontSize = Math.min(160, circleSize * 0.42, circleSize * 0.76 / (timerDigits * 0.8));
+  const barSuffixFontSize = Math.min(48, viewport.height * 0.045);
+  const barFontSize = Math.min(
+    240,
+    Math.max(64, viewport.height * 0.22),
+    (viewport.width - 32 - 8 - barSuffixFontSize) / (timerDigits * 0.8),
+  );
+  const timerKey = `${viewport.width}-${viewport.height}-${timerDigits}`;
 
-  const finishBreak = async (snoozed: boolean) => {
-    const currentWin = getCurrentWebviewWindow();
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
 
+  useEffect(() => {
+    const resize = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
+  const handleSnooze = async () => {
     try {
-      await invoke("skip_reminder", { snoozed });
-    } catch (error) {
-      console.error("[ReminderOverlay] skip_reminder failed:", error);
-      if (snoozed) {
-        toast.error("Snooze limit reached for this session or today.", {
-          duration: 2500,
-          position: "bottom-right",
-        });
+      if (isPreview) {
+        await invoke("dismiss_reminder_preview", { sessionId });
+      } else {
+        await invoke("skip_reminder", { sessionId, snoozed: true });
       }
-      return;
-    }
-
-    const closePromises: Promise<void>[] = [];
-    for (let i = 0; i < 10; i++) {
-      const windowLabel = `reminder_monitor_${i}`;
-      closePromises.push(
-        (async () => {
-          try {
-            const win = await WebviewWindow.getByLabel(windowLabel);
-            if (win && win.label !== currentWin.label) {
-              await win.close();
-            }
-          } catch {
-            // window not present
-          }
-        })(),
-      );
-    }
-
-    await Promise.allSettled(closePromises);
-
-    try {
-      await currentWin.close();
     } catch (error) {
-      console.error("[ReminderOverlay] close failed:", error);
+      toast.error(String(error), { duration: 2500, position: "bottom-right" });
     }
   };
 
-  const handleSnooze = () => finishBreak(true);
-  const handleBreakComplete = () => finishBreak(false);
-
   useEffect(() => {
+    let disposed = false;
+    let unlisten: (() => void) | undefined;
     const load = async () => {
       try {
-        const urlConfig = parseWindowConfig();
-
-        const settings = await invoke<{
-          durationSecs: number | null;
-          reminderText: string | null;
-        }>("get_reminder_settings");
-
-        const duration =
-          urlConfig.durationSecs ?? settings.durationSecs ?? 20;
-        setReminderDuration(duration);
-        setTimeLeft(duration);
-
-        const text =
-          urlConfig.reminderText ??
-          settings.reminderText ??
-          "";
-        setReminderText(text);
-
-        const [strict, circle] = await Promise.all([
-          urlConfig.isStrictMode ??
-            invoke<boolean>("get_config_bool", {
-              key: "usingStrictMode",
-              defaultValue: false,
-            }),
-          urlConfig.useCircleTimer ??
-            invoke<boolean>("get_config_bool", {
-              key: "useCircleProgressTimerStyle",
-              defaultValue: true,
-            }),
-        ]);
-        setIsStrictMode(strict);
-        setUseCircleTimer(circle);
-
-        setScreenTime({
-          hours: urlConfig.screenTimeHours ?? 0,
-          minutes: urlConfig.screenTimeMinutes ?? 0,
+        unlisten = await listen<ReminderStatus>("reminder-status", ({ payload }) => {
+          if (!disposed && payload.sessionId === sessionId) setStatus(payload);
         });
-
-        const updateAvailable =
-          urlConfig.isUpdateAvailable ??
-          (await invoke<boolean>("get_config_bool", {
-            key: "isUpdateAvailable",
-            defaultValue: false,
-          }));
-
-        if (updateAvailable) {
+        if (disposed) {
+          unlisten();
+          return;
+        }
+        const current = await invoke<ReminderStatus>("get_reminder_status", { sessionId });
+        if (disposed) return;
+        setStatus(current);
+        if (current.isUpdateAvailable && current.controlWindowLabel === windowLabel) {
           toast.success("Update available!", {
             duration: 2000,
             position: "bottom-right",
@@ -154,54 +125,74 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
           });
         }
 
-        const stats = await invoke<{ canSnooze: boolean }>("get_break_stats");
-        setCanSnooze(stats.canSnooze);
       } catch (error) {
-        console.error("[ReminderOverlay] failed to load settings:", error);
-      } finally {
-        setTimeout(() => setIsLoading(false), 500);
+        if (!disposed) toast.error(String(error), { position: "bottom-right" });
       }
     };
-
     load();
-  }, []);
+    return () => {
+      disposed = true;
+      unlisten?.();
+    };
+  }, [sessionId, windowLabel]);
 
   useEffect(() => {
-    if (!isLoading) {
-      const timer = setTimeout(() => setCountdownStarted(true), 500);
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading]);
-
-  const handlePlayAudio = async () => {
-    try {
-      const resourceDirDataPath = await path.resourceDir();
-      const filePath = await path.join(resourceDirDataPath, "done.mp3");
-      const reminderEndSound = new Audio(convertFileSrc(filePath));
-      reminderEndSound.play();
-    } catch (error) {
-      console.error("Error playing audio:", error);
-    }
-  };
+    if (isLoading || isPreview) return;
+    let disposed = false;
+    invoke<{ canSnooze: boolean }>("get_break_stats")
+      .then((stats) => { if (!disposed) setCanSnooze(stats.canSnooze); })
+      .catch((error: unknown) => {
+        if (!disposed) toast.error(String(error), { position: "bottom-right" });
+      });
+    return () => { disposed = true; };
+  }, [sessionId, isPreview, isLoading]);
 
   useEffect(() => {
-    if (!countdownStarted) return;
+    if (!isPreview) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        invoke("dismiss_reminder_preview", { sessionId }).catch((error: unknown) =>
+          toast.error(String(error), { position: "bottom-right" }));
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isPreview, sessionId]);
 
-    if (timeLeft <= 1 && isPremium) {
-      handlePlayAudio();
-    }
-    if (timeLeft <= 0) {
-      handleBreakComplete();
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft, isPremium, countdownStarted]);
+  useEffect(() => {
+    if (isLoading || timeLeft > 1 || !isPremium || !isPrimary
+      || audioPlayed.current || audioClaimPending.current) return;
+    audioClaimPending.current = true;
+    const play = async () => {
+      try {
+        if (!await invoke<boolean>("claim_reminder_audio", { sessionId }) || !mounted.current) return;
+        audioPlayed.current = true;
+        const filePath = await path.join(await path.resourceDir(), "done.mp3");
+        // The native asset protocol can misidentify headerless MP3 as text/html.
+        const response = await fetch(convertFileSrc(filePath));
+        if (!response.ok) throw new Error(`Reminder audio: ${response.status}`);
+        const bytes = await response.arrayBuffer();
+        if (!mounted.current) return;
+        const url = URL.createObjectURL(new Blob([bytes], { type: "audio/mpeg" }));
+        const audio = new Audio(url);
+        const release = () => URL.revokeObjectURL(url);
+        audio.addEventListener("ended", release, { once: true });
+        audio.addEventListener("error", release, { once: true });
+        try {
+          await audio.play();
+        } catch (error) {
+          release();
+          throw error;
+        }
+      } catch (error) {
+        console.error("Error playing reminder audio:", error);
+      } finally {
+        audioClaimPending.current = false;
+      }
+    };
+    play();
+  }, [timeLeft, status?.remainingMs, isPremium, isPrimary, isLoading, sessionId]);
 
   const progressPercentage =
     reminderDuration > 0 ? (timeLeft / reminderDuration) * 100 : 0;
@@ -211,6 +202,11 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
 
   return (
     <div className="absolute inset-0 z-10">
+      {isPreview && (
+        <div className="absolute left-6 top-6 z-20 rounded-full bg-background/80 px-4 py-2 text-sm font-medium text-foreground">
+          Preview - Escape to close
+        </div>
+      )}
       <div className="relative flex h-full w-full flex-col items-center justify-center px-4">
         {isLoading ? (
           <div className="text-[12rem] font-heading font-semibold tracking-wide">
@@ -219,8 +215,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
         ) : !useCircleTimer ? (
           <div className="flex h-full w-full flex-col items-center">
             <div className="absolute top-[40%] flex -translate-y-1/2 transform flex-col items-center animate-in">
-              <div className="flex items-end font-heading text-[240px] leading-none">
+              <div className="flex items-end font-heading leading-none" style={{ fontSize: barFontSize }}>
                 <Ticker
+                  key={timerKey}
                   value={paddedTime}
                   duration={700}
                   easing="easeInOut"
@@ -228,31 +225,31 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                   charWidth={0.8}
                   className="!font-heading tabular-nums"
                 />
-                <span className="mb-8 ml-2 font-sans text-5xl font-medium opacity-70">
+                <span className="mb-[min(3vh,2rem)] ml-2 font-sans font-medium opacity-70" style={{ fontSize: barSuffixFontSize }}>
                   s
                 </span>
               </div>
-              <div className="mt-2 w-96">
+              <div className="mt-2 w-[min(24rem,75vw)]">
                 <Progress value={progressPercentage} />
               </div>
             </div>
 
             <div className="absolute top-[70%] flex -translate-y-1/2 transform flex-col items-center space-y-4 animate-in">
-              <div className="flex items-center justify-center space-x-4 font-sans text-lg font-medium opacity-80">
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-sans font-medium opacity-80" style={{ fontSize: Math.min(18, Math.max(12, viewport.height * 0.017)), lineHeight: 1.5 }}>
                 <CurrentTime />
                 <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
                 <ScreenOnTime timeCount={screenTime} />
               </div>
-              <div className="max-w-screen-md px-4 pb-4 text-center text-5xl font-heading font-medium">
+              <div className="max-w-screen-md break-words px-4 pb-4 text-center font-heading font-medium leading-none" style={{ fontSize: Math.min(48, Math.max(20, viewport.height * 0.045)) }}>
                 {displayText}
               </div>
               <div className="flex space-x-4">
-                {!isStrictMode && canSnooze && (
+                {(isPreview || (!isStrictMode && canSnooze)) && (
                   <Button
                     onClick={handleSnooze}
                     className="flex transform items-center space-x-2 rounded-full bg-[#FE4C55] px-6 font-sans text-base transition-transform hover:scale-105 hover:bg-[#e9464e]"
                   >
-                    <span className="text-base font-medium">Skip this Time</span>
+                    <span className="text-base font-medium">{isPreview ? "Close preview" : "Skip this Time"}</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -267,8 +264,8 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
             </div>
           </div>
         ) : (
-          <div className="flex min-h-screen flex-col items-center justify-center p-4">
-            <div className="relative mb-8 h-96 w-96">
+          <div className="flex h-full w-full flex-col items-center justify-center p-4">
+            <div className="relative mb-[min(3vh,2rem)] shrink-0" style={{ width: circleSize, height: circleSize }}>
               <svg className="h-full w-full -rotate-90" viewBox="0 0 110 110">
                 <circle
                   className="stroke-black/10 transition-colors dark:stroke-white/10"
@@ -292,8 +289,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                   cy="55"
                 />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-[160px] leading-none">
+              <div className="absolute inset-0 flex flex-col items-center justify-center leading-none" style={{ fontSize: circleFontSize }}>
                 <Ticker
+                  key={timerKey}
                   value={paddedTime}
                   duration={700}
                   easing="easeInOut"
@@ -304,31 +302,31 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               </div>
             </div>
 
-            <div className="mb-6 w-full max-w-screen-2xl text-center text-6xl font-heading font-semibold">
+            <div className="mb-[min(2.2vh,1.5rem)] w-full max-w-screen-2xl break-words text-center font-heading font-semibold leading-none" style={{ fontSize: Math.min(60, Math.max(20, viewport.height * 0.056)) }}>
               {displayText}
             </div>
 
-            <div className="mb-8 flex items-center justify-center space-x-4 font-sans text-xl font-medium opacity-70">
+            <div className="mb-[min(3vh,2rem)] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-sans font-medium opacity-70" style={{ fontSize: Math.min(20, Math.max(12, viewport.height * 0.022)), lineHeight: 1.4 }}>
               <CurrentTime />
               <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
               <ScreenOnTime timeCount={screenTime} />
             </div>
 
-            {!isStrictMode && canSnooze && (
+            {(isPreview || (!isStrictMode && canSnooze)) && (
               <Button
                 onClick={handleSnooze}
                 variant="outline"
                 className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
               >
                 <ChevronsRight className="mr-1 h-5 w-5" />
-                Skip this time
+                {isPreview ? "Close preview" : "Skip this time"}
               </Button>
             )}
           </div>
         )}
       </div>
 
-      {isPremium && !isLoading && <TodayTodoTasks />}
+      {isPrimary && isPremium && !isLoading && <TodayTodoTasks />}
       <Toaster />
     </div>
   );

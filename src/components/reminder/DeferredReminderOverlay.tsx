@@ -4,16 +4,14 @@ const ReminderOverlay = lazy(() => import("./ReminderOverlay"));
 
 export function parseReminderWindowConfig(): {
   isPremium: boolean;
-  minimal: boolean;
 } {
   try {
     const params = new URLSearchParams(window.location.search);
-    const minimal = params.get("minimal") === "true";
     const raw = params.get("config");
     const parsed = raw ? JSON.parse(raw) : {};
-    return { isPremium: parsed.isPremium === true, minimal };
+    return { isPremium: parsed.isPremium === true };
   } catch {
-    return { isPremium: false, minimal: false };
+    return { isPremium: false };
   }
 }
 

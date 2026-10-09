@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { entryForStyle } from "../backgrounds/registry";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import toast from "react-hot-toast";
 import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
@@ -75,11 +74,12 @@ export default function ReminderStyles() {
       setIsLoading(true);
       if (canAccessPremiumFeatures) {
         await invoke("update_reminder_setting", { key: "reminderBackgroundStyle", value: selectedStyle });
+        await invoke("refresh_reminder_scheduler_settings");
         triggerUpdate();
       }
       await invoke("update_reminder_setting", { key: "reminderBackgroundStylePreview", value: selectedStyle });
       setBackgroundStyle(selectedStyle);
-      openReminderWindow(selectedStyle);
+      await openReminderWindow(selectedStyle);
       console.log("Background style saved:", selectedStyle);
     } catch (err) {
       console.error("Error saving theme:", err);
@@ -89,20 +89,12 @@ export default function ReminderStyles() {
     }
   };
 
-  const openReminderWindow = (style: string) => {
-    const isPremium = canAccessPremiumFeatures;
-    const requestedStyle = isPremium ? style : "default";
-    const entry = entryForStyle(requestedStyle);
-    const webview = new WebviewWindow("reminder_monitor_0", {
-      url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
-      title: "Take A Break Reminder - Blink Eye",
-      fullscreen: true,
-      alwaysOnTop: true,
-      skipTaskbar: true,
-    });
-    webview.once("tauri://error", (e) => {
-      console.error("Error creating reminder window:", e);
-    });
+  const openReminderWindow = async (style: string) => {
+    try {
+      await invoke("preview_reminder", { style });
+    } catch (error) {
+      toast.error(String(error), { position: "bottom-right" });
+    }
   };
 
   if (isLoading) {

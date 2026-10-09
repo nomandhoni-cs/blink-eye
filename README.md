@@ -10,6 +10,7 @@ It provides customizable timers, full-screen popups, audio mute functionality, a
 ## Features
 
 - Customizable reminder timers.
+- Native Wayland fullscreen reminders on selected displays, with compositor-approved keyboard shortcut inhibition. See [Linux behavior and limits](docs/linux-wayland-reminders.md).
 - Rich library of customizable reminder screens.
 - Full-screen popups with a 20-second countdown to prompt users to look away.
 - Customizable dashboard for settings and preferences.
