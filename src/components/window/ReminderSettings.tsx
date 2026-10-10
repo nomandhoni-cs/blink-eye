@@ -408,6 +408,10 @@ const ReminderSettings = () => {
           <IoEye className="mr-2 size-4" />
           Preview break
         </Button>
+        <p className="text-xs text-muted-foreground">
+          Preview opens one window, even with Multi-Monitor selected. It does not
+          test scheduled breaks across all displays.
+        </p>
       </div>
 
       <div className="space-y-2">
