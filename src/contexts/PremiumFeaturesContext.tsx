@@ -4,23 +4,23 @@ import {
   useContext,
   useState,
   useEffect,
-  ReactNode,
+  useCallback,
+  useRef,
+  type ReactNode,
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { message } from "@tauri-apps/plugin-dialog";
-import { useLicenseKey } from "../hooks/useLicenseKey";
+import {
+  createPremiumRefresh,
+  initialPremiumSnapshot,
+  millisecondsUntilNextDay,
+  type PremiumSnapshot,
+  type TrialInfo,
+} from "../lib/premium-entitlement";
 
-interface TrialInfo {
-  install_date: string | null;
-  days_remaining: number;
-  is_active: boolean;
-  clock_manipulated: boolean;
-}
-
-interface PremiumFeaturesContextType {
-  canAccessPremiumFeatures: boolean;
-  isTrialOn: boolean;
-  isPaidUser: boolean;
+interface PremiumFeaturesContextType extends PremiumSnapshot {
+  readonly isLoading: boolean;
+  readonly isRefreshing: boolean;
+  readonly refreshPremiumFeatures: () => Promise<PremiumSnapshot>;
 }
 
 const PremiumFeaturesContext = createContext<
@@ -32,39 +32,57 @@ export const PremiumFeaturesProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const { licenseData } = useLicenseKey();
-  const [canAccessPremiumFeatures, setCanAccessPremiumFeatures] =
-    useState(false);
-  const [isPaidUser, setIsPaidUser] = useState(false);
-  const [isTrialOn, setIsTrialOn] = useState(false);
+  const [snapshot, setSnapshot] = useState(initialPremiumSnapshot);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const clientRef = useRef<ReturnType<typeof createPremiumRefresh> | null>(null);
 
-  useEffect(() => {
-    const checkTrial = async () => {
-      try {
-        const info: TrialInfo = await invoke("get_trial_info");
-        if (info.clock_manipulated) {
-          await message(
-            "System clock manipulation detected: Current date is before installation date.",
-            { title: "Blink Eye", kind: "error" }
-          );
-        }
-        setIsTrialOn(info.is_active);
-      } catch (err) {
-        console.error("[PremiumFeatures] Failed to get trial info:", err);
-      }
-    };
-    checkTrial();
+  const refreshPremiumFeatures = useCallback(() => {
+    if (!clientRef.current) return Promise.resolve(initialPremiumSnapshot);
+    setIsRefreshing(true);
+    return clientRef.current.refresh();
   }, []);
 
   useEffect(() => {
-    const paidUser = licenseData?.status === "active";
-    setIsPaidUser(paidUser);
-    setCanAccessPremiumFeatures(paidUser || isTrialOn);
-  }, [licenseData, isTrialOn]);
+    const client = createPremiumRefresh(
+      {
+        trial: () => invoke<TrialInfo>("get_trial_info"),
+        license: () => invoke<{ is_paid: boolean }>("get_license_info"),
+      },
+      (next) => {
+        setSnapshot(next);
+        setIsLoading(false);
+        setIsRefreshing(false);
+      },
+    );
+    clientRef.current = client;
+    const refresh = () => { void refreshPremiumFeatures(); };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") refresh();
+    };
+    let midnight: ReturnType<typeof setTimeout>;
+    const scheduleMidnight = () => {
+      midnight = setTimeout(() => {
+        refresh();
+        scheduleMidnight();
+      }, millisecondsUntilNextDay(new Date()));
+    };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", onVisibility);
+    scheduleMidnight();
+    refresh();
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", onVisibility);
+      clearTimeout(midnight);
+      client.cancel();
+      clientRef.current = null;
+    };
+  }, [refreshPremiumFeatures]);
 
   return (
     <PremiumFeaturesContext.Provider
-      value={{ canAccessPremiumFeatures, isTrialOn, isPaidUser }}
+      value={{ ...snapshot, isLoading, isRefreshing, refreshPremiumFeatures }}
     >
       {children}
     </PremiumFeaturesContext.Provider>

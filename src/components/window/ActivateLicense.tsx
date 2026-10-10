@@ -14,6 +14,7 @@ import { generatePhrase } from "../../lib/namegenerator";
 import { Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
 import { useAccentColor } from "../../contexts/AccentColorContext";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import {
   IoShieldCheckmark,
   IoKey,
@@ -99,7 +100,13 @@ const ActivateLicense = () => {
     validation: false,
   });
 
-  const { licenseData, refreshLicenseData } = useLicenseKey();
+  const {
+    licenseData,
+    loading: licenseLoading,
+    error: licenseError,
+    refreshLicenseData,
+  } = useLicenseKey();
+  const { refreshPremiumFeatures, isRefreshing } = usePremiumFeatures();
 
   const handleActivate = async (e: React.FormEvent) => {
     const instanceName = generatePhrase();
@@ -135,6 +142,7 @@ const ActivateLicense = () => {
 
       if (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) {
         await storeLicenseData(data);
+        await refreshPremiumFeatures();
         console.log("License data stored successfully");
         refreshLicenseData();
         toast.success("License activated successfully!", {
@@ -192,7 +200,9 @@ const ActivateLicense = () => {
 
   const isLicenseActive = licenseData?.status === "active";
   const isLicenseInactive =
-    licenseData?.status === "disabled" || licenseData?.status === "inactive";
+    licenseData?.status === "disabled" ||
+    licenseData?.status === "inactive" ||
+    licenseData?.status === "expired";
 
   return (
     <div className="space-y-5 p-2">
@@ -206,7 +216,29 @@ const ActivateLicense = () => {
           label="License status"
           description="Your current Blink Eye license"
         >
-          {isLicenseActive ? (
+          <div role="status" className="flex flex-wrap items-center justify-end gap-2">
+          {licenseLoading ? (
+            <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+              <Loader2Icon className="size-3 animate-spin" />
+              CHECKING
+            </span>
+          ) : licenseError ? (
+            <>
+              <span className="text-xs text-muted-foreground">Unable to check license status</span>
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                disabled={isRefreshing}
+                onClick={async () => {
+                  await refreshLicenseData();
+                  await refreshPremiumFeatures();
+                }}
+              >
+                Retry
+              </Button>
+            </>
+          ) : isLicenseActive ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-500">
               <IoShieldCheckmark className="size-3" />
               ACTIVE
@@ -218,10 +250,10 @@ const ActivateLicense = () => {
             </span>
           ) : (
             <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2.5 py-1 text-xs font-semibold text-muted-foreground">
-              <Loader2Icon className="size-3 animate-spin" />
-              CHECKING
+              {licenseData ? "INACTIVE" : "NO LICENSE"}
             </span>
           )}
+          </div>
         </SettingRow>
 
         <SettingRow
