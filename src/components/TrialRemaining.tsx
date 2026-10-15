@@ -98,20 +98,9 @@ const TrialRemaining: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (isPaidUser) return null;
-
-  if (isLoading) {
-    return (
-      <div role="status" className="w-full rounded-2xl border border-foreground/10 bg-foreground/5 px-5 py-4 mb-4">
-        <div className="flex items-center space-x-2 text-foreground/40">
-          <div className="w-4 h-4 rounded-full border-2 border-foreground/20 border-t-primary animate-spin" />
-          <p className="text-sm">
-            Checking trial and license status...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // The first local read takes milliseconds; rendering nothing until it settles
+  // avoids flashing a trial banner at paid users on every launch.
+  if (isPaidUser || isLoading) return null;
 
   if (
     trialError ||

@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   useRef,
   type ReactNode,
 } from "react";
@@ -12,6 +13,7 @@ import { invoke } from "@tauri-apps/api/core";
 import {
   createPremiumRefresh,
   initialPremiumSnapshot,
+  isSamePremiumSnapshot,
   millisecondsUntilNextDay,
   type PremiumSnapshot,
   type TrialInfo,
@@ -50,13 +52,23 @@ export const PremiumFeaturesProvider = ({
         license: () => invoke<{ is_paid: boolean }>("get_license_info"),
       },
       (next) => {
-        setSnapshot(next);
+        setSnapshot((current) => (isSamePremiumSnapshot(current, next) ? current : next));
         setIsLoading(false);
         setIsRefreshing(false);
       },
     );
     clientRef.current = client;
-    const refresh = () => { void refreshPremiumFeatures(); };
+    // Background checks keep showing the last known state; only explicit
+    // refreshes (Retry, enabling a premium option) report isRefreshing.
+    // Focus and visibilitychange fire together, so an in-flight check is reused.
+    let backgroundPending = false;
+    const refresh = () => {
+      if (backgroundPending) return;
+      backgroundPending = true;
+      void client.refresh().finally(() => {
+        backgroundPending = false;
+      });
+    };
     const onVisibility = () => {
       if (document.visibilityState === "visible") refresh();
     };
@@ -78,12 +90,15 @@ export const PremiumFeaturesProvider = ({
       client.cancel();
       clientRef.current = null;
     };
-  }, [refreshPremiumFeatures]);
+  }, []);
+
+  const value = useMemo(
+    () => ({ ...snapshot, isLoading, isRefreshing, refreshPremiumFeatures }),
+    [snapshot, isLoading, isRefreshing, refreshPremiumFeatures],
+  );
 
   return (
-    <PremiumFeaturesContext.Provider
-      value={{ ...snapshot, isLoading, isRefreshing, refreshPremiumFeatures }}
-    >
+    <PremiumFeaturesContext.Provider value={value}>
       {children}
     </PremiumFeaturesContext.Provider>
   );

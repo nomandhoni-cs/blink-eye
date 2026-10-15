@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Card } from "./ui/card";
 import { Label } from "./ui/label";
-import Database from "@tauri-apps/plugin-sql";
+import { invoke } from "@tauri-apps/api/core";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import toast from "react-hot-toast";
 import { PiMonitorFill } from "react-icons/pi";
@@ -10,10 +10,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { getEffectiveMonitorMode } from "../lib/premium-entitlement";
-
-interface ConfigRow {
-    value: string;
-}
 
 // Multiple monitors icon component using PiMonitorFill
 function MultiMonitorIcon({ className }: { className?: string }) {
@@ -52,15 +48,17 @@ const MultiMonitorToggle = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const saving = useRef(false);
-    const isPending = entitlementLoading || isRefreshing;
-    const isBusy = isLoading || isPending || isSaving;
+    // Only the first status read hides the selection; later checks keep the last known state.
+    const isPending = entitlementLoading;
+    const isBusy = isLoading || isPending || isRefreshing || isSaving;
     const effectiveMode = getEffectiveMonitorMode(isMultiMonitorEnabled, canAccessPremiumFeatures);
-    const isModeKnown = !isPending && (canAccessPremiumFeatures ||
+    // A saved primary choice is the effective mode whatever the entitlement status.
+    const isModeKnown = !isPending && (!isMultiMonitorEnabled || canAccessPremiumFeatures ||
         (!trialError && !licenseError && !!trialInfo?.install_date && !trialInfo.clock_manipulated));
     const primarySelected = isModeKnown && effectiveMode === "primary";
     const allSelected = !isPending && effectiveMode === "all";
     const allAvailable = !isPending && canAccessPremiumFeatures;
-    const statusReason = entitlementLoading || isRefreshing
+    const statusReason = isPending || isRefreshing
         ? "Checking trial and license status. Monitor choices are temporarily unavailable."
         : isSaving
             ? "Saving monitor preference..."
@@ -77,19 +75,11 @@ const MultiMonitorToggle = () => {
     useEffect(() => {
         const initializeMultiMonitor = async () => {
             try {
-                const db = await Database.load("sqlite:appconfig.db");
-
-                // Retrieve the 'isMultiMonitorEnabled' value from the config table
-                const result: ConfigRow[] = await db.select(
-                    "SELECT value FROM config WHERE key = 'isMultiMonitorEnabled';"
-                );
-
-                if (result.length > 0) {
-                    setIsMultiMonitorEnabled(result[0].value === "true");
-                } else {
-                    // Default to false (Primary Monitor only)
-                    setIsMultiMonitorEnabled(false);
-                }
+                // Read through Rust so the UI shows the value the reminder scheduler uses.
+                setIsMultiMonitorEnabled(await invoke<boolean>("get_config_bool", {
+                    key: "isMultiMonitorEnabled",
+                    defaultValue: false,
+                }));
             } catch (error) {
                 console.error("Failed to initialize multi-monitor setting:", error);
             } finally {
@@ -105,7 +95,6 @@ const MultiMonitorToggle = () => {
         setIsSaving(true);
 
         try {
-            const db = await Database.load("sqlite:appconfig.db");
             if (enableMultiMonitor) {
                 const snapshot = await refreshPremiumFeatures();
                 if (!snapshot.canAccessPremiumFeatures) {
@@ -117,14 +106,11 @@ const MultiMonitorToggle = () => {
                 }
             }
 
-            // Update the database
-            await db.execute(
-                `
-        INSERT INTO config (key, value) VALUES ('isMultiMonitorEnabled', ?)
-        ON CONFLICT(key) DO UPDATE SET value = excluded.value;
-      `,
-                [enableMultiMonitor ? "true" : "false"]
-            );
+            await invoke("update_reminder_setting", {
+                key: "isMultiMonitorEnabled",
+                value: String(enableMultiMonitor),
+            });
+            await invoke("refresh_reminder_scheduler_settings");
 
             setIsMultiMonitorEnabled(enableMultiMonitor);
 
@@ -172,7 +158,7 @@ const MultiMonitorToggle = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Primary Monitor Option */}
                 <Card
-                    className={`relative transition-all duration-200 ${primarySelected
+                    className={`relative py-0 transition-all duration-200 ${primarySelected
                         ? "border-primary border-2 bg-primary/5"
                         : "border-muted hover:border-primary/50"
                         }`}
@@ -183,7 +169,7 @@ const MultiMonitorToggle = () => {
                         aria-pressed={primarySelected}
                         aria-describedby="monitor-entitlement-status"
                         onClick={() => void handleSelectionChange(false)}
-                        className="block w-full cursor-pointer text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
+                        className="block w-full cursor-pointer py-6 text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
                     >
                     <div className="p-6 flex flex-col items-center text-center space-y-3">
                         <div
@@ -224,7 +210,7 @@ const MultiMonitorToggle = () => {
 
                 {/* Multi-Monitor Option */}
                 <Card
-                    className={`relative overflow-hidden transition-all duration-200 ${!allAvailable
+                    className={`relative overflow-hidden py-0 transition-all duration-200 ${!allAvailable
                         ? "border-muted bg-muted/20"
                         : allSelected
                         ? "border-primary border-2 bg-primary/5"
@@ -237,7 +223,7 @@ const MultiMonitorToggle = () => {
                         aria-pressed={allSelected}
                         aria-describedby="monitor-entitlement-status"
                         onClick={() => void handleSelectionChange(true)}
-                        className="block w-full cursor-pointer text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
+                        className="block w-full cursor-pointer py-6 text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
                     >
                     {allAvailable && <>
                     {/* Animated gradient sweep */}

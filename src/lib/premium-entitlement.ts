@@ -29,10 +29,21 @@ export const initialPremiumSnapshot: PremiumSnapshot = {
   canAccessPremiumFeatures: false,
 };
 
-export async function readPremiumSnapshot(read: PremiumReads): Promise<PremiumSnapshot> {
+/** A failed read keeps the previous confirmed result instead of revoking access mid-session. */
+export async function readPremiumSnapshot(
+  read: PremiumReads,
+  previous: PremiumSnapshot | null = null,
+): Promise<PremiumSnapshot> {
   const [trial, license] = await Promise.allSettled([read.trial(), read.license()]);
-  const trialInfo = trial.status === "fulfilled" ? trial.value : null;
-  const isPaidUser = license.status === "fulfilled" && license.value.is_paid;
+  if (trial.status === "rejected") {
+    console.error("[PremiumFeatures] Failed to read trial status:", trial.reason);
+  }
+  if (license.status === "rejected") {
+    console.error("[PremiumFeatures] Failed to read license status:", license.reason);
+  }
+  const trialInfo = trial.status === "fulfilled" ? trial.value : (previous?.trialInfo ?? null);
+  const isPaidUser =
+    license.status === "fulfilled" ? license.value.is_paid : (previous?.isPaidUser ?? false);
   const isTrialOn = trialInfo?.is_active ?? false;
   return {
     trialInfo,
@@ -51,13 +62,15 @@ export function createPremiumRefresh(
 ) {
   let generation = 0;
   let active = true;
-  let latest = Promise.resolve(initialPremiumSnapshot);
+  let confirmed: PremiumSnapshot | null = null;
+  let latest: Promise<PremiumSnapshot>;
   return {
     refresh(): Promise<PremiumSnapshot> {
       const request = ++generation;
-      latest = readPremiumSnapshot(read).then((snapshot) => {
+      latest = readPremiumSnapshot(read, confirmed).then((snapshot) => {
         if (!active) return initialPremiumSnapshot;
         if (request !== generation) return latest;
+        confirmed = snapshot;
         publish(snapshot);
         return snapshot;
       });
@@ -67,6 +80,21 @@ export function createPremiumRefresh(
       active = false;
     },
   };
+}
+
+/** Unchanged background refreshes keep the same object, so consumers do not re-render. */
+export function isSamePremiumSnapshot(a: PremiumSnapshot, b: PremiumSnapshot): boolean {
+  return (
+    a.trialError === b.trialError &&
+    a.licenseError === b.licenseError &&
+    a.isPaidUser === b.isPaidUser &&
+    a.isTrialOn === b.isTrialOn &&
+    a.canAccessPremiumFeatures === b.canAccessPremiumFeatures &&
+    a.trialInfo?.install_date === b.trialInfo?.install_date &&
+    a.trialInfo?.days_remaining === b.trialInfo?.days_remaining &&
+    a.trialInfo?.is_active === b.trialInfo?.is_active &&
+    a.trialInfo?.clock_manipulated === b.trialInfo?.clock_manipulated
+  );
 }
 
 export function getEffectiveMonitorMode(saved: boolean, premium: boolean): "all" | "primary" {

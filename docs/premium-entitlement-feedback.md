@@ -12,6 +12,11 @@ read, and a system date before installation are separate states. A read failure
 is not proof of expiry or license rejection. Use **Retry** to check local status
 again; for a clock anomaly, check the system date first.
 
+Status is re-checked in the background when the window regains focus and at the
+local day boundary. Background checks keep showing the last confirmed state, and
+a failed background read keeps the last confirmed trial or paid result rather
+than revoking access mid-session.
+
 Open **Check or activate license** to reach the existing license page. It shows
 checking only while its local read is pending, then active, inactive, expired,
 no license, or a retryable read error. Activation and validation retain their
@@ -22,9 +27,13 @@ the shared local entitlement state.
 
 Multi-Monitor requires confirmed premium access. When expiry is confirmed,
 Primary is the effective mode and the Multi-Monitor choice is disabled without
-a selected checkmark or shimmer. Status checking temporarily disables the choices
-without presenting a pending result as a confirmed selection. The activation
-link remains available independently.
+a selected checkmark or shimmer. The first status check, an explicit Retry and
+an enable check temporarily disable the choices. A saved Primary preference is
+always shown as selected, because it is the effective mode with or without
+premium access. The activation link remains available independently.
+
+The monitor preference is read and saved through the Rust config commands, so
+the dashboard shows the same value the reminder scheduler uses.
 
 Expiry does not erase a saved all-monitor preference. It can apply again when
 premium access returns. Explicitly selecting Primary saves a primary-only

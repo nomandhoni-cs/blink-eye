@@ -230,10 +230,9 @@ const ActivateLicense = () => {
                 size="sm"
                 variant="secondary"
                 disabled={isRefreshing}
-                onClick={async () => {
-                  await refreshLicenseData();
-                  await refreshPremiumFeatures();
-                }}
+                onClick={() =>
+                  void Promise.all([refreshLicenseData(), refreshPremiumFeatures()])
+                }
               >
                 Retry
               </Button>

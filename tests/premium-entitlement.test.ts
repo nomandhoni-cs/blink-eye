@@ -1,7 +1,8 @@
-import { describe, expect, test } from "bun:test";
+import { afterAll, beforeAll, describe, expect, spyOn, test } from "bun:test";
 import {
   createPremiumRefresh,
   getEffectiveMonitorMode,
+  isSamePremiumSnapshot,
   millisecondsUntilNextDay,
   readPremiumSnapshot,
   type TrialInfo,
@@ -15,6 +16,11 @@ const activeTrial: TrialInfo = {
 };
 const expiredTrial: TrialInfo = { ...activeTrial, days_remaining: 0, is_active: false };
 const readFailure = () => Promise.reject(new Error("Synthetic local read failure"));
+
+// Failed reads are logged for diagnosis; keep the synthetic failures out of test output.
+const consoleError = spyOn(console, "error");
+beforeAll(() => consoleError.mockImplementation(() => {}));
+afterAll(() => consoleError.mockRestore());
 
 describe("local premium entitlement", () => {
   test("preserves paid access when the trial has expired", async () => {
@@ -124,6 +130,44 @@ describe("local premium entitlement", () => {
     const result = await request;
     expect(result.canAccessPremiumFeatures).toBe(false);
     expect(observed).toEqual([]);
+  });
+
+  test("keeps confirmed paid access when a later license read fails", async () => {
+    let license: () => Promise<{ is_paid: boolean }> = async () => ({ is_paid: true });
+    const client = createPremiumRefresh(
+      { trial: async () => expiredTrial, license: () => license() },
+      () => {},
+    );
+    await client.refresh();
+    license = readFailure;
+    const status = await client.refresh();
+    expect(status.licenseError).toBe(true);
+    expect(status.isPaidUser).toBe(true);
+    expect(status.canAccessPremiumFeatures).toBe(true);
+  });
+
+  test("keeps the confirmed trial when a later trial read fails", async () => {
+    let trial: () => Promise<TrialInfo> = async () => activeTrial;
+    const client = createPremiumRefresh(
+      { trial: () => trial(), license: async () => ({ is_paid: false }) },
+      () => {},
+    );
+    await client.refresh();
+    trial = readFailure;
+    const status = await client.refresh();
+    expect(status.trialError).toBe(true);
+    expect(status.trialInfo).toEqual(activeTrial);
+    expect(status.canAccessPremiumFeatures).toBe(true);
+  });
+
+  test("treats structurally equal snapshots as unchanged", async () => {
+    const reads = { trial: async () => ({ ...activeTrial }), license: async () => ({ is_paid: false }) };
+    const first = await readPremiumSnapshot(reads);
+    const second = await readPremiumSnapshot(reads);
+    expect(first).not.toBe(second);
+    expect(isSamePremiumSnapshot(first, second)).toBe(true);
+    const expired = await readPremiumSnapshot({ ...reads, trial: async () => expiredTrial });
+    expect(isSamePremiumSnapshot(first, expired)).toBe(false);
   });
 });
 
