@@ -58,13 +58,14 @@ const MultiMonitorToggle = () => {
     const primarySelected = isModeKnown && effectiveMode === "primary";
     const allSelected = !isPending && effectiveMode === "all";
     const allAvailable = !isPending && canAccessPremiumFeatures;
+    // Premium users need no explanation; the status row is only for checking or locked states.
+    const showStatus = isPending || !canAccessPremiumFeatures;
+    const isStatusUnconfirmed = trialError || licenseError || !trialInfo?.install_date || !!trialInfo?.clock_manipulated;
     const statusReason = isPending || isRefreshing
         ? "Checking trial and license status. Monitor choices are temporarily unavailable."
         : isSaving
             ? "Saving monitor preference..."
-            : canAccessPremiumFeatures
-                ? "Premium access is available for multi-monitor breaks."
-                : trialError || licenseError
+            : trialError || licenseError
                     ? "Unable to confirm premium access. Retry the status check or check your license. Free breaks use the primary monitor."
                     : trialInfo?.clock_manipulated
                         ? "Trial unavailable because the system date is before installation. Check your system date, then retry."
@@ -167,7 +168,7 @@ const MultiMonitorToggle = () => {
                         type="button"
                         disabled={isBusy}
                         aria-pressed={primarySelected}
-                        aria-describedby="monitor-entitlement-status"
+                        aria-describedby={showStatus ? "monitor-entitlement-status" : undefined}
                         onClick={() => void handleSelectionChange(false)}
                         className="block w-full cursor-pointer py-6 text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
                     >
@@ -221,7 +222,7 @@ const MultiMonitorToggle = () => {
                         type="button"
                         disabled={isBusy || !allAvailable}
                         aria-pressed={allSelected}
-                        aria-describedby="monitor-entitlement-status"
+                        aria-describedby={showStatus ? "monitor-entitlement-status" : undefined}
                         onClick={() => void handleSelectionChange(true)}
                         className="block w-full cursor-pointer py-6 text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
                     >
@@ -316,21 +317,27 @@ const MultiMonitorToggle = () => {
                     </button>
                 </Card>
             </div>
-            <div className="space-y-2">
-                <p id="monitor-entitlement-status" role="status" className="text-sm text-muted-foreground">
-                    {statusReason}
-                    {isModeKnown && !canAccessPremiumFeatures && isMultiMonitorEnabled &&
-                        " Your all-monitor preference is retained and can apply again when premium access returns. Select Primary to save a primary-only preference."}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                    <Button type="button" size="sm" variant="secondary" disabled={isBusy} onClick={() => void refreshPremiumFeatures()}>
-                        {isPending ? "Checking..." : "Retry status"}
-                    </Button>
-                    <Button size="sm" variant="outline" asChild>
-                        <Link to="/activatelicense">Check or activate license</Link>
-                    </Button>
+            {showStatus && (
+                <div className="space-y-2">
+                    <p id="monitor-entitlement-status" role="status" className="text-sm text-muted-foreground">
+                        {statusReason}
+                        {isModeKnown && !canAccessPremiumFeatures && isMultiMonitorEnabled &&
+                            " Your all-monitor preference is retained and can apply again when premium access returns. Select Primary to save a primary-only preference."}
+                    </p>
+                    {!isPending && (
+                        <div className="flex flex-wrap gap-2">
+                            {isStatusUnconfirmed && (
+                                <Button type="button" size="sm" variant="secondary" disabled={isBusy} onClick={() => void refreshPremiumFeatures()}>
+                                    {isRefreshing ? "Checking..." : "Retry status"}
+                                </Button>
+                            )}
+                            <Button size="sm" variant="outline" asChild>
+                                <Link to="/activatelicense">Check or activate license</Link>
+                            </Button>
+                        </div>
+                    )}
                 </div>
-            </div>
+            )}
         </div>
     );
 };

@@ -2,6 +2,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { Badge } from "../ui/badge";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import {
   Select,
   SelectContent,
@@ -21,6 +22,7 @@ import {
   IoChatbubble,
   IoSave,
   IoEye,
+  IoInformationCircleOutline,
   IoLockClosed,
   IoAlarm,
 } from "react-icons/io5";
@@ -399,19 +401,34 @@ const ReminderSettings = () => {
           </Badge>
         </div>
 
-        <Button
-          onClick={openReminderWindow}
-          variant="secondary"
-          disabled={isLoading}
-          className="w-full sm:w-auto"
-        >
-          <IoEye className="mr-2 size-4" />
-          Preview break
-        </Button>
-        <p className="text-xs text-muted-foreground">
-          Preview opens one window, even with Multi-Monitor selected. It does not
-          test scheduled breaks across all displays.
-        </p>
+        <div className="flex items-center gap-1.5">
+          <Button
+            onClick={openReminderWindow}
+            variant="secondary"
+            disabled={isLoading}
+            className="flex-1 sm:flex-none"
+          >
+            <IoEye className="mr-2 size-4" />
+            Preview break
+          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label="About preview"
+                className="shrink-0 text-muted-foreground"
+              >
+                <IoInformationCircleOutline className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              Preview opens one window, even with Multi-Monitor selected. It does
+              not test scheduled breaks across all displays.
+            </TooltipContent>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="space-y-2">
