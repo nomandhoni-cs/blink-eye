@@ -65,6 +65,16 @@ fn build_tray_menu(
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Keep the session bus connected before AppIndicator discovers the tray host.
+    #[cfg(target_os = "linux")]
+    let _session_bus = match gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) {
+        Ok(connection) => Some(connection),
+        Err(error) => {
+            eprintln!("[Tray] Failed to initialize session bus: {error}");
+            None
+        }
+    };
+
     tauri::Builder::default()
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
