@@ -15,6 +15,7 @@ The app has four Rust modules that expose Tauri commands:
 | `reminder_scheduler.rs` | Break scheduling, tray timer, window spawning | 4 commands |
 | `data_backup.rs` | Export/import user data zip archives | 2 commands |
 | `snooze_tracker.rs` | Break streak and snooze limits | 2 commands |
+| `premium_nudge.rs` | Premium nudge eligibility, window spawning | 6 commands |
 
 **Data flow:**
 
@@ -78,6 +79,13 @@ reminder_scheduler.rs (tokio async loop, 1s tick)
 - [snooze_tracker.rs](#snooze_trackerrs)
   - [get_break_stats](#get_break_stats)
   - [get_weekly_break_report](#get_weekly_break_report)
+- [premium_nudge.rs](#premium_nudgers)
+  - [get_premium_nudge_state](#get_premium_nudge_state)
+  - [record_premium_nudge_event](#record_premium_nudge_event)
+  - [maybe_show_premium_nudge](#maybe_show_premium_nudge)
+  - [close_premium_nudge](#close_premium_nudge)
+  - [open_activate_license](#open_activate_license)
+  - [debug_preview_nudge_window](#debug_preview_nudge_window)
 
 ---
 
@@ -523,6 +531,113 @@ interface WeeklyBreakReport {
 
 ---
 
+## premium_nudge.rs
+
+Standalone `premium_nudge` window (`premium-nudge.html`, 420×600, single-instance, overlay title bar on macOS) for the premium purchase reminder. Evaluation lives in Rust so triggers fire even when the main window is hidden in the tray. Never evaluated at launch — only post-activity triggers (`skip_reminder` post-break hook plus frontend hints).
+
+### `get_premium_nudge_state`
+
+```ts
+invoke("get_premium_nudge_state") → PremiumNudgeState
+```
+
+Read-only eligibility check combining live trial/license state with persisted caps, snooze, and opt-out. Records nothing.
+
+**Parameters:** None
+
+**Returns:**
+
+```ts
+interface PremiumNudgeState {
+  eligible: boolean
+  reason: string  // eligible | disabled | paid_user | clock_skew | onboarding
+                  // | unknown_date | trial_too_early | snoozed | session_cap
+                  // | cooldown | monthly_cap | lifetime_cap
+                  // | trial_unavailable | license_unavailable
+  variant: string | null  // trial_ending | expired | winback (when eligible)
+  lastShown: string | null
+  showCount30d: number
+  showCountLifetime: number
+  snoozedUntil: string | null
+}
+```
+
+There is deliberately no permanent opt-out — snooze ("Remind me later") is always one click away.
+
+---
+
+### `record_premium_nudge_event`
+
+```ts
+invoke("record_premium_nudge_event", { event: string }) → void
+```
+
+Records a nudge lifecycle event. `snoozed` sets a 7-day snooze.
+
+**Parameters:**
+- `event` — `shown` | `dismissed` | `snoozed` | `converted_intent`
+
+---
+
+### `maybe_show_premium_nudge`
+
+```ts
+invoke("maybe_show_premium_nudge", { trigger: string }) → NudgeTriggerResult
+```
+
+Evaluates a post-activity trigger and schedules the nudge window (~5s grace delay, one 60s conflict re-check). Returns immediately; never blocks. An open break, `before_alert`, `support_reminder`, or existing nudge window suppresses the spawn, and a break starting later closes the nudge. The chosen variant is passed to the window as `premium-nudge.html?variant=<variant>`.
+
+**Parameters:**
+- `trigger` — `break_completed` | `break_dismissed` | `stats_viewed` | `settings_saved` | `support_closed`
+
+**Returns:**
+
+```ts
+interface NudgeTriggerResult {
+  accepted: boolean  // evaluation passed and a spawn was scheduled
+  reason: string     // scheduled | recheck_scheduled | <suppression reason>
+}
+```
+
+---
+
+### `close_premium_nudge`
+
+```ts
+invoke("close_premium_nudge", { event: string }) → void
+```
+
+Records a nudge-window button event, then closes the window. Accepts `dismissed` | `snoozed` | `converted_intent`.
+
+**Parameters:**
+- `event` — Button event to record before closing
+
+---
+
+### `open_activate_license`
+
+```ts
+invoke("open_activate_license") → void
+```
+
+Records `converted_intent`, closes the nudge window, and shows/focuses the main window at the license activation page (emits `open-activate-license` for the frontend router).
+
+**Parameters:** None
+
+---
+
+### `debug_preview_nudge_window`
+
+```ts
+invoke("debug_preview_nudge_window") → void
+```
+
+DEV-ONLY: opens the nudge window immediately (with the user's current variant), bypassing eligibility and caps, so copy and layout can be previewed without waiting out the trial grace period. Records nothing and trips no guards. Release builds always reject this command.
+
+**Parameters:** None
+
+---
+
 ## data_backup.rs
 
 Exports and imports a zip archive of user settings, screen time, and todos.
@@ -672,6 +787,10 @@ Generic key/value store for all app settings. Replaces the legacy Tauri `store.j
 | `isUserOnboarded` | bool | `"false"` | Onboarding state |
 | `blinkEyeWorkday` | JSON | Mon–Fri 9–17 | Per-day start/end hours |
 | `accentColor` / `selectedTheme` | string | — | UI accent / theme setting |
+| `premiumNudgeEnabled` | bool | `"true"` (absent = on) | Kill-switch for the premium nudge |
+| `premiumNudgeLastShownAt` | date | — | Last nudge show (YYYY-MM-DD) |
+| `premiumNudgeShowDates` | JSON | `[]` | Show-date history (YYYY-MM-DD array) |
+| `premiumNudgeSnoozedUntil` | date | — | Snooze end (YYYY-MM-DD) |
 
 ---
 

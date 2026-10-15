@@ -355,6 +355,8 @@ impl ReminderScheduler {
     async fn start_break(&self, app_handle: &AppHandle) -> Result<(), String> {
         close_before_alert(app_handle);
         close_all_reminder_windows(app_handle);
+        // The break always wins over an open premium nudge.
+        crate::premium_nudge::close_for_break(app_handle);
 
         let (settings, screen_time_hours, screen_time_minutes) = {
             let state = self.state.lock().await;
@@ -1072,13 +1074,26 @@ pub async fn skip_reminder(
     scheduler: tauri::State<'_, Arc<ReminderScheduler>>,
     snoozed: Option<bool>,
 ) -> Result<(), String> {
-    if snoozed.unwrap_or(false) {
-        crate::snooze_tracker::record_snooze(&app_handle, &scheduler).await?;
-    } else {
+    let completed = !snoozed.unwrap_or(false);
+    if completed {
         crate::snooze_tracker::record_break_completed(&app_handle).await?;
+    } else {
+        crate::snooze_tracker::record_snooze(&app_handle, &scheduler).await?;
     }
 
     scheduler.finish_break(&app_handle).await;
+
+    // Post-break hook for the premium nudge: evaluated in the background so
+    // it also fires when the main window is hidden in the tray. The nudge
+    // module applies its own grace delay, eligibility, caps, and conflict
+    // re-check before opening anything.
+    {
+        let handle = app_handle.clone();
+        let trigger = if completed { "break_completed" } else { "break_dismissed" }.to_string();
+        tauri::async_runtime::spawn(async move {
+            crate::premium_nudge::handle_post_break_trigger(handle, trigger).await;
+        });
+    }
     Ok(())
 }
 

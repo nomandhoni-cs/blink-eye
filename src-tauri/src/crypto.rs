@@ -556,7 +556,9 @@ pub async fn update_license_fields(
 // =============================================================================
 
 /// Open (or create) a SQLite connection to `appconfig.db`.
-async fn open_app_config_db(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String> {
+///
+/// `pub(crate)` so `premium_nudge.rs` reuses the same pool helper.
+pub(crate) async fn open_app_config_db(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String> {
     let app_data_dir = app_handle
         .path()
         .app_data_dir()

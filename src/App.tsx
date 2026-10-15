@@ -1,7 +1,8 @@
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route, BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
 import "./index.css";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { ErrorDisplay } from "./components/ErrorDisplay";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
@@ -48,6 +49,30 @@ const layoutRoutes = [
   { path: "soon", element: Soon },
 ];
 
+// Listens for the premium nudge window's "View premium" action (Rust emits
+// `open-activate-license`) and routes the main window to license activation.
+function DeepLinkHandler() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    listen("open-activate-license", () => {
+      navigate("/activatelicense");
+    })
+      .then((fn) => {
+        unlisten = fn;
+      })
+      .catch((err) => {
+        console.error("Failed to listen for deep links:", err);
+      });
+    return () => {
+      unlisten?.();
+    };
+  }, [navigate]);
+
+  return null;
+}
+
 function App() {
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -91,6 +116,7 @@ function App() {
   return (
     <TimeCountProvider>
       <Router>
+        <DeepLinkHandler />
         <Routes>
           {/* Standalone routes */}
           <Route path="/support_reminder" element={<Support />} />
@@ -113,7 +139,8 @@ function App() {
           </Route>
         </Routes>
       </Router>
-      {/*<DebugPremiumPanel />*/}
+      {/* Debug tooling (nudge inspector + preview) — dev builds only. */}
+      {import.meta.env.DEV && <DebugPremiumPanel />}
     </TimeCountProvider>
   );
 }

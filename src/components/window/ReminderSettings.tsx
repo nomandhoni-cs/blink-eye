@@ -26,6 +26,7 @@ import {
 } from "react-icons/io5";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useAccentColor } from "../../contexts/AccentColorContext";
+import { usePremiumNudge } from "../../hooks/usePremiumNudge";
 
 const FREQUENCY_OPTIONS = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120];
 const DURATION_OPTIONS = [10, 15, 20, 30, 45, 60, 90, 120, 300];
@@ -96,6 +97,7 @@ function SettingRow({
 
 const ReminderSettings = () => {
   const { triggerUpdate } = useTrigger();
+  const { fireTrigger } = usePremiumNudge();
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const { accentHex } = useAccentColor();
   const [interval, setInterval] = useState<number>(20);
@@ -264,6 +266,10 @@ const ReminderSettings = () => {
         duration: 1500,
         position: "bottom-right",
       });
+
+      // Post-activity hint for the premium nudge (Rust decides; no-op when
+      // ineligible, capped, or suppressed).
+      fireTrigger("settings_saved");
     } catch (error) {
       console.error("Failed to save reminder settings:", error);
       toast.error("Couldn't save settings. Try again.", {

@@ -9,6 +9,7 @@ use tokio::sync::mpsc;
 
 mod crypto;
 mod data_backup;
+mod premium_nudge;
 mod reminder_scheduler;
 mod screen_time_tracker;
 mod snooze_tracker;
@@ -18,6 +19,10 @@ use crypto::{
     store_license_data, update_license_fields, update_reminder_setting,
 };
 use data_backup::{export_user_data, import_user_data};
+use premium_nudge::{
+    close_premium_nudge, debug_preview_nudge_window, get_premium_nudge_state,
+    maybe_show_premium_nudge, open_activate_license, record_premium_nudge_event,
+};
 use snooze_tracker::{get_break_stats, get_weekly_break_report};
 use reminder_scheduler::{ReminderScheduler, TrayUpdate};
 use screen_time_tracker::ScreenTimeTracker;
@@ -257,6 +262,12 @@ pub fn run() {
             import_user_data,
             get_break_stats,
             get_weekly_break_report,
+            get_premium_nudge_state,
+            record_premium_nudge_event,
+            maybe_show_premium_nudge,
+            close_premium_nudge,
+            open_activate_license,
+            debug_preview_nudge_window,
         ])
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_notification::init())
