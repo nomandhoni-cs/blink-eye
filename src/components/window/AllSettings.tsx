@@ -24,7 +24,9 @@ import { save, open } from "@tauri-apps/plugin-dialog";
 import { relaunch } from "@tauri-apps/plugin-process";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { useAccentColor } from "../../contexts/AccentColorContext";
+import { usePremiumNudge } from "../../hooks/usePremiumNudge";
 import {
   IoRocket,
   IoEllipseOutline,
@@ -32,6 +34,7 @@ import {
   IoSave,
   IoDownloadOutline,
   IoCloudUploadOutline,
+  IoDiamond,
 } from "react-icons/io5";
 
 const USAGE_LIMIT_OPTIONS = Array.from({ length: 24 }, (_, i) => i + 1);
@@ -89,6 +92,7 @@ function SettingRow({
 
 const AllSettings = () => {
   const { accentHex } = useAccentColor();
+  const { fireTrigger } = usePremiumNudge();
   const [timeLimit, setTimeLimit] = useState<number>(8);
   const [savedTimeLimit, setSavedTimeLimit] = useState<number>(8);
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
@@ -96,6 +100,7 @@ const AllSettings = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
+  const [trialLine, setTrialLine] = useState<string | null>(null);
 
   useEffect(() => {
     const initialize = async () => {
@@ -133,6 +138,26 @@ const AllSettings = () => {
         } else {
           const status = await isEnabled();
           setIsAutoStartEnabled(status);
+        }
+
+        try {
+          const [license, trial] = await Promise.all([
+            invoke<{ status: string | null }>("get_license_info"),
+            invoke<{ is_active: boolean; days_remaining: number }>(
+              "get_trial_info",
+            ),
+          ]);
+          if (license.status === "active") {
+            setTrialLine("Premium is active on this device");
+          } else if (trial.is_active) {
+            setTrialLine(
+              `${trial.days_remaining} ${trial.days_remaining === 1 ? "day" : "days"} left in your free trial`,
+            );
+          } else {
+            setTrialLine("Free trial ended");
+          }
+        } catch {
+          // Trial/license readout is best-effort; the row stays hidden.
         }
       } catch (error) {
         console.error("Failed to load settings:", error);
@@ -202,6 +227,8 @@ const AllSettings = () => {
         duration: 2000,
         position: "bottom-right",
       });
+      // Post-activity hint for the premium nudge (Rust decides).
+      fireTrigger("settings_saved");
     } catch (error) {
       console.error("Failed to save limit:", error);
       toast.error("Failed to save limit. Please try again later.", {
@@ -344,6 +371,24 @@ const AllSettings = () => {
           </Select>
         </SettingRow>
       </div>
+
+      {trialLine !== null && (
+        <div className="divide-y divide-border rounded-xl border border-border bg-card">
+          <SettingRow
+            icon={
+              <SettingIconBadge color={accentHex}>
+                <IoDiamond className="size-4" />
+              </SettingIconBadge>
+            }
+            label="Premium trial"
+            description={trialLine}
+          >
+            <Button variant="outline" asChild className="gap-2">
+              <Link to="/activatelicense">View premium</Link>
+            </Button>
+          </SettingRow>
+        </div>
+      )}
 
       <div className="divide-y divide-border rounded-xl border border-border bg-card">
         <SettingRow

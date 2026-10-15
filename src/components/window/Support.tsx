@@ -3,6 +3,7 @@ import cat_gif_paw from "../../assets/cute_cat_paw.gif";
 import logo from "../../assets/newIcon.png";
 import { Button } from "../ui/button";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
 import { XIcon } from "lucide-react";
 
@@ -75,6 +76,10 @@ const Support = () => {
   }, []); // Empty dependency array ensures this runs only once on mount.
 
   const handleClose = async () => {
+    // Post-activity hint for the premium nudge (Rust decides; never throws).
+    invoke("maybe_show_premium_nudge", { trigger: "support_closed" }).catch(
+      () => {},
+    );
     const appConfigDatabase = Database.load("sqlite:appconfig.db");
     (await appConfigDatabase).execute(
       "INSERT INTO config (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = ?",

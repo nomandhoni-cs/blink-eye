@@ -28,7 +28,8 @@
     "reminder_monitor_8",
     "reminder_monitor_9",
     "before_alert",
-    "support_reminder"
+    "support_reminder",
+    "premium_nudge"
   ],
   "permissions": [
     {

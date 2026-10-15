@@ -26,6 +26,8 @@ export default defineConfig(async () => ({
       input: {
         main: "index.html",
         alert: "alert.html",
+        // Standalone premium nudge window (spawned by premium_nudge.rs).
+        "premium-nudge": "premium-nudge.html",
         // Per-background entries (each ships only its own background JS).
         // Add a new style: 1) drop one HTML/TSX pair  2) append to registry.ts
         // 3) add an "input" row here.

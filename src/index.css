@@ -228,3 +228,16 @@
 }
 
 /*Custom css end*/
+
+/* Premium nudge: the logo blinks now and then. */
+@keyframes nudge-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.12); }
+}
+.nudge-blink {
+  animation: nudge-blink 4.5s ease-in-out 0.8s infinite;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nudge-blink { animation: none; }
+}
