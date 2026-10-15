@@ -1,7 +1,7 @@
 {
   "name": "blink-eye",
   "private": true,
-  "version": "2.8.1",
+  "version": "2.9.0",
   "type": "module",
   "displayName": "Blink Eye",
   "categories": [
@@ -14,6 +14,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
+    "test:premium": "bun test tests/premium-entitlement.test.ts",
     "tauri": "tauri"
   },
   "dependencies": {

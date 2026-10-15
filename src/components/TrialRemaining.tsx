@@ -1,7 +1,7 @@
 // src/components/TrialRemaining.tsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { invoke } from "@tauri-apps/api/core";
+import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
 import { fetch } from "@tauri-apps/plugin-http";
 import {
@@ -51,39 +51,26 @@ function useCountdown(endDate: string | null) {
   return timeLeft;
 }
 
-interface TrialInfo {
-  install_date: string | null;
-  days_remaining: number;
-  is_active: boolean;
-  clock_manipulated: boolean;
-}
-
 // ── Main Component ────────────────────────────────────────────────────────────
 const TrialRemaining: React.FC = () => {
-  const [trialInfo, setTrialInfo] = useState<TrialInfo | null>(null);
+  const {
+    trialInfo,
+    trialError,
+    licenseError,
+    isPaidUser,
+    isLoading,
+    isRefreshing,
+    refreshPremiumFeatures,
+  } = usePremiumFeatures();
   const [discount, setDiscount] = useState<DiscountData | null>(null);
   const [discountLoading, setDiscountLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    const loadTrial = async () => {
-      try {
-        const info: TrialInfo = await invoke("get_trial_info");
-        setTrialInfo(info);
-      } catch (err) {
-        console.error("[TrialRemaining] Failed to get trial info:", err);
-      }
-    };
-    loadTrial();
-  }, []);
-
-  const isTrialOn = trialInfo?.is_active ?? false;
   const remainingDays = trialInfo?.days_remaining ?? null;
 
   const countdown = useCountdown(discount?.endDate ?? null);
 
-  const isExpired =
-    !isTrialOn || (remainingDays !== null && remainingDays <= 0);
+  const isExpired = trialInfo?.is_active === false;
   const isUrgent =
     remainingDays !== null && remainingDays <= 3 && remainingDays > 0;
 
@@ -111,15 +98,37 @@ const TrialRemaining: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // ── Loading state ──
-  if (remainingDays === null) {
+  // The first local read takes milliseconds; rendering nothing until it settles
+  // avoids flashing a trial banner at paid users on every launch.
+  if (isPaidUser || isLoading) return null;
+
+  if (
+    trialError ||
+    !trialInfo?.install_date ||
+    trialInfo.clock_manipulated ||
+    remainingDays === null
+  ) {
     return (
-      <div className="w-full rounded-2xl border border-foreground/10 bg-foreground/5 px-5 py-4 mb-4">
-        <div className="flex items-center space-x-2 text-foreground/40">
-          <div className="w-4 h-4 rounded-full border-2 border-foreground/20 border-t-primary animate-spin" />
-          <p className="text-sm">
-            Trial info loading… probably lost in a wormhole 🌌 Hang tight!
-          </p>
+      <div role="status" className="w-full rounded-2xl border border-foreground/10 bg-foreground/5 px-5 py-4 mb-4 space-y-2">
+        <p className="text-sm font-semibold">
+          {trialError
+            ? "Unable to check trial status"
+            : trialInfo?.clock_manipulated
+              ? "Trial unavailable: system date is before installation date"
+              : "Trial information is unavailable"}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {trialInfo?.clock_manipulated
+            ? "Check your system date, then retry. This is not a confirmed trial expiry."
+            : "We could not confirm your trial status. Free single-monitor breaks remain available."}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button size="sm" variant="secondary" disabled={isRefreshing} onClick={() => void refreshPremiumFeatures()}>
+            {isRefreshing ? "Checking..." : "Retry"}
+          </Button>
+          <Button size="sm" variant="outline" asChild>
+            <Link to="/activatelicense">Check or activate license</Link>
+          </Button>
         </div>
       </div>
     );
@@ -129,6 +138,7 @@ const TrialRemaining: React.FC = () => {
     <div className="w-full mb-4 space-y-2">
       {/* ── Trial Status Card ── */}
       <div
+        role="status"
         className={[
           "w-full rounded-2xl border p-4 space-y-3 relative overflow-hidden transition-all",
           isExpired
@@ -189,6 +199,12 @@ const TrialRemaining: React.FC = () => {
                   ? "Purchase a license to keep using all features and support the developer."
                   : "Unlock all features forever with a one-time license purchase."}
               </p>
+              {licenseError && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  License status could not be checked.
+                  {trialInfo.is_active ? " Your active trial still provides premium access." : " Retry or check your license before assuming premium access has ended."}
+                </p>
+              )}
             </div>
           </div>
 
@@ -205,6 +221,19 @@ const TrialRemaining: React.FC = () => {
             </Link>
           </Button>
         </div>
+
+        {(licenseError || isExpired) && <div className="relative flex flex-wrap gap-2">
+          {licenseError && (
+            <Button size="sm" variant="secondary" disabled={isRefreshing} onClick={() => void refreshPremiumFeatures()}>
+              {isRefreshing ? "Checking..." : "Retry status"}
+            </Button>
+          )}
+          {isExpired && (
+            <Button size="sm" variant="outline" asChild>
+              <Link to="/activatelicense">Check or activate license</Link>
+            </Button>
+          )}
+        </div>}
 
         {/* ── Urgency progress bar (only when trial active) ── */}
         {!isExpired && remainingDays !== null && (
