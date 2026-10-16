@@ -383,5 +383,191 @@
   "blogsPage": {
     "title": "Blog",
     "description": "Leia nossos últimos posts e atualizações de notícias."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Descubra os Recursos que nos Tornam Únicos",
+    "description": "Explore os recursos que destacam nosso app. De lembretes customizáveis a múltiplos temas, temos tudo o que você precisa."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Resumo",
+      "title": "Painel",
+      "motto": "Painel de saúde ocular para acompanhar tempo de tela e pausas 20-20-20 | Blink Eye",
+      "longMotto": "Um painel simples para home office e estudo: próxima pausa, tempo de tela de hoje e sequência de um relance.",
+      "description": "Sua base para a saúde dos olhos. Veja se as pausas estão ativas, quando chega o próximo lembrete 20-20-20 e seu tempo de tela de hoje. Tudo de um relance, sem abrir menus.",
+      "bullets": [
+        "Contagem ao vivo com pausar e continuar",
+        "Tempo de tela e sequência de hoje de um relance",
+        "Acesso em um clique às 11 ferramentas",
+        "Layout nativo familiar com barra lateral"
+      ],
+      "keywords": "painel saúde ocular, tempo de tela, lembrete de pausas 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Essencial",
+      "title": "Ajustes de lembretes",
+      "motto": "Lembrete da regra 20-20-20 para aliviar fadiga ocular e olhos secos | Blink Eye",
+      "longMotto": "Temporizador 20-20-20 personalizado com intervalo, duração, mensagem e som contra a síndrome visual do computador.",
+      "description": "Escolha o ritmo do seu trabalho. Regra 20-20-20 rígida ou estilo Pomodoro. Intervalo, duração, mensagem própria, som e modo rígido, tudo aqui.",
+      "bullets": [
+        "Intervalo e duração em segundos ou minutos",
+        "Mensagem própria com modo rígido",
+        "Som com prévia",
+        "Testar o lembrete na hora"
+      ],
+      "keywords": "regra 20-20-20, fadiga ocular, olhos secos, temporizador de pausas, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Estatísticas",
+      "title": "Tempo de uso",
+      "motto": "Monitor de tempo de tela com relatórios diários, semanais e mensais | Blink Eye",
+      "longMotto": "Acompanhe o uso do computador com gráficos claros para evitar excesso e criar hábitos sadios.",
+      "description": "Veja seu uso real com gráficos claros. Detecte sessões longas que cansam a vista, compare semanas e crie hábitos equilibrados com dados reais.",
+      "bullets": [
+        "Visões dia, semana, mês, ano e total",
+        "Gráficos de total e sessões médias",
+        "Detecte o excesso antes que prejudique",
+        "Sem outro app de controle"
+      ],
+      "keywords": "monitor tempo de tela, uso do computador, estatísticas, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personalização",
+      "title": "Temas de lembrete",
+      "motto": "Temas de tela de pausa confortáveis para descansar os olhos | Blink Eye",
+      "longMotto": "Escolha um tema de tela cheia calmo e sem distrações, claro ou escuro.",
+      "description": "Uma pausa deve parecer pausa, não interrupção. Escolha um tema de tela cheia calmante ou energizante, do mínimo ao imersivo, todos para o conforto visual.",
+      "bullets": [
+        "Vários temas de tela cheia",
+        "Sem distrações, suave para os olhos",
+        "Prévia antes de aplicar",
+        "Nos modos claro e escuro"
+      ],
+      "keywords": "temas de tela de pausa, conforto visual, temas, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Avançados",
+      "title": "Vários monitores",
+      "motto": "Lembrete de pausas para setups de dois e três monitores | Blink Eye",
+      "longMotto": "Pausa em cada tela ou só na principal, para devs, designers e traders.",
+      "description": "Dois ou três monitores não devem ser brecha para a fadiga ocular. Mostre a pausa em todos ou só no principal, do seu jeito de trabalhar.",
+      "bullets": [
+        "Pausa em todos ou só no principal",
+        "Nenhuma janela escapa do lembrete",
+        "Para devs, designers e traders",
+        "No Windows, macOS e Linux"
+      ],
+      "keywords": "lembrete vários monitores, duas telas, três telas, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produtividade",
+      "title": "Lista de tarefas",
+      "motto": "Gestor Pomodoro para manter o foco sem trocar de app | Blink Eye",
+      "longMotto": "Anote tarefas onde faz pausas, com sessões de foco Pomodoro.",
+      "description": "Anote tarefas onde faz pausas. Crie, marque e organize sem trocar de app, para voltar de cada pausa sabendo o próximo passo.",
+      "bullets": [
+        "Tarefas criadas e feitas rápido",
+        "Sempre à mão nas pausas",
+        "Com Pomodoro e horário de trabalho",
+        "Menos trocas, mais foco"
+      ],
+      "keywords": "temporizador Pomodoro, gestor de tarefas, lista, foco, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Horário",
+      "title": "Jornada de trabalho",
+      "motto": "Planejador de horário que pausa lembretes após o expediente | Blink Eye",
+      "longMotto": "Início e fim para cada dia, com lembretes em silêncio à noite e fins de semana.",
+      "description": "Diga ao Blink Eye quando você trabalha de verdade. Horários por dia, fins de semana calmos e pausas que param sozinhas fora do expediente.",
+      "bullets": [
+        "Início e fim para cada dia",
+        "Para sozinho fora do expediente",
+        "Sem lembretes à noite ou fins de semana",
+        "Configurado uma vez, vale a semana"
+      ],
+      "keywords": "planejador de horário, jornada de trabalho, plano de pausas, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Protetores de tela",
+      "motto": "Protetores de tela animados para pausas relaxantes | Blink Eye",
+      "longMotto": "9 visuais premium: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon e Bouncy Balls.",
+      "description": "Transforme 20 segundos de descanso em um respiro. Nove animações premium: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon e Bouncy Balls. Fluidos, leves e relaxantes.",
+      "bullets": [
+        "Nove visuais: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Movimento fluido sem travar",
+        "Um clique para escolher e abrir",
+        "Ctrl mais Espaço para fechar na hora"
+      ],
+      "keywords": "protetores animados, animação de pausa, relaxar, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Controle",
+      "title": "Ajustes",
+      "motto": "Ajustes de pausas com modo rígido e limite diário | Blink Eye",
+      "longMotto": "Inicialização, modo rígido, ociosidade, sons e limite diário num só lugar.",
+      "description": "A sala de controle séria. Início automático, pausas forçadas com modo rígido, ociosidade, sons e limite diário de tela.",
+      "bullets": [
+        "Início automático e discreto",
+        "Modo rígido e ociosidade",
+        "Atalho global e sons",
+        "Limite diário com avisos"
+      ],
+      "keywords": "ajustes de pausas, modo rígido, limite de tela, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Aparência",
+      "title": "Escolha de tema",
+      "motto": "Blink Eye oferece mais de 24 temas para escolher e deixar do seu jeito | Blink Eye",
+      "longMotto": "Blink Eye traz mais de 24 temas prontos e deixa ajustar cores e fundos ao seu gosto.",
+      "description": "Suas pausas, seu estilo. Explore mais de 24 temas artesanais, pré-visualize cada um ao vivo, escolha o favorito em um clique e ajuste cores e fundos até ficar com a sua cara. Do minimal calmo ao ousado e divertido, há um tema para cada humor, mesa e fluxo de trabalho.",
+      "bullets": [
+        "Mais de 24 temas prontos para escolher",
+        "Prévia ao vivo e troca em um clique",
+        "Cores e fundos do seu jeito",
+        "Opções claras e escuras para o dia e a noite"
+      ],
+      "keywords": "temas de lembrete, 24 temas, personalizar tema, escolher tema, conforto visual, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Ativar licença",
+      "motto": "Desbloqueio premium de todos os protetores animados | Blink Eye",
+      "longMotto": "Uma chave desbloqueia cada protetor premium mais animações e novidades futuras.",
+      "description": "Cole sua licença uma vez e desbloqueie os nove protetores premium, futuras animações e updates prioritários. Sua compra mantém este app open source vivo para todos.",
+      "bullets": [
+        "Ativação simples em um passo",
+        "Desbloqueia os nove premium",
+        "Apoia o open source",
+        "Verificado na hora sem reiniciar"
+      ],
+      "keywords": "desbloqueio premium, chave de licença, protetores, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "Sobre",
+      "motto": "App de saúde ocular grátis e open source para Windows, Mac e Linux | Blink Eye",
+      "longMotto": "Versão, atualização em um clique, ajuda, docs e GitHub.",
+      "description": "Veja sua versão, atualize em um clique e ache ajuda. A barra lateral mostra ativação, versão e busca de novidades.",
+      "bullets": [
+        "Versão e ativação de um relance",
+        "Novidades em um clique",
+        "Links docs, GitHub e ajuda",
+        "Feito pela comunidade open source"
+      ],
+      "keywords": "app saúde ocular grátis, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

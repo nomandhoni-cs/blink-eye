@@ -389,5 +389,191 @@
   "blogsPage": {
     "title": "Blogovi",
     "description": "Pročitajte naše najnovije blogove i vesti."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Otkrijte funkcije koje nas izdvajaju",
+    "description": "Istražite funkcije koje našu aplikaciju čine jedinstvenom. Od prilagodljivih podsetnika do više tema, mi imamo sve što vam treba."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Pregled",
+      "title": "Kontrolna tabla",
+      "motto": "Tabla za zdravlje očiju za praćenje vremena ekrana i pauza 20-20-20 | Blink Eye",
+      "longMotto": "Jednostavna tabla za rad od kuće i učenje: sledeća pauza, današnje vreme ekrana i niz na jedan pogled.",
+      "description": "Vaša baza za zdravlje očiju. Vidite da li su pauze aktivne, kada stiže sledeći podsetnik 20-20-20 i koliko vremena ekrana imate danas. Sve na jedan pogled, bez otvaranja menija.",
+      "bullets": [
+        "Odjecavanje uživo sa pauzom i nastavkom",
+        "Današnje vreme i niz na jedan pogled",
+        "Pristup svih 11 alata jednim klikom",
+        "Poznati nativni raspored sa bočnom trakom"
+      ],
+      "keywords": "tabla zdravlja očiju, praćenje vremena ekrana, podsetnik pauza 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Osnova",
+      "title": "Podešavanja podsetnika",
+      "motto": "Podsetnik pravila 20-20-20 protiv umora i suvoće očiju | Blink Eye",
+      "longMotto": "Prilagođeni tajmer 20-20-20 sa intervalom, trajanjem, porukom i zvukom protiv sindroma kompjuterskog vida.",
+      "description": "Izaberite ritam svog rada. Strogo pravilo 20-20-20 ili Pomodoro stil. Interval, trajanje, vlastita poruka, zvuk i strogi režim, sve ovde.",
+      "bullets": [
+        "Interval i trajanje u sekundama ili minutama",
+        "Vlastita poruka sa strogim režimom",
+        "Zvuk sa pregledom",
+        "Trenutni test podsetnika"
+      ],
+      "keywords": "pravilo 20-20-20, umor očiju, suve oči, tajmer pauza, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Statistika",
+      "title": "Vreme korišćenja",
+      "motto": "Praćenje vremena ekrana sa dnevnim, nedeljnim i mesečnim izveštajima | Blink Eye",
+      "longMotto": "Pratite korišćenje računara jasnim grafikonima i gradite zdrave navike.",
+      "description": "Vidite stvarno korišćenje jasnim grafikonima. Uočite duge sesije koje zamaraju oči, poredite nedelje i gradite zdrave navike iz pravih podataka.",
+      "bullets": [
+        "Dan, nedelja, mesec, godina i ukupno",
+        "Grafikoni ukupnog i prosečnih sesija",
+        "Uočite preopterećenje pre štete",
+        "Bez dodatnih aplikacija"
+      ],
+      "keywords": "praćenje vremena ekrana, korišćenje računara, statistika, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Prilagođavanje",
+      "title": "Teme podsetnika",
+      "motto": "Udobne teme ekrana pauze za odmor očiju | Blink Eye",
+      "longMotto": "Izaberite mirnu celoekransku temu bez ometanja, svetlu ili tamnu.",
+      "description": "Pauza treba da deluje kao pauza, ne kao prekid. Izaberite umirujuću ili okrepljujuću pozadinu od minimalne do uranjajuće, sve za udobnost očiju.",
+      "bullets": [
+        "Više celoekranskih tema za svako raspoloženje",
+        "Bez ometanja, nežno za oči",
+        "Pregled pre primene",
+        "U svetlom i tamnom režimu"
+      ],
+      "keywords": "teme ekrana pauze, udobnost očiju, teme, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Više monitora",
+      "motto": "Podsetnik pauza za postave sa dva i tri monitora | Blink Eye",
+      "longMotto": "Pauza na svakom ekranu ili samo glavnom, za developere, dizajnere i trejdere.",
+      "description": "Dva ili tri ekrana ne smeju biti rupa za umor očiju. Prikažite pauzu na svim monitorima ili samo glavnom, kako vi radite.",
+      "bullets": [
+        "Pauza na svima ili samo glavnom",
+        "Nijedan prozor ne izmiče",
+        "Za developere, dizajnere i trejdere",
+        "Na Windows, macOS i Linux"
+      ],
+      "keywords": "podsetnik više monitora, dva ekrana, tri ekrana, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktivnost",
+      "title": "Lista zadataka",
+      "motto": "Pomodoro menadžer zadataka za fokus bez zamene aplikacija | Blink Eye",
+      "longMotto": "Zapisujte zadatke gde pravite pauze, sa Pomodoro fokus sesijama.",
+      "description": "Zapisujte zadatke gde pravite pauze. Pravite, štiklirajte i slažite bez zamene aplikacija, da se iz svake pauze vratite znajući sledeći korak.",
+      "bullets": [
+        "Brzo pravljenje i završavanje zadataka",
+        "Uvek pri ruci na pauzama",
+        "Sa Pomodoro i radnim rasporedom",
+        "Manje zamene, više fokusa"
+      ],
+      "keywords": "Pomodoro tajmer, menadžer zadataka, lista, fokus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Raspored",
+      "title": "Podešavanje dana",
+      "motto": "Planer sati koji zaustavlja podsetnike posle posla | Blink Eye",
+      "longMotto": "Početak i kraj svakog dana, da noći i vikendi budu tihi.",
+      "description": "Recite Blink Eye-u kada stvarno radite. Sati po danu, tihi vikendi, pauze se same zaustavljaju van radnog vremena.",
+      "bullets": [
+        "Početak i kraj svakog dana",
+        "Samo se zaustavlja van sati",
+        "Bez podsetnika noću i vikendom",
+        "Podesi jednom, radi celu nedelju"
+      ],
+      "keywords": "planer sati, radni dan, plan pauza, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Čuvari ekrana",
+      "motto": "Animirani čuvari ekrana za opuštajuće pauze očiju | Blink Eye",
+      "longMotto": "9 premium vizuala: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon i Bouncy Balls.",
+      "description": "Pretvorite 20 sekundi odmora u predah. Devet premium animacija: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon i Bouncy Balls. Tečno, lagano, opuštajuće.",
+      "bullets": [
+        "Devet vizuala: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Tečno kretanje bez seckanja",
+        "Jedan klik za izbor i otvaranje",
+        "Ctrl plus razmak za trenutno zatvaranje"
+      ],
+      "keywords": "animirani čuvari ekrana, animacija pauze, opuštanje, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Kontrola",
+      "title": "Podešavanja",
+      "motto": "Podešavanja pauza sa strogim režimom i dnevnim limitom | Blink Eye",
+      "longMotto": "Start, strogi režim, mirovanje, zvuci i dnevni limit na jednom mestu.",
+      "description": "Ozbiljna kontrolna soba. Start sa sistemom, prinudne pauze strogim režimom, mirovanje, zvuci i dnevni limit ekrana.",
+      "bullets": [
+        "Start sa sistemom, tiho",
+        "Strogi režim i mirovanje",
+        "Globalna prečica i zvuci",
+        "Dnevni limit sa upozorenjima"
+      ],
+      "keywords": "podešavanja pauza, strogi režim, limit ekrana, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Izgled",
+      "title": "Izbor teme",
+      "motto": "Blink Eye nudi preko 24 teme za izbor i po tvom ukusu | Blink Eye",
+      "longMotto": "Blink Eye donosi preko 24 gotove teme i pušta te da boje i pozadine središ po svom ukusu.",
+      "description": "Tvoje pauze, tvoj stil. Razgledaj preko 24 ručno rađene teme, svaku pogledaj uživo, izaberi omiljenu jednim klikom, pa šteluj boje i pozadine dok ne postane tvoja. Od mirnog minimalizma do smelih i razigranih, za svako raspoloženje, sto i tok posla ima tema.",
+      "bullets": [
+        "Preko 24 gotove teme za izbor",
+        "Pregled uživo i zamena jednim klikom",
+        "Boje i pozadine po tvom",
+        "Svetle i tamne opcije za dan i noć"
+      ],
+      "keywords": "teme podsetnika, 24 teme, prilagodi temu, izaberi temu, udobnost očiju, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktiviraj licencu",
+      "motto": "Premium otključavanje svih animiranih čuvara ekrana | Blink Eye",
+      "longMotto": "Jedan ključ otvara svaki premium čuvar plus buduće animacije i ispravke.",
+      "description": "Nalepite licencu jednom i otključajte devet premium čuvara, buduće animacije i prioritetne ispravke. Vaša kupovina drži ovu open source aplikaciju živom za sve.",
+      "bullets": [
+        "Jednostavna aktivacija u koraku",
+        "Otključava svih devet premium",
+        "Podržava open source razvoj",
+        "Provera odmah bez restarta"
+      ],
+      "keywords": "premium otključavanje, ključ licence, čuvari ekrana, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "O aplikaciji",
+      "motto": "Besplatna open source nega očiju za Windows, Mac i Linux | Blink Eye",
+      "longMotto": "Vidite verziju, ažurirajte jednim klikom, pomoć, docs i GitHub.",
+      "description": "Vidite svoju verziju, ažurirajte jednim klikom i nađite pomoć. Bočna traka pokazuje aktivaciju, verziju i proveru ispravki.",
+      "bullets": [
+        "Verzija i aktivacija na jedan pogled",
+        "Provera ispravki jednim klikom",
+        "Linkovi docs, GitHub i pomoći",
+        "Gradila open source zajednica"
+      ],
+      "keywords": "besplatna nega očiju, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

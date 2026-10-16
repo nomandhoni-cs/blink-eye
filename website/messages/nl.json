@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Blogs",
     "description": "Lees onze nieuwste blogs en nieuwsupdates."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Ontdek de Functies die Ons Onderscheiden",
+    "description": "Ontdek de functies die onze app laten opvallen. Van aanpasbare herinneringen tot meerdere thema's, we hebben alles wat je nodig hebt."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Overzicht",
+      "title": "Dashboard",
+      "motto": "Oogzorgdashboard voor schermtijd en 20-20-20-pauzes | Blink Eye",
+      "longMotto": "Een simpel dashboard voor thuiswerk en studie: volgende pauze, schermtijd van vandaag en reeks in één oogopslag.",
+      "description": "Je basis voor gezonde ogen. Zie of pauzes actief zijn, wanneer de volgende 20-20-20-herinnering komt en je schermtijd van vandaag. Alles in één oogopslag, zonder menu's.",
+      "bullets": [
+        "Live countdown met pauzeren en hervatten",
+        "Schermtijd en reeks van vandaag in één oogopslag",
+        "Toegang tot alle 11 tools met één klik",
+        "Vertrouwde native indeling met zijbalk"
+      ],
+      "keywords": "oogzorg dashboard, schermtijd tracker, 20-20-20 pauze herinnering, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Kern",
+      "title": "Herinneringsinstellingen",
+      "motto": "20-20-20-regel herinnering tegen vermoeide ogen en droge ogen | Blink Eye",
+      "longMotto": "Eigen 20-20-20-timer met interval, duur, bericht en geluid tegen het computer vision syndroom.",
+      "description": "Kies het ritme van je werk. Strenge 20-20-20-regel of Pomodoro-stijl. Interval, duur, eigen bericht, geluid en strikte modus, alles hier.",
+      "bullets": [
+        "Interval en duur in seconden of minuten",
+        "Eigen bericht met strikte modus",
+        "Geluid met voorbeeld",
+        "Test de herinnering direct"
+      ],
+      "keywords": "20-20-20-regel, vermoeide ogen, droge ogen, pauzetimer, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Inzichten",
+      "title": "Gebruikstijd",
+      "motto": "Schermtijd tracker met dag-, week- en maandrapporten | Blink Eye",
+      "longMotto": "Volg computergebruik met duidelijke grafieken voor gezonde schermgewoonten.",
+      "description": "Zie je echte gebruik met duidelijke grafieken. Spot lange sessies die ogen belasten, vergelijk weken en bouw gezonde gewoonten op echte data.",
+      "bullets": [
+        "Dag-, week-, maand-, jaar- en totaalbeeld",
+        "Grafieken van totaal en sessies",
+        "Spot overwerk voor het schaadt",
+        "Geen extra app nodig"
+      ],
+      "keywords": "schermtijd tracker, computergebruik, statistieken, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Persoonlijk",
+      "title": "Herinneringsthema's",
+      "motto": "Comfortabele pauzeschermen om ogen te laten rusten | Blink Eye",
+      "longMotto": "Kies een rustig fullscreen thema zonder afleiding, licht of donker.",
+      "description": "Een pauze moet als pauze voelen, niet als onderbreking. Kies een fullscreen thema dat kalmeert of energie geeft, van minimaal tot meeslepend, allemaal voor oogcomfort.",
+      "bullets": [
+        "Meerdere fullscreen thema's",
+        "Zonder afleiding, zacht voor ogen",
+        "Voorbeeld voor het toepassen",
+        "In lichte en donkere modus"
+      ],
+      "keywords": "pauzescherm thema's, oogcomfort, thema's, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro's",
+      "title": "Multi-monitor",
+      "motto": "Pauzeherinnering voor setups met twee en drie schermen | Blink Eye",
+      "longMotto": "Pauze op elk scherm of alleen hoofdscherm, voor developers, designers en traders.",
+      "description": "Twee of drie schermen mogen geen maas zijn voor oogbelasting. Toon de pauze op alle monitoren of alleen de hoofdmonitor, zoals jij werkt.",
+      "bullets": [
+        "Pauze op alles of alleen primair",
+        "Geen venster ontsnapt",
+        "Voor developers, designers en traders",
+        "Op Windows, macOS en Linux"
+      ],
+      "keywords": "multi-monitor herinnering, twee schermen, drie schermen, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Productiviteit",
+      "title": "Takenlijst",
+      "motto": "Pomodoro takenmanager om gefocust te blijven zonder wisselen | Blink Eye",
+      "longMotto": "Noteer taken waar je pauzeert, met Pomodoro focussessies.",
+      "description": "Noteer taken waar je pauzeert. Maak, vink af en organiseer zonder wisselen, zodat je uit elke pauze terugkomt en weet wat volgt.",
+      "bullets": [
+        "Taken snel maken en afronden",
+        "Altijd bij de hand in pauzes",
+        "Met Pomodoro en werkschema",
+        "Minder wisselen, meer focus"
+      ],
+      "keywords": "Pomodoro timer, takenmanager, lijst, focus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Planning",
+      "title": "Werkdag instellen",
+      "motto": "Werkurenplanner die herinneringen stopt na werktijd | Blink Eye",
+      "longMotto": "Begin en einde per dag, met stille herinneringen 's nachts en in weekenden.",
+      "description": "Vertel Blink Eye wanneer je echt werkt. Tijden per weekdag, rustige weekenden, pauzes stoppen vanzelf buiten werktijd.",
+      "bullets": [
+        "Begin en einde per dag",
+        "Stopt vanzelf buiten werktijd",
+        "Geen herinneringen 's nachts of weekenden",
+        "Eén keer instellen, hele week actief"
+      ],
+      "keywords": "werkurenplanner, werkdag, pauzeplanning, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Screensavers",
+      "motto": "Geanimeerde screensavers voor ontspannende oogpauzes | Blink Eye",
+      "longMotto": "9 premium visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon en Bouncy Balls.",
+      "description": "Maak van 20 seconden rust een adempauze. Negen premium animaties: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon en Bouncy Balls. Soepel, licht en ontspannend.",
+      "bullets": [
+        "Negen visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Soepele beweging zonder hapering",
+        "Eén klik om te kiezen en openen",
+        "Ctrl plus spatie om direct te sluiten"
+      ],
+      "keywords": "geanimeerde screensavers, pauze animatie, ontspanning, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Controle",
+      "title": "Instellingen",
+      "motto": "Pauze-instellingen met strikte modus en daglimiet | Blink Eye",
+      "longMotto": "Opstarten, strikte modus, inactiviteit, geluiden en daglimiet op één plek.",
+      "description": "De serieuze controlekamer. Automatisch opstarten, pauzes afdwingen met strikte modus, inactiviteit, geluiden en dagelijkse schermlimiet.",
+      "bullets": [
+        "Automatisch starten, stil",
+        "Strikte modus en inactiviteit",
+        "Globale sneltoets en geluid",
+        "Daglimiet met waarschuwingen"
+      ],
+      "keywords": "pauze-instellingen, strikte modus, schermlimiet, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Uiterlijk",
+      "title": "Themakiezer",
+      "motto": "Blink Eye biedt ruim 24 thema's om te kiezen en zelf aan te passen | Blink Eye",
+      "longMotto": "Blink Eye levert ruim 24 kant-en-klare thema's en laat je kleuren en achtergronden naar smaak aanpassen.",
+      "description": "Jouw pauzes, jouw stijl. Blader door ruim 24 handgemaakte thema's, bekijk elk live, kies met één klik je favoriet en pas kleuren en achtergronden aan tot het als van jou voelt. Van rustig minimaal tot gedurfd speels, er is een thema voor elke stemming, elk bureau en elke workflow.",
+      "bullets": [
+        "Ruim 24 kant-en-klare thema's om te kiezen",
+        "Live voorbeeld en wisselen met één klik",
+        "Kleuren en achtergronden op jouw manier",
+        "Lichte en donkere opties voor dag en nacht"
+      ],
+      "keywords": "herinnering thema's, 24 thema's, thema aanpassen, thema kiezen, oogcomfort, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Licentie activeren",
+      "motto": "Premium ontgrendeling voor alle geanimeerde screensavers | Blink Eye",
+      "longMotto": "Eén sleutel ontgrendelt elke premium saver plus toekomstige animaties en updates.",
+      "description": "Plak je licentie één keer en ontgrendel alle negen premium savers, toekomstige animaties en prioriteitsupdates. Je aankoop houdt deze open source app levend voor iedereen.",
+      "bullets": [
+        "Simpele activering in één stap",
+        "Ontgrendelt alle negen premium",
+        "Steunt open source",
+        "Direct geverifieerd zonder herstart"
+      ],
+      "keywords": "premium ontgrendeling, licentiesleutel, screensavers, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "Over",
+      "motto": "Gratis open source oogzorg app voor Windows, Mac en Linux | Blink Eye",
+      "longMotto": "Versie, update met één klik, hulp, docs en GitHub.",
+      "description": "Check je versie, update met één klik en vind hulp. De zijbalk toont activatie, versie en updatecheck.",
+      "bullets": [
+        "Versie en activatie in één oogopslag",
+        "Updates met één klik",
+        "Links naar docs, GitHub en hulp",
+        "Gebouwd door open source community"
+      ],
+      "keywords": "gratis oogzorg app, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

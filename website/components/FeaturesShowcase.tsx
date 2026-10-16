@@ -2,198 +2,200 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { BadgeCheck, CheckSquare } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import enMessages from "@/messages/en.json";
 
 const keyStr =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
 const triplet = (e1: number, e2: number, e3: number) =>
   keyStr.charAt(e1 >> 2) +
   keyStr.charAt(((e1 & 3) << 4) | (e2 >> 4)) +
   keyStr.charAt(((e2 & 15) << 2) | (e3 >> 6)) +
   keyStr.charAt(e3 & 63);
-
 const rgbDataURL = (r: number, g: number, b: number) =>
-  `data:image/gif;base64,R0lGODlhAQABAPAA${triplet(0, r, g) + triplet(b, 255, 255)
-  }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
+  `data:image/gif;base64,R0lGODlhAQABAPAA${triplet(0, r, g) + triplet(b, 255, 255)}/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
-// Define image URLs directly in the component
-const featureImages = [
-  "https://utfs.io/f/93hqarYp4cDdyVm81X5aQNJFd2oOXG7Z936vVnlpPrH1xLjS",
-  "https://utfs.io/f/93hqarYp4cDdATITuEkNsu2tghpYOvrPweEdIUQCoaGHlzZV",
-  "https://utfs.io/f/93hqarYp4cDdrafHHy3NhGxbtIBmQTc63ULP0eSHODzof5Cy",
-  "https://utfs.io/f/93hqarYp4cDdeyfjt8AGUrMQKVoXBI75tih4E9gWPzmLdf16",
-  "https://utfs.io/f/93hqarYp4cDdpYNC7dOqB6uW7Y90kCtFoSKO1h82rMaQPLUI",
-  "https://utfs.io/f/93hqarYp4cDdWlTbTT2ZbSGxFhzOli7j10ntQHMWJ539Pod2",
-  "https://utfs.io/f/93hqarYp4cDdWJmmWS2ZbSGxFhzOli7j10ntQHMWJ539Pod2",
-];
+// Image file names live in code (not translated) and exist in both
+// /public/features/light and /public/features/dark. Text lives in
+// messages/*.json under "featuresShowcase" so every locale can translate it.
+const SHOWCASE_IMAGES: Record<string, string> = {
+  dashboard: "dashboard-1.webp",
+  "reminder-settings": "reminder-settings-2.webp",
+  "usage-time": "usage-time-3.webp",
+  "reminder-themes": "reminder-themes-4.webp",
+  "multi-monitor": "multi-monitor-5.webp",
+  "todo-list": "todo-list-6.webp",
+  "workday-setup": "workday-setup-7.webp",
+  "screen-savers": "screen-savers-8.webp",
+  settings: "settings-9.webp",
+  "theme-picker": "theme-picker-10.webp",
+  "activate-license": "activate-license-11.webp",
+  about: "about-12.webp",
+};
+
+type ShowcaseItem = {
+  id: string;
+  category: string;
+  title: string;
+  motto: string;
+  longMotto: string;
+  description: string;
+  bullets: string[];
+  keywords: string;
+};
+
+const FALLBACK_ITEMS = enMessages.featuresShowcase as ShowcaseItem[];
 
 export default function FeatureShowcase() {
   const t = useTranslations();
-  const featuresDemo = t.raw("featuresDemo");
-  const featuresHeader = useTranslations("featuresDemoHeader");
+  const header = t.raw("featuresShowcaseHeader") as {
+    title: string;
+    description: string;
+  };
+  let items: ShowcaseItem[] = FALLBACK_ITEMS;
+  try {
+    const raw = t.raw("featuresShowcase") as ShowcaseItem[] | undefined;
+    if (Array.isArray(raw) && raw.length > 0 && raw[0]?.motto) {
+      items = raw;
+    }
+  } catch {
+    items = FALLBACK_ITEMS;
+  }
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Simple fade-in on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px'
-      }
+      (entries) =>
+        entries.forEach(
+          (e) => e.isIntersecting && e.target.classList.add("visible")
+        ),
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" }
     );
-
-    const elements = containerRef.current?.querySelectorAll('.fade-in-scroll');
-    elements?.forEach(el => observer.observe(el));
-
+    containerRef.current
+      ?.querySelectorAll(".fade-in-scroll")
+      .forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [featuresDemo]);
+  }, [items.length]);
 
   return (
     <>
       <style jsx global>{`
-        /* Smooth scroll behavior */
         html {
           scroll-behavior: smooth;
         }
-
-        /* Simple fade in animation */
         .fade-in-scroll {
           opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
+          transform: translateY(18px);
+          transition:
+            opacity 0.6s ease,
+            transform 0.6s ease;
         }
-
         .fade-in-scroll.visible {
           opacity: 1;
           transform: translateY(0);
         }
-
-        /* Optimize scrolling performance */
         * {
-          scroll-behavior: smooth;
           -webkit-overflow-scrolling: touch;
-        }
-
-        /* GPU acceleration for smooth scrolling */
-        .gpu-accelerate {
-          transform: translateZ(0);
-          will-change: transform;
         }
       `}</style>
 
-      <section className="w-full py-12" ref={containerRef}>
+      <section
+        className="w-full py-16 lg:py-24 bg-white dark:bg-zinc-950"
+        ref={containerRef}
+      >
         <div className="container mx-auto px-4">
-          {/* Header */}
-          <div className="mx-auto max-w-4xl text-center mb-12 fade-in-scroll">
-            <h2 className="mt-2 text-5xl font-heading font-bold tracking-tight sm:text-6xl md:text-6xl bg-gradient-to-r from-[#ff80b5] via-[#FE4C55] to-[#9089fc] bg-clip-text text-transparent">
-              {featuresHeader("title")}
+          <div className="mx-auto max-w-3xl text-center mb-10 fade-in-scroll">
+            <h2 className="text-4xl sm:text-5xl font-heading font-bold tracking-tight bg-gradient-to-r from-[#ff80b5] via-[#FE4C55] to-[#9089fc] bg-clip-text text-transparent">
+              {header.title}
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-zinc-400 sm:text-xl/8">
-              {featuresHeader("description")}
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-zinc-500 dark:text-zinc-400">
+              {header.description}
             </p>
           </div>
 
-          {/* Features */}
-          <div className="mt-16 space-y-24 lg:px-16">
-            {featuresDemo.map((feature, index) => (
-              <div
-                key={index}
-                className="fade-in-scroll gpu-accelerate"
-              >
-                <Card className="overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
-                  <CardContent className="p-0">
-                    <div className="flex flex-col">
-                      {/* Image Section */}
-                      <div className="w-full">
-                        <div className="bg-gray-50 dark:bg-gray-800 rounded-t-2xl overflow-hidden">
-                          {/* Browser Mockup Header */}
-                          <div className="h-12 bg-gray-100 dark:bg-[#18181a] flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700">
-                            {/* Traffic lights */}
-                            <div className="flex space-x-2">
-                              <div className="w-3 h-3 rounded-full bg-red-500" />
-                              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                              <div className="w-3 h-3 rounded-full bg-green-500" />
-                            </div>
+          {/* App showcase: wide pure screenshot first, supporting text panel after */}
+          <div className="mx-auto max-w-6xl space-y-20 lg:space-y-24">
+            {items.map((item, index) => {
+              const image = SHOWCASE_IMAGES[item.id] ?? SHOWCASE_IMAGES.dashboard;
+              return (
+                <article
+                  key={item.id}
+                  id={`feature-${item.id}`}
+                  aria-labelledby={`feature-${item.id}-motto`}
+                  className="fade-in-scroll scroll-mt-24"
+                >
+                  {/* Pure screenshot, no frame, no card, edge to edge.
+                      Light shot by default, dark shot from /features/dark
+                      when the site is in dark mode (pure CSS swap, no flash). */}
+                  <div>
+                    <Image
+                      src={`/features/light/${image}`}
+                      alt={`${item.title}: ${item.motto}. ${item.longMotto}`}
+                      width={1600}
+                      height={1028}
+                      className="w-full h-auto dark:hidden"
+                      placeholder="blur"
+                      blurDataURL={rgbDataURL(245, 245, 245)}
+                      loading={index < 2 ? "eager" : "lazy"}
+                      priority={index === 0}
+                      sizes="(max-width: 1152px) 100vw, 1152px"
+                    />
+                    <Image
+                      src={`/features/dark/${image}`}
+                      alt={`${item.title}: ${item.motto}. ${item.longMotto}`}
+                      width={1600}
+                      height={1028}
+                      className="hidden w-full h-auto dark:block"
+                      placeholder="blur"
+                      blurDataURL={rgbDataURL(10, 10, 10)}
+                      loading={index < 2 ? "eager" : "lazy"}
+                      priority={index === 0}
+                      sizes="(max-width: 1152px) 100vw, 1152px"
+                    />
+                  </div>
 
-                            {/* URL bar */}
-                            <div className="flex-1 mx-6 px-4 py-1 bg-white dark:bg-gray-800 rounded-lg">
-                              <p className="text-sm font-medium text-gray-700 dark:text-gray-200 text-center">
-                                Blink Eye - <span className="text-xs font-normal opacity-75">{feature.moto}</span>
-                              </p>
-                            </div>
+                  {/* Supporting copy on a warm tinted panel, readable width */}
+                  <div className="mx-auto mt-6 max-w-5xl overflow-hidden rounded-[2rem] border border-red-100/80 dark:border-white/10 bg-gradient-to-b from-red-50/70 via-zinc-50 to-zinc-100/90 dark:from-zinc-900 dark:via-zinc-900/80 dark:to-zinc-950 px-6 py-9 sm:p-11 shadow-[0_24px_60px_-32px_rgba(254,76,85,0.35)]">
+                    <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-red-500 dark:text-red-400">
+                      {item.title} · {item.category}
+                    </p>
 
-                            {/* Menu dots */}
-                            <div className="w-8 flex justify-center">
-                              <div className="w-1 h-1 bg-gray-400 rounded-full" />
-                            </div>
-                          </div>
+                    {/* SEO headline: the motto people actually search for */}
+                    <h3
+                      id={`feature-${item.id}-motto`}
+                      className="font-heading mt-3 text-2xl sm:text-[2rem] sm:leading-[2.5rem] font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+                    >
+                      {item.motto}
+                    </h3>
+                    <p className="mt-2.5 text-[15px] leading-7 text-zinc-500 dark:text-zinc-400">
+                      {item.longMotto}
+                    </p>
+                    <p className="mt-4 max-w-3xl text-[17px] leading-8 text-zinc-700 dark:text-zinc-200">
+                      {item.description}
+                    </p>
 
-                          {/* Image */}
-                          <div className="relative">
-                            <Image
-                              src={featureImages[index] || featureImages[0]}
-                              alt={feature.title}
-                              width={1000}
-                              height={650}
-                              className="w-full h-auto object-contain"
-                              placeholder="blur"
-                              blurDataURL={rgbDataURL(10, 10, 10)}
-                              loading={index === 0 ? "eager" : "lazy"}
-                              priority={index === 0}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                    <div className="my-7 h-px bg-gradient-to-r from-transparent via-red-200 dark:via-red-900/60 to-transparent" />
 
-                      {/* Text Content */}
-                      <div className="w-full p-8 lg:p-12 space-y-6">
-                        <div>
-                          <Badge
-                            variant="secondary"
-                            className="mb-4 text-sm font-medium"
-                          >
-                            Feature {index + 1}
-                          </Badge>
+                    <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                      {item.bullets.map((bullet, i) => (
+                        <li key={i} className="flex gap-3">
+                          <span className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-red-500 shadow-sm">
+                            <Check className="h-3 w-3 text-white" strokeWidth={3} />
+                          </span>
+                          <span className="text-[15px] font-medium leading-7 text-zinc-800 dark:text-zinc-100">
+                            {bullet}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
 
-                          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-heading text-gray-900 dark:text-gray-100 mb-4">
-                            {feature.title}
-                          </h3>
-
-                          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-6 max-w-4xl">
-                            {feature.description}
-                          </p>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {feature.features.map((item, i) => (
-                              <div
-                                key={i}
-                                className="flex items-center space-x-3 text-gray-700 dark:text-gray-200 p-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-                              >
-                                <div className="p-1 rounded-full bg-gradient-to-r from-red-500 to-red-500 flex-shrink-0">
-                                  <BadgeCheck className="h-4 w-4 text-white" />
-                                </div>
-                                <span className="font-medium">{item}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
+                    <p className="sr-only">{item.keywords}</p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

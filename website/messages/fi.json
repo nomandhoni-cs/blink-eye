@@ -390,5 +390,191 @@
   "blogsPage": {
     "title": "Blogit",
     "description": "Lue uusimmat blogimme ja uutispäivityksemme."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Tutustu ominaisuuksiin, jotka tekevät meistä ainutlaatuisia",
+    "description": "Tutustu ominaisuuksiin, jotka erottavat sovelluksemme muista. Mukautettavista muistutuksista useisiin teemoihin – meillä on kaikki mitä tarvitset."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Yleiskatsaus",
+      "title": "Koontinäyttö",
+      "motto": "Silmienhoidon koontinäyttö ruutuajan ja 20-20-20-taukojen seurantaan | Blink Eye",
+      "longMotto": "Yksinkertainen näyttö etätyöhön ja opiskeluun: seuraava tauko, tämän päivän ruutuaika ja putki yhdellä silmäyksellä.",
+      "description": "Tukikohtasi silmien terveydelle. Näe ovatko tauot päällä, milloin seuraava 20-20-20-muistutus tulee ja tämän päivän ruutuaika. Kaikki yhdellä silmäyksellä, ilman valikoita.",
+      "bullets": [
+        "Reaaliaikainen lähtölaskenta tauoilla ja jatko",
+        "Päivän ruutuaika ja putki yhdellä silmäyksellä",
+        "Yhdellä klikkauksella 11 työkaluun",
+        "Tuttu natiivi asettelu sivupalkilla"
+      ],
+      "keywords": "silmienhoidon näyttö, ruutuajan seuranta, 20-20-20 taukomuistutus, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Perus",
+      "title": "Muistutusasetukset",
+      "motto": "20-20-20-säännön muistutus silmien väsymykseen ja kuivuuteen | Blink Eye",
+      "longMotto": "Mukautettu 20-20-20-ajastin välillä, kestolla, viestillä ja äänellä tietokonenäköoireyhtymää vastaan.",
+      "description": "Valitse työsi rytmi. Tiukka 20-20-20-sääntö tai Pomodoro-tyyli. Väli, kesto, oma viesti, ääni ja tiukka tila, kaikki täällä.",
+      "bullets": [
+        "Väli ja kesto sekunteina tai minuutteina",
+        "Oma viesti tiukalla tilalla",
+        "Ilmoitusääni esikatselulla",
+        "Testaa muistutus heti"
+      ],
+      "keywords": "20-20-20-sääntö, silmien väsymys, kuivat silmät, taukoajastin, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Tilastot",
+      "title": "Käyttöaika",
+      "motto": "Ruutuajan seuranta päivä-, viikko- ja kuukausiraporteilla | Blink Eye",
+      "longMotto": "Seuraa tietokoneen käyttöä selkeillä kaavioilla ja rakenna terveitä tapoja.",
+      "description": "Näe todellinen käyttösi selkeillä kaavioilla. Havaitse silmiä rasittavat pitkät jaksot, vertaa viikkoja ja rakenna terveitä tapoja oikealla datalla.",
+      "bullets": [
+        "Päivä-, viikko-, kuukausi-, vuosi- ja kokonaisnäkymä",
+        "Kaaviot ajasta ja jaksoista",
+        "Havaitse ylikuorma ennen haittaa",
+        "Ei muita sovelluksia tarvita"
+      ],
+      "keywords": "ruutuajan seuranta, tietokoneen käyttö, tilastot, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Mukautus",
+      "title": "Muistutusteemat",
+      "motto": "Mukavat taukoteemat silmien lepuuttamiseen | Blink Eye",
+      "longMotto": "Valitse rauhallinen koko näytön teema ilman häiriöitä, vaalea tai tumma.",
+      "description": "Tauon pitää tuntua tauolta, ei keskeytykseltä. Valitse rauhoittava tai virkistävä koko näytön tausta minimalistä immersiiviseen, kaikki silmien mukavuudeksi.",
+      "bullets": [
+        "Useita teemoja joka tunnelmaan",
+        "Häiriötön ja silmäystävällinen",
+        "Esikatselu ennen käyttöä",
+        "Vaaleassa ja tummassa tilassa"
+      ],
+      "keywords": "taukonäytön teemat, silmien mukavuus, teemat, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Usea näyttö",
+      "motto": "Taukomuistutus kahden ja kolmen näytön kokoonpanoihin | Blink Eye",
+      "longMotto": "Tauko joka näytöllä tai vain päänäytöllä, kehittäjille, suunnittelijoille ja treidaajille.",
+      "description": "Kaksi tai kolme näyttöä ei saa olla porsaanreikä silmien väsymykselle. Näytä tauko kaikilla näytöillä tai vain pääasiallisella, kuten työskentelet.",
+      "bullets": [
+        "Tauko kaikilla tai vain pääasiallisella",
+        "Mikään ikkuna ei pakene",
+        "Kehittäjille, suunnittelijoille ja treidaajille",
+        "Windowsissa, macOS:ssä ja Linuxissa"
+      ],
+      "keywords": "usean näytön muistutus, kaksi näyttöä, kolme näyttöä, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Tuottavuus",
+      "title": "Tehtävälista",
+      "motto": "Pomodoro-tehtävienhallinta keskittymiseen ilman sovellusten vaihtoa | Blink Eye",
+      "longMotto": "Kirjaa tehtävät siellä missä tauotat, Pomodoro-jaksoilla.",
+      "description": "Kirjaa tehtävät siellä missä tauotat. Luo, kuittaa ja järjestä vaihtamatta sovellusta, niin palaat tauolta tietäen seuraavan askeleen.",
+      "bullets": [
+        "Nopea tehtävien luonti ja valmistuminen",
+        "Aina käsillä tauoilla",
+        "Pomodoron ja työajan kanssa",
+        "Vähemmän vaihtoa, enemmän fokusta"
+      ],
+      "keywords": "Pomodoro-ajastin, tehtävienhallinta, lista, fokus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Aikataulu",
+      "title": "Työpäivän asetus",
+      "motto": "Työaikataulu joka pysäyttää muistutukset työn jälkeen | Blink Eye",
+      "longMotto": "Alku ja loppu joka päivälle, jotta yöt ja viikonloput ovat hiljaisia.",
+      "description": "Kerro Blink Eyelle milloin oikeasti työskentelet. Tunnit per päivä, rauhalliset viikonloput, tauot pysähtyvät itsestään työajan ulkopuolella.",
+      "bullets": [
+        "Alku ja loppu joka päivälle",
+        "Pysähtyy itsestään työajan ulkopuolella",
+        "Ei muistutuksia öisin tai viikonloppuisin",
+        "Aseta kerran, toimii viikon"
+      ],
+      "keywords": "työaikataulu, työpäivä, taukosuunnitelma, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Näytönsäästäjät",
+      "motto": "Animoituja näytönsäästäjiä rentouttaviin silmätaukoihin | Blink Eye",
+      "longMotto": "9 premium-visuaalia: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon ja Bouncy Balls.",
+      "description": "Muuta 20 sekunnin lepo hengähdykseksi. Yhdeksän premium-animaatiota: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon ja Bouncy Balls. Sujuvaa, kevyttä, rentouttavaa.",
+      "bullets": [
+        "Yhdeksän visuaalia: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Sujuva liike ilman nykimistä",
+        "Yksi klikkaus valintaan ja avaukseen",
+        "Ctrl plus välilyönti sulkee heti"
+      ],
+      "keywords": "animoidut näytönsäästäjät, taukoanimaatio, rentoutuminen, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Hallinta",
+      "title": "Asetukset",
+      "motto": "Taukoasetukset tiukalla tilalla ja päivärajalla | Blink Eye",
+      "longMotto": "Käynnistys, tiukka tila, joutenolo, äänet ja päiväraja yhdessä paikassa.",
+      "description": "Vakavien asetusten valvomo. Käynnistys järjestelmän mukana, pakotetut tauot tiukalla tilalla, joutenolo, äänet ja päivittäinen näyttöraja.",
+      "bullets": [
+        "Käynnistys hiljaa taustalla",
+        "Tiukka tila ja joutenolo",
+        "Globaali pikanäppäin ja äänet",
+        "Päiväraja varoituksilla"
+      ],
+      "keywords": "taukoasetukset, tiukka tila, näyttöraja, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Ulkoasu",
+      "title": "Teeman valinta",
+      "motto": "Blink Eye tarjoaa yli 24 teemaa valittavaksi ja omannäköiseksi | Blink Eye",
+      "longMotto": "Blink Eyessa on yli 24 valmista teemaa ja värit sekä taustat saa säätää mieleisekseen.",
+      "description": "Taukosi, tyylisi. Selaa yli 24 käsintehtyä teemaa, esikatsele jokaista livenä, valitse suosikki yhdellä klikkauksella ja säädä värejä ja taustoja kunnes tuntuu omalta. Rauhallisesta minimalismista rohkeaan ja leikkisään, joka tunnelmaan, työpöytään ja työnkulkuun löytyy teema.",
+      "bullets": [
+        "Yli 24 valmista teemaa valittavaksi",
+        "Live-esikatselu ja vaihto yhdellä klikkauksella",
+        "Värit ja taustat omalla tavalla",
+        "Vaaleat ja tummat vaihtoehdot päivään ja yöhön"
+      ],
+      "keywords": "muistutusteemat, 24 teemaa, mukauta teema, valitse teema, silmien mukavuus, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktivoi lisenssi",
+      "motto": "Premium-avaus kaikille animoiduille näytönsäästäjille | Blink Eye",
+      "longMotto": "Yksi avain avaa jokaisen premium-säästäjän sekä tulevat animaatiot ja päivitykset.",
+      "description": "Liitä lisenssisi kerran ja avaa yhdeksän premium-säästäjää, tulevat animaatiot ja ensisijaiset päivitykset. Ostoksesi pitää tämän open source -sovelluksen elossa kaikille.",
+      "bullets": [
+        "Helppo aktivointi yhdessä vaiheessa",
+        "Avaa kaikki yhdeksän premiumia",
+        "Tukee open source -kehitystä",
+        "Vahvistus heti ilman uudelleenkäynnistystä"
+      ],
+      "keywords": "premium-avaus, lisenssiavain, näytönsäästäjät, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Tietoa",
+      "title": "Tietoa",
+      "motto": "Ilmainen open source -silmienhoito Windowsiin, Maciin ja Linuxiin | Blink Eye",
+      "longMotto": "Katso versio, päivitä yhdellä klikkauksella, apua, docs ja GitHub.",
+      "description": "Katso versiosi, päivitä yhdellä klikkauksella ja löydä apua. Sivupalkki näyttää aktivoinnin, version ja päivitystarkistuksen.",
+      "bullets": [
+        "Versio ja aktivointi yhdellä silmäyksellä",
+        "Päivitystarkistus yhdellä klikkauksella",
+        "Linkit docsiin, GitHubiin ja apuun",
+        "Open source -yhteisön rakentama"
+      ],
+      "keywords": "ilmainen silmienhoito, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

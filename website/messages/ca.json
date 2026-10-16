@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Blogs",
     "description": "Llegeix els nostres últims blogs i actualitzacions de notícies."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Descobreix les característiques que ens fan destacar",
+    "description": "Explora les característiques que fan que la nostra app destaqui. Des de recordatoris personalitzables fins a múltiples temes, ho tenim tot cobert."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Resum",
+      "title": "Tauler",
+      "motto": "Tauler de salut visual per seguir el temps de pantalla i les pauses 20-20-20 | Blink Eye",
+      "longMotto": "Un tauler senzill per teletreball i estudi: propera pausa, temps de pantalla d avui i ratxa d una ullada.",
+      "description": "La teva base per a la salut visual. Veu si les pauses estan actives, quan arriba el proper recordatori 20-20-20 i el teu temps de pantalla d avui. Tot d una ullada, sense obrir menús.",
+      "bullets": [
+        "Compte enrere en directe amb pausa i continuació",
+        "Temps de pantalla i ratxa d avui d una ullada",
+        "Accés en un clic a les 11 eines",
+        "Disseny natiu familiar amb barra lateral"
+      ],
+      "keywords": "tauler salut visual, temps de pantalla, recordatori de pauses 20-20-20, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Essencial",
+      "title": "Ajustos de recordatoris",
+      "motto": "Recordatori de la regla 20-20-20 contra la fatiga visual i els ulls secs | Blink Eye",
+      "longMotto": "Temporitzador 20-20-20 personalitzat amb interval, durada, missatge i so contra la síndrome visual informàtica.",
+      "description": "Tria el ritme de la teva feina. Regla 20-20-20 estricta o estil Pomodoro. Interval, durada, missatge propi, so i mode estricte, tot aquí.",
+      "bullets": [
+        "Interval i durada en segons o minuts",
+        "Missatge propi amb mode estricte",
+        "So amb vista prèvia",
+        "Prova el recordatori a l instant"
+      ],
+      "keywords": "regla 20-20-20, fatiga visual, ulls secs, temporitzador de pauses, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Estadístiques",
+      "title": "Temps d ús",
+      "motto": "Control del temps de pantalla amb informes diaris, setmanals i mensuals | Blink Eye",
+      "longMotto": "Supervisa l ús de l ordinador amb gràfics clars per detectar l excés i crear hàbits sans.",
+      "description": "Veu el teu ús real amb gràfics clars. Detecta sessions llargues que cansen la vista, compara setmanes i crea hàbits equilibrats amb dades reals.",
+      "bullets": [
+        "Vistes dia, setmana, mes, any i total",
+        "Gràfics de total i sessions mitjanes",
+        "Detecta l excés abans que faci mal",
+        "Sense cap altra app de control"
+      ],
+      "keywords": "control temps de pantalla, ús de l ordinador, estadístiques, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personalització",
+      "title": "Temes de recordatori",
+      "motto": "Temes de pantalla de pausa còmodes per descansar la vista | Blink Eye",
+      "longMotto": "Tria un tema de pantalla completa tranquil i sense distraccions, clar o fosc.",
+      "description": "Una pausa ha de semblar una pausa, no una interrupció. Tria un tema de pantalla completa calmant o energitzant, del mínim a l immersiu, tots per al confort visual.",
+      "bullets": [
+        "Diversos temes de pantalla completa",
+        "Sense distraccions, suau per als ulls",
+        "Vista prèvia abans d aplicar",
+        "En mode clar i fosc"
+      ],
+      "keywords": "temes de pantalla de pausa, confort visual, temes, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Avançats",
+      "title": "Diversos monitors",
+      "motto": "Recordatori de pauses per a configuracions de dos i tres monitors | Blink Eye",
+      "longMotto": "Pausa a cada pantalla o només a la principal, per a devs, dissenyadors i traders.",
+      "description": "Dos o tres pantalles no han de ser una escletxa per a la fatiga visual. Mostra la pausa a tots els monitors o només al principal, com tu treballes.",
+      "bullets": [
+        "Pausa a tots o només al principal",
+        "Cap finestra escapa al recordatori",
+        "Per a devs, dissenyadors i traders",
+        "A Windows, macOS i Linux"
+      ],
+      "keywords": "recordatori diversos monitors, dues pantalles, tres pantalles, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Productivitat",
+      "title": "Llista de tasques",
+      "motto": "Gestor Pomodoro per mantenir el focus sense canviar d app | Blink Eye",
+      "longMotto": "Anota tasques on fas pauses, amb sessions de focus Pomodoro.",
+      "description": "Anota tasques on fas pauses. Crea, marca i organitza sense canviar d app, per tornar de cada pausa sabent el pas següent.",
+      "bullets": [
+        "Tasques creades i fetes ràpid",
+        "Sempre a mà a les pauses",
+        "Amb Pomodoro i horari laboral",
+        "Menys canvis, més focus"
+      ],
+      "keywords": "temporitzador Pomodoro, gestor de tasques, llista, focus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Horari",
+      "title": "Jornada laboral",
+      "motto": "Planificador d horari que pausa recordatoris en sortir de la feina | Blink Eye",
+      "longMotto": "Inici i fi per a cada dia, amb recordatoris en silenci de nit i caps de setmana.",
+      "description": "Digues a Blink Eye quan treballes de debò. Horaris per dia, caps de setmana tranquils i pauses que s aturen soles fora de l horari.",
+      "bullets": [
+        "Inici i fi per a cada dia",
+        "S atura sol fora de l horari",
+        "Sense recordatoris de nit ni caps de setmana",
+        "Configurat un cop, val la setmana"
+      ],
+      "keywords": "planificador d horari, jornada laboral, pla de pauses, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Protectors de pantalla",
+      "motto": "Protectors de pantalla animats per a pauses relaxants | Blink Eye",
+      "longMotto": "9 visuals premium: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon i Bouncy Balls.",
+      "description": "Converteix 20 segons de descans en un respir. Nou animacions premium: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon i Bouncy Balls. Fluids, lleugers i relaxants.",
+      "bullets": [
+        "Nou visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Moviment fluid sense entrebancs",
+        "Un clic per triar i obrir",
+        "Ctrl més Espai per tancar a l instant"
+      ],
+      "keywords": "protectors animats, animació de pausa, relax, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Control",
+      "title": "Ajustos",
+      "motto": "Ajustos de pauses amb mode estricte i límit diari | Blink Eye",
+      "longMotto": "Inici, mode estricte, inactivitat, sons i límit diari en un sol lloc.",
+      "description": "La sala de control seriosa. Inici automàtic, pauses forçades amb mode estricte, inactivitat, sons i límit diari de pantalla.",
+      "bullets": [
+        "Inici automàtic i discret",
+        "Mode estricte i inactivitat",
+        "Drecera global i sons",
+        "Límit diari amb avisos"
+      ],
+      "keywords": "ajustos de pauses, mode estricte, límit de pantalla, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Aparença",
+      "title": "Tria de tema",
+      "motto": "Blink Eye ofereix més de 24 temes per triar i fer-los teus | Blink Eye",
+      "longMotto": "Blink Eye porta més de 24 temes llestos i et deixa ajustar colors i fons al teu gust.",
+      "description": "Les teves pauses, el teu estil. Explora més de 24 temes artesanals, previsualitza cadascun en directe, tria el favorit en un clic i ajusta colors i fons fins que sembli teu. Del minimal tranquil a l atrevit i divertit, hi ha un tema per a cada humor, escriptori i flux de treball.",
+      "bullets": [
+        "Més de 24 temes llestos per triar",
+        "Vista prèvia en directe i canvi en un clic",
+        "Colors i fons a la teva manera",
+        "Opcions clares i fosques per al dia i la nit"
+      ],
+      "keywords": "temes de recordatori, 24 temes, personalitzar tema, triar tema, confort visual, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Activa la llicència",
+      "motto": "Desbloqueig premium de tots els protectors animats | Blink Eye",
+      "longMotto": "Una clau desbloqueja cada protector premium més animacions i novetats futures.",
+      "description": "Enganxa la teva llicència un cop i desbloqueja els nou protectors premium, futures animacions i actualitzacions prioritàries. La teva compra manté viva aquesta app open source per a tothom.",
+      "bullets": [
+        "Activació senzilla en un pas",
+        "Desbloqueja els nou premium",
+        "Dóna suport a l open source",
+        "Verificat a l instant sense reiniciar"
+      ],
+      "keywords": "desbloqueig premium, clau de llicència, protectors, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "Sobre",
+      "motto": "App de salut visual gratuïta i open source per a Windows, Mac i Linux | Blink Eye",
+      "longMotto": "Versió, actualització en un clic, ajuda, docs i GitHub.",
+      "description": "Veu la teva versió, actualitza en un clic i troba ajuda. La barra lateral mostra activació, versió i cerca de novetats.",
+      "bullets": [
+        "Versió i activació d una ullada",
+        "Novetats en un clic",
+        "Enllaços docs, GitHub i ajuda",
+        "Fet per la comunitat open source"
+      ],
+      "keywords": "app salut visual gratis, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

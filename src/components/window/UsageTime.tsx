@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { BarChart, CheckCircle2Icon } from "lucide-react";
 
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
+import { usePremiumNudge } from "../../hooks/usePremiumNudge";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import UsageTimeChart from "../UsageTimeChart";
@@ -8,7 +10,15 @@ import UsageTimeChart from "../UsageTimeChart";
 const UsageTime = () => {
   const { canAccessPremiumFeatures, isPaidUser, isTrialOn } =
     usePremiumFeatures();
+  const { fireTrigger } = usePremiumNudge();
   console.log(canAccessPremiumFeatures, isPaidUser, isTrialOn);
+
+  // Post-activity hint: only fires after a real 5s dwell, not on route enter.
+  // Rust decides whether the nudge actually shows.
+  useEffect(() => {
+    const timer = setTimeout(() => fireTrigger("stats_viewed"), 5000);
+    return () => clearTimeout(timer);
+  }, [fireTrigger]);
 
   return (
     <div className="relative">

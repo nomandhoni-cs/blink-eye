@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Bloggar",
     "description": "Läs våra senaste bloggar och nyhetsuppdateringar."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Upptäck funktionerna som gör att vi sticker ut",
+    "description": "Utforska funktionerna som gör vår app unik. Från anpassningsbara påminnelser till flera teman, vi har allt du behöver."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Översikt",
+      "title": "Instrumentpanel",
+      "motto": "Ögonhälso panel för skärmtid och 20-20-20-pauser | Blink Eye",
+      "longMotto": "En enkel panel för distansarbete och studier: nästa paus, dagens skärmtid och serie med en blick.",
+      "description": "Din bas för ögonhälsa. Se om pauser är aktiva, när nästa 20-20-20-påminnelse kommer och dagens skärmtid. Allt med en blick, utan att öppna menyer.",
+      "bullets": [
+        "Live nedräkning med paus och fortsätt",
+        "Dagens skärmtid och serie med en blick",
+        "Åtkomst till alla 11 verktyg med ett klick",
+        "Bekant nativ layout med sidopanel"
+      ],
+      "keywords": "ögonhälso panel, skärmtid spårning, 20-20-20 pauspåminnelse, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Kärna",
+      "title": "Påminnelseinställningar",
+      "motto": "20-20-20-regel påminnelse mot trötta och torra ögon | Blink Eye",
+      "longMotto": "Egen 20-20-20-timer med intervall, längd, meddelande och ljud mot datorsynssyndrom.",
+      "description": "Välj din arbetsrytm. Strikt 20-20-20-regel eller Pomodoro-stil. Intervall, längd, eget meddelande, ljud och strikt läge, allt här.",
+      "bullets": [
+        "Intervall och längd i sekunder eller minuter",
+        "Eget meddelande med strikt läge",
+        "Ljud med förhandsvisning",
+        "Testa påminnelsen direkt"
+      ],
+      "keywords": "20-20-20-regel, trötta ögon, torra ögon, paustimer, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Insikt",
+      "title": "Användningstid",
+      "motto": "Skärmtid spårning med dagliga, veckovisa och månadsrapporter | Blink Eye",
+      "longMotto": "Följ datoranvändning i tydliga diagram och bygg sunda vanor.",
+      "description": "Se din verkliga användning i tydliga diagram. Fånga långa pass som tröttar ögonen, jämför veckor och bygg sunda vanor på äkta data.",
+      "bullets": [
+        "Dag, vecka, månad, år och totalt",
+        "Diagram för total och pass",
+        "Fånga överarbete före skada",
+        "Ingen extra app behövs"
+      ],
+      "keywords": "skärmtid spårning, datoranvändning, statistik, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personligt",
+      "title": "Påminnelseteman",
+      "motto": "Bekväma pausteman för ögonens vila | Blink Eye",
+      "longMotto": "Välj ett lugnt fullskärmstema utan störningar, ljust eller mörkt.",
+      "description": "En paus ska kännas som paus, inte avbrott. Välj en lugnande eller upplyftande fullskärmsbakgrund från minimal till uppslukande, alla för ögonkomfort.",
+      "bullets": [
+        "Flera fullskärmsteman för humöret",
+        "Utan störningar, milt för ögonen",
+        "Förhandsvisning före användning",
+        "I ljust och mörkt läge"
+      ],
+      "keywords": "pausskärm teman, ögonkomfort, teman, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Flera skärmar",
+      "motto": "Pauspåminnelse till uppställningar med två och tre skärmar | Blink Eye",
+      "longMotto": "Paus på varje skärm eller bara huvudskärmen, för utvecklare, designers och traders.",
+      "description": "Två eller tre skärmar får inte vara ett kryphål för ögontrötthet. Visa pausen på alla skärmar eller bara den primära, som du arbetar.",
+      "bullets": [
+        "Paus på alla eller bara primär",
+        "Inget fönster undkommer",
+        "För utvecklare, designers och traders",
+        "På Windows, macOS och Linux"
+      ],
+      "keywords": "multi monitor påminnelse, två skärmar, tre skärmar, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktivitet",
+      "title": "Att göra-lista",
+      "motto": "Pomodoro uppgiftshantering till fokus utan appbyte | Blink Eye",
+      "longMotto": "Skriv uppgifter där du pausar, med Pomodoro fokussessioner.",
+      "description": "Skriv uppgifter där du pausar. Skapa, bocka av och organisera utan appbyte, så du vänder tillbaka med klart nästa steg.",
+      "bullets": [
+        "Skapa och slutför uppgifter snabbt",
+        "Alltid till hands i pauser",
+        "Med Pomodoro och arbetsschema",
+        "Mindre byte, mer fokus"
+      ],
+      "keywords": "Pomodoro timer, uppgiftshantering, lista, fokus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Schema",
+      "title": "Arbetsdag inställning",
+      "motto": "Arbetstidsschemaläggare som stoppar påminnelser efter jobbet | Blink Eye",
+      "longMotto": "Start och slut varje dag, så nätter och helger är tysta.",
+      "description": "Berätta för Blink Eye när du verkligen arbetar. Tider per dag, tysta helger, pauser stoppar sig själva utanför arbetstid.",
+      "bullets": [
+        "Start och slut varje dag",
+        "Stoppar sig själv utanför tid",
+        "Inga påminnelser natt eller helg",
+        "Ställ in en gång, kör hela veckan"
+      ],
+      "keywords": "arbetstidsschemaläggare, arbetsdag, pausplan, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Skärmsläckare",
+      "motto": "Animerade skärmsläckare till avslappnande ögonpauser | Blink Eye",
+      "longMotto": "9 premium visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon och Bouncy Balls.",
+      "description": "Gör 20 sekunders vila till en andningspaus. Nio premium animationer: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon och Bouncy Balls. Flytande, lätta, avslappnande.",
+      "bullets": [
+        "Nio visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Flytande rörelse utan hack",
+        "Ett klick för att välja och öppna",
+        "Ctrl plus mellanslag för direkt stängning"
+      ],
+      "keywords": "animerade skärmsläckare, pausanimation, avslappning, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Kontroll",
+      "title": "Inställningar",
+      "motto": "Pausinställningar med strikt läge och daglig gräns | Blink Eye",
+      "longMotto": "Uppstart, strikt läge, inaktivitet, ljud och daglig gräns på ett ställe.",
+      "description": "Det seriösa kontrollrummet. Start vid uppstart, tvingade pauser med strikt läge, inaktivitet, ljud och daglig skärmgräns.",
+      "bullets": [
+        "Start vid uppstart, tyst",
+        "Strikt läge och inaktivitet",
+        "Global genväg och ljud",
+        "Daglig gräns med varningar"
+      ],
+      "keywords": "pausinställningar, strikt läge, skärmgräns, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Utseende",
+      "title": "Temaväljare",
+      "motto": "Blink Eye ger över 24 teman att välja och göra till dina egna | Blink Eye",
+      "longMotto": "Blink Eye har över 24 färdiga teman och låter dig anpassa färger och bakgrunder efter smak.",
+      "description": "Dina pauser, din stil. Utforska över 24 hantverksteman, förhandsvisa varje live, välj din favorit med ett klick och justera färger och bakgrunder tills det känns som ditt. Från lugn minimal till djärv och lekfull, det finns ett tema för varje humör, skrivbord och arbetsflöde.",
+      "bullets": [
+        "Över 24 färdiga teman att välja",
+        "Live förhandsvisning och byte med ett klick",
+        "Färger och bakgrunder på ditt sätt",
+        "Ljusa och mörka val till dag och natt"
+      ],
+      "keywords": "påminnelseteman, 24 teman, anpassa tema, välj tema, ögonkomfort, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktivera licens",
+      "motto": "Premium upplåsning av alla animerade skärmsläckare | Blink Eye",
+      "longMotto": "En nyckel öppnar varje premium saver plus framtida animationer och uppdateringar.",
+      "description": "Klistra in din licens en gång och öppna nio premium savers, framtida animationer och prioriterade uppdateringar. Ditt köp håller denna open source app vid liv för alla.",
+      "bullets": [
+        "Enkel aktivering i ett steg",
+        "Öppnar alla nio premium",
+        "Stöder open source",
+        "Verifierad direkt utan omstart"
+      ],
+      "keywords": "premium upplåsning, licensnyckel, skärmsläckare, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "Om",
+      "motto": "Gratis open source ögonvård till Windows, Mac och Linux | Blink Eye",
+      "longMotto": "Se version, uppdatera med ett klick, hjälp, docs och GitHub.",
+      "description": "Se din version, uppdatera med ett klick och hitta hjälp. Sidopanelen visar aktivering, version och uppdateringskontroll.",
+      "bullets": [
+        "Version och aktivering med en blick",
+        "Uppdateringskontroll med ett klick",
+        "Länkar till docs, GitHub och hjälp",
+        "Byggd av open source gemenskapen"
+      ],
+      "keywords": "gratis ögonvård, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

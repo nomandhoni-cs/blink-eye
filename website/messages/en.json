@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Blogs",
     "description": "Read our latest blogs and news updates."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Discover the Features that Make Us Stand Out",
+    "description": "Explore the features that make our app stand out. From customizable reminders to multiple themes, we've got you covered."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Overview",
+      "title": "Dashboard",
+      "motto": "Blink Eye tracks screen time and 20 20 20 breaks in one dashboard",
+      "longMotto": "Blink Eye shows remote workers and students the next break, todays screen time and streak in one glance.",
+      "description": "Your home base for eye health. See if breaks are active, when the next 20 20 20 reminder is due and how much screen time you logged today. Everything is glanceable so you stay focused without opening menus.",
+      "bullets": [
+        "Live countdown to the next eye break with pause and resume",
+        "Todays screen time and streak at a glance",
+        "One click access to all 11 tools",
+        "Familiar native layout with sidebar navigation"
+      ],
+      "keywords": "eye care dashboard, screen time tracker, 20 20 20 break reminder, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Core",
+      "title": "Reminder Settings",
+      "motto": "Blink Eye reminds you by the 20 20 20 rule to relieve eye strain and dry eyes",
+      "longMotto": "Blink Eye runs a custom 20 20 20 break timer with your own interval, break length, message and sound to prevent computer vision syndrome.",
+      "description": "Set the rhythm that fits your work. Follow the strict 20 20 20 rule or a Pomodoro style flow. Control interval, break length, custom message, sound and strict mode here.",
+      "bullets": [
+        "Reminder interval and break length in seconds or minutes",
+        "Your own break message with strict mode to enforce rests",
+        "Notification sound with preview before saving",
+        "Test reminder instantly"
+      ],
+      "keywords": "20 20 20 rule, eye strain relief, dry eyes, break timer, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Insights",
+      "title": "Usage Time",
+      "motto": "Blink Eye tracks screen time with daily, weekly and monthly reports",
+      "longMotto": "Blink Eye monitors computer usage with clear charts that help you spot overwork and build healthy screen habits.",
+      "description": "See your real computer use with clear charts. Spot long sessions that cause eye strain, compare weeks and build balanced screen habits from actual data.",
+      "bullets": [
+        "Daily, weekly, monthly, yearly and all time views",
+        "Charts for total time and average session length",
+        "Spot overwork trends before they hurt your eyes",
+        "No extra tracking app needed"
+      ],
+      "keywords": "screen time tracker, computer usage time, usage analytics, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Personalization",
+      "title": "Reminder Themes",
+      "motto": "Blink Eye makes breaks comfortable with custom fullscreen themes for rested eyes",
+      "longMotto": "Blink Eye offers calm, distraction free fullscreen break themes in light and dark.",
+      "description": "A break should feel like a pause, not an interruption. Choose a fullscreen theme that calms or energizes you, from minimal to immersive, all designed for eye comfort.",
+      "bullets": [
+        "Multiple fullscreen themes for every mood",
+        "Distraction free and easy on the eyes",
+        "Preview any theme before applying",
+        "Works in light and dark mode"
+      ],
+      "keywords": "break screen themes, eye comfort, reminder themes, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Power users",
+      "title": "Multi Monitor",
+      "motto": "Blink Eye covers every monitor with break reminders for dual and triple setups",
+      "longMotto": "Blink Eye shows the eye break overlay on every screen or only the main one, built for developers, designers and traders.",
+      "description": "Two or three screens should not leave a loophole for eye strain. Show the break overlay on every monitor or just the primary, exactly how you work.",
+      "bullets": [
+        "Break on all monitors or primary only",
+        "No window can escape the reminder",
+        "Built for developers, designers and traders",
+        "Works on Windows, macOS and Linux"
+      ],
+      "keywords": "multi monitor break reminder, dual screen, triple screen, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Productivity",
+      "title": "Todo List",
+      "motto": "Blink Eye keeps tasks beside breaks with a Pomodoro task manager for focus",
+      "longMotto": "Blink Eye lets you capture todos where you take breaks and pairs them with Pomodoro focus sessions.",
+      "description": "Capture tasks right where you take breaks. Create, check off and organize without switching apps, so you return from each eye rest knowing what is next.",
+      "bullets": [
+        "Create, edit and complete tasks quickly",
+        "Always at hand during breaks",
+        "Pairs with Pomodoro and workday schedule",
+        "Less app switching, more focus"
+      ],
+      "keywords": "pomodoro timer, task manager, todo list, focus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Scheduling",
+      "title": "Workday Setup",
+      "motto": "Blink Eye respects your hours and pauses reminders after work",
+      "longMotto": "Blink Eye lets you set start and end times for each weekday so work break reminders stop at night and on weekends.",
+      "description": "Tell Blink Eye when you actually work. Set start and end times for each weekday, keep weekends quiet and let breaks pause by themselves outside work hours.",
+      "bullets": [
+        "Start and end time for each day",
+        "Pauses by itself outside work hours",
+        "No reminders at night or on weekends",
+        "Set once and it runs all week"
+      ],
+      "keywords": "work hours scheduler, workday setup, break planner, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Screen Savers",
+      "motto": "Blink Eye turns eye breaks into retreats with 9 animated screen savers",
+      "longMotto": "Blink Eye plays 9 premium visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon and Bouncy Balls.",
+      "description": "Turn a 20 second eye rest into a small retreat. Pick from nine premium animations: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon and Bouncy Balls. Smooth, light and built to relax your eyes.",
+      "bullets": [
+        "Nine visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Smooth motion with no lag",
+        "One click to select and open screen saver",
+        "Press Ctrl plus Space to close instantly"
+      ],
+      "keywords": "animated screen savers, eye break animation, relaxing break, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Control",
+      "title": "Settings",
+      "motto": "Blink Eye guards your eyes with strict mode and daily screen limits",
+      "longMotto": "Blink Eye controls startup, strict mode, idle detection, sounds and daily usage limits from one place.",
+      "description": "The control room for serious preferences. Run on startup, force breaks with strict mode, detect idle time, manage sounds and set a daily screen time limit.",
+      "bullets": [
+        "Launch on startup and run quietly",
+        "Strict mode and idle detection",
+        "Global shortcut and sound controls",
+        "Daily screen time limit with warnings"
+      ],
+      "keywords": "break settings, strict mode, screen time limit, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Appearance",
+      "title": "Theme Picker",
+      "motto": "Blink Eye offers 24 plus reminder themes to pick and make your own",
+      "longMotto": "Blink Eye ships more than 24 ready made themes and lets you customize colors and backgrounds to your own preference.",
+      "description": "Your breaks, your style. Browse a gallery of more than 24 handcrafted reminder themes, preview each one live, pick a favorite in one click, then tweak colors and backgrounds until it feels like yours. From calm minimal to bold and playful, there is a theme for every mood, desk and workflow.",
+      "bullets": [
+        "More than 24 ready made themes to choose from",
+        "Live preview and one click switching",
+        "Customize colors and backgrounds your way",
+        "Light and dark friendly options for day and night"
+      ],
+      "keywords": "reminder themes, 24 themes, customize theme, pick theme, eye comfort, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Activate License",
+      "motto": "Blink Eye unlocks premium with one license key for all animated screen savers",
+      "longMotto": "Blink Eye unlocks every premium screen saver plus future animations and updates with one license key.",
+      "description": "Paste your license once to unlock all nine premium screen savers, future animations and priority updates. Your purchase keeps this open source eye care app alive for everyone.",
+      "bullets": [
+        "Simple one step activation",
+        "Unlocks all nine premium screen savers",
+        "Supports open source development",
+        "Verified instantly with no restart"
+      ],
+      "keywords": "premium unlock, license key, screen savers, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Info",
+      "title": "About",
+      "motto": "Blink Eye is a free open source eye care app for Windows, Mac and Linux",
+      "longMotto": "Blink Eye shows your version, updates in one click and links help, docs and GitHub.",
+      "description": "Check your version, update in one click and find help. The sidebar shows activation, the current version and check for updates, so you always know you are current and supported.",
+      "bullets": [
+        "Version and activation at a glance",
+        "One click check for updates",
+        "Links to docs, GitHub and support",
+        "Built by the open source community"
+      ],
+      "keywords": "free eye care app, open source, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

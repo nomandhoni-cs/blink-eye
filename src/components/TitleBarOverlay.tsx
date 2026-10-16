@@ -96,7 +96,6 @@ export function TitleBarOverlay() {
     if (isMac) return;
     const init = async () => {
       await appWindow.setDecorations(false);
-      await appWindow.show();
     };
     init();
   }, [appWindow]);

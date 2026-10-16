@@ -385,5 +385,191 @@
   "blogsPage": {
     "title": "Blogs",
     "description": "Lees ons nuutste blogs en nuusopdaterings."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Ontdek die Funksies wat Ons Laat Uitstaan",
+    "description": "Verken die funksies wat ons app laat uitstaan. Van aanpasbare herinneringe tot veelvuldige temas, ons het jou gedek."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Oorsig",
+      "title": "Paneelbord",
+      "motto": "Ooggesondheid paneelbord om skermtyd en 20-20-20 pouses na te spoor | Blink Eye",
+      "longMotto": "'n Eenvoudige bord vir tuiswerk en studie: volgende pouse, vandag se skermtyd en reeks met een oogopslag.",
+      "description": "Jou basis vir ooggesondheid. Sien of pouses aktief is, wanneer die volgende 20-20-20 herinnering kom en vandag se skermtyd. Alles met een oogopslag, sonder spyskaarte.",
+      "bullets": [
+        "Lewendige aftelling met pouse en voortgaan",
+        "Vandag se skermtyd en reeks met een oogopslag",
+        "Toegang tot al 11 gereedskap met een klik",
+        "Bekende natuurlike uitleg met sybalk"
+      ],
+      "keywords": "ooggesondheid paneelbord, skermtyd spoorder, 20-20-20 pouse herinnering, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Kern",
+      "title": "Herinnering instellings",
+      "motto": "20-20-20 reël herinnering teen moë en droë oë | Blink Eye",
+      "longMotto": "Eie 20-20-20 tydreëlaar met interval, lengte, boodskap en klank teen rekenaarvisiesindroom.",
+      "description": "Kies jou werkritme. Streng 20-20-20 reël of Pomodoro styl. Interval, lengte, eie boodskap, klank en streng modus, alles hier.",
+      "bullets": [
+        "Interval en lengte in sekondes of minute",
+        "Eie boodskap met streng modus",
+        "Kennisgewingklank met voorskou",
+        "Toets herinnering onmiddellik"
+      ],
+      "keywords": "20-20-20 reël, moë oë, droë oë, pouse tydreëlaar, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "Insig",
+      "title": "Gebruikstyd",
+      "motto": "Skermtyd spoorder met daaglikse, weeklikse en maandelikse verslae | Blink Eye",
+      "longMotto": "Volg rekenaargebruik in duidelike grafieke en bou gesonde gewoontes.",
+      "description": "Sien jou werklike gebruik in duidelike grafieke. Vang lang sessies wat oë moeg maak, vergelyk weke en bou gesonde gewoontes op werklike data.",
+      "bullets": [
+        "Dag, week, maand, jaar en totaal",
+        "Grafieke van totaal en sessies",
+        "Vang oorwerk voor skade",
+        "Geen ekstra toepassing nodig nie"
+      ],
+      "keywords": "skermtyd spoorder, rekenaargebruik, statistiek, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Persoonlik",
+      "title": "Herinnering temas",
+      "motto": "Gerieflike pouse temas vir oë rus | Blink Eye",
+      "longMotto": "Kies 'n rustige volskerm tema sonder steurings, lig of donker.",
+      "description": "'n Pouse moet soos pouse voel, nie onderbreking nie. Kies 'n kalmerende of opwekkende volskerm agtergrond van minimaal tot meesleurend, alles vir ooggerief.",
+      "bullets": [
+        "Veelvuldige temas vir elke bui",
+        "Sonder steurings, sag vir oë",
+        "Voorskou voor gebruik",
+        "In ligte en donker modus"
+      ],
+      "keywords": "pouse skerm temas, ooggerief, temas, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Pro",
+      "title": "Multi monitor",
+      "motto": "Pouse herinnering vir opstellings met twee en drie skerms | Blink Eye",
+      "longMotto": "Pouse op elke skerm of net hoofskerm, vir ontwikkelaars, ontwerpers en handelaars.",
+      "description": "Twee of drie skerms mag geen skuiwergat vir oogmoegheid wees nie. Wys die pouse op alle monitors of net die primêre, soos jy werk.",
+      "bullets": [
+        "Pouse op almal of net primêr",
+        "Geen venster ontsnap",
+        "Vir ontwikkelaars, ontwerpers en handelaars",
+        "Op Windows, macOS en Linux"
+      ],
+      "keywords": "multi monitor herinnering, twee skerms, drie skerms, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Produktiwiteit",
+      "title": "Taaklys",
+      "motto": "Pomodoro taakbestuurder vir fokus sonder toepassingwissel | Blink Eye",
+      "longMotto": "Skryf take waar jy pouse, met Pomodoro fokussessies.",
+      "description": "Skryf take waar jy pouse. Skep, merk af en organiseer sonder wissel, sodat jy uit elke pouse terugkom en weet wat volgende is.",
+      "bullets": [
+        "Skep en voltooi take vinnig",
+        "Altyd byderhand in pouses",
+        "Met Pomodoro en werkskedule",
+        "Minder wissel, meer fokus"
+      ],
+      "keywords": "Pomodoro tydreëlaar, taakbestuurder, lys, fokus, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Skedule",
+      "title": "Werkdag opstel",
+      "motto": "Werksure beplanner wat herinnerings na werk stop | Blink Eye",
+      "longMotto": "Begin en einde elke dag, sodat nagte en naweke stil is.",
+      "description": "Sê vir Blink Eye wanneer jy regtig werk. Tye per dag, stil naweke, pouses stop vanself buite werkure.",
+      "bullets": [
+        "Begin en einde elke dag",
+        "Stop vanself buite ure",
+        "Geen herinnerings snags of naweke",
+        "Stel een keer op, loop hele week"
+      ],
+      "keywords": "werksure beplanner, werkdag, pouseplan, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Skermbewaarders",
+      "motto": "Geanimeerde skermbewaarders vir ontspannende oogpouses | Blink Eye",
+      "longMotto": "9 premium visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon en Bouncy Balls.",
+      "description": "Maak van 20 sekondes rus 'n blaaskans. Nege premium animasies: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon en Bouncy Balls. Glad, lig, ontspannend.",
+      "bullets": [
+        "Nege visuals: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Gladde beweging sonder hakkel",
+        "Een klik om te kies en oop te maak",
+        "Ctrl plus spasie om dadelik toe te maak"
+      ],
+      "keywords": "geanimeerde skermbewaarders, pouse animasie, ontspanning, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Beheer",
+      "title": "Instellings",
+      "motto": "Pouse instellings met streng modus en daaglikse limiet | Blink Eye",
+      "longMotto": "Opstart, streng modus, ledigheid, klanke en daaglikse limiet op een plek.",
+      "description": "Die ernstige beheerkamer. Begin by opstart, dwing pouses af met streng modus, ledigheid, klanke en daaglikse skermlimiet.",
+      "bullets": [
+        "Begin by opstart, stil",
+        "Streng modus en ledigheid",
+        "Globale kortpad en klanke",
+        "Daaglikse limiet met waarskuwings"
+      ],
+      "keywords": "pouse instellings, streng modus, skermlimiet, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Voorkoms",
+      "title": "Tema kieser",
+      "motto": "Blink Eye bied meer as 24 temas om te kies en jou eie te maak | Blink Eye",
+      "longMotto": "Blink Eye bring meer as 24 klaar temas en laat jou kleure en agtergronde na smaak verstel.",
+      "description": "Jou pouses, jou styl. Blaai deur meer as 24 handgemaakte temas, bekyk elk live, kies jou gunsteling met een klik en verstel kleure en agtergronde tot dit soos joune voel. Van rustige minimaal tot dapper en speels, daar is 'n tema vir elke bui, lessenaar en werkvloei.",
+      "bullets": [
+        "Meer as 24 klaar temas om te kies",
+        "Lewendige voorskou en wissel met een klik",
+        "Kleure en agtergronde op jou manier",
+        "Ligte en donker opsies vir dag en nag"
+      ],
+      "keywords": "herinnering temas, 24 temas, pas tema aan, kies tema, ooggerief, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Aktiveer lisensie",
+      "motto": "Premium ontsluiting van alle geanimeerde bewaarders | Blink Eye",
+      "longMotto": "Een sleutel open elke premium bewaarder plus toekomstige animasies en opdaterings.",
+      "description": "Plak jou lisensie een keer en open nege premium bewaarders, toekomstige animasies en prioriteit opdaterings. Jou koop hou hierdie oopbron toepassing lewend vir almal.",
+      "bullets": [
+        "Eenvoudige aktivering in een stap",
+        "Open al nege premium",
+        "Ondersteun oopbron",
+        "Dadelik geverifieer sonder herlaai"
+      ],
+      "keywords": "premium ontsluiting, lisensiesleutel, bewaarders, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Inligting",
+      "title": "Omtrent",
+      "motto": "Gratis oopbron ooggesondheid toepassing vir Windows, Mac en Linux | Blink Eye",
+      "longMotto": "Sien weergawe, dateer op met een klik, hulp, docs en GitHub.",
+      "description": "Sien jou weergawe, dateer op met een klik en vind hulp. Sybalk wys aktivering, weergawe en opdateringstoets.",
+      "bullets": [
+        "Weergawe en aktivering met een oogopslag",
+        "Opdateringstoets met een klik",
+        "Skakels na docs, GitHub en hulp",
+        "Gebou deur oopbron gemeenskap"
+      ],
+      "keywords": "gratis ooggesondheid, oopbron, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }

@@ -379,5 +379,191 @@
   "blogsPage": {
     "title": "Blog",
     "description": "En son bloglarımızı ve haber güncellemelerimizi okuyun."
-  }
+  },
+  "featuresShowcaseHeader": {
+    "title": "Bizi Farklı Kılan Özellikleri Keşfedin",
+    "description": "Uygulamamızı farklı kılan özellikleri keşfedin. Özelleştirilebilir hatırlatıcılardan birden çok temaya kadar her şeyi düşündük."
+  },
+  "featuresShowcase": [
+    {
+      "id": "dashboard",
+      "category": "Genel Bakış",
+      "title": "Panel",
+      "motto": "Ekran süresini ve 20-20-20 molalarını takip eden göz sağlığı paneli | Blink Eye",
+      "longMotto": "Uzaktan çalışanlar ve öğrenciler için sade panel: sonraki mola, bugünkü ekran süresi ve seri bir bakışta.",
+      "description": "Göz sağlığının merkezi. Molaların açık olup olmadığını, sonraki 20-20-20 hatırlatıcısının ne zaman geleceğini ve bugünkü ekran süreni gör. Menü açmadan odakta kal.",
+      "bullets": [
+        "Duraklatmalı ve sürdürmeli canlı geri sayım",
+        "Bugünkü ekran süresi ve seri bir bakışta",
+        "11 araca tek tıkla erişim",
+        "Kenar çubuklu tanıdık yerel tasarım"
+      ],
+      "keywords": "göz sağlığı paneli, ekran süresi takip, 20-20-20 mola hatırlatıcı, Blink Eye"
+    },
+    {
+      "id": "reminder-settings",
+      "category": "Temel",
+      "title": "Hatırlatıcı Ayarları",
+      "motto": "Göz yorgunluğu ve kuru gözlere karşı 20-20-20 kuralı hatırlatıcısı | Blink Eye",
+      "longMotto": "Aralık, mola süresi, mesaj ve ses ayarlı özel 20-20-20 zamanlayıcı ile bilgisayar görme sendromuna karşı.",
+      "description": "İşine uyan ritmi seç. Katı 20-20-20 kuralı ya da Pomodoro tarzı. Aralık, süre, kendi mesajın, ses ve katı mod hepsi burada.",
+      "bullets": [
+        "Saniye veya dakika ile aralık ve süre",
+        "Katı modlu kendi mesajın",
+        "Ön izlemeli bildirim sesi",
+        "Hatırlatıcıyı anında test et"
+      ],
+      "keywords": "20-20-20 kuralı, göz yorgunluğu, kuru göz, mola zamanlayıcı, Blink Eye"
+    },
+    {
+      "id": "usage-time",
+      "category": "İstatistik",
+      "title": "Kullanım Süresi",
+      "motto": "Günlük, haftalık ve aylık raporlu ekran süresi takipçisi | Blink Eye",
+      "longMotto": "Net grafiklerle bilgisayar kullanımını izle, aşırı çalışmayı yakala, sağlıklı alışkanlık kur.",
+      "description": "Gerçek kullanımını net grafiklerle gör. Gözleri yoran uzun oturumları yakala, haftaları karşılaştır, gerçek veriyle sağlıklı alışkanlık kur.",
+      "bullets": [
+        "Gün, hafta, ay, yıl ve toplam görünüm",
+        "Toplam ve ortalama oturum grafikleri",
+        "Zarardan önce aşırı çalışmayı yakala",
+        "Başka takip uygulaması gerekmez"
+      ],
+      "keywords": "ekran süresi takip, bilgisayar kullanımı, istatistik, Blink Eye"
+    },
+    {
+      "id": "reminder-themes",
+      "category": "Kişiselleştirme",
+      "title": "Hatırlatıcı Temaları",
+      "motto": "Gözleri dinlendiren konforlu mola ekranı temaları | Blink Eye",
+      "longMotto": "Sakin, dikkat dağıtmayan tam ekran tema seç, açık ya da koyu.",
+      "description": "Mola, kesinti gibi değil mola gibi hissettirmeli. Sakinleştiren ya da enerji veren tam ekran tema seç, minimalden sürükleyiciye, hepsi göz konforu için.",
+      "bullets": [
+        "Her ruh haline çoklu tam ekran tema",
+        "Dikkatsiz ve göze yumuşak",
+        "Uygulamadan önce ön izleme",
+        "Açık ve koyu modda"
+      ],
+      "keywords": "mola ekranı temaları, göz konforu, temalar, Blink Eye"
+    },
+    {
+      "id": "multi-monitor",
+      "category": "Profesyonel",
+      "title": "Çoklu Monitör",
+      "motto": "Çift ve üçlü monitör kurulumları için mola hatırlatıcısı | Blink Eye",
+      "longMotto": "Her ekranda ya da sadece ana ekranda mola, geliştiriciler, tasarımcılar ve traderlar için.",
+      "description": "İki ya da üç ekran göz yorgunluğuna bahane olmamalı. Çalışma şekline göre molayı tüm monitörlerde ya da sadece birincilde göster.",
+      "bullets": [
+        "Tümünde ya da sadece birincilde mola",
+        "Hiçbir pencere kaçamaz",
+        "Geliştiriciler, tasarımcılar, traderlar için",
+        "Windows, macOS ve Linux'ta"
+      ],
+      "keywords": "çoklu monitör hatırlatıcı, çift ekran, üçlü ekran, Blink Eye"
+    },
+    {
+      "id": "todo-list",
+      "category": "Verimlilik",
+      "title": "Yapılacaklar",
+      "motto": "Uygulama değiştirmeden odaklanmayı sağlayan Pomodoro görev yöneticisi | Blink Eye",
+      "longMotto": "Mola verdiğin yerde görevleri yaz, Pomodoro odak oturumlarıyla.",
+      "description": "Mola verdiğin yerde görevleri yaz. Uygulama değiştirmeden oluştur, işaretle, düzenle, her moladan neyin sırada olduğunu bilerek dön.",
+      "bullets": [
+        "Görevleri hızlı oluştur ve bitir",
+        "Molalarda hep el altında",
+        "Pomodoro ve çalışma programıyla",
+        "Az geçiş, çok odak"
+      ],
+      "keywords": "Pomodoro zamanlayıcı, görev yöneticisi, liste, odak, Blink Eye"
+    },
+    {
+      "id": "workday-setup",
+      "category": "Program",
+      "title": "İş Günü Kurulumu",
+      "motto": "Mesai sonrası hatırlatıcıları durduran çalışma saati planlayıcı | Blink Eye",
+      "longMotto": "Her günün başlangıç ve bitişini ayarla, gece ve hafta sonu sessiz kalsın.",
+      "description": "Blink Eye'a gerçekten ne zaman çalıştığını söyle. Güne özel saatler, sessiz hafta sonları, mesai dışında molalar kendiliğinden durur.",
+      "bullets": [
+        "Her güne başlangıç ve bitiş",
+        "Mesai dışında kendiliğinden durur",
+        "Gece ve hafta sonu hatırlatıcı yok",
+        "Bir kez kur, hafta boyu çalışsın"
+      ],
+      "keywords": "çalışma saati planlayıcı, iş günü, mola planı, Blink Eye"
+    },
+    {
+      "id": "screen-savers",
+      "category": "Premium",
+      "title": "Ekran Koruyucular",
+      "motto": "Dinlendirici göz molaları için animasyonlu ekran koruyucular | Blink Eye",
+      "longMotto": "9 premium görsel: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon ve Bouncy Balls.",
+      "description": "20 saniyelik dinlenmeyi molaya çevir. Dokuz premium animasyon: Aurora, Free Sprit, Infinite Wave, Starry Background, Beam of Life, Shooting Meteor, Plain Gradient, Polygon ve Bouncy Balls. Akıcı, hafif, dinlendirici.",
+      "bullets": [
+        "Dokuz görsel: Aurora, Free Sprit, Infinite Wave, Starry, Beam of Life, Shooting Meteor, Plain Gradient, Polygon, Bouncy Balls",
+        "Takılmadan akıcı hareket",
+        "Seçmek ve açmak için tek tık",
+        "Ctrl artı Boşluk ile anında kapat"
+      ],
+      "keywords": "animasyonlu ekran koruyucu, mola animasyonu, dinlenme, Blink Eye"
+    },
+    {
+      "id": "settings",
+      "category": "Kontrol",
+      "title": "Ayarlar",
+      "motto": "Katı mod ve günlük limitli mola ayarları | Blink Eye",
+      "longMotto": "Başlangıç, katı mod, boşta algılama, sesler ve günlük limit tek yerde.",
+      "description": "Ciddi ayarların kontrol odası. Başlangıçta çalıştır, katı modla molaları zorla, boşta algılama, sesler ve günlük ekran limiti.",
+      "bullets": [
+        "Başlangıçta sessizce çalış",
+        "Katı mod ve boşta algılama",
+        "Genel kısayol ve sesler",
+        "Uyarılı günlük limit"
+      ],
+      "keywords": "mola ayarları, katı mod, ekran limiti, Blink Eye"
+    },
+    {
+      "id": "theme-picker",
+      "category": "Görünüm",
+      "title": "Tema Seçici",
+      "motto": "Blink Eye 24'ten fazla temayla seç ve kendine göre tasarla | Blink Eye",
+      "longMotto": "Blink Eye 24'ten fazla hazır tema sunar, renkleri ve arkaplanları zevkine göre ayarlamana izin verir.",
+      "description": "Molaların, tarzın. 24'ten fazla el yapımı temaya göz at, her birini canlı önizle, tek tıkla favorini seç, sonra renkleri ve arkaplanları sana ait hissedene kadar ayarla. Sakin minimalden cesur ve eğlenceliye, her ruh haline, masaya ve iş akışına bir tema var.",
+      "bullets": [
+        "24'ten fazla hazır tema arasından seç",
+        "Canlı önizleme ve tek tıkla geçiş",
+        "Renkler ve arkaplanlar senin tarzında",
+        "Gece gündüz açık ve koyu seçenekler"
+      ],
+      "keywords": "hatırlatıcı temaları, 24 tema, tema özelleştir, tema seç, göz konforu, Blink Eye"
+    },
+    {
+      "id": "activate-license",
+      "category": "Premium",
+      "title": "Lisansı Etkinleştir",
+      "motto": "Tüm animasyonlu koruyucular için premium kilit açma | Blink Eye",
+      "longMotto": "Tek anahtar her premium koruyucuyu ve gelecek animasyon ve güncellemeleri açar.",
+      "description": "Lisansını bir kez yapıştır, dokuz premium koruyucuyu, gelecek animasyonları ve öncelikli güncellemeleri aç. Satın alman bu açık kaynak uygulamayı herkes için yaşatır.",
+      "bullets": [
+        "Tek adımda basit etkinleştirme",
+        "Dokuz premiumu açar",
+        "Açık kaynak geliştirmeyi destekler",
+        "Yeniden başlatmadan anında doğrulama"
+      ],
+      "keywords": "premium kilit açma, lisans anahtarı, ekran koruyucu, Blink Eye"
+    },
+    {
+      "id": "about",
+      "category": "Bilgi",
+      "title": "Hakkında",
+      "motto": "Windows, Mac ve Linux için ücretsiz açık kaynak göz sağlığı uygulaması | Blink Eye",
+      "longMotto": "Sürümü gör, tek tıkla güncelle, yardım, docs ve GitHub'u bul.",
+      "description": "Sürümünü gör, tek tıkla güncelle, yardım bul. Kenar çubuğu etkinleştirme ve güncelleme denetimini gösterir.",
+      "bullets": [
+        "Sürüm ve etkinleştirme bir bakışta",
+        "Tek tıkla güncelleme denetimi",
+        "Docs, GitHub ve yardım bağlantıları",
+        "Açık kaynak topluluğu yapımı"
+      ],
+      "keywords": "ücretsiz göz sağlığı uygulaması, açık kaynak, Windows Mac Linux, Blink Eye"
+    }
+  ]
 }
