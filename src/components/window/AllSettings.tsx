@@ -29,7 +29,6 @@ import { useAccentColor } from "../../contexts/AccentColorContext";
 import { usePremiumNudge } from "../../hooks/usePremiumNudge";
 import {
   IoRocket,
-  IoEllipseOutline,
   IoBarChart,
   IoSave,
   IoDownloadOutline,
@@ -96,7 +95,6 @@ const AllSettings = () => {
   const [timeLimit, setTimeLimit] = useState<number>(8);
   const [savedTimeLimit, setSavedTimeLimit] = useState<number>(8);
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
-  const [isCircleTimerEnabled, setIsCircleTimerEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
@@ -113,12 +111,6 @@ const AllSettings = () => {
           setTimeLimit(limit);
           setSavedTimeLimit(limit);
         }
-
-        const circleTimer = await invoke<boolean>("get_config_bool", {
-          key: "useCircleProgressTimerStyle",
-          defaultValue: true,
-        });
-        setIsCircleTimerEnabled(circleTimer);
 
         const runOnStartUp = await invoke<string | null>("get_config_string", {
           key: "isRunOnStartUpEnabledByDefault",
@@ -193,18 +185,6 @@ const AllSettings = () => {
       setIsAutoStartEnabled(checked);
     } catch (error) {
       console.error("Failed to update autostart status:", error);
-    }
-  };
-
-  const handleCircleTimerChange = async (checked: boolean) => {
-    try {
-      await invoke("update_reminder_setting", {
-        key: "useCircleProgressTimerStyle",
-        value: String(checked),
-      });
-      setIsCircleTimerEnabled(checked);
-    } catch (error) {
-      console.error("Failed to update circle timer style:", error);
     }
   };
 
@@ -319,23 +299,6 @@ const AllSettings = () => {
             id="autostart"
             checked={isAutoStartEnabled}
             onCheckedChange={handleAutoStartChange}
-            disabled={isLoading}
-          />
-        </SettingRow>
-
-        <SettingRow
-          icon={
-            <SettingIconBadge color={accentHex}>
-              <IoEllipseOutline className="size-4" />
-            </SettingIconBadge>
-          }
-          label="Circle progress timer"
-          description="Use a circular timer instead of a linear bar"
-        >
-          <Switch
-            id="useCircleProgressTimerStyle"
-            checked={isCircleTimerEnabled}
-            onCheckedChange={handleCircleTimerChange}
             disabled={isLoading}
           />
         </SettingRow>

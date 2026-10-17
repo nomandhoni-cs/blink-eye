@@ -780,7 +780,8 @@ Generic key/value store for all app settings. Replaces the legacy Tauri `store.j
 | `usageTimeLimit` | number | `8` | Daily usage limit (hours) |
 | `screenOnTimeLimit` | number | `8` | Daily screen-on limit (hours) |
 | `usingStrictMode` | bool | `"false"` | Hide Skip button during break |
-| `useCircleProgressTimerStyle` | bool | `"true"` | Circular vs linear timer |
+| `reminderTimerStyle` | string | — (absent = from `useCircleProgressTimerStyle`) | Break countdown style: `circle`, `bar`, `dial`, or `vertical` |
+| `useCircleProgressTimerStyle` | bool | `"true"` | Legacy circle/bar switch; fallback when `reminderTimerStyle` is unset, kept in sync when the style is picked |
 | `isMultiMonitorEnabled` | bool | `"false"` | Show breaks on all monitors |
 | `isWorkdayEnabled` | bool | `"false"` | Restrict breaks to workday |
 | `isUpdateAvailable` | bool | `"false"` | Update available toast flag |

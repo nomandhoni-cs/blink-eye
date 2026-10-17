@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
 import ThemePickerOnboarding from "./components/screens/theme-picker-onboarding";
+import TimerStyleScreen from "./components/screens/timer-style-screen";
 import DoneScreen from "./components/screens/done-screen";
 
 // Types and Services
@@ -18,6 +19,10 @@ import { ModeToggle } from "./components/ThemeToggle";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import welcomeAudio from "./assets/audio/welcome-onboarding.mp3";
+import {
+  saveTimerStyle,
+  type TimerStyle,
+} from "./components/reminder/timerStyle";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
 
@@ -55,6 +60,7 @@ export default function UserOnboarding() {
   const [reminderText, setReminderText] = useState(
     "Pause! Look into the distance, and best if you walk a bit.",
   );
+  const [timerStyle, setTimerStyle] = useState<TimerStyle>("dial");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
 
@@ -88,6 +94,12 @@ export default function UserOnboarding() {
     },
     {
       id: 4,
+      title: "Break Clock",
+      component: TimerStyleScreen,
+      onNext: () => saveTimerStyle(timerStyle),
+    },
+    {
+      id: 5,
       title: "Done",
       component: DoneScreen,
       onNext: async () => {
@@ -188,6 +200,8 @@ export default function UserOnboarding() {
             setReminderText,
           };
         case 4:
+          return { timerStyle, setTimerStyle };
+        case 5:
           return {
             breakInterval,
             breakDuration,

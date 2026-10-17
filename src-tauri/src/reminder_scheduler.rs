@@ -37,6 +37,8 @@ const DEFAULT_DURATION_SECS: u64 = 20;
 const DEFAULT_REMINDER_TEXT: &str = "Pause! Look into the distance, and best if you walk a bit.";
 /// Default background style for the reminder overlay.
 const DEFAULT_BACKGROUND_STYLE: &str = "default";
+/// Countdown styles the reminder overlay knows how to draw.
+const TIMER_STYLES: &[&str] = &["circle", "bar", "dial", "vertical"];
 
 /// Configuration passed to the reminder overlay webview as query params.
 #[derive(Debug, Clone, Serialize)]
@@ -50,8 +52,8 @@ pub struct ReminderWindowConfig {
     pub is_premium: bool,
     /// Whether strict mode is enabled (blocks skipping).
     pub is_strict_mode: bool,
-    /// Whether to use circle progress timer instead of bar.
-    pub use_circle_timer: bool,
+    /// Countdown style: `circle`, `bar`, `dial`, or `vertical`.
+    pub timer_style: String,
     /// Break duration in seconds.
     pub duration_secs: u64,
     /// Today's total screen time, hours part.
@@ -77,8 +79,8 @@ struct ReminderSettings {
     is_multi_monitor_enabled: bool,
     /// Whether strict mode is enabled (blocks skipping).
     is_strict_mode: bool,
-    /// Whether to use circle progress timer instead of bar.
-    use_circle_timer: bool,
+    /// Countdown style: `circle`, `bar`, `dial`, or `vertical`.
+    timer_style: String,
     /// Whether an app update is available.
     is_update_available: bool,
     /// Whether workday-based scheduling is enabled (premium only).
@@ -98,7 +100,7 @@ impl Default for ReminderSettings {
             reminder_text: DEFAULT_REMINDER_TEXT.to_string(),
             is_multi_monitor_enabled: false,
             is_strict_mode: false,
-            use_circle_timer: true,
+            timer_style: "circle".to_string(),
             is_update_available: false,
             is_workday_enabled: false,
             workday: default_workday_config(),
@@ -376,7 +378,7 @@ impl ReminderScheduler {
             reminder_text: settings.reminder_text,
             is_premium: settings.is_premium,
             is_strict_mode: settings.is_strict_mode,
-            use_circle_timer: settings.use_circle_timer,
+            timer_style: settings.timer_style,
             duration_secs: settings.duration_secs.max(1),
             screen_time_hours,
             screen_time_minutes,
@@ -426,8 +428,7 @@ impl ReminderScheduler {
         settings.is_multi_monitor_enabled =
             read_config_bool(&app_pool, "isMultiMonitorEnabled", false).await;
         settings.is_strict_mode = read_config_bool(&app_pool, "usingStrictMode", false).await;
-        settings.use_circle_timer =
-            read_config_bool(&app_pool, "useCircleProgressTimerStyle", true).await;
+        settings.timer_style = read_timer_style(&app_pool).await;
         settings.is_update_available =
             read_config_bool(&app_pool, "isUpdateAvailable", false).await;
         settings.is_workday_enabled = read_config_bool(&app_pool, "isWorkdayEnabled", false).await;
@@ -906,6 +907,19 @@ async fn read_config_bool(pool: &Pool<Sqlite>, key: &str, default_value: bool) -
         .await
         .map(|value| value == "true")
         .unwrap_or(default_value)
+}
+
+/// Reads `reminderTimerStyle`, falling back to the legacy `useCircleProgressTimerStyle`
+/// switch for installs that have not picked a style yet.
+async fn read_timer_style(pool: &Pool<Sqlite>) -> String {
+    if let Some(style) = read_config_string(pool, "reminderTimerStyle").await {
+        if TIMER_STYLES.contains(&style.as_str()) {
+            return style;
+        }
+    }
+
+    let use_circle = read_config_bool(pool, "useCircleProgressTimerStyle", true).await;
+    if use_circle { "circle" } else { "bar" }.to_string()
 }
 
 /// Reads and deserializes a JSON config value from `appconfig.db`.
