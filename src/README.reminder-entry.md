@@ -45,7 +45,7 @@ Multi-monitor: backgrounds on every display; controls on primary only. Dismissin
 
 | Param | Values | Effect |
 |-------|--------|--------|
-| `config` | URL-encoded JSON | `reminderText`, `durationSecs`, `isPremium`, `isStrictMode`, `useCircleTimer`, screen time, etc. |
+| `config` | URL-encoded JSON | `reminderText`, `durationSecs`, `isPremium`, `isStrictMode`, `timerStyle`, screen time, etc. |
 | `minimal` | `true` | Skip overlay; background only (secondary monitors) |
 
 Style is **not** passed via `?style=` anymore. Each theme has its own HTML entry (e.g. `reminder-aurora.html`). Rust picks the entry from `BACKGROUND_STYLE_TO_ENTRY` using `reminderBackgroundStyle` in the database.
@@ -62,7 +62,7 @@ Style is **not** passed via `?style=` anymore. Each theme has its own HTML entry
 | `reminderBackgroundStyle` | Theme key (premium) |
 | `isMultiMonitorEnabled` | Background on all displays (premium) |
 | `isStrictModeEnabled` | Disable skip during break |
-| `useCircleTimer` | Circle vs linear timer |
+| `reminderTimerStyle` | Countdown style: `circle`, `bar`, `dial`, `vertical` (falls back to `useCircleProgressTimerStyle`) |
 
 After saving interval, duration, or text from the frontend:
 

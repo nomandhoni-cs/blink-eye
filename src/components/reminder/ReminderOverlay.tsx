@@ -1,8 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import { getCurrentWebviewWindow, WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
-import { Ticker } from "@tombcato/smart-ticker";
-import "@tombcato/smart-ticker/style.css";
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
 import { Progress } from "../ui/progress";
@@ -10,6 +8,15 @@ import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
 import { Button } from "../ui/button";
 import { ChevronsRight, CloudDownload } from "lucide-react";
+import { CountdownNumerals } from "./CountdownNumerals";
+import { EdgeDialTimer } from "./EdgeDialTimer";
+import { VerticalBarTimer } from "./VerticalBarTimer";
+import {
+  formatClock,
+  isTimerStyle,
+  loadTimerStyle,
+  type TimerStyle,
+} from "./timerStyle";
 
 const TodayTodoTasks = lazy(() =>
   import("../TodayTodoTasks").then((module) => ({
@@ -20,7 +27,7 @@ const TodayTodoTasks = lazy(() =>
 type WindowConfig = {
   reminderText?: string;
   isStrictMode?: boolean;
-  useCircleTimer?: boolean;
+  timerStyle?: string;
   durationSecs?: number;
   screenTimeHours?: number;
   screenTimeMinutes?: number;
@@ -47,7 +54,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
   const [isStrictMode, setIsStrictMode] = useState<boolean>(false);
-  const [useCircleTimer, setUseCircleTimer] = useState<boolean>(false);
+  const [timerStyle, setTimerStyle] = useState<TimerStyle>("circle");
   const [screenTime, setScreenTime] = useState({ hours: 0, minutes: 0 });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [countdownStarted, setCountdownStarted] = useState<boolean>(false);
@@ -119,20 +126,17 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
           "";
         setReminderText(text);
 
-        const [strict, circle] = await Promise.all([
+        const [strict, style] = await Promise.all([
           urlConfig.isStrictMode ??
             invoke<boolean>("get_config_bool", {
               key: "usingStrictMode",
               defaultValue: false,
             }),
-          urlConfig.useCircleTimer ??
-            invoke<boolean>("get_config_bool", {
-              key: "useCircleProgressTimerStyle",
-              defaultValue: true,
-            }),
+          // Previews don't pass a style in the URL; read the saved one.
+          urlConfig.timerStyle ?? loadTimerStyle(),
         ]);
         setIsStrictMode(strict);
-        setUseCircleTimer(circle);
+        setTimerStyle(isTimerStyle(style) ? style : "circle");
 
         setScreenTime({
           hours: urlConfig.screenTimeHours ?? 0,
@@ -207,26 +211,37 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
     reminderDuration > 0 ? (timeLeft / reminderDuration) * 100 : 0;
   const displayText =
     reminderText || "Pause! Look into the distance, and best if you walk a bit.";
+  // The value one second ago, so changed digits can roll out.
+  const lastSecond =
+    countdownStarted && timeLeft < reminderDuration ? timeLeft + 1 : undefined;
   const paddedTime = String(timeLeft).padStart(2, "0");
+  const paddedLastSecond =
+    lastSecond === undefined ? undefined : String(lastSecond).padStart(2, "0");
+  const clockTime = formatClock(timeLeft);
+  const clockLastSecond =
+    lastSecond === undefined ? undefined : formatClock(lastSecond);
 
-  return (
-    <div className="absolute inset-0 z-10">
-      <div className="relative flex h-full w-full flex-col items-center justify-center px-4">
-        {isLoading ? (
-          <div className="text-[12rem] font-heading font-semibold tracking-wide">
-            Ready?
-          </div>
-        ) : !useCircleTimer ? (
+  const glassSkipButton = !isStrictMode && canSnooze && (
+    <Button
+      onClick={handleSnooze}
+      variant="outline"
+      className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
+    >
+      <ChevronsRight className="mr-1 h-5 w-5" />
+      Skip this time
+    </Button>
+  );
+
+  const renderTimer = () => {
+    switch (timerStyle) {
+      case "bar":
+        return (
           <div className="flex h-full w-full flex-col items-center">
             <div className="absolute top-[40%] flex -translate-y-1/2 transform flex-col items-center animate-in">
-              <div className="flex items-end font-heading text-[240px] leading-none">
-                <Ticker
+              <div className="flex items-end text-[240px] leading-none">
+                <CountdownNumerals
                   value={paddedTime}
-                  duration={700}
-                  easing="easeInOut"
-                  characterLists={["0123456789"]}
-                  charWidth={0.8}
-                  className="!font-heading tabular-nums"
+                  previous={paddedLastSecond}
                 />
                 <span className="mb-8 ml-2 font-sans text-5xl font-medium opacity-70">
                   s
@@ -266,7 +281,66 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               </div>
             </div>
           </div>
-        ) : (
+        );
+
+      case "dial":
+        return (
+          <>
+            <EdgeDialTimer
+              timeLeft={timeLeft}
+              duration={reminderDuration}
+              running={countdownStarted}
+            />
+            <div className="relative flex max-w-[80vw] flex-col items-center text-center animate-in fade-in">
+              <CountdownNumerals
+                value={clockTime}
+                previous={clockLastSecond}
+                className="text-[min(38vh,30vw)] leading-[0.8]"
+              />
+              <p className="mt-[4vh] max-w-[60vw] text-balance font-heading text-[clamp(1.75rem,4.2vh,3.25rem)] font-semibold leading-tight tracking-tight">
+                {displayText}
+              </p>
+              <div className="mt-[2.5vh] mb-[3.5vh] flex items-center justify-center space-x-4 font-sans text-lg font-medium opacity-60">
+                <CurrentTime />
+                <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
+                <ScreenOnTime timeCount={screenTime} />
+              </div>
+              {glassSkipButton}
+            </div>
+          </>
+        );
+
+      case "vertical":
+        return (
+          <div className="grid h-full w-full grid-cols-[1fr_auto_1fr] items-center gap-[7vmin] animate-in fade-in">
+            <div className="flex justify-end">
+              <CountdownNumerals
+                value={clockTime}
+                previous={clockLastSecond}
+                className="text-[min(34vh,19vw)] leading-[0.8]"
+              />
+            </div>
+            <VerticalBarTimer
+              timeLeft={timeLeft}
+              duration={reminderDuration}
+              running={countdownStarted}
+            />
+            <div className="flex max-w-[34vw] flex-col items-start">
+              <p className="text-balance font-heading text-[clamp(1.75rem,4.2vh,3.25rem)] font-semibold leading-tight tracking-tight">
+                {displayText}
+              </p>
+              <div className="mt-[2.5vh] mb-[3.5vh] flex flex-wrap items-center gap-x-4 gap-y-1 font-sans text-lg font-medium opacity-60">
+                <CurrentTime />
+                <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
+                <ScreenOnTime timeCount={screenTime} />
+              </div>
+              {glassSkipButton}
+            </div>
+          </div>
+        );
+
+      default:
+        return (
           <div className="flex min-h-screen flex-col items-center justify-center p-4">
             <div className="relative mb-8 h-96 w-96">
               <svg className="h-full w-full -rotate-90" viewBox="0 0 110 110">
@@ -293,13 +367,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-[160px] leading-none">
-                <Ticker
+                <CountdownNumerals
                   value={paddedTime}
-                  duration={700}
-                  easing="easeInOut"
-                  characterLists={["0123456789"]}
-                  charWidth={0.8}
-                  className="!font-heading tabular-nums"
+                  previous={paddedLastSecond}
                 />
               </div>
             </div>
@@ -314,21 +384,31 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               <ScreenOnTime timeCount={screenTime} />
             </div>
 
-            {!isStrictMode && canSnooze && (
-              <Button
-                onClick={handleSnooze}
-                variant="outline"
-                className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
-              >
-                <ChevronsRight className="mr-1 h-5 w-5" />
-                Skip this time
-              </Button>
-            )}
+            {glassSkipButton}
           </div>
+        );
+    }
+  };
+
+  return (
+    <div className="absolute inset-0 z-10">
+      <div className="relative flex h-full w-full flex-col items-center justify-center px-4">
+        {isLoading ? (
+          <div className="text-[12rem] font-heading font-semibold tracking-wide">
+            Ready?
+          </div>
+        ) : (
+          renderTimer()
         )}
       </div>
 
-      {isPremium && !isLoading && <TodayTodoTasks />}
+      {isPremium && !isLoading && (
+        <TodayTodoTasks
+          className={
+            timerStyle === "dial" ? "bottom-[8vmin] right-[8vmin]" : undefined
+          }
+        />
+      )}
       <Toaster />
     </div>
   );
