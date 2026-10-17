@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Database from "@tauri-apps/plugin-sql";
 import { Badge } from "./ui/badge";
 import { CalendarCheck2, CheckCircle2 } from "lucide-react";
+import { cn } from "../lib/utils";
 
 type Task = {
   id: number;
@@ -13,7 +14,9 @@ type Task = {
   created_at: string;
 };
 
-export const TodayTodoTasks: React.FC = () => {
+export const TodayTodoTasks: React.FC<{ className?: string }> = ({
+  className,
+}) => {
   const [tasksForToday, setTasksForToday] = useState<Task[]>([]);
 
   const fetchTasksForToday = async () => {
@@ -57,7 +60,7 @@ export const TodayTodoTasks: React.FC = () => {
   if (tasksForToday.length === 0) return null;
 
   return (
-    <div className="absolute bottom-4 right-4 z-10">
+    <div className={cn("absolute bottom-4 right-4 z-10", className)}>
       <div className="bg-background/20 backdrop-blur-sm border border-border/20 rounded-lg shadow-sm p-3 max-w-xs w-full">
         <div className="flex items-center justify-between mb-2 space-x-2">
           <div className="flex items-center space-x-2">

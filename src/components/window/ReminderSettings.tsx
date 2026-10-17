@@ -25,10 +25,17 @@ import {
   IoInformationCircleOutline,
   IoLockClosed,
   IoAlarm,
+  IoStopwatch,
 } from "react-icons/io5";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useAccentColor } from "../../contexts/AccentColorContext";
 import { usePremiumNudge } from "../../hooks/usePremiumNudge";
+import { TimerStylePicker } from "../TimerStylePicker";
+import {
+  loadTimerStyle,
+  saveTimerStyle,
+  type TimerStyle,
+} from "../reminder/timerStyle";
 
 const FREQUENCY_OPTIONS = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120];
 const DURATION_OPTIONS = [10, 15, 20, 30, 45, 60, 90, 120, 300];
@@ -114,6 +121,7 @@ const ReminderSettings = () => {
     snoozesPerDay: 10,
   });
   const [isStrictModeEnabled, setIsStrictModeEnabled] = useState(false);
+  const [timerStyle, setTimerStyle] = useState<TimerStyle>("circle");
   const [snoozesPerSession, setSnoozesPerSession] = useState(3);
   const [snoozesPerDay, setSnoozesPerDay] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
@@ -166,6 +174,8 @@ const ReminderSettings = () => {
           defaultValue: false,
         });
         setIsStrictModeEnabled(strictMode);
+
+        setTimerStyle(await loadTimerStyle());
       } catch (error) {
         console.error("Failed to load reminder settings:", error);
         toast.error("Couldn't load settings. Try again.", {
@@ -299,6 +309,21 @@ const ReminderSettings = () => {
     }
   };
 
+  const handleTimerStyleChange = async (style: TimerStyle) => {
+    const previous = timerStyle;
+    setTimerStyle(style);
+    try {
+      await saveTimerStyle(style);
+    } catch (error) {
+      console.error("Failed to update timer style:", error);
+      setTimerStyle(previous);
+      toast.error("Couldn't save timer style. Try again.", {
+        duration: 2000,
+        position: "bottom-right",
+      });
+    }
+  };
+
   const openReminderWindow = () => {
     const isPremium = canAccessPremiumFeatures;
     const requestedStyle = isPremium ? backgroundStyle : "default";
@@ -390,6 +415,26 @@ const ReminderSettings = () => {
             onChange={(e) => setReminderText(e.target.value)}
             disabled={isLoading}
             className="bg-background/50 text-base"
+          />
+        </SettingRow>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card">
+        <SettingRow
+          icon={
+            <SettingIconBadge color={accentHex}>
+              <IoStopwatch className="size-4" />
+            </SettingIconBadge>
+          }
+          label="Timer style"
+          description="How the countdown looks on your break screen"
+          controlClassName="flex w-full shrink-0 justify-end sm:w-auto"
+        >
+          <TimerStylePicker
+            value={timerStyle}
+            onChange={handleTimerStyleChange}
+            accentColor={accentHex}
+            disabled={isLoading}
           />
         </SettingRow>
       </div>

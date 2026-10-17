@@ -229,6 +229,46 @@
 
 /*Custom css end*/
 
+/* Break countdown digits. Outfit elsewhere; on macOS, SF Pro condensed like the
+   iPhone timer. `-apple-system-body` only parses in Apple's WebKit, so the
+   override applies on macOS (where SF Pro is the system font) and nowhere else. */
+.countdown-numerals {
+  font-family: "Outfit Variable", sans-serif;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+@supports (font: -apple-system-body) {
+  .countdown-numerals {
+    font-family: -apple-system, system-ui, sans-serif;
+    font-variation-settings: "wdth" 56;
+  }
+}
+
+@keyframes countdown-digit-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3em) scale(0.9);
+    filter: blur(0.05em);
+  }
+}
+@keyframes countdown-digit-out {
+  to {
+    opacity: 0;
+    transform: translateY(0.3em) scale(0.9);
+    filter: blur(0.05em);
+  }
+}
+.countdown-digit-in {
+  animation: countdown-digit-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.countdown-digit-out {
+  animation: countdown-digit-out 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .countdown-digit-in { animation: none; }
+  .countdown-digit-out { display: none; }
+}
+
 /* Premium nudge: the logo blinks now and then. */
 @keyframes nudge-blink {
   0%, 92%, 100% { transform: scaleY(1); }
