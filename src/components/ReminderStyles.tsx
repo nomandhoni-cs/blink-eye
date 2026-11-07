@@ -19,6 +19,11 @@ import beamThumb from "../assets/thumbnails/beamoflife.png";
 import meteorThumb from "../assets/thumbnails/shootingmeteor.png";
 import gradientThumb from "../assets/thumbnails/plainGradientAnimation.png";
 import canvasThumb from "../assets/thumbnails/canvasShapes.png";
+import fluxThumb from "../assets/thumbnails/flux.svg";
+import dotGridThumb from "../assets/thumbnails/dotgrid.svg";
+import meshThumb from "../assets/thumbnails/mesh.svg";
+import fogThumb from "../assets/thumbnails/fog.svg";
+import lightBeamsThumb from "../assets/thumbnails/lightbeams.svg";
 
 const thumbMap: Record<string, string> = {
   default: defaultThumb,
@@ -30,12 +35,17 @@ const thumbMap: Record<string, string> = {
   shootingmeteor: meteorThumb,
   plainGradientAnimation: gradientThumb,
   canvasShapes: canvasThumb,
+  fluxLines: fluxThumb,
+  dotGrid: dotGridThumb,
+  meshGradient: meshThumb,
+  fog: fogThumb,
+  lightBeams: lightBeamsThumb,
 };
 
 const styles = [
   { value: "default", label: "Default" },
   { value: "aurora", label: "Aurora" },
-  { value: "freesprit", label: "Free Sprit" },
+  { value: "freesprit", label: "Free Spirit" },
   { value: "particleBackground", label: "Infinite Wave Background" },
   { value: "starryBackground", label: "Starry Background" },
   { value: "beamoflife", label: "Beam of Life" },
@@ -43,6 +53,11 @@ const styles = [
   { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
   // { value: "polygonAnimation", label: "Polygon Animation" },
   { value: "canvasShapes", label: "Bouncy Balls" },
+  { value: "fluxLines", label: "Flux Lines" },
+  { value: "dotGrid", label: "Dot Grid" },
+  { value: "meshGradient", label: "Mesh Gradient" },
+  { value: "fog", label: "Misty Fog" },
+  { value: "lightBeams", label: "Light Beams" },
 ];
 
 export default function ReminderStyles() {
@@ -125,7 +140,7 @@ export default function ReminderStyles() {
       <div className="flex flex-col gap-1">
         <h3 className="text-2xl font-heading tracking-tight">Background Style</h3>
         <p className="text-sm text-muted-foreground">
-          Select a visual theme to be displayed during break reminders.
+          Choose from 14 animated scenes for your break reminders. Select any card to preview it fullscreen.
         </p>
       </div>
 

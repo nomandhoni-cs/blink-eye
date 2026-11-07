@@ -19,7 +19,12 @@ export type BackgroundStyle =
   | "starryBackground"
   | "shootingmeteor"
   | "plainGradientAnimation"
-  | "canvasShapes";
+  | "canvasShapes"
+  | "fluxLines"
+  | "dotGrid"
+  | "meshGradient"
+  | "fog"
+  | "lightBeams";
 
 export interface BackgroundEntry {
   /** Style key persisted in appconfig.db (`reminderBackgroundStyle`). */
@@ -40,6 +45,11 @@ export const BACKGROUND_REGISTRY: BackgroundEntry[] = [
   { style: "shootingmeteor",        entry: "reminder-meteor.html",              label: "Shooting Meteor" },
   { style: "plainGradientAnimation", entry: "reminder-gradient.html",          label: "Gradient Animation" },
   { style: "canvasShapes",          entry: "reminder-canvas.html",              label: "Bouncy Balls" },
+  { style: "fluxLines",             entry: "reminder-flux.html",                label: "Flux Lines" },
+  { style: "dotGrid",               entry: "reminder-dotgrid.html",             label: "Dot Grid" },
+  { style: "meshGradient",          entry: "reminder-mesh.html",                label: "Mesh Gradient" },
+  { style: "fog",                   entry: "reminder-fog.html",                 label: "Misty Fog" },
+  { style: "lightBeams",            entry: "reminder-lightbeams.html",          label: "Light Beams" },
 ];
 
 export const DEFAULT_BACKGROUND_ENTRY = "reminder-default.html";

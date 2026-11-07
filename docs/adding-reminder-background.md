@@ -37,7 +37,7 @@ Background paints first → DeferredReminderOverlay loads later (primary only)
 | 5 | `vite.config.ts` → `build.rollupOptions.input` | Yes |
 | 6 | `src-tauri/src/reminder_scheduler.rs` → `BACKGROUND_STYLE_TO_ENTRY` | Yes |
 | 7 | `src/components/ReminderStyles.tsx` | Yes (theme picker UI) |
-| 8 | `src/assets/thumbnails/{styleKey}.png` | Yes (picker thumbnail) |
+| 8 | `src/assets/thumbnails/{styleKey}.png` or `.svg` | Yes (picker preview image) |
 | 9 | — | Theme preview uses `entryForStyle()` in Reminder Themes / Settings |
 
 Steps 1–8 are enough for real breaks fired by the Rust scheduler.
