@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties, type HTMLAttributes } from 'react';
 import './Ferrofluid.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export type FerrofluidFlow = 'up' | 'down' | 'left' | 'right' | 'none';
 
@@ -530,6 +531,7 @@ const Ferrofluid = ({
 }: FerrofluidProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const settings: Settings = {
     colors: Array.isArray(colors) && colors.length ? colors.slice(0, 3) : ['#ffffff'],
@@ -874,7 +876,7 @@ const Ferrofluid = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
       step(dt);
@@ -978,7 +980,6 @@ const Ferrofluid = ({
       gl.deleteProgram(render.program);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

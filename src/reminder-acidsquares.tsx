@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const AcidSquaresScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <AcidSquares
@@ -21,9 +24,10 @@ const AcidSquaresScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ 
           bulge={0.34} rotation={35} gloss={0.72} waves={1.1} speed={0.55}
           pulse={1} brightness={1.15} lighting="split" tilt={0.7}
           mouseInteraction mouseStrength={0.72} pulseOnClick
-          detail="high" lightMode={!isDark}
+          detail="high" lightMode={!isDark} dpr={1} onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
         />
+      {rendererError && <WebGLSceneFallback scene="acidSquares" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

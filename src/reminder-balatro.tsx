@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -14,6 +15,8 @@ const BalatroScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({
   minimal,
 }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div
       className="relative h-screen w-screen overflow-hidden"
@@ -35,9 +38,10 @@ const BalatroScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({
         mouseInteraction
         mouseStrength={0.65}
         clickSwirl
-        maxDevicePixelRatio={1.5}
+        maxDevicePixelRatio={1} onRendererError={handleRendererError}
         style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
       />
+      {rendererError && <WebGLSceneFallback scene="balatro" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

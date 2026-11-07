@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, type CSSProperties } from 'react';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 const FOV = 50;
 const CAMERA_Z = 20;
@@ -304,6 +305,7 @@ const Ballpit = ({
 }: BallpitProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const settings = {
     count: Math.round(clamp(count, 1, 4000)),
@@ -1023,7 +1025,7 @@ const Ballpit = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const s = settingsRef.current;
       if (s.dpr !== sizedDpr) resize();
       const dt = last ? clamp((now - last) / 1000, 0, 1 / 20) : 1 / 60;
@@ -1218,7 +1220,6 @@ const Ballpit = ({
       gl.deleteBuffer(instances);
       gl.deleteVertexArray(vao);
       gl.deleteProgram(shader.program);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

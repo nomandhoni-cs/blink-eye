@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 type WebGLSceneFallbackProps = {
-  scene: "darkVeil" | "dither" | "dotGrid" | "faultyTerminal" | "ferrofluid" | "floatingLines" | "galaxy" | "ballpit";
+  scene: "darkVeil" | "dither" | "dotGrid" | "faultyTerminal" | "ferrofluid" | "floatingLines" | "galaxy" | "ballpit" | "acidSquares" | "antigravity" | "balatro" | "crtWarp" | "iridescence";
   isDark: boolean;
 };
 
@@ -52,6 +52,36 @@ const sceneStyles: Record<WebGLSceneFallbackProps["scene"], (isDark: boolean) =>
     backgroundImage: isDark
       ? "radial-gradient(circle at 22% 38%, #ff3d9a 0 5%, transparent 5.5%), radial-gradient(circle at 48% 62%, #39dfff 0 7%, transparent 7.5%), radial-gradient(circle at 72% 35%, #ffd24a 0 6%, transparent 6.5%), radial-gradient(circle at 81% 73%, #8d72ff 0 8%, transparent 8.5%), radial-gradient(circle at 32% 80%, #8d72ff 0 4%, transparent 4.5%)"
       : "radial-gradient(circle at 22% 38%, #c9287b 0 5%, transparent 5.5%), radial-gradient(circle at 48% 62%, #188bbd 0 7%, transparent 7.5%), radial-gradient(circle at 72% 35%, #e59b25 0 6%, transparent 6.5%), radial-gradient(circle at 81% 73%, #654bcc 0 8%, transparent 8.5%), radial-gradient(circle at 32% 80%, #654bcc 0 4%, transparent 4.5%)",
+  }),
+  acidSquares: (isDark) => ({
+    backgroundColor: isDark ? "#080a1b" : "#f5f6ff",
+    backgroundImage: isDark
+      ? "repeating-linear-gradient(45deg, transparent 0 22px, rgba(255, 79, 184, .6) 23px 24px, transparent 25px 46px), repeating-linear-gradient(-45deg, transparent 0 22px, rgba(59, 107, 255, .55) 23px 24px, transparent 25px 46px), radial-gradient(ellipse at center, #26153d, #080a1b 78%)"
+      : "repeating-linear-gradient(45deg, transparent 0 22px, rgba(212, 45, 155, .42) 23px 24px, transparent 25px 46px), repeating-linear-gradient(-45deg, transparent 0 22px, rgba(51, 89, 200, .38) 23px 24px, transparent 25px 46px), radial-gradient(ellipse at center, #ffffff, #eef0ff 78%)",
+  }),
+  antigravity: (isDark) => ({
+    backgroundColor: isDark ? "#080a1b" : "#f5f6ff",
+    backgroundImage: isDark
+      ? "radial-gradient(ellipse at 50% 50%, rgba(255, 92, 82, .45), transparent 38%), radial-gradient(ellipse at 53% 49%, rgba(255, 173, 66, .34), transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(255, 111, 174, .24), transparent 65%)"
+      : "radial-gradient(ellipse at 50% 50%, rgba(201, 60, 54, .28), transparent 38%), radial-gradient(ellipse at 53% 49%, rgba(226, 123, 36, .22), transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(193, 74, 110, .18), transparent 65%)",
+  }),
+  balatro: (isDark) => ({
+    backgroundColor: isDark ? "#100d24" : "#f3f4ff",
+    backgroundImage: isDark
+      ? "conic-gradient(from 30deg at 50% 50%, #ff3c8c, #130e2a, #17c9ff, #251043, #ff3c8c)"
+      : "conic-gradient(from 30deg at 50% 50%, #d72670, #f3f4ff, #326ad8, #e7dfff, #d72670)",
+  }),
+  crtWarp: (isDark) => ({
+    backgroundColor: isDark ? "#06120f" : "#eef4ff",
+    backgroundImage: isDark
+      ? "repeating-linear-gradient(0deg, transparent 0 3px, rgba(127, 255, 210, .11) 4px), radial-gradient(ellipse at 50% 50%, rgba(28, 133, 99, .4), transparent 70%)"
+      : "repeating-linear-gradient(0deg, transparent 0 3px, rgba(36, 95, 199, .08) 4px), radial-gradient(ellipse at 50% 50%, rgba(77, 129, 220, .3), transparent 70%)",
+  }),
+  iridescence: (isDark) => ({
+    backgroundColor: isDark ? "#0d1027" : "#f4f5ff",
+    backgroundImage: isDark
+      ? "radial-gradient(ellipse at 27% 55%, rgba(102, 90, 255, .58), transparent 45%), radial-gradient(ellipse at 72% 45%, rgba(255, 107, 193, .44), transparent 48%), radial-gradient(ellipse at 50% 84%, rgba(50, 213, 232, .28), transparent 44%)"
+      : "radial-gradient(ellipse at 27% 55%, rgba(94, 139, 255, .36), transparent 45%), radial-gradient(ellipse at 72% 45%, rgba(232, 130, 172, .31), transparent 48%), radial-gradient(ellipse at 50% 84%, rgba(103, 193, 200, .24), transparent 44%)",
   }),
 };
 

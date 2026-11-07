@@ -26,6 +26,7 @@ export interface BalatroProps {
   maxDevicePixelRatio?: number;
   className?: string;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 interface Settings {
@@ -293,7 +294,8 @@ const Balatro = ({
   opacity = 1,
   maxDevicePixelRatio = 2,
   className = '',
-  style
+  style,
+  onRendererError
 }: BalatroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -332,6 +334,13 @@ const Balatro = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Balatro] ${reason}`);
+      onRendererError?.(reason);
+    };
     if (!container || !canvas) return;
 
     const gl = canvas.getContext('webgl2', {
@@ -344,7 +353,14 @@ const Balatro = ({
     });
     const paintProgram = gl ? link(gl, PAINT) : null;
     const screenProgram = gl ? link(gl, SCREEN) : null;
-    if (!gl || !paintProgram || !screenProgram) return;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return;
+    }
+    if (!paintProgram || !screenProgram) {
+      reportError('Balatro shaders failed to compile or link.');
+      return;
+    }
     const floatTargets = !!(
       gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float')
     );
@@ -487,7 +503,7 @@ const Balatro = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (lost) return;
+      if (errorReported || gl.isContextLost() || lost) return;
       const s = settingsRef.current;
       const dt = clamp((now - last) / 1000 || 0, 0, 0.05);
       last = Math.max(last, now);
@@ -661,6 +677,7 @@ const Balatro = ({
     const onLost = (event: Event) => {
       event.preventDefault();
       lost = true;
+      reportError('WebGL context was lost while rendering.');
       cancelAnimationFrame(raf);
       raf = 0;
     };
@@ -712,7 +729,7 @@ const Balatro = ({
         if (fieldProgram) gl.deleteProgram(fieldProgram.program);
       }
     };
-  }, [generation]);
+  }, [generation, onRendererError]);
 
   return (
     <div ref={containerRef} className={`balatro${className ? ` ${className}` : ''}`} style={style}>

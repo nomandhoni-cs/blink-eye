@@ -3,6 +3,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
 
 import './DotGrid.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 const VERTEX = `#version 300 es
 precision highp float;
@@ -186,6 +187,7 @@ const DotGrid = ({
   onRendererError
 }: DotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const engineRef = useRef<{ rebuild: () => void; refresh: () => void } | null>(null);
   const settings = {
     dotSize,
@@ -575,7 +577,7 @@ const DotGrid = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (settingsRef.current.paused || !visible) return;
+      if (errorReported || gl.isContextLost() || settingsRef.current.paused || !visible) return;
       if (introStart !== null && introStart < 0) introStart = now;
       const dt = Math.min(0.05, (now - last) / 1000 || 0);
       last = now;

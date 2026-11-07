@@ -3,6 +3,7 @@
 import { useEffect, useRef, type HTMLAttributes } from 'react';
 
 import './DarkVeil.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export interface DarkVeilProps extends HTMLAttributes<HTMLDivElement> {
   color?: string;
@@ -300,6 +301,7 @@ export const DarkVeil = ({
 }: DarkVeilProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const settings: Settings = {
     color: String(color),
@@ -508,7 +510,7 @@ export const DarkVeil = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
@@ -634,7 +636,6 @@ export const DarkVeil = ({
       gl.deleteProgram(compositeProgram.program);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

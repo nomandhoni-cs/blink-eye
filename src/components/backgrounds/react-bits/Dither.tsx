@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties } from 'react';
 import './Dither.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export type DitherColor = string | [number, number, number];
 export type DitherMode = 'bayer' | 'bayer4' | 'bayer2' | 'halftone' | 'lines' | 'crosshatch' | 'noise' | 'none';
@@ -379,6 +380,7 @@ const Dither = ({
 }: DitherProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const settings: Settings = {
     waveSpeed,
@@ -589,7 +591,7 @@ const Dither = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
@@ -750,7 +752,6 @@ const Dither = ({
       gl.deleteVertexArray(vao);
       gl.deleteTexture(field);
       gl.deleteFramebuffer(framebuffer);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

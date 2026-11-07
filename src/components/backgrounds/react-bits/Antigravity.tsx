@@ -35,6 +35,7 @@ export interface AntigravityProps {
   maxDevicePixelRatio?: number;
   className?: string;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 interface Settings {
@@ -366,7 +367,8 @@ const Antigravity = ({
   opacity = 1,
   maxDevicePixelRatio = 2,
   className = '',
-  style
+  style,
+  onRendererError
 }: AntigravityProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -415,6 +417,13 @@ const Antigravity = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Antigravity] ${reason}`);
+      onRendererError?.(reason);
+    };
     if (!container || !canvas) return;
 
     const gl = canvas.getContext('webgl2', {
@@ -426,7 +435,14 @@ const Antigravity = ({
       powerPreference: 'high-performance'
     });
     const shader = gl ? link(gl) : null;
-    if (!gl || !shader) return;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return;
+    }
+    if (!shader) {
+      reportError('Antigravity shaders failed to compile or link.');
+      return;
+    }
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const vao = gl.createVertexArray();
@@ -657,7 +673,7 @@ const Antigravity = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (lost || !field) return;
+      if (errorReported || gl.isContextLost() || lost || !field) return;
       const s = settingsRef.current;
       updatePalette(s);
       const dt = clamp((now - last) / 1000 || 0, 0, 1 / 30);
@@ -780,6 +796,7 @@ const Antigravity = ({
     const onLost = (event: Event) => {
       event.preventDefault();
       lost = true;
+      reportError('WebGL context was lost while rendering.');
       cancelAnimationFrame(raf);
       raf = 0;
     };
@@ -830,7 +847,7 @@ const Antigravity = ({
         gl.deleteProgram(shader.program);
       }
     };
-  }, [generation]);
+  }, [generation, onRendererError]);
 
   return (
     <div ref={containerRef} className={`antigravity${className ? ` ${className}` : ''}`} style={style}>

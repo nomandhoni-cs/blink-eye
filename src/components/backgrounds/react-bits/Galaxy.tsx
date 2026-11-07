@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type HTMLAttributes } from 'react';
 import './Galaxy.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export type GalaxyDirection = 'forward' | 'backward';
 
@@ -351,6 +352,7 @@ const Galaxy = ({
 }: GalaxyProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const palette = Array.isArray(starColors) ? starColors.filter(Boolean).slice(0, MAX_COLORS) : [];
   const settings: Settings = {
@@ -541,7 +543,7 @@ const Galaxy = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
@@ -676,7 +678,6 @@ const Galaxy = ({
       programs.forEach(found => found.program && gl.deleteProgram(found.program));
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

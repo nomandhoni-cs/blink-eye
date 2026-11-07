@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import './Iridescence.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export interface IridescenceProps {
   color?: string | [number, number, number];
@@ -27,6 +28,7 @@ export interface IridescenceProps {
   paused?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 type Swirl = { x: number; y: number; age: number };
@@ -175,10 +177,12 @@ const Iridescence = ({
   resolution = 1,
   paused = false,
   className = '',
-  style
+  style,
+  onRendererError
 }: IridescenceProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const colorKey = Array.isArray(color) ? color.join(',') : String(color);
   const settings = {
@@ -209,17 +213,34 @@ const Iridescence = ({
   useEffect(() => {
     const root = rootRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Iridescence] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false });
-    if (!root || !canvas || !gl) return undefined;
+    if (!root || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
     const vertex = compile(gl, gl.VERTEX_SHADER, VERTEX);
     const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
     const program = gl.createProgram();
-    if (!vertex || !fragment || !program) return undefined;
+    if (!vertex || !fragment || !program) {
+      reportError('Iridescence shaders could not be created or compiled.');
+      return undefined;
+    }
     gl.attachShader(program, vertex);
     gl.attachShader(program, fragment);
     gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return undefined;
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      reportError('Iridescence shaders failed to link.');
+      return undefined;
+    }
     gl.useProgram(program);
 
     const buffer = gl.createBuffer();
@@ -419,7 +440,7 @@ const Iridescence = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!alive || !visible) return;
+      if (errorReported || gl.isContextLost() || !alive || !visible) return;
       const s = settingsRef.current;
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
@@ -535,7 +556,7 @@ const Iridescence = ({
       gl.deleteShader(vertex);
       gl.deleteShader(fragment);
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     settingsRef.current = settings;

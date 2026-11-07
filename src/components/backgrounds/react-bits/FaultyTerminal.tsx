@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties, type HTMLAttributes } from 'react';
 import './FaultyTerminal.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 type Vec2 = [number, number];
 
@@ -606,6 +607,7 @@ export default function FaultyTerminal({
 }: FaultyTerminalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const settings: Settings = {
     scale: Math.max(0.05, scale),
@@ -842,7 +844,7 @@ export default function FaultyTerminal({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = last ? clamp((now - last) / 1000, 0.001, 1 / 20) : 1 / 60;
       last = now;
@@ -947,7 +949,6 @@ export default function FaultyTerminal({
       gl.deleteVertexArray(vao);
       gl.deleteProgram(cellShader.program);
       gl.deleteProgram(mainShader.program);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

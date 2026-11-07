@@ -37,6 +37,7 @@ export interface CRTWarpProps {
   paused?: boolean;
   className?: string;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 type RGB = [number, number, number];
@@ -459,7 +460,8 @@ export default function CRTWarp({
   fps = 60,
   paused = false,
   className = '',
-  style
+  style,
+  onRendererError
 }: CRTWarpProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const ink = useMemo((): RGB => parseColor(color, [0.78, 0.33, 0.97]) ?? [0.78, 0.33, 0.97], [color]);
@@ -507,6 +509,13 @@ export default function CRTWarp({
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return undefined;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[CRT Warp] ${reason}`);
+      onRendererError?.(reason);
+    };
     const canvas = document.createElement('canvas');
     canvas.className = CANVAS;
     container.appendChild(canvas);
@@ -520,6 +529,7 @@ export default function CRTWarp({
     });
     if (!gl) {
       canvas.remove();
+      reportError('WebGL 2 is unavailable in this WebView.');
       return undefined;
     }
 
@@ -572,6 +582,7 @@ export default function CRTWarp({
     ]);
     if (!content || !glowSource || !blur || !display) {
       canvas.remove();
+      reportError('CRT Warp shaders failed to compile or link.');
       return undefined;
     }
 
@@ -753,6 +764,7 @@ export default function CRTWarp({
     };
 
     const tick = (now: number) => {
+      if (errorReported) return;
       state.raf = requestAnimationFrame(tick);
       if (!state.visible || document.hidden || state.lost) {
         state.last = now;
@@ -874,10 +886,9 @@ export default function CRTWarp({
       [content, glowSource, blur, display].forEach(item => gl.deleteProgram(item.program));
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
       canvas.remove();
     };
-  }, []);
+  }, [onRendererError]);
 
   return <div ref={containerRef} className={[ROOT, className].filter(Boolean).join(' ')} style={style} />;
 }

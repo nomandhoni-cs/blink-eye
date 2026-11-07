@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties, type HTMLAttributes } from 'react';
 import './FloatingLines.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export type WaveName = 'top' | 'middle' | 'bottom';
 
@@ -349,6 +350,7 @@ const FloatingLines = ({
 }: FloatingLinesProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const waves = Array.isArray(enabledWaves) ? enabledWaves.filter(wave => WAVES.includes(wave)) : WAVES;
   const settings: Settings = {
@@ -545,7 +547,7 @@ const FloatingLines = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
@@ -680,7 +682,6 @@ const FloatingLines = ({
       gl.deleteProgram(program.program);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [onRendererError]);
 

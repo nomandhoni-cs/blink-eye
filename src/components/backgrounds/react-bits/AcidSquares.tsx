@@ -3,6 +3,7 @@
 import { useEffect, useRef, type HTMLAttributes } from 'react';
 
 import './AcidSquares.css';
+import { useWebGLContextFailure } from './useWebGLContextFailure';
 
 export type AcidSquaresShape = 'square' | 'round';
 
@@ -52,6 +53,7 @@ export interface AcidSquaresProps extends HTMLAttributes<HTMLDivElement> {
   lightMode?: boolean;
   paused?: boolean;
   dpr?: number;
+  onRendererError?: (reason: string) => void;
 }
 
 type Light = [number, number, number, number, number];
@@ -583,10 +585,12 @@ const AcidSquares = ({
   lightMode = false,
   paused = false,
   dpr,
+  onRendererError,
   ...rest
 }: AcidSquaresProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  useWebGLContextFailure(canvasRef, onRendererError);
   const wakeRef = useRef<(() => void) | null>(null);
   const settings: Settings = {
     color: String(color),
@@ -636,6 +640,13 @@ const AcidSquares = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Acid Squares] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -643,10 +654,17 @@ const AcidSquares = ({
       depth: true,
       stencil: false
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
     const surface = link(gl, VERTEX, FRAGMENT);
-    if (!surface) return undefined;
+    if (!surface) {
+      reportError('Acid Squares shaders failed to compile or link.');
+      return undefined;
+    }
 
     const vao = gl.createVertexArray();
     const gridBuffer = gl.createBuffer();
@@ -901,7 +919,7 @@ const AcidSquares = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (!alive || !visible || document.hidden) return;
+      if (errorReported || gl.isContextLost() || !alive || !visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
@@ -1043,7 +1061,7 @@ const AcidSquares = ({
       gl.deleteVertexArray(vao);
       gl.deleteProgram(surface.program);
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();

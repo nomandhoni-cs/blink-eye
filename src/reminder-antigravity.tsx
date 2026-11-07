@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const AntigravityScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <Antigravity
@@ -19,9 +22,10 @@ const AntigravityScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ 
           particleSize={0.85} particleShape="capsule" ringRadius={7.2}
           magnetRadius={9} waveSpeed={0.45} waveAmplitude={1.05}
           interactive clickBurst lightMode={!isDark} ambient={isDark ? 0.28 : 0.68}
-          maxDevicePixelRatio={1.5}
+          maxDevicePixelRatio={1} onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
         />
+      {rendererError && <WebGLSceneFallback scene="antigravity" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );
