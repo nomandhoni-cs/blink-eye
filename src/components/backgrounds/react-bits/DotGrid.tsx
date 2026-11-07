@@ -120,6 +120,7 @@ interface DotGridProps {
   dpr?: number;
   className?: string;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 interface Shock {
@@ -147,10 +148,14 @@ const backOut = (t: number) => {
 };
 
 const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
-  const shader = gl.createShader(type) as WebGLShader;
+  const shader = gl.createShader(type);
+  if (!shader) return null;
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
-  return shader;
+  if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.error('[Dot Grid] Shader compilation failed:', gl.getShaderInfoLog(shader));
+  gl.deleteShader(shader);
+  return null;
 };
 
 const DotGrid = ({
@@ -177,7 +182,8 @@ const DotGrid = ({
   paused = false,
   dpr,
   className = '',
-  style
+  style,
+  onRendererError
 }: DotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<{ rebuild: () => void; refresh: () => void } | null>(null);
@@ -214,14 +220,39 @@ const DotGrid = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Dot Grid] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false });
-    if (!gl) return;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return;
+    }
 
-    const program = gl.createProgram() as WebGLProgram;
-    gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERTEX));
-    gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAGMENT));
+    const vertex = compile(gl, gl.VERTEX_SHADER, VERTEX);
+    const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
+    const program = gl.createProgram();
+    if (!vertex || !fragment || !program) {
+      if (vertex) gl.deleteShader(vertex);
+      if (fragment) gl.deleteShader(fragment);
+      reportError('Dot Grid shaders could not be created.');
+      return;
+    }
+    gl.attachShader(program, vertex);
+    gl.attachShader(program, fragment);
+    gl.deleteShader(vertex);
+    gl.deleteShader(fragment);
     gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error('[Dot Grid] Program linking failed:', gl.getProgramInfoLog(program));
+      reportError('Dot Grid shaders failed to link.');
+      gl.deleteProgram(program);
+      return;
+    }
 
     const uniforms: Record<string, WebGLUniformLocation | null> = {};
     for (const name of [
@@ -273,6 +304,7 @@ const DotGrid = ({
     let visible = true;
     let raf = 0;
     let last = 0;
+    let checkedFirstRender = false;
 
     const rebuild = () => {
       const { dotSize: size, gap: spacing } = settingsRef.current;
@@ -519,6 +551,11 @@ const DotGrid = ({
       gl.bufferSubData(gl.ARRAY_BUFFER, 0, instances);
       gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, grid.count);
       gl.bindVertexArray(null);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Dot Grid render (error ${error}).`);
+      }
     };
 
     const settled = (now: number) => {
@@ -660,7 +697,7 @@ const DotGrid = ({
       gl.deleteProgram(program);
       engineRef.current = null;
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     engineRef.current?.rebuild();

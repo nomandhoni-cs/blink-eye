@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const DitherScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <Dither
@@ -19,11 +22,12 @@ const DitherScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPre
           backgroundColor={isDark ? [0.018, 0.024, 0.075] : [0.94, 0.95, 1]}
           colorNum={5} pixelSize={2} enableMouseInteraction
           mouseRadius={1.15} ditherMode="bayer" scale={1.05}
-          contrast={isDark ? 1.14 : 0.92} brightness={isDark ? 0.12 : 0.18}
+          contrast={isDark ? 1.14 : 0.92} brightness={isDark ? 0.3 : 0.22}
           mouseEffect="ripple" mouseStrength={0.7} trail={0.45} clickRipple
-          dpr={1.25}
+          dpr={1} onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
         />
+      {rendererError && <WebGLSceneFallback scene="dither" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

@@ -31,6 +31,7 @@ export interface DitherProps {
   dpr?: number;
   className?: string;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 type Settings = {
@@ -318,6 +319,7 @@ const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.error('[Dither] Shader compilation failed:', gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
   return null;
 };
@@ -334,6 +336,7 @@ const link = (gl: WebGL2RenderingContext, fragmentSource: string): Program | nul
   gl.deleteShader(vertex);
   gl.deleteShader(fragment);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('[Dither] Program linking failed:', gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
     return null;
   }
@@ -371,7 +374,8 @@ const Dither = ({
   intro = true,
   dpr,
   className = '',
-  style
+  style,
+  onRendererError
 }: DitherProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -408,6 +412,13 @@ const Dither = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Dither] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -415,11 +426,18 @@ const Dither = ({
       depth: false,
       stencil: false
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
     const wave = link(gl, WAVE_FRAGMENT);
     const dither = link(gl, DITHER_FRAGMENT);
-    if (!wave || !dither) return undefined;
+    if (!wave || !dither) {
+      reportError('Dither shaders failed to compile or link; check the WebGL console diagnostics.');
+      return undefined;
+    }
 
     const buffer = gl.createBuffer();
     const vao = gl.createVertexArray();
@@ -475,6 +493,7 @@ const Dither = ({
     let raf = 0;
     let last = 0;
     let visible = true;
+    let checkedFirstRender = false;
 
     const allocate = () => {
       const s = settingsRef.current;
@@ -486,6 +505,9 @@ const Dither = ({
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, view.cols, view.rows, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
       gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
       gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, field, 0);
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+        reportError('The Dither intermediate framebuffer is incomplete.');
+      }
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     };
 
@@ -558,6 +580,11 @@ const Dither = ({
       gl.uniform3fv(d.uPalette, paletteData);
       gl.uniform1i(d.uPaletteCount, s.palette.length);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Dither render (error ${error}).`);
+      }
     };
 
     const frame = (now: number) => {
@@ -725,7 +752,7 @@ const Dither = ({
       gl.deleteFramebuffer(framebuffer);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();

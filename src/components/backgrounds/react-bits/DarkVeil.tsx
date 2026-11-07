@@ -25,6 +25,7 @@ export interface DarkVeilProps extends HTMLAttributes<HTMLDivElement> {
   lightMode?: boolean;
   paused?: boolean;
   dpr?: number;
+  onRendererError?: (reason: string) => void;
 }
 
 type Settings = {
@@ -242,6 +243,7 @@ const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.error('[Dark Veil] Shader compilation failed:', gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
   return null;
 };
@@ -258,6 +260,7 @@ const link = (gl: WebGL2RenderingContext, fragmentSource: string): Program | nul
   gl.deleteShader(vertex);
   gl.deleteShader(fragment);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('[Dark Veil] Program linking failed:', gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
     return null;
   }
@@ -292,6 +295,7 @@ export const DarkVeil = ({
   paused = false,
   dpr,
   className = '',
+  onRendererError,
   ...rest
 }: DarkVeilProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -328,6 +332,13 @@ export const DarkVeil = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Dark Veil] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -336,12 +347,20 @@ export const DarkVeil = ({
       stencil: false,
       powerPreference: 'high-performance'
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
-    const floatTargets = !!gl.getExtension('EXT_color_buffer_float');
+    // RGBA8 is universally renderable/filterable in WebGL 2. The float target
+    // path can be advertised by some WebKit GPUs without reliable filtering.
     const fieldProgram = link(gl, FIELD);
     const compositeProgram = link(gl, COMPOSITE);
-    if (!fieldProgram || !compositeProgram) return undefined;
+    if (!fieldProgram || !compositeProgram) {
+      reportError('Dark Veil shaders failed to compile or link; check the WebGL console diagnostics.');
+      return undefined;
+    }
 
     const buffer = gl.createBuffer();
     const vao = gl.createVertexArray();
@@ -351,22 +370,33 @@ export const DarkVeil = ({
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 
-    const texture = gl.createTexture();
+    let texture = gl.createTexture();
     const framebuffer = gl.createFramebuffer();
     const target = { width: 0, height: 0 };
     const sizeTarget = (width: number, height: number) => {
       if (target.width === width && target.height === height) return;
       target.width = width;
       target.height = height;
+      // texStorage2D creates immutable storage. Recreate the texture on resize;
+      // calling texStorage2D a second time on the same texture is invalid.
+      if (texture) gl.deleteTexture(texture);
+      texture = gl.createTexture();
+      if (!texture) {
+        reportError('Could not allocate the Dark Veil render texture.');
+        return;
+      }
       gl.bindTexture(gl.TEXTURE_2D, texture);
       const levels = Math.floor(Math.log2(Math.max(width, height))) + 1;
-      gl.texStorage2D(gl.TEXTURE_2D, levels, floatTargets ? gl.RGBA16F : gl.RGBA8, width, height);
+      gl.texStorage2D(gl.TEXTURE_2D, levels, gl.RGBA8, width, height);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
       gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+        reportError('The Dark Veil render framebuffer is incomplete.');
+      }
     };
 
     const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
@@ -406,12 +436,14 @@ export const DarkVeil = ({
     let raf = 0;
     let last = 0;
     let visible = true;
+    let checkedFirstRender = false;
 
     const render = () => {
       const s = settingsRef.current;
       const presence = state.intro * state.intro * state.intro * (state.intro * (state.intro * 6 - 15) + 10);
       gl.bindVertexArray(vao);
       sizeTarget(view.fieldWidth, view.fieldHeight);
+      if (!texture) return;
 
       const f = fieldProgram.uniforms;
       gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
@@ -430,7 +462,7 @@ export const DarkVeil = ({
       gl.uniform4f(f.uPointer, state.x, state.y, state.touch * s.mouseStrength * 0.9, 0.42);
       gl.uniform2f(f.uDrag, (state.dragX * 2) / view.height, (state.dragY * 2) / view.height);
       gl.uniform1f(f.uUnfold, (1 - presence) * 0.45);
-      gl.uniform1f(f.uDither, floatTargets ? 0 : 1 / 255);
+      gl.uniform1f(f.uDither, 1 / 255);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.generateMipmap(gl.TEXTURE_2D);
@@ -467,6 +499,11 @@ export const DarkVeil = ({
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.uniform1i(c.uField, 0);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Dark Veil render (error ${error}).`);
+      }
     };
 
     const frame = (now: number) => {
@@ -599,7 +636,7 @@ export const DarkVeil = ({
       gl.deleteVertexArray(vao);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();
