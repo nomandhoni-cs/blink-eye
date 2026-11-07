@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const BallpitScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <Ballpit
@@ -19,9 +22,11 @@ const BallpitScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPr
           friction={0.994} wallBounce={0.94} bounce={0.88} depth={2.4}
           drift={0.48} followCursor grab clickEffect="burst"
           lightColor={isDark ? "#fff0cb" : "#ffffff"} lightIntensity={1.25}
-          exposure={isDark ? 1.05 : 0.92} shadows={0.5} dpr={1.5}
+          exposure={isDark ? 1.05 : 0.92} shadows={0.5} dpr={1}
+          onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
         />
+      {rendererError && <WebGLSceneFallback scene="ballpit" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

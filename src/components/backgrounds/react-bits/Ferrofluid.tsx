@@ -31,6 +31,7 @@ export interface FerrofluidProps extends HTMLAttributes<HTMLDivElement> {
   paused?: boolean;
   dpr?: number;
   mixBlendMode?: CSSProperties['mixBlendMode'];
+  onRendererError?: (reason: string) => void;
 }
 
 type Settings = {
@@ -466,6 +467,7 @@ const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.error('[Ferrofluid] Shader compilation failed:', gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
   return null;
 };
@@ -482,6 +484,7 @@ const link = (gl: WebGL2RenderingContext, fragmentSource: string): Program | nul
   gl.deleteShader(vertex);
   gl.deleteShader(fragment);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('[Ferrofluid] Program linking failed:', gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
     return null;
   }
@@ -522,6 +525,7 @@ const Ferrofluid = ({
   mixBlendMode,
   className = '',
   style,
+  onRendererError,
   ...rest
 }: FerrofluidProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -562,6 +566,13 @@ const Ferrofluid = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Ferrofluid] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -569,13 +580,22 @@ const Ferrofluid = ({
       depth: false,
       stencil: false
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
-    const floatTargets = Boolean(gl.getExtension('EXT_color_buffer_float'));
+    // Use the portable normalized format instead of relying on float-target
+    // filtering/renderability variations across WebKit GPU backends.
+    const floatTargets = false;
     const sim = link(gl, SIM_FRAGMENT);
     const bounds = link(gl, BOUND_FRAGMENT);
     const render = link(gl, RENDER_FRAGMENT);
-    if (!sim || !bounds || !render) return undefined;
+    if (!sim || !bounds || !render) {
+      reportError('Ferrofluid shaders failed to compile or link.');
+      return undefined;
+    }
 
     const buffer = gl.createBuffer();
     const vao = gl.createVertexArray();
@@ -597,6 +617,9 @@ const Ferrofluid = ({
       const framebuffer = gl.createFramebuffer();
       gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
       gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+        reportError('A Ferrofluid intermediate framebuffer is incomplete.');
+      }
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       return { texture, framebuffer };
@@ -647,6 +670,7 @@ const Ferrofluid = ({
     let raf = 0;
     let last = 0;
     let visible = true;
+    let checkedFirstRender = false;
 
     const castRay = (x: number, y: number): [number, number, number] => {
       const aspect = view.width / view.height;
@@ -841,6 +865,11 @@ const Ferrofluid = ({
       gl.uniform3fv(ru.uBase, parse(s.color, s.lightMode ? [1, 1, 1] : [0.0706, 0.0588, 0.0902]));
       gl.uniform1f(ru.uOpacity, s.opacity);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Ferrofluid render (error ${error}).`);
+      }
     };
 
     const frame = (now: number) => {
@@ -951,7 +980,7 @@ const Ferrofluid = ({
       gl.deleteVertexArray(vao);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();

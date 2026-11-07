@@ -14,7 +14,7 @@ const AntigravityScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ 
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <Antigravity
-          count={1150} colors={isDark ? ["#ff4fc8", "#35d9ff", "#ffd04f", "#9272ff"] : ["#c51f8d", "#177dbd", "#dc8521", "#6845c6"]}
+          count={1150} colors={isDark ? ["#ff5c52", "#ffad42", "#ffd166", "#ff6fae"] : ["#c93c36", "#e27b24", "#c14a6e", "#a85b16"]}
           colorMode="conic" colorSpeed={0.07} autoAnimate
           particleSize={0.85} particleShape="capsule" ringRadius={7.2}
           magnetRadius={9} waveSpeed={0.45} waveAmplitude={1.05}

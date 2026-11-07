@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const FerrofluidScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <Ferrofluid
@@ -20,9 +23,11 @@ const FerrofluidScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ i
           flowDirection="down" brightness={isDark ? 1.08 : 0.9}
           mouseInteraction mouseStrength={0.7} mouseRadius={0.25}
           clickPulse intro lightMode={!isDark} transparent={false}
-          color={isDark ? "#080a16" : "#f6f6ff"}
+          color={isDark ? "#080a16" : "#f6f6ff"} dpr={1}
+          onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
         />
+      {rendererError && <WebGLSceneFallback scene="ferrofluid" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

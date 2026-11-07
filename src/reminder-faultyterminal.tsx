@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const FaultyTerminalScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <FaultyTerminal
@@ -21,9 +24,10 @@ const FaultyTerminalScene: React.FC<{ isPremium: boolean; minimal: boolean }> = 
           mouseReact mouseStrength={0.52} pageLoadAnimation brightness={isDark ? 0.72 : 1.16}
           glyphs="characters" glow={0.42} persistence={0.32} scramble={0.14}
           mouseGlow={0.4} vignette={0.32} clickEffect="glitch"
-          lightMode={!isDark}
+          lightMode={!isDark} dpr={1} onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh", background: isDark ? "#06100a" : "#eff8f2" }}
         />
+      {rendererError && <WebGLSceneFallback scene="faultyTerminal" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

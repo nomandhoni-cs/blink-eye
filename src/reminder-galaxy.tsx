@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const GalaxyScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <Galaxy
@@ -21,9 +24,11 @@ const GalaxyScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPre
           rotationSpeed={0.12} transparent={false} lightMode={!isDark}
           starColors={isDark ? ["#82efff", "#c696ff", "#fff0a0"] : ["#2268b8", "#7140c5", "#cd7a38"]}
           starSize={1.15} flareIntensity={0.85} layers={4} clickWarp intro
-          backgroundColor={isDark ? "#050818" : "#f0f3ff"}
+          backgroundColor={isDark ? "#050818" : "#f0f3ff"} dpr={1}
+          onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh"}}
         />
+      {rendererError && <WebGLSceneFallback scene="galaxy" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

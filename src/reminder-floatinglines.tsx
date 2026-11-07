@@ -1,4 +1,5 @@
 import React from "react";
+import { WebGLSceneFallback } from "./components/backgrounds/react-bits/WebGLSceneFallback";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -11,6 +12,8 @@ import {
 
 const FloatingLinesScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({ isPremium, minimal }) => {
   const isDark = useReminderDarkMode();
+  const [rendererError, setRendererError] = React.useState<string | null>(null);
+  const handleRendererError = React.useCallback((reason: string) => setRendererError(reason), []);
   return (
     <div className="relative h-screen w-screen overflow-hidden" style={{ background: isDark ? "#080a1b" : "#f5f6ff" }}>
         <FloatingLines
@@ -20,9 +23,11 @@ const FloatingLinesScene: React.FC<{ isPremium: boolean; minimal: boolean }> = (
           brightness={isDark ? 1.15 : 0.92} depthOfField={0.62} edgeFade={0.16}
           interactive bendRadius={5.3} bendStrength={-0.48}
           parallax clickSwirl intro lightMode={!isDark}
-          backgroundColor={isDark ? "#080a1b" : "#f6f7ff"}
+          backgroundColor={isDark ? "#080a1b" : "#f6f7ff"} dpr={1}
+          onRendererError={handleRendererError}
           style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
         />
+      {rendererError && <WebGLSceneFallback scene="floatingLines" isDark={isDark} />}
       {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
     </div>
   );

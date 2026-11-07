@@ -43,6 +43,7 @@ export interface FloatingLinesProps extends Omit<HTMLAttributes<HTMLDivElement>,
   opacity?: number;
   dpr?: number;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 type WaveSettings = {
@@ -275,6 +276,7 @@ const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.error('[Floating Lines] Shader compilation failed:', gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
   return null;
 };
@@ -291,6 +293,7 @@ const link = (gl: WebGL2RenderingContext): Program | null => {
   gl.deleteShader(vertex);
   gl.deleteShader(fragment);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('[Floating Lines] Program linking failed:', gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
     return null;
   }
@@ -341,6 +344,7 @@ const FloatingLines = ({
   dpr,
   className = '',
   style,
+  onRendererError,
   ...rest
 }: FloatingLinesProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -391,6 +395,13 @@ const FloatingLines = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Floating Lines] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -398,10 +409,17 @@ const FloatingLines = ({
       depth: false,
       stencil: false
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
     const program = link(gl);
-    if (!program) return undefined;
+    if (!program) {
+      reportError('Floating Lines shaders failed to compile or link.');
+      return undefined;
+    }
     const u = program.uniforms;
 
     const buffer = gl.createBuffer();
@@ -449,6 +467,7 @@ const FloatingLines = ({
     let raf = 0;
     let last = 0;
     let visible = true;
+    let checkedFirstRender = false;
 
     const render = () => {
       const s = settingsRef.current;
@@ -517,6 +536,11 @@ const FloatingLines = ({
       gl.uniform1f(u.uStyle, s.style);
       gl.uniform1f(u.uSpacing, (s.style === 2 ? 22 : 9) * ratio);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Floating Lines render (error ${error}).`);
+      }
     };
 
     const frame = (now: number) => {
@@ -658,7 +682,7 @@ const FloatingLines = ({
       gl.deleteVertexArray(vao);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();

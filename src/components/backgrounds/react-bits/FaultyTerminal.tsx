@@ -38,6 +38,7 @@ export interface FaultyTerminalProps extends Omit<HTMLAttributes<HTMLDivElement>
   dpr?: number;
   className?: string;
   style?: CSSProperties;
+  onRendererError?: (reason: string) => void;
 }
 
 type Settings = {
@@ -524,6 +525,7 @@ const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.error('[Faulty Terminal] Shader compilation failed:', gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
   return null;
 };
@@ -539,6 +541,7 @@ const link = (gl: WebGL2RenderingContext, fragmentSource: string): Program | nul
   gl.deleteShader(vertex);
   gl.deleteShader(fragment);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('[Faulty Terminal] Program linking failed:', gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
     return null;
   }
@@ -598,6 +601,7 @@ export default function FaultyTerminal({
   dpr,
   className = '',
   style,
+  onRendererError,
   ...rest
 }: FaultyTerminalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -643,6 +647,13 @@ export default function FaultyTerminal({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Faulty Terminal] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -650,10 +661,17 @@ export default function FaultyTerminal({
       depth: false,
       stencil: false
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
     const cellShader = link(gl, CELL_FRAGMENT);
     const mainShader = link(gl, MAIN_FRAGMENT);
-    if (!cellShader || !mainShader) return undefined;
+    if (!cellShader || !mainShader) {
+      reportError('Faulty Terminal shaders failed to compile or link.');
+      return undefined;
+    }
     const cu = cellShader.uniforms;
     const mu = mainShader.uniforms;
     const vao = gl.createVertexArray();
@@ -698,6 +716,7 @@ export default function FaultyTerminal({
     let last = 0;
     let visible = true;
     let quiet = 0;
+    let checkedFirstRender = false;
 
     const layoutCells = (s: Settings) => {
       const reach = 1 + Math.max(0, s.curvature) * 2;
@@ -800,6 +819,11 @@ export default function FaultyTerminal({
       gl.bindVertexArray(vao);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       gl.bindVertexArray(null);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Faulty Terminal render (error ${error}).`);
+      }
     };
 
     const resize = () => {
@@ -925,7 +949,7 @@ export default function FaultyTerminal({
       gl.deleteProgram(mainShader.program);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();

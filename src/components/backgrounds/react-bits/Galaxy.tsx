@@ -33,6 +33,7 @@ export interface GalaxyProps extends HTMLAttributes<HTMLDivElement> {
   backgroundColor?: string;
   opacity?: number;
   dpr?: number;
+  onRendererError?: (reason: string) => void;
 }
 
 type Settings = {
@@ -282,6 +283,16 @@ const start = (gl: WebGL2RenderingContext, palette: boolean, repel: boolean, war
   gl.shaderSource(fragment, FRAGMENT.replace('\n', `\n${defines}`));
   gl.compileShader(vertex);
   gl.compileShader(fragment);
+  const vertexOk = gl.getShaderParameter(vertex, gl.COMPILE_STATUS);
+  const fragmentOk = gl.getShaderParameter(fragment, gl.COMPILE_STATUS);
+  if (!vertexOk || !fragmentOk) {
+    if (!vertexOk) console.error('[Galaxy] Vertex shader compilation failed:', gl.getShaderInfoLog(vertex));
+    if (!fragmentOk) console.error('[Galaxy] Fragment shader compilation failed:', gl.getShaderInfoLog(fragment));
+    gl.deleteShader(vertex);
+    gl.deleteShader(fragment);
+    gl.deleteProgram(program);
+    return null;
+  }
   gl.attachShader(program, vertex);
   gl.attachShader(program, fragment);
   gl.bindAttribLocation(program, 0, 'aPosition');
@@ -292,7 +303,10 @@ const start = (gl: WebGL2RenderingContext, palette: boolean, repel: boolean, war
 };
 
 const finish = (gl: WebGL2RenderingContext, program: WebGLProgram): Program | null => {
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null;
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('[Galaxy] Program linking failed:', gl.getProgramInfoLog(program));
+    return null;
+  }
   const uniforms: Record<string, WebGLUniformLocation | null> = {};
   const count = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
   for (let i = 0; i < count; i++) {
@@ -332,6 +346,7 @@ const Galaxy = ({
   dpr,
   className = '',
   style,
+  onRendererError,
   ...rest
 }: GalaxyProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -376,6 +391,13 @@ const Galaxy = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    let errorReported = false;
+    const reportError = (reason: string) => {
+      if (errorReported) return;
+      errorReported = true;
+      console.error(`[Galaxy] ${reason}`);
+      onRendererError?.(reason);
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -383,7 +405,11 @@ const Galaxy = ({
       depth: false,
       stencil: false
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!container || !canvas) return undefined;
+    if (!gl) {
+      reportError('WebGL 2 is unavailable in this WebView.');
+      return undefined;
+    }
 
     const parallel = gl.getExtension('KHR_parallel_shader_compile');
     const programs = new Map<number, Variant>();
@@ -407,6 +433,7 @@ const Galaxy = ({
     };
     const initial = settingsRef.current;
     if (!variant(initial.palette.length > 0, false, false, true)) {
+      reportError('Galaxy shaders failed to compile or link.');
       programs.forEach(found => found.program && gl.deleteProgram(found.program));
       return undefined;
     }
@@ -456,6 +483,7 @@ const Galaxy = ({
     let raf = 0;
     let last = 0;
     let visible = true;
+    let checkedFirstRender = false;
 
     const render = () => {
       const s = settingsRef.current;
@@ -504,6 +532,11 @@ const Galaxy = ({
       gl.uniform3fv(u.uBackground, background);
       gl.uniform1f(u.uOpacity, s.opacity);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!checkedFirstRender) {
+        checkedFirstRender = true;
+        const error = gl.getError();
+        if (error !== gl.NO_ERROR) reportError(`WebGL rejected the first Galaxy render (error ${error}).`);
+      }
     };
 
     const frame = (now: number) => {
@@ -645,7 +678,7 @@ const Galaxy = ({
       gl.deleteVertexArray(vao);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, []);
+  }, [onRendererError]);
 
   useEffect(() => {
     wakeRef.current?.();
