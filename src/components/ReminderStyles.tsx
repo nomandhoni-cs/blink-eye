@@ -9,18 +9,46 @@ import { LoadingSpinner } from "./LoadingSpinner";
 import { useTrigger } from "../contexts/TriggerReRender";
 import { cn } from "../lib/utils";
 
-// Thumbnails — diagonal split showing light (top-left) and dark (bottom-right)
-import defaultThumb from "../assets/thumbnails/default.png";
-import auroraThumb from "../assets/thumbnails/aurora.png";
-import freespritThumb from "../assets/thumbnails/freesprit.png";
-import particleThumb from "../assets/thumbnails/particleBackground.png";
-import starryThumb from "../assets/thumbnails/starryBackground.png";
-import beamThumb from "../assets/thumbnails/beamoflife.png";
-import meteorThumb from "../assets/thumbnails/shootingmeteor.png";
-import gradientThumb from "../assets/thumbnails/plainGradientAnimation.png";
-import canvasThumb from "../assets/thumbnails/canvasShapes.png";
+// Clean scene previews — static artwork with no reminder overlay
+import defaultThumb from "../assets/thumbnails/default-clean.webp";
+import auroraThumb from "../assets/thumbnails/aurora-clean.webp";
+import freespritThumb from "../assets/thumbnails/free-spirit-clean.webp";
+import particleThumb from "../assets/thumbnails/particle-wave-clean.webp";
+import starryThumb from "../assets/thumbnails/starry-background-clean.webp";
+import beamThumb from "../assets/thumbnails/beam-of-life-clean.webp";
+import meteorThumb from "../assets/thumbnails/shooting-meteor-clean.webp";
+import gradientThumb from "../assets/thumbnails/plain-gradient-clean.webp";
+import canvasThumb from "../assets/thumbnails/canvas-shapes-clean.webp";
+import iridescenceLight from "../assets/thumbnails/iridescence-light.webp";
+import iridescenceDark from "../assets/thumbnails/iridescence-dark.webp";
+import balatroLight from "../assets/thumbnails/balatro-light.webp";
+import balatroDark from "../assets/thumbnails/balatro-dark.webp";
+import acidSquaresLight from "../assets/thumbnails/acid-squares-light.webp";
+import acidSquaresDark from "../assets/thumbnails/acid-squares-dark.webp";
+import antigravityLight from "../assets/thumbnails/antigravity-light.webp";
+import antigravityDark from "../assets/thumbnails/antigravity-dark.webp";
+import ballpitLight from "../assets/thumbnails/ballpit-light.webp";
+import ballpitDark from "../assets/thumbnails/ballpit-dark.webp";
+import crtWarpLight from "../assets/thumbnails/crt-warp-light.webp";
+import crtWarpDark from "../assets/thumbnails/crt-warp-dark.webp";
+import darkVeilLight from "../assets/thumbnails/dark-veil-light.webp";
+import darkVeilDark from "../assets/thumbnails/dark-veil-dark.webp";
+import ditherLight from "../assets/thumbnails/dither-light.webp";
+import ditherDark from "../assets/thumbnails/dither-dark.webp";
+import dotGridLight from "../assets/thumbnails/dot-grid-light.webp";
+import dotGridDark from "../assets/thumbnails/dot-grid-dark.webp";
+import faultyTerminalLight from "../assets/thumbnails/faulty-terminal-light.webp";
+import faultyTerminalDark from "../assets/thumbnails/faulty-terminal-dark.webp";
+import ferrofluidLight from "../assets/thumbnails/ferrofluid-light.webp";
+import ferrofluidDark from "../assets/thumbnails/ferrofluid-dark.webp";
+import floatingLinesLight from "../assets/thumbnails/floating-lines-light.webp";
+import floatingLinesDark from "../assets/thumbnails/floating-lines-dark.webp";
+import galaxyLight from "../assets/thumbnails/galaxy-light.webp";
+import galaxyDark from "../assets/thumbnails/galaxy-dark.webp";
 
-const thumbMap: Record<string, string> = {
+type ThemeThumbnail = string | { light: string; dark: string };
+
+const thumbMap: Record<string, ThemeThumbnail> = {
   default: defaultThumb,
   aurora: auroraThumb,
   freesprit: freespritThumb,
@@ -30,12 +58,25 @@ const thumbMap: Record<string, string> = {
   shootingmeteor: meteorThumb,
   plainGradientAnimation: gradientThumb,
   canvasShapes: canvasThumb,
+  iridescence: { light: iridescenceLight, dark: iridescenceDark },
+  balatro: { light: balatroLight, dark: balatroDark },
+  acidSquares: { light: acidSquaresLight, dark: acidSquaresDark },
+  antigravity: { light: antigravityLight, dark: antigravityDark },
+  ballpit: { light: ballpitLight, dark: ballpitDark },
+  crtWarp: { light: crtWarpLight, dark: crtWarpDark },
+  darkVeil: { light: darkVeilLight, dark: darkVeilDark },
+  dither: { light: ditherLight, dark: ditherDark },
+  dotGrid: { light: dotGridLight, dark: dotGridDark },
+  faultyTerminal: { light: faultyTerminalLight, dark: faultyTerminalDark },
+  ferrofluid: { light: ferrofluidLight, dark: ferrofluidDark },
+  floatingLines: { light: floatingLinesLight, dark: floatingLinesDark },
+  galaxy: { light: galaxyLight, dark: galaxyDark },
 };
 
 const styles = [
   { value: "default", label: "Default" },
   { value: "aurora", label: "Aurora" },
-  { value: "freesprit", label: "Free Sprit" },
+  { value: "freesprit", label: "Free Spirit" },
   { value: "particleBackground", label: "Infinite Wave Background" },
   { value: "starryBackground", label: "Starry Background" },
   { value: "beamoflife", label: "Beam of Life" },
@@ -43,6 +84,19 @@ const styles = [
   { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
   // { value: "polygonAnimation", label: "Polygon Animation" },
   { value: "canvasShapes", label: "Bouncy Balls" },
+  { value: "iridescence", label: "Iridescence" },
+  { value: "balatro", label: "Balatro" },
+  { value: "acidSquares", label: "Acid Squares" },
+  { value: "antigravity", label: "Antigravity" },
+  { value: "ballpit", label: "Ballpit" },
+  { value: "crtWarp", label: "CRT Warp" },
+  { value: "darkVeil", label: "Dark Veil" },
+  { value: "dither", label: "Dither" },
+  { value: "dotGrid", label: "Dot Grid" },
+  { value: "faultyTerminal", label: "Faulty Terminal" },
+  { value: "ferrofluid", label: "Ferrofluid" },
+  { value: "floatingLines", label: "Floating Lines" },
+  { value: "galaxy", label: "Galaxy" },
 ];
 
 export default function ReminderStyles() {
@@ -125,13 +179,14 @@ export default function ReminderStyles() {
       <div className="flex flex-col gap-1">
         <h3 className="text-2xl font-heading tracking-tight">Background Style</h3>
         <p className="text-sm text-muted-foreground">
-          Select a visual theme to be displayed during break reminders.
+          Choose from 22 animated scenes for your break reminders. Select any card to preview it fullscreen.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {styles.map((style) => {
           const isActive = backgroundStyle === style.value;
+          const preview = thumbMap[style.value];
           return (
             <div
               key={style.value}
@@ -153,12 +208,33 @@ export default function ReminderStyles() {
               }}
             >
               <div className="relative aspect-video w-full overflow-hidden bg-muted">
-                <img
-                  src={thumbMap[style.value]}
-                  alt={`${style.label} preview`}
-                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  loading="lazy"
-                />
+                {typeof preview === "string" ? (
+                  <img
+                    src={preview}
+                    alt={`${style.label} preview`}
+                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={preview.light}
+                      alt={`${style.label} light mode preview`}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+                      loading="lazy"
+                    />
+                    <img
+                      src={preview.dark}
+                      alt={`${style.label} dark mode preview`}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      style={{ clipPath: "polygon(100% 0, 100% 100%, 0 100%)" }}
+                      loading="lazy"
+                    />
+                    <span className="absolute bottom-2 left-2 rounded bg-white/85 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-slate-700">Light</span>
+                    <span className="absolute bottom-2 right-2 rounded bg-slate-900/75 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">Dark</span>
+                  </>
+                )}
                 {/* Subtle gradient overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 

@@ -19,7 +19,20 @@ export type BackgroundStyle =
   | "starryBackground"
   | "shootingmeteor"
   | "plainGradientAnimation"
-  | "canvasShapes";
+  | "canvasShapes"
+  | "iridescence"
+  | "balatro"
+  | "acidSquares"
+  | "antigravity"
+  | "ballpit"
+  | "crtWarp"
+  | "darkVeil"
+  | "dither"
+  | "dotGrid"
+  | "faultyTerminal"
+  | "ferrofluid"
+  | "floatingLines"
+  | "galaxy";
 
 export interface BackgroundEntry {
   /** Style key persisted in appconfig.db (`reminderBackgroundStyle`). */
@@ -40,6 +53,19 @@ export const BACKGROUND_REGISTRY: BackgroundEntry[] = [
   { style: "shootingmeteor",        entry: "reminder-meteor.html",              label: "Shooting Meteor" },
   { style: "plainGradientAnimation", entry: "reminder-gradient.html",          label: "Gradient Animation" },
   { style: "canvasShapes",          entry: "reminder-canvas.html",              label: "Bouncy Balls" },
+  { style: "iridescence",            entry: "reminder-iridescence.html",         label: "Iridescence" },
+  { style: "balatro",                entry: "reminder-balatro.html",             label: "Balatro" },
+  { style: "acidSquares",            entry: "reminder-acidsquares.html",         label: "Acid Squares" },
+  { style: "antigravity",             entry: "reminder-antigravity.html",         label: "Antigravity" },
+  { style: "ballpit",                 entry: "reminder-ballpit.html",             label: "Ballpit" },
+  { style: "crtWarp",                 entry: "reminder-crtwarp.html",             label: "CRT Warp" },
+  { style: "darkVeil",                entry: "reminder-darkveil.html",            label: "Dark Veil" },
+  { style: "dither",                  entry: "reminder-dither.html",              label: "Dither" },
+  { style: "dotGrid",                 entry: "reminder-dotgrid.html",             label: "Dot Grid" },
+  { style: "faultyTerminal",          entry: "reminder-faultyterminal.html",      label: "Faulty Terminal" },
+  { style: "ferrofluid",              entry: "reminder-ferrofluid.html",          label: "Ferrofluid" },
+  { style: "floatingLines",           entry: "reminder-floatinglines.html",       label: "Floating Lines" },
+  { style: "galaxy",                  entry: "reminder-galaxy.html",              label: "Galaxy" },
 ];
 
 export const DEFAULT_BACKGROUND_ENTRY = "reminder-default.html";

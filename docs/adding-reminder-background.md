@@ -37,10 +37,14 @@ Background paints first → DeferredReminderOverlay loads later (primary only)
 | 5 | `vite.config.ts` → `build.rollupOptions.input` | Yes |
 | 6 | `src-tauri/src/reminder_scheduler.rs` → `BACKGROUND_STYLE_TO_ENTRY` | Yes |
 | 7 | `src/components/ReminderStyles.tsx` | Yes (theme picker UI) |
-| 8 | `src/assets/thumbnails/{styleKey}.png` | Yes (picker thumbnail) |
+| 8 | `src/assets/thumbnails/{styleKey}.{png,svg,webp}` | Yes (picker preview image; use paired light/dark WebP previews when available) |
 | 9 | — | Theme preview uses `entryForStyle()` in Reminder Themes / Settings |
 
 Steps 1–8 are enough for real breaks fired by the Rust scheduler.
+
+### Thumbnail capture
+
+Capture previews from the actual reminder entry at **640 × 360** and use `?minimal=true` so `DeferredReminderOverlay` (timer, text, and controls) is not mounted. Set `localStorage["vite-ui-theme"]` to `dark` or `light` before loading when a style has theme-specific frames. Wait for the background to paint, capture only the viewport, and export a compressed WebP. Thumbnails should be artwork-only: no reminder UI, clock, counter, labels, or diagonal theme divider.
 
 ---
 
