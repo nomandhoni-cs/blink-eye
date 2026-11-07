@@ -3,38 +3,51 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Iridescence from "./components/backgrounds/react-bits/Iridescence";
+import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
 } from "./components/reminder/DeferredReminderOverlay";
 
+const IridescenceScene: React.FC<{ isPremium: boolean; minimal: boolean }> = ({
+  isPremium,
+  minimal,
+}) => {
+  const isDark = useReminderDarkMode();
+  return (
+    <div
+      className="relative h-screen w-screen overflow-hidden"
+      style={{ background: isDark ? "#0d1027" : "#f4f5ff" }}
+    >
+      <Iridescence
+        color={isDark ? [0.74, 0.68, 1] : [1, 0.94, 0.79]}
+        hueShift={isDark ? 28 : -18}
+        saturation={1.28}
+        brightness={isDark ? 1.45 : 1.42}
+        contrast={isDark ? 1.2 : 0.82}
+        speed={0.72}
+        scale={1.08}
+        detail={9}
+        warp={1.25}
+        mouseReact
+        amplitude={0.08}
+        stir={0.58}
+        sheen={0.55}
+        clickSwirl
+        grain={0.025}
+        resolution={0.8}
+        style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
+      />
+      {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
+    </div>
+  );
+};
+
 const ReminderIridescence: React.FC = () => {
   const { isPremium, minimal } = parseReminderWindowConfig();
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="relative h-screen w-screen overflow-hidden bg-[#100e29]">
-        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_center,#654fff_0%,#10102b_75%)]" />
-        <Iridescence
-          color="#c8eaff"
-          hueShift={12}
-          saturation={1.35}
-          brightness={1.65}
-          contrast={1.08}
-          speed={0.72}
-          scale={1.08}
-          detail={9}
-          warp={1.25}
-          mouseReact
-          amplitude={0.08}
-          stir={0.58}
-          sheen={0.55}
-          clickSwirl
-          grain={0.025}
-          resolution={0.8}
-          style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
-        />
-        {!minimal && <DeferredReminderOverlay isPremium={isPremium} />}
-      </div>
+      <IridescenceScene isPremium={isPremium} minimal={minimal} />
     </ThemeProvider>
   );
 };
