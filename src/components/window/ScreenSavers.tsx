@@ -8,16 +8,16 @@ import toast from "react-hot-toast";
 import HowToCloseScreenSaver from "../HowToCloseScreenSaver";
 import { cn } from "../../lib/utils";
 
-// Thumbnails — diagonal split showing light (top-left) and dark (bottom-right)
-import auroraThumb from "../../assets/thumbnails/aurora.png";
-import freespritThumb from "../../assets/thumbnails/freesprit.png";
-import particleThumb from "../../assets/thumbnails/particleBackground.png";
-import starryThumb from "../../assets/thumbnails/starryBackground.png";
-import beamThumb from "../../assets/thumbnails/beamoflife.png";
-import meteorThumb from "../../assets/thumbnails/shootingmeteor.png";
-import gradientThumb from "../../assets/thumbnails/plainGradientAnimation.png";
-import polygonThumb from "../../assets/thumbnails/polygonAnimation.png";
-import canvasThumb from "../../assets/thumbnails/canvasShapes.png";
+// Clean scene previews — static artwork with no reminder overlay
+import auroraThumb from "../../assets/thumbnails/aurora-clean.webp";
+import freespritThumb from "../../assets/thumbnails/free-spirit-clean.webp";
+import particleThumb from "../../assets/thumbnails/particle-wave-clean.webp";
+import starryThumb from "../../assets/thumbnails/starry-background-clean.webp";
+import beamThumb from "../../assets/thumbnails/beam-of-life-clean.webp";
+import meteorThumb from "../../assets/thumbnails/shooting-meteor-clean.webp";
+import gradientThumb from "../../assets/thumbnails/plain-gradient-clean.webp";
+import polygonThumb from "../../assets/thumbnails/polygon-animation-clean.webp";
+import canvasThumb from "../../assets/thumbnails/canvas-shapes-clean.webp";
 
 const thumbMap: Record<string, string> = {
   aurora: auroraThumb,
@@ -33,8 +33,8 @@ const thumbMap: Record<string, string> = {
 
 const styles = [
   { value: "aurora", label: "Aurora" },
-  { value: "freesprit", label: "Free Sprit" },
-  { value: "particleBackground", label: "Infinite Wave Background" },
+  { value: "freesprit", label: "Free Spirit" },
+  { value: "particleBackground", label: "Particle Wave" },
   { value: "starryBackground", label: "Starry Background" },
   { value: "beamoflife", label: "Beam of Life" },
   { value: "shootingmeteor", label: "Shooting Meteor" },

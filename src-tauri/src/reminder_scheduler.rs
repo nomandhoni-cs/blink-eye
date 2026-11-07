@@ -822,6 +822,19 @@ const BACKGROUND_STYLE_TO_ENTRY: &[(&str, &str)] = &[
     ("shootingmeteor",         "reminder-meteor.html"),
     ("plainGradientAnimation", "reminder-gradient.html"),
     ("canvasShapes",           "reminder-canvas.html"),
+    ("iridescence",             "reminder-iridescence.html"),
+    ("balatro",                 "reminder-balatro.html"),
+    ("acidSquares",              "reminder-acidsquares.html"),
+    ("antigravity",              "reminder-antigravity.html"),
+    ("ballpit",                  "reminder-ballpit.html"),
+    ("crtWarp",                  "reminder-crtwarp.html"),
+    ("darkVeil",                 "reminder-darkveil.html"),
+    ("dither",                   "reminder-dither.html"),
+    ("dotGrid",                  "reminder-dotgrid.html"),
+    ("faultyTerminal",           "reminder-faultyterminal.html"),
+    ("ferrofluid",               "reminder-ferrofluid.html"),
+    ("floatingLines",            "reminder-floatinglines.html"),
+    ("galaxy",                   "reminder-galaxy.html"),
 ];
 
 /// Creates the `config` table in `appconfig.db` and inserts default values if missing.
