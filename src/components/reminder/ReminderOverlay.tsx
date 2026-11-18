@@ -12,9 +12,18 @@ import { CountdownNumerals } from "./CountdownNumerals";
 import { EdgeDialTimer } from "./EdgeDialTimer";
 import { VerticalBarTimer } from "./VerticalBarTimer";
 import {
+  barDigitSize,
+  circleDigitSize,
+  dialDigitSize,
+  messageSize,
+  splashSize,
+  verticalDigitSize,
+} from "./timerLayout";
+import {
   formatClock,
   isTimerStyle,
   loadTimerStyle,
+  useViewportSize,
   type TimerStyle,
 } from "./timerStyle";
 
@@ -59,6 +68,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [countdownStarted, setCountdownStarted] = useState<boolean>(false);
   const [canSnooze, setCanSnooze] = useState(true);
+  const { width: vw, height: vh } = useViewportSize();
 
   const finishBreak = async (snoozed: boolean) => {
     const currentWin = getCurrentWebviewWindow();
@@ -232,33 +242,59 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
     </Button>
   );
 
+  // Every countdown size is derived from the live viewport, so the same
+  // overlay fits a 1366x768 laptop, a scaled-down window, or a 4K display.
+  // Seconds-based timers show `20` or `300`; clock timers always show `MM:SS`.
+  const secondsGlyphs = paddedTime.length;
+  const digitSize = {
+    bar: barDigitSize(vw, vh, secondsGlyphs),
+    circle: circleDigitSize(vw, vh, secondsGlyphs),
+    dial: dialDigitSize(vw, vh),
+    vertical: verticalDigitSize(vw, vh),
+  };
+  const messageFontSize = messageSize(vw, vh);
+  const splashFontSize = splashSize(vw, vh);
+  const vmin = Math.min(vw, vh);
+  // Ring diameter for the circle timer: a fraction of the short side, capped
+  // so it always leaves room for the message and the skip button.
+  const ringSize = Math.round(Math.min(vmin * 0.62, 480));
+
   const renderTimer = () => {
     switch (timerStyle) {
       case "bar":
         return (
-          <div className="flex h-full w-full flex-col items-center">
-            <div className="absolute top-[40%] flex -translate-y-1/2 transform flex-col items-center animate-in">
-              <div className="flex items-end text-[240px] leading-none">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-[6vh]">
+            <div className="animate-in flex flex-col items-center">
+              <div
+                className="flex items-end leading-none"
+                style={{ fontSize: digitSize.bar }}
+              >
                 <CountdownNumerals
                   value={paddedTime}
                   previous={paddedLastSecond}
                 />
-                <span className="mb-8 ml-2 font-sans text-5xl font-medium opacity-70">
+                <span
+                  className="ml-[0.08em] font-sans font-medium opacity-70"
+                  style={{ fontSize: "0.24em", marginBottom: "0.34em" }}
+                >
                   s
                 </span>
               </div>
-              <div className="mt-2 w-96">
+              <div className="mt-2 w-[min(24rem,60vw)]">
                 <Progress value={progressPercentage} />
               </div>
             </div>
 
-            <div className="absolute top-[70%] flex -translate-y-1/2 transform flex-col items-center space-y-4 animate-in">
+            <div className="animate-in flex flex-col items-center space-y-4">
               <div className="flex items-center justify-center space-x-4 font-sans text-lg font-medium opacity-80">
                 <CurrentTime />
                 <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
                 <ScreenOnTime timeCount={screenTime} />
               </div>
-              <div className="max-w-screen-md px-4 pb-4 text-center text-5xl font-heading font-medium">
+              <div
+                className="max-w-screen-md px-4 pb-4 text-center font-heading font-medium"
+                style={{ fontSize: messageFontSize }}
+              >
                 {displayText}
               </div>
               <div className="flex space-x-4">
@@ -295,9 +331,13 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               <CountdownNumerals
                 value={clockTime}
                 previous={clockLastSecond}
-                className="text-[min(38vh,30vw)] leading-[0.8]"
+                className="leading-[0.8]"
+                style={{ fontSize: digitSize.dial }}
               />
-              <p className="mt-[4vh] max-w-[60vw] text-balance font-heading text-[clamp(1.75rem,4.2vh,3.25rem)] font-semibold leading-tight tracking-tight">
+              <p
+                className="mt-[4vh] max-w-[60vw] text-balance font-heading font-semibold leading-tight tracking-tight"
+                style={{ fontSize: messageFontSize }}
+              >
                 {displayText}
               </p>
               <div className="mt-[2.5vh] mb-[3.5vh] flex items-center justify-center space-x-4 font-sans text-lg font-medium opacity-60">
@@ -317,7 +357,8 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               <CountdownNumerals
                 value={clockTime}
                 previous={clockLastSecond}
-                className="text-[min(34vh,19vw)] leading-[0.8]"
+                className="leading-[0.8]"
+                style={{ fontSize: digitSize.vertical }}
               />
             </div>
             <VerticalBarTimer
@@ -326,7 +367,10 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               running={countdownStarted}
             />
             <div className="flex max-w-[34vw] flex-col items-start">
-              <p className="text-balance font-heading text-[clamp(1.75rem,4.2vh,3.25rem)] font-semibold leading-tight tracking-tight">
+              <p
+                className="text-balance font-heading font-semibold leading-tight tracking-tight"
+                style={{ fontSize: messageFontSize }}
+              >
                 {displayText}
               </p>
               <div className="mt-[2.5vh] mb-[3.5vh] flex flex-wrap items-center gap-x-4 gap-y-1 font-sans text-lg font-medium opacity-60">
@@ -342,7 +386,10 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
       default:
         return (
           <div className="flex min-h-screen flex-col items-center justify-center p-4">
-            <div className="relative mb-8 h-96 w-96">
+            <div
+              className="relative mb-[4vh]"
+              style={{ height: ringSize, width: ringSize }}
+            >
               <svg className="h-full w-full -rotate-90" viewBox="0 0 110 110">
                 <circle
                   className="stroke-black/10 transition-colors dark:stroke-white/10"
@@ -366,7 +413,10 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                   cy="55"
                 />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-[160px] leading-none">
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center leading-none"
+                style={{ fontSize: digitSize.circle }}
+              >
                 <CountdownNumerals
                   value={paddedTime}
                   previous={paddedLastSecond}
@@ -374,7 +424,10 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               </div>
             </div>
 
-            <div className="mb-6 w-full max-w-screen-2xl text-center text-6xl font-heading font-semibold">
+            <div
+              className="mb-6 w-full max-w-screen-2xl text-center font-heading font-semibold"
+              style={{ fontSize: messageFontSize }}
+            >
               {displayText}
             </div>
 
@@ -394,7 +447,10 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
     <div className="absolute inset-0 z-10">
       <div className="relative flex h-full w-full flex-col items-center justify-center px-4">
         {isLoading ? (
-          <div className="text-[12rem] font-heading font-semibold tracking-wide">
+          <div
+            className="font-heading font-semibold tracking-wide"
+            style={{ fontSize: splashFontSize }}
+          >
             Ready?
           </div>
         ) : (

@@ -18,6 +18,7 @@ import { exists } from "@tauri-apps/plugin-fs";
 import { BaseDirectory } from "@tauri-apps/api/path";
 import { Textarea } from "../ui/textarea";
 import { Link } from "react-router-dom";
+import { pricingUrl } from "../../lib/links";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { ScrollArea } from "../ui/scroll-area";
 import { TimePicker } from "../ui/TimePicker"; // Import the new component
@@ -490,7 +491,10 @@ const TodoPage: React.FC = () => {
           </h3>
           <Button asChild>
             <Link
-              to="https://blinkeye.app/pricing?utm_source=app_todo_page&utm_medium=cta&utm_campaign=break_reminder_todo_page"
+              to={pricingUrl({
+                source: "app_todo_page",
+                campaign: "break_reminder_todo_page",
+              })}
               target="_blank"
               className="flex items-center justify-center px-6 py-3 bg-[#FE4C55] text-black text-lg rounded-lg hover:bg-[#e4434b] focus:outline-none"
             >

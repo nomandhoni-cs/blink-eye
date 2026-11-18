@@ -4,6 +4,7 @@ import { BarChart, CheckCircle2Icon } from "lucide-react";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { usePremiumNudge } from "../../hooks/usePremiumNudge";
 import { Link } from "react-router-dom";
+import { pricingUrl } from "../../lib/links";
 import { Button } from "../ui/button";
 import UsageTimeChart from "../UsageTimeChart";
 
@@ -32,7 +33,10 @@ const UsageTime = () => {
           </h3>
           <Button asChild>
             <Link
-              to="https://blinkeye.app/pricing?utm_source=app_usage_time&utm_medium=cta&utm_campaign=break_reminder_usage_time"
+              to={pricingUrl({
+                source: "app_usage_time",
+                campaign: "break_reminder_usage_time",
+              })}
               target="_blank"
               className="flex items-center justify-center px-6 py-3 bg-[#FE4C55] text-black text-lg rounded-lg hover:bg-[#e4434b] focus:outline-none"
             >

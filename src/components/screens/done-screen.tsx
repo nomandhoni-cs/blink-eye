@@ -20,6 +20,7 @@ import { Badge } from "../ui/badge";
 import { enable, disable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { invoke } from "@tauri-apps/api/core";
 import { fetch } from "@tauri-apps/plugin-http";
+import { PRICING_URL } from "../../lib/links";
 
 interface DoneScreenProps {
   breakInterval: number;
@@ -208,7 +209,7 @@ export default function DoneScreen({
                 </p>
               </div>
               <a
-                href="https://blinkeye.app/en/pricing"
+                href={PRICING_URL}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -307,7 +308,7 @@ function DiscountBanner({ discount }: { discount: DiscountData }) {
           </div>
 
           <a
-            href="https://blinkeye.app/en/pricing"
+            href={PRICING_URL}
             target="_blank"
             rel="noreferrer"
           >

@@ -24,6 +24,7 @@ import {
 import { SiLinux } from "react-icons/si";
 import { AppIcon } from "../AppIcon";
 import { useAccentColor } from "../../contexts/AccentColorContext";
+import { PRICING_URL } from "../../lib/links";
 
 // ── Link card ────────────────────────────────────────────────────
 
@@ -270,7 +271,7 @@ const AboutPage = () => {
             icon={IoHeart}
             title="Get Premium"
             description="Unlock features & support us"
-            href="https://blinkeye.app/pricing"
+            href={PRICING_URL}
           />
           <LinkCard
             icon={IoLogoGithub}

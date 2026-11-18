@@ -11,7 +11,10 @@ import {
   SelectValue,
 } from "../ui/select";
 import { invoke } from "@tauri-apps/api/core";
-import { entryForStyle } from "../../backgrounds/registry";
+import {
+  entryForStyle,
+  resolvePreviewStyle,
+} from "../../backgrounds/registry";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -326,7 +329,11 @@ const ReminderSettings = () => {
 
   const openReminderWindow = () => {
     const isPremium = canAccessPremiumFeatures;
-    const requestedStyle = isPremium ? backgroundStyle : "default";
+    // Free users preview the blank default scene. When the saved style is
+    // `shuffle` (no entry of its own), preview one concrete scene.
+    const requestedStyle = isPremium
+      ? resolvePreviewStyle(backgroundStyle)
+      : "default";
     const entry = entryForStyle(requestedStyle);
     const webview = new WebviewWindow("reminder_monitor_0", {
       url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
