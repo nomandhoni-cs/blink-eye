@@ -37,6 +37,12 @@ const DEFAULT_DURATION_SECS: u64 = 20;
 const DEFAULT_REMINDER_TEXT: &str = "Pause! Look into the distance, and best if you walk a bit.";
 /// Default background style for the reminder overlay.
 const DEFAULT_BACKGROUND_STYLE: &str = "default";
+/// Style key meaning "show a different animated scene on every break".
+///
+/// It resolves to one concrete scene at break time, so it never reaches
+/// `BACKGROUND_STYLE_TO_ENTRY`. Must match `SHUFFLE_STYLE` in
+/// `src/backgrounds/registry.ts`.
+const SHUFFLE_BACKGROUND_STYLE: &str = "shuffle";
 /// Countdown styles the reminder overlay knows how to draw.
 const TIMER_STYLES: &[&str] = &["circle", "bar", "dial", "vertical"];
 
@@ -116,6 +122,9 @@ struct SchedulerState {
     seconds_since_last_break: u64,
     /// Whether the user is currently on a break.
     is_on_break: bool,
+    /// Scene shown by the last break while in `shuffle` mode, so the next
+    /// shuffle break picks a different one.
+    last_shuffled_style: Option<String>,
     /// Active settings snapshot.
     settings: ReminderSettings,
 }
@@ -125,6 +134,7 @@ impl Default for SchedulerState {
         Self {
             seconds_since_last_break: 0,
             is_on_break: false,
+            last_shuffled_style: None,
             settings: ReminderSettings::default(),
         }
     }
@@ -360,21 +370,26 @@ impl ReminderScheduler {
         // The break always wins over an open premium nudge.
         crate::premium_nudge::close_for_break(app_handle);
 
-        let (settings, screen_time_hours, screen_time_minutes) = {
-            let state = self.state.lock().await;
+        let (settings, background_style, screen_time_hours, screen_time_minutes) = {
+            let mut state = self.state.lock().await;
             let settings = state.settings.clone();
+
+            // Premium users keep the style they picked; everyone else (free,
+            // expired trial) always gets the blank default scene. `shuffle`
+            // resolves to a concrete scene here, a different one each break.
+            let background_style = if settings.is_premium {
+                resolve_background_style(&settings.background_style, &mut state)
+            } else {
+                DEFAULT_BACKGROUND_STYLE.to_string()
+            };
             drop(state);
 
             let (hours, minutes) = self.today_screen_time().await.unwrap_or((0, 0));
-            (settings, hours, minutes)
+            (settings, background_style, hours, minutes)
         };
 
         let config = ReminderWindowConfig {
-            background_style: if settings.is_premium {
-                settings.background_style
-            } else {
-                DEFAULT_BACKGROUND_STYLE.to_string()
-            },
+            background_style,
             reminder_text: settings.reminder_text,
             is_premium: settings.is_premium,
             is_strict_mode: settings.is_strict_mode,
@@ -857,8 +872,12 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
         ("blinkEyeReminderInterval", "20"),
         ("blinkEyeReminderDuration", "20"),
         ("blinkEyeReminderScreenText", "Pause! Look into the distance, and best if you walk a bit."),
-        ("reminderBackgroundStyle", "default"),
-        ("reminderBackgroundStylePreview", "default"),
+        // New installs land on `shuffle`: every break shows a different
+        // animated scene, which reveals the gallery without asking the user
+        // to go find it. Free and expired-trial users still get the blank
+        // default scene — `start_break` gates on premium before resolving.
+        ("reminderBackgroundStyle", "shuffle"),
+        ("reminderBackgroundStylePreview", "shuffle"),
         ("screenSaverBackgroundStyle", "freesprit"),
         ("isRunOnStartUpEnabledByDefault", "true"),
         ("usageTimeLimit", "8"),
@@ -1070,6 +1089,74 @@ fn decrypt_webcrypto_aes_gcm(encrypted_text: &str, password: &str) -> Option<Str
     String::from_utf8(decrypted.to_vec()).ok()
 }
 
+/// Resolves the style key to use for the next break.
+///
+/// `shuffle` means "show a random animated scene on every break". The picked
+/// scene is remembered in `state.last_shuffled_style` so the following shuffle
+/// break never repeats it — that is what makes the mode feel like a shuffle
+/// rather than a coin flip.
+///
+/// # Parameters
+/// - `style` — Saved `reminderBackgroundStyle` value (premium gate applied by caller).
+/// - `state` — Scheduler state holding the last shuffled scene; updated in place.
+///
+/// # Returns
+/// A style key present in `BACKGROUND_STYLE_TO_ENTRY`.
+fn resolve_background_style(style: &str, state: &mut SchedulerState) -> String {
+    if style != SHUFFLE_BACKGROUND_STYLE {
+        return style.to_string();
+    }
+
+    let scene = pick_shuffled_style(state.last_shuffled_style.as_deref());
+    state.last_shuffled_style = Some(scene.clone());
+    scene
+}
+
+/// Picks a random animated scene, never the one in `previous`.
+///
+/// Mirrors `pickShuffleStyle()` in `src/backgrounds/registry.ts`: only scenes
+/// that map to a real entry are candidates, and `default` (the blank screen) is
+/// never shuffled in.
+fn pick_shuffled_style(previous: Option<&str>) -> String {
+    let candidates: Vec<&str> = BACKGROUND_STYLE_TO_ENTRY
+        .iter()
+        .map(|(style, _)| *style)
+        .filter(|style| *style != DEFAULT_BACKGROUND_STYLE)
+        .filter(|style| Some(*style) != previous)
+        .collect();
+
+    if candidates.is_empty() {
+        return DEFAULT_BACKGROUND_STYLE.to_string();
+    }
+
+    candidates[random_below(candidates.len())].to_string()
+}
+
+/// Uniform random index in `0..bound`, seeded from the OS entropy source.
+///
+/// The scheduler needs one draw per break, so this avoids pulling in `rand` as
+/// a dependency.
+fn random_below(bound: usize) -> usize {
+    use ring::rand::{SecureRandom, SystemRandom};
+
+    if bound <= 1 {
+        return 0;
+    }
+
+    let mut bytes = [0u8; 8];
+    let drawn = SystemRandom::new().fill(&mut bytes).is_ok();
+    let value = if drawn {
+        u64::from_le_bytes(bytes)
+    } else {
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|elapsed| elapsed.as_nanos() as u64)
+            .unwrap_or(0)
+    };
+
+    (value % bound as u64) as usize
+}
+
 fn url_encode(value: &str) -> String {
     let mut encoded = String::new();
 
@@ -1200,7 +1287,11 @@ pub async fn get_next_reminder_info(
 
 #[cfg(test)]
 mod tests {
-    use super::{is_inside_workday_window, ReminderSettings, WorkdayHours};
+    use super::{
+        is_inside_workday_window, pick_shuffled_style, resolve_background_style,
+        ReminderSettings, SchedulerState, WorkdayHours, BACKGROUND_STYLE_TO_ENTRY,
+        DEFAULT_BACKGROUND_STYLE, SHUFFLE_BACKGROUND_STYLE,
+    };
     use std::collections::HashMap;
 
     #[test]
@@ -1227,6 +1318,64 @@ mod tests {
 
         assert_eq!(parsed.iv, vec![1, 2, 3]);
         assert_eq!(parsed.data, vec![4, 5, 6]);
+    }
+
+    #[test]
+    fn shuffle_never_picks_the_blank_default_scene() {
+        for _ in 0..200 {
+            assert_ne!(pick_shuffled_style(None), DEFAULT_BACKGROUND_STYLE);
+        }
+    }
+
+    #[test]
+    fn shuffle_never_repeats_the_previous_scene() {
+        for &(style, _) in BACKGROUND_STYLE_TO_ENTRY {
+            if style == DEFAULT_BACKGROUND_STYLE {
+                continue;
+            }
+            for _ in 0..20 {
+                assert_ne!(pick_shuffled_style(Some(style)), style);
+            }
+        }
+    }
+
+    #[test]
+    fn shuffle_returns_a_real_registered_entry() {
+        let picked = pick_shuffled_style(None);
+        assert!(BACKGROUND_STYLE_TO_ENTRY
+            .iter()
+            .any(|&(style, _)| style == picked.as_str()));
+    }
+
+    #[test]
+    fn fixed_styles_are_passed_through_untouched() {
+        let mut state = SchedulerState::default();
+
+        assert_eq!(resolve_background_style("galaxy", &mut state), "galaxy");
+        assert_eq!(state.last_shuffled_style, None);
+    }
+
+    #[test]
+    fn shuffle_style_key_matches_the_frontend_registry() {
+        // `SHUFFLE_STYLE` in src/backgrounds/registry.ts and the Style key the
+        // ReminderStyles picker writes must be exactly this string.
+        assert_eq!(SHUFFLE_BACKGROUND_STYLE, "shuffle");
+        assert!(!BACKGROUND_STYLE_TO_ENTRY
+            .iter()
+            .any(|&(style, _)| style == SHUFFLE_BACKGROUND_STYLE));
+    }
+
+    #[test]
+    fn shuffle_resolves_to_a_scene_and_remembers_it() {
+        let mut state = SchedulerState::default();
+
+        let first = resolve_background_style(SHUFFLE_BACKGROUND_STYLE, &mut state);
+        assert_ne!(first, DEFAULT_BACKGROUND_STYLE);
+        assert_eq!(state.last_shuffled_style.as_deref(), Some(first.as_str()));
+
+        let second = resolve_background_style(SHUFFLE_BACKGROUND_STYLE, &mut state);
+        assert_ne!(second, first);
+        assert_eq!(state.last_shuffled_style.as_deref(), Some(second.as_str()));
     }
 
     #[test]

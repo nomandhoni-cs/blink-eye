@@ -38,6 +38,7 @@ import { TitleBarOverlay, TITLEBAR_OVERLAY_H } from "./TitleBarOverlay";
 import { SidebarNotch } from "./SidebarNotch";
 import { platform } from "@tauri-apps/plugin-os";
 import { generateBrandShades } from "../lib/color-utils";
+import { PRICING_URL } from "../lib/links";
 
 const isMac = platform() === "macos";
 
@@ -291,7 +292,7 @@ export function AppSidebar() {
                   tooltip="Unlock Premium"
                   className="relative overflow-hidden border border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35 shadow-sm transition-all group"
                 >
-                  <Link to="https://blinkeye.app/en/pricing" target="_blank">
+                  <Link to={PRICING_URL} target="_blank">
                     {/* Shine sweep — plays once per hover, no idle animation */}
                     <div
                       className="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:animate-shine"

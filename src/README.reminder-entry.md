@@ -39,6 +39,21 @@ reminder_scheduler.rs (tokio loop)
 
 Multi-monitor: backgrounds on every display; controls on primary only. Dismissing on primary closes all `reminder_monitor_*` windows.
 
+## Background selection
+
+`reminderBackgroundStyle` is resolved by the Rust scheduler before each break:
+
+| Saved value | Premium | What spawns |
+|-------------|---------|-------------|
+| `default` | any | `reminder-default.html` (blank screen) |
+| `shuffle` | yes | a random animated entry, different from the previous break |
+| `shuffle` | no | `reminder-default.html` — free/expired users always get the blank screen |
+| a scene key | yes | that scene's entry |
+| a scene key | no | `reminder-default.html` |
+
+`shuffle` has no entry of its own, so frontend previews resolve it with
+`resolvePreviewStyle()` / `pickShuffleStyle()` in `src/backgrounds/registry.ts`.
+
 ---
 
 ## URL parameters

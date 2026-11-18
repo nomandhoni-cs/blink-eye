@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { entryForStyle } from "../backgrounds/registry";
+import {
+  entryForStyle,
+  resolvePreviewStyle,
+  SHUFFLE_STYLE,
+} from "../backgrounds/registry";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { Flame, Check } from "lucide-react";
+import { Flame, Check, Shuffle } from "lucide-react";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./LoadingSpinner";
@@ -75,6 +79,8 @@ const thumbMap: Record<string, ThemeThumbnail> = {
 
 const styles = [
   { value: "default", label: "Default" },
+  // Not a scene of its own — the Rust scheduler picks a new scene every break.
+  { value: SHUFFLE_STYLE, label: "Shuffle" },
   { value: "aurora", label: "Aurora" },
   { value: "freesprit", label: "Free Spirit" },
   { value: "particleBackground", label: "Infinite Wave Background" },
@@ -99,11 +105,39 @@ const styles = [
   { value: "galaxy", label: "Galaxy" },
 ];
 
+/** Two-by-two collage of scene thumbnails, hinting at the shuffle rotation. */
+function ShufflePreview() {
+  const collage = [
+    thumbMap.aurora,
+    thumbMap.galaxy,
+    thumbMap.balatro,
+    thumbMap.particleBackground,
+  ].map((thumb) => (typeof thumb === "string" ? thumb : thumb.dark));
+
+  return (
+    <div className="grid h-full w-full grid-cols-2 grid-rows-2">
+      {collage.map((src, index) => (
+        <img
+          key={index}
+          src={src}
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          loading="lazy"
+        />
+      ))}
+      <div className="absolute inset-0 flex items-center justify-center bg-black/35">
+        <Shuffle className="h-8 w-8 text-white drop-shadow-md" strokeWidth={2.5} />
+      </div>
+    </div>
+  );
+}
+
 export default function ReminderStyles() {
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const { triggerUpdate } = useTrigger();
   const [backgroundStyle, setBackgroundStyle] =
-    useState<string>("particleBackground");
+    useState<string>(SHUFFLE_STYLE);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -124,17 +158,26 @@ export default function ReminderStyles() {
     fetchBackgroundStyle();
   }, []);
 
-  const handleSaveTheme = async (selectedStyle: string) => {
+  /**
+   * Selecting a card previews it fullscreen. Premium users also persist it;
+   * free users only update the preview-only key, so picking a card can never
+   * unlock a scene for the real scheduler.
+   */
+  const handleSelectTheme = async (selectedStyle: string) => {
     try {
       setIsLoading(true);
       if (canAccessPremiumFeatures) {
         await invoke("update_reminder_setting", { key: "reminderBackgroundStyle", value: selectedStyle });
         triggerUpdate();
+      } else {
+        await invoke("update_reminder_setting", {
+          key: "reminderBackgroundStylePreview",
+          value: selectedStyle,
+        });
       }
-      await invoke("update_reminder_setting", { key: "reminderBackgroundStylePreview", value: selectedStyle });
       setBackgroundStyle(selectedStyle);
       openReminderWindow(selectedStyle);
-      console.log("Background style saved:", selectedStyle);
+      console.log("Background style selected:", selectedStyle);
     } catch (err) {
       console.error("Error saving theme:", err);
       setError("Failed to save theme. Please try again.");
@@ -145,7 +188,12 @@ export default function ReminderStyles() {
 
   const openReminderWindow = (style: string) => {
     const isPremium = canAccessPremiumFeatures;
-    const requestedStyle = isPremium ? style : "default";
+    // Free users only ever preview the blank default scene. `shuffle` has no
+    // entry of its own, so a shuffle selection previews one random scene —
+    // the same helper the scheduler uses to pick per break.
+    const requestedStyle = isPremium
+      ? resolvePreviewStyle(style, null)
+      : "default";
     const entry = entryForStyle(requestedStyle);
     const webview = new WebviewWindow("reminder_monitor_0", {
       url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
@@ -179,13 +227,26 @@ export default function ReminderStyles() {
       <div className="flex flex-col gap-1">
         <h3 className="text-2xl font-heading tracking-tight">Background Style</h3>
         <p className="text-sm text-muted-foreground">
-          Choose from 22 animated scenes for your break reminders. Select any card to preview it fullscreen.
+          Choose from 22 animated scenes for your break reminders. Select any
+          card to preview it fullscreen. Shuffle shows a different scene on
+          every break — pick one specific scene whenever you want to settle
+          down.
         </p>
+        {!canAccessPremiumFeatures && (
+          <p className="text-xs text-muted-foreground/80">
+            Free and expired-trial accounts break on the blank default screen.
+            A license unlocks every scene, including Shuffle.
+          </p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {styles.map((style) => {
-          const isActive = backgroundStyle === style.value;
+          // Free users see the blank default scene on every break, so a saved
+          // `shuffle` is shown honestly as "not active" for them.
+          const isActive = canAccessPremiumFeatures
+            ? backgroundStyle === style.value
+            : style.value === "default";
           const preview = thumbMap[style.value];
           return (
             <div
@@ -199,16 +260,18 @@ export default function ReminderStyles() {
                   ? "border-primary shadow-md ring-1 ring-primary"
                   : "border-border shadow-sm hover:border-primary/50 hover:shadow-md"
               )}
-              onClick={() => handleSaveTheme(style.value)}
+              onClick={() => handleSelectTheme(style.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  handleSaveTheme(style.value);
+                  handleSelectTheme(style.value);
                 }
               }}
             >
               <div className="relative aspect-video w-full overflow-hidden bg-muted">
-                {typeof preview === "string" ? (
+                {style.value === SHUFFLE_STYLE ? (
+                  <ShufflePreview />
+                ) : typeof preview === "string" ? (
                   <img
                     src={preview}
                     alt={`${style.label} preview`}
@@ -258,6 +321,11 @@ export default function ReminderStyles() {
                 <h4 className="truncate text-sm font-medium tracking-tight">
                   {style.label}
                 </h4>
+                {style.value === SHUFFLE_STYLE && (
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                    A new scene every break
+                  </p>
+                )}
               </div>
             </div>
           );

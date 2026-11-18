@@ -6,6 +6,7 @@ import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
 import { XIcon } from "lucide-react";
+import { PRICING_URL } from "../../lib/links";
 
 type Reminder = {
   day: number;
@@ -122,7 +123,7 @@ const Support = () => {
           <span className="text-[#00E676] text-5xl font-heading">$9.99</span>
         </div>
         <Button className="bg-[#00E676] hover:bg-[#00C853] text-black font-heading py-3 px-8 rounded-xl text-lg shadow-lg transition-colors duration-200">
-          <a href="https://blinkeye.app/en/pricing" target="_blank">
+          <a href={PRICING_URL} target="_blank">
             Support the Developer
           </a>
         </Button>
