@@ -773,8 +773,8 @@ Generic key/value store for all app settings. Replaces the legacy Tauri `store.j
 | `previousblinkEyeReminderDuration` | number | `20` | Saved duration before Pomodoro |
 | `previousblinkEyeReminderInterval` | number | `20` | Saved interval before Pomodoro |
 | `pomodoroStyleBreak` | bool | `"false"` | Pomodoro mode flag |
-| `reminderBackgroundStyle` | string | `"default"` | Selected reminder background |
-| `reminderBackgroundStylePreview` | string | `"default"` | Preview-only reminder style |
+| `reminderBackgroundStyle` | string | `"shuffle"` | Selected reminder background. `shuffle` picks a different animated scene on every break (premium only; free/expired users always get `default`) |
+| `reminderBackgroundStylePreview` | string | `"shuffle"` | Preview-only reminder style, saved when a free user taps a theme card |
 | `screenSaverBackgroundStyle` | string | `"freesprit"` | Selected screensaver style |
 | `isRunOnStartUpEnabledByDefault` | bool | `"true"` | AutoStart once-enabled flag |
 | `usageTimeLimit` | number | `8` | Daily usage limit (hours) |

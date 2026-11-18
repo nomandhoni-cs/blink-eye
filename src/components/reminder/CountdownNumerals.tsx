@@ -1,3 +1,4 @@
+import type React from "react";
 import { cn } from "../../lib/utils";
 
 /**
@@ -12,10 +13,13 @@ export function CountdownNumerals({
   value,
   previous,
   className,
+  style,
 }: {
   value: string;
   previous?: string;
   className?: string;
+  /** Font size etc., so callers can scale digits to the screen. */
+  style?: React.CSSProperties;
 }) {
   const offset = previous ? value.length - previous.length : 0;
 
@@ -24,6 +28,7 @@ export function CountdownNumerals({
       role="timer"
       aria-live="off"
       className={cn("countdown-numerals inline-flex whitespace-pre", className)}
+      style={style}
     >
       {Array.from(value).map((char, i) => {
         const before = previous?.[i - offset];

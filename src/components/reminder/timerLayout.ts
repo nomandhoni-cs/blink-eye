@@ -108,3 +108,100 @@ export function layoutBar(height: number, vmin: number) {
 
   return { barWidth, trackHeight, width, ticks };
 }
+
+/**
+ * Fluid, screen-relative type sizes for the break overlay.
+ *
+ * Digits used to be fixed pixel sizes (`text-[240px]`), which overflowed on
+ * smaller displays and scaled-down windows. Each size is now a `clamp()` over
+ * viewport units, bounded by BOTH width and height so the countdown always
+ * fits the screen it is drawn on:
+ *
+ * - `vmin`-based preferred size keeps the digits proportional to the display.
+ * - `8vw` / `8vh`-based caps stop a full `MM:SS` (5 glyphs) from running past
+ *   the edge on narrow or short screens.
+ * - The rem floor keeps them legible; the rem ceiling stops 4K ballooning.
+ */
+
+/** Widest countdown string we must fit: `MM:SS` = 5 tabular glyphs. */
+const CLOCK_GLYPHS = 5;
+/** Condensed SF/Outfit digits are ~0.5em wide; leave a little breathing room. */
+const GLYPH_WIDTH_EM = 0.56;
+/** Footer/controls below the digits, as a fraction of the viewport height. */
+const DIGIT_HEIGHT_SHARE = 0.5;
+
+/**
+ * Cap a font size so `glyphs` glyphs fit across the viewport width, and the
+ * digits stay within their share of the viewport height.
+ */
+function capFor(width: number, height: number, glyphs: number): number {
+  const byWidth = width / (glyphs * GLYPH_WIDTH_EM);
+  const byHeight = height * DIGIT_HEIGHT_SHARE;
+  return Math.min(byWidth, byHeight);
+}
+
+/** Digits for the dial timer, centered inside the tick frame. */
+export function dialDigitSize(width: number, height: number): string {
+  const preferred = Math.min(width, height) * 0.42;
+  const cap = capFor(width * 0.82, height, CLOCK_GLYPHS);
+  return `clamp(3rem, ${Math.min(preferred, cap)}px, 30rem)`;
+}
+
+/** Digits for the vertical timer, sitting beside the draining bar. */
+export function verticalDigitSize(width: number, height: number): string {
+  const preferred = Math.min(width, height) * 0.36;
+  // The bar and message take the middle and right third of the screen.
+  const cap = capFor(width * 0.34, height, CLOCK_GLYPHS);
+  return `clamp(2.5rem, ${Math.min(preferred, cap)}px, 26rem)`;
+}
+
+/**
+ * Big seconds for the bar timer, above the progress bar.
+ *
+ * `glyphs` is the rendered length of the countdown (`20` → 2, `300` → 3), so a
+ * Pomodoro-length break shrinks the digits instead of clipping them.
+ */
+export function barDigitSize(
+  width: number,
+  height: number,
+  glyphs = 2,
+): string {
+  const preferred = Math.min(width, height) * 0.34;
+  // Bar digits sit alone and centered, so they may use most of the width,
+  // minus room for the small "s" suffix.
+  const cap = Math.min(
+    (width * 0.8) / (glyphs * GLYPH_WIDTH_EM + 0.6),
+    height * 0.52,
+  );
+  return `clamp(4rem, ${Math.min(preferred, cap)}px, 20rem)`;
+}
+
+/** Digits inside the circle timer's ring; `glyphs` as in `barDigitSize`. */
+export function circleDigitSize(
+  width: number,
+  height: number,
+  glyphs = 2,
+): string {
+  // The ring is 62% of the short side (capped at 480px); digits sit inside it.
+  const ring = Math.min(Math.min(width, height) * 0.62, 480);
+  const preferred = ring * 0.4;
+  const cap = Math.min(
+    (ring * 0.82) / (glyphs * GLYPH_WIDTH_EM),
+    height * 0.3,
+  );
+  return `clamp(2.5rem, ${Math.min(preferred, cap)}px, 12rem)`;
+}
+
+/** The "Ready?" splash shown while the overlay loads. */
+export function splashSize(width: number, height: number): string {
+  const preferred = Math.min(width, height) * 0.16;
+  const cap = Math.min(width * 0.6, height * 0.4);
+  return `clamp(2.5rem, ${Math.min(preferred, cap)}px, 12rem)`;
+}
+
+/** Reminder message under the timer; long copy stays readable on any screen. */
+export function messageSize(width: number, height: number): string {
+  const preferred = Math.min(width, height) * 0.048;
+  const cap = Math.min(width * 0.055, height * 0.09);
+  return `clamp(1.125rem, ${Math.min(preferred, cap)}px, 3.25rem)`;
+}

@@ -24,7 +24,7 @@ import {
   type TimerStyle,
 } from "./components/reminder/timerStyle";
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+import { screenEmail } from "./lib/email-screening";
 
 export default function UserOnboarding() {
   // State Management
@@ -63,6 +63,16 @@ export default function UserOnboarding() {
   const [timerStyle, setTimerStyle] = useState<TimerStyle>("dial");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
+  // Soft signal: plausible but unusual (`xx@`, `admin@`, numeric local).
+  // Shown as a confirm-once question, never as a block.
+  const [emailWarning, setEmailWarning] = useState<string | null>(null);
+  const [emailWarningAcknowledged, setEmailWarningAcknowledged] = useState(false);
+  /**
+   * Mirror of `emailWarningAcknowledged` for reads inside the same tick.
+   * `goNext` is called straight after the handler sets state, so the state
+   * variable would still be stale and the warning would reappear forever.
+   */
+  const emailWarningAcknowledgedRef = useRef(false);
 
   // Screen Configuration - Easy to add new screens!
   const screens: Screen[] = [
@@ -119,24 +129,67 @@ export default function UserOnboarding() {
 
   // Navigation Functions
 
-  const validateEmail = (): boolean => {
-    const trimmed = email.trim();
+  /** Clearing the nudge whenever the address changes keeps it honest. */
+  const setAcknowledged = (value: boolean) => {
+    emailWarningAcknowledgedRef.current = value;
+    setEmailWarningAcknowledged(value);
+  };
 
-    if (!trimmed) {
-      setEmailError("Please enter your email to continue.");
+  const updateEmail = (value: string) => {
+    setEmail(value);
+    setEmailError(null);
+    setEmailWarning(null);
+    // A new address is a new decision: never carry a past "use it anyway".
+    setAcknowledged(false);
+  };
+
+  /**
+   * "Yes, this is correct" — keep the address and move on in one click.
+   *
+   * The address itself already passed the screener (it is only ever a nudge),
+   * so there is nothing left to validate; advancing directly avoids making
+   * the user confirm and then click Next a second time.
+   */
+  const acknowledgeEmailWarning = () => {
+    setAcknowledged(true);
+    setEmailWarning(null);
+    void goNext();
+  };
+
+  /**
+   * Screen the address before letting onboarding continue.
+   *
+   * Three outcomes (see `src/lib/email-screening.ts`):
+   *  - blocked: dummy/test/disposable domain, placeholder local part, or a
+   *    score past the threshold. Onboarding cannot continue.
+   *  - nudge: one soft signal (very short, `admin@`-style prefix, filler
+   *    characters, numeric local). The user confirms once and moves on, so a
+   *    real owner of `xx@outlook.com` is never trapped.
+   *  - ok: continue silently.
+   */
+  const validateEmail = (): boolean => {
+    const result = screenEmail(email);
+
+    if (result.verdict === "blocked") {
+      setEmailError(result.message);
+      setEmailWarning(null);
       return false;
     }
 
-    if (!EMAIL_REGEX.test(trimmed)) {
-      setEmailError("That email doesn't look right. Double-check it?");
+    if (result.verdict === "nudge" && !emailWarningAcknowledgedRef.current) {
+      // Surface the question and pause; the same Next click continues once
+      // the user has confirmed.
+      setEmailError(null);
+      setEmailWarning(result.message);
       return false;
     }
 
     setEmailError(null);
+    setEmailWarning(null);
     return true;
   };
 
-  const nextScreen = async () => {
+  const goNext = async () => {
     if (currentScreen === 1 && !validateEmail()) {
       return;
     }
@@ -186,7 +239,14 @@ export default function UserOnboarding() {
     const getScreenProps = () => {
       switch (currentScreen) {
         case 1:
-          return { email, setEmail, emailError };
+          return {
+            email,
+            setEmail: updateEmail,
+            emailError,
+            emailWarning,
+            emailWarningAcknowledged,
+            onAcknowledgeWarning: acknowledgeEmailWarning,
+          };
         case 2:
           // Theme picker - no props needed
           return {};
@@ -305,7 +365,7 @@ export default function UserOnboarding() {
 
           {/* Next Button */}
           <Button
-            onClick={nextScreen}
+            onClick={goNext}
             disabled={isLoading}
             className="flex items-center space-x-2"
           >

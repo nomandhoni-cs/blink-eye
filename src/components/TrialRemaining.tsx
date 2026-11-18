@@ -1,6 +1,7 @@
 // src/components/TrialRemaining.tsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { PRICING_URL } from "../lib/links";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
 import { fetch } from "@tauri-apps/plugin-http";
@@ -215,7 +216,7 @@ const TrialRemaining: React.FC = () => {
             className="shrink-0 text-xs font-semibold"
             variant={isExpired ? "destructive" : "default"}
           >
-            <Link to="https://blinkeye.app/en/pricing" target="_blank">
+            <Link to={PRICING_URL} target="_blank">
               <RiExternalLinkFill className="w-3 h-3 mr-1.5" />
               Get License
             </Link>

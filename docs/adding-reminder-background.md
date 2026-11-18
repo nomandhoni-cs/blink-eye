@@ -24,6 +24,22 @@ Background paints first → DeferredReminderOverlay loads later (primary only)
 **Style key** (e.g. `sunset`) is the stable ID stored in the database.  
 **Entry file** (e.g. `reminder-sunset.html`) is what Vite builds and Rust opens.
 
+### The `shuffle` key
+
+`shuffle` is a style key with **no entry file**. It means "show a different
+animated scene on every break":
+
+- New installs default to it, so a first-time user sees the gallery of scenes
+  before settling on one.
+- `reminder_scheduler.rs` resolves it per break via `resolve_background_style()`
+  → `pick_shuffled_style()`, which draws from `BACKGROUND_STYLE_TO_ENTRY`,
+  never picks `default`, and never repeats the previous break's scene.
+- It is premium-gated like any other non-`default` scene: free users and
+  expired trials always get `default` (blank screen) because `start_break()`
+  checks `is_premium` before resolving.
+- New backgrounds added to both maps join the shuffle pool automatically —
+  there is nothing extra to register.
+
 ---
 
 ## Checklist

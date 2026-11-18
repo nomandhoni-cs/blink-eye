@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Link } from "react-router-dom";
+import { pricingUrl } from "../lib/links";
 import { cn } from "@/lib/utils";
 import {
   dashboardBlockClassName,
@@ -119,7 +120,7 @@ const DashboardPendingTasks = ({ className }: { className?: string }) => {
         <CardContent className="flex-1 flex items-center justify-center">
           <Button asChild style={{ backgroundColor: accentHex }}>
             <Link
-              to="https://blinkeye.app/pricing"
+              to={pricingUrl({ source: "app_dashboard_tasks" })}
               target="_blank"
               className="text-center hover:opacity-90"
             >
