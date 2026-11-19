@@ -1,13 +1,13 @@
+//! Break streaks, snooze limits, and weekly history reporting.
+
 use chrono::{Duration, Local, NaiveDate};
 use serde::{Deserialize, Serialize};
-use sqlx::{
-    sqlite::{SqliteConnectOptions, SqlitePoolOptions},
-    Pool, Sqlite,
-};
+use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
+use sqlx::{Pool, Sqlite};
 use std::collections::HashMap;
-use std::{path::PathBuf, str::FromStr, sync::Arc};
-use tauri::{AppHandle, Manager};
-use tauri_plugin_notification::NotificationExt;
+use std::path::{Path, PathBuf};
+use std::sync::Arc;
+use tauri::AppHandle;
 
 use crate::reminder_scheduler::ReminderScheduler;
 
@@ -27,31 +27,47 @@ struct DayBreakCounts {
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BreakStats {
+    /// Current run of completed breaks.
     pub break_streak: u32,
+    /// Best streak ever reached.
     pub best_break_streak: u32,
+    /// Snoozes used today.
     pub snoozes_today: u32,
+    /// Snoozes used since launch.
     pub snoozes_session: u32,
+    /// Configured session limit; zero means unlimited.
     pub snoozes_allowed_per_session: u32,
+    /// Configured daily limit; zero means unlimited.
     pub snoozes_allowed_per_day: u32,
+    /// Whether another snooze is currently allowed.
     pub can_snooze: bool,
+    /// Completed breaks ever recorded.
     pub total_breaks_completed: u32,
+    /// Snoozes ever recorded.
     pub total_snoozes: u32,
 }
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DailyBreakReport {
+    /// Local calendar date in `YYYY-MM-DD` form.
     pub date: String,
+    /// Short weekday label for the chart.
     pub label: String,
+    /// Breaks completed that day.
     pub completed: u32,
+    /// Breaks snoozed that day.
     pub snoozed: u32,
 }
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WeeklyBreakReport {
+    /// Seven oldest-to-newest daily rows.
     pub days: Vec<DailyBreakReport>,
+    /// Completed breaks across the window.
     pub total_completed: u32,
+    /// Snoozed breaks across the window.
     pub total_snoozed: u32,
 }
 
@@ -177,7 +193,9 @@ pub async fn record_break_completed(app_handle: &AppHandle) -> Result<(), String
     ensure_snooze_defaults(&pool).await?;
 
     let streak = read_u32_config(&pool, "breakStreakCount").await? + 1;
-    let best = read_u32_config(&pool, "bestBreakStreakCount").await?.max(streak);
+    let best = read_u32_config(&pool, "bestBreakStreakCount")
+        .await?
+        .max(streak);
     let total_breaks = read_u32_config(&pool, "totalBreaksCompleted").await? + 1;
 
     write_config(&pool, "breakStreakCount", &streak.to_string()).await?;
@@ -194,6 +212,8 @@ async fn maybe_notify_streak_milestone(
     pool: &Pool<Sqlite>,
     streak: u32,
 ) -> Result<(), String> {
+    use tauri_plugin_notification::NotificationExt;
+
     if !STREAK_MILESTONES.contains(&streak) {
         return Ok(());
     }
@@ -258,6 +278,7 @@ fn prune_history(history: &mut HashMap<String, DayBreakCounts>) {
 }
 
 /// `0` limit means unlimited snoozes for that window.
+#[must_use]
 fn can_snooze(session_count: u32, day_count: u32, limits: &SnoozeLimits) -> bool {
     let session_ok = limits.session == 0 || session_count < limits.session;
     let day_ok = limits.day == 0 || day_count < limits.day;
@@ -266,8 +287,12 @@ fn can_snooze(session_count: u32, day_count: u32, limits: &SnoozeLimits) -> bool
 
 async fn read_limits(pool: &Pool<Sqlite>) -> Result<SnoozeLimits, String> {
     Ok(SnoozeLimits {
-        session: read_limit_config(pool, "snoozesAllowedPerSession", DEFAULT_SNOOZES_PER_SESSION)
-            .await?,
+        session: read_limit_config(
+            pool,
+            "snoozesAllowedPerSession",
+            DEFAULT_SNOOZES_PER_SESSION,
+        )
+        .await?,
         day: read_limit_config(pool, "snoozesAllowedPerDay", DEFAULT_SNOOZES_PER_DAY).await?,
     })
 }
@@ -304,6 +329,8 @@ pub async fn ensure_snooze_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
 }
 
 async fn open_app_config_pool(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String> {
+    use tauri::Manager;
+
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
@@ -311,7 +338,9 @@ async fn open_app_config_pool(app_handle: &AppHandle) -> Result<Pool<Sqlite>, St
     open_pool(&app_data_dir).await
 }
 
-async fn open_pool(app_data_dir: &PathBuf) -> Result<Pool<Sqlite>, String> {
+async fn open_pool(app_data_dir: &Path) -> Result<Pool<Sqlite>, String> {
+    use std::str::FromStr;
+
     std::fs::create_dir_all(app_data_dir).map_err(|error| error.to_string())?;
     let db_path = app_data_dir.join("appconfig.db");
     let connection_url = format!("sqlite://{}", db_path.display());
@@ -353,9 +382,10 @@ async fn read_string_config(pool: &Pool<Sqlite>, key: &str) -> Result<String, St
 }
 
 async fn write_config(pool: &Pool<Sqlite>, key: &str, value: &str) -> Result<(), String> {
-    sqlx::query(
-        "INSERT INTO config (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
-    )
+    sqlx::query(concat!(
+        "INSERT INTO config (key, value) VALUES (?, ?) ",
+        "ON CONFLICT(key) DO UPDATE SET value = excluded.value"
+    ))
     .bind(key)
     .bind(value)
     .execute(pool)

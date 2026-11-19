@@ -1,0 +1,3 @@
+# Google Rust style guide: follow rustfmt, with a 100-column limit.
+max_width = 100
+edition = "2021"

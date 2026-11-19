@@ -11,8 +11,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
 use sqlx::{FromRow, Pool, Sqlite};
 use std::path::PathBuf;
-use std::str::FromStr;
-use tauri::{AppHandle, Emitter, Manager, WebviewUrl, WebviewWindowBuilder};
+use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
 use tokio::time::{interval, Duration, MissedTickBehavior};
 
 const TICK_SECS: u64 = 30;
@@ -38,10 +37,15 @@ const ALERT_TOP_OFFSET: f64 = 88.0;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TaskAlertPayload {
+    /// Task to complete when "Done" is clicked; `-1` for a preview.
     pub task_id: i64,
+    /// Task title shown in the pill.
     pub title: String,
+    /// i18n key resolved by the popup.
     pub message_key: String,
+    /// Popup role: `due`, `before`, `nudge`, or `preview`.
     pub kind: String,
+    /// Due time in `YYYY-MM-DDTHH:mm` form, when known.
     pub due_at: Option<String>,
     /// Minutes before the due time for a "coming up" reminder.
     pub lead_minutes: Option<i64>,
@@ -62,6 +66,7 @@ pub struct TaskReminderScheduler {
 }
 
 impl TaskReminderScheduler {
+    /// Creates a scheduler rooted at the app data directory.
     pub fn new(app_data_dir: PathBuf) -> Self {
         Self { app_data_dir }
     }
@@ -81,6 +86,8 @@ impl TaskReminderScheduler {
     }
 
     async fn open_todo_db(&self) -> Result<Pool<Sqlite>, String> {
+        use std::str::FromStr;
+
         let db_path = self.app_data_dir.join("UserLocalTodoList.db");
         let url = format!("sqlite://{}", db_path.display());
         let options = SqliteConnectOptions::from_str(&url)
@@ -166,19 +173,20 @@ impl TaskReminderScheduler {
             .unwrap_or(DEFAULT_QUIET_END);
         let quiet_start = normalize_hour(quiet_start, DEFAULT_QUIET_START);
         let quiet_end = normalize_hour(quiet_end, DEFAULT_QUIET_END);
-        if is_quiet_hour(now.hour() as i64, quiet_start, quiet_end) || has_conflicting_window(app_handle) {
+        if is_quiet_hour(now.hour() as i64, quiet_start, quiet_end)
+            || has_conflicting_window(app_handle)
+        {
             return Ok(());
         }
 
         let pool = self.open_todo_db().await?;
-        let tasks: Vec<TaskRow> =
-            sqlx::query_as(
-                "SELECT id, deadline, due_at, reminder_lead_minutes
+        let tasks: Vec<TaskRow> = sqlx::query_as(
+            "SELECT id, deadline, due_at, reminder_lead_minutes
                  FROM todos WHERE status = 'pending'",
-            )
-                .fetch_all(&pool)
-                .await
-                .map_err(|error| error.to_string())?;
+        )
+        .fetch_all(&pool)
+        .await
+        .map_err(|error| error.to_string())?;
         if tasks.is_empty() {
             return Ok(());
         }
@@ -315,13 +323,12 @@ impl TaskReminderScheduler {
 
         // Recheck completion after the insert: a task may have been finished
         // in another window while this tick was running.
-        let current: Option<(String,)> = sqlx::query_as(
-            "SELECT title FROM todos WHERE id = ? AND status = 'pending'",
-        )
-        .bind(task.id)
-        .fetch_optional(pool)
-        .await
-        .map_err(|error| error.to_string())?;
+        let current: Option<(String,)> =
+            sqlx::query_as("SELECT title FROM todos WHERE id = ? AND status = 'pending'")
+                .bind(task.id)
+                .fetch_optional(pool)
+                .await
+                .map_err(|error| error.to_string())?;
         let Some((title,)) = current else {
             let _ = clear_event(pool, task.id, kind, day).await;
             return Ok(());
@@ -378,12 +385,14 @@ async fn read_config(pool: &Pool<Sqlite>, key: &str) -> Result<Option<String>, S
 
 /// Clamp persisted lead times: anything outside 0–24h is treated as "at due
 /// time" rather than firing days early.
+#[must_use]
 fn normalize_lead_minutes(value: Option<i64>) -> i64 {
     value.unwrap_or(0).clamp(0, 24 * 60)
 }
 
 /// One de-dup key per task and scheduled occurrence. Changing the lead time
 /// intentionally creates a new occurrence, so the new reminder can be shown.
+#[must_use]
 fn due_action_key(due_at: &str, lead_minutes: i64) -> String {
     format!("{due_at}|{lead_minutes}")
 }
@@ -391,6 +400,7 @@ fn due_action_key(due_at: &str, lead_minutes: i64) -> String {
 /// The existing events table is keyed by (task, kind, day), so the occurrence
 /// is encoded into `kind` instead of rebuilding that table. `action_key` keeps
 /// the raw due time for the popup payload.
+#[must_use]
 fn due_event_kind(action_key: &str) -> String {
     format!("due:{action_key}")
 }
@@ -415,9 +425,7 @@ fn scheduled_reminder(
     let due = NaiveDateTime::parse_from_str(due_at, "%Y-%m-%dT%H:%M").ok()?;
     let lead = normalize_lead_minutes(lead_raw);
     let elapsed = now.signed_duration_since(due - ChronoDuration::minutes(lead));
-    if elapsed >= ChronoDuration::zero()
-        && elapsed <= ChronoDuration::minutes(DUE_GRACE_MINUTES)
-    {
+    if elapsed >= ChronoDuration::zero() && elapsed <= ChronoDuration::minutes(DUE_GRACE_MINUTES) {
         let (popup_kind, message_key) = if lead > 0 {
             ("before", "taskAlert.beforeMessage")
         } else {
@@ -479,6 +487,7 @@ fn normalize_hour(value: i64, fallback: i64) -> i64 {
     }
 }
 
+#[must_use]
 fn is_quiet_hour(hour: i64, start: i64, end: i64) -> bool {
     if start == end {
         return false;
@@ -555,9 +564,11 @@ fn choose_nudge<'a>(
     Some(pool[index])
 }
 
+#[must_use]
 fn has_conflicting_window(app_handle: &AppHandle) -> bool {
     app_handle.get_webview_window("before_alert").is_some()
         || app_handle.get_webview_window("screenSaverWindow").is_some()
+        || app_handle.get_webview_window("premium_nudge").is_some()
         || app_handle
             .webview_windows()
             .keys()
@@ -565,6 +576,7 @@ fn has_conflicting_window(app_handle: &AppHandle) -> bool {
 }
 
 /// Percent-encode a value for a `tauri://localhost` query parameter.
+#[must_use]
 fn percent_encode(value: &str) -> String {
     let mut encoded = String::with_capacity(value.len());
     for byte in value.bytes() {
@@ -597,7 +609,8 @@ fn spawn_task_alert(app_handle: &AppHandle, payload: &TaskAlertPayload) -> Resul
             let position = monitor.position();
             let size = monitor.size();
             (
-                position.x as f64 / scale + ((size.width as f64 / scale - ALERT_WIDTH) / 2.0).max(0.0),
+                position.x as f64 / scale
+                    + ((size.width as f64 / scale - ALERT_WIDTH) / 2.0).max(0.0),
                 position.y as f64 / scale + ALERT_TOP_OFFSET,
             )
         })
@@ -686,10 +699,10 @@ pub fn open_todo_from_alert(app_handle: AppHandle) -> Result<(), String> {
 /// # Returns
 /// `()` on success, or error string on failure.
 #[tauri::command]
-pub async fn complete_task_from_alert(
-    app_handle: AppHandle,
-    task_id: i64,
-) -> Result<(), String> {
+pub async fn complete_task_from_alert(app_handle: AppHandle, task_id: i64) -> Result<(), String> {
+    use std::str::FromStr;
+    use tauri::Emitter;
+
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
@@ -778,9 +791,17 @@ mod tests {
 
     #[test]
     fn lead_times_are_clamped_and_change_the_dedup_key() {
-        assert_eq!(normalize_lead_minutes(None), 0);
+        assert_eq!(
+            normalize_lead_minutes(None),
+            0,
+            "missing lead means at due time"
+        );
         assert_eq!(normalize_lead_minutes(Some(30)), 30);
-        assert_eq!(normalize_lead_minutes(Some(5000)), 24 * 60);
+        assert_eq!(
+            normalize_lead_minutes(Some(5000)),
+            24 * 60,
+            "unreasonable leads must be clamped"
+        );
         assert_ne!(
             due_action_key("2026-11-19T10:00", 0),
             due_action_key("2026-11-19T10:00", 30)
@@ -799,32 +820,45 @@ mod tests {
                 &format!("2026-11-19T{hour:02}:{minute:02}"),
                 "%Y-%m-%dT%H:%M",
             )
-            .unwrap()
+            .expect("test date must be valid")
         };
 
         // 30 minutes before: "coming up" copy with the interpolated lead.
-        let (key, reminder) = scheduled_reminder(due, Some(30), at(10, 0)).unwrap();
+        let (key, reminder) =
+            scheduled_reminder(due, Some(30), at(10, 0)).expect("30-minute lead must schedule");
         assert_eq!(key, "2026-11-19T10:30|30");
-        assert_eq!(reminder.popup_kind, "before");
-        assert_eq!(reminder.message_key, "taskAlert.beforeMessage");
-        assert_eq!(reminder.lead_minutes, 30);
+        assert_eq!(
+            reminder.popup_kind, "before",
+            "lead time changes the popup copy"
+        );
+        assert_eq!(
+            reminder.message_key, "taskAlert.beforeMessage",
+            "the popup resolves translated copy through i18n"
+        );
+        assert_eq!(
+            reminder.lead_minutes, 30,
+            "the lead is interpolated into the message"
+        );
         assert!(!reminder.needs_lead_check);
 
         // Ten minutes early, then too early.
-        let (key, reminder) = scheduled_reminder(due, Some(10), at(10, 20)).unwrap();
+        let (key, reminder) =
+            scheduled_reminder(due, Some(10), at(10, 20)).expect("10-minute lead must schedule");
         assert_eq!(key, "2026-11-19T10:30|10");
         assert_eq!(reminder.message_key, "taskAlert.beforeMessage");
         assert!(scheduled_reminder(due, Some(10), at(10, 15)).is_none());
 
         // If the app was closed for the pre-reminder, one due-time fallback is
         // allowed, but only if the pre-reminder event was not already recorded.
-        let (key, reminder) = scheduled_reminder(due, Some(30), at(10, 31)).unwrap();
+        let (key, reminder) =
+            scheduled_reminder(due, Some(30), at(10, 31)).expect("due-time fallback must schedule");
         assert_eq!(key, "2026-11-19T10:30|0");
         assert_eq!(reminder.popup_kind, "due");
         assert_eq!(reminder.lead_minutes, 0);
         assert!(reminder.needs_lead_check);
         assert!(scheduled_reminder(due, None, at(10, 0)).is_none());
-        let (key, reminder) = scheduled_reminder(due, None, at(10, 30)).unwrap();
+        let (key, reminder) =
+            scheduled_reminder(due, None, at(10, 30)).expect("zero lead must schedule at due");
         assert_eq!(key, "2026-11-19T10:30|0");
         assert_eq!(reminder.popup_kind, "due");
         assert!(!reminder.needs_lead_check);
@@ -838,8 +872,12 @@ mod tests {
         let first = row(1, "2026-11-19");
         let second = row(2, "2026-11-18");
         let tasks = [&first, &second];
-        let chosen = choose_nudge(&tasks, "2026-11-19", Some(2)).unwrap();
+        let chosen =
+            choose_nudge(&tasks, "2026-11-19", Some(2)).expect("two tasks must yield a nudge");
         assert_eq!(chosen.id, 1);
-        assert_eq!(choose_nudge(&[], "2026-11-19", None).map(|task| task.id), None);
+        assert_eq!(
+            choose_nudge(&[], "2026-11-19", None).map(|task| task.id),
+            None
+        );
     }
 }
