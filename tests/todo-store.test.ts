@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import {
   formatTaskDate,
@@ -64,10 +64,22 @@ describe("todo date helpers", () => {
  * reminder must carry both interpolations in every shipped translation we
  * maintain by hand; a missing placeholder would render a literal {{minutes}}.
  */
+interface LocaleMessages {
+  onboarding: Record<string, string | string[]> & {
+    todoSetupTitle: string;
+    todoRequired: string;
+    todoSetupPlaceholder: string;
+    todoSetupRemindersShort: string;
+    todoSetupExamples: string[];
+  };
+  todo: Record<string, string>;
+  taskAlert: Record<string, string>;
+}
+
 describe("task reminder translations", () => {
-  const locale = (code: string): Record<string, Record<string, string>> => {
+  const locale = (code: string): LocaleMessages => {
     const path = fileURLToPath(new URL(`../src/i18n/locales/${code}.json`, import.meta.url));
-    return JSON.parse(readFileSync(path, "utf8"));
+    return JSON.parse(readFileSync(path, "utf8")) as LocaleMessages;
   };
 
   for (const code of ["en", "bn"]) {
@@ -87,4 +99,107 @@ describe("task reminder translations", () => {
   test("onboarding no longer describes the required task as optional", () => {
     assert.doesNotMatch(locale("en").onboarding.todoSetupPlaceholder, /optional/i);
   });
+});
+
+/**
+ * The onboarding screen renders these strings directly. A missing key in any
+ * shipped locale would silently fall back to English, so assert full coverage
+ * (including the rotating examples and every interpolation token).
+ */
+describe("onboarding copy in every locale", () => {
+  const localeDir = fileURLToPath(new URL("../src/i18n/locales/", import.meta.url));
+  const codes = readdirSync(localeDir)
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => file.slice(0, -".json".length));
+
+  const required: Array<[keyof LocaleMessages, string]> = [
+    ["onboarding", "steps.todo"],
+    ["onboarding", "todoSetupTitle"],
+    ["onboarding", "todoSetupSubtitle"],
+    ["onboarding", "todoSetupPlaceholder"],
+    ["onboarding", "todoRequired"],
+    ["onboarding", "todoSetupAdded"],
+    ["onboarding", "todoSetupFree"],
+    ["onboarding", "todoSetupRemindersTitle"],
+    ["onboarding", "todoSetupRemindersDesc"],
+    ["onboarding", "todoSetupRemindersShort"],
+    ["onboarding", "todoSetupTimeHint"],
+    ["todo", "addTask"],
+    ["todo", "addTaskPlaceholder"],
+    ["todo", "quickAddHint"],
+    ["todo", "markDone"],
+    ["todo", "remindBefore"],
+    ["todo", "remindAtTime"],
+    ["todo", "minutesBefore"],
+    ["taskAlert", "beforeEyebrow"],
+    ["taskAlert", "beforeMessage"],
+    ["taskAlert", "dueEyebrow"],
+    ["taskAlert", "dueMessage"],
+    ["taskAlert", "doneEyebrow"],
+    ["taskAlert", "doneMessage"],
+    ["taskAlert", "nudgeEyebrow"],
+    ["taskAlert", "nudgeMessageA"],
+    ["taskAlert", "nudgeMessageB"],
+    ["taskAlert", "nudgeMessageC"],
+    ["taskAlert", "previewEyebrow"],
+    ["taskAlert", "markDone"],
+    ["taskAlert", "openList"],
+    ["taskAlert", "dismiss"],
+  ];
+
+  const lookup = (
+    messages: LocaleMessages,
+    section: keyof LocaleMessages,
+    key: string,
+  ): string | string[] | undefined => {
+    let node: unknown = messages[section];
+    for (const part of key.split(".")) {
+      if (typeof node !== "object" || node === null) return undefined;
+      node = (node as Record<string, unknown>)[part];
+    }
+    return node as string | string[] | undefined;
+  };
+
+  const placeholders: Array<[keyof LocaleMessages, string, string[]]> = [
+    ["onboarding", "todoSetupExamples", []],
+    ["todo", "minutesBefore", ["{{minutes}}"]],
+    ["todo", "markDone", ["{{title}}"]],
+    ["taskAlert", "beforeMessage", ["{{title}}", "{{minutes}}"]],
+  ];
+
+  for (const code of codes) {
+    test(`${code} has complete, translated onboarding and reminder copy`, () => {
+      const path = fileURLToPath(new URL(`../src/i18n/locales/${code}.json`, import.meta.url));
+      const messages = JSON.parse(readFileSync(path, "utf8")) as LocaleMessages;
+
+      for (const [section, key] of required) {
+        const value = lookup(messages, section, key);
+        assert.ok(
+          typeof value === "string" && value.trim().length > 0,
+          `${code}: ${section}.${key} is missing`,
+        );
+      }
+
+      for (const [section, key, tokens] of placeholders) {
+        const value = lookup(messages, section, key);
+        if (key === "todoSetupExamples") {
+          assert.ok(Array.isArray(value), `${code}: ${section}.${key} must be a list`);
+          assert.equal(value.length, 5, `${code}: expected five rotating examples`);
+          for (const example of value) {
+            assert.ok(
+              typeof example === "string" && example.trim().length > 0,
+              `${code}: example must not be empty`,
+            );
+          }
+          continue;
+        }
+        for (const token of tokens) {
+          assert.ok(
+            typeof value === "string" && value.includes(token),
+            `${code}: ${section}.${key} is missing ${token}`,
+          );
+        }
+      }
+    });
+  }
 });

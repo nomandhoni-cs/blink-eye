@@ -678,6 +678,8 @@ pub fn preview_task_reminder(app_handle: AppHandle) -> Result<(), String> {
 /// `()` on success, or error string on failure.
 #[tauri::command]
 pub fn open_todo_from_alert(app_handle: AppHandle) -> Result<(), String> {
+    use tauri::Emitter;
+
     if let Some(window) = app_handle.get_webview_window(ALERT_LABEL) {
         let _ = window.close();
     }

@@ -241,8 +241,26 @@
       "theme": "Thème",
       "breakSettings": "Pauses",
       "breakClock": "Horloge",
-      "done": "Terminé"
-    }
+      "done": "Terminé",
+      "todo": "Vos tâches"
+    },
+    "todoRequired": "Ajoutez au moins une tâche pour continuer. Vous pourrez la modifier plus tard.",
+    "todoSetupAdded": "Ajoutée à la liste — modifiable à tout moment.",
+    "todoSetupFree": "Aucune licence requise",
+    "todoSetupPlaceholder": "Écrivez votre première tâche (obligatoire pour continuer)",
+    "todoSetupRemindersDesc": "Une petite notification apparaît à l’heure choisie ou peu avant, plus un rappel doux par jour. Les heures calmes sont 22 h – 8 h ; vous pouvez désactiver à tout moment.",
+    "todoSetupRemindersTitle": "Me rappeler mes tâches",
+    "todoSetupSubtitle": "Gardez une petite tâche en tête. Ouvrez-la depuis le tableau de bord ou une pause.",
+    "todoSetupTimeHint": "Choisissez une heure et le délai de rappel. Sans heure, vous recevez tout de même un rappel quotidien doux.",
+    "todoSetupTitle": "Vos tâches, toujours gratuites",
+    "todoSetupExamples": [
+      "Payer la facture d’électricité",
+      "Répondre à un ami",
+      "Relire les notes de la réunion de demain",
+      "Prendre rendez-vous chez le médecin",
+      "Sortir les poubelles"
+    ],
+    "todoSetupRemindersShort": "Une petite notification à l’heure choisie. Désactivable à tout moment."
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -310,7 +328,41 @@
     "showCompleted": "Afficher les tâches terminées",
     "hideCompleted": "Masquer les tâches terminées",
     "unlockTodoTitle": "Passez à Premium",
-    "unlockTodoText": "Et débloquez la liste de tâches"
+    "unlockTodoText": "Et débloquez la liste de tâches",
+    "addedToast": "Tâche ajoutée",
+    "all": "Toutes",
+    "completeToast": "Tâche terminée",
+    "couldNotLoad": "Impossible de charger les tâches. Réessayez.",
+    "couldNotSave": "Impossible d’enregistrer la tâche. Réessayez.",
+    "deleteTask": "Supprimer {{title}}",
+    "deletedToast": "Tâche supprimée",
+    "done": "Terminé",
+    "dueTime": "Échéance à {{time}}",
+    "editTask": "Modifier {{title}}",
+    "filterLabel": "Filtrer les tâches",
+    "minutesBefore": "{{minutes}} min avant",
+    "noDoneHint": "Les tâches terminées restent ici pour montrer vos progrès.",
+    "noDoneTitle": "Aucune tâche terminée",
+    "noTasksHint": "Ajoutez une petite tâche ci-dessus — cela prend une seconde.",
+    "noTasksTitle": "Aucune tâche dans la liste",
+    "noUpcomingHint": "Choisissez une date sur une nouvelle tâche et elle apparaîtra ici.",
+    "noUpcomingTitle": "Rien à venir",
+    "previewReminder": "Voir la notification",
+    "progress": "{{done}} sur {{total}} terminées",
+    "quietHours": "Heures calmes",
+    "quietHoursDesc": "Aucune notification de tâche entre {{start}} et {{end}}.",
+    "remindAtTime": "À l’heure",
+    "remindBefore": "Rappeler avant",
+    "remindersAlwaysFree": "Gratuit pour toujours — aucune licence requise.",
+    "restoredToast": "Tâche restaurée",
+    "subtitle": "Une liste gratuite et privée, accessible depuis une pause et le tableau de bord.",
+    "taskRemindersDesc": "Une petite notification à l’heure choisie ou peu avant, plus un rappel doux pour les tâches en cours. Jamais pendant une pause ni les heures calmes.",
+    "taskRemindersTitle": "Rappels de tâches",
+    "today": "Aujourd’hui",
+    "undo": "Annuler",
+    "upcoming": "À venir",
+    "quickAddHint": "Écrivez une chose à faire. Appuyez sur Entrée pour l’ajouter.",
+    "markDone": "Marquer {{title}} comme terminée"
   },
   "workday": {
     "title": "Jours ouvrés",
@@ -904,5 +956,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "À VENIR",
+    "beforeMessage": "Attention — {{title}} commence dans {{minutes}} minutes.",
+    "dismiss": "Fermer le rappel",
+    "doneEyebrow": "TERMINÉ",
+    "doneMessage": "Bien joué — une chose de moins à retenir.",
+    "dueEyebrow": "TÂCHE DUE",
+    "dueMessage": "Avez-vous terminé cette tâche ?",
+    "markDone": "Terminé",
+    "nudgeEyebrow": "RAPPEL QUOTIDIEN",
+    "nudgeMessageA": "Avez-vous terminé cette tâche ? Une vérification prend une seconde.",
+    "nudgeMessageB": "Toujours en tête ? Marquez-la comme terminée ou ouvrez la liste.",
+    "nudgeMessageC": "Un petit pas maintenant, une charge en moins plus tard. Comment avance cette tâche ?",
+    "openList": "Ouvrir la liste",
+    "previewEyebrow": "APERÇU DU RAPPEL"
+  }
 }

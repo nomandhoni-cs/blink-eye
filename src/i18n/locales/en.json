@@ -246,7 +246,15 @@
     "todoSetupRemindersDesc": "A small pop-up appears when a task is due or shortly before it, plus one gentle nudge a day. Quiet hours are 10 PM – 8 AM, and you can turn this off anytime.",
     "todoSetupFree": "No license needed",
     "todoSetupTimeHint": "Pick a time and choose how early we should remind you. Without a time, you still get one gentle daily nudge.",
-    "todoRequired": "Add at least one task to continue. You can edit it later."
+    "todoRequired": "Add at least one task to continue. You can edit it later.",
+    "todoSetupExamples": [
+      "Pay the electricity bill",
+      "Reply to a friend",
+      "Read notes for tomorrow's meeting",
+      "Book a doctor's appointment",
+      "Take out the trash"
+    ],
+    "todoSetupRemindersShort": "A small pop-up at the chosen time or shortly before. Turn it off anytime."
   },
   "dashboard": {
     "title": "Dashboard",

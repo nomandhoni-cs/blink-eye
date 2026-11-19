@@ -241,8 +241,26 @@
       "theme": "Giao diện",
       "breakSettings": "Cài đặt nghỉ",
       "breakClock": "Đồng hồ",
-      "done": "Xong"
-    }
+      "done": "Xong",
+      "todo": "Công việc của bạn"
+    },
+    "todoRequired": "Thêm ít nhất một công việc để tiếp tục. Bạn có thể chỉnh sửa sau.",
+    "todoSetupAdded": "Đã thêm vào danh sách — bạn có thể thay đổi bất cứ lúc nào.",
+    "todoSetupFree": "Không cần giấy phép",
+    "todoSetupPlaceholder": "Viết công việc đầu tiên của bạn (bắt buộc để tiếp tục)",
+    "todoSetupRemindersDesc": "Một cửa sổ nhỏ xuất hiện vào giờ đã chọn hoặc ngay trước đó, kèm một lời nhắc nhẹ nhàng mỗi ngày. Giờ yên tĩnh là 22:00–08:00 và bạn có thể tắt bất cứ lúc nào.",
+    "todoSetupRemindersTitle": "Nhắc tôi về công việc của tôi",
+    "todoSetupSubtitle": "Giữ một công việc nhỏ trong đầu. Mở nó từ bảng điều khiển hoặc ngay từ một lần nghỉ.",
+    "todoSetupTimeHint": "Chọn giờ và thời điểm nhắc trước. Dù không chọn giờ, bạn vẫn nhận được một lời nhắc nhẹ nhàng mỗi ngày.",
+    "todoSetupTitle": "Công việc của bạn, luôn miễn phí",
+    "todoSetupExamples": [
+      "Trả tiền điện",
+      "Trả lời một người bạn",
+      "Đọc ghi chú cho cuộc họp ngày mai",
+      "Đặt lịch khám bác sĩ",
+      "Đem rác ra ngoài"
+    ],
+    "todoSetupRemindersShort": "Một cửa sổ nhỏ vào giờ đã chọn. Có thể tắt bất cứ lúc nào."
   },
   "dashboard": {
     "title": "Bảng điều khiển",
@@ -310,7 +328,41 @@
     "showCompleted": "Hiện việc đã xong",
     "hideCompleted": "Ẩn việc đã xong",
     "unlockTodoTitle": "Nâng cấp lên bản cao cấp",
-    "unlockTodoText": "Và mở khóa danh sách việc cần làm"
+    "unlockTodoText": "Và mở khóa danh sách việc cần làm",
+    "addedToast": "Đã thêm công việc",
+    "all": "Tất cả",
+    "completeToast": "Đã hoàn thành công việc",
+    "couldNotLoad": "Không thể tải công việc. Vui lòng thử lại.",
+    "couldNotSave": "Không thể lưu công việc. Vui lòng thử lại.",
+    "deleteTask": "Xóa {{title}}",
+    "deletedToast": "Đã xóa công việc",
+    "done": "Xong",
+    "dueTime": "Đến hạn lúc {{time}}",
+    "editTask": "Sửa {{title}}",
+    "filterLabel": "Lọc công việc",
+    "minutesBefore": "{{minutes}} phút trước",
+    "noDoneHint": "Công việc hoàn thành vẫn ở đây để bạn thấy tiến trình của mình.",
+    "noDoneTitle": "Chưa có công việc hoàn thành",
+    "noTasksHint": "Thêm một công việc nhỏ ở trên — chỉ mất một giây.",
+    "noTasksTitle": "Chưa có công việc trong danh sách",
+    "noUpcomingHint": "Chọn ngày cho công việc mới và nó sẽ xuất hiện ở đây.",
+    "noUpcomingTitle": "Không có gì sắp tới",
+    "previewReminder": "Xem cửa sổ thông báo",
+    "progress": "{{done}} trong {{total}} đã hoàn thành",
+    "quietHours": "Giờ yên tĩnh",
+    "quietHoursDesc": "Không có cửa sổ công việc từ {{start}} đến {{end}}.",
+    "remindAtTime": "Vào giờ đã chọn",
+    "remindBefore": "Nhắc trước",
+    "remindersAlwaysFree": "Miễn phí mãi mãi — không cần giấy phép.",
+    "restoredToast": "Đã khôi phục công việc",
+    "subtitle": "Một danh sách miễn phí, riêng tư mà bạn có thể mở từ lần nghỉ và bảng điều khiển.",
+    "taskRemindersDesc": "Một cửa sổ nhỏ vào giờ đã chọn hoặc ngay trước đó, kèm lời nhắc nhẹ nhàng cho công việc chưa xong. Không bao giờ trong lần nghỉ hoặc giờ yên tĩnh.",
+    "taskRemindersTitle": "Lời nhắc công việc",
+    "today": "Hôm nay",
+    "undo": "Hoàn tác",
+    "upcoming": "Sắp tới",
+    "quickAddHint": "Viết một việc bạn muốn hoàn thành. Nhấn Enter để thêm.",
+    "markDone": "Đánh dấu {{title}} là đã xong"
   },
   "workday": {
     "title": "Ngày làm việc",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "SẮP TỚI",
+    "beforeMessage": "Lưu ý — {{title}} bắt đầu sau {{minutes}} phút.",
+    "dismiss": "Đóng lời nhắc",
+    "doneEyebrow": "XONG",
+    "doneMessage": "Làm tốt lắm — bớt được một việc phải nhớ.",
+    "dueEyebrow": "CÔNG VIỆC ĐẾN HẠN",
+    "dueMessage": "Bạn đã hoàn thành công việc này chưa?",
+    "markDone": "Xong",
+    "nudgeEyebrow": "LỜI NHẮC HÀNG NGÀY",
+    "nudgeMessageA": "Bạn đã hoàn thành công việc này chưa? Một lần kiểm tra nhanh chỉ mất một giây.",
+    "nudgeMessageB": "Vẫn còn trong đầu? Đánh dấu là xong hoặc mở danh sách.",
+    "nudgeMessageC": "Một bước nhỏ hôm nay, nhẹ nhàng hơn sau này. Công việc này tiến triển thế nào?",
+    "openList": "Mở danh sách",
+    "previewEyebrow": "XEM TRƯỚC LỜI NHẮC"
+  }
 }

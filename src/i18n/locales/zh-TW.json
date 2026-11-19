@@ -241,11 +241,29 @@
       "theme": "主題",
       "breakSettings": "休息設定",
       "breakClock": "休息計時器",
-      "done": "完成"
+      "done": "完成",
+      "todo": "你的待辦事項"
     },
     "selectLanguage": "选择语言",
     "continue": "继续",
-    "skip": "跳过"
+    "skip": "跳过",
+    "todoRequired": "至少新增一項工作才能繼續。之後可以編輯。",
+    "todoSetupAdded": "已新增到清單 — 隨時可以變更。",
+    "todoSetupFree": "不需要授權",
+    "todoSetupPlaceholder": "寫下你的第一個工作（繼續前必須填寫）",
+    "todoSetupRemindersDesc": "小視窗會在設定的時間或稍早出現，另外每天有一次溫柔提醒。靜音時段為 22:00–08:00，隨時可以關閉。",
+    "todoSetupRemindersTitle": "提醒我完成工作",
+    "todoSetupSubtitle": "在心裡記住一件小事。可從儀表板或休息畫面直接開啟。",
+    "todoSetupTimeHint": "選擇時間與提前提醒的時長。即使不選時間，仍會收到每天一次的溫柔提醒。",
+    "todoSetupTitle": "你的待辦事項，永遠免費",
+    "todoSetupExamples": [
+      "繳電費",
+      "回覆朋友",
+      "閱讀明天的會議紀錄",
+      "預約醫生",
+      "倒垃圾"
+    ],
+    "todoSetupRemindersShort": "在設定的時間顯示小視窗，隨時可以關閉。"
   },
   "dashboard": {
     "title": "儀表板",
@@ -313,7 +331,41 @@
     "showCompleted": "顯示已完成",
     "hideCompleted": "隱藏已完成",
     "unlockTodoTitle": "升級到進階版",
-    "unlockTodoText": "並解鎖待辦清單"
+    "unlockTodoText": "並解鎖待辦清單",
+    "addedToast": "工作已新增",
+    "all": "全部",
+    "completeToast": "工作已完成",
+    "couldNotLoad": "無法載入工作，請重試。",
+    "couldNotSave": "無法儲存工作，請重試。",
+    "deleteTask": "刪除 {{title}}",
+    "deletedToast": "工作已刪除",
+    "done": "完成",
+    "dueTime": "截止時間 {{time}}",
+    "editTask": "編輯 {{title}}",
+    "filterLabel": "篩選工作",
+    "minutesBefore": "提前 {{minutes}} 分鐘",
+    "noDoneHint": "已完成的工作會留在這裡，方便你查看進度。",
+    "noDoneTitle": "還沒有已完成的工作",
+    "noTasksHint": "在上方新增一個小工作 — 只需一秒。",
+    "noTasksTitle": "清單中還沒有工作",
+    "noUpcomingHint": "為新工作選擇日期，就會顯示在這裡。",
+    "noUpcomingTitle": "暫無即將到來",
+    "previewReminder": "查看彈窗",
+    "progress": "已完成 {{done}} / {{total}}",
+    "quietHours": "靜音時段",
+    "quietHoursDesc": "{{start}} 到 {{end}} 之間不顯示工作彈窗。",
+    "remindAtTime": "在指定時間",
+    "remindBefore": "提前提醒",
+    "remindersAlwaysFree": "永久免費 — 不需要授權。",
+    "restoredToast": "工作已還原",
+    "subtitle": "一份免費、私密的清單，可從休息畫面和儀表板開啟。",
+    "taskRemindersDesc": "小視窗在設定的時間或稍早出現，未完成的工作還會收到溫柔提醒。休息或靜音時段絕不打擾。",
+    "taskRemindersTitle": "工作提醒",
+    "today": "今天",
+    "undo": "復原",
+    "upcoming": "即將到來",
+    "quickAddHint": "寫下一件你想完成的事，按 Enter 新增。",
+    "markDone": "將 {{title}} 標記為已完成"
   },
   "workday": {
     "title": "工作日",
@@ -907,5 +959,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "即將開始",
+    "beforeMessage": "注意 — {{title}} 將在 {{minutes}} 分鐘後開始。",
+    "dismiss": "關閉提醒",
+    "doneEyebrow": "全部完成",
+    "doneMessage": "做得很好 — 少了一件要記的事。",
+    "dueEyebrow": "工作到期",
+    "dueMessage": "你完成這項工作了嗎？",
+    "markDone": "完成",
+    "nudgeEyebrow": "每日提醒",
+    "nudgeMessageA": "你完成這項工作了嗎？快速確認只需一秒。",
+    "nudgeMessageB": "還在惦記嗎？標記完成或開啟清單。",
+    "nudgeMessageC": "現在一小步，以後少負擔。這項工作進展如何？",
+    "openList": "開啟清單",
+    "previewEyebrow": "提醒預覽"
+  }
 }

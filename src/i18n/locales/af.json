@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Rus-instellings",
       "breakClock": "Horlosie",
-      "done": "Klaar"
-    }
+      "done": "Klaar",
+      "todo": "Jou take"
+    },
+    "todoRequired": "Voeg ten minste een taak by om voort te gaan. Jy kan dit later wysig.",
+    "todoSetupAdded": "By die lys gevoeg — jy kan dit enige tyd verander.",
+    "todoSetupFree": "Geen lisensie nodig",
+    "todoSetupPlaceholder": "Skryf jou eerste taak (verpligtend om voort te gaan)",
+    "todoSetupRemindersDesc": "'n Klein opspringvenster verskyn op die gekose tyd of kort vooraf, plus een sagte herinnering per dag. Stil ure is 22:00–08:00 en jy kan dit enige tyd afskakel.",
+    "todoSetupRemindersTitle": "Herinner my aan my take",
+    "todoSetupSubtitle": "Hou een klein taak in gedagte. Maak dit oop vanaf die paneel of direk vanaf 'n pouse.",
+    "todoSetupTimeHint": "Kies 'n tyd en hoe vroeg ons jou moet herinner. Sonder 'n tyd kry jy nog steeds een sagte daaglikse herinnering.",
+    "todoSetupTitle": "Jou take, altyd gratis",
+    "todoSetupExamples": [
+      "Betaal die kragrekening",
+      "Antwoord 'n vriend",
+      "Lees notas vir morgens vergadering",
+      "Maak 'n dokterafspraak",
+      "Sit die asblik uit"
+    ],
+    "todoSetupRemindersShort": "'n Klein opspringvenster op die gekose tyd. Enige tyd afskakelbaar."
   },
   "dashboard": {
     "title": "Paneel",
@@ -310,7 +328,41 @@
     "showCompleted": "Wys voltooide",
     "hideCompleted": "Versteek voltooide",
     "unlockTodoTitle": "Opgradeer na Premium",
-    "unlockTodoText": "En ontsluit die doenlys"
+    "unlockTodoText": "En ontsluit die doenlys",
+    "addedToast": "Taak bygevoeg",
+    "all": "Alle",
+    "completeToast": "Taak voltooi",
+    "couldNotLoad": "Kon nie take laai nie. Probeer weer.",
+    "couldNotSave": "Kon nie taak stoor nie. Probeer weer.",
+    "deleteTask": "Verwyder {{title}}",
+    "deletedToast": "Taak verwyder",
+    "done": "Klaar",
+    "dueTime": "Verval om {{time}}",
+    "editTask": "Wysig {{title}}",
+    "filterLabel": "Filter take",
+    "minutesBefore": "{{minutes}} min voor",
+    "noDoneHint": "Voltooide take bly hier sodat jy jou vordering kan sien.",
+    "noDoneTitle": "Nog geen voltooide take",
+    "noTasksHint": "Voeg 'n klein taak hierbo by — dit neem net 'n sekonde.",
+    "noTasksTitle": "Nog geen take in die lys",
+    "noUpcomingHint": "Kies 'n datum vir 'n nuwe taak en dit sal hier verskyn.",
+    "noUpcomingTitle": "Niks op hande",
+    "previewReminder": "Wys opspringvenster",
+    "progress": "{{done}} van {{total}} voltooi",
+    "quietHours": "Stil ure",
+    "quietHoursDesc": "Geen taakopspringvensters tussen {{start}} en {{end}}.",
+    "remindAtTime": "Op die tyd",
+    "remindBefore": "Herinner vooraf",
+    "remindersAlwaysFree": "Gratis vir altyd — geen lisensie nodig.",
+    "restoredToast": "Taak herstel",
+    "subtitle": "'n Gratis, privaat lys wat jy vanaf 'n pouse en die paneel kan oopmaak.",
+    "taskRemindersDesc": "'n Klein opspringvenster op die gekose tyd of kort vooraf, plus 'n sagte herinnering vir onvoltooide take. Nooit tydens pouses of stil ure nie.",
+    "taskRemindersTitle": "Taakherinnerings",
+    "today": "Vandag",
+    "undo": "Ongedaan maak",
+    "upcoming": "Op hande",
+    "quickAddHint": "Skryf een ding neer wat jy wil klaarkry. Druk Enter om dit by te voeg.",
+    "markDone": "Merk {{title}} as klaar"
   },
   "workday": {
     "title": "Werksdae",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "BINNEKORT",
+    "beforeMessage": "Let wel — {{title}} begin oor {{minutes}} minute.",
+    "dismiss": "Herinnering sluit",
+    "doneEyebrow": "KLAAR",
+    "doneMessage": "Goed gedoen — een ding minder om te onthou.",
+    "dueEyebrow": "TAAK VERVAL",
+    "dueMessage": "Het jy hierdie taak voltooi?",
+    "markDone": "Klaar",
+    "nudgeEyebrow": "DAGLIKSE HERINNERING",
+    "nudgeMessageA": "Het jy hierdie taak voltooi? Vinnige opvolging neem 'n sekonde.",
+    "nudgeMessageB": "Nog in jou gedagtes? Merk as klaar of maak die lys oop.",
+    "nudgeMessageC": "'n Klein stap nou, minder later. Hoe gaan hierdie taak?",
+    "openList": "Maak lys oop",
+    "previewEyebrow": "HERINNERINGVOORSKOU"
+  }
 }

@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Pausinnstillinger",
       "breakClock": "Klokke",
-      "done": "Ferdig"
-    }
+      "done": "Ferdig",
+      "todo": "Oppgavene dine"
+    },
+    "todoRequired": "Legg til minst én oppgave for å fortsette. Du kan endre den senere.",
+    "todoSetupAdded": "Lagt til i listen — du kan endre den når som helst.",
+    "todoSetupFree": "Ingen lisens nødvendig",
+    "todoSetupPlaceholder": "Skriv din første oppgave (påkrevd for å fortsette)",
+    "todoSetupRemindersDesc": "Et lite varsel vises på valgt tidspunkt eller like før, pluss en rolig påminnelse per dag. Stille tider er 22:00–08:00, og du kan slå det av når som helst.",
+    "todoSetupRemindersTitle": "Påminn meg om oppgavene mine",
+    "todoSetupSubtitle": "Hold én liten oppgave i tankene. Åpne den fra dashbordet eller rett fra en pause.",
+    "todoSetupTimeHint": "Velg et tidspunkt og hvor tidlig vi skal minne deg. Uten tid får du fortsatt én rolig daglig påminnelse.",
+    "todoSetupTitle": "Oppgavene dine, alltid gratis",
+    "todoSetupExamples": [
+      "Betal strømregningen",
+      "Svar en venn",
+      "Les notatene til morgens møte",
+      "Bestill time hos legen",
+      "Ta ut søppelen"
+    ],
+    "todoSetupRemindersShort": "Et lite varsel på valgt tidspunkt. Kan slås av når som helst."
   },
   "dashboard": {
     "title": "Oversikt",
@@ -310,7 +328,41 @@
     "showCompleted": "Vis fullførte",
     "hideCompleted": "Skjul fullførte",
     "unlockTodoTitle": "Oppgrader til Premium",
-    "unlockTodoText": "Og lås opp oppgavelisten"
+    "unlockTodoText": "Og lås opp oppgavelisten",
+    "addedToast": "Oppgave lagt til",
+    "all": "Alle",
+    "completeToast": "Oppgave fullført",
+    "couldNotLoad": "Kunne ikke laste oppgavene. Prøv igjen.",
+    "couldNotSave": "Kunne ikke lagre oppgaven. Prøv igjen.",
+    "deleteTask": "Slett {{title}}",
+    "deletedToast": "Oppgave slettet",
+    "done": "Ferdig",
+    "dueTime": "Forfaller kl. {{time}}",
+    "editTask": "Rediger {{title}}",
+    "filterLabel": "Filtrer oppgaver",
+    "minutesBefore": "{{minutes}} min før",
+    "noDoneHint": "Fullførte oppgaver blir liggende her så du ser fremgangen.",
+    "noDoneTitle": "Ingen fullførte oppgaver ennå",
+    "noTasksHint": "Legg til en liten oppgave ovenfor — det tar bare et sekund.",
+    "noTasksTitle": "Ingen oppgaver i listen ennå",
+    "noUpcomingHint": "Velg en dato på en ny oppgave, så vises den her.",
+    "noUpcomingTitle": "Ingenting kommer",
+    "previewReminder": "Vis varsel",
+    "progress": "{{done}} av {{total}} fullført",
+    "quietHours": "Stille tider",
+    "quietHoursDesc": "Ingen oppgavevarsler mellom {{start}} og {{end}}.",
+    "remindAtTime": "På tidspunktet",
+    "remindBefore": "Påminn før",
+    "remindersAlwaysFree": "Gratis for alltid — ingen lisens nødvendig.",
+    "restoredToast": "Oppgave gjenopprettet",
+    "subtitle": "En gratis, privat liste du kan åpne fra en pause og dashbordet.",
+    "taskRemindersDesc": "Et lite varsel på valgt tidspunkt eller like før, pluss en rolig påminnelse for ufullførte oppgaver. Aldri under pauser eller stille tider.",
+    "taskRemindersTitle": "Oppgavepåminnelser",
+    "today": "I dag",
+    "undo": "Angre",
+    "upcoming": "Kommende",
+    "quickAddHint": "Skriv ned én ting du vil få gjort. Trykk Enter for å legge den til.",
+    "markDone": "Merk {{title}} som ferdig"
   },
   "workday": {
     "title": "Arbeidsdager",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "KOMMER",
+    "beforeMessage": "Heads up — {{title}} starter om {{minutes}} minutter.",
+    "dismiss": "Lukk påminnelse",
+    "doneEyebrow": "FERDIG",
+    "doneMessage": "Bra jobbet — én ting mindre å huske.",
+    "dueEyebrow": "OPPGAVE FORFALLER",
+    "dueMessage": "Fullførte du denne oppgaven?",
+    "markDone": "Ferdig",
+    "nudgeEyebrow": "DAGLIG PÅMINNELSE",
+    "nudgeMessageA": "Fullførte du denne oppgaven? En rask sjekk tar ett sekund.",
+    "nudgeMessageB": "Fortsatt i tankene? Merk som ferdig eller åpne listen.",
+    "nudgeMessageC": "Et lite steg nå, mindre senere. Hvordan går denne oppgaven?",
+    "openList": "Åpne listen",
+    "previewEyebrow": "FORHÅNDSVISNING AV PÅMINNELSE"
+  }
 }

@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Mola ayarları",
       "breakClock": "Saat",
-      "done": "Bitti"
-    }
+      "done": "Bitti",
+      "todo": "Görevlerin"
+    },
+    "todoRequired": "Devam etmek için en az bir görev ekle. Daha sonra düzenleyebilirsin.",
+    "todoSetupAdded": "Listeye eklendi — istediğin zaman değiştirebilirsin.",
+    "todoSetupFree": "Lisans gerekmiyor",
+    "todoSetupPlaceholder": "İlk görevini yaz (devam etmek için zorunlu)",
+    "todoSetupRemindersDesc": "Küçük bir bildirim seçtiğin saatte veya kısa süre önce görünür, günde bir nazik hatırlatma eklenir. Sessiz saatler 22:00–08:00 arasıdır ve istediğin zaman kapatabilirsin.",
+    "todoSetupRemindersTitle": "Görevlerimi hatırlat bana",
+    "todoSetupSubtitle": "Küçük bir görevi aklında tut. Panodan veya bir moleden doğrudan aç.",
+    "todoSetupTimeHint": "Bir saat ve ne kadar önce hatırlatılacağını seç. Saat seçmezsen yine de günlük nazik bir hatırlatma alırsın.",
+    "todoSetupTitle": "Görevlerin, her zaman ücretsiz",
+    "todoSetupExamples": [
+      "Elektrik faturasını öde",
+      "Bir arkadaşa cevap ver",
+      "Yarınki toplantının notlarını oku",
+      "Doktor randevusu al",
+      "Çöpü dışarı çıkar"
+    ],
+    "todoSetupRemindersShort": "Seçtiğin saatte küçük bir bildirim. İstediğin zaman kapatabilirsin."
   },
   "dashboard": {
     "title": "Panel",
@@ -310,7 +328,41 @@
     "showCompleted": "Tamamlananları göster",
     "hideCompleted": "Tamamlananları gizle",
     "unlockTodoTitle": "Premium'a yükselt",
-    "unlockTodoText": "Ve Görev Listesini aç"
+    "unlockTodoText": "Ve Görev Listesini aç",
+    "addedToast": "Görev eklendi",
+    "all": "Tümü",
+    "completeToast": "Görev tamamlandı",
+    "couldNotLoad": "Görevler yüklenemedi. Lütfen tekrar dene.",
+    "couldNotSave": "Görev kaydedilemedi. Lütfen tekrar dene.",
+    "deleteTask": "{{title}} görevini sil",
+    "deletedToast": "Görev silindi",
+    "done": "Tamam",
+    "dueTime": "{{time}} tarihinde bitecek",
+    "editTask": "{{title}} görevini düzenle",
+    "filterLabel": "Görevleri filtrele",
+    "minutesBefore": "{{minutes}} dk önce",
+    "noDoneHint": "Tamamlanan görevler ilerlemeni görmek için burada kalır.",
+    "noDoneTitle": "Henüz tamamlanan görev yok",
+    "noTasksHint": "Yukarıya küçük bir görev ekle — sadece bir saniye sürer.",
+    "noTasksTitle": "Listede henüz görev yok",
+    "noUpcomingHint": "Yeni bir görevde tarih seç, burada görünsün.",
+    "noUpcomingTitle": "Yaklaşan bir şey yok",
+    "previewReminder": "Bildirimi görüntüle",
+    "progress": "{{done}} / {{total}} tamamlandı",
+    "quietHours": "Sessiz saatler",
+    "quietHoursDesc": "{{start}} ile {{end}} arasında görev bildirimi yok.",
+    "remindAtTime": "Belirtilen saatte",
+    "remindBefore": "Önce hatırlat",
+    "remindersAlwaysFree": "Sonsuza kadar ücretsiz — lisans gerekmez.",
+    "restoredToast": "Görev geri yüklendi",
+    "subtitle": "Moleden ve panodan açabileceğin ücretsiz, özel bir liste.",
+    "taskRemindersDesc": "Seçtiğin saatte veya kısa süre önce küçük bir bildirim, yarım kalan görevler için günlük nazik bir hatırlatma. Mola veya sessiz saatlerde asla.",
+    "taskRemindersTitle": "Görev hatırlatmaları",
+    "today": "Bugün",
+    "undo": "Geri al",
+    "upcoming": "Yaklaşan",
+    "quickAddHint": "Yapmak istediğin bir şeyi yaz. Eklemek için Enter'a bas.",
+    "markDone": "{{title}} görevini tamamlandı olarak işaretle"
   },
   "workday": {
     "title": "Çalışma günleri",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "YAKLAŞIYOR",
+    "beforeMessage": "Dikkat — {{title}} {{minutes}} dakika içinde başlıyor.",
+    "dismiss": "Hatırlatmayı kapat",
+    "doneEyebrow": "TAMAM",
+    "doneMessage": "Güzel iş — aklda tutulacak bir şey daha az.",
+    "dueEyebrow": "GÖREV VADESİ",
+    "dueMessage": "Bu görevi bitirdin mi?",
+    "markDone": "Tamam",
+    "nudgeEyebrow": "GÜNLÜK HATIRLATMA",
+    "nudgeMessageA": "Bu görevi bitirdin mi? Hızlı bir kontrol bir saniye sürer.",
+    "nudgeMessageB": "Hâlâ aklında mı? Tamam olarak işaretle veya listeyi aç.",
+    "nudgeMessageC": "Şimdi küçük bir adım, sonra daha az iş. Bu görev nasıl gidiyor?",
+    "openList": "Listeyi aç",
+    "previewEyebrow": "HATIRLATMA ÖNİZLEMESİ"
+  }
 }

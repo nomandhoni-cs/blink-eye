@@ -241,11 +241,29 @@
       "theme": "主题",
       "breakSettings": "休息设置",
       "breakClock": "休息计时器",
-      "done": "完成"
+      "done": "完成",
+      "todo": "你的待办事项"
     },
     "selectLanguage": "选择语言",
     "continue": "继续",
-    "skip": "跳过"
+    "skip": "跳过",
+    "todoRequired": "至少添加一项任务才能继续。之后可以编辑。",
+    "todoSetupAdded": "已添加到列表 — 随时可以更改。",
+    "todoSetupFree": "无需许可证",
+    "todoSetupPlaceholder": "写下你的第一个任务（继续操作前必须填写）",
+    "todoSetupRemindersDesc": "小弹窗会在设定时间或稍前出现，另外每天有一次温柔提醒。静音时间为 22:00–08:00，随时可以关闭。",
+    "todoSetupRemindersTitle": "提醒我完成任务",
+    "todoSetupSubtitle": "在心里记住一件小事。可从仪表盘或休息界面直接打开。",
+    "todoSetupTimeHint": "选择时间和提前提醒的時長。即使不选时间，仍会收到每天一次的温柔提醒。",
+    "todoSetupTitle": "你的待办事项，永远免费",
+    "todoSetupExamples": [
+      "缴纳电费",
+      "回复朋友",
+      "阅读明天的会议记录",
+      "预约医生",
+      "倒垃圾"
+    ],
+    "todoSetupRemindersShort": "在设定时间显示小弹窗，随时可以关闭。"
   },
   "dashboard": {
     "title": "仪表盘",
@@ -313,7 +331,41 @@
     "showCompleted": "显示已完成",
     "hideCompleted": "隐藏已完成",
     "unlockTodoTitle": "升级到高级版",
-    "unlockTodoText": "并解锁待办清单"
+    "unlockTodoText": "并解锁待办清单",
+    "addedToast": "任务已添加",
+    "all": "全部",
+    "completeToast": "任务已完成",
+    "couldNotLoad": "无法加载任务，请重试。",
+    "couldNotSave": "无法保存任务，请重试。",
+    "deleteTask": "删除 {{title}}",
+    "deletedToast": "任务已删除",
+    "done": "完成",
+    "dueTime": "截止时间 {{time}}",
+    "editTask": "编辑 {{title}}",
+    "filterLabel": "筛选任务",
+    "minutesBefore": "提前 {{minutes}} 分钟",
+    "noDoneHint": "已完成的任务会留在这里，方便你查看进度。",
+    "noDoneTitle": "还没有已完成的任务",
+    "noTasksHint": "在上方添加一件小任务 — 只需一秒。",
+    "noTasksTitle": "列表中还没有任务",
+    "noUpcomingHint": "为新任务选择日期，它就会显示在这里。",
+    "noUpcomingTitle": "暂无即将到来",
+    "previewReminder": "查看弹窗",
+    "progress": "已完成 {{done}} / {{total}}",
+    "quietHours": "静音时间",
+    "quietHoursDesc": "{{start}} 到 {{end}} 之间不显示任务弹窗。",
+    "remindAtTime": "在指定时间",
+    "remindBefore": "提前提醒",
+    "remindersAlwaysFree": "永久免费 — 无需许可证。",
+    "restoredToast": "任务已恢复",
+    "subtitle": "一份免费、私密的清单，可从休息界面和仪表盘打开。",
+    "taskRemindersDesc": "小弹窗在设定时间或稍前出现，未完成的任务还会收到温柔提醒。休息或静音时间绝不打扰。",
+    "taskRemindersTitle": "任务提醒",
+    "today": "今天",
+    "undo": "撤销",
+    "upcoming": "即将到来",
+    "quickAddHint": "写下一件你想完成的事，按 Enter 添加。",
+    "markDone": "将 {{title}} 标记为已完成"
   },
   "workday": {
     "title": "工作日",
@@ -907,5 +959,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "即将开始",
+    "beforeMessage": "注意 — {{title}} 将在 {{minutes}} 分钟后开始。",
+    "dismiss": "关闭提醒",
+    "doneEyebrow": "全部完成",
+    "doneMessage": "做得很好 — 少了一件要记的事。",
+    "dueEyebrow": "任务到期",
+    "dueMessage": "你完成这项任务了吗？",
+    "markDone": "完成",
+    "nudgeEyebrow": "每日提醒",
+    "nudgeMessageA": "你完成这项任务了吗？快速确认只需一秒。",
+    "nudgeMessageB": "还在惦记吗？标记完成或打开列表。",
+    "nudgeMessageC": "现在一小步，以后少负担。这项任务进展如何？",
+    "openList": "打开列表",
+    "previewEyebrow": "提醒预览"
+  }
 }

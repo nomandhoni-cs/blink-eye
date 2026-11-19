@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BellRing, Check, Clock, ListTodo, Plus, Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -31,6 +31,7 @@ interface TodoSetupScreenProps {
 }
 
 const SPRING = { type: "spring" as const, stiffness: 360, damping: 26, mass: 0.8 };
+const EXAMPLE_INTERVAL_MS = 2_800;
 
 export default function TodoSetupScreen({
   firstTask,
@@ -45,10 +46,28 @@ export default function TodoSetupScreen({
   onTaskAdded,
   requiredError,
 }: TodoSetupScreenProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const reduceMotion = useReducedMotion();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [exampleState, setExampleState] = useState({ language: i18n.language, index: 0 });
+
+  // One translated list of small, realistic tasks. It rotates like a gentle
+  // slider so the input never looks empty or intimidating.
+  const exampleValue = t("onboarding.todoSetupExamples", { returnObjects: true });
+  const examples = Array.isArray(exampleValue) ? (exampleValue as string[]) : [];
+  const exampleIndex = exampleState.language === i18n.language ? exampleState.index : 0;
+
+  useEffect(() => {
+    if (examples.length < 2) return;
+    const timer = window.setInterval(() => {
+      setExampleState((current) => ({
+        language: i18n.language,
+        index: ((current.language === i18n.language ? current.index : 0) + 1) % examples.length,
+      }));
+    }, EXAMPLE_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [examples.length, i18n.language]);
 
   const addFirstTask = async () => {
     if (!firstTask.trim() || saving) return;
@@ -91,11 +110,9 @@ export default function TodoSetupScreen({
         </p>
       </div>
 
-      <div className="w-full max-w-md space-y-2 text-left">
-        <Label htmlFor="onboarding-first-task" className="sr-only">
-          {t("todo.addTaskPlaceholder")}
-        </Label>
-        <div className="flex gap-2">
+      <div className="w-full max-w-xl space-y-2 text-left">
+        {/* Row 1: one wide, calm input with a rotating example. */}
+        <div className="relative w-full">
           <Input
             id="onboarding-first-task"
             value={firstTask}
@@ -109,47 +126,64 @@ export default function TodoSetupScreen({
                 void addFirstTask();
               }
             }}
-            placeholder={t("onboarding.todoSetupPlaceholder")}
+            placeholder=" "
+            aria-label={t("todo.addTaskPlaceholder")}
             aria-describedby={shownError ? "onboarding-task-error" : undefined}
             aria-invalid={shownError !== null}
-            className="h-11"
+            className="h-12 w-full text-base"
           />
+          {!firstTask && examples.length > 0 && (
+            <div className="pointer-events-none absolute inset-y-0 left-3 right-3 flex items-center overflow-hidden text-sm text-muted-foreground/70">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={`${i18n.language}-${exampleIndex}`}
+                  initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
+                  transition={reduceMotion ? { duration: 0 } : SPRING}
+                  className="truncate"
+                >
+                  {examples[exampleIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          )}
+        </div>
+
+        {/* Row 2: all controls, kept together and out of the input row. */}
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             type="button"
             onClick={() => void addFirstTask()}
             disabled={!firstTask.trim() || saving}
-            className="h-11 shrink-0"
+            className="h-10 shrink-0"
           >
             {taskAdded ? <Check className="size-4" /> : <Plus className="size-4" />}
             {taskAdded ? t("todo.addedToast") : t("todo.addTask")}
           </Button>
+          {remindersEnabled && (
+            <>
+              <div className="inline-flex h-10 items-center gap-1.5 rounded-md border bg-background px-2 text-xs text-muted-foreground">
+                <Clock className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                <TimePicker value={firstTaskTime} onChange={setFirstTaskTime} />
+              </div>
+              <select
+                aria-label={t("todo.remindBefore")}
+                value={firstTaskLeadMinutes}
+                onChange={(event) => setFirstTaskLeadMinutes(Number(event.target.value))}
+                className="h-10 rounded-md border bg-background px-2 text-xs"
+              >
+                {LEAD_MINUTE_OPTIONS.map((minutes) => (
+                  <option key={minutes} value={minutes}>
+                    {minutes === 0
+                      ? t("todo.remindAtTime")
+                      : t("todo.minutesBefore", { minutes })}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
         </div>
-
-        {remindersEnabled && (
-          <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-foreground/[0.02] p-2">
-            <Clock className="size-4 shrink-0 text-primary" aria-hidden="true" />
-            <TimePicker value={firstTaskTime} onChange={setFirstTaskTime} />
-            <select
-              aria-label={t("todo.remindBefore")}
-              value={firstTaskLeadMinutes}
-              onChange={(event) => setFirstTaskLeadMinutes(Number(event.target.value))}
-              className="h-9 rounded-md border bg-background px-2 text-xs"
-            >
-              {LEAD_MINUTE_OPTIONS.map((minutes) => (
-                <option key={minutes} value={minutes}>
-                  {minutes === 0
-                    ? t("todo.remindAtTime")
-                    : t("todo.minutesBefore", { minutes })}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-        {remindersEnabled && (
-          <p className="text-[11px] leading-relaxed text-muted-foreground">
-            {t("onboarding.todoSetupTimeHint")}
-          </p>
-        )}
 
         {shownError ? (
           <p id="onboarding-task-error" role="alert" className="text-xs text-destructive">
@@ -162,36 +196,7 @@ export default function TodoSetupScreen({
         ) : null}
       </div>
 
-      {/* A quiet preview of the pop-up described by the opt-in below. */}
-      <motion.div
-        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.92 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={reduceMotion ? { duration: 0 } : SPRING}
-        className="w-full max-w-md rounded-2xl border border-white/10 bg-foreground/[0.06] p-4"
-      >
-        <div className="flex items-center gap-3">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
-            <BellRing className="size-4" aria-hidden="true" />
-          </div>
-          <div className="min-w-0 text-left">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-              {firstTaskLeadMinutes > 0
-                ? t("taskAlert.beforeEyebrow")
-                : t("taskAlert.dueEyebrow")}
-            </p>
-            <p className="truncate text-sm font-medium">
-              {firstTaskLeadMinutes > 0
-                ? t("taskAlert.beforeMessage", {
-                    title: firstTask.trim() || t("todo.addTaskPlaceholder"),
-                    minutes: firstTaskLeadMinutes,
-                  })
-                : t("taskAlert.dueMessage")}
-            </p>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="flex w-full max-w-md items-center justify-between gap-4 rounded-2xl border p-4 text-left">
+      <div className="flex w-full max-w-xl items-center justify-between gap-4 rounded-2xl border p-4 text-left">
         <div className="flex items-start gap-3">
           <BellRing className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
           <div className="space-y-1">
@@ -199,7 +204,7 @@ export default function TodoSetupScreen({
               {t("onboarding.todoSetupRemindersTitle")}
             </Label>
             <p className="text-xs leading-relaxed text-muted-foreground">
-              {t("onboarding.todoSetupRemindersDesc")}
+              {t("onboarding.todoSetupRemindersShort")}
             </p>
           </div>
         </div>

@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Impostazioni pausa",
       "breakClock": "Orologio",
-      "done": "Fatto"
-    }
+      "done": "Fatto",
+      "todo": "Le tue attività"
+    },
+    "todoRequired": "Aggiungi almeno un’attività per continuare. Puoi modificarla più tardi.",
+    "todoSetupAdded": "Aggiunta alla lista — puoi cambiarla quando vuoi.",
+    "todoSetupFree": "Nessuna licenza richiesta",
+    "todoSetupPlaceholder": "Scrivi la tua prima attività (obbligatoria per continuare)",
+    "todoSetupRemindersDesc": "Una piccola notifica appare all’ora scelta o poco prima, più un promemoria gentile al giorno. Il silenzio è dalle 22:00 alle 08:00 e puoi disattivarlo quando vuoi.",
+    "todoSetupRemindersTitle": "Ricordami le mie attività",
+    "todoSetupSubtitle": "Tieni presente una piccola attività. Aprila dalla dashboard o direttamente da una pausa.",
+    "todoSetupTimeHint": "Scegli un orario e con quanto anticipo ricordartelo. Senza orario ricevi comunque un promemoria giornaliero gentile.",
+    "todoSetupTitle": "Le tue attività, sempre gratis",
+    "todoSetupExamples": [
+      "Pagare la bolletta della luce",
+      "Rispondere a un amico",
+      "Rileggere le note della riunione di domani",
+      "Prenotare una visita medica",
+      "Portare fuori l’immondizia"
+    ],
+    "todoSetupRemindersShort": "Una piccola notifica all’ora scelta. Disattivabile quando vuoi."
   },
   "dashboard": {
     "title": "Cruscotto",
@@ -310,7 +328,41 @@
     "showCompleted": "Mostra completate",
     "hideCompleted": "Nascondi completate",
     "unlockTodoTitle": "Passa a Premium",
-    "unlockTodoText": "E sblocca la lista attività"
+    "unlockTodoText": "E sblocca la lista attività",
+    "addedToast": "Attività aggiunta",
+    "all": "Tutte",
+    "completeToast": "Attività completata",
+    "couldNotLoad": "Impossibile caricare le attività. Riprova.",
+    "couldNotSave": "Impossibile salvare l’attività. Riprova.",
+    "deleteTask": "Elimina {{title}}",
+    "deletedToast": "Attività eliminata",
+    "done": "Fatto",
+    "dueTime": "Scade alle {{time}}",
+    "editTask": "Modifica {{title}}",
+    "filterLabel": "Filtra attività",
+    "minutesBefore": "{{minutes}} min prima",
+    "noDoneHint": "Le attività completate restano qui per mostrare i progressi.",
+    "noDoneTitle": "Ancora nessuna attività completata",
+    "noTasksHint": "Aggiungi una piccola attività qui sopra — bastano un paio di secondi.",
+    "noTasksTitle": "Ancora nessuna attività nella lista",
+    "noUpcomingHint": "Scegli una data per una nuova attività e apparirà qui.",
+    "noUpcomingTitle": "Nulla in programma",
+    "previewReminder": "Anteprima notifica",
+    "progress": "{{done}} di {{total}} completate",
+    "quietHours": "Ore di silenzio",
+    "quietHoursDesc": "Nessuna notifica di attività tra {{start}} e {{end}}.",
+    "remindAtTime": "All’ora",
+    "remindBefore": "Ricorda prima",
+    "remindersAlwaysFree": "Gratis per sempre — nessuna licenza.",
+    "restoredToast": "Attività ripristinata",
+    "subtitle": "Una lista gratuita e privata, apribile da una pausa e dalla dashboard.",
+    "taskRemindersDesc": "Una piccola notifica all’ora scelta o poco prima, più un promemoria gentile per le attività aperte. Mai durante pause o ore di silenzio.",
+    "taskRemindersTitle": "Promemoria attività",
+    "today": "Oggi",
+    "undo": "Annulla",
+    "upcoming": "In arrivo",
+    "quickAddHint": "Scrivi una cosa che vuoi portare a termine. Premi Invio per aggiungerla.",
+    "markDone": "Segna {{title}} come completata"
   },
   "workday": {
     "title": "Giorni lavorativi",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "IN ARRIVO",
+    "beforeMessage": "Attenzione — {{title}} inizia tra {{minutes}} minuti.",
+    "dismiss": "Chiudi promemoria",
+    "doneEyebrow": "FATTO",
+    "doneMessage": "Ottimo lavoro — una cosa in meno a cui pensare.",
+    "dueEyebrow": "ATTIVITÀ IN SCADENZA",
+    "dueMessage": "Hai completato questa attività?",
+    "markDone": "Fatto",
+    "nudgeEyebrow": "PROMEMORIA GIORNALIERO",
+    "nudgeMessageA": "Hai completato questa attività? Un controllo rapido richiede un secondo.",
+    "nudgeMessageB": "Ancora nella tua mente? Segnala come fatta o apri la lista.",
+    "nudgeMessageC": "Un piccolo passo ora, meno lavoro dopo. Come procede questa attività?",
+    "openList": "Apri lista",
+    "previewEyebrow": "ANTEPRIMA PROMEMORIA"
+  }
 }

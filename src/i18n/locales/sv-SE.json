@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Paoinställningar",
       "breakClock": "Klocka",
-      "done": "Klart"
-    }
+      "done": "Klart",
+      "todo": "Dina uppgifter"
+    },
+    "todoRequired": "Lägg till minst en uppgift för att fortsätta. Du kan ändra den senare.",
+    "todoSetupAdded": "Tillagd i listan — du kan ändra den när du vill.",
+    "todoSetupFree": "Ingen licens krävs",
+    "todoSetupPlaceholder": "Skriv din första uppgift (krävs för att fortsätta)",
+    "todoSetupRemindersDesc": "En liten avisering visas vid vald tid eller strax innan, plus en mjuk påminnelse per dag. Tysta tider är 22:00–08:00 och du kan stänga av när du vill.",
+    "todoSetupRemindersTitle": "Påminn mig om mina uppgifter",
+    "todoSetupSubtitle": "Håll en liten uppgift i tankarna. Öppna den från instrumentpanelen eller direkt från en paus.",
+    "todoSetupTimeHint": "Välj en tid och hur tidigt vi ska påminna dig. Utan tid får du ändå en mjuk daglig påminnelse.",
+    "todoSetupTitle": "Dina uppgifter, alltid gratis",
+    "todoSetupExamples": [
+      "Betala elräkningen",
+      "Svara en vän",
+      "Läs anteckningarna inför morgondagens möte",
+      "Boka läkartid",
+      "Ta ut soporna"
+    ],
+    "todoSetupRemindersShort": "En liten avisering vid vald tid. Kan stängas av när du vill."
   },
   "dashboard": {
     "title": "Översikt",
@@ -310,7 +328,41 @@
     "showCompleted": "Visa slutförda",
     "hideCompleted": "Dölj slutförda",
     "unlockTodoTitle": "Uppgradera till Premium",
-    "unlockTodoText": "Och lås upp att-göra-listan"
+    "unlockTodoText": "Och lås upp att-göra-listan",
+    "addedToast": "Uppgift tillagd",
+    "all": "Alla",
+    "completeToast": "Uppgift avslutad",
+    "couldNotLoad": "Kunde inte ladda uppgifterna. Försök igen.",
+    "couldNotSave": "Kunde inte spara uppgiften. Försök igen.",
+    "deleteTask": "Ta bort {{title}}",
+    "deletedToast": "Uppgift borttagen",
+    "done": "Klart",
+    "dueTime": "Förfaller kl. {{time}}",
+    "editTask": "Redigera {{title}}",
+    "filterLabel": "Filtrera uppgifter",
+    "minutesBefore": "{{minutes}} min innan",
+    "noDoneHint": "Avslutade uppgifter finns kvar här så du ser din utveckling.",
+    "noDoneTitle": "Inga avslutade uppgifter ännu",
+    "noTasksHint": "Lägg till en liten uppgift ovan — det tar bara en sekund.",
+    "noTasksTitle": "Inga uppgifter i listan ännu",
+    "noUpcomingHint": "Välj ett datum för en ny uppgift så visas den här.",
+    "noUpcomingTitle": "Inget kommande",
+    "previewReminder": "Visa avisering",
+    "progress": "{{done}} av {{total}} avslutade",
+    "quietHours": "Tysta tider",
+    "quietHoursDesc": "Inga uppgiftsaviseringar mellan {{start}} och {{end}}.",
+    "remindAtTime": "Vid tiden",
+    "remindBefore": "Påminn innan",
+    "remindersAlwaysFree": "Gratis för alltid — ingen licens krävs.",
+    "restoredToast": "Uppgift återställd",
+    "subtitle": "En gratis, privat lista du kan öppna från en paus och instrumentpanelen.",
+    "taskRemindersDesc": "En liten avisering vid vald tid eller strax innan, plus en mjuk påminnelse för oavslutade uppgifter. Aldrig under pauser eller tysta tider.",
+    "taskRemindersTitle": "Uppgiftspåminnelser",
+    "today": "Idag",
+    "undo": "Ångra",
+    "upcoming": "Kommande",
+    "quickAddHint": "Skriv ner en sak du vill få gjord. Tryck Enter för att lägga till den.",
+    "markDone": "Markera {{title}} som klar"
   },
   "workday": {
     "title": "Arbetsdagar",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "KOMMER",
+    "beforeMessage": "Observera — {{title}} börjar om {{minutes}} minuter.",
+    "dismiss": "Stäng påminnelse",
+    "doneEyebrow": "KLART",
+    "doneMessage": "Bra jobbat — en sak mindre att hålla koll på.",
+    "dueEyebrow": "UPPGIFT FÖRFALLER",
+    "dueMessage": "Avslutade du den här uppgiften?",
+    "markDone": "Klart",
+    "nudgeEyebrow": "DAGLIG PÅMINNELSE",
+    "nudgeMessageA": "Avslutade du den här uppgiften? En snabb kontroll tar en sekund.",
+    "nudgeMessageB": "Fortsatt i tankarna? Markera som klar eller öppna listan.",
+    "nudgeMessageC": "Ett litet steg nu, mindre senare. Hur går den här uppgiften?",
+    "openList": "Öppna listan",
+    "previewEyebrow": "FÖRHANDSVISNING AV PÅMINNELSE"
+  }
 }

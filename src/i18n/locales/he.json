@@ -241,8 +241,26 @@
       "theme": "ערכת נושא",
       "breakSettings": "הגדרות הפסקה",
       "breakClock": "שעון",
-      "done": "סיום"
-    }
+      "done": "סיום",
+      "todo": "המשימות שלך"
+    },
+    "todoRequired": "הוסף לפחות משימה אחת כדי להמשיך. תוכל לערוך אותה מאוחר יותר.",
+    "todoSetupAdded": "נוספה לרשימה — אפשר לשנות בכל עת.",
+    "todoSetupFree": "אין צורך ברישיון",
+    "todoSetupPlaceholder": "כתוב את המשימה הראשונה שלך (חובה כדי להמשיך)",
+    "todoSetupRemindersDesc": "חלון קטן מופיע בזמן שנבחר או מעט לפניו, בתוספת תזכורת עדינה אחת ביום. שעות השקט הן 22:00–08:00 ואפשר לכבות בכל עת.",
+    "todoSetupRemindersTitle": "תזכיר לי את המשימות שלי",
+    "todoSetupSubtitle": "החזק משימה קטנה אחת בראש. פתח אותה מלוח הבקרה או ישירות מהפסקה.",
+    "todoSetupTimeHint": "בחר שעה וכמה מוקדם להזכיר לך. בלי שעה עדיין תקבל תזכורת יומית עדינה אחת.",
+    "todoSetupTitle": "המשימות שלך, תמיד בחינם",
+    "todoSetupExamples": [
+      "תשלום חשבון החשמל",
+      "מענה לחבר",
+      "קריאת ההערות לפגישה של מחר",
+      "תיאור תור לרופא",
+      "הוצאת האשפה"
+    ],
+    "todoSetupRemindersShort": "חלון קטן בזמן שנבחר. אפשר לכבות בכל עת."
   },
   "dashboard": {
     "title": "לוח בקרה",
@@ -310,7 +328,41 @@
     "showCompleted": "הצג שהושלמו",
     "hideCompleted": "הסתר שהושלמו",
     "unlockTodoTitle": "שדרגו לפרימיום",
-    "unlockTodoText": "ופתחו את רשימת המשימות"
+    "unlockTodoText": "ופתחו את רשימת המשימות",
+    "addedToast": "המשימה נוספה",
+    "all": "הכול",
+    "completeToast": "המשימה הושלמה",
+    "couldNotLoad": "לא ניתן לטעון את המשימות. נסה שוב.",
+    "couldNotSave": "לא ניתן לשמור את המשימה. נסה שוב.",
+    "deleteTask": "מחיקת {{title}}",
+    "deletedToast": "המשימה נמחקה",
+    "done": "בוצע",
+    "dueTime": "פגה ב-{{time}}",
+    "editTask": "עריכת {{title}}",
+    "filterLabel": "סינון משימות",
+    "minutesBefore": "{{minutes}} דקות לפני",
+    "noDoneHint": "משימות שהושלמו נשארות כאן כדי לראות את ההתקדמות.",
+    "noDoneTitle": "אין עדיין משימות שהושלמו",
+    "noTasksHint": "הוסף משימה קטנה למעלה — זה לוקח שנייה אחת.",
+    "noTasksTitle": "אין עדיין משימות ברשימה",
+    "noUpcomingHint": "בחר תאריך למשימה חדשה והיא תופיע כאן.",
+    "noUpcomingTitle": "אין משימות קרובות",
+    "previewReminder": "הצגת חלון",
+    "progress": "{{done}} מתוך {{total}} הושלמו",
+    "quietHours": "שעות שקט",
+    "quietHoursDesc": "אין חלונות של משימות בין {{start}} ל-{{end}}.",
+    "remindAtTime": "בזמן הנקוב",
+    "remindBefore": "תזכיר מוקדם יותר",
+    "remindersAlwaysFree": "חינם לתמיד — אין צורך ברישיון.",
+    "restoredToast": "המשימה שוחזרה",
+    "subtitle": "רשימה חינמית ופרטית שאפשר לפתוח מהפסקה ומלוח הבקרה.",
+    "taskRemindersDesc": "חלון קטן בזמן שנבחר או מעט לפניו, בתוספת תזכורת עדינה למשימות שלא הושלמו. לעולם לא בזמן הפסקות או שעות שקט.",
+    "taskRemindersTitle": "תזכורות למשימות",
+    "today": "היום",
+    "undo": "ביטול",
+    "upcoming": "קרובות",
+    "quickAddHint": "כתוב דבר אחד שברצונך להשלים. לחץ Enter להוספה.",
+    "markDone": "סמן את {{title}} כבוצע"
   },
   "workday": {
     "title": "ימי עבודה",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "בקרוב",
+    "beforeMessage": "שים לב — {{title}} מתחיל בעוד {{minutes}} דקות.",
+    "dismiss": "סגירת תזכורת",
+    "doneEyebrow": "בוצע",
+    "doneMessage": "כל הכבוד — דבר אחד פחות לזכור.",
+    "dueEyebrow": "המשימה פגה",
+    "dueMessage": "האם סיימת את המשימה הזאת?",
+    "markDone": "בוצע",
+    "nudgeEyebrow": "תזכורת יומית",
+    "nudgeMessageA": "האם סיימת את המשימה הזאת? בדיקה מהירה לוקחת שנייה.",
+    "nudgeMessageB": "עדיין בראש? סמן כבוצע או פתח את הרשימה.",
+    "nudgeMessageC": "צעד קטן עכשיו, פחות מאוחר יותר. איך המשימה הזאת מתקדמת?",
+    "openList": "פתיחת רשימה",
+    "previewEyebrow": "תצוגה מקדימה של תזכורת"
+  }
 }

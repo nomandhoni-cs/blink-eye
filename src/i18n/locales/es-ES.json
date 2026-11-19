@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Descansos",
       "breakClock": "Reloj",
-      "done": "Listo"
-    }
+      "done": "Listo",
+      "todo": "Tus tareas"
+    },
+    "todoRequired": "Añade al menos una tarea para continuar. Podrás editarla más tarde.",
+    "todoSetupAdded": "Añadida a la lista — puedes cambiarla cuando quieras.",
+    "todoSetupFree": "Sin licencia",
+    "todoSetupPlaceholder": "Escribe tu primera tarea (obligatoria para continuar)",
+    "todoSetupRemindersDesc": "Una pequeña notificación aparece a la hora elegida o poco antes, además de un recordatorio suave al día. El silencio es de 22:00 a 08:00 y puedes desactivarlo cuando quieras.",
+    "todoSetupRemindersTitle": "Recordarme mis tareas",
+    "todoSetupSubtitle": "Ten presente una pequeña tarea. Ábrela desde el panel o desde una pausa.",
+    "todoSetupTimeHint": "Elige una hora y cuándo quieres que te recordemos. Sin hora, recibirás igualmente un recordatorio diario suave.",
+    "todoSetupTitle": "Tus tareas, siempre gratis",
+    "todoSetupExamples": [
+      "Pagar la factura de la luz",
+      "Responder a un amigo",
+      "Revisar las notas de la reunión de mañana",
+      "Pedir cita con el médico",
+      "Sacar la basura"
+    ],
+    "todoSetupRemindersShort": "Una pequeña notificación a la hora elegida. Puedes desactivarla cuando quieras."
   },
   "dashboard": {
     "title": "Panel",
@@ -310,7 +328,41 @@
     "showCompleted": "Mostrar completadas",
     "hideCompleted": "Ocultar completadas",
     "unlockTodoTitle": "Pasa a Premium",
-    "unlockTodoText": "Y desbloquea la lista de tareas"
+    "unlockTodoText": "Y desbloquea la lista de tareas",
+    "addedToast": "Tarea añadida",
+    "all": "Todas",
+    "completeToast": "Tarea completada",
+    "couldNotLoad": "No se pudieron cargar las tareas. Inténtalo de nuevo.",
+    "couldNotSave": "No se pudo guardar la tarea. Inténtalo de nuevo.",
+    "deleteTask": "Eliminar {{title}}",
+    "deletedToast": "Tarea eliminada",
+    "done": "Hecho",
+    "dueTime": "Vence a las {{time}}",
+    "editTask": "Editar {{title}}",
+    "filterLabel": "Filtrar tareas",
+    "minutesBefore": "{{minutes}} min antes",
+    "noDoneHint": "Las tareas terminadas se quedan aquí para ver tu progreso.",
+    "noDoneTitle": "Aún no hay tareas terminadas",
+    "noTasksHint": "Añade una pequeña tarea arriba — solo lleva un segundo.",
+    "noTasksTitle": "Aún no hay tareas en la lista",
+    "noUpcomingHint": "Elige una fecha en una tarea nueva y aparecerá aquí.",
+    "noUpcomingTitle": "Nada próximo",
+    "previewReminder": "Ver notificación",
+    "progress": "{{done}} de {{total}} completadas",
+    "quietHours": "Horas de silencio",
+    "quietHoursDesc": "Sin notificaciones de tareas entre {{start}} y {{end}}.",
+    "remindAtTime": "A la hora",
+    "remindBefore": "Recordar antes",
+    "remindersAlwaysFree": "Gratis para siempre — sin licencia.",
+    "restoredToast": "Tarea restaurada",
+    "subtitle": "Una lista gratuita y privada que puedes abrir desde una pausa y el panel.",
+    "taskRemindersDesc": "Una pequeña notificación a la hora elegida o poco antes, además de un recordatorio suave para tareas pendientes. Nunca durante pausas ni horas de silencio.",
+    "taskRemindersTitle": "Recordatorios de tareas",
+    "today": "Hoy",
+    "undo": "Deshacer",
+    "upcoming": "Próximas",
+    "quickAddHint": "Escribe una cosa que quieras hacer. Pulsa Enter para añadirla.",
+    "markDone": "Marcar {{title}} como hecha"
   },
   "workday": {
     "title": "Días laborables",
@@ -904,5 +956,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "PRÓXIMAMENTE",
+    "beforeMessage": "Atención — {{title}} empieza en {{minutes}} minutos.",
+    "dismiss": "Cerrar recordatorio",
+    "doneEyebrow": "HECHO",
+    "doneMessage": "Bien hecho — una cosa menos que recordar.",
+    "dueEyebrow": "TAREA PENDIENTE",
+    "dueMessage": "¿Terminaste esta tarea?",
+    "markDone": "Hecho",
+    "nudgeEyebrow": "RECORDATORIO DIARIO",
+    "nudgeMessageA": "¿Terminaste esta tarea? Una comprobación rápida lleva un segundo.",
+    "nudgeMessageB": "¿Sigue en tu mente? Márcala como hecha o abre la lista.",
+    "nudgeMessageC": "Un pequeño paso ahora, menos carga después. ¿Cómo va esta tarea?",
+    "openList": "Abrir lista",
+    "previewEyebrow": "VISTA PREVIA DEL RECORDATORIO"
+  }
 }

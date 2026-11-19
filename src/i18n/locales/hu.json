@@ -241,8 +241,26 @@
       "theme": "Téma",
       "breakSettings": "Szünet beállítások",
       "breakClock": "Óra",
-      "done": "Kész"
-    }
+      "done": "Kész",
+      "todo": "A feladataid"
+    },
+    "todoRequired": "Adj hozzá legalább egy feladatot a folytatáshoz. Később szerkesztheted.",
+    "todoSetupAdded": "Hozzáadva a listához — bármikor módosíthatod.",
+    "todoSetupFree": "Nincs licenc szükséges",
+    "todoSetupPlaceholder": "Írd be az első feladatodat (a folytatáshoz kötelező)",
+    "todoSetupRemindersDesc": "Egy kis felugró értesítés jelenik meg a választott időpontban vagy kissé előtte, napi egy gyengéd emlékeztetővel. A csendes órák 22:00–08:00, bármikor kikapcsolhatod.",
+    "todoSetupRemindersTitle": "Emlékeztess a feladataimra",
+    "todoSetupSubtitle": "Tarts egy kis feladatot a fejedben. Nyisd meg a irányítópultról vagy közvetlenül egy szünetből.",
+    "todoSetupTimeHint": "Válassz időpontot és hogy mennyivel előre emlékeztessünk. Idő nélkül is kapsz egy napi gyengéd emlékeztetőt.",
+    "todoSetupTitle": "A feladataid, mindig ingyenes",
+    "todoSetupExamples": [
+      "Villanyszámla kifizetése",
+      "Válasz egy barátnak",
+      "A holnapi megbeszélés jegyzeteinek átolvasása",
+      "Orvosi időpont foglalása",
+      "Szemét kiérése"
+    ],
+    "todoSetupRemindersShort": "Kis felugró értesítés a választott időpontban. Bármikor kikapcsolható."
   },
   "dashboard": {
     "title": "Vezérlőpult",
@@ -311,7 +329,41 @@
     "showCompleted": "Kész megjelenítése",
     "hideCompleted": "Kész elrejtése",
     "unlockTodoTitle": "Frissítés Prémiumra",
-    "unlockTodoText": "És oldd fel a teendőlistát"
+    "unlockTodoText": "És oldd fel a teendőlistát",
+    "addedToast": "Feladat hozzáadva",
+    "all": "Összes",
+    "completeToast": "Feladat teljesítve",
+    "couldNotLoad": "Nem sikerült betölteni a feladatokat. Próbáld újra.",
+    "couldNotSave": "Nem sikerült menteni a feladatot. Próbáld újra.",
+    "deleteTask": "{{title}} törlése",
+    "deletedToast": "Feladat törölve",
+    "done": "Kész",
+    "dueTime": "Esedékes: {{time}}",
+    "editTask": "{{title}} szerkesztése",
+    "filterLabel": "Feladatok szűrése",
+    "minutesBefore": "{{minutes}} perc előre",
+    "noDoneHint": "A kész feladatok itt maradnak, hogy lásd a haladásodat.",
+    "noDoneTitle": "Még nincs kész feladat",
+    "noTasksHint": "Adj hozzá egy kis feladatot fent — csak egy másodperc.",
+    "noTasksTitle": "Még nincs feladat a listán",
+    "noUpcomingHint": "Adj dátumot egy új feladatnak, és itt fog megjelenni.",
+    "noUpcomingTitle": "Nincs közelgő",
+    "previewReminder": "Értesítés megtekintése",
+    "progress": "{{done}} / {{total}} teljesítve",
+    "quietHours": "Csendes órák",
+    "quietHoursDesc": "Nincs feladatértesítés {{start}} és {{end}} között.",
+    "remindAtTime": "A megadott időben",
+    "remindBefore": "Emlékeztess előre",
+    "remindersAlwaysFree": "Örökre ingyenes — nincs licenc.",
+    "restoredToast": "Feladat visszaállítva",
+    "subtitle": "Ingyenes, magán lista, amelyet szünetből és az irányítópultról is megnyithatsz.",
+    "taskRemindersDesc": "Kis felugró értesítés a választott időpontban vagy kissé előtte, plusz egy napi gyengéd emlékeztető a befejezetlen feladatokhoz. Soha szünet vagy csendes óra alatt.",
+    "taskRemindersTitle": "Feladat-emlékeztetők",
+    "today": "Ma",
+    "undo": "Visszavonás",
+    "upcoming": "Közelgő",
+    "quickAddHint": "Írj le egy dolgot, amit el szeretnél végezni. Az Enterrel hozzáadhatod.",
+    "markDone": "Jelöld {{title}} késznek"
   },
   "workday": {
     "title": "Munkanapok",
@@ -896,5 +948,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "HAMAROSAN",
+    "beforeMessage": "Figyelem — {{title}} {{minutes}} perc múlva kezdődik.",
+    "dismiss": "Emlékeztető bezárása",
+    "doneEyebrow": "KÉSZ",
+    "doneMessage": "Szép munka — egy dologgal kevesebb a fejedben.",
+    "dueEyebrow": "FELADAT ESÉDÉKES",
+    "dueMessage": "Befejezted ezt a feladatot?",
+    "markDone": "Kész",
+    "nudgeEyebrow": "NAPI EMLÉKEZTETŐ",
+    "nudgeMessageA": "Befejezted ezt a feladatot? Egy gyors ellenőrzés egy másodperc.",
+    "nudgeMessageB": "Még mindig eszedben van? Jelöld késznek vagy nyisd meg a listát.",
+    "nudgeMessageC": "Egy kis lépés most, kevesebb teher később. Haladsz ezzel a feladattal?",
+    "openList": "Lista megnyitása",
+    "previewEyebrow": "EMLÉKEZTETŐ ELŐNÉZETE"
+  }
 }
