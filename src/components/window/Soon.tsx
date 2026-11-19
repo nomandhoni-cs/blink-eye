@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { BugIcon, MonitorCog } from "lucide-react";
 
 const Soon = () => {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center justify-center mt-24">
       <div className="text-center">
@@ -9,10 +11,10 @@ const Soon = () => {
 
         {/* Text */}
         <h1 className="text-2xl font-semibold mb-2 flex items-center justify-center">
-          Fixing some last moment bugs <BugIcon className="mx-2" /> and making
-          improvements
+          {t("soon.title")} <BugIcon className="mx-2" />
+          {t("soon.titleSuffix")}
         </h1>
-        <p className="text-lg">This feature will be available soon.</p>
+        <p className="text-lg">{t("soon.subtitle")}</p>
       </div>
     </div>
   );

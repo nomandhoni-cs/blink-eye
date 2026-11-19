@@ -9,6 +9,7 @@ import { Button } from "./components/ui/button";
 import AllSetText from "./components/AllSetText";
 import "./index.css";
 
+import { initI18n } from "./i18n";
 const Alert = () => {
   const [timeLeft, setTimeLeft] = useState(13);
   const [showAllSet, setShowAllSet] = useState(true);
@@ -86,8 +87,10 @@ const Alert = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("alert-root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("alert-root")!).render(
   <React.StrictMode>
     <Alert />
   </React.StrictMode>,
-);
+  );
+});

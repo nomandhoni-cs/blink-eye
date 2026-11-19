@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import DarkVeil from "./components/backgrounds/react-bits/DarkVeil";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -41,8 +42,10 @@ const ReminderDarkVeil: React.FC = () => {
 
 export default ReminderDarkVeil;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderDarkVeil />
   </React.StrictMode>,
-);
+  );
+});

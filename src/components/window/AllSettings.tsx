@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import {
@@ -27,6 +28,8 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useAccentColor } from "../../contexts/AccentColorContext";
 import { usePremiumNudge } from "../../hooks/usePremiumNudge";
+import { useLanguage } from "../../i18n/useLanguage";
+import { LanguageSelect } from "../LanguageSelect";
 import {
   IoRocket,
   IoBarChart,
@@ -34,6 +37,7 @@ import {
   IoDownloadOutline,
   IoCloudUploadOutline,
   IoDiamond,
+  IoLanguage,
 } from "react-icons/io5";
 
 const USAGE_LIMIT_OPTIONS = Array.from({ length: 24 }, (_, i) => i + 1);
@@ -90,6 +94,8 @@ function SettingRow({
 }
 
 const AllSettings = () => {
+  const { t } = useTranslation();
+  const { language, setLanguage } = useLanguage();
   const { accentHex } = useAccentColor();
   const { fireTrigger } = usePremiumNudge();
   const [timeLimit, setTimeLimit] = useState<number>(8);
@@ -122,7 +128,7 @@ const AllSettings = () => {
             key: "isRunOnStartUpEnabledByDefault",
             value: "true",
           });
-          toast.success("AutoStart Enabled by Default", {
+          toast.success(t("settings.autoStartEnabled"), {
             duration: 2000,
             position: "bottom-right",
           });
@@ -140,20 +146,23 @@ const AllSettings = () => {
             ),
           ]);
           if (license.status === "active") {
-            setTrialLine("Premium is active on this device");
+            setTrialLine(t("settings.trialActive"));
           } else if (trial.is_active) {
             setTrialLine(
-              `${trial.days_remaining} ${trial.days_remaining === 1 ? "day" : "days"} left in your free trial`,
+              t("settings.trialDaysLeft", {
+                count: trial.days_remaining,
+                day: trial.days_remaining === 1 ? t("common.day") : t("common.days"),
+              }),
             );
           } else {
-            setTrialLine("Free trial ended");
+            setTrialLine(t("settings.trialEnded"));
           }
         } catch {
           // Trial/license readout is best-effort; the row stays hidden.
         }
       } catch (error) {
         console.error("Failed to load settings:", error);
-        toast.error("Failed to load settings. Please try again later.", {
+        toast.error(t("settings.couldNotLoadSettings"), {
           duration: 2000,
           position: "bottom-right",
         });
@@ -163,7 +172,7 @@ const AllSettings = () => {
     };
 
     initialize();
-  }, []);
+  }, [t]);
 
   const isTimeLimitDirty = timeLimit !== savedTimeLimit;
 
@@ -171,13 +180,13 @@ const AllSettings = () => {
     try {
       if (checked) {
         await enable();
-        toast.success("Enabled Autostart", {
+        toast.success(t("settings.enabledAutostart"), {
           duration: 2000,
           position: "bottom-right",
         });
       } else {
         await disable();
-        toast.success("Disabled Autostart", {
+        toast.success(t("settings.disabledAutostart"), {
           duration: 2000,
           position: "bottom-right",
         });
@@ -190,7 +199,7 @@ const AllSettings = () => {
 
   const handleSaveLimit = async () => {
     if (isNaN(timeLimit) || timeLimit < 1 || timeLimit > 24) {
-      toast.error("Invalid limit. Please enter a number between 1 and 24.", {
+      toast.error(t("settings.invalidLimit"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -203,7 +212,7 @@ const AllSettings = () => {
         value: String(timeLimit),
       });
       setSavedTimeLimit(timeLimit);
-      toast.success("Screen usage limit saved successfully!", {
+      toast.success(t("settings.limitSaved"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -211,7 +220,7 @@ const AllSettings = () => {
       fireTrigger("settings_saved");
     } catch (error) {
       console.error("Failed to save limit:", error);
-      toast.error("Failed to save limit. Please try again later.", {
+      toast.error(t("settings.couldNotSaveLimit"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -224,7 +233,7 @@ const AllSettings = () => {
       const date = new Date().toISOString().slice(0, 10);
       const destination = await save({
         defaultPath: `blink-eye-backup-${date}.zip`,
-        filters: [{ name: "Blink Eye Backup", extensions: ["zip"] }],
+        filters: [{ name: t("common.appName"), extensions: ["zip"] }],
       });
 
       if (!destination) return;
@@ -234,13 +243,13 @@ const AllSettings = () => {
         { destinationPath: destination },
       );
 
-      toast.success(`Exported ${result.file_count} data files.`, {
+      toast.success(t("settings.exportedFiles", { count: result.file_count }), {
         duration: 2500,
         position: "bottom-right",
       });
     } catch (error) {
       console.error("Failed to export data:", error);
-      toast.error("Couldn't export data. Try again.", {
+      toast.error(t("settings.couldNotExport"), {
         duration: 2500,
         position: "bottom-right",
       });
@@ -254,7 +263,7 @@ const AllSettings = () => {
       setIsImporting(true);
       const source = await open({
         multiple: false,
-        filters: [{ name: "Blink Eye Backup", extensions: ["zip"] }],
+        filters: [{ name: t("common.appName"), extensions: ["zip"] }],
       });
 
       if (!source || Array.isArray(source)) return;
@@ -267,14 +276,14 @@ const AllSettings = () => {
       await invoke("refresh_reminder_scheduler_settings");
 
       toast.success(
-        `Imported ${result.file_count} files. Relaunching to apply changes.`,
+        t("settings.importedFiles", { count: result.file_count }),
         { duration: 3000, position: "bottom-right" },
       );
 
       await relaunch();
     } catch (error) {
       console.error("Failed to import data:", error);
-      toast.error("Couldn't import data. Check the backup file and try again.", {
+      toast.error(t("settings.couldNotImport"), {
         duration: 3000,
         position: "bottom-right",
       });
@@ -289,11 +298,28 @@ const AllSettings = () => {
         <SettingRow
           icon={
             <SettingIconBadge color={accentHex}>
+              <IoLanguage className="size-4" />
+            </SettingIconBadge>
+          }
+          label={t("settings.language")}
+          description={t("settings.languageDescription")}
+        >
+          <LanguageSelect
+            value={language}
+            onValueChange={(value) => void setLanguage(value)}
+            disabled={isLoading}
+            aria-label={t("settings.language")}
+          />
+        </SettingRow>
+
+        <SettingRow
+          icon={
+            <SettingIconBadge color={accentHex}>
               <IoRocket className="size-4" />
             </SettingIconBadge>
           }
-          label="Run on startup"
-          description="Start Blink Eye when your computer boots"
+          label={t("settings.runOnStartup")}
+          description={t("settings.runOnStartupDesc")}
         >
           <Switch
             id="autostart"
@@ -309,8 +335,8 @@ const AllSettings = () => {
               <IoBarChart className="size-4" />
             </SettingIconBadge>
           }
-          label="Daily screen usage limit"
-          description="Shown on the usage time graph"
+          label={t("settings.dailyLimit")}
+          description={t("settings.dailyLimitDesc")}
           controlClassName="flex w-full justify-end sm:min-w-[180px] sm:max-w-[200px]"
         >
           <Select
@@ -327,7 +353,8 @@ const AllSettings = () => {
             <SelectContent>
               {USAGE_LIMIT_OPTIONS.map((hours) => (
                 <SelectItem key={hours} value={String(hours)}>
-                  {hours} {hours === 1 ? "hour" : "hours"}
+                  {hours}{" "}
+                  {hours === 1 ? t("common.hour") : t("common.hours")}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -343,11 +370,11 @@ const AllSettings = () => {
                 <IoDiamond className="size-4" />
               </SettingIconBadge>
             }
-            label="Premium trial"
+            label={t("settings.premiumTrial")}
             description={trialLine}
           >
             <Button variant="outline" asChild className="gap-2">
-              <Link to="/activatelicense">View premium</Link>
+              <Link to="/activatelicense">{t("settings.viewPremium")}</Link>
             </Button>
           </SettingRow>
         </div>
@@ -360,8 +387,8 @@ const AllSettings = () => {
               <IoDownloadOutline className="size-4" />
             </SettingIconBadge>
           }
-          label="Export data"
-          description="Save settings, screen time, and todos (license stays on this device)"
+          label={t("settings.exportData")}
+          description={t("settings.exportDataDesc")}
         >
           <Button
             variant="outline"
@@ -370,7 +397,7 @@ const AllSettings = () => {
             className="gap-2"
           >
             <IoDownloadOutline className="size-4" />
-            {isExporting ? "Exporting…" : "Export"}
+            {isExporting ? t("settings.exporting") : t("settings.export")}
           </Button>
         </SettingRow>
 
@@ -380,8 +407,8 @@ const AllSettings = () => {
               <IoCloudUploadOutline className="size-4" />
             </SettingIconBadge>
           }
-          label="Import data"
-          description="Replace settings, screen time, and todos. License stays on this device."
+          label={t("settings.importData")}
+          description={t("settings.importDataDesc")}
         >
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -391,24 +418,20 @@ const AllSettings = () => {
                 className="gap-2"
               >
                 <IoCloudUploadOutline className="size-4" />
-                {isImporting ? "Importing…" : "Import"}
+                {isImporting ? t("settings.importing") : t("settings.import")}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Replace all app data?</AlertDialogTitle>
+                <AlertDialogTitle>{t("settings.replaceTitle")}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Importing will replace your settings, screen time, and todos
-                  with the backup. Your license and install data on this device
-                  are not changed. A copy of the replaced files is saved in the
-                  app data folder before import. The app will relaunch when
-                  finished.
+                  {t("settings.replaceDescription")}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
                 <AlertDialogAction onClick={handleImportData}>
-                  Import and relaunch
+                  {t("settings.importAndRelaunch")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -425,7 +448,7 @@ const AllSettings = () => {
             style={{ backgroundColor: accentHex }}
           >
             <IoSave className="size-4" />
-            Save limit
+            {t("settings.saveLimit")}
           </Button>
         </div>
       )}

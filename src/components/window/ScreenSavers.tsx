@@ -1,6 +1,7 @@
 import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Button } from "../ui/button";
 import { invoke } from "@tauri-apps/api/core";
@@ -18,8 +19,36 @@ import meteorThumb from "../../assets/thumbnails/shooting-meteor-clean.webp";
 import gradientThumb from "../../assets/thumbnails/plain-gradient-clean.webp";
 import polygonThumb from "../../assets/thumbnails/polygon-animation-clean.webp";
 import canvasThumb from "../../assets/thumbnails/canvas-shapes-clean.webp";
+import iridescenceLight from "../../assets/thumbnails/iridescence-light.webp";
+import iridescenceDark from "../../assets/thumbnails/iridescence-dark.webp";
+import balatroLight from "../../assets/thumbnails/balatro-light.webp";
+import balatroDark from "../../assets/thumbnails/balatro-dark.webp";
+import acidSquaresLight from "../../assets/thumbnails/acid-squares-light.webp";
+import acidSquaresDark from "../../assets/thumbnails/acid-squares-dark.webp";
+import antigravityLight from "../../assets/thumbnails/antigravity-light.webp";
+import antigravityDark from "../../assets/thumbnails/antigravity-dark.webp";
+import ballpitLight from "../../assets/thumbnails/ballpit-light.webp";
+import ballpitDark from "../../assets/thumbnails/ballpit-dark.webp";
+import crtWarpLight from "../../assets/thumbnails/crt-warp-light.webp";
+import crtWarpDark from "../../assets/thumbnails/crt-warp-dark.webp";
+import darkVeilLight from "../../assets/thumbnails/dark-veil-light.webp";
+import darkVeilDark from "../../assets/thumbnails/dark-veil-dark.webp";
+import ditherLight from "../../assets/thumbnails/dither-light.webp";
+import ditherDark from "../../assets/thumbnails/dither-dark.webp";
+import dotGridLight from "../../assets/thumbnails/dot-grid-light.webp";
+import dotGridDark from "../../assets/thumbnails/dot-grid-dark.webp";
+import faultyTerminalLight from "../../assets/thumbnails/faulty-terminal-light.webp";
+import faultyTerminalDark from "../../assets/thumbnails/faulty-terminal-dark.webp";
+import ferrofluidLight from "../../assets/thumbnails/ferrofluid-light.webp";
+import ferrofluidDark from "../../assets/thumbnails/ferrofluid-dark.webp";
+import floatingLinesLight from "../../assets/thumbnails/floating-lines-light.webp";
+import floatingLinesDark from "../../assets/thumbnails/floating-lines-dark.webp";
+import galaxyLight from "../../assets/thumbnails/galaxy-light.webp";
+import galaxyDark from "../../assets/thumbnails/galaxy-dark.webp";
 
-const thumbMap: Record<string, string> = {
+type ThemeThumbnail = string | { light: string; dark: string };
+
+const thumbMap: Record<string, ThemeThumbnail> = {
   aurora: auroraThumb,
   freesprit: freespritThumb,
   particleBackground: particleThumb,
@@ -29,21 +58,48 @@ const thumbMap: Record<string, string> = {
   plainGradientAnimation: gradientThumb,
   polygonAnimation: polygonThumb,
   canvasShapes: canvasThumb,
+  iridescence: { light: iridescenceLight, dark: iridescenceDark },
+  balatro: { light: balatroLight, dark: balatroDark },
+  acidSquares: { light: acidSquaresLight, dark: acidSquaresDark },
+  antigravity: { light: antigravityLight, dark: antigravityDark },
+  ballpit: { light: ballpitLight, dark: ballpitDark },
+  crtWarp: { light: crtWarpLight, dark: crtWarpDark },
+  darkVeil: { light: darkVeilLight, dark: darkVeilDark },
+  dither: { light: ditherLight, dark: ditherDark },
+  dotGrid: { light: dotGridLight, dark: dotGridDark },
+  faultyTerminal: { light: faultyTerminalLight, dark: faultyTerminalDark },
+  ferrofluid: { light: ferrofluidLight, dark: ferrofluidDark },
+  floatingLines: { light: floatingLinesLight, dark: floatingLinesDark },
+  galaxy: { light: galaxyLight, dark: galaxyDark },
 };
 
 const styles = [
-  { value: "aurora", label: "Aurora" },
-  { value: "freesprit", label: "Free Spirit" },
-  { value: "particleBackground", label: "Particle Wave" },
-  { value: "starryBackground", label: "Starry Background" },
-  { value: "beamoflife", label: "Beam of Life" },
-  { value: "shootingmeteor", label: "Shooting Meteor" },
-  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-  { value: "polygonAnimation", label: "Polygon Animation" },
-  { value: "canvasShapes", label: "Bouncy Balls" },
+  { value: "aurora", labelKey: "aurora" },
+  { value: "freesprit", labelKey: "freesprit" },
+  { value: "particleBackground", labelKey: "particleBackground" },
+  { value: "starryBackground", labelKey: "starryBackground" },
+  { value: "beamoflife", labelKey: "beamoflife" },
+  { value: "shootingmeteor", labelKey: "shootingmeteor" },
+  { value: "plainGradientAnimation", labelKey: "plainGradientAnimation" },
+  { value: "polygonAnimation", labelKey: "polygonAnimation" },
+  { value: "canvasShapes", labelKey: "canvasShapes" },
+  { value: "iridescence", labelKey: "iridescence" },
+  { value: "balatro", labelKey: "balatro" },
+  { value: "acidSquares", labelKey: "acidSquares" },
+  { value: "antigravity", labelKey: "antigravity" },
+  { value: "ballpit", labelKey: "ballpit" },
+  { value: "crtWarp", labelKey: "crtWarp" },
+  { value: "darkVeil", labelKey: "darkVeil" },
+  { value: "dither", labelKey: "dither" },
+  { value: "dotGrid", labelKey: "dotGrid" },
+  { value: "faultyTerminal", labelKey: "faultyTerminal" },
+  { value: "ferrofluid", labelKey: "ferrofluid" },
+  { value: "floatingLines", labelKey: "floatingLines" },
+  { value: "galaxy", labelKey: "galaxy" },
 ];
 
 const openScreenSaverWindow = () => {
+  // Plain window title — this helper is module-scope, outside the component.
   const webview = new WebviewWindow("ReminderPreviewWindow", {
     url: "/screenSaverWindow",
     fullscreen: true,
@@ -60,6 +116,7 @@ const openScreenSaverWindow = () => {
 };
 
 const ScreenSavers: React.FC = () => {
+  const { t } = useTranslation();
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const [backgroundStyle, setBackgroundStyle] = useState<string>("freesprit");
 
@@ -79,13 +136,10 @@ const ScreenSavers: React.FC = () => {
 
   const handleOpenScreenSaver = () => {
     if (!canAccessPremiumFeatures) {
-      toast.error(
-        "Unlock this feature with a license key and help the developer grow.",
-        {
-          duration: 2000,
-          position: "bottom-right",
-        }
-      );
+      toast.error(t("screenSavers.unlock"), {
+        duration: 2000,
+        position: "bottom-right",
+      });
       return;
     } else {
       openScreenSaverWindow();
@@ -94,13 +148,10 @@ const ScreenSavers: React.FC = () => {
 
   const handleSaveScreenSaver = async (style: string) => {
     if (!canAccessPremiumFeatures) {
-      toast.error(
-        "Unlock this feature with a license key and help the developer grow.",
-        {
-          duration: 2000,
-          position: "bottom-right",
-        }
-      );
+      toast.error(t("screenSavers.unlock"), {
+        duration: 2000,
+        position: "bottom-right",
+      });
       return;
     } else {
       try {
@@ -116,15 +167,18 @@ const ScreenSavers: React.FC = () => {
   return (
     <div className="space-y-8 px-4 py-2">
       <div className="flex flex-col gap-1">
-        <h3 className="text-2xl font-heading tracking-tight">Screen Savers</h3>
+        <h3 className="text-2xl font-heading tracking-tight">
+          {t("screenSavers.title")}
+        </h3>
         <p className="text-sm text-muted-foreground">
-          Choose a visual style for your screen saver breaks.
+          {t("screenSavers.description")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {styles.map((style) => {
           const isActive = backgroundStyle === style.value;
+          const preview = thumbMap[style.value];
           return (
             <div
               key={style.value}
@@ -146,12 +200,37 @@ const ScreenSavers: React.FC = () => {
               }}
             >
               <div className="relative aspect-video w-full overflow-hidden bg-muted">
-                <img
-                  src={thumbMap[style.value]}
-                  alt={`${style.label} preview`}
-                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  loading="lazy"
-                />
+                {typeof preview === "string" ? (
+                  <img
+                    src={preview}
+                    alt={t(`screenSavers.styles.${style.labelKey}`)}
+                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={preview.light}
+                      alt={t("common.lightLabel")}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+                      loading="lazy"
+                    />
+                    <img
+                      src={preview.dark}
+                      alt={t("common.darkLabel")}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      style={{ clipPath: "polygon(100% 0, 100% 100%, 0 100%)" }}
+                      loading="lazy"
+                    />
+                    <span className="absolute bottom-2 left-2 rounded bg-white/85 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-slate-700">
+                      {t("common.lightLabel")}
+                    </span>
+                    <span className="absolute bottom-2 right-2 rounded bg-slate-900/75 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">
+                      {t("common.darkLabel")}
+                    </span>
+                  </>
+                )}
                 {/* Subtle gradient overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -159,7 +238,7 @@ const ScreenSavers: React.FC = () => {
                 {style.value !== "default" && (
                   <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-amber-500/30 bg-background/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 shadow-sm backdrop-blur-md dark:text-amber-400">
                     <Flame className="h-3 w-3" />
-                    Premium
+                    {t("screenSavers.premium")}
                   </div>
                 )}
 
@@ -173,7 +252,7 @@ const ScreenSavers: React.FC = () => {
 
               <div className="p-4">
                 <h4 className="truncate text-sm font-medium tracking-tight">
-                  {style.label}
+                  {t(`screenSavers.styles.${style.labelKey}`)}
                 </h4>
               </div>
             </div>
@@ -184,7 +263,7 @@ const ScreenSavers: React.FC = () => {
       <div className="flex flex-col-reverse items-center justify-between gap-4 border-t pt-6 sm:flex-row">
         <HowToCloseScreenSaver />
         <Button onClick={() => handleOpenScreenSaver()} size="lg" className="w-full sm:w-auto">
-          Open Screen Saver
+          {t("screenSavers.open")}
         </Button>
       </div>
     </div>

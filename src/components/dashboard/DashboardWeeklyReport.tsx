@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
@@ -39,6 +40,7 @@ export default function DashboardWeeklyReport({
 }: {
   className?: string;
 }) {
+  const { t } = useTranslation();
   const { accentHex } = useAccentColor();
   const [report, setReport] = useState<WeeklyBreakReport | null>(null);
 
@@ -46,15 +48,15 @@ export default function DashboardWeeklyReport({
     () =>
       ({
         completed: {
-          label: "Full breaks",
+          label: t("common.fullBreaks"),
           color: accentHex,
         },
         snoozed: {
-          label: "Snoozes",
+          label: t("dashboard.snoozes"),
           color: "var(--chart-2)",
         },
       }) satisfies ChartConfig,
-    [accentHex],
+    [accentHex, t],
   );
 
   const load = useCallback(async () => {
@@ -104,13 +106,13 @@ export default function DashboardWeeklyReport({
       ];
       await writeTextFile(path, lines.join("\n"));
 
-      toast.success("Weekly report exported.", {
+      toast.success(t("common.weeklyReportExported"), {
         duration: 2000,
         position: "bottom-right",
       });
     } catch (error) {
       console.error("Failed to export weekly report:", error);
-      toast.error("Couldn't export report.", {
+      toast.error(t("common.couldNotExportReport"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -131,12 +133,14 @@ export default function DashboardWeeklyReport({
             <DashboardIconBadge color={accentHex}>
               <IoStatsChart className="size-4" />
             </DashboardIconBadge>
-            Weekly break report
+            {t("common.weeklyBreakReport")}
           </div>
           {report ? (
             <p className="text-xs text-muted-foreground">
-              {report.totalCompleted} full breaks · {report.totalSnoozed}{" "}
-              snoozes (7 days)
+              {t("common.weeklySummary", {
+                completed: report.totalCompleted,
+                snoozed: report.totalSnoozed,
+              })}
             </p>
           ) : null}
         </div>
@@ -148,7 +152,7 @@ export default function DashboardWeeklyReport({
           disabled={!report}
         >
           <IoDownloadOutline className="size-4" />
-          Export
+          {t("common.export")}
         </Button>
       </div>
 
@@ -198,8 +202,8 @@ export default function DashboardWeeklyReport({
       ) : (
         <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 px-4 py-6 text-center text-sm text-muted-foreground">
           {report && !hasActivity
-            ? "No breaks recorded in the last 7 days."
-            : "Loading weekly report…"}
+            ? t("common.noBreaksRecorded")
+            : t("common.loadingWeeklyReport")}
         </div>
       )}
     </div>

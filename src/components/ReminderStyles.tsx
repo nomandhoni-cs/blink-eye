@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import {
   entryForStyle,
@@ -78,31 +79,31 @@ const thumbMap: Record<string, ThemeThumbnail> = {
 };
 
 const styles = [
-  { value: "default", label: "Default" },
+  { value: "default", labelKey: "default" },
   // Not a scene of its own — the Rust scheduler picks a new scene every break.
-  { value: SHUFFLE_STYLE, label: "Shuffle" },
-  { value: "aurora", label: "Aurora" },
-  { value: "freesprit", label: "Free Spirit" },
-  { value: "particleBackground", label: "Infinite Wave Background" },
-  { value: "starryBackground", label: "Starry Background" },
-  { value: "beamoflife", label: "Beam of Life" },
-  { value: "shootingmeteor", label: "Shooting Meteor" },
-  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-  // { value: "polygonAnimation", label: "Polygon Animation" },
-  { value: "canvasShapes", label: "Bouncy Balls" },
-  { value: "iridescence", label: "Iridescence" },
-  { value: "balatro", label: "Balatro" },
-  { value: "acidSquares", label: "Acid Squares" },
-  { value: "antigravity", label: "Antigravity" },
-  { value: "ballpit", label: "Ballpit" },
-  { value: "crtWarp", label: "CRT Warp" },
-  { value: "darkVeil", label: "Dark Veil" },
-  { value: "dither", label: "Dither" },
-  { value: "dotGrid", label: "Dot Grid" },
-  { value: "faultyTerminal", label: "Faulty Terminal" },
-  { value: "ferrofluid", label: "Ferrofluid" },
-  { value: "floatingLines", label: "Floating Lines" },
-  { value: "galaxy", label: "Galaxy" },
+  { value: SHUFFLE_STYLE, labelKey: "shuffle" },
+  { value: "aurora", labelKey: "aurora" },
+  { value: "freesprit", labelKey: "freesprit" },
+  { value: "particleBackground", labelKey: "particleBackground" },
+  { value: "starryBackground", labelKey: "starryBackground" },
+  { value: "beamoflife", labelKey: "beamoflife" },
+  { value: "shootingmeteor", labelKey: "shootingmeteor" },
+  { value: "plainGradientAnimation", labelKey: "plainGradientAnimation" },
+  // { value: "polygonAnimation", labelKey: "polygonAnimation" },
+  { value: "canvasShapes", labelKey: "canvasShapes" },
+  { value: "iridescence", labelKey: "iridescence" },
+  { value: "balatro", labelKey: "balatro" },
+  { value: "acidSquares", labelKey: "acidSquares" },
+  { value: "antigravity", labelKey: "antigravity" },
+  { value: "ballpit", labelKey: "ballpit" },
+  { value: "crtWarp", labelKey: "crtWarp" },
+  { value: "darkVeil", labelKey: "darkVeil" },
+  { value: "dither", labelKey: "dither" },
+  { value: "dotGrid", labelKey: "dotGrid" },
+  { value: "faultyTerminal", labelKey: "faultyTerminal" },
+  { value: "ferrofluid", labelKey: "ferrofluid" },
+  { value: "floatingLines", labelKey: "floatingLines" },
+  { value: "galaxy", labelKey: "galaxy" },
 ];
 
 /** Two-by-two collage of scene thumbnails, hinting at the shuffle rotation. */
@@ -134,6 +135,7 @@ function ShufflePreview() {
 }
 
 export default function ReminderStyles() {
+  const { t } = useTranslation();
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const { triggerUpdate } = useTrigger();
   const [backgroundStyle, setBackgroundStyle] =
@@ -150,7 +152,7 @@ export default function ReminderStyles() {
         }
       } catch (err) {
         console.error("Error fetching background style:", err);
-        setError("Failed to load saved theme. Please try again.");
+        setError(t("reminderStyles.loadError"));
       } finally {
         setIsLoading(false);
       }
@@ -180,7 +182,7 @@ export default function ReminderStyles() {
       console.log("Background style selected:", selectedStyle);
     } catch (err) {
       console.error("Error saving theme:", err);
-      setError("Failed to save theme. Please try again.");
+      setError(t("reminderStyles.saveError"));
     } finally {
       setIsLoading(false);
     }
@@ -197,7 +199,7 @@ export default function ReminderStyles() {
     const entry = entryForStyle(requestedStyle);
     const webview = new WebviewWindow("reminder_monitor_0", {
       url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
-      title: "Take A Break Reminder - Blink Eye",
+      title: t("reminderSettings.windowTitle"),
       fullscreen: true,
       alwaysOnTop: true,
       skipTaskbar: true,
@@ -216,7 +218,7 @@ export default function ReminderStyles() {
       <div className="text-center text-red-500 p-4">
         <p>{error}</p>
         <Button onClick={() => window.location.reload()} className="mt-4">
-          Retry
+          {t("common.retry")}
         </Button>
       </div>
     );
@@ -225,17 +227,15 @@ export default function ReminderStyles() {
   return (
     <div className="space-y-8 p-1">
       <div className="flex flex-col gap-1">
-        <h3 className="text-2xl font-heading tracking-tight">Background Style</h3>
+        <h3 className="text-2xl font-heading tracking-tight">
+          {t("reminderStyles.title")}
+        </h3>
         <p className="text-sm text-muted-foreground">
-          Choose from 22 animated scenes for your break reminders. Select any
-          card to preview it fullscreen. Shuffle shows a different scene on
-          every break — pick one specific scene whenever you want to settle
-          down.
+          {t("reminderStyles.description")}
         </p>
         {!canAccessPremiumFeatures && (
           <p className="text-xs text-muted-foreground/80">
-            Free and expired-trial accounts break on the blank default screen.
-            A license unlocks every scene, including Shuffle.
+            {t("reminderStyles.freeNote")}
           </p>
         )}
       </div>
@@ -274,7 +274,7 @@ export default function ReminderStyles() {
                 ) : typeof preview === "string" ? (
                   <img
                     src={preview}
-                    alt={`${style.label} preview`}
+                    alt={t(`reminderStyles.styles.${style.labelKey}`)}
                     className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     loading="lazy"
                   />
@@ -282,20 +282,20 @@ export default function ReminderStyles() {
                   <>
                     <img
                       src={preview.light}
-                      alt={`${style.label} light mode preview`}
+                      alt={t("common.lightLabel")}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
                       loading="lazy"
                     />
                     <img
                       src={preview.dark}
-                      alt={`${style.label} dark mode preview`}
+                      alt={t("common.darkLabel")}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       style={{ clipPath: "polygon(100% 0, 100% 100%, 0 100%)" }}
                       loading="lazy"
                     />
-                    <span className="absolute bottom-2 left-2 rounded bg-white/85 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-slate-700">Light</span>
-                    <span className="absolute bottom-2 right-2 rounded bg-slate-900/75 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">Dark</span>
+                    <span className="absolute bottom-2 left-2 rounded bg-white/85 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-slate-700">{t("common.lightLabel")}</span>
+                    <span className="absolute bottom-2 right-2 rounded bg-slate-900/75 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">{t("common.darkLabel")}</span>
                   </>
                 )}
                 {/* Subtle gradient overlay for depth */}
@@ -305,7 +305,7 @@ export default function ReminderStyles() {
                 {style.value !== "default" && (
                   <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-amber-500/30 bg-background/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 shadow-sm backdrop-blur-md dark:text-amber-400">
                     <Flame className="h-3 w-3" />
-                    Premium
+                    {t("common.premium")}
                   </div>
                 )}
 
@@ -319,11 +319,11 @@ export default function ReminderStyles() {
 
               <div className="p-4">
                 <h4 className="truncate text-sm font-medium tracking-tight">
-                  {style.label}
+                  {t(`reminderStyles.styles.${style.labelKey}`)}
                 </h4>
                 {style.value === SHUFFLE_STYLE && (
                   <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                    A new scene every break
+                    {t("reminderStyles.newSceneEveryBreak")}
                   </p>
                 )}
               </div>

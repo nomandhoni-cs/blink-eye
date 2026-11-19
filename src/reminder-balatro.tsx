@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Balatro from "./components/backgrounds/react-bits/Balatro";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -58,8 +59,10 @@ const ReminderBalatro: React.FC = () => {
 
 export default ReminderBalatro;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderBalatro />
   </React.StrictMode>,
-);
+  );
+});

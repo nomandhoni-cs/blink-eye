@@ -1,4 +1,5 @@
 import Database from "@tauri-apps/plugin-sql";
+import i18n from "i18next";
 
 // =============================================================================
 // Nudge messaging — dynamic, stat-personalized copy for the premium nudge.
@@ -52,6 +53,30 @@ export interface ComposedMessage {
   headline: string;
   body: string;
   cta: string;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Localized copy
+// ─────────────────────────────────────────────────────────────────────────────
+// The English strings in `TEMPLATES` are the source of truth and the fallback.
+// When i18n is initialized and a `nudge.*` key exists for the active language,
+// the translated copy is used instead. Without an i18n runtime (unit tests) the
+// English fallback keeps every function pure and deterministic.
+
+function tr(key: string, fallback: string, options?: Record<string, unknown>): string {
+  try {
+    if (!i18n.isInitialized) return fallback;
+    if (!i18n.exists(key, { ...options, lng: i18n.language })) return fallback;
+    const value = i18n.t(key, options ?? {});
+    if (typeof value !== "string" || value.trim() === "" || value === key) return fallback;
+    return value;
+  } catch {
+    return fallback;
+  }
+}
+
+function templateCopy(id: string, field: "headline" | "body" | "cta", fallback: string): string {
+  return tr(`nudge.templates.${id}.${field}`, fallback);
 }
 
 /// Persisted freshness state (JSON in `premiumNudgeMessageBag` config key).
@@ -350,12 +375,21 @@ export function milestoneFor(stats: NudgeStats): string | null {
 function daysLeftNote(stats: NudgeStats): string {
   const days = stats.daysLeft;
   if (days === null || !Number.isFinite(days) || days < 1 || days > 3) return "";
-  return ` You have ${days} ${days === 1 ? "day" : "days"} of premium left — make ${days === 1 ? "it" : "them"} count.`;
+  const fallback =
+    days === 1
+      ? " You have 1 day of premium left — make it count."
+      : ` You have ${days} days of premium left — make them count.`;
+  return tr(`nudge.daysLeftNote.${days === 1 ? "one" : "other"}`, fallback, { count: days });
 }
 
 /// Fill every `{slot}` in a string. Total function: unknown slots are left
 /// as-is (tests forbid them in pooled copy), numbers always render safely.
-export function fillSlots(text: string, stats: NudgeStats): string {
+/// `extra` lets callers override a slot (e.g. a pre-translated days-left note).
+export function fillSlots(
+  text: string,
+  stats: NudgeStats,
+  extra?: Record<string, string>,
+): string {
   const values: Record<string, string> = {
     totalBreaks: String(safeInt(stats.totalBreaks)),
     streak: String(safeInt(stats.streak)),
@@ -365,6 +399,7 @@ export function fillSlots(text: string, stats: NudgeStats): string {
     daysLeftNote: daysLeftNote(stats),
     tenureDays: String(safeInt(stats.tenureDays)),
   };
+  if (extra) Object.assign(values, extra);
   return text.replace(/\{(\w+)\}/g, (match, key: string) => values[key] ?? match);
 }
 
@@ -449,12 +484,31 @@ export function composeNudgeMessage(
     random,
   );
   const template = candidates.find((t) => t.id === picked.id) as NudgeTemplate;
+  // Slot values are handed to i18next so translated copy can use `{{slots}}`;
+  // `fillSlots` still covers the English fallback and any `{slot}` style.
+  const slotValues: Record<string, unknown> = {
+    totalBreaks: safeInt(stats.totalBreaks),
+    streak: safeInt(stats.streak),
+    bestStreak: safeInt(stats.bestStreak),
+    screenHours: safeInt(stats.screenHoursToday),
+    daysLeft: safeInt(stats.daysLeft),
+    tenureDays: safeInt(stats.tenureDays),
+  };
+  const note = daysLeftNote(stats);
   return {
     message: {
       templateId: template.id,
-      headline: fillSlots(template.headline, stats),
-      body: fillSlots(template.body, stats),
-      cta: template.cta,
+      headline: fillSlots(
+        tr(`nudge.templates.${template.id}.headline`, template.headline, slotValues),
+        stats,
+        { daysLeftNote: note },
+      ),
+      body: fillSlots(
+        tr(`nudge.templates.${template.id}.body`, template.body, slotValues),
+        stats,
+        { daysLeftNote: note },
+      ),
+      cta: templateCopy(template.id, "cta", template.cta),
     },
     bagState: picked.state,
   };
@@ -517,10 +571,20 @@ export function formatRestTime(totalSeconds: number): string | null {
   const secs = safeInt(totalSeconds);
   if (secs < 60) return null;
   const minutes = Math.round(secs / 60);
-  if (minutes < 60) return `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+  if (minutes < 60) {
+    return tr(
+      minutes === 1 ? "nudge.rest.minute" : "nudge.rest.minutes",
+      `${minutes} ${minutes === 1 ? "minute" : "minutes"}`,
+      { count: minutes },
+    );
+  }
   const hours = secs / 3600;
   const shown = hours < 10 ? Math.round(hours * 10) / 10 : Math.round(hours);
-  return `${shown} ${shown === 1 ? "hour" : "hours"}`;
+  return tr(
+    shown === 1 ? "nudge.rest.hour" : "nudge.rest.hours",
+    `${shown} ${shown === 1 ? "hour" : "hours"}`,
+    { count: shown },
+  );
 }
 
 /// Pick the recap the window celebrates. `breakSecs` is the configured break
@@ -536,26 +600,47 @@ export function nudgeHighlights(stats: NudgeStats, breakSecs: number | null): Nu
     const rest = breakSecs !== null && breakSecs > 0 ? formatRestTime(total * breakSecs) : null;
     hero = {
       value: total,
-      label: total === 1 ? "break taken together" : "breaks taken together",
-      caption: rest ? `≈ ${rest} your eyes got to rest` : null,
+      label: tr(
+        total === 1 ? "nudge.hero.breakOne" : "nudge.hero.breakOther",
+        total === 1 ? "break taken together" : "breaks taken together",
+        { count: total },
+      ),
+      caption: rest
+        ? tr("nudge.hero.restCaption", `≈ ${rest} your eyes got to rest`, { rest })
+        : null,
     };
   } else if (tenure >= 1) {
     hero = {
       value: tenure + 1,
-      label: "days of kinder eyes",
-      caption: "Every habit starts somewhere — yours started here.",
+      label: tr("nudge.hero.daysOfKinderEyes", "days of kinder eyes", { count: tenure + 1 }),
+      caption: tr(
+        "nudge.hero.startedHere",
+        "Every habit starts somewhere — yours started here.",
+      ),
     };
   }
 
   const tiles: NudgeTile[] = [];
   if (streak >= 1) {
-    tiles.push({ kind: "streak", value: `${streak}`, label: "day streak" });
+    tiles.push({
+      kind: "streak",
+      value: `${streak}`,
+      label: tr("nudge.tile.streak", "day streak", { count: streak }),
+    });
   }
   if (best > streak && best >= STREAK_MIN) {
-    tiles.push({ kind: "bestStreak", value: `${best}`, label: "best streak" });
+    tiles.push({ kind: "bestStreak", value: `${best}`, label: tr("nudge.tile.bestStreak", "best streak") });
   }
   if (tenure >= 1 && hero?.label !== "days of kinder eyes") {
-    tiles.push({ kind: "tenure", value: `${tenure}`, label: tenure === 1 ? "day together" : "days together" });
+    tiles.push({
+      kind: "tenure",
+      value: `${tenure}`,
+      label: tr(
+        tenure === 1 ? "nudge.tile.dayTogether" : "nudge.tile.daysTogether",
+        tenure === 1 ? "day together" : "days together",
+        { count: tenure },
+      ),
+    });
   }
   return { hero, tiles };
 }

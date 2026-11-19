@@ -1,5 +1,6 @@
 import { Routes, Route, BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./index.css";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
@@ -8,6 +9,7 @@ import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
 import UserOnboarding from "./blink-eye-onboarding";
 import DebugPremiumPanel from "./components/DebugPremiumPanel";
+import { initI18n } from "./i18n";
 
 
 
@@ -74,9 +76,23 @@ function DeepLinkHandler() {
 }
 
 function App() {
+  const { t } = useTranslation();
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isI18nReady, setIsI18nReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    initI18n()
+      .catch((err) => console.error("Failed to initialise i18n:", err))
+      .finally(() => {
+        if (!cancelled) setIsI18nReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const checkOnboardingStatus = async () => {
@@ -87,7 +103,7 @@ function App() {
         setHasCompletedOnboarding(value === "true");
       } catch (err) {
         console.error("Error checking onboarding status:", err);
-        setError("Failed to load app configuration. Please try again.");
+        setError(t("app.configLoadFailed"));
       } finally {
         setIsLoading(false);
       }
@@ -105,7 +121,7 @@ function App() {
     );
   }
 
-  if (isLoading) {
+  if (!isI18nReady || isLoading) {
     return <LoadingSpinner />;
   }
 

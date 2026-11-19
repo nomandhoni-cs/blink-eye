@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import DotGrid from "./components/backgrounds/react-bits/DotGrid";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -42,8 +43,10 @@ const ReminderDotGrid: React.FC = () => {
 
 export default ReminderDotGrid;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderDotGrid />
   </React.StrictMode>,
-);
+  );
+});

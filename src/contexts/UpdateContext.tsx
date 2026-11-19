@@ -17,9 +17,8 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
-  ReactNode,
+  type ReactNode,
 } from "react";
 import { check, type Update } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";

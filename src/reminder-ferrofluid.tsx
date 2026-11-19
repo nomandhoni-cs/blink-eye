@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Ferrofluid from "./components/backgrounds/react-bits/Ferrofluid";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -44,8 +45,10 @@ const ReminderFerrofluid: React.FC = () => {
 
 export default ReminderFerrofluid;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderFerrofluid />
   </React.StrictMode>,
-);
+  );
+});

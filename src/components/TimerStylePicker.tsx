@@ -1,11 +1,12 @@
+import { useTranslation } from "react-i18next";
 import { cn } from "../lib/utils";
 import type { TimerStyle } from "./reminder/timerStyle";
 
-const OPTIONS: { value: TimerStyle; label: string }[] = [
-  { value: "circle", label: "Circle" },
-  { value: "bar", label: "Bar" },
-  { value: "dial", label: "Dial" },
-  { value: "vertical", label: "Vertical" },
+const OPTIONS: { value: TimerStyle; labelKey: string }[] = [
+  { value: "circle", labelKey: "circle" },
+  { value: "bar", labelKey: "bar" },
+  { value: "dial", labelKey: "dial" },
+  { value: "vertical", labelKey: "vertical" },
 ];
 
 /** Ticks around a 64×40 screen, pointing at its center. */
@@ -76,8 +77,13 @@ export function TimerStylePicker({
   accentColor: string;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
-    <div role="radiogroup" aria-label="Timer style" className="flex flex-wrap justify-end gap-2">
+    <div
+      role="radiogroup"
+      aria-label={t("timerStyle.label")}
+      className="flex flex-wrap justify-end gap-2"
+    >
       {OPTIONS.map((option) => {
         const selected = option.value === value;
         return (
@@ -102,7 +108,7 @@ export function TimerStylePicker({
             }
           >
             <Thumbnail style={option.value} />
-            {option.label}
+            {t(`timerStyle.${option.labelKey}`)}
           </button>
         );
       })}

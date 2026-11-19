@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useUpdate } from "../contexts/UpdateContext";
 import {
   AlertDialog,
@@ -11,6 +12,7 @@ import {
 } from "./ui/alert-dialog";
 
 export function UpdateDialog() {
+  const { t } = useTranslation();
   const { latestVersion, dialogOpen, dismissUpdate, downloadAndInstall } =
     useUpdate();
 
@@ -21,18 +23,17 @@ export function UpdateDialog() {
       <div className="w-80">
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Update Available</AlertDialogTitle>
+            <AlertDialogTitle>{t("update.dialog.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Blink Eye v{latestVersion} is available. Would you like to update
-              now?
+              {t("update.dialog.body", { version: latestVersion })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => void dismissUpdate()}>
-              Not now
+              {t("update.dialog.later")}
             </AlertDialogCancel>
             <AlertDialogAction onClick={() => void downloadAndInstall()}>
-              Update
+              {t("update.dialog.update")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

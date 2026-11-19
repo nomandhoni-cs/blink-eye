@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 import {
@@ -14,11 +15,11 @@ interface TimerStyleScreenProps {
   setTimerStyle: (style: TimerStyle) => void;
 }
 
-const OPTIONS: { value: TimerStyle; label: string; description: string }[] = [
-  { value: "circle", label: "Circle", description: "A ring that winds down around the time" },
-  { value: "bar", label: "Bar", description: "Big seconds over a slim progress bar" },
-  { value: "dial", label: "Dial", description: "Ticks around the screen edge, like a watch face" },
-  { value: "vertical", label: "Vertical", description: "A full-height bar that drains top to bottom" },
+const OPTIONS: { value: TimerStyle; labelKey: string; descriptionKey: string }[] = [
+  { value: "circle", labelKey: "common.timerStyleCircle", descriptionKey: "common.timerStyleCircleDesc" },
+  { value: "bar", labelKey: "common.timerStyleBar", descriptionKey: "common.timerStyleBarDesc" },
+  { value: "dial", labelKey: "common.timerStyleDial", descriptionKey: "common.timerStyleDialDesc" },
+  { value: "vertical", labelKey: "common.timerStyleVertical", descriptionKey: "common.timerStyleVerticalDesc" },
 ];
 
 /** Previews draw on a 16:10 "screen", in the same units as the real break window. */
@@ -200,23 +201,23 @@ export default function TimerStyleScreen({
   timerStyle,
   setTimerStyle,
 }: TimerStyleScreenProps) {
+  const { t } = useTranslation();
   const elapsed = useLoopingBreak();
 
   return (
     <div className="flex min-h-[60vh] w-full flex-col items-center justify-center space-y-6">
       <div className="space-y-2 text-center">
         <h2 className="font-heading text-2xl font-bold tracking-tight">
-          Choose Your Break Clock
+          {t("onboarding.chooseClockTitle")}
         </h2>
         <p className="max-w-md text-sm text-muted-foreground">
-          This is the countdown you'll see on every break. You can change it
-          anytime in Reminder settings.
+          {t("onboarding.chooseClockSubtitle")}
         </p>
       </div>
 
       <div
         role="radiogroup"
-        aria-label="Timer style"
+        aria-label={t("common.timerStyle")}
         className="grid w-full max-w-5xl grid-cols-2 gap-3 md:grid-cols-4"
       >
         {OPTIONS.map((option) => {
@@ -241,9 +242,9 @@ export default function TimerStyleScreen({
               </div>
               <div className="flex items-start justify-between gap-2 px-1.5 pb-1 pt-2.5">
                 <div>
-                  <p className="text-sm font-semibold">{option.label}</p>
+                  <p className="text-sm font-semibold">{t(option.labelKey)}</p>
                   <p className="text-xs text-muted-foreground">
-                    {option.description}
+                    {t(option.descriptionKey)}
                   </p>
                 </div>
                 <span

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import {
@@ -86,12 +87,14 @@ function useCountUp(target: number, durationMs = 1400): number {
   return reduceMotion ? target : value;
 }
 
-const FALLBACK_MESSAGE: ComposedMessage = {
-  templateId: "window-fallback",
-  headline: "Your eyes have a friend in you",
-  body: "Every break you take is a small kindness to future you. Premium is how you look after the project back — and unlock themes and multi-monitor.",
-  cta: "Support Blink Eye",
-};
+function fallbackMessage(t: (key: string) => string): ComposedMessage {
+  return {
+    templateId: "window-fallback",
+    headline: t("nudge.fallback.headline"),
+    body: t("nudge.fallback.body"),
+    cta: t("nudge.fallback.cta"),
+  };
+}
 
 const HeroNumber = ({ value }: { value: number }) => {
   const shown = useCountUp(value);
@@ -103,6 +106,7 @@ const HeroNumber = ({ value }: { value: number }) => {
 };
 
 const PremiumNudgeWindow = () => {
+  const { t } = useTranslation();
   const [message, setMessage] = useState<ComposedMessage | null>(null);
   const [highlights, setHighlights] = useState<NudgeHighlights | null>(null);
   const [busy, setBusy] = useState(false);
@@ -162,7 +166,7 @@ const PremiumNudgeWindow = () => {
         // Stat reads failed — the composer path is unreachable, so fall back
         // to warm generic copy rather than a blank window.
         if (!cancelled) {
-          setMessage(FALLBACK_MESSAGE);
+          setMessage(fallbackMessage(t));
           setHighlights({ hero: null, tiles: [] });
         }
       }
@@ -217,12 +221,12 @@ const PremiumNudgeWindow = () => {
             className="nudge-blink size-9 drop-shadow-sm"
           />
           <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
-            Your Blink Eye story
+            {t("nudge.storyLabel")}
           </span>
         </div>
 
         {hero ? (
-          <section className="mt-6" aria-label="Your progress">
+          <section className="mt-6" aria-label={t("nudge.progressLabel")}>
             <HeroNumber value={hero.value} />
             <p className="mt-2 text-sm font-medium text-foreground/80">
               {hero.label}
@@ -275,7 +279,7 @@ const PremiumNudgeWindow = () => {
             className="h-11 w-full text-[15px]"
           >
             <HeartIcon className="size-4" />
-            {message?.cta ?? "View premium"}
+            {message?.cta ?? t("nudge.viewPremium")}
           </Button>
           <div className="mt-2 flex gap-2">
             <Button
@@ -284,7 +288,7 @@ const PremiumNudgeWindow = () => {
               variant="ghost"
               className="flex-1 text-muted-foreground"
             >
-              Remind me next week
+              {t("nudge.remindNextWeek")}
             </Button>
             <Button
               onClick={() => closeWith("dismissed")}
@@ -292,7 +296,7 @@ const PremiumNudgeWindow = () => {
               variant="ghost"
               className="flex-1 text-muted-foreground"
             >
-              Not now
+              {t("nudge.notNow")}
             </Button>
           </div>
         </div>

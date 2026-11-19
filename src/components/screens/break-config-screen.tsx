@@ -1,5 +1,6 @@
 // src/components/screens/break-config-screen.tsx
 import { useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { RiTimerFill, RiAlarmFill, RiMessage2Fill } from "react-icons/ri";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -26,6 +27,7 @@ export default function BreakConfigScreen({
   reminderText,
   setReminderText,
 }: BreakConfigScreenProps) {
+  const { t } = useTranslation();
   const customIntervalRef = useRef<HTMLInputElement>(null);
   const customDurationRef = useRef<HTMLInputElement>(null);
 
@@ -60,14 +62,14 @@ export default function BreakConfigScreen({
         {/* Page Header */}
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-bold font-heading">
-            Configure Your Breaks
+            {t("onboarding.configureBreaksTitle")}
           </h2>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            The 20-20-20 rule: every{" "}
-            <span className="text-primary font-semibold">20 minutes</span>, look
-            at something{" "}
-            <span className="text-primary font-semibold">20 feet away</span> for{" "}
-            <span className="text-primary font-semibold">20 seconds</span>.
+            {t("onboarding.rule202020", {
+              minutes: 20,
+              distance: 20,
+              seconds: 20,
+            })}
           </p>
         </div>
 
@@ -81,8 +83,12 @@ export default function BreakConfigScreen({
                   <RiTimerFill className="w-4 h-4 text-primary-foreground" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold font-heading leading-none">Break Interval</p>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">How often to remind you?</p>
+                  <p className="text-sm font-bold font-heading leading-none">
+                    {t("onboarding.breakInterval")}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
+                    {t("onboarding.breakIntervalDesc")}
+                  </p>
                 </div>
               </div>
 
@@ -102,7 +108,9 @@ export default function BreakConfigScreen({
                       }}
                     >
                       <span className="text-base font-bold">{min}</span>
-                      <span className="text-xs text-muted-foreground">min</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("common.min")}
+                      </span>
                     </Button>
                   );
                 })}
@@ -113,22 +121,19 @@ export default function BreakConfigScreen({
                     ref={customIntervalRef}
                     type="number"
                     min={1}
-                    placeholder="Custom"
+                    placeholder={t("onboarding.custom")}
                     defaultValue={isCustomInterval ? breakInterval : ""}
                     onChange={(e) => handleCustomInterval(e.target.value)}
                     className="h-9 text-center text-base font-bold rounded-full"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
-                    min
+                    {t("common.min")}
                   </span>
                 </div>
               </div>
 
               <p className="text-[11px] text-center text-muted-foreground">
-                Remind every{" "}
-                <span className="text-primary font-semibold">
-                  {breakInterval} min
-                </span>
+                {t("onboarding.remindEvery", { minutes: breakInterval })}
               </p>
             </CardContent>
           </Card>
@@ -141,8 +146,12 @@ export default function BreakConfigScreen({
                   <RiAlarmFill className="w-4 h-4 text-primary-foreground" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold font-heading leading-none">Break Duration</p>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">How long each break lasts?</p>
+                  <p className="text-sm font-bold font-heading leading-none">
+                    {t("onboarding.breakDuration")}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
+                    {t("onboarding.breakDurationDesc")}
+                  </p>
                 </div>
               </div>
 
@@ -162,7 +171,9 @@ export default function BreakConfigScreen({
                       }}
                     >
                       <span className="text-base font-bold">{sec}</span>
-                      <span className="text-xs text-muted-foreground">sec</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("common.sec")}
+                      </span>
                     </Button>
                   );
                 })}
@@ -173,22 +184,19 @@ export default function BreakConfigScreen({
                     ref={customDurationRef}
                     type="number"
                     min={1}
-                    placeholder="Custom"
+                    placeholder={t("onboarding.custom")}
                     defaultValue={isCustomDuration ? breakDuration : ""}
                     onChange={(e) => handleCustomDuration(e.target.value)}
                     className="h-9 text-center text-base font-bold rounded-full"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
-                    sec
+                    {t("common.sec")}
                   </span>
                 </div>
               </div>
 
               <p className="text-[11px] text-center text-muted-foreground">
-                Each break lasts{" "}
-                <span className="text-primary font-semibold">
-                  {breakDuration} sec
-                </span>
+                {t("onboarding.eachBreakLasts", { seconds: breakDuration })}
               </p>
             </CardContent>
           </Card>
@@ -202,18 +210,22 @@ export default function BreakConfigScreen({
                 <RiMessage2Fill className="w-4 h-4 text-primary-foreground" />
               </div>
               <div>
-                <p className="text-sm font-bold font-heading leading-none">Reminder Message</p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">What should Blink Eye say during your break?</p>
+                <p className="text-sm font-bold font-heading leading-none">
+                  {t("onboarding.reminderMessage")}
+                </p>
+                <p className="text-[11px] text-muted-foreground mt-0.5">
+                  {t("onboarding.reminderMessageDesc")}
+                </p>
               </div>
             </div>
             <Input
-              placeholder="Pause! Look into the distance, and best if you walk a bit."
+              placeholder={t("onboarding.reminderMessagePlaceholder")}
               value={reminderText}
               onChange={(e) => setReminderText(e.target.value)}
               className="w-full text-sm text-center"
             />
             <p className="text-[11px] text-center text-muted-foreground">
-              This message appears on screen during every break overlay.
+              {t("onboarding.reminderMessageNote")}
             </p>
           </CardContent>
         </Card>
@@ -222,17 +234,19 @@ export default function BreakConfigScreen({
         <div className="flex items-center justify-center gap-2 flex-wrap">
           <Badge variant="secondary" className="gap-1.5">
             <RiTimerFill className="w-3 h-3" />
-            Every {breakInterval} min
+            {t("onboarding.everyMinutes", { minutes: breakInterval })}
           </Badge>
           <span className="text-muted-foreground text-xs">→</span>
           <Badge variant="secondary" className="gap-1.5">
             <RiAlarmFill className="w-3 h-3" />
-            {breakDuration} sec break
+            {t("onboarding.secondsBreak", { seconds: breakDuration })}
           </Badge>
           <span className="text-muted-foreground text-xs">→</span>
           <Badge variant="outline" className="gap-1.5 max-w-[180px]">
             <RiMessage2Fill className="w-3 h-3" />
-            <span className="truncate">{reminderText || "No message set"}</span>
+            <span className="truncate">
+              {reminderText || t("common.noMessageSet")}
+            </span>
           </Badge>
         </div>
       </div>

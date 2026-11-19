@@ -68,6 +68,12 @@ export type EmailScreenResult = {
   wellFormed: boolean;
   /** What to tell the user; empty when no explanation is needed. */
   message: string;
+  /**
+   * i18n key for the message (see `email.*` in the locale catalogs).
+   * Empty when no explanation is needed. Prefer this over `message` in UI so
+   * the prompt follows the selected language.
+   */
+  messageKey: string;
 };
 
 /** Rule weights, exactly as in the classifier. */
@@ -261,6 +267,8 @@ export function screenEmail(
     verdict = "ok";
   }
 
+  const { key, message } = messageFor(verdict, signals);
+
   return {
     verdict,
     score,
@@ -269,49 +277,90 @@ export function screenEmail(
     local,
     domain,
     wellFormed,
-    message: messageFor(verdict, signals),
+    message,
+    messageKey: key,
   };
 }
 
-function messageFor(verdict: EmailVerdict, signals: EmailSignal[]): string {
-  if (verdict === "ok") return "";
+function messageFor(
+  verdict: EmailVerdict,
+  signals: EmailSignal[],
+): { key: string; message: string } {
+  if (verdict === "ok") return { key: "", message: "" };
 
   const has = (rule: string) => signals.some((signal) => signal.rule === rule);
 
   if (has("placeholder / test domain")) {
-    return "That's a test or placeholder domain. Please use an address you actually check.";
+    return {
+      key: "blockedTestDomain",
+      message:
+        "That's a test or placeholder domain. Please use an address you actually check.",
+    };
   }
   if (has("disposable email domain")) {
-    return "Disposable inboxes aren't accepted. Use a permanent address instead.";
+    return {
+      key: "blockedDisposable",
+      message: "Disposable inboxes aren't accepted. Use a permanent address instead.",
+    };
   }
   if (has("dummy local-part")) {
-    return "That looks like a placeholder. Enter the email you really use.";
+    return {
+      key: "blockedDummyLocal",
+      message: "That looks like a placeholder. Enter the email you really use.",
+    };
   }
   if (has("single-character domain label")) {
-    return "That domain doesn't look real. Check the part after the @.";
+    return {
+      key: "blockedDomainLabel",
+      message: "That domain doesn't look real. Check the part after the @.",
+    };
   }
 
   if (verdict === "blocked") {
-    return "That email doesn't look like a real mailbox. Please double-check it.";
+    return {
+      key: "blockedGeneric",
+      message:
+        "That email doesn't look like a real mailbox. Please double-check it.",
+    };
   }
 
   // Nudge wording: a question, not a rejection.
   if (has("very short local-part")) {
-    return "That's a very short address. Is this really the inbox you check?";
+    return {
+      key: "nudgeShort",
+      message: "That's a very short address. Is this really the inbox you check?",
+    };
   }
   if (has("generic local-part prefix")) {
-    return "Shared addresses like this often can't receive our mail. Is this yours?";
+    return {
+      key: "nudgeGeneric",
+      message:
+        "Shared addresses like this often can't receive our mail. Is this yours?",
+    };
   }
   if (has("repeated-character local-part")) {
-    return "That looks like repeated filler characters. Did you mean to type your real address?";
+    return {
+      key: "nudgeRepeated",
+      message:
+        "That looks like repeated filler characters. Did you mean to type your real address?",
+    };
   }
   if (has("numeric-only local-part")) {
-    return "Numbers-only addresses are often not real. Is this inbox yours?";
+    return {
+      key: "nudgeNumeric",
+      message: "Numbers-only addresses are often not real. Is this inbox yours?",
+    };
   }
   if (has("duplicate email")) {
-    return "You've used this address with us before. Sign in instead?";
+    return {
+      key: "nudgeDuplicate",
+      message: "You've used this address with us before. Sign in instead?",
+    };
   }
-  return "This address looks unusual. Is it really the inbox you check?";
+  return {
+    key: "nudgeGenericEnd",
+    message: "This address looks unusual. Is it really the inbox you check?",
+  };
 }
 
 /** Convenience: true when onboarding may not continue with this address. */

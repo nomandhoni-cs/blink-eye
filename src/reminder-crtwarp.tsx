@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import CRTWarp from "./components/backgrounds/react-bits/CRTWarp";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -46,8 +47,10 @@ const ReminderCRTWarp: React.FC = () => {
 
 export default ReminderCRTWarp;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderCRTWarp />
   </React.StrictMode>,
-);
+  );
+});

@@ -1,45 +1,35 @@
+import { useTranslation } from "react-i18next";
 import { useAccentColor } from "../../contexts/AccentColorContext";
 import { THEMES, type ThemeName } from "../../lib/themes";
 import { oklchStringToHex } from "../../lib/color-utils";
 
-const THEME_GROUPS = [
-  {
-    label: "Neutral",
-    themes: ["neutral", "stone", "zinc", "olive", "mist", "taupe"],
-  },
-  {
-    label: "Warm",
-    themes: ["yellow", "amber", "orange", "red", "rose", "pink"],
-  },
-  {
-    label: "Green",
-    themes: ["lime", "green", "emerald", "teal", "cyan", "sky"],
-  },
-  {
-    label: "Cool",
-    themes: ["fuchsia", "purple", "violet", "indigo", "blue", "mauve"],
-  },
+const THEME_GROUPS: { groupKey: string; themes: string[] }[] = [
+  { groupKey: "neutral", themes: ["neutral", "stone", "zinc", "olive", "mist", "taupe"] },
+  { groupKey: "warm", themes: ["yellow", "amber", "orange", "red", "rose", "pink"] },
+  { groupKey: "green", themes: ["lime", "green", "emerald", "teal", "cyan", "sky"] },
+  { groupKey: "cool", themes: ["fuchsia", "purple", "violet", "indigo", "blue", "mauve"] },
 ];
 
 export default function ThemePickerOnboarding() {
+  const { t } = useTranslation();
   const { accentTheme, setAccentTheme } = useAccentColor();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 w-full">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-heading font-bold tracking-tight">
-          Pick Your Style
+          {t("onboarding.pickStyleTitle")}
         </h2>
         <p className="text-sm text-muted-foreground max-w-md">
-          Choose an accent color that will be applied across the entire app.
+          {t("onboarding.pickStyleSubtitle")}
         </p>
       </div>
 
       <div className="space-y-5 w-full max-w-4xl mx-auto">
         {THEME_GROUPS.map((group) => (
-          <div key={group.label} className="space-y-2">
+          <div key={group.groupKey} className="space-y-2">
             <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {group.label}
+              {t(`common.themeGroups.${group.groupKey}`)}
             </span>
             <div className="flex flex-wrap gap-1.5 justify-center">
               {group.themes.map((themeName) => {
@@ -49,7 +39,7 @@ export default function ThemePickerOnboarding() {
                   <ThemeButton
                     key={theme.name}
                     name={theme.name}
-                    title={theme.title}
+                    title={t(`common.themeTitles.${theme.name}`)}
                     isSelected={accentTheme === theme.name}
                     onClick={() => setAccentTheme(theme.name as ThemeName)}
                   />
@@ -91,9 +81,9 @@ function ThemeButton({
     >
       <div
         className={`
-          relative w-28 h-12 rounded-full shrink-0
-          ${isSelected ? "ring-2 ring-foreground/30 ring-offset-2 ring-offset-background" : ""}
-        `}
+        relative w-28 h-12 rounded-full shrink-0
+        ${isSelected ? "ring-2 ring-foreground/30 ring-offset-2 ring-offset-background" : ""}
+      `}
         style={{ backgroundColor: hex }}
       >
         {isSelected && (

@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 // Perfectly filled, rounded, modern icons
 import {
   IoGrid,
@@ -39,34 +40,37 @@ import { SidebarNotch } from "./SidebarNotch";
 import { platform } from "@tauri-apps/plugin-os";
 import { generateBrandShades } from "../lib/color-utils";
 import { PRICING_URL } from "../lib/links";
+import { useLanguage } from "../i18n/useLanguage";
 
 const isMac = platform() === "macos";
 
 // ── 1. Grouped Navigation Data ──
 
-const mainNav = [{ title: "Dashboard", url: "/", icon: IoGrid }];
+const mainNav = [
+  { titleKey: "nav.dashboard", url: "/", icon: IoGrid },
+];
 
 const proNav = [
-  { title: "Reminder Settings", url: "/reminderSettings", icon: IoTimer },
-  { title: "Usage Time", url: "/usageTime", icon: IoBarChart },
-  { title: "Reminder Themes", url: "/reminderthemes", icon: IoColorPalette },
-  { title: "Multi-Monitor", url: "/multimonitor", icon: PiMonitorFill },
-  { title: "Todo List", url: "/todoList", icon: LucideListTodo },
-  { title: "Workday Setup", url: "/workday", icon: IoCalendar },
-  { title: "Screen Savers", url: "/screenSavers", icon: IoDesktop },
+  { titleKey: "nav.reminderSettings", url: "/reminderSettings", icon: IoTimer },
+  { titleKey: "nav.usageTime", url: "/usageTime", icon: IoBarChart },
+  { titleKey: "nav.reminderThemes", url: "/reminderthemes", icon: IoColorPalette },
+  { titleKey: "nav.multiMonitor", url: "/multimonitor", icon: PiMonitorFill },
+  { titleKey: "nav.todoList", url: "/todoList", icon: LucideListTodo },
+  { titleKey: "nav.workdaySetup", url: "/workday", icon: IoCalendar },
+  { titleKey: "nav.screenSavers", url: "/screenSavers", icon: IoDesktop },
 ];
 
 const systemNav = [
-  { title: "Settings", url: "/allSettings", icon: IoSettings },
-  { title: "Theme Picker", url: "/themePicker", icon: IoColorWand },
-  { title: "Activate License", url: "/activatelicense", icon: IoKey },
+  { titleKey: "nav.settings", url: "/allSettings", icon: IoSettings },
+  { titleKey: "nav.themePicker", url: "/themePicker", icon: IoColorWand },
+  { titleKey: "nav.activateLicense", url: "/activatelicense", icon: IoKey },
   {
-    title: "Submit Feedback",
+    titleKey: "nav.submitFeedback",
     url: "https://tally.so/r/wo0ZrN",
     icon: IoChatbubble,
     external: true,
   },
-  { title: "About", url: "/about", icon: IoInformationCircle },
+  { titleKey: "nav.about", url: "/about", icon: IoInformationCircle },
 ];
 
 // Dynamically collect all nav URLs for shade assignment
@@ -129,9 +133,11 @@ function ProBadge({ isPaidUser }: { isPaidUser: boolean }) {
 // ── 4. Main Component ───────────────────────────────────────────
 
 export function AppSidebar() {
+  const { t } = useTranslation();
   const { isPaidUser } = usePremiumFeatures();
   const { accentHex } = useAccentColor();
   const { pathname } = useLocation();
+  const { isRTL } = useLanguage();
 
   return (
     <>
@@ -165,6 +171,7 @@ export function AppSidebar() {
       <Sidebar
         variant="floating"
         collapsible="icon"
+        side={isRTL ? "right" : "left"}
         className={"!top-0 !h-svh border-none z-40"}
       >
         <SidebarContent
@@ -181,7 +188,7 @@ export function AppSidebar() {
                       asChild
                       size="sm"
                       isActive={pathname === item.url}
-                      tooltip={item.title}
+                      tooltip={t(item.titleKey)}
                       className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground"
                     >
                       <Link to={item.url}>
@@ -189,7 +196,7 @@ export function AppSidebar() {
                           <item.icon className="text-[0.75rem]" />
                         </IconBadge>
                         <span className="font-heading text-[12.5px] font-normal tracking-wide group-data-[active=true]/menu-button:font-semibold">
-                          {item.title}
+                          {t(item.titleKey)}
                         </span>
                       </Link>
                     </SidebarMenuButton>
@@ -202,7 +209,7 @@ export function AppSidebar() {
           {/* ── Features Section ── */}
           <SidebarGroup className="p-0">
             <SidebarGroupLabel className="h-6 font-heading text-[10px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-0.5">
-              Features
+              {t("common.features")}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
@@ -212,7 +219,7 @@ export function AppSidebar() {
                       asChild
                       size="sm"
                       isActive={pathname === item.url}
-                      tooltip={item.title}
+                      tooltip={t(item.titleKey)}
                       className="transition-all duration-200 hover:bg-accent/80 data-active:bg-transparent data-active:text-foreground"
                     >
                       <Link to={item.url}>
@@ -220,7 +227,7 @@ export function AppSidebar() {
                           <item.icon className="text-[0.75rem]" />
                         </IconBadge>
                         <span className="font-heading text-[12.5px] font-normal tracking-wide group-data-[active=true]/menu-button:font-semibold">
-                          {item.title}
+                          {t(item.titleKey)}
                         </span>
                       </Link>
                     </SidebarMenuButton>
@@ -234,7 +241,7 @@ export function AppSidebar() {
           {/* ── System Section ── */}
           <SidebarGroup className="p-0">
             <SidebarGroupLabel className="h-6 font-heading text-[10px] font-semibold tracking-widest text-muted-foreground/50 uppercase px-3 mb-0.5">
-              System
+              {t("common.system")}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
@@ -244,7 +251,7 @@ export function AppSidebar() {
                       asChild
                       size="sm"
                       isActive={pathname === item.url}
-                      tooltip={item.title}
+                      tooltip={t(item.titleKey)}
                       className="transition-all duration-200 hover:bg-accent/80 text-muted-foreground hover:text-foreground data-active:bg-transparent data-active:text-foreground"
                     >
                       <Link
@@ -255,7 +262,7 @@ export function AppSidebar() {
                           <item.icon className="text-[0.75rem]" />
                         </IconBadge>
                         <span className="font-heading text-[12.5px] font-normal tracking-wide group-data-[active=true]/menu-button:font-semibold">
-                          {item.title}
+                          {t(item.titleKey)}
                         </span>
                       </Link>
                     </SidebarMenuButton>
@@ -275,12 +282,12 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   size="sm"
-                  tooltip="Pro Active"
+                  tooltip={t("common.proActive")}
                   className="cursor-default border border-green-500/25 dark:border-green-400/20 bg-green-500/5 dark:bg-green-400/5 hover:bg-green-500/5 dark:hover:bg-green-400/5"
                 >
                   <IoCheckmarkCircle className="text-[0.95rem] shrink-0 text-green-500 dark:text-green-400" />
                   <span className="font-heading text-[13px] font-semibold tracking-wide text-green-700 dark:text-green-400">
-                    Activated
+                    {t("common.activated")}
                   </span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -289,7 +296,7 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   size="sm"
-                  tooltip="Unlock Premium"
+                  tooltip={t("common.unlockPremium")}
                   className="relative overflow-hidden border border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35 shadow-sm transition-all group"
                 >
                   <Link to={PRICING_URL} target="_blank">
@@ -308,7 +315,7 @@ export function AppSidebar() {
                       style={{ fill: "url(#amberGradient)" }}
                     />
                     <span className="relative z-10 font-heading text-[13px] font-bold tracking-wide text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-colors">
-                      Unlock Premium
+                      {t("common.unlockPremium")}
                     </span>
                   </Link>
                 </SidebarMenuButton>

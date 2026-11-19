@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Card } from "./ui/card";
 import { Label } from "./ui/label";
 import { invoke } from "@tauri-apps/api/core";
@@ -35,6 +36,7 @@ function MultiMonitorIcon({ className }: { className?: string }) {
 }
 
 const MultiMonitorToggle = () => {
+    const { t } = useTranslation();
     const {
         canAccessPremiumFeatures,
         trialInfo,
@@ -62,16 +64,16 @@ const MultiMonitorToggle = () => {
     const showStatus = isPending || !canAccessPremiumFeatures;
     const isStatusUnconfirmed = trialError || licenseError || !trialInfo?.install_date || !!trialInfo?.clock_manipulated;
     const statusReason = isPending || isRefreshing
-        ? "Checking trial and license status. Monitor choices are temporarily unavailable."
+        ? t("multiMonitor.status.checking")
         : isSaving
-            ? "Saving monitor preference..."
+            ? t("multiMonitor.status.saving")
             : trialError || licenseError
-                    ? "Unable to confirm premium access. Retry the status check or check your license. Free breaks use the primary monitor."
+                    ? t("multiMonitor.status.unableToConfirm")
                     : trialInfo?.clock_manipulated
-                        ? "Trial unavailable because the system date is before installation. Check your system date, then retry."
+                        ? t("multiMonitor.status.clockManipulated")
                         : !trialInfo?.install_date
-                            ? "Trial information is unavailable. Retry the status check or activate a license."
-                            : "Your trial has expired and no active paid license was found. Free breaks use the primary monitor.";
+                            ? t("multiMonitor.status.trialUnavailable")
+                            : t("multiMonitor.status.trialExpired");
 
     useEffect(() => {
         const initializeMultiMonitor = async () => {
@@ -99,7 +101,7 @@ const MultiMonitorToggle = () => {
             if (enableMultiMonitor) {
                 const snapshot = await refreshPremiumFeatures();
                 if (!snapshot.canAccessPremiumFeatures) {
-                    toast.error("Premium access could not be confirmed. No monitor preference was changed.", {
+                    toast.error(t("multiMonitor.premiumNotConfirmed"), {
                         duration: 3000,
                         position: "bottom-right",
                     });
@@ -117,8 +119,8 @@ const MultiMonitorToggle = () => {
 
             toast.success(
                 enableMultiMonitor
-                    ? "Backgrounds on all displays; controls on primary."
-                    : "Break reminders on primary display only.",
+                    ? t("multiMonitor.enabled")
+                    : t("multiMonitor.disabled"),
                 {
                     duration: 2000,
                     position: "bottom-right",
@@ -126,7 +128,7 @@ const MultiMonitorToggle = () => {
             );
         } catch (error) {
             console.error("Failed to update multi-monitor setting:", error);
-            toast.error("Failed to save setting. Please try again.", {
+            toast.error(t("common.saveFailed"), {
                 duration: 2000,
                 position: "bottom-right",
             });
@@ -150,9 +152,9 @@ const MultiMonitorToggle = () => {
     return (
         <div className="rounded-lg border border-muted p-6 space-y-4">
             <div>
-                <Label className="text-base font-semibold">Monitor display mode</Label>
+                <Label className="text-base font-semibold">{t("multiMonitor.title")}</Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                    Choose whether the break background fills one screen or every screen
+                    {t("multiMonitor.description")}
                 </p>
             </div>
 
@@ -182,9 +184,9 @@ const MultiMonitorToggle = () => {
                             <PiMonitorFill size={40} />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-lg">Primary monitor</h3>
+                            <h3 className="font-semibold text-lg">{t("multiMonitor.primaryTitle")}</h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Background and controls on your main display only
+                                {t("multiMonitor.primaryDesc")}
                             </p>
                         </div>
                         {primarySelected && (
@@ -274,14 +276,14 @@ const MultiMonitorToggle = () => {
                         </div>
                         <div>
                             <h3 className="font-semibold text-lg flex items-center justify-center gap-2">
-                                Multi-Monitor
+                                {t("multiMonitor.multiTitle")}
                                 {allAvailable && <IoSparkles
                                     className="text-amber-500 dark:text-amber-400 drop-shadow-[0_0_4px_rgba(245,158,11,0.5)]"
                                     size={18}
                                 />}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Background on every display; timer and skip on primary only
+                                {t("multiMonitor.multiDesc")}
                             </p>
                             {!canAccessPremiumFeatures && (
                                 <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/20">
@@ -290,7 +292,7 @@ const MultiMonitorToggle = () => {
                                         size={12}
                                     />
                                     <span className="text-xs font-bold text-amber-700 dark:text-amber-400 tracking-wide">
-                                        PREMIUM
+                                        {t("common.premium").toUpperCase()}
                                     </span>
                                 </div>
                             )}
@@ -322,17 +324,17 @@ const MultiMonitorToggle = () => {
                     <p id="monitor-entitlement-status" role="status" className="text-sm text-muted-foreground">
                         {statusReason}
                         {isModeKnown && !canAccessPremiumFeatures && isMultiMonitorEnabled &&
-                            " Your all-monitor preference is retained and can apply again when premium access returns. Select Primary to save a primary-only preference."}
+                            t("multiMonitor.preferenceRetained")}
                     </p>
                     {!isPending && (
                         <div className="flex flex-wrap gap-2">
                             {isStatusUnconfirmed && (
                                 <Button type="button" size="sm" variant="secondary" disabled={isBusy} onClick={() => void refreshPremiumFeatures()}>
-                                    {isRefreshing ? "Checking..." : "Retry status"}
+                                    {isRefreshing ? t("common.checking") : t("common.retryStatus")}
                                 </Button>
                             )}
                             <Button size="sm" variant="outline" asChild>
-                                <Link to="/activatelicense">Check or activate license</Link>
+                                <Link to="/activatelicense">{t("common.checkOrActivateLicense")}</Link>
                             </Button>
                         </div>
                     )}

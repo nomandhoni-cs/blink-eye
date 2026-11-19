@@ -1,6 +1,7 @@
 // src/components/SidebarNotch.tsx
 import { HugeiconsIcon } from "@hugeicons/react";
 import { SidebarLeftIcon, SidebarRightIcon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 import { useSidebar } from "./ui/sidebar";
 import { cn } from "../lib/utils";
 
@@ -18,15 +19,19 @@ import { cn } from "../lib/utils";
  * collapses to icon mode, the notch slides left along with it.
  */
 export function SidebarNotch() {
+  const { t } = useTranslation();
   const { toggleSidebar, state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const label = isCollapsed
+    ? t("common.expandSidebar")
+    : t("common.collapseSidebar");
 
   return (
     <button
       type="button"
       onClick={toggleSidebar}
-      aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-      title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+      aria-label={label}
+      title={label}
       // `-right-2` puts the notch's left edge exactly at the
       // sidebar-inner's right edge (the container has p-2 = 8px outer
       // padding, so the visible inner box ends 8px in from the

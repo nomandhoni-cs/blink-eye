@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Antigravity from "./components/backgrounds/react-bits/Antigravity";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -42,8 +43,10 @@ const ReminderAntigravity: React.FC = () => {
 
 export default ReminderAntigravity;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderAntigravity />
   </React.StrictMode>,
-);
+  );
+});

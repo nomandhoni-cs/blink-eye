@@ -2,9 +2,9 @@ import type React from "react";
 import { cn } from "../../lib/utils";
 
 /**
- * Countdown digits in SF Pro (condensed, tabular) on macOS, like the iPhone
- * timer. Each digit that changes rolls down and out while the new one drops
- * in, similar to SwiftUI's numeric text transition.
+ * Countdown digits in Quicksand (rounded, tabular). Each digit that changes
+ * rolls down and out while the new one drops in, similar to SwiftUI's numeric
+ * text transition.
  *
  * `previous` is the value shown one second earlier; slots are matched from
  * the right so `10` → `9` still lines up.
@@ -46,7 +46,10 @@ export function CountdownNumerals({
             )}
             <span
               key={`in-${value}`}
-              className={cn("inline-block", changed && "countdown-digit-in")}
+              className={cn(
+                "countdown-digit inline-block",
+                changed && "countdown-digit-in"
+              )}
             >
               {char}
             </span>

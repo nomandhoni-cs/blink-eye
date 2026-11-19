@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import AcidSquares from "./components/backgrounds/react-bits/AcidSquares";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -44,8 +45,10 @@ const ReminderAcidSquares: React.FC = () => {
 
 export default ReminderAcidSquares;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderAcidSquares />
   </React.StrictMode>,
-);
+  );
+});
