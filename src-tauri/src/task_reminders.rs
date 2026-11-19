@@ -43,14 +43,16 @@ pub struct TaskAlertPayload {
     pub message_key: String,
     pub kind: String,
     pub due_at: Option<String>,
+    /// Minutes before the due time for a "coming up" reminder.
+    pub lead_minutes: Option<i64>,
 }
 
 #[derive(Debug, Clone, FromRow)]
 struct TaskRow {
     id: i64,
-    title: String,
     deadline: Option<String>,
     due_at: Option<String>,
+    reminder_lead_minutes: Option<i64>,
 }
 
 /// Owns the local todo databases and the periodic check loop.
@@ -101,7 +103,8 @@ impl TaskReminderScheduler {
                reminder_time TEXT,
                status TEXT NOT NULL DEFAULT 'pending',
                created_at TEXT NOT NULL,
-               due_at TEXT
+               due_at TEXT,
+               reminder_lead_minutes INTEGER NOT NULL DEFAULT 0
              )",
         )
         .execute(&pool)
@@ -110,6 +113,7 @@ impl TaskReminderScheduler {
         for statement in [
             "ALTER TABLE todos ADD COLUMN reminder_time TEXT",
             "ALTER TABLE todos ADD COLUMN due_at TEXT",
+            "ALTER TABLE todos ADD COLUMN reminder_lead_minutes INTEGER NOT NULL DEFAULT 0",
         ] {
             let _ = sqlx::query(statement).execute(&pool).await;
         }
@@ -168,7 +172,10 @@ impl TaskReminderScheduler {
 
         let pool = self.open_todo_db().await?;
         let tasks: Vec<TaskRow> =
-            sqlx::query_as("SELECT id, title, deadline, due_at FROM todos WHERE status = 'pending'")
+            sqlx::query_as(
+                "SELECT id, deadline, due_at, reminder_lead_minutes
+                 FROM todos WHERE status = 'pending'",
+            )
                 .fetch_all(&pool)
                 .await
                 .map_err(|error| error.to_string())?;
@@ -176,37 +183,45 @@ impl TaskReminderScheduler {
             return Ok(());
         }
 
-        // A task with an exact time gets one popup at due time. The grace
-        // window lets a sleeping/background app catch it without nagging
-        // about stale work hours later.
+        // A task with an exact time gets one popup at its lead time (or at
+        // the due time when lead is 0). The grace window lets a sleeping app
+        // catch it without nagging about stale work hours later.
         let now_naive = now.naive_local();
-        let mut due_candidates: Vec<(TaskRow, String)> = tasks
+        let mut due_candidates: Vec<(TaskRow, String, ScheduledReminder)> = tasks
             .iter()
             .filter_map(|task| {
                 let value = task.due_at.as_ref()?;
-                let due = NaiveDateTime::parse_from_str(value, "%Y-%m-%dT%H:%M").ok()?;
-                let elapsed = now_naive.signed_duration_since(due);
-                if elapsed >= ChronoDuration::zero()
-                    && elapsed <= ChronoDuration::minutes(DUE_GRACE_MINUTES)
-                {
-                    Some((task.clone(), value.clone()))
-                } else {
-                    None
-                }
+                let (action_key, reminder) =
+                    scheduled_reminder(value, task.reminder_lead_minutes, now_naive)?;
+                Some((task.clone(), action_key, reminder))
             })
             .collect();
         due_candidates.sort_by(|a, b| a.1.cmp(&b.1));
 
-        if let Some((task, due_key)) = due_candidates.into_iter().next() {
+        for (task, action_key, reminder) in due_candidates {
+            // If the pre-reminder was already shown, do not also pop at the
+            // actual due time — one task, one reminder.
+            if reminder.needs_lead_check {
+                let lead_key = due_action_key(
+                    task.due_at.as_deref().unwrap_or(""),
+                    normalize_lead_minutes(task.reminder_lead_minutes),
+                );
+                if has_event(&pool, task.id, &due_event_kind(&lead_key), &day).await? {
+                    continue;
+                }
+            }
+            let event_kind = due_event_kind(&action_key);
             return self
                 .fire(
                     app_handle,
                     &pool,
                     &day,
                     &task,
-                    "due",
-                    &due_key,
-                    "taskAlert.dueMessage",
+                    &event_kind,
+                    reminder.popup_kind,
+                    &action_key,
+                    reminder.message_key,
+                    reminder.lead_minutes,
                 )
                 .await;
         }
@@ -246,8 +261,18 @@ impl TaskReminderScheduler {
         };
         let message_key = nudge_message_key(&day);
         if let Some(task) = choose_nudge(pool_ref, &day, previous.map(|row| row.0)) {
-            self.fire(app_handle, &pool, &day, task, "nudge", "", message_key)
-                .await
+            self.fire(
+                app_handle,
+                &pool,
+                &day,
+                task,
+                "nudge",
+                "nudge",
+                "",
+                message_key,
+                0,
+            )
+            .await
         } else {
             Ok(())
         }
@@ -262,8 +287,10 @@ impl TaskReminderScheduler {
         day: &str,
         task: &TaskRow,
         kind: &str,
+        popup_kind: &str,
         action_key: &str,
         message_key: &str,
+        lead_minutes: i64,
     ) -> Result<(), String> {
         if has_conflicting_window(app_handle) {
             return Ok(());
@@ -304,9 +331,14 @@ impl TaskReminderScheduler {
             task_id: task.id,
             title,
             message_key: message_key.to_string(),
-            kind: kind.to_string(),
-            due_at: if kind == "due" {
-                Some(action_key.to_string())
+            kind: popup_kind.to_string(),
+            due_at: if kind.starts_with("due:") {
+                Some(action_key.split('|').next().unwrap_or("").to_string())
+            } else {
+                None
+            },
+            lead_minutes: if lead_minutes > 0 {
+                Some(lead_minutes)
             } else {
                 None
             },
@@ -342,6 +374,101 @@ async fn read_config(pool: &Pool<Sqlite>, key: &str) -> Result<Option<String>, S
         .await
         .map_err(|error| error.to_string())?;
     Ok(row.map(|(value,)| value))
+}
+
+/// Clamp persisted lead times: anything outside 0–24h is treated as "at due
+/// time" rather than firing days early.
+fn normalize_lead_minutes(value: Option<i64>) -> i64 {
+    value.unwrap_or(0).clamp(0, 24 * 60)
+}
+
+/// One de-dup key per task and scheduled occurrence. Changing the lead time
+/// intentionally creates a new occurrence, so the new reminder can be shown.
+fn due_action_key(due_at: &str, lead_minutes: i64) -> String {
+    format!("{due_at}|{lead_minutes}")
+}
+
+/// The existing events table is keyed by (task, kind, day), so the occurrence
+/// is encoded into `kind` instead of rebuilding that table. `action_key` keeps
+/// the raw due time for the popup payload.
+fn due_event_kind(action_key: &str) -> String {
+    format!("due:{action_key}")
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct ScheduledReminder {
+    popup_kind: &'static str,
+    message_key: &'static str,
+    lead_minutes: i64,
+    /// At the due time we only show a fallback if the pre-reminder never fired.
+    needs_lead_check: bool,
+}
+
+/// Which popup (if any) is due right now for a task. A task with a lead time
+/// gets its pre-reminder first; if that was missed (app closed, tick delayed),
+/// a single fallback is allowed when the actual due time passes.
+fn scheduled_reminder(
+    due_at: &str,
+    lead_raw: Option<i64>,
+    now: NaiveDateTime,
+) -> Option<(String, ScheduledReminder)> {
+    let due = NaiveDateTime::parse_from_str(due_at, "%Y-%m-%dT%H:%M").ok()?;
+    let lead = normalize_lead_minutes(lead_raw);
+    let elapsed = now.signed_duration_since(due - ChronoDuration::minutes(lead));
+    if elapsed >= ChronoDuration::zero()
+        && elapsed <= ChronoDuration::minutes(DUE_GRACE_MINUTES)
+    {
+        let (popup_kind, message_key) = if lead > 0 {
+            ("before", "taskAlert.beforeMessage")
+        } else {
+            ("due", "taskAlert.dueMessage")
+        };
+        return Some((
+            due_action_key(due_at, lead),
+            ScheduledReminder {
+                popup_kind,
+                message_key,
+                lead_minutes: lead,
+                needs_lead_check: false,
+            },
+        ));
+    }
+    if lead > 0 {
+        let elapsed_due = now.signed_duration_since(due);
+        if elapsed_due >= ChronoDuration::zero()
+            && elapsed_due <= ChronoDuration::minutes(DUE_GRACE_MINUTES)
+        {
+            return Some((
+                due_action_key(due_at, 0),
+                ScheduledReminder {
+                    popup_kind: "due",
+                    message_key: "taskAlert.dueMessage",
+                    lead_minutes: 0,
+                    needs_lead_check: true,
+                },
+            ));
+        }
+    }
+    None
+}
+
+async fn has_event(
+    pool: &Pool<Sqlite>,
+    task_id: i64,
+    kind: &str,
+    day: &str,
+) -> Result<bool, String> {
+    let row: Option<(i64,)> = sqlx::query_as(
+        "SELECT task_id FROM task_reminder_events
+         WHERE task_id = ? AND kind = ? AND day = ? LIMIT 1",
+    )
+    .bind(task_id)
+    .bind(kind)
+    .bind(day)
+    .fetch_optional(pool)
+    .await
+    .map_err(|error| error.to_string())?;
+    Ok(row.is_some())
 }
 
 fn normalize_hour(value: i64, fallback: i64) -> i64 {
@@ -524,6 +651,7 @@ pub fn preview_task_reminder(app_handle: AppHandle) -> Result<(), String> {
             message_key: "taskAlert.nudgeMessageA".to_string(),
             kind: "preview".to_string(),
             due_at: None,
+            lead_minutes: None,
         },
     )
 }
@@ -598,16 +726,18 @@ pub async fn complete_task_from_alert(
 #[cfg(test)]
 mod tests {
     use super::{
-        choose_nudge, is_quiet_hour, nudge_message_key, nudge_minute_for_day, parse_deadline_day,
-        percent_encode, TaskRow,
+        choose_nudge, due_action_key, due_event_kind, is_quiet_hour, normalize_lead_minutes,
+        nudge_message_key, nudge_minute_for_day, parse_deadline_day, percent_encode,
+        scheduled_reminder, TaskRow,
     };
+    use chrono::NaiveDateTime;
 
     fn row(id: i64, deadline: &str) -> TaskRow {
         TaskRow {
             id,
-            title: format!("Task {id}"),
             deadline: Some(deadline.to_string()),
             due_at: None,
+            reminder_lead_minutes: Some(0),
         }
     }
 
@@ -644,6 +774,63 @@ mod tests {
         assert!(parse_deadline_day("2026-11-19").is_some());
         assert!(parse_deadline_day("11/19/2026").is_some());
         assert!(parse_deadline_day("not a date").is_none());
+    }
+
+    #[test]
+    fn lead_times_are_clamped_and_change_the_dedup_key() {
+        assert_eq!(normalize_lead_minutes(None), 0);
+        assert_eq!(normalize_lead_minutes(Some(30)), 30);
+        assert_eq!(normalize_lead_minutes(Some(5000)), 24 * 60);
+        assert_ne!(
+            due_action_key("2026-11-19T10:00", 0),
+            due_action_key("2026-11-19T10:00", 30)
+        );
+        assert_ne!(
+            due_event_kind(&due_action_key("2026-11-19T10:00", 0)),
+            due_event_kind(&due_action_key("2026-11-19T10:00", 30))
+        );
+    }
+
+    #[test]
+    fn reminder_fires_at_the_lead_time_and_falls_back_at_due_time() {
+        let due = "2026-11-19T10:30";
+        let at = |hour: u32, minute: u32| {
+            NaiveDateTime::parse_from_str(
+                &format!("2026-11-19T{hour:02}:{minute:02}"),
+                "%Y-%m-%dT%H:%M",
+            )
+            .unwrap()
+        };
+
+        // 30 minutes before: "coming up" copy with the interpolated lead.
+        let (key, reminder) = scheduled_reminder(due, Some(30), at(10, 0)).unwrap();
+        assert_eq!(key, "2026-11-19T10:30|30");
+        assert_eq!(reminder.popup_kind, "before");
+        assert_eq!(reminder.message_key, "taskAlert.beforeMessage");
+        assert_eq!(reminder.lead_minutes, 30);
+        assert!(!reminder.needs_lead_check);
+
+        // Ten minutes early, then too early.
+        let (key, reminder) = scheduled_reminder(due, Some(10), at(10, 20)).unwrap();
+        assert_eq!(key, "2026-11-19T10:30|10");
+        assert_eq!(reminder.message_key, "taskAlert.beforeMessage");
+        assert!(scheduled_reminder(due, Some(10), at(10, 15)).is_none());
+
+        // If the app was closed for the pre-reminder, one due-time fallback is
+        // allowed, but only if the pre-reminder event was not already recorded.
+        let (key, reminder) = scheduled_reminder(due, Some(30), at(10, 31)).unwrap();
+        assert_eq!(key, "2026-11-19T10:30|0");
+        assert_eq!(reminder.popup_kind, "due");
+        assert_eq!(reminder.lead_minutes, 0);
+        assert!(reminder.needs_lead_check);
+        assert!(scheduled_reminder(due, None, at(10, 0)).is_none());
+        let (key, reminder) = scheduled_reminder(due, None, at(10, 30)).unwrap();
+        assert_eq!(key, "2026-11-19T10:30|0");
+        assert_eq!(reminder.popup_kind, "due");
+        assert!(!reminder.needs_lead_check);
+
+        // Nothing arrives hours after the deadline.
+        assert!(scheduled_reminder(due, Some(30), at(11, 30)).is_none());
     }
 
     #[test]

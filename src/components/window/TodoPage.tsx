@@ -35,6 +35,7 @@ import {
   QUIET_END_KEY,
   QUIET_START_KEY,
   isTauriRuntime,
+  LEAD_MINUTE_OPTIONS,
   parseDeadline,
   parseLocalDateTime,
   setTaskStatus,
@@ -78,6 +79,7 @@ const TodoPage: React.FC = () => {
   const [newTaskDetails, setNewTaskDetails] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState<Date | undefined>();
   const [newTaskTime, setNewTaskTime] = useState("");
+  const [newTaskLeadMinutes, setNewTaskLeadMinutes] = useState(10);
   const [showDetailsInput, setShowDetailsInput] = useState(false);
   const [adding, setAdding] = useState(false);
 
@@ -163,11 +165,13 @@ const TodoPage: React.FC = () => {
         deadline: newTaskDeadline ? toLocalDate(newTaskDeadline) : null,
         reminderTime: newTaskTime || null,
         dueAt: toLocalDateTime(newTaskDeadline, newTaskTime),
+        reminderLeadMinutes: newTaskLeadMinutes,
       });
       setNewTask("");
       setNewTaskDetails("");
       setNewTaskDeadline(undefined);
       setNewTaskTime("");
+      setNewTaskLeadMinutes(10);
       setShowDetailsInput(false);
       await load();
       toast.success(t("todo.addedToast"));
@@ -199,6 +203,7 @@ const TodoPage: React.FC = () => {
         deadline: task.deadline,
         reminderTime: task.reminder_time,
         dueAt: task.due_at,
+        reminderLeadMinutes: task.reminder_lead_minutes ?? 0,
       });
       await load();
       toast.success(t("todo.restoredToast"));
@@ -247,6 +252,7 @@ const TodoPage: React.FC = () => {
         deadline: editingTask.deadline || null,
         reminder_time: editingTask.reminder_time || null,
         due_at: toLocalDateTime(editingTask.deadline ?? null, editingTask.reminder_time ?? null),
+        reminder_lead_minutes: editingTask.reminder_lead_minutes ?? 0,
       });
       setEditingTask(null);
       await load();
@@ -304,6 +310,21 @@ const TodoPage: React.FC = () => {
   ];
 
   const hourOptions = Array.from({ length: 24 }, (_, hour) => String(hour).padStart(2, "0"));
+
+  const leadSelect = (value: number, onChange: (minutes: number) => void) => (
+    <select
+      aria-label={t("todo.remindBefore")}
+      value={value}
+      onChange={(event) => onChange(Number(event.target.value))}
+      className="h-9 rounded-md border bg-background px-2 text-xs"
+    >
+      {LEAD_MINUTE_OPTIONS.map((minutes) => (
+        <option key={minutes} value={minutes}>
+          {minutes === 0 ? t("todo.remindAtTime") : t("todo.minutesBefore", { minutes })}
+        </option>
+      ))}
+    </select>
+  );
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-4 pb-10">
@@ -400,6 +421,7 @@ const TodoPage: React.FC = () => {
                 if (!newTaskDeadline) setNewTaskDeadline(new Date());
               }}
             />
+            {leadSelect(newTaskLeadMinutes, setNewTaskLeadMinutes)}
           </div>
         )}
         {showDetailsInput && (
@@ -541,6 +563,14 @@ const TodoPage: React.FC = () => {
                               }
                             }}
                           />
+                          {leadSelect(
+                            editingTask.reminder_lead_minutes ?? 0,
+                            (minutes) =>
+                              setEditingTask({
+                                ...editingTask,
+                                reminder_lead_minutes: minutes,
+                              }),
+                          )}
                           <Button size="sm" onClick={() => void saveEdit()}>
                             {t("common.saveChanges")}
                           </Button>
@@ -571,6 +601,9 @@ const TodoPage: React.FC = () => {
                               <span className="inline-flex items-center">
                                 <Clock className="mr-1 size-3" aria-hidden="true" />
                                 {t("todo.dueTime", { time: task.reminder_time })}
+                                {task.reminder_lead_minutes
+                                  ? ` · ${t("todo.minutesBefore", { minutes: task.reminder_lead_minutes })}`
+                                  : ""}
                               </span>
                             )}
                           </div>

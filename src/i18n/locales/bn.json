@@ -222,7 +222,7 @@
     "allSetTitle": "সব প্রস্তুত!",
     "allSetSubtitle": "Blink Eye আপনার জন্য যা করবে — সবকিছু পরে সেটিংসে বদলানো যায়।",
     "featureTodoTitle": "কাজের তালিকা",
-    "featureTodoText": "বিরতির পর্দা থেকেই দিনের পরিকল্পনা করুন।",
+    "featureTodoText": "ফ্রি কাজের তালিকা — প্রতিটি বিরতি থেকে খুলুন।",
     "featureScreenTimeTitle": "স্ক্রীন সময়",
     "featureScreenTimeText": "পর্দার সামনে কতক্ষণ আছেন তা দেখুন।",
     "featurePremiumTitle": "প্রিমিয়াম",
@@ -241,8 +241,18 @@
       "theme": "থিম",
       "breakSettings": "বিরতি সেটিংস",
       "breakClock": "ঘড়ি",
-      "done": "সম্পন্ন"
-    }
+      "done": "সম্পন্ন",
+      "todo": "আপনার কাজ"
+    },
+    "todoSetupTitle": "আপনার কাজ, সবসময় ফ্রি",
+    "todoSetupSubtitle": "কাজের চাপে এক ছোট কাজ মনে রাখুন। ড্যাশবোর্ড বা বিরতি থেকে খুলুন।",
+    "todoSetupPlaceholder": "প্রথম কাজটি লিখুন (চালিয়ে যেতে প্রয়োজন)",
+    "todoSetupAdded": "তালিকায় যোগ করা হয়েছে — পরে বদলাতে পারবেন।",
+    "todoSetupRemindersTitle": "আমার কাজের কথা মনে করিয়ো",
+    "todoSetupRemindersDesc": "নির্ধারিত সময়ে বা তার কিছু আগে ছোট পপ-আপ, এবং দিনে একটি হালকা রিমাইন্ডার। নীরব সময় রাত ১০টা – সকাল ৮টা, যেকোনো সময় বন্ধ করতে পারবেন।",
+    "todoSetupFree": "কোনো লাইসেন্স লাগবে না",
+    "todoSetupTimeHint": "সময় বেছে নিন ও কত আগে মনে করাব তা ঠিক করুন। সময় না দিলেও দিনে একটি হালকা রিমাইন্ডার পাবেন।",
+    "todoRequired": "চালিয়ে যেতে অন্তত একটি কাজ যোগ করুন। পরে সম্পাদনা করতে পারবেন।"
   },
   "dashboard": {
     "title": "ড্যাশবোর্ড",
@@ -296,7 +306,7 @@
     "workdayOnly": "শুধু কর্মদিবস"
   },
   "todo": {
-    "title": "আজকের কাজ",
+    "title": "আমার কাজ",
     "addTaskPlaceholder": "নতুন কাজ বা রিমাইন্ডার যোগ করুন",
     "addDetails": "বিবরণ যোগ করুন",
     "details": "বিবরণ",
@@ -310,7 +320,41 @@
     "showCompleted": "সম্পন্ন দেখান",
     "hideCompleted": "সম্পন্ন লুকান",
     "unlockTodoTitle": "প্রিমিয়ামে আপগ্রেড করুন",
-    "unlockTodoText": "এবং টুডু তালিকা আনলক করুন"
+    "unlockTodoText": "এবং টুডু তালিকা আনলক করুন",
+    "subtitle": "ফ্রি এবং ব্যক্তিগত তালিকা — বিরতি বা ড্যাশবোর্ড থেকে খুলুন।",
+    "quickAddHint": "একটি ছোট কাজ লিখুন। যোগ করতে Enter চাপুন।",
+    "today": "আজ",
+    "upcoming": "আগামী",
+    "all": "সব",
+    "done": "সম্পন্ন",
+    "filterLabel": "কাজ ফিল্টার করুন",
+    "noTasksTitle": "এখনো কোনো কাজ নেই",
+    "noTasksHint": "উপরে এক ছোট কাজ যোগ করুন — কয়েক সেকেন্ড লাগবে।",
+    "noUpcomingTitle": "আগামীতে কিছু নেই",
+    "noUpcomingHint": "নতুন কাজে তারিখ দিলে সেটি এখানে দেখা যাবে।",
+    "noDoneTitle": "এখনো কোনো কাজ সম্পন্ন হয়নি",
+    "noDoneHint": "সম্পন্ন কাজ এখানে থাকে, অগ্রগতি দেখতে।",
+    "progress": "{{done}} / {{total}} সম্পন্ন",
+    "deleteTask": "{{title}} মুছুন",
+    "editTask": "{{title}} সম্পাদনা করুন",
+    "taskRemindersTitle": "কাজের রিমাইন্ডার",
+    "taskRemindersDesc": "নির্ধারিত সময়ে বা কিছু আগে ছোট পপ-আপ, এবং অসমাপ্ত কাজের জন্য দিনে একটি হালকা রিমাইন্ডার। বিরতি বা নীরব সময়ে নয়।",
+    "previewReminder": "পপ-আপ দেখুন",
+    "quietHours": "নীরব সময়",
+    "quietHoursDesc": "{{start}} থেকে {{end}} পর্যন্ত কোনো পপ-আপ নয়।",
+    "remindersAlwaysFree": "চিরকাল ফ্রি — কোনো লাইসেন্স লাগবে না।",
+    "addedToast": "কাজ যোগ করা হয়েছে",
+    "deletedToast": "কাজ মুছে ফেলা হয়েছে",
+    "undo": "ফিরিয়ে আনুন",
+    "restoredToast": "কাজ ফিরিয়ে আনা হয়েছে",
+    "completeToast": "কাজ সম্পন্ন হয়েছে",
+    "couldNotSave": "কাজটি সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।",
+    "dueTime": "{{time}} এ শেষ",
+    "couldNotLoad": "কাজগুলো লোড করা যায়নি। আবার চেষ্টা করুন।",
+    "markDone": "{{title}} সম্পন্ন হিসেবে চিহ্নিত করুন",
+    "remindBefore": "কতক্ষণ আগে মনে করাব",
+    "remindAtTime": "নির্ধারিত সময়ে",
+    "minutesBefore": "{{minutes}} মিনিট আগে"
   },
   "workday": {
     "title": "কর্মদিবস",
@@ -903,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "dueEyebrow": "কাজের সময়",
+    "nudgeEyebrow": "দৈনিক রিমাইন্ডার",
+    "previewEyebrow": "রিমাইন্ডার প্রিভিউ",
+    "beforeEyebrow": "শুরু হতে যাচ্ছে",
+    "doneEyebrow": "সম্পন্ন",
+    "dueMessage": "এই কাজটি শেষ করেছ কি?",
+    "beforeMessage": "মনে করিয়ে দিচ্ছি — {{minutes}} মিনিট পর {{title}} শুরু হচ্ছে।",
+    "nudgeMessageA": "এই কাজটি শেষ করেছ কি? এক সেকেন্ডে চেক করে নিন।",
+    "nudgeMessageB": "এখনো মনে আছে? সম্পন্ন চিহ্নিত করুন বা তালিকা খুলুন।",
+    "nudgeMessageC": "এক ছোট পদক্ষেপ এখন, পরে একটা চাপ কম। কাজটি কেমন চলছে?",
+    "doneMessage": "বাহ — মনে রাখার একটা কম গেল।",
+    "markDone": "সম্পন্ন",
+    "openList": "তালিকা খুলুন",
+    "dismiss": "রিমাইন্ডার বন্ধ করুন"
+  }
 }

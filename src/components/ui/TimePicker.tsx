@@ -29,15 +29,23 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   const [selectedMinute, setSelectedMinute] = useState<string>("00");
   const [selectedPeriod, setSelectedPeriod] = useState<"AM" | "PM">("AM");
 
-  // Parse the initial value when the component mounts or value changes
+  // Parse both the 12-hour value this picker emits and the 24-hour value the
+  // todo database stores, so reopening a saved task shows the same time.
   useEffect(() => {
-    if (value) {
-      const [time, period] = value.split(" ");
-      const [hour, minute] = time.split(":");
-      setSelectedHour(hour);
-      setSelectedMinute(minute);
-      setSelectedPeriod(period as "AM" | "PM");
+    if (!value) return;
+    const twelveHour = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(value.trim());
+    if (twelveHour) {
+      setSelectedHour(twelveHour[1].padStart(2, "0"));
+      setSelectedMinute(twelveHour[2]);
+      setSelectedPeriod(twelveHour[3].toUpperCase() as "AM" | "PM");
+      return;
     }
+    const [hourText, minuteText = "00"] = value.split(":");
+    const hour24 = Number(hourText);
+    if (Number.isNaN(hour24) || hour24 < 0 || hour24 > 23) return;
+    setSelectedHour(String(hour24 % 12 || 12).padStart(2, "0"));
+    setSelectedMinute(minuteText.padStart(2, "0"));
+    setSelectedPeriod(hour24 >= 12 ? "PM" : "AM");
   }, [value]);
 
   const handleDone = () => {

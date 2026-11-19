@@ -21,8 +21,9 @@ type TaskAlertPayload = {
   title: string;
   /** i18n key — the popup follows the app's selected language. */
   messageKey: string;
-  kind: "due" | "nudge" | "preview";
+  kind: "due" | "before" | "nudge" | "preview";
   dueAt?: string | null;
+  leadMinutes?: number | null;
 };
 
 const VISIBLE_MS = 18_000;
@@ -42,6 +43,7 @@ function readPayload(): TaskAlertPayload {
     title: "A task you want to finish",
     messageKey: "taskAlert.dueMessage",
     kind: "preview",
+    leadMinutes: null,
   };
 }
 
@@ -122,11 +124,16 @@ const TaskAlert: React.FC = () => {
   }, []);
 
   const eyebrowKey =
-    payload.kind === "due"
-      ? "taskAlert.dueEyebrow"
-      : payload.kind === "nudge"
-        ? "taskAlert.nudgeEyebrow"
-        : "taskAlert.previewEyebrow";
+    payload.kind === "before"
+      ? "taskAlert.beforeEyebrow"
+      : payload.kind === "due"
+        ? "taskAlert.dueEyebrow"
+        : payload.kind === "nudge"
+          ? "taskAlert.nudgeEyebrow"
+          : "taskAlert.previewEyebrow";
+
+  const messageValues =
+    payload.leadMinutes != null ? { minutes: payload.leadMinutes } : undefined;
 
   return (
     <div className="flex h-screen w-full items-center justify-center p-2">
@@ -199,7 +206,7 @@ const TaskAlert: React.FC = () => {
                 <p className="mt-0.5 truncate text-[11px] text-white/55">
                   {finalState === "done"
                     ? t("taskAlert.doneMessage")
-                    : t(payload.messageKey)}
+                    : t(payload.messageKey, messageValues ?? {})}
                 </p>
               </motion.div>
             </AnimatePresence>

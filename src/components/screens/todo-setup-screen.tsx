@@ -1,21 +1,33 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, useReducedMotion } from "framer-motion";
-import { BellRing, Check, ListTodo, Plus, Sparkles } from "lucide-react";
+import { BellRing, Check, Clock, ListTodo, Plus, Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { Badge } from "../ui/badge";
-import { createTask, toLocalDate } from "../../lib/todo-store";
+import { TimePicker } from "../ui/TimePicker";
+import {
+  createTask,
+  LEAD_MINUTE_OPTIONS,
+  toLocalDate,
+  toLocalDateTime,
+} from "../../lib/todo-store";
 
 interface TodoSetupScreenProps {
   firstTask: string;
   setFirstTask: (value: string) => void;
+  taskAdded: boolean;
   remindersEnabled: boolean;
   setRemindersEnabled: (value: boolean) => void;
+  firstTaskTime: string;
+  setFirstTaskTime: (value: string) => void;
+  firstTaskLeadMinutes: number;
+  setFirstTaskLeadMinutes: (value: number) => void;
   /** Called after a task is saved so onboarding won't add it a second time. */
   onTaskAdded: () => void;
+  requiredError: boolean;
 }
 
 const SPRING = { type: "spring" as const, stiffness: 360, damping: 26, mass: 0.8 };
@@ -23,15 +35,20 @@ const SPRING = { type: "spring" as const, stiffness: 360, damping: 26, mass: 0.8
 export default function TodoSetupScreen({
   firstTask,
   setFirstTask,
+  taskAdded,
   remindersEnabled,
   setRemindersEnabled,
+  firstTaskTime,
+  setFirstTaskTime,
+  firstTaskLeadMinutes,
+  setFirstTaskLeadMinutes,
   onTaskAdded,
+  requiredError,
 }: TodoSetupScreenProps) {
   const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [added, setAdded] = useState(false);
 
   const addFirstTask = async () => {
     if (!firstTask.trim() || saving) return;
@@ -41,8 +58,10 @@ export default function TodoSetupScreen({
       await createTask({
         title: firstTask,
         deadline: toLocalDate(new Date()),
+        reminderTime: firstTaskTime || null,
+        dueAt: toLocalDateTime(new Date(), firstTaskTime),
+        reminderLeadMinutes: firstTaskLeadMinutes,
       });
-      setAdded(true);
       onTaskAdded();
     } catch (cause) {
       console.error("[onboarding] Could not add first task:", cause);
@@ -52,10 +71,12 @@ export default function TodoSetupScreen({
     }
   };
 
+  const shownError = requiredError ? t("onboarding.todoRequired") : error;
+
   return (
-    <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center gap-6 px-2 py-4 text-center">
+    <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center gap-5 px-2 py-4 text-center">
       <div className="space-y-2">
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <ListTodo className="size-6 text-primary" aria-hidden="true" />
           <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
             {t("onboarding.todoSetupTitle")}
@@ -80,7 +101,6 @@ export default function TodoSetupScreen({
             value={firstTask}
             onChange={(event) => {
               setFirstTask(event.target.value);
-              setAdded(false);
               setError(null);
             }}
             onKeyDown={(event) => {
@@ -90,8 +110,8 @@ export default function TodoSetupScreen({
               }
             }}
             placeholder={t("onboarding.todoSetupPlaceholder")}
-            aria-describedby={error ? "onboarding-task-error" : undefined}
-            aria-invalid={error !== null}
+            aria-describedby={shownError ? "onboarding-task-error" : undefined}
+            aria-invalid={shownError !== null}
             className="h-11"
           />
           <Button
@@ -100,15 +120,42 @@ export default function TodoSetupScreen({
             disabled={!firstTask.trim() || saving}
             className="h-11 shrink-0"
           >
-            {added ? <Check className="size-4" /> : <Plus className="size-4" />}
-            {added ? t("todo.addedToast") : t("todo.addTask")}
+            {taskAdded ? <Check className="size-4" /> : <Plus className="size-4" />}
+            {taskAdded ? t("todo.addedToast") : t("todo.addTask")}
           </Button>
         </div>
-        {error ? (
-          <p id="onboarding-task-error" role="alert" className="text-xs text-destructive">
-            {error}
+
+        {remindersEnabled && (
+          <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-foreground/[0.02] p-2">
+            <Clock className="size-4 shrink-0 text-primary" aria-hidden="true" />
+            <TimePicker value={firstTaskTime} onChange={setFirstTaskTime} />
+            <select
+              aria-label={t("todo.remindBefore")}
+              value={firstTaskLeadMinutes}
+              onChange={(event) => setFirstTaskLeadMinutes(Number(event.target.value))}
+              className="h-9 rounded-md border bg-background px-2 text-xs"
+            >
+              {LEAD_MINUTE_OPTIONS.map((minutes) => (
+                <option key={minutes} value={minutes}>
+                  {minutes === 0
+                    ? t("todo.remindAtTime")
+                    : t("todo.minutesBefore", { minutes })}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        {remindersEnabled && (
+          <p className="text-[11px] leading-relaxed text-muted-foreground">
+            {t("onboarding.todoSetupTimeHint")}
           </p>
-        ) : added ? (
+        )}
+
+        {shownError ? (
+          <p id="onboarding-task-error" role="alert" className="text-xs text-destructive">
+            {shownError}
+          </p>
+        ) : taskAdded ? (
           <p role="status" className="text-xs text-emerald-600 dark:text-emerald-400">
             {t("onboarding.todoSetupAdded")}
           </p>
@@ -128,9 +175,18 @@ export default function TodoSetupScreen({
           </div>
           <div className="min-w-0 text-left">
             <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-              {t("taskAlert.dueEyebrow")}
+              {firstTaskLeadMinutes > 0
+                ? t("taskAlert.beforeEyebrow")
+                : t("taskAlert.dueEyebrow")}
             </p>
-            <p className="truncate text-sm font-medium">{t("taskAlert.dueMessage")}</p>
+            <p className="truncate text-sm font-medium">
+              {firstTaskLeadMinutes > 0
+                ? t("taskAlert.beforeMessage", {
+                    title: firstTask.trim() || t("todo.addTaskPlaceholder"),
+                    minutes: firstTaskLeadMinutes,
+                  })
+                : t("taskAlert.dueMessage")}
+            </p>
           </div>
         </div>
       </motion.div>

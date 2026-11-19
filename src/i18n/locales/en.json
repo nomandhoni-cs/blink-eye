@@ -240,11 +240,13 @@
     },
     "todoSetupTitle": "Your to-dos, always free",
     "todoSetupSubtitle": "Keep one small task in mind while you work. Open it from your dashboard or right from a break.",
-    "todoSetupPlaceholder": "What would you like to finish first? (optional)",
+    "todoSetupPlaceholder": "Write your first task (required to continue)",
     "todoSetupAdded": "Added to your list — you can change it anytime.",
     "todoSetupRemindersTitle": "Remind me about my tasks",
-    "todoSetupRemindersDesc": "A small pop-up appears when a task is due, plus one gentle nudge a day. Quiet hours are 10 PM – 8 AM, and you can turn this off anytime.",
-    "todoSetupFree": "No license needed"
+    "todoSetupRemindersDesc": "A small pop-up appears when a task is due or shortly before it, plus one gentle nudge a day. Quiet hours are 10 PM – 8 AM, and you can turn this off anytime.",
+    "todoSetupFree": "No license needed",
+    "todoSetupTimeHint": "Pick a time and choose how early we should remind you. Without a time, you still get one gentle daily nudge.",
+    "todoRequired": "Add at least one task to continue. You can edit it later."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -319,7 +321,7 @@
     "deleteTask": "Delete {{title}}",
     "editTask": "Edit {{title}}",
     "taskRemindersTitle": "Task reminders",
-    "taskRemindersDesc": "A small pop-up at the top of your screen when a task is due, plus one gentle daily nudge about unfinished work. Never during breaks or quiet hours.",
+    "taskRemindersDesc": "A small pop-up appears at the time you choose—or shortly before it—plus one gentle nudge for unfinished tasks. Never during breaks or quiet hours.",
     "previewReminder": "Preview pop-up",
     "quietHours": "Quiet hours",
     "quietHoursDesc": "No task pop-ups between {{start}} and {{end}}.",
@@ -332,7 +334,10 @@
     "couldNotSave": "Couldn't save the task. Please try again.",
     "dueTime": "Due at {{time}}",
     "couldNotLoad": "Couldn't load your tasks. Please try again.",
-    "markDone": "Mark {{title}} as done"
+    "markDone": "Mark {{title}} as done",
+    "remindBefore": "Remind me before",
+    "remindAtTime": "At the time",
+    "minutesBefore": "{{minutes}} min before"
   },
   "workday": {
     "title": "Workday Setup",
@@ -916,6 +921,8 @@
     "doneMessage": "Nice work — one less thing to hold in mind.",
     "markDone": "Done",
     "openList": "Open list",
-    "dismiss": "Dismiss reminder"
+    "dismiss": "Dismiss reminder",
+    "beforeEyebrow": "COMING UP",
+    "beforeMessage": "Heads up — {{title}} starts in {{minutes}} minutes."
   }
 }

@@ -20,7 +20,7 @@ natural cadence — not time spent in the app.
 ## 2. Flow
 
 ```
-Onboarding step 6 "Your to-dos" (free badge, optional first task, opt-in)
+Onboarding step 6 "Your to-dos" (free badge, required first task, opt-in)
         │  saves task + taskRemindersEnabled in appconfig.db
         ▼
 Todo list  ──► Dashboard pending tasks card ──► Break overlay (free for all)
@@ -30,8 +30,11 @@ Todo list  ──► Dashboard pending tasks card ──► Break overlay (free 
 Task reminder popup (top-center, spring) ── "Done" / "Open list" / dismiss
 ```
 
-- Onboarding can be skipped: no task and no setting is required to finish.
-- The first task is real data, not a demo placeholder.
+- Onboarding step 6 cannot advance until a real task has been saved (by the
+  "Add task" button or by pressing "Next" with text in the field). The reminder
+  opt-in remains the user's choice.
+- The first task is real data, not a demo placeholder. New task forms default
+  to a 10-minute lead time; choosing "At the time" stores `0`.
 - The Todo List page, the dashboard card, and the break overlay all use the same
   `UserLocalTodoList.db` via `src/lib/todo-store.ts`.
 - No license check remains on any todo surface. The sidebar flame badge is
@@ -48,11 +51,11 @@ tasks/settings, renders the popup and listens for `todo-updated`.
 | Rule | Behavior |
 |------|----------|
 | Opt-out | `todoTaskRemindersEnabled = "false"` stops all task pop-ups; switch lives in the Todo List and in onboarding. |
-| Due time | One popup when a task's `due_at` passes, with a 15-minute grace window so a sleeping/background app can catch it. |
+| Due time / lead time | One popup when `due_at - reminder_lead_minutes` passes (choices: at the time, 5, 10, 30 or 60 minutes before), with a 15-minute grace window so a sleeping/background app can catch it. The dedupe key includes the lead time, so changing it schedules a new occurrence. |
 | Daily nudge | At most one per local day, at a seeded random minute between 09:00 and 17:59, about one still-pending task (due tasks preferred; the previous day's task is rotated out). |
 | Quiet hours | Default 22:00–08:00, configurable in the Todo List; no pop-up inside the window. |
 | Breaks | No task pop-up while a break overlay, the pre-break alert, or the screensaver is open. |
-| De-duplication | `task_reminder_events(task_id, kind, day, action_key)` is the authoritative "already shown" record. Rust inserts it with `INSERT OR IGNORE`, rechecks completion, and deletes it if spawning fails so the next tick retries. |
+| De-duplication | `task_reminder_events(task_id, kind, day, action_key)` is the authoritative "already shown" record. Scheduled popups use `kind = due:<due_at\|<lead>`, so changing the lead time schedules a distinct occurrence; a due-time fallback is skipped if the pre-reminder already fired. Rust inserts with `INSERT OR IGNORE`, rechecks completion, and deletes the row if spawning fails so the next tick retries. |
 | Stale content | The engine only considers `status = 'pending'`; "Done" writes to the DB, closes the popup, and emits `todo-updated` so every open todo view refreshes. |
 
 The random part is deliberately bounded: varied copy and a different task/time
@@ -79,12 +82,22 @@ Spring motion (stiffness ~400–460, damping ~27–28, mass ~0.7–0.8) is used 
 Essential information (title, message, buttons) is never carried by animation
 alone.
 
-## 5. States to verify
+## 5. Translations
+
+The Rust scheduler stores i18n **keys**, never rendered strings. The popup
+resolves them after `initI18n()` loads the persisted language. English and
+Bengali ship complete onboarding, Todo List and task-alert catalogs, including
+`{{minutes}}` / `{{title}}` for "coming up" messages. Other locales use the
+existing `fallbackLng` chain to English, so no raw keys are shown; native
+translations for those catalogs remain localization work.
+
+## 6. States to verify
 
 | State | Expected |
 |-------|----------|
 | Empty list | Explanation and a reachable quick-add field. |
-| First task | Saves even if onboarding is completed; shows in dashboard, break overlay and list. |
+| First task | Required to leave onboarding; shows in dashboard, break overlay and list. |
+| Lead time | One popup at the chosen offset before `due_at`, with translated "coming up" copy; changing the offset allows a fresh popup. |
 | Filter with zero matches | Empty state plus a way to add/switch filter; counts stay truthful. |
 | Edit/delete | Edits persist; delete offers Undo for 6 seconds; nothing is silently discarded. |
 | Due reminder | One popup; button completes the task; "Open list" routes to `/todoList` and focuses the main window. |
@@ -93,13 +106,16 @@ alone.
 | Long/RTL text | Title truncates with `min-w-0`; buttons stay reachable; layout follows document direction. |
 | Reduced motion | No springs; popup still understandable and actionable. |
 
-## 6. Before release
+## 7. Before release
 
-1. `npm run build` and `npm run test:todo` (5 date-helper tests).
+1. `npm run build`, `npm run test:todo` (9 date/lead-time/translation tests) and
+   `npx tsc --noEmit -p tsconfig.app.json`.
 2. `cargo test && cargo build` on a machine with the Rust toolchain — the
    sandbox for this change had no `cargo`, so the Rust scheduler and popup
-   commands need a compile check on CI. The Rust module includes five unit tests
-   for quiet hours, seeded scheduling, legacy dates and nudge rotation.
+   commands need a compile check on CI. The Rust module has unit tests for
+   quiet hours, seeded scheduling, legacy dates, nudge rotation and lead-time
+   clamping/dedupe.
 3. Manual QA in Tauri dev: preview pop-up from the Todo List, create a task due
-   in one minute, complete from the pop-up, open the list from the pop-up,
-   disable reminders, and cross a quiet-hours boundary.
+   in eleven minutes with a 10-minute lead time, complete from the pop-up,
+   open the list from the pop-up, change the lead time, disable reminders,
+   cross a quiet-hours boundary, and try to leave onboarding without a task.

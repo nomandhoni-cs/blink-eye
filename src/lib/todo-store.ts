@@ -8,8 +8,6 @@
  */
 
 import Database from "@tauri-apps/plugin-sql";
-import { exists } from "@tauri-apps/plugin-fs";
-import { BaseDirectory } from "@tauri-apps/api/path";
 import { invoke } from "@tauri-apps/api/core";
 
 export const TODO_DB_FILE = "UserLocalTodoList.db";
@@ -27,6 +25,8 @@ export interface Task {
   created_at: string;
   /** Local ISO datetime `YYYY-MM-DDTHH:mm` used by the reminder engine. */
   due_at?: string | null;
+  /** Minutes before `due_at` to show the popup (0 = at the due time). */
+  reminder_lead_minutes?: number | null;
 }
 
 export interface TaskInput {
@@ -35,7 +35,11 @@ export interface TaskInput {
   deadline?: string | null;
   reminderTime?: string | null;
   dueAt?: string | null;
+  reminderLeadMinutes?: number | null;
 }
+
+/** Options offered in onboarding and the Todo List. */
+export const LEAD_MINUTE_OPTIONS = [0, 5, 10, 30, 60] as const;
 
 export const TASK_REMINDERS_ENABLED_KEY = "todoTaskRemindersEnabled";
 export const QUIET_START_KEY = "todoQuietStartHour";
@@ -60,17 +64,39 @@ export function toLocalDate(date: Date): string {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
-/** Combine the calendar picker date with a `HH:mm` time into a local ISO value. */
+/**
+ * The shared TimePicker emits 12-hour values (`09:45 AM`). Store one 24-hour
+ * form so SQLite, the Rust scheduler and the popup all agree on the moment.
+ */
+export function normalizeTime(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const text = value.trim();
+  const twelveHour = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(text);
+  if (twelveHour) {
+    let hours = Number(twelveHour[1]);
+    const minutes = Number(twelveHour[2]);
+    const period = twelveHour[3].toUpperCase();
+    if (hours < 1 || hours > 12 || minutes > 59) return null;
+    if (period === "AM" && hours === 12) hours = 0;
+    if (period === "PM" && hours < 12) hours += 12;
+    return `${pad(hours)}:${pad(minutes)}`;
+  }
+  if (!/^\d{1,2}:\d{2}$/.test(text)) return null;
+  const [hours, minutes] = text.split(":").map(Number);
+  if (hours > 23 || minutes > 59) return null;
+  return `${pad(hours)}:${pad(minutes)}`;
+}
+
+/** Combine the calendar picker date with a picked time into a local ISO value. */
 export function toLocalDateTime(
   date: Date | string | null | undefined,
   time: string | null | undefined,
 ): string | null {
-  if (!date || !time || !/^\d{1,2}:\d{2}$/.test(time)) return null;
+  const normalized = normalizeTime(time);
+  if (!date || !normalized) return null;
   const parsed = date instanceof Date ? date : parseDeadline(date);
   if (!parsed || Number.isNaN(parsed.getTime())) return null;
-  const [hours, minutes] = time.split(":").map(Number);
-  if (hours > 23 || minutes > 59) return null;
-  return `${toLocalDate(parsed)}T${pad(hours)}:${pad(minutes)}`;
+  return `${toLocalDate(parsed)}T${normalized}`;
 }
 
 /**
@@ -169,9 +195,6 @@ export function ensureTodoDatabase(): Promise<void> {
   if (!inTauri()) return Promise.resolve();
   if (!ready) {
     ready = (async () => {
-      const dbExists = await exists(TODO_DB_FILE, {
-        baseDir: BaseDirectory.AppData,
-      });
       const db = await Database.load(`sqlite:${TODO_DB_FILE}`);
       await db.execute(`
         CREATE TABLE IF NOT EXISTS todos (
@@ -180,21 +203,23 @@ export function ensureTodoDatabase(): Promise<void> {
           details TEXT,
           deadline TEXT,
           reminder_time TEXT,
+          due_at TEXT,
+          reminder_lead_minutes INTEGER NOT NULL DEFAULT 0,
           status TEXT NOT NULL DEFAULT 'pending',
           created_at TEXT NOT NULL
         )
       `);
-      if (dbExists) {
-        // Existing installs get the new columns without losing their tasks.
-        for (const statement of [
-          "ALTER TABLE todos ADD COLUMN reminder_time TEXT",
-          "ALTER TABLE todos ADD COLUMN due_at TEXT",
-        ]) {
-          try {
-            await db.execute(statement);
-          } catch {
-            // Column already exists.
-          }
+      // Idempotent migration for databases created by older builds (or by the
+      // Rust scheduler) — never drop or rewrite existing tasks.
+      for (const statement of [
+        "ALTER TABLE todos ADD COLUMN reminder_time TEXT",
+        "ALTER TABLE todos ADD COLUMN due_at TEXT",
+        "ALTER TABLE todos ADD COLUMN reminder_lead_minutes INTEGER NOT NULL DEFAULT 0",
+      ]) {
+        try {
+          await db.execute(statement);
+        } catch {
+          // Column already exists.
         }
       }
       await db.execute(`
@@ -264,8 +289,9 @@ export async function createTask(input: TaskInput): Promise<Task> {
       title,
       details: input.details?.trim() || null,
       deadline: input.deadline || null,
-      reminder_time: input.reminderTime || null,
+      reminder_time: normalizeTime(input.reminderTime),
       due_at: input.dueAt || null,
+      reminder_lead_minutes: input.reminderLeadMinutes ?? 0,
       status: "pending",
       created_at: new Date().toISOString(),
     };
@@ -276,14 +302,16 @@ export async function createTask(input: TaskInput): Promise<Task> {
   const database = await db();
   await database.execute(
     `INSERT INTO todos
-       (title, details, deadline, reminder_time, due_at, status, created_at)
-     VALUES (?, ?, ?, ?, ?, 'pending', ?)`,
+       (title, details, deadline, reminder_time, due_at,
+        reminder_lead_minutes, status, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)`,
     [
       title,
       input.details?.trim() || null,
       input.deadline || null,
-      input.reminderTime || null,
+      normalizeTime(input.reminderTime),
       input.dueAt || null,
+      input.reminderLeadMinutes ?? 0,
       new Date().toISOString(),
     ],
   );
@@ -304,9 +332,12 @@ export async function updateTask(
               ...(patch.details !== undefined && { details: patch.details || null }),
               ...(patch.deadline !== undefined && { deadline: patch.deadline || null }),
               ...(patch.reminder_time !== undefined && {
-                reminder_time: patch.reminder_time || null,
+                reminder_time: normalizeTime(patch.reminder_time),
               }),
               ...(patch.due_at !== undefined && { due_at: patch.due_at || null }),
+              ...(patch.reminder_lead_minutes !== undefined && {
+                reminder_lead_minutes: patch.reminder_lead_minutes ?? 0,
+              }),
             }
           : task,
       ),
@@ -319,15 +350,18 @@ export async function updateTask(
   if (!current) return;
   await database.execute(
     `UPDATE todos SET title = ?, details = ?, deadline = ?,
-       reminder_time = ?, due_at = ? WHERE id = ?`,
+       reminder_time = ?, due_at = ?, reminder_lead_minutes = ? WHERE id = ?`,
     [
       patch.title?.trim() ?? current.title,
       patch.details !== undefined ? patch.details || null : current.details ?? null,
       patch.deadline !== undefined ? patch.deadline || null : current.deadline ?? null,
       patch.reminder_time !== undefined
-        ? patch.reminder_time || null
+        ? normalizeTime(patch.reminder_time)
         : current.reminder_time ?? null,
       patch.due_at !== undefined ? patch.due_at || null : current.due_at ?? null,
+      patch.reminder_lead_minutes !== undefined
+        ? patch.reminder_lead_minutes ?? 0
+        : current.reminder_lead_minutes ?? 0,
       id,
     ],
   );

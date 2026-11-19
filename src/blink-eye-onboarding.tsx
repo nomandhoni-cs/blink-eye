@@ -32,6 +32,7 @@ import {
   setTodoSetting,
   TASK_REMINDERS_ENABLED_KEY,
   toLocalDate,
+  toLocalDateTime,
 } from "./lib/todo-store";
 
 import { screenEmail } from "./lib/email-screening";
@@ -77,6 +78,11 @@ export default function UserOnboarding() {
   // To-dos are free: onboarding can capture one real first task and let the
   // user decide whether they want task pop-ups. Both are skippable.
   const [firstTask, setFirstTask] = useState("");
+  const [todoTaskAdded, setTodoTaskAdded] = useState(false);
+  const [todoRequiredError, setTodoRequiredError] = useState(false);
+  const [firstTaskTime, setFirstTaskTime] = useState("");
+  // New users start with a useful default: remind 10 minutes before the task.
+  const [firstTaskLeadMinutes, setFirstTaskLeadMinutes] = useState(10);
   const [remindersEnabled, setRemindersEnabled] = useState(true);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -90,6 +96,20 @@ export default function UserOnboarding() {
    * variable would still be stale and the warning would reappear forever.
    */
   const emailWarningAcknowledgedRef = useRef(false);
+
+  // A task is required on the todo step. Editing after saving means the user
+  // is making a new decision, so the "added" confirmation is cleared.
+  const updateFirstTask = (value: string) => {
+    setFirstTask(value);
+    setTodoTaskAdded(false);
+    setTodoRequiredError(false);
+  };
+
+  const markFirstTaskAdded = () => {
+    setFirstTask("");
+    setTodoTaskAdded(true);
+    setTodoRequiredError(false);
+  };
 
   // Screen Configuration - Easy to add new screens!
   const screens: Screen[] = [
@@ -138,12 +158,25 @@ export default function UserOnboarding() {
       id: 6,
       title: t("onboarding.steps.todo"),
       component: TodoSetupScreen,
+      validate: () => {
+        // One real task is required to start the feature; it is saved either
+        // by "Add task" or automatically when the user presses Next.
+        const hasTask = todoTaskAdded || firstTask.trim().length > 0;
+        setTodoRequiredError(!hasTask);
+        return hasTask;
+      },
       onNext: async () => {
         // Text left in the field when the user presses Next still becomes a
         // task; the screen clears it when its own Add button was used.
-        if (firstTask.trim()) {
-          await createTask({ title: firstTask, deadline: toLocalDate(new Date()) });
-          setFirstTask("");
+        if (!todoTaskAdded && firstTask.trim()) {
+          await createTask({
+            title: firstTask,
+            deadline: toLocalDate(new Date()),
+            reminderTime: firstTaskTime || null,
+            dueAt: toLocalDateTime(new Date(), firstTaskTime),
+            reminderLeadMinutes: firstTaskLeadMinutes,
+          });
+          markFirstTaskAdded();
         }
         await setTodoSetting(
           TASK_REMINDERS_ENABLED_KEY,
@@ -320,10 +353,16 @@ export default function UserOnboarding() {
         case 6:
           return {
             firstTask,
-            setFirstTask,
+            setFirstTask: updateFirstTask,
+            taskAdded: todoTaskAdded,
             remindersEnabled,
             setRemindersEnabled,
-            onTaskAdded: () => setFirstTask(""),
+            firstTaskTime,
+            setFirstTaskTime,
+            firstTaskLeadMinutes,
+            setFirstTaskLeadMinutes,
+            onTaskAdded: markFirstTaskAdded,
+            requiredError: todoRequiredError,
           };
         case 7:
           return {

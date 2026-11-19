@@ -744,14 +744,17 @@ invoke("show_task_reminder", {
     taskId: number,
     title: string,
     messageKey: string,
-    kind: "due" | "nudge",
+    kind: "due" | "before" | "nudge" | "preview",
     dueAt?: string | null,
+    leadMinutes?: number | null,
   },
 }) → void
 ```
 
-`messageKey` is an i18n key (`taskAlert.dueMessage`, `taskAlert.nudgeMessageA`
-…) resolved by the popup, so reminders follow the app's selected language.
+`messageKey` is an i18n key (`taskAlert.dueMessage`, `taskAlert.beforeMessage`,
+`taskAlert.nudgeMessageA` …) resolved by the popup, so reminders follow the
+app's selected language. `leadMinutes` supplies the {{minutes}} interpolation
+for a "coming up" popup.
 
 Shows one transparent pill on the primary monitor, skipping when a break or
 pre-break alert is already open. An older task popup is replaced, never stacked.
@@ -905,7 +908,7 @@ One row per task/kind/day. The primary key is the de-duplication guarantee for
 | `task_id` | `INTEGER` | Task id |
 | `kind` | `TEXT` | `due` or `nudge` |
 | `day` | `TEXT` | Local `YYYY-MM-DD` |
-| `action_key` | `TEXT` | Exact `due_at` for a due popup, empty for a daily nudge |
+| `action_key` | `TEXT` | `due_at|lead_minutes` for a scheduled popup, empty for a daily nudge; `kind` is `due:<action_key>` to keep occurrences distinct under the existing primary key |
 | `created_at` | `TEXT` | Timestamp |
 
 ---
