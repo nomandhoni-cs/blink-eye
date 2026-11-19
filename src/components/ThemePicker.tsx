@@ -1,35 +1,25 @@
+import { useTranslation } from "react-i18next";
 import { useAccentColor } from "../contexts/AccentColorContext";
 import { THEMES, type ThemeName } from "../lib/themes";
 import { oklchStringToHex } from "../lib/color-utils";
 
-const THEME_GROUPS = [
-  {
-    label: "Neutral",
-    themes: ["neutral", "stone", "zinc", "olive", "mist", "taupe"],
-  },
-  {
-    label: "Warm",
-    themes: ["yellow", "amber", "orange", "red", "rose", "pink"],
-  },
-  {
-    label: "Green",
-    themes: ["lime", "green", "emerald", "teal", "cyan", "sky"],
-  },
-  {
-    label: "Cool",
-    themes: ["fuchsia", "purple", "violet", "indigo", "blue", "mauve"],
-  },
+const THEME_GROUPS: { groupKey: string; themes: string[] }[] = [
+  { groupKey: "neutral", themes: ["neutral", "stone", "zinc", "olive", "mist", "taupe"] },
+  { groupKey: "warm", themes: ["yellow", "amber", "orange", "red", "rose", "pink"] },
+  { groupKey: "green", themes: ["lime", "green", "emerald", "teal", "cyan", "sky"] },
+  { groupKey: "cool", themes: ["fuchsia", "purple", "violet", "indigo", "blue", "mauve"] },
 ];
 
 export function ThemePicker() {
+  const { t } = useTranslation();
   const { accentTheme, setAccentTheme } = useAccentColor();
 
   return (
     <div className="space-y-5">
       {THEME_GROUPS.map((group) => (
-        <div key={group.label} className="space-y-2">
+        <div key={group.groupKey} className="space-y-2">
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-            {group.label}
+            {t(`common.themeGroups.${group.groupKey}`)}
           </span>
           <div className="flex flex-wrap gap-0.5">
             {group.themes.map((themeName) => {
@@ -39,7 +29,7 @@ export function ThemePicker() {
                 <ThemeButton
                   key={theme.name}
                   name={theme.name}
-                  title={theme.title}
+                  title={t(`common.themeTitles.${theme.name}`)}
                   isSelected={accentTheme === theme.name}
                   onClick={() => setAccentTheme(theme.name as ThemeName)}
                 />
@@ -80,9 +70,9 @@ function ThemeButton({
     >
       <div
         className={`
-          relative w-28 h-12 rounded-full shrink-0
-          ${isSelected ? "ring-2 ring-foreground/30 ring-offset-2 ring-offset-background" : ""}
-        `}
+        relative w-28 h-12 rounded-full shrink-0
+        ${isSelected ? "ring-2 ring-foreground/30 ring-offset-2 ring-offset-background" : ""}
+      `}
         style={{ backgroundColor: hex }}
       >
         {isSelected && (

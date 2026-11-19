@@ -1,5 +1,6 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { platform } from "@tauri-apps/plugin-os";
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Minus, Square, Copy, X } from "lucide-react";
@@ -13,23 +14,24 @@ const isMac = platform() === "macos";
 const OVERLAY_H = 32;
 
 const routeTitles: Record<string, string> = {
-  "/": "Dashboard",
-  "/reminderSettings": "Reminder Settings",
-  "/usageTime": "Usage Time",
-  "/reminderthemes": "Reminder Themes",
-  "/multimonitor": "Multi-Monitor",
-  "/todoList": "Todo List",
-  "/workday": "Workday Setup",
-  "/screenSavers": "Screen Savers",
-  "/allSettings": "Settings",
-  "/themePicker": "Theme Picker",
-  "/activatelicense": "Activate License",
-  "/about": "About",
+  "/": "nav.dashboard",
+  "/reminderSettings": "nav.reminderSettings",
+  "/usageTime": "nav.usageTime",
+  "/reminderthemes": "nav.reminderThemes",
+  "/multimonitor": "nav.multiMonitor",
+  "/todoList": "nav.todoList",
+  "/workday": "nav.workdaySetup",
+  "/screenSavers": "nav.screenSavers",
+  "/allSettings": "nav.settings",
+  "/themePicker": "nav.themePicker",
+  "/activatelicense": "nav.activateLicense",
+  "/about": "nav.about",
 };
 
 // ── Windows / Linux Caption Buttons ──────────────────────────────
 
 function WinCaptionButtons() {
+  const { t } = useTranslation();
   const appWindow = getCurrentWindow();
   const [isMaximized, setIsMaximized] = useState(false);
 
@@ -51,7 +53,7 @@ function WinCaptionButtons() {
 
       <button
         onClick={() => appWindow.minimize()}
-        aria-label="Minimize"
+        aria-label={t("common.minimize")}
         className={cn(BTN, "hover:bg-foreground/8 active:bg-foreground/12")}
       >
         <Minus size={14} strokeWidth={1.5} />
@@ -59,7 +61,9 @@ function WinCaptionButtons() {
 
       <button
         onClick={() => appWindow.toggleMaximize()}
-        aria-label={isMaximized ? "Restore Down" : "Maximize"}
+        aria-label={
+          isMaximized ? t("common.restoreDown") : t("common.maximize")
+        }
         className={cn(BTN, "hover:bg-foreground/8 active:bg-foreground/12")}
       >
         {isMaximized ? (
@@ -71,7 +75,7 @@ function WinCaptionButtons() {
 
       <button
         onClick={() => appWindow.close()}
-        aria-label="Close"
+        aria-label={t("common.close")}
         className={cn(
           BTN,
           "hover:bg-[#c42b1c] hover:text-white",
@@ -87,10 +91,11 @@ function WinCaptionButtons() {
 // ── Component ────────────────────────────────────────────────────
 
 export function TitleBarOverlay() {
+  const { t } = useTranslation();
   const appWindow = getCurrentWindow();
   const { pathname } = useLocation();
   const { accentHex } = useAccentColor();
-  const currentTitle = routeTitles[pathname] ?? "Blink Eye";
+  const currentTitle = t(routeTitles[pathname] ?? "common.appName");
 
   useEffect(() => {
     if (isMac) return;

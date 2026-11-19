@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import i18n from "i18next";
 import type { OnboardingData } from "../types/onboarding";
 import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
@@ -23,10 +24,10 @@ export class OnboardingService {
     reminderText: string;
   }): Promise<void> {
     if (data.breakInterval <= 0) {
-      throw new Error("Interval must be greater than 0 minutes.");
+      throw new Error(i18n.t("onboarding.intervalAboveZero"));
     }
     if (data.breakDuration <= 0) {
-      throw new Error("Duration must be greater than 0 seconds.");
+      throw new Error(i18n.t("onboarding.durationAboveZero"));
     }
     await invoke("update_reminder_setting", {
       key: "blinkEyeReminderInterval",
@@ -73,7 +74,8 @@ export class OnboardingService {
           handshakePassword: handshakePassword,
           userID: userUniqueNanoId,
           userDevice: operatingSystem,
-          userLocale: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          userLocale: i18n.language,
+          userTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           installedTime: new Date().toISOString(),
           appVersion: getAppVersion,
           ...(data.email && { email: data.email }),

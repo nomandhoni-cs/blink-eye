@@ -1,10 +1,12 @@
 import { Label } from "./ui/label";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { Switch } from "./ui/switch";
 import { useTrigger } from "../contexts/TriggerReRender";
 
 const PomodoroTimerToggle = () => {
+  const { t } = useTranslation();
   const { triggerUpdate } = useTrigger();
   const [isPomodoroTimerEnabled, setIsPomodoroTimerEnabled] = useState(false);
   const [previousDuration, setPreviousDuration] = useState<number | null>(null);
@@ -59,10 +61,10 @@ const PomodoroTimerToggle = () => {
           htmlFor="pomodoroSwitch"
           className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Use this as Pomodoro timer
+          {t("pomodoro.title")}
         </Label>
         <p className="text-sm text-muted-foreground">
-          This sets the break time to 5 minutes and the work time to 25 minutes.
+          {t("pomodoro.description")}
         </p>
       </div>
       <Switch

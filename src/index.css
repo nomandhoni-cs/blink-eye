@@ -5,6 +5,89 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/outfit";
 
+/* ── Per-script font faces ──────────────────────────────────────────────────
+   Latin ships with Inter/Geist. Every other script falls back to a font with
+   real coverage for that writing system, resolved at runtime from the active
+   locale (see `html[lang]` rules in the base layer). Variable/system faces are
+   used where possible so no extra network weight is added. */
+@font-face {
+    font-family: "Noto Sans Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans"), local("NotoSans");
+}
+@font-face {
+    font-family: "Noto Sans Bengali Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Bengali"), local("NotoSansBengali");
+}
+@font-face {
+    font-family: "Noto Sans Devanagari Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Devanagari"), local("NotoSansDevanagari");
+}
+@font-face {
+    font-family: "Noto Sans Arabic Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Arabic"), local("NotoSansArabic");
+}
+@font-face {
+    font-family: "Noto Sans Hebrew Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Hebrew"), local("NotoSansHebrew");
+}
+@font-face {
+    font-family: "Noto Sans Thai Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Thai"), local("NotoSansThai");
+}
+@font-face {
+    font-family: "Noto Sans JP Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans JP"), local("NotoSansJP"), local("Noto Sans CJK JP");
+}
+@font-face {
+    font-family: "Noto Sans KR Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans KR"), local("NotoSansKR"), local("Noto Sans CJK KR");
+}
+@font-face {
+    font-family: "Noto Sans SC Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans SC"), local("NotoSansSC"), local("Noto Sans CJK SC");
+}
+@font-face {
+    font-family: "Noto Sans TC Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans TC"), local("NotoSansTC"), local("Noto Sans CJK TC");
+}
+@font-face {
+    font-family: "Noto Sans Ethiopic Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Ethiopic"), local("NotoSansEthiopic");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -158,6 +241,106 @@
     }
     html {
         @apply font-sans;
+    }
+
+    /* Per-script font stacks, switched by the `<html lang>` attribute that
+       `initI18n` keeps in sync. Scripts not listed keep the default stack. */
+    html[lang="bn"] body,
+    html[lang="bn"] button,
+    html[lang="bn"] input,
+    html[lang="bn"] select,
+    html[lang="bn"] textarea {
+        font-family: "Noto Sans Bengali Variable", "Noto Sans Bengali", "Hind Siliguri", var(--font-sans);
+    }
+    html[lang="hi"] body,
+    html[lang="hi"] button,
+    html[lang="hi"] input,
+    html[lang="hi"] select,
+    html[lang="hi"] textarea {
+        font-family: "Noto Sans Devanagari Variable", "Noto Sans Devanagari", "Mangal", var(--font-sans);
+    }
+    html[lang="ar"] body,
+    html[lang="ar"] button,
+    html[lang="ar"] input,
+    html[lang="ar"] select,
+    html[lang="ar"] textarea,
+    html[lang="ur"] body,
+    html[lang="ur"] button,
+    html[lang="ur"] input,
+    html[lang="ur"] select,
+    html[lang="ur"] textarea,
+    html[lang="fa"] body,
+    html[lang="fa"] button,
+    html[lang="fa"] input,
+    html[lang="fa"] select,
+    html[lang="fa"] textarea {
+        font-family: "Noto Sans Arabic Variable", "Noto Sans Arabic", "Noto Naskh Arabic", var(--font-sans);
+    }
+    html[lang="he"] body,
+    html[lang="he"] button,
+    html[lang="he"] input,
+    html[lang="he"] select,
+    html[lang="he"] textarea {
+        font-family: "Noto Sans Hebrew Variable", "Noto Sans Hebrew", "David Libre", var(--font-sans);
+    }
+    html[lang="th"] body,
+    html[lang="th"] button,
+    html[lang="th"] input,
+    html[lang="th"] select,
+    html[lang="th"] textarea {
+        font-family: "Noto Sans Thai Variable", "Noto Sans Thai", "Sarabun", var(--font-sans);
+    }
+    html[lang="ja"] body,
+    html[lang="ja"] button,
+    html[lang="ja"] input,
+    html[lang="ja"] select,
+    html[lang="ja"] textarea {
+        font-family: "Noto Sans JP Variable", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", var(--font-sans);
+    }
+    html[lang="ko"] body,
+    html[lang="ko"] button,
+    html[lang="ko"] input,
+    html[lang="ko"] select,
+    html[lang="ko"] textarea {
+        font-family: "Noto Sans KR Variable", "Noto Sans KR", "Malgun Gothic", var(--font-sans);
+    }
+    html[lang="zh"] body,
+    html[lang="zh"] button,
+    html[lang="zh"] input,
+    html[lang="zh"] select,
+    html[lang="zh"] textarea,
+    html[lang="zh-CN"] body,
+    html[lang="zh-CN"] button,
+    html[lang="zh-CN"] input,
+    html[lang="zh-CN"] select,
+    html[lang="zh-CN"] textarea {
+        font-family: "Noto Sans SC Variable", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", var(--font-sans);
+    }
+    html[lang="zh-TW"] body,
+    html[lang="zh-TW"] button,
+    html[lang="zh-TW"] input,
+    html[lang="zh-TW"] select,
+    html[lang="zh-TW"] textarea {
+        font-family: "Noto Sans TC Variable", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", var(--font-sans);
+    }
+    html[lang="el"] body,
+    html[lang="el"] button,
+    html[lang="el"] input,
+    html[lang="el"] select,
+    html[lang="el"] textarea {
+        font-family: "Noto Sans Variable", "Noto Sans", "Roboto", var(--font-sans);
+    }
+    html[lang="uk"] body,
+    html[lang="uk"] button,
+    html[lang="uk"] input,
+    html[lang="uk"] select,
+    html[lang="uk"] textarea,
+    html[lang="sr"] body,
+    html[lang="sr"] button,
+    html[lang="sr"] input,
+    html[lang="sr"] select,
+    html[lang="sr"] textarea {
+        font-family: "Noto Sans Variable", "Noto Sans", "Roboto", var(--font-sans);
     }
     input, textarea {
         user-select: text;

@@ -1,6 +1,7 @@
 import { Flame, Check } from "lucide-react";
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Button } from "../ui/button";
 import { invoke } from "@tauri-apps/api/core";
@@ -32,18 +33,19 @@ const thumbMap: Record<string, string> = {
 };
 
 const styles = [
-  { value: "aurora", label: "Aurora" },
-  { value: "freesprit", label: "Free Spirit" },
-  { value: "particleBackground", label: "Particle Wave" },
-  { value: "starryBackground", label: "Starry Background" },
-  { value: "beamoflife", label: "Beam of Life" },
-  { value: "shootingmeteor", label: "Shooting Meteor" },
-  { value: "plainGradientAnimation", label: "Plain Gradient Animation" },
-  { value: "polygonAnimation", label: "Polygon Animation" },
-  { value: "canvasShapes", label: "Bouncy Balls" },
+  { value: "aurora", labelKey: "aurora" },
+  { value: "freesprit", labelKey: "freesprit" },
+  { value: "particleBackground", labelKey: "particleBackground" },
+  { value: "starryBackground", labelKey: "starryBackground" },
+  { value: "beamoflife", labelKey: "beamoflife" },
+  { value: "shootingmeteor", labelKey: "shootingmeteor" },
+  { value: "plainGradientAnimation", labelKey: "plainGradientAnimation" },
+  { value: "polygonAnimation", labelKey: "polygonAnimation" },
+  { value: "canvasShapes", labelKey: "canvasShapes" },
 ];
 
 const openScreenSaverWindow = () => {
+  // Plain window title — this helper is module-scope, outside the component.
   const webview = new WebviewWindow("ReminderPreviewWindow", {
     url: "/screenSaverWindow",
     fullscreen: true,
@@ -60,6 +62,7 @@ const openScreenSaverWindow = () => {
 };
 
 const ScreenSavers: React.FC = () => {
+  const { t } = useTranslation();
   const { canAccessPremiumFeatures } = usePremiumFeatures();
   const [backgroundStyle, setBackgroundStyle] = useState<string>("freesprit");
 
@@ -79,13 +82,10 @@ const ScreenSavers: React.FC = () => {
 
   const handleOpenScreenSaver = () => {
     if (!canAccessPremiumFeatures) {
-      toast.error(
-        "Unlock this feature with a license key and help the developer grow.",
-        {
-          duration: 2000,
-          position: "bottom-right",
-        }
-      );
+      toast.error(t("screenSavers.unlock"), {
+        duration: 2000,
+        position: "bottom-right",
+      });
       return;
     } else {
       openScreenSaverWindow();
@@ -94,13 +94,10 @@ const ScreenSavers: React.FC = () => {
 
   const handleSaveScreenSaver = async (style: string) => {
     if (!canAccessPremiumFeatures) {
-      toast.error(
-        "Unlock this feature with a license key and help the developer grow.",
-        {
-          duration: 2000,
-          position: "bottom-right",
-        }
-      );
+      toast.error(t("screenSavers.unlock"), {
+        duration: 2000,
+        position: "bottom-right",
+      });
       return;
     } else {
       try {
@@ -116,9 +113,11 @@ const ScreenSavers: React.FC = () => {
   return (
     <div className="space-y-8 px-4 py-2">
       <div className="flex flex-col gap-1">
-        <h3 className="text-2xl font-heading tracking-tight">Screen Savers</h3>
+        <h3 className="text-2xl font-heading tracking-tight">
+          {t("screenSavers.title")}
+        </h3>
         <p className="text-sm text-muted-foreground">
-          Choose a visual style for your screen saver breaks.
+          {t("screenSavers.description")}
         </p>
       </div>
 
@@ -148,7 +147,7 @@ const ScreenSavers: React.FC = () => {
               <div className="relative aspect-video w-full overflow-hidden bg-muted">
                 <img
                   src={thumbMap[style.value]}
-                  alt={`${style.label} preview`}
+                  alt={t(`screenSavers.styles.${style.labelKey}`)}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   loading="lazy"
                 />
@@ -159,7 +158,7 @@ const ScreenSavers: React.FC = () => {
                 {style.value !== "default" && (
                   <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-amber-500/30 bg-background/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 shadow-sm backdrop-blur-md dark:text-amber-400">
                     <Flame className="h-3 w-3" />
-                    Premium
+                    {t("screenSavers.premium")}
                   </div>
                 )}
 
@@ -173,7 +172,7 @@ const ScreenSavers: React.FC = () => {
 
               <div className="p-4">
                 <h4 className="truncate text-sm font-medium tracking-tight">
-                  {style.label}
+                  {t(`screenSavers.styles.${style.labelKey}`)}
                 </h4>
               </div>
             </div>
@@ -184,7 +183,7 @@ const ScreenSavers: React.FC = () => {
       <div className="flex flex-col-reverse items-center justify-between gap-4 border-t pt-6 sm:flex-row">
         <HowToCloseScreenSaver />
         <Button onClick={() => handleOpenScreenSaver()} size="lg" className="w-full sm:w-auto">
-          Open Screen Saver
+          {t("screenSavers.open")}
         </Button>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { format } from "date-fns";
 import {
   CalendarIcon,
   CheckCircle2Icon,
@@ -34,6 +34,16 @@ type Task = {
 };
 
 const TodoPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const formatDate = (value: Date | string | undefined) => {
+    if (!value) return "";
+    const date = typeof value === "string" ? new Date(value) : value;
+    return date.toLocaleDateString(i18n.language, {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
   const [tasks, setTasks] = useState<Task[]>([]);
   const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState<string>("");
@@ -183,7 +193,7 @@ const TodoPage: React.FC = () => {
   return (
     <div className="max-w-full space-y-2 relative">
       <h3 className="text-2xl text-center font-heading tracking-wide">
-        TODO List
+        {t("todo.title")}
       </h3>
       {canAccessPremiumFeatures ? (
         <>
@@ -191,7 +201,7 @@ const TodoPage: React.FC = () => {
           <div className="space-y-2 max-w-lg mx-auto">
             <div className="flex space-x-2">
               <Input
-                placeholder="Add a new task or Reminder"
+                placeholder={t("todo.addTaskPlaceholder")}
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addTask()}
@@ -200,7 +210,7 @@ const TodoPage: React.FC = () => {
             </div>
             {showDetailsInput && (
               <Textarea
-                placeholder="Add details"
+                placeholder={t("todo.addDetails")}
                 value={newTaskDetails}
                 onChange={(e) => setNewTaskDetails(e.target.value)}
                 className="mt-2"
@@ -215,16 +225,16 @@ const TodoPage: React.FC = () => {
                     onClick={() => setShowDetailsInput(!showDetailsInput)}
                   >
                     <Text className="h-4 w-4 mr-1" />
-                    Details
+                    {t("todo.details")}
                   </Button>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" size="sm">
                         <CalendarIcon className="h-4 w-4 mr-1" />
                         {newTaskDeadline ? (
-                          format(newTaskDeadline, "PPP")
+                          formatDate(newTaskDeadline)
                         ) : (
-                          <span>Deadline</span>
+                          <span>{t("todo.deadline")}</span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -254,7 +264,7 @@ const TodoPage: React.FC = () => {
                   />
 
                   <Button onClick={addTask} size="sm" className="h-9">
-                    Add Task
+                    {t("todo.addTask")}
                   </Button>
                 </div>
               </>
@@ -301,7 +311,7 @@ const TodoPage: React.FC = () => {
                                 details: e.target.value,
                               })
                             }
-                            placeholder="Optional details"
+                            placeholder={t("todo.optionalDetails")}
                           />
                           <div className="flex items-center space-x-2 pt-1">
                             <Popover>
@@ -313,12 +323,9 @@ const TodoPage: React.FC = () => {
                                 >
                                   <CalendarIcon className="mr-2 h-4 w-4" />
                                   {editingTask.deadline ? (
-                                    format(
-                                      new Date(editingTask.deadline),
-                                      "PPP"
-                                    )
+                                    formatDate(editingTask.deadline)
                                   ) : (
-                                    <span>Pick a date</span>
+                                    <span>{t("todo.pickDate")}</span>
                                   )}
                                 </Button>
                               </PopoverTrigger>
@@ -370,13 +377,13 @@ const TodoPage: React.FC = () => {
                               size="sm"
                               onClick={() => setEditingTask(null)}
                             >
-                              Cancel
+                              {t("common.cancel")}
                             </Button>
                             <Button
                               size="sm"
                               onClick={() => updateTask(editingTask)}
                             >
-                              Save Changes
+                              {t("common.saveChanges")}
                             </Button>
                           </div>
                         </div>
@@ -392,7 +399,7 @@ const TodoPage: React.FC = () => {
                             <div className="text-xs text-gray-500 flex items-center flex-wrap mt-1">
                               <span className="flex items-center mr-3">
                                 <CalendarIcon className="h-3 w-3 mr-1" />
-                                {format(new Date(task.deadline), "PPP")}
+                                {formatDate(task.deadline)}
                               </span>
                               {task.reminder_time && (
                                 <span className="flex items-center">
@@ -447,7 +454,7 @@ const TodoPage: React.FC = () => {
                             <div className="text-xs text-gray-400 line-through flex items-center flex-wrap">
                               <span className="flex items-center mr-3">
                                 <CalendarIcon className="h-3 w-3 mr-1" />
-                                {format(new Date(task.deadline), "PPP")}
+                                {formatDate(task.deadline)}
                               </span>
                               {task.reminder_time && (
                                 <span className="flex items-center">
@@ -477,8 +484,9 @@ const TodoPage: React.FC = () => {
                 className="w-full flex items-center justify-center"
               >
                 <ChevronDown className="mr-2 h-4 w-4" />
-                {showCompletedTasks ? "Hide" : "Show"} Completed Tasks (
-                {completedTasks.length})
+                {showCompletedTasks
+                  ? t("todo.hideCompleted", { count: completedTasks.length })
+                  : t("todo.showCompleted", { count: completedTasks.length })}
               </Button>
             </div>
           )}
@@ -486,8 +494,7 @@ const TodoPage: React.FC = () => {
       ) : (
         <div className=" w-full h-96 flex flex-col space-y-8 justify-center items-center rounded-lg">
           <h3 className="text-center text-white font-heading tracking-wide text-3xl">
-            Your support will help the developer to make this project better &
-            add more features.
+            {t("usageTime.supportTitle")}
           </h3>
           <Button asChild>
             <Link
@@ -499,8 +506,8 @@ const TodoPage: React.FC = () => {
               className="flex items-center justify-center px-6 py-3 bg-[#FE4C55] text-black text-lg rounded-lg hover:bg-[#e4434b] focus:outline-none"
             >
               <CheckCircle2Icon className="mr-2" />
-              Get a License to Support this project,{" "}
-              <span className="font-bold"> And Unlock TODO List</span>
+              {t("usageTime.getLicenseSeeUsage")}
+              <span className="font-bold"> {t("todo.unlockTodoText")}</span>
             </Link>
           </Button>
         </div>

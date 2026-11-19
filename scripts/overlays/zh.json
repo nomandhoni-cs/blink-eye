@@ -1,0 +1,262 @@
+{
+  "app": { "appName": "眨眼" },
+  "common": {
+    "language": "语言",
+    "save": "保存",
+    "cancel": "取消",
+    "retry": "重试",
+    "copy": "复制",
+    "copied": "已复制！",
+    "copiedCheck": "✓ 已复制！",
+    "checking": "正在检查",
+    "checkingEllipsis": "正在检查…",
+    "day": "天",
+    "days": "天",
+    "getLicense": "获取许可证",
+    "checkOrActivateLicense": "检查或激活许可证",
+    "lightLabel": "浅色",
+    "darkLabel": "深色",
+    "premium": "高级版",
+    "saveFailed": "保存设置失败，请重试。",
+    "hoursMinutes": "{{hours}}小时 {{minutes}}分",
+    "endsIn": "结束于",
+    "offPercent": "% 折扣",
+    "currentTime": "当前时间",
+    "screenOnTime": "屏幕时间：{{hours}} 小时 {{minutes}} 分钟",
+    "error": "错误"
+  },
+  "onboarding": {
+    "welcomeTitle": "欢迎使用 Blink Eye",
+    "welcomeSubtitle": "守护双眼的小助手",
+    "selectLanguage": "选择语言",
+    "continue": "继续",
+    "skip": "跳过"
+  },
+  "nav": {
+    "dashboard": "仪表盘",
+    "reminderSettings": "提醒设置",
+    "workday": "工作日",
+    "multiMonitor": "多显示器",
+    "soon": "即将推出",
+    "themePicker": "主题选择器",
+    "usageTime": "使用时长",
+    "about": "关于",
+    "allSettings": "所有设置",
+    "activateLicense": "激活许可证",
+    "support": "支持"
+  },
+  "license": {
+    "title": "激活许可证",
+    "status": "许可证状态",
+    "statusDesc": "您当前的 Blink Eye 许可证",
+    "active": "已激活",
+    "inactive": "未激活",
+    "expired": "已过期",
+    "disabled": "已禁用",
+    "noLicense": "无许可证",
+    "noLicenseFound": "未找到许可证",
+    "activateTitle": "激活许可证",
+    "activateDesc": "输入购买邮件中的密钥",
+    "activating": "正在激活…",
+    "enterKey": "请输入许可证密钥",
+    "activated": "许可证激活成功！",
+    "failed": "激活许可证失败，请重试。",
+    "copied": "许可证密钥已复制！",
+    "copyFailed": "复制许可证密钥失败",
+    "licenseKey": "许可证密钥",
+    "licenseKeyDesc": "点击复制完整密钥",
+    "clickToCopy": "点击复制完整密钥",
+    "yourName": "您的姓名",
+    "yourNameDesc": "此设备的可选标签",
+    "myOrders": "我的订单",
+    "myOrdersDesc": "查看购买记录并找回丢失的密钥",
+    "billingPortal": "账单中心",
+    "billingPortalDesc": "管理订阅、发票和付款",
+    "open": "打开",
+    "premiumActive": "此设备已激活高级版",
+    "missingKey": "缺少用于验证的许可证密钥。"
+  },
+  "trial": {
+    "expired": "您的试用期已结束",
+    "unableToCheck": "无法检查试用状态",
+    "clockManipulated": "系统日期早于安装日期，试用不可用",
+    "unavailable": "试用信息不可用",
+    "clockHint": "请检查系统日期后重试，这并非试用期已过。",
+    "unavailableHint": "我们无法确认试用状态。免费单显示器休息仍可使用。",
+    "urgent": "⚡ 仅剩 {{count}} {{day}}！",
+    "remaining": "试用期剩余 {{count}} {{day}}",
+    "expiredHint": "购买许可证以继续使用全部功能并支持开发者。",
+    "activeHint": "一次性购买许可证即可永久解锁全部功能。",
+    "licenseError": "无法检查许可证状态。",
+    "licenseErrorActive": "您的试用仍在提供高级访问权限。",
+    "licenseErrorInactive": "请重试或在假定高级访问已结束前检查许可证。",
+    "ofTrial": "共 7 天试用"
+  },
+  "autostart": {
+    "title": "开机启动",
+    "description": "电脑启动时自动运行本应用",
+    "enabled": "已启用自启动",
+    "disabled": "已禁用自启动",
+    "enabledByDefault": "默认已启用自启动"
+  },
+  "pomodoro": {
+    "title": "用作番茄钟",
+    "description": "将休息设为 5 分钟、工作设为 25 分钟。"
+  },
+  "multiMonitor": {
+    "title": "显示器模式",
+    "description": "选择休息背景填满一个还是所有屏幕",
+    "primaryTitle": "主显示器",
+    "primaryDesc": "背景和控制仅显示在主显示器",
+    "multiTitle": "多显示器",
+    "multiDesc": "背景显示在所有屏幕；计时和跳过仅在主屏幕",
+    "enabled": "所有显示器显示背景；控制在主显示器。",
+    "disabled": "休息提醒仅显示在主显示器。",
+    "premiumNotConfirmed": "无法确认高级访问权限，未更改显示器偏好。",
+    "preferenceRetained": " 您的全显示器偏好已保留，高级权限恢复后可再次生效。选择“主显示器”可保存仅主显示器偏好。",
+    "status": {
+      "checking": "正在检查试用和许可证状态，显示器选项暂时不可用。",
+      "saving": "正在保存显示器偏好…",
+      "unableToConfirm": "无法确认高级访问权限。请重试状态检查或检查许可证。免费休息使用主显示器。",
+      "clockManipulated": "系统日期早于安装日期，试用不可用。请检查系统日期后重试。",
+      "trialUnavailable": "试用信息不可用。请重试状态检查或激活许可证。",
+      "trialExpired": "试用期已结束且未找到有效许可证。免费休息使用主显示器。"
+    }
+  },
+  "timerStyle": {
+    "label": "计时器样式",
+    "circle": "圆形",
+    "bar": "条形",
+    "dial": "表盘",
+    "vertical": "竖条"
+  },
+  "reminderOverlay": {
+    "defaultMessage": "暂停！眺望远方，最好走动一下。",
+    "skipThisTime": "本次跳过",
+    "snoozeLimit": "本次或今日已用完稍后提醒次数。",
+    "updateAvailable": "有可用更新！"
+  },
+  "tray": { "dashboard": "仪表盘", "relaunch": "重新启动", "quit": "退出" },
+  "support": {
+    "titleLine1": "请获取许可证",
+    "titleLine2": "以支持开发者",
+    "starts": "起价",
+    "cta": "支持开发者",
+    "snooze": {
+      "1": "点这里稍后提醒 → 明天见",
+      "2": "48 小时后再聊",
+      "3": "先放 3 天，到时我再提醒你",
+      "4": "给我一周时间考虑",
+      "5": "下周再处理这个怎么样？",
+      "6": "6 天后再看这个",
+      "7": "我需要点空间……下周见"
+    }
+  },
+  "usageTimeChart": {
+    "title": "设备使用时长",
+    "totalTime": "总时长：{{value}}",
+    "monthlyTotal": "{{month}} - 总计：{{value}}",
+    "withinLimit": "{{limit}} 小时内",
+    "exceedsLimit": "超过 {{limit}} 小时",
+    "screenOnTime": "屏幕开启时间",
+    "screenOnTimeValue": "屏幕开启时间：{{value}}",
+    "noDataTitle": "{{range}} 无数据",
+    "noDataDesc": "所选时间段没有活动记录，请确保应用正在跟踪您的活动。",
+    "noDataMessage": "没有可用时间数据，请检查传入组件的数据。",
+    "ranges": {
+      "today": "今天",
+      "7days": "最近 7 天",
+      "30days": "最近 30 天",
+      "monthly": "按月",
+      "365days": "最近 365 天",
+      "allTime": "全部"
+    }
+  },
+  "nudge": {
+    "storyLabel": "你的 Blink Eye 故事",
+    "progressLabel": "你的进度",
+    "viewPremium": "查看高级版",
+    "remindNextWeek": "下周提醒我",
+    "notNow": "现在不要"
+  },
+  "update": {
+    "updateAvailable": "有可用更新",
+    "downloading": "正在下载",
+    "installAndRestart": "安装并重启",
+    "later": "稍后",
+    "checkForUpdates": "检查更新",
+    "upToDate": "已是最新版本",
+    "checkingForUpdates": "正在检查更新…",
+    "error": "更新检查失败"
+  },
+  "dashboard": {
+    "screenOnTime": "屏幕开启时间",
+    "breaksTaken": "已完成休息",
+    "nextBreak": "下次休息",
+    "today": "今天",
+    "weeklyReport": "每周报告"
+  },
+  "reminderSettings": {
+    "title": "提醒设置",
+    "windowTitle": "休息提醒 - Blink Eye",
+    "interval": "提醒间隔",
+    "duration": "休息时长",
+    "strictMode": "严格模式",
+    "reminderText": "提醒文字",
+    "snoozeLimit": "稍后提醒次数上限",
+    "snoozeInterval": "稍后提醒间隔",
+    "workdayOnly": "仅工作日"
+  },
+  "workday": {
+    "title": "工作日",
+    "enabled": "已启用",
+    "start": "开始时间",
+    "end": "结束时间",
+    "days": "日期",
+    "description": "仅在这些日期启用提醒"
+  },
+  "soon": {
+    "title": "即将推出",
+    "titleSuffix": "即将推出",
+    "description": "我们正在为此努力，敬请期待。"
+  },
+  "about": {
+    "title": "关于",
+    "version": "版本",
+    "description": "Blink Eye 帮助你在长时间使用电脑时保护眼睛。",
+    "madeWith": "用心制作",
+    "licenses": "许可证"
+  },
+  "screenSavers": {
+    "title": "屏幕保护",
+    "description": "为屏幕保护选择动画场景",
+    "freeNote": "免费和试用已过期的账号使用空白默认屏幕。许可证解锁所有场景。"
+  },
+  "todo": {
+    "title": "今日待办",
+    "addTask": "添加任务",
+    "showCompleted": "显示已完成",
+    "hideCompleted": "隐藏已完成",
+    "noTasks": "暂无任务",
+    "completed": "已完成"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "appearance": "外观",
+    "general": "常规",
+    "about": "关于"
+  },
+  "usageTime": {
+    "title": "使用时长",
+    "supportTitle": "你的支持将帮助开发者让项目更好并增加更多功能。",
+    "getLicenseSeeUsage": "获取许可证以支持本项目，并查看你的使用时长"
+  },
+  "email": {
+    "invalidEmail": "邮箱地址无效",
+    "disposableEmail": "不支持临时邮箱",
+    "blocked": "无法使用此邮箱",
+    "continue": "继续",
+    "emailPlaceholder": "you@example.com"
+  }
+}

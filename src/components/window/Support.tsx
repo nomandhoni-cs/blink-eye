@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import cat_gif_paw from "../../assets/cute_cat_paw.gif";
 import logo from "../../assets/newIcon.png";
 import { Button } from "../ui/button";
@@ -18,42 +19,17 @@ type RemindSchedule = {
   remindSchedule: Reminder[];
 };
 
-// The constant variable with the defined type and updated messages
+// The constant variable with the defined type and updated messages.
+// Messages are localized at runtime via `support.snooze.{n}`.
 const remindScheduleData: RemindSchedule = {
-  remindSchedule: [
-    {
-      day: 1,
-      remindMsg: "Hit snooze on this → See you tomorrow",
-    },
-    {
-      day: 2,
-      remindMsg: "Let's circle back in 48 hours",
-    },
-    {
-      day: 3,
-      remindMsg: "Park this for 3 days, I'll ping you then",
-    },
-    {
-      day: 4,
-      remindMsg: "Give me a week to think about it",
-    },
-    {
-      // Assuming today is a weekday, this pushes it to next week
-      day: 5,
-      remindMsg: "How about we tackle this next week?",
-    },
-    {
-      day: 6,
-      remindMsg: "Let's revisit this in 6 days",
-    },
-    {
-      day: 7,
-      remindMsg: "I need some space... see you next week",
-    },
-  ],
+  remindSchedule: [1, 2, 3, 4, 5, 6, 7].map((day) => ({
+    day,
+    remindMsg: `support.snooze.${day}`,
+  })),
 };
 
 const Support = () => {
+  const { t } = useTranslation();
   const [closeBtnText, setCloseBtnText] = useState("");
   const [nextReminderDay, setNextReminderDay] = useState("");
 
@@ -65,7 +41,7 @@ const Support = () => {
     const randomReminder = remindScheduleData.remindSchedule[randomIndex];
 
     // Set the button text from the random reminder message
-    setCloseBtnText(randomReminder.remindMsg);
+    setCloseBtnText(t(randomReminder.remindMsg));
 
     // Calculate the next reminder date
     const currentDate = new Date();
@@ -112,19 +88,19 @@ const Support = () => {
       {/* Content */}
       <div className="relative z-10 text-center space-y-4">
         <h1 className="text-white text-2xl font-heading leading-tight opacity-80">
-          Get A License Please
+          {t("support.titleLine1")}
           <br />
-          to Support the Developer
+          {t("support.titleLine2")}
         </h1>
         <div className="flex items-baseline justify-center gap-2">
           <span className="text-white text-sm font-heading opacity-80">
-            Starts
+            {t("support.starts")}
           </span>
           <span className="text-[#00E676] text-5xl font-heading">$9.99</span>
         </div>
         <Button className="bg-[#00E676] hover:bg-[#00C853] text-black font-heading py-3 px-8 rounded-xl text-lg shadow-lg transition-colors duration-200">
           <a href={PRICING_URL} target="_blank">
-            Support the Developer
+            {t("support.cta")}
           </a>
         </Button>
         <p

@@ -1,5 +1,6 @@
 // components/TodayTodoTasks.tsx
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Database from "@tauri-apps/plugin-sql";
 import { Badge } from "./ui/badge";
 import { CalendarCheck2, CheckCircle2 } from "lucide-react";
@@ -17,6 +18,7 @@ type Task = {
 export const TodayTodoTasks: React.FC<{ className?: string }> = ({
   className,
 }) => {
+  const { t } = useTranslation();
   const [tasksForToday, setTasksForToday] = useState<Task[]>([]);
 
   const fetchTasksForToday = async () => {
@@ -66,7 +68,7 @@ export const TodayTodoTasks: React.FC<{ className?: string }> = ({
           <div className="flex items-center space-x-2">
             <CalendarCheck2 className="h-5 w-5 text-foreground/70" />
             <h3 className="text-sm font-semibold text-foreground/80">
-              Today's Tasks
+              {t("common.todayTasks")}
             </h3>
           </div>
           <Badge variant="secondary" className="text-xs">

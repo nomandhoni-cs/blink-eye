@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import toast from "react-hot-toast";
@@ -14,6 +15,7 @@ type Schedule = { start: string; end: string } | null;
 type Workday = { [day: string]: Schedule };
 
 const Workday = () => {
+  const { t } = useTranslation();
   const { triggerUpdate } = useTrigger();
   const { canAccessPremiumFeatures } = usePremiumFeatures();
 
@@ -81,7 +83,7 @@ const Workday = () => {
 
   const handleSave = async () => {
     if (!canAccessPremiumFeatures) {
-      toast.error("You need a valid license to save Workday settings.", {
+      toast.error(t("workday.needLicenseSave"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -96,7 +98,7 @@ const Workday = () => {
       );
     }
     triggerUpdate();
-    toast.success("Workday settings saved!", {
+    toast.success(t("workday.saved"), {
       duration: 2000,
       position: "bottom-right",
     });
@@ -105,7 +107,7 @@ const Workday = () => {
   const handleWorkdayToggle = async () => {
     if (!canAccessPremiumFeatures) {
       setIsWorkdayEnabled(false); // Ensure toggle is turned off
-      toast.error("You need a valid license to enable this feature.", {
+      toast.error(t("workday.needLicenseEnable"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -123,13 +125,13 @@ const Workday = () => {
 
     triggerUpdate();
     toast.success(
-      `Workday ${newValue ? "enabled" : "disabled"} successfully!`,
+      newValue ? t("workday.enabledWorkday") : t("workday.disabledWorkday"),
       { duration: 2000, position: "bottom-right" }
     );
   };
 
   if (!workday) {
-    return <div>Loading...</div>;
+    return <div>{t("common.loading")}</div>;
   }
 
   return (
@@ -138,16 +140,15 @@ const Workday = () => {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-2xl font-heading tracking-wide">
-              Workday Setup
+              {t("workday.title")}
             </h3>
             <p className="text-muted-foreground">
-              Configure your work hours for each day of the week. <br /> Toggle
-              to set working or non-working days.
+              {t("workday.description")}
             </p>
           </div>
           <div className="flex items-center space-x-2">
             <Label htmlFor="workday-toggle" className="text-sm">
-              Enable Workday
+              {t("workday.enableWorkday")}
             </Label>
             <Switch
               id="workday-toggle"
@@ -163,10 +164,12 @@ const Workday = () => {
           {Object.entries(workday).map(([day, schedule]) => (
             <div key={day} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-lg">{day}</h3>
+                <h3 className="font-semibold text-lg">
+                  {t(`workday.days.${day}`)}
+                </h3>
                 <div className="flex items-center space-x-2">
                   <Label htmlFor={`${day}-toggle`} className="text-sm">
-                    Working Day
+                    {t("workday.workingDay")}
                   </Label>
                   <Switch
                     id={`${day}-toggle`}
@@ -182,7 +185,7 @@ const Workday = () => {
                       htmlFor={`${day}-start`}
                       className="text-sm font-medium"
                     >
-                      Start Time
+                      {t("workday.startTime")}
                     </Label>
                     <div className="relative">
                       <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -202,7 +205,7 @@ const Workday = () => {
                       htmlFor={`${day}-end`}
                       className="text-sm font-medium"
                     >
-                      End Time
+                      {t("workday.endTime")}
                     </Label>
                     <div className="relative">
                       <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -219,7 +222,9 @@ const Workday = () => {
                   </div>
                 </div>
               ) : (
-                <p className="text-muted-foreground italic">Non-working day</p>
+                <p className="text-muted-foreground italic">
+                  {t("workday.nonWorkingDay")}
+                </p>
               )}
               <Separator />
             </div>
@@ -227,7 +232,7 @@ const Workday = () => {
         </div>
       )}
       <Button onClick={handleSave} className="w-full">
-        Save Workday Settings
+        {t("workday.save")}
       </Button>
     </div>
   );

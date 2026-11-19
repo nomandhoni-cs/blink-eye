@@ -63,6 +63,9 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
+    // Allow the Arena preview host (and any other proxied host) so the web
+    // build can be opened outside the Tauri shell.
+    allowedHosts: true,
     hmr: host
       ? {
           protocol: "ws",

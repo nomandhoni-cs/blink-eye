@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Checkbox } from "./ui/checkbox";
 import {
   CalendarIcon,
@@ -42,6 +43,7 @@ type Task = {
 };
 
 const DashboardPendingTasks = ({ className }: { className?: string }) => {
+  const { t } = useTranslation();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const dbFileName = "UserLocalTodoList.db";
@@ -113,9 +115,11 @@ const DashboardPendingTasks = ({ className }: { className?: string }) => {
             <DashboardIconBadge color={accentHex}>
               <ClipboardList className="size-4" />
             </DashboardIconBadge>
-            <span>Pending Tasks</span>
+            <span>{t("common.pendingTasks")}</span>
           </CardTitle>
-          <CardDescription>Upgrade to manage your tasks</CardDescription>
+          <CardDescription>
+            {t("common.upgradeToManageTasks")}
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
           <Button asChild style={{ backgroundColor: accentHex }}>
@@ -124,7 +128,7 @@ const DashboardPendingTasks = ({ className }: { className?: string }) => {
               target="_blank"
               className="text-center hover:opacity-90"
             >
-              Unlock Task Management
+              {t("common.unlockTaskManagement")}
             </Link>
           </Button>
         </CardContent>
@@ -145,10 +149,10 @@ const DashboardPendingTasks = ({ className }: { className?: string }) => {
           <DashboardIconBadge color={accentHex}>
             <ClipboardList className="size-4" />
           </DashboardIconBadge>
-          <span>Pending Tasks</span>
+          <span>{t("common.pendingTasks")}</span>
           {tasks.length > 0 && (
             <span className="ml-auto text-sm text-muted-foreground">
-              {tasks.length} pending
+              {t("common.pendingCount", { count: tasks.length })}
             </span>
           )}
         </CardTitle>
@@ -164,9 +168,9 @@ const DashboardPendingTasks = ({ className }: { className?: string }) => {
         ) : tasks.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center p-4">
             <CheckCircle className="h-8 w-8 text-green-500 mb-2" />
-            <p className="font-medium">All tasks completed!</p>
+            <p className="font-medium">{t("common.allTasksCompleted")}</p>
             <p className="text-sm text-muted-foreground">
-              Good job taking care of your tasks
+              {t("common.allTasksCompletedHint")}
             </p>
           </div>
         ) : (

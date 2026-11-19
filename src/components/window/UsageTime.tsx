@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { BarChart, CheckCircle2Icon } from "lucide-react";
 
 import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
@@ -9,6 +10,7 @@ import { Button } from "../ui/button";
 import UsageTimeChart from "../UsageTimeChart";
 
 const UsageTime = () => {
+  const { t } = useTranslation();
   const { canAccessPremiumFeatures, isPaidUser, isTrialOn } =
     usePremiumFeatures();
   const { fireTrigger } = usePremiumNudge();
@@ -28,8 +30,7 @@ const UsageTime = () => {
       ) : (
         <div className="w-full h-96 flex flex-col space-y-8 justify-center items-center rounded-lg">
           <h3 className="text-center text-white font-heading tracking-wide text-3xl">
-            Your support will help the developer to make this project better &
-            add more features.
+            {t("usageTime.supportTitle")}
           </h3>
           <Button asChild>
             <Link
@@ -41,10 +42,9 @@ const UsageTime = () => {
               className="flex items-center justify-center px-6 py-3 bg-[#FE4C55] text-black text-lg rounded-lg hover:bg-[#e4434b] focus:outline-none"
             >
               <CheckCircle2Icon className="mr-2" />
-              Get a License to Support this project, And{" "}
+              {t("usageTime.getLicenseSeeUsage")}
               <b>
-                See your
-                <BarChart className="inline text-green-500" /> Usage Time
+                <BarChart className="inline text-green-500" />
               </b>
             </Link>
           </Button>

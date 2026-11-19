@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { cn } from "@/lib/utils";
 import { useTimeCountContext } from "../../contexts/TimeCountContext";
@@ -26,6 +27,7 @@ type BreakStats = {
   snoozesAllowedPerDay: number;
   snoozesAllowedPerSession: number;
   totalBreaksCompleted: number;
+  canSnooze?: boolean;
 };
 
 type NextReminderInfo = {
@@ -33,24 +35,9 @@ type NextReminderInfo = {
   isOnBreak: boolean;
 };
 
-function formatLimit(used: number, limit: number) {
-  if (limit === 0) return `${used} · unlimited`;
-  return `${used} / ${limit}`;
-}
-
-function formatCountdown(info: NextReminderInfo | null) {
-  if (!info) return "—";
-  if (info.isOnBreak) return "On break";
-  if (info.nextReminderInSecs <= 0) return "Soon";
-
-  const mins = Math.floor(info.nextReminderInSecs / 60);
-  const secs = info.nextReminderInSecs % 60;
-  if (mins === 0) return `${secs}s`;
-  if (secs === 0) return `${mins}m`;
-  return `${mins}m ${secs}s`;
-}
-
-const Dashboard = () => {
+export default function Dashboard() {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const usageTimeLimit = 8;
   const { timeCount } = useTimeCountContext();
   const { accentHex } = useAccentColor();
@@ -58,6 +45,23 @@ const Dashboard = () => {
   const [nextReminder, setNextReminder] = useState<NextReminderInfo | null>(
     null,
   );
+
+  const formatLimit = (used: number, limit: number) => {
+    if (limit === 0) return t("common.usedOverUnlimited", { used });
+    return t("common.usedOverLimit", { used, limit });
+  };
+
+  const formatCountdown = (info: NextReminderInfo | null) => {
+    if (!info) return "—";
+    if (info.isOnBreak) return t("common.onBreak");
+    if (info.nextReminderInSecs <= 0) return t("common.soon");
+
+    const mins = Math.floor(info.nextReminderInSecs / 60);
+    const secs = info.nextReminderInSecs % 60;
+    if (mins === 0) return t("dashboard.countdownSeconds", { seconds: secs });
+    if (secs === 0) return t("dashboard.countdownMinutes", { minutes: mins });
+    return t("dashboard.countdown", { minutes: mins, seconds: secs });
+  };
 
   useEffect(() => {
     const loadStats = async () => {
@@ -94,7 +98,7 @@ const Dashboard = () => {
   const isOverLimit = totalHours > usageTimeLimit;
 
   const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-US", {
+  const formattedDate = currentDate.toLocaleDateString(locale, {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -112,7 +116,7 @@ const Dashboard = () => {
           >
             <div>
               <h1 className="text-3xl font-heading font-semibold tracking-wide text-foreground sm:text-4xl">
-                {currentDate.toLocaleString("en-US", { weekday: "long" })}
+                {currentDate.toLocaleString(locale, { weekday: "long" })}
               </h1>
               <p className="mt-1 text-base text-muted-foreground sm:text-lg">
                 {formattedDate}
@@ -124,15 +128,15 @@ const Dashboard = () => {
                 <DashboardIconBadge color={accentHex}>
                   <IoTimer className="size-4" />
                 </DashboardIconBadge>
-                Next break
+                {t("common.nextBreak")}
               </div>
               <div className="text-4xl font-heading font-semibold tracking-tight sm:text-5xl">
                 {formatCountdown(nextReminder)}
               </div>
               <p className="mt-1 text-xs text-muted-foreground">
                 {nextReminder?.isOnBreak
-                  ? "Finish your current break"
-                  : "Countdown until your next reminder"}
+                  ? t("common.finishBreak")
+                  : t("common.countdownUntil")}
               </p>
             </div>
           </div>
@@ -173,8 +177,15 @@ const Dashboard = () => {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <IoTime className="mb-1 size-4 text-muted-foreground" />
-                <span className="text-2xl font-heading font-semibold sm:text-3xl">{`${timeCount.hours}h ${timeCount.minutes}m`}</span>
-                <span className="text-xs text-muted-foreground">Screen time</span>
+                <span className="text-2xl font-heading font-semibold sm:text-3xl">
+                  {t("common.hoursMinutes", {
+                    hours: timeCount.hours,
+                    minutes: timeCount.minutes,
+                  })}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {t("common.screenTime")}
+                </span>
               </div>
             </div>
           </div>
@@ -192,12 +203,15 @@ const Dashboard = () => {
                     <IoAlarm className="size-4" />
                   </DashboardIconBadge>
                 }
-                label="Snoozes today"
+                label={t("common.snoozesToday")}
                 value={formatLimit(
                   stats.snoozesToday,
                   stats.snoozesAllowedPerDay,
                 )}
-                detail={`Session ${formatLimit(stats.snoozesSession, stats.snoozesAllowedPerSession)}`}
+                detail={t("common.session", {
+                  used: stats.snoozesSession,
+                  limit: stats.snoozesAllowedPerSession,
+                })}
               />
             </div>
           ) : null}
@@ -212,9 +226,11 @@ const Dashboard = () => {
                       <IoFlame className="size-4" />
                     </DashboardIconBadge>
                   }
-                  label="Break streak"
+                  label={t("common.breakStreak")}
                   value={stats.breakStreak}
-                  detail={`Best ${stats.bestBreakStreak} in a row`}
+                  detail={t("common.bestInRow", {
+                    count: stats.bestBreakStreak,
+                  })}
                 />
               </div>
               <div className="px-4 py-5">
@@ -225,9 +241,9 @@ const Dashboard = () => {
                       <IoCheckmarkCircle className="size-4" />
                     </DashboardIconBadge>
                   }
-                  label="Full breaks"
+                  label={t("common.fullBreaks")}
                   value={stats.totalBreaksCompleted}
-                  detail="Completed without skipping"
+                  detail={t("common.completedWithoutSkipping")}
                 />
               </div>
             </>
@@ -236,6 +252,4 @@ const Dashboard = () => {
       </section>
     </div>
   );
-};
-
-export default Dashboard;
+}
