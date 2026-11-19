@@ -405,6 +405,18 @@
   font-family: "Quicksand Variable", "Quicksand", "Outfit Variable", sans-serif;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  /* The SVG preview in the timer-style picker renders a plain text run. */
+  letter-spacing: -0.04em;
+}
+/* Quicksand's digits carry wide sidebearings, which reads as loose tracking
+   across a counter. Tighten each glyph so the digits sit close together.
+   (The counter is a flex row, so spacing has to be applied per digit —
+   `letter-spacing` on the row itself would not reach the flex items.) */
+.countdown-numerals > span {
+  letter-spacing: normal;
+}
+.countdown-digit {
+  letter-spacing: -0.06em;
 }
 
 @keyframes countdown-digit-in {
