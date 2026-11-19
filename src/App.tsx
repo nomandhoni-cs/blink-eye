@@ -67,8 +67,23 @@ function DeepLinkHandler() {
       .catch((err) => {
         console.error("Failed to listen for deep links:", err);
       });
+
+    // "Open list" in a task reminder popup: the Rust command has already
+    // shown and focused the main window; here we only route to the list.
+    let unlistenTodo: (() => void) | undefined;
+    listen("open-todo-list", () => {
+      navigate("/todoList");
+    })
+      .then((fn) => {
+        unlistenTodo = fn;
+      })
+      .catch((err) => {
+        console.error("Failed to listen for task reminders:", err);
+      });
+
     return () => {
       unlisten?.();
+      unlistenTodo?.();
     };
   }, [navigate]);
 
@@ -102,8 +117,14 @@ function App() {
         });
         setHasCompletedOnboarding(value === "true");
       } catch (err) {
+        // Web preview has no Tauri config DB; a local mirror keeps the flow
+        // demonstrable without changing the native source of truth.
         console.error("Error checking onboarding status:", err);
-        setError(t("app.configLoadFailed"));
+        if (localStorage.getItem("blink-eye-onboarded") === "true") {
+          setHasCompletedOnboarding(true);
+        } else {
+          setError(t("app.configLoadFailed"));
+        }
       } finally {
         setIsLoading(false);
       }

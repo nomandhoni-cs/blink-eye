@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task reminder</title>
+    <style>
+      /* The window itself is transparent; only the rounded pill is painted. */
+      html,
+      body {
+        background: transparent !important;
+      }
+    </style>
+  </head>
+  <body class="bg-transparent overflow-hidden">
+    <div id="task-alert-root"></div>
+    <script type="module" src="/src/task-alert.tsx"></script>
+  </body>
+</html>

@@ -462,7 +462,8 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
         )}
       </div>
 
-      {isPremium && !isLoading && (
+      {/* To-dos are free for everyone, including the break overlay. */}
+      {!isLoading && (
         <TodayTodoTasks
           className={
             timerStyle === "dial" ? "bottom-[8vmin] right-[8vmin]" : undefined

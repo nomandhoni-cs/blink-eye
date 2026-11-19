@@ -9,6 +9,7 @@ import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
 import ThemePickerOnboarding from "./components/screens/theme-picker-onboarding";
 import TimerStyleScreen from "./components/screens/timer-style-screen";
+import TodoSetupScreen from "./components/screens/todo-setup-screen";
 import DoneScreen from "./components/screens/done-screen";
 import { changeLanguage } from "./i18n";
 
@@ -26,6 +27,12 @@ import {
   saveTimerStyle,
   type TimerStyle,
 } from "./components/reminder/timerStyle";
+import {
+  createTask,
+  setTodoSetting,
+  TASK_REMINDERS_ENABLED_KEY,
+  toLocalDate,
+} from "./lib/todo-store";
 
 import { screenEmail } from "./lib/email-screening";
 
@@ -67,6 +74,10 @@ export default function UserOnboarding() {
     "Pause! Look into the distance, and best if you walk a bit.",
   );
   const [timerStyle, setTimerStyle] = useState<TimerStyle>("dial");
+  // To-dos are free: onboarding can capture one real first task and let the
+  // user decide whether they want task pop-ups. Both are skippable.
+  const [firstTask, setFirstTask] = useState("");
+  const [remindersEnabled, setRemindersEnabled] = useState(true);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
   // Soft signal: plausible but unusual (`xx@`, `admin@`, numeric local).
@@ -125,6 +136,23 @@ export default function UserOnboarding() {
     },
     {
       id: 6,
+      title: t("onboarding.steps.todo"),
+      component: TodoSetupScreen,
+      onNext: async () => {
+        // Text left in the field when the user presses Next still becomes a
+        // task; the screen clears it when its own Add button was used.
+        if (firstTask.trim()) {
+          await createTask({ title: firstTask, deadline: toLocalDate(new Date()) });
+          setFirstTask("");
+        }
+        await setTodoSetting(
+          TASK_REMINDERS_ENABLED_KEY,
+          remindersEnabled ? "true" : "false",
+        );
+      },
+    },
+    {
+      id: 7,
       title: t("onboarding.steps.done"),
       component: DoneScreen,
       onNext: async () => {
@@ -290,6 +318,14 @@ export default function UserOnboarding() {
         case 5:
           return { timerStyle, setTimerStyle };
         case 6:
+          return {
+            firstTask,
+            setFirstTask,
+            remindersEnabled,
+            setRemindersEnabled,
+            onTaskAdded: () => setFirstTask(""),
+          };
+        case 7:
           return {
             breakInterval,
             breakDuration,

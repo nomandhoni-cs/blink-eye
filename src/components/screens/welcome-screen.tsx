@@ -45,7 +45,7 @@ export default function WelcomeScreen({
     },
     {
       icon: <RiCheckboxCircleFill className="w-5 h-5 text-primary" />,
-      label: t("onboarding.todoList"),
+      label: `${t("onboarding.todoList")} · ${t("onboarding.todoSetupFree")}`,
     },
     {
       icon: <RiShieldFill className="w-5 h-5 text-primary" />,

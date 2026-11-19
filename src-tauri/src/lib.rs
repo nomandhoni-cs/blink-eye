@@ -13,6 +13,7 @@ mod premium_nudge;
 mod reminder_scheduler;
 mod screen_time_tracker;
 mod snooze_tracker;
+mod task_reminders;
 use crypto::{
     ensure_install_data, get_config_bool, get_config_string, get_install_date,
     get_license_info, get_reminder_settings, get_trial_info,
@@ -156,6 +157,10 @@ pub fn run() {
                     }
                 });
             }
+
+            // Task reminders own their own tick loop in Rust (tray-first app).
+            task_reminders::TaskReminderScheduler::new(app_data_dir.clone())
+                .start(app.handle().clone());
 
             // Create timer channel and scheduler
             let (tray_tx, mut tray_rx) = mpsc::channel::<TrayUpdate>(32);
@@ -302,6 +307,10 @@ pub fn run() {
             close_premium_nudge,
             open_activate_license,
             debug_preview_nudge_window,
+            task_reminders::show_task_reminder,
+            task_reminders::preview_task_reminder,
+            task_reminders::open_todo_from_alert,
+            task_reminders::complete_task_from_alert,
         ])
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_notification::init())

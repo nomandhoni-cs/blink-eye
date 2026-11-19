@@ -1,0 +1,55 @@
+# Activation patterns
+
+Diagnose a real cue, ease of entry, or indecision before adding a feature. For any change, measure the first qualifying completion rather than a click. Source IDs resolve to the [source library](source-library.md) and the [indexed references](../assets/research-source-index.csv).
+
+## The Itch
+
+**Question to solve:** When does the user already want this outcome, and how can they find the app at that moment?
+
+**Evidence.** E01 *Hooked* distinguishes external prompts (alerts, badges) from internal associations (e.g. “I want to practice”), as part of a four-stage product framework. It’s a practitioner book and a design hypothesis, not evidence that an emotion or a push causes durable retention. E02 Lally et al. followed 96 volunteers performing a self-chosen daily behavior in a stable context. Among 39 people whose model fit well, the modeled median time to 95% of their personal automaticity plateau was **66 days** (range **18–254**; estimates can extend beyond the 12-week observation). A single miss did not materially change the process in this study. That does not give your app a habit deadline. E03 reviews concrete “if–then” plans that tie goals to a situation. E04 found that phone notifications can interrupt attention even when not acted on in a laboratory task. Transfer cue alignment, not the instruction to predict boredom or stress. [Author workbook](https://www.nirandfar.com/download/hooked-workbook.pdf) [Wiley study](https://onlinelibrary.wiley.com/doi/10.1002/ejsp.674) [University-hosted PDF](https://www.socmot.uni-konstanz.de/sites/default/files/06_Gollwitzer_Sheeran_Implementation_Intentions_And_Goal.pdf) [Stothart’s research page](https://carystothart.com/publications/attentional-cost-cell-phone-notification/)
+
+**Build it.**
+
+1. Create a cue-to-action table for two or three situations. Write one concrete promise per cue: **“When my Friday review starts, show me the report draft”** or **“When the saved slot becomes available, tell me once.”** First favor a resume card, widget, calendar entry, or other user-selected cue. Use push only if it adds value away from the app.
+2. After demonstrating the relevant value, offer an optional reminder that names the event, benefit, and frequency. Example: “Want a practice reminder on Tue/Thu at 7:00 p.m.?” Put `Not now` on the same screen. Ask for system permission in this context; the app must still work if permission is denied. See G04–G05 for native guidance.
+3. Deep-link to the promised next step, not a generic dashboard. Expired, removed, or inaccessible content gets an honest fallback. When an event becomes stale, suppress the send or show an updated state. Do not claim a like, reply, or availability change that has not occurred. Badges should represent truthful unread or outstanding items, not attention signals with no meaning.
+4. Use the user’s time zone and optional quiet hours; avoid inferring location or feelings. At send time, recheck app preference and suppression state, relevance, recent completion, and expiry. Cancel queued sends when a reminder is stopped or its task is resolved. Use one deduplication key per person and scheduled occurrence; push provider acceptance is not proof of delivery. Keep sensitive contents off lock screens by default.
+
+**Test it.** Randomize a discretionary reminder vs. no-send **among users who already enabled that reminder type** and remain eligible at assignment. Measure `core_action_committed` within a fixed event window per eligible assigned user, regardless of taps; compare opt-outs and complaints as guardrails. Keep mandated or explicitly promised critical notifications out of withholding tests. Good opened-push rates without additional successful outcomes are not a win.
+
+**Done when:** users can choose, change, pause, and disable reminders; decline has no penalty; retries/time-zone changes don’t duplicate sends; an expired deep link and a revoked permission have been tested.
+
+## The Lazy Thumb
+
+**Question to solve:** What is the easiest way to *start* the meaningful action, and the smallest result that still counts as value?
+
+**Evidence.** E05 Fogg’s conference model describes behavior when motivation, ability, and a prompt (called a trigger in the 2009 paper) converge; `B = MAP` is a mnemonic, not a predictive multiplication formula. E06 Fitts’ motor-control work supports paying attention to target size and movement distance; it does not prove a universal bottom-right “thumb zone.” P02’s grip observations are a starting point. E29 Hick’s work concerns reaction time in a controlled choice task; it does not give you a maximum number of app menu items. P03’s Duolingo experiment tests a specific completion rule, with an explicit trade-off. E28 found that a displayed streak break can reduce subsequent engagement compared with an intact streak even when underlying behavior is unchanged; recoverable breaks reduced that difference in their studies. [University of Delaware manuscript](https://udspace.udel.edu/items/42ce576b-8e1f-429a-8541-e29e48dbcfbb) [Fogg conference paper](https://dl.acm.org/doi/10.1145/1541948.1541999) [Modern model](https://www.behaviormodel.org/) [HCI background on Fitts’ law](https://www.yorku.ca/mack/hhci2018.html) [Original field notes](https://www.uxmatters.com/mt/archives/2013/02/how-do-users-really-hold-mobile-devices.php) [Duolingo’s experiment](https://blog.duolingo.com/improving-the-streak/)
+
+**Build it.**
+
+1. Map the main path twice: fresh install and returning user. Count screens, taps, typing, permissions, decisions, latency, and recovery cost. Remove friction that doesn’t serve the task: move optional questions and ratings after value; save non-sensitive drafts; offer a manual fallback when camera, location, or AI fails.
+2. Put one descriptive primary action in the accessible first view: `Start 3-minute practice`, `Log a meal`, `Resume report`. Aim for one action to **enter** the task, not a one-tap purchase, irreversible decision, publication, or unreviewed estimate. Keep clear confirmation on consequential actions.
+3. Make the *hit area* large enough (aim for Apple’s **44 × 44 pt default control size** on iOS/iPadOS and the **48 × 48 dp** touch target in Android’s Material guidance). For mobile web, WCAG 2.2 AA Target Size (Minimum) is normally 24 × 24 CSS px with exceptions; consider 44 × 44 for frequent touch actions. Keep labels, alternative buttons for swipe-only gestures, visible focus, readable contrast, and safe-area/keyboard spacing. Test with large text, screen readers, and both hands. See G01–G03.
+4. Create a small but complete unit of value. For a photo logger: `Open camera → photo-based draft → review/edit or use manual entry → confirm save`. For learning: `Start practice → answer a short set → receive feedback and persist progress`. Don’t count opening the camera or tapping “start” as completion. If users want a streak, use a meaningful unit at their cadence, preserve lifetime history, and make restarts neutral. A weekly consistency summary may be a better starting point.
+
+**Test it.** Compare the current entry path to one primary CTA with the same underlying task. Monitor first value within 24 hours (or the agreed window), time to first value, errors, corrections, and later result quality. Aim to reduce wasted actions and p90 time, not just increase starts.
+
+**Done when:** a first-time user can find the action without coaching; a returning user resumes the same draft; denial, slow network, duplicate submission, and invalid input recover without silently dropping or double-counting work.
+
+## The Paved Path
+
+**Question to solve:** Can the app propose a sensible next step without taking away a meaningful choice?
+
+**Evidence.** E07 and E09 support a **default effect**, with effects varying by context; endorsement, perceived status quo, and effort are possible mechanisms. E08 warns against equating registration/consent with actual donation. **Choice overload is a separate question:** E10 found a near-zero average across choice-overload studies with substantial variation; E11 identifies complexity, decision difficulty, preference uncertainty, and the decision-maker’s goal as moderators. This supports testing a recommendation, not deleting alternatives. In the organ-donation paper, the separate 1991–2001 adjusted observational model estimated **14.1 vs. 16.4 donors per million** (+16.3%, p < .02); it was not a randomized test of national policy. [Author copy, p. 1339](https://www.researchgate.net/publication/8996952_Do_Defaults_Save_Lives) [Johnson & Goldstein full text](https://www.researchgate.net/publication/8996952_Do_Defaults_Save_Lives) [Cambridge full PDF](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/67AF6972CFB52698A60B6BD94B70C2C0/S2398063X1800043Xa.pdf/when-and-why-defaults-influence-decisions-a-meta-analysis-of-default-effects.pdf) [NIHR review](https://www.ncbi.nlm.nih.gov/books/NBK56888/) [Scheibehenne et al. PDF](https://scheibehenne.com/ScheibehenneGreifenederTodd2010.pdf) [Chernev et al. PDF](https://chernev.com/wp-content/uploads/2017/02/ChoiceOverload_JCP_2015.pdf)
+
+**Build it.**
+
+- Audit every forced decision: name the goal, whether the choice is reversible, who benefits from the default, and what happens when it is wrong. Safe suggestions require low cost to override. Use explicit choice, clear terms, and no preselection for optional data sharing or marketing and for consequential paid or irreversible actions where appropriate.
+- Home priority: (1) unfinished user-selected work, (2) a user-selected due task, (3) a clear starter task, (4) honest `All caught up` or an empty/error state. Show one reason: “Continue report — your draft is saved” or “Review 5 words due today.” Include `Choose another` or `Browse`. Do not perform an action merely because it is recommended.
+- Persist a user’s edits or overrides when appropriate. If preferences lack a signal, fall back to a neutral or curated list; if the ranking service fails, never fabricate relevance. Let experts bypass the guided path without penalizing them.
+
+**Product example.** Duolingo’s [guided-path write-up](https://blog.duolingo.com/new-duolingo-home-screen-design/) and [linked explanation of practice](https://blog.duolingo.com/whats-the-best-way-to-learn-with-duolingo/) describe integrating review into the next step, rather than adding a flashy next button to a generic menu. E31 synthesizes evidence on distributed practice and recall, a different outcome from *app* retention. If your app teaches, briefly explain why something is due and verify learning with a delayed recall task.
+
+**Test it.** Compare a full list alone with a recommended option **plus** the same list or a visible path to it. Measure completion, decision time, incorrect selections/reversals, and perceived control. A high default acceptance rate is not proof of a better decision.
+
+**Done when:** the recommendation is understandable and reversible; alternatives are reachable with assistive technology; tested users can choose a different route without losing progress.

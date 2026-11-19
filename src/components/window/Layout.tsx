@@ -19,6 +19,8 @@ const CONTENT_TOP_OFFSET = isMac ? 32 : 64;
 
 export default function Layout() {
   const { isPaidUser } = usePremiumFeatures();
+  // Task reminders are owned by `task_reminders.rs`, which keeps working while
+  // this window is hidden in the tray.
   return (
     <UpdateProvider>
       <SidebarProvider>

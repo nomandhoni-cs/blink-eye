@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "skills": {
+    "app-polish": {
+      "source": "nomandhoni-cs/app-polish",
+      "commit": "dbd79fb5758f629ca182a7cbd8500edcc27f4cf7",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "bb0ad44a314b027e69584cca5889a5a79f7a4a137e18e4d921a6d37237eeb584"
+    },
+    "app-retention": {
+      "source": "nomandhoni-cs/app-retention",
+      "commit": "ef5f353cde9221d1a7901336863cff997cee9f74",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "5cbe3765f3cf9c327c79f76b304ba6d8a3ed9d88db5f875b32015b53b59c7512"
+    }
+  }
+}
