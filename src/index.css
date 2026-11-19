@@ -4,6 +4,10 @@
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/outfit";
+/* Rounded face for the break countdown digits. */
+@import "@fontsource-variable/quicksand";
+/* Bengali ships a serif face so the script renders with its proper style. */
+@import "@fontsource-variable/noto-serif-bengali";
 
 /* ── Per-script font faces ──────────────────────────────────────────────────
    Latin ships with Inter/Geist. Every other script falls back to a font with
@@ -17,13 +21,8 @@
     font-display: swap;
     src: local("Noto Sans"), local("NotoSans");
 }
-@font-face {
-    font-family: "Noto Sans Bengali Variable";
-    font-style: normal;
-    font-weight: 100 900;
-    font-display: swap;
-    src: local("Noto Sans Bengali"), local("NotoSansBengali");
-}
+/* Bengali uses Noto Serif Bengali (bundled above) for its proper style, with
+   the system sans as a fallback when the bundled face is unavailable. */
 @font-face {
     font-family: "Noto Sans Devanagari Variable";
     font-style: normal;
@@ -250,7 +249,7 @@
     html[lang="bn"] input,
     html[lang="bn"] select,
     html[lang="bn"] textarea {
-        font-family: "Noto Sans Bengali Variable", "Noto Sans Bengali", "Hind Siliguri", var(--font-sans);
+        font-family: "Noto Serif Bengali Variable", "Noto Serif Bengali", "Noto Sans Bengali", "Hind Siliguri", var(--font-sans);
     }
     html[lang="hi"] body,
     html[lang="hi"] button,
@@ -412,19 +411,12 @@
 
 /*Custom css end*/
 
-/* Break countdown digits. Outfit elsewhere; on macOS, SF Pro condensed like the
-   iPhone timer. `-apple-system-body` only parses in Apple's WebKit, so the
-   override applies on macOS (where SF Pro is the system font) and nowhere else. */
+/* Break countdown digits. Quicksand's rounded forms match the timer's soft
+   geometry, at a semibold weight so the digits stay legible at large sizes. */
 .countdown-numerals {
-  font-family: "Outfit Variable", sans-serif;
+  font-family: "Quicksand Variable", "Quicksand", "Outfit Variable", sans-serif;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-}
-@supports (font: -apple-system-body) {
-  .countdown-numerals {
-    font-family: -apple-system, system-ui, sans-serif;
-    font-variation-settings: "wdth" 56;
-  }
 }
 
 @keyframes countdown-digit-in {

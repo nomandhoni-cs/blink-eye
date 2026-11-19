@@ -6,9 +6,11 @@ import { useLocation } from "react-router-dom";
 import { Minus, Square, Copy, X } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { ModeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "./LanguageToggle";
 import { cn } from "../lib/utils";
 import { AppIcon } from "./AppIcon";
 import { useAccentColor } from "../contexts/AccentColorContext";
+import { useLanguage } from "../i18n/useLanguage";
 
 const isMac = platform() === "macos";
 const OVERLAY_H = 32;
@@ -95,6 +97,7 @@ export function TitleBarOverlay() {
   const appWindow = getCurrentWindow();
   const { pathname } = useLocation();
   const { accentHex } = useAccentColor();
+  const { isRTL } = useLanguage();
   const currentTitle = t(routeTitles[pathname] ?? "common.appName");
 
   useEffect(() => {
@@ -132,8 +135,9 @@ export function TitleBarOverlay() {
           </span>
         </div>
 
-        {/* Right: theme toggle */}
+        {/* Right: language + theme toggles */}
         <div className="flex items-center h-full shrink-0 pr-2">
+          <LanguageToggle />
           <ModeToggle />
         </div>
       </div>
@@ -144,7 +148,12 @@ export function TitleBarOverlay() {
   return (
     <div
       data-tauri-drag-region
-      className="fixed left-(--sidebar-width) right-0 top-0 z-50 flex items-center h-[32px] select-none bg-background border-b border-border/50"
+      className={cn(
+        "fixed top-0 z-50 flex items-center h-[32px] select-none bg-background border-b border-border/50",
+        isRTL
+          ? "right-(--sidebar-width) left-0"
+          : "left-(--sidebar-width) right-0"
+      )}
     >
       {/* Left-aligned: logo + brand + separator + title */}
       <div data-tauri-drag-region className="flex items-center gap-2.5 h-full shrink-0 pl-3">
@@ -164,8 +173,9 @@ export function TitleBarOverlay() {
       {/* Spacer */}
       <div data-tauri-drag-region className="flex-1 h-full" />
 
-      {/* Right: theme toggle + window controls */}
+      {/* Right: language + theme toggles + window controls */}
       <div className="flex items-center h-full shrink-0">
+        <LanguageToggle />
         <ModeToggle />
         <WinCaptionButtons />
       </div>

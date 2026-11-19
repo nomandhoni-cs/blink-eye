@@ -40,6 +40,7 @@ import { SidebarNotch } from "./SidebarNotch";
 import { platform } from "@tauri-apps/plugin-os";
 import { generateBrandShades } from "../lib/color-utils";
 import { PRICING_URL } from "../lib/links";
+import { useLanguage } from "../i18n/useLanguage";
 
 const isMac = platform() === "macos";
 
@@ -136,6 +137,7 @@ export function AppSidebar() {
   const { isPaidUser } = usePremiumFeatures();
   const { accentHex } = useAccentColor();
   const { pathname } = useLocation();
+  const { isRTL } = useLanguage();
 
   return (
     <>
@@ -169,6 +171,7 @@ export function AppSidebar() {
       <Sidebar
         variant="floating"
         collapsible="icon"
+        side={isRTL ? "right" : "left"}
         className={"!top-0 !h-svh border-none z-40"}
       >
         <SidebarContent
