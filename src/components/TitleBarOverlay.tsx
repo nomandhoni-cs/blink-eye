@@ -112,6 +112,7 @@ export function TitleBarOverlay() {
     return (
       <div
         data-tauri-drag-region
+        dir="ltr"
         className="fixed left-0 right-0 top-0 z-50 flex items-center h-[32px] select-none"
       >
         <div data-tauri-drag-region className="pl-[80px] h-full" />
@@ -130,13 +131,17 @@ export function TitleBarOverlay() {
 
         {/* Right half — title flows from center */}
         <div data-tauri-drag-region className="flex-1 h-full flex items-center">
-          <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none ml-1.5">
+          <span
+            dir={isRTL ? "rtl" : undefined}
+            className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none ml-1.5"
+          >
             {currentTitle}
           </span>
         </div>
 
-        {/* Right: language + theme toggles */}
-        <div className="flex items-center h-full shrink-0 pr-2">
+        {/* Right: language + theme toggles. The bar is pinned to LTR so this
+            cluster stays clear of the traffic lights in RTL locales too. */}
+        <div className="flex items-center gap-1.5 h-full shrink-0 pr-2">
           <LanguageToggle />
           <ModeToggle />
         </div>
@@ -148,6 +153,7 @@ export function TitleBarOverlay() {
   return (
     <div
       data-tauri-drag-region
+      dir="ltr"
       className={cn(
         "fixed top-0 z-50 flex items-center h-[32px] select-none bg-background border-b border-border/50",
         isRTL
@@ -165,7 +171,10 @@ export function TitleBarOverlay() {
           blinkeye
         </span>
         <Separator orientation="vertical" className="self-center bg-border/80 mx-0.5" />
-        <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none">
+        <span
+          dir={isRTL ? "rtl" : undefined}
+          className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none"
+        >
           {currentTitle}
         </span>
       </div>
@@ -173,8 +182,9 @@ export function TitleBarOverlay() {
       {/* Spacer */}
       <div data-tauri-drag-region className="flex-1 h-full" />
 
-      {/* Right: language + theme toggles + window controls */}
-      <div className="flex items-center h-full shrink-0">
+      {/* Right: language + theme toggles + window controls. The gap keeps the
+          toggles clear of the caption buttons. */}
+      <div className="flex items-center gap-1.5 h-full shrink-0">
         <LanguageToggle />
         <ModeToggle />
         <WinCaptionButtons />
