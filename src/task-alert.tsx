@@ -40,7 +40,7 @@ function readPayload(): TaskAlertPayload {
   }
   return {
     taskId: -1,
-    title: "A task you want to finish",
+    title: "",
     messageKey: "taskAlert.dueMessage",
     kind: "preview",
     leadMinutes: null,
@@ -135,12 +135,19 @@ const TaskAlert: React.FC = () => {
   const messageValues =
     payload.leadMinutes != null ? { minutes: payload.leadMinutes } : undefined;
 
+  // Previews carry no user task, so borrow a translated example from
+  // onboarding instead of shipping an English hard-coded title.
+  const exampleValue = t("onboarding.todoSetupExamples", { returnObjects: true });
+  const examples = Array.isArray(exampleValue) ? exampleValue : [];
+  const firstExample = examples.find((value): value is string => typeof value === "string");
+  const displayTitle = payload.title || firstExample || t("todo.addTaskPlaceholder");
+
   return (
     <div className="flex h-screen w-full items-center justify-center p-2">
       <motion.div
         role="status"
         aria-live="polite"
-        aria-label="Blink Eye task reminder"
+        aria-label={t("todo.taskRemindersTitle")}
         initial={
           reduceMotion
             ? { opacity: 0 }
@@ -201,7 +208,7 @@ const TaskAlert: React.FC = () => {
                 className="min-w-0"
               >
                 <p className="truncate font-heading text-[15px] font-semibold leading-tight text-white">
-                  {payload.title}
+                  {displayTitle}
                 </p>
                 <p className="mt-0.5 truncate text-[11px] text-white/55">
                   {finalState === "done"

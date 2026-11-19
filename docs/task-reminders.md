@@ -1,8 +1,7 @@
 # Free to-dos and task reminders
 
-Design handoff built with the `app-retention` and `app-polish` skills
-(installed under `.agents/skills/`). The goal is repeat use at the task's
-natural cadence — not time spent in the app.
+Design handoff for the `app-retention` and `app-polish` review. The goal is
+repeat use at the task's natural cadence — not time spent in the app.
 
 ## 1. User job and cadence
 
@@ -75,8 +74,7 @@ Spring motion (stiffness ~400–460, damping ~27–28, mass ~0.7–0.8) is used 
 - the pill's drop-in, morph to the "done" state and icon pop,
 - the progress line, whose width is a Framer Motion spring (inspired by the
   momentum-preserving solvers in `YusufCeng1z/ding`),
-- onboarding preview card, list completion, checkbox rows and the pre-break
-  alert itself.
+- list completion, checkbox rows and the pre-break alert itself.
 
 `prefers-reduced-motion` disables the springs and uses plain opacity changes.
 Essential information (title, message, buttons) is never carried by animation
@@ -85,11 +83,10 @@ alone.
 ## 5. Translations
 
 The Rust scheduler stores i18n **keys**, never rendered strings. The popup
-resolves them after `initI18n()` loads the persisted language. English and
-Bengali ship complete onboarding, Todo List and task-alert catalogs, including
-`{{minutes}}` / `{{title}}` for "coming up" messages. Other locales use the
-existing `fallbackLng` chain to English, so no raw keys are shown; native
-translations for those catalogs remain localization work.
+resolves them after `initI18n()` loads the persisted language. All 38 shipped
+locales carry complete onboarding, Todo List and task-alert catalogs —
+including rotating example tasks and `{{minutes}}` / `{{title}}` for "coming
+up" messages — so no English fallback or raw key is shown.
 
 ## 6. States to verify
 
@@ -108,8 +105,8 @@ translations for those catalogs remain localization work.
 
 ## 7. Before release
 
-1. `npm run build`, `npm run test:todo` (9 date/lead-time/translation tests) and
-   `npx tsc --noEmit -p tsconfig.app.json`.
+1. `npm run build`, `npm run test:todo` (47 date/lead-time/translation tests)
+   and `npx tsc --noEmit -p tsconfig.app.json`.
 2. `cargo test && cargo build` on a machine with the Rust toolchain — the
    sandbox for this change had no `cargo`, so the Rust scheduler and popup
    commands need a compile check on CI. The Rust module has unit tests for

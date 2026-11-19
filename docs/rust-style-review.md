@@ -46,7 +46,7 @@ forced. The general rules on formatting, imports, ownership, naming, docs,
 
 - `rustfmt --check` passes for every Rust file with the new configuration.
 - No Rust line exceeds the configured 100-column limit.
-- `npm run test:todo` — 9/9 passed; `npx tsc --noEmit -p tsconfig.app.json`
+- `npm run test:todo` — 47/47 passed; `npx tsc --noEmit -p tsconfig.app.json`
   and `npm run build` passed. No frontend source changed in this pass.
 - `cargo check` / `cargo test` could not run in this sandbox because outbound
   access to crates.io is blocked. Please run them locally (or in CI) before

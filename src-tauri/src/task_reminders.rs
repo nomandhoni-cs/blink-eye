@@ -350,11 +350,19 @@ impl TaskReminderScheduler {
                 None
             },
         };
-        if let Err(error) = spawn_task_alert(app_handle, &payload) {
-            let _ = clear_event(pool, task.id, kind, day).await;
-            return Err(error);
+        match spawn_task_alert(app_handle, &payload) {
+            Ok(()) if app_handle.get_webview_window(ALERT_LABEL).is_some() => Ok(()),
+            Ok(()) => {
+                // A conflicting window suppressed the popup; release the
+                // record so a later tick can try again.
+                let _ = clear_event(pool, task.id, kind, day).await;
+                Ok(())
+            }
+            Err(error) => {
+                let _ = clear_event(pool, task.id, kind, day).await;
+                Err(error)
+            }
         }
-        Ok(())
     }
 }
 
@@ -660,7 +668,8 @@ pub fn preview_task_reminder(app_handle: AppHandle) -> Result<(), String> {
         &app_handle,
         &TaskAlertPayload {
             task_id: -1,
-            title: "A task you want to finish".to_string(),
+            // The popup fills this with a translated onboarding example.
+            title: String::new(),
             message_key: "taskAlert.nudgeMessageA".to_string(),
             kind: "preview".to_string(),
             due_at: None,

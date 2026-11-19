@@ -75,8 +75,8 @@ export default function UserOnboarding() {
     "Pause! Look into the distance, and best if you walk a bit.",
   );
   const [timerStyle, setTimerStyle] = useState<TimerStyle>("dial");
-  // To-dos are free: onboarding can capture one real first task and let the
-  // user decide whether they want task pop-ups. Both are skippable.
+  // To-dos are free: onboarding captures one required real first task and lets
+  // the user decide whether they want task pop-ups (the opt-in is optional).
   const [firstTask, setFirstTask] = useState("");
   const [todoTaskAdded, setTodoTaskAdded] = useState(false);
   const [todoRequiredError, setTodoRequiredError] = useState(false);
