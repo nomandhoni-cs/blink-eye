@@ -1,4 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getCurrentWebviewWindow, WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
@@ -59,6 +60,7 @@ function parseWindowConfig(): WindowConfig {
  * Scheduling lives in Rust (`skip_reminder`, etc.).
  */
 const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
@@ -78,7 +80,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
     } catch (error) {
       console.error("[ReminderOverlay] skip_reminder failed:", error);
       if (snoozed) {
-        toast.error("Snooze limit reached for this session or today.", {
+        toast.error(t("reminderOverlay.snoozeLimit"), {
           duration: 2500,
           position: "bottom-right",
         });
@@ -161,7 +163,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
           }));
 
         if (updateAvailable) {
-          toast.success("Update available!", {
+          toast.success(t("reminderOverlay.updateAvailable"), {
             duration: 2000,
             position: "bottom-right",
             icon: <CloudDownload />,
@@ -220,7 +222,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
   const progressPercentage =
     reminderDuration > 0 ? (timeLeft / reminderDuration) * 100 : 0;
   const displayText =
-    reminderText || "Pause! Look into the distance, and best if you walk a bit.";
+    reminderText || t("reminderOverlay.defaultMessage");
   // The value one second ago, so changed digits can roll out.
   const lastSecond =
     countdownStarted && timeLeft < reminderDuration ? timeLeft + 1 : undefined;
@@ -238,7 +240,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
       className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
     >
       <ChevronsRight className="mr-1 h-5 w-5" />
-      Skip this time
+      {t("reminderOverlay.skipThisTime")}
     </Button>
   );
 
@@ -303,7 +305,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                     onClick={handleSnooze}
                     className="flex transform items-center space-x-2 rounded-full bg-[#FE4C55] px-6 font-sans text-base transition-transform hover:scale-105 hover:bg-[#e9464e]"
                   >
-                    <span className="text-base font-medium">Skip this Time</span>
+                    <span className="text-base font-medium">
+                      {t("reminderOverlay.skipThisTime")}
+                    </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -458,7 +462,8 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
         )}
       </div>
 
-      {isPremium && !isLoading && (
+      {/* To-dos are free for everyone, including the break overlay. */}
+      {!isLoading && (
         <TodayTodoTasks
           className={
             timerStyle === "dial" ? "bottom-[8vmin] right-[8vmin]" : undefined

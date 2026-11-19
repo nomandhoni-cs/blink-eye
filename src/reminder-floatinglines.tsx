@@ -5,6 +5,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import FloatingLines from "./components/backgrounds/react-bits/FloatingLines";
 import { useReminderDarkMode } from "./components/backgrounds/react-bits/useReminderDarkMode";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -44,8 +45,10 @@ const ReminderFloatingLines: React.FC = () => {
 
 export default ReminderFloatingLines;
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderFloatingLines />
   </React.StrictMode>,
-);
+  );
+});

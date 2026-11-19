@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { XIcon } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Ticker } from "@tombcato/smart-ticker";
 import "@tombcato/smart-ticker/style.css";
@@ -9,10 +10,18 @@ import { Button } from "./components/ui/button";
 import AllSetText from "./components/AllSetText";
 import "./index.css";
 
+import { initI18n } from "./i18n";
 const Alert = () => {
   const [timeLeft, setTimeLeft] = useState(13);
   const [showAllSet, setShowAllSet] = useState(true);
+  const reduceMotion = useReducedMotion();
   const window = getCurrentWebviewWindow();
+
+  // Same spring feel as the task reminder: a short, physical overshoot rather
+  // than a linear CSS slide (inspired by YusufCeng1z/ding).
+  const spring = reduceMotion
+    ? { duration: 0 }
+    : ({ type: "spring", stiffness: 430, damping: 28, mass: 0.75 } as const);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -39,12 +48,20 @@ const Alert = () => {
   };
 
   return (
-    <div className="h-screen w-full opacity-90 flex items-center justify-between bg-black/70 rounded-2xl px-4 backdrop-blur-3xl border border-white/10 animate-in slide-in-from-top duration-300">
+    <motion.div
+      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -24, scale: 0.86 }}
+      animate={{ opacity: 0.9, y: 0, scale: 1 }}
+      transition={spring}
+      className="h-screen w-full opacity-90 flex items-center justify-between bg-black/70 rounded-2xl px-4 backdrop-blur-3xl border border-white/10"
+    >
       {!showAllSet && (
-        <img
+        <motion.img
           src={logo}
-          className="h-12 w-12 animate-in slide-in-from-top duration-300"
+          className="h-12 w-12"
           alt="Blink Eye"
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.6 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={spring}
         />
       )}
 
@@ -54,7 +71,12 @@ const Alert = () => {
             <AllSetText />
           </div>
         ) : timeLeft > 0 ? (
-          <div className="flex items-center justify-center tabular-nums animate-in slide-in-from-top duration-300">
+          <motion.div
+            className="flex items-center justify-center tabular-nums"
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={spring}
+          >
             {/* Comments must be inside the HTML/JSX elements! */}
             <span className="mr-1">00:</span>
             <Ticker
@@ -65,7 +87,7 @@ const Alert = () => {
               charWidth={0.8}
               className="!font-heading tabular-nums"
             />
-          </div>
+          </motion.div>
         ) : (
           <div className="flex items-center tabular-nums">
             <span className="mr-1">00:</span>
@@ -75,19 +97,30 @@ const Alert = () => {
       </div>
 
       {!showAllSet && (
-        <Button
-          onClick={handleClose}
-          className="rounded-lg h-10 w-10 animate-in slide-in-from-top duration-300"
+        <motion.div
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.7 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={spring}
         >
-          <XIcon className="w-6 h-6 hover:rotate-90 transition-transform" />
-        </Button>
+          <Button onClick={handleClose} className="rounded-lg h-10 w-10">
+            <motion.span
+              whileHover={reduceMotion ? undefined : { rotate: 90 }}
+              transition={spring}
+              className="flex"
+            >
+              <XIcon className="w-6 h-6" />
+            </motion.span>
+          </Button>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
-ReactDOM.createRoot(document.getElementById("alert-root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("alert-root")!).render(
   <React.StrictMode>
     <Alert />
   </React.StrictMode>,
-);
+  );
+});

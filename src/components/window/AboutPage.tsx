@@ -2,6 +2,7 @@
 import { getVersion } from "@tauri-apps/api/app";
 import { open } from "@tauri-apps/plugin-shell";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 // Switched to perfectly filled, solid Ionicons
 import {
   IoLogoGithub,
@@ -94,7 +95,6 @@ function FeatureCard({
   );
 }
 
-
 // ── Benefit Pill ──
 
 function BenefitPill({
@@ -136,6 +136,7 @@ function PlatformBadge({
 // ── Page ─────────────────────────────────────────────────────────
 
 const AboutPage = () => {
+  const { t } = useTranslation();
   const [version, setVersion] = useState<string>("");
   const { accentHex } = useAccentColor();
 
@@ -179,57 +180,55 @@ const AboutPage = () => {
         </div>
 
         <p className="font-heading text-[13px] leading-relaxed text-muted-foreground max-w-[600px]">
-          The Open Source Eye Care & Break Time Reminder. Prevent eye strain,
-          improve posture, and stay productive with smart reminders, screen time
-          tracking, and task management.
+          {t("about.tagline")}
         </p>
       </div>
 
       {/* ── Features Grid ────────────────────────── */}
       <section className="space-y-4 pt-2 border-t border-border/30">
         <h2 className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">
-          Core Features
+          {t("about.coreFeatures")}
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <FeatureCard
             icon={IoEye}
-            title="20-20-20 Rule"
-            description="Automated breaks every 20 minutes to prevent eye strain."
+            title={t("about.features.rule202020")}
+            description={t("about.features.rule202020Desc")}
             colorClass="text-emerald-600 dark:text-emerald-400"
             bgClass="bg-emerald-500/10"
           />
           <FeatureCard
             icon={IoBarChart}
-            title="Usage Statistics"
-            description="Track your daily screen time to optimize your work-life balance."
+            title={t("about.features.usageStatistics")}
+            description={t("about.features.usageStatisticsDesc")}
             colorClass="text-orange-600 dark:text-orange-400"
             bgClass="bg-orange-500/10"
           />
           <FeatureCard
             icon={IoTimer}
-            title="Pomodoro & Workday"
-            description="Break tasks into intervals and schedule your entire workday."
+            title={t("about.features.pomodoroWorkday")}
+            description={t("about.features.pomodoroWorkdayDesc")}
             colorClass="text-sky-600 dark:text-sky-400"
             bgClass="bg-sky-500/10"
           />
           <FeatureCard
             icon={IoColorPalette}
-            title="Themes & Customization"
-            description="Personalize reminder screens, sounds, and text to suit your mood."
+            title={t("about.features.themes")}
+            description={t("about.features.themesDesc")}
             colorClass="text-rose-600 dark:text-rose-400"
             bgClass="bg-rose-500/10"
           />
           <FeatureCard
             icon={IoDesktop}
-            title="Screen Savers"
-            description="Beautiful animated screen savers to help you relax during breaks."
+            title={t("about.features.screenSavers")}
+            description={t("about.features.screenSaversDesc")}
             colorClass="text-indigo-600 dark:text-indigo-400"
             bgClass="bg-indigo-500/10"
           />
           <FeatureCard
             icon={IoShieldCheckmark}
-            title="Privacy First"
-            description="Runs entirely locally. No accounts, no data collection."
+            title={t("about.features.privacyFirst")}
+            description={t("about.features.privacyFirstDesc")}
             colorClass="text-violet-600 dark:text-violet-400"
             bgClass="bg-violet-500/10"
           />
@@ -239,56 +238,54 @@ const AboutPage = () => {
       {/* ── Health & Productivity Benefits ────────── */}
       <section className="space-y-3 pt-2">
         <h2 className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">
-          How Blink Eye Helps
+          {t("about.howHelps")}
         </h2>
         <div className="flex flex-wrap gap-2">
           <BenefitPill
             icon={IoMedkit}
-            text="Prevents Computer Vision Syndrome"
+            text={t("about.benefits.cvs")}
           />
           <BenefitPill
             icon={IoCheckmarkCircle}
-            text="Improves Posture & Reduces RSI"
+            text={t("about.benefits.posture")}
           />
-          <BenefitPill icon={IoTrendingUp} text="Boosts Focus & Productivity" />
-          <BenefitPill icon={IoHeart} text="Promotes Mental Wellness" />
-          <BenefitPill icon={IoTimer} text="Builds Healthy Screen Habits" />
+          <BenefitPill icon={IoTrendingUp} text={t("about.benefits.focus")} />
+          <BenefitPill icon={IoHeart} text={t("about.benefits.wellness")} />
+          <BenefitPill icon={IoTimer} text={t("about.benefits.habits")} />
         </div>
       </section>
 
       {/* ── Links & Support ──────────────────────── */}
       <section className="space-y-3 pt-2 border-t border-border/30">
         <h2 className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">
-          Support the Project
+          {t("about.supportProject")}
         </h2>
         <p className="font-heading text-[12px] text-muted-foreground mb-3 leading-relaxed">
-          Blink Eye is open-source. By purchasing a license, you unlock premium
-          features (Usage Tracking, Themes, Task Manager) and fund future
-          development.
+          {t("about.supportText")}
         </p>
         <div className="grid gap-2 sm:grid-cols-2">
           <LinkCard
             icon={IoHeart}
-            title="Get Premium"
-            description="Unlock features & support us"
+            title={t("about.getPremium")}
+            description={t("about.getPremiumDesc")}
             href={PRICING_URL}
           />
           <LinkCard
             icon={IoLogoGithub}
-            title="Source Code"
-            description="Star, fork, or contribute"
+            title={t("about.sourceCode")}
+            description={t("about.sourceCodeDesc")}
             href="https://github.com/nomandhoni-cs/blink-eye"
           />
           <LinkCard
             icon={IoGlobe}
-            title="Website"
-            description="Read the documentation"
+            title={t("about.website")}
+            description={t("about.websiteDesc")}
             href="https://blinkeye.app"
           />
           <LinkCard
             icon={IoPeople}
-            title="Community"
-            description="Join the conversation"
+            title={t("about.community")}
+            description={t("about.communityDesc")}
             href="https://tally.so/r/wo0ZrN"
           />
         </div>
@@ -297,14 +294,17 @@ const AboutPage = () => {
       {/* ── Footer ───────────────────────────────── */}
       <footer className="flex items-center justify-between border-t border-border/30 pt-4 pb-2 mt-4">
         <div className="flex items-center gap-1.5">
-          <PlatformBadge icon={IoLogoWindows} name="Windows" />
-          <PlatformBadge icon={IoLogoApple} name="macOS" />
-          <PlatformBadge icon={SiLinux} name="Linux" />
+          <PlatformBadge
+            icon={IoLogoWindows}
+            name={t("about.platforms.windows")}
+          />
+          <PlatformBadge icon={IoLogoApple} name={t("about.platforms.macos")} />
+          <PlatformBadge icon={SiLinux} name={t("about.platforms.linux")} />
         </div>
 
         <div className="text-right">
           <p className="font-heading text-[11px] text-muted-foreground">
-            Built by{" "}
+            {t("about.builtBy")}{" "}
             <button
               onClick={() => open("https://github.com/nomandhoni-cs")}
               className="font-semibold text-foreground/70 hover:text-foreground transition-colors"
@@ -313,8 +313,7 @@ const AboutPage = () => {
             </button>
           </p>
           <p className="font-heading text-[10px] text-muted-foreground/50 mt-0.5">
-            GPL v3 License + Additional Commercial Restrictions ©{" "}
-            {new Date().getFullYear()}
+            {t("about.license")} © {new Date().getFullYear()}
           </p>
         </div>
       </footer>

@@ -17,6 +17,7 @@ import {
 } from "../../backgrounds/registry";
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { useTrigger } from "../../contexts/TriggerReRender";
 import {
@@ -52,8 +53,8 @@ type ReminderSettingsState = {
   snoozesPerDay: number;
 };
 
-function formatSnoozeLimit(value: number) {
-  return value === 0 ? "Unlimited" : String(value);
+function formatSnoozeLimit(value: number, t: (key: string) => string) {
+  return value === 0 ? t("reminderSettings.unlimited") : String(value);
 }
 
 function SettingIconBadge({
@@ -108,6 +109,7 @@ function SettingRow({
 }
 
 const ReminderSettings = () => {
+  const { t } = useTranslation();
   const { triggerUpdate } = useTrigger();
   const { fireTrigger } = usePremiumNudge();
   const { canAccessPremiumFeatures } = usePremiumFeatures();
@@ -181,7 +183,7 @@ const ReminderSettings = () => {
         setTimerStyle(await loadTimerStyle());
       } catch (error) {
         console.error("Failed to load reminder settings:", error);
-        toast.error("Couldn't load settings. Try again.", {
+        toast.error(t("reminderSettings.couldNotLoadSettings"), {
           duration: 2000,
           position: "bottom-right",
         });
@@ -202,7 +204,7 @@ const ReminderSettings = () => {
 
   const handleSave = async () => {
     if (interval <= 0 || duration <= 0) {
-      toast.error("Set interval and duration above 0.", {
+      toast.error(t("reminderSettings.setAboveZero"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -277,7 +279,7 @@ const ReminderSettings = () => {
       });
       triggerUpdate();
 
-      toast.success("Saved reminder settings", {
+      toast.success(t("reminderSettings.savedReminderSettings"), {
         duration: 1500,
         position: "bottom-right",
       });
@@ -287,7 +289,7 @@ const ReminderSettings = () => {
       fireTrigger("settings_saved");
     } catch (error) {
       console.error("Failed to save reminder settings:", error);
-      toast.error("Couldn't save settings. Try again.", {
+      toast.error(t("reminderSettings.couldNotSaveReminder"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -305,7 +307,7 @@ const ReminderSettings = () => {
       setIsStrictModeEnabled(checked);
     } catch (error) {
       console.error("Failed to update strict mode:", error);
-      toast.error("Couldn't save strict mode. Try again.", {
+      toast.error(t("reminderSettings.couldNotSaveStrictMode"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -320,7 +322,7 @@ const ReminderSettings = () => {
     } catch (error) {
       console.error("Failed to update timer style:", error);
       setTimerStyle(previous);
-      toast.error("Couldn't save timer style. Try again.", {
+      toast.error(t("reminderSettings.couldNotSaveTimerStyle"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -337,7 +339,7 @@ const ReminderSettings = () => {
     const entry = entryForStyle(requestedStyle);
     const webview = new WebviewWindow("reminder_monitor_0", {
       url: `/${entry}?config=${encodeURIComponent(JSON.stringify({ isPremium }))}`,
-      title: "Take A Break Reminder - Blink Eye",
+      title: t("reminderSettings.windowTitle"),
       fullscreen: true,
       alwaysOnTop: true,
       skipTaskbar: true,
@@ -357,8 +359,8 @@ const ReminderSettings = () => {
               <IoTimer className="size-4" />
             </SettingIconBadge>
           }
-          label="Break frequency"
-          description="How often you get a break reminder"
+          label={t("reminderSettings.breakFrequency")}
+          description={t("reminderSettings.breakFrequencyDesc")}
         >
           <Select
             value={String(interval)}
@@ -371,7 +373,7 @@ const ReminderSettings = () => {
             <SelectContent>
               {FREQUENCY_OPTIONS.map((opt) => (
                 <SelectItem key={opt} value={String(opt)}>
-                  {opt} min
+                  {opt} {t("common.min")}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -384,8 +386,8 @@ const ReminderSettings = () => {
               <IoHourglass className="size-4" />
             </SettingIconBadge>
           }
-          label="Break duration"
-          description="How long each break screen stays open"
+          label={t("reminderSettings.breakDuration")}
+          description={t("reminderSettings.breakDurationDesc")}
         >
           <Select
             value={String(duration)}
@@ -398,7 +400,7 @@ const ReminderSettings = () => {
             <SelectContent>
               {DURATION_OPTIONS.map((opt) => (
                 <SelectItem key={opt} value={String(opt)}>
-                  {opt}s
+                  {opt} {t("common.sec")}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -411,13 +413,13 @@ const ReminderSettings = () => {
               <IoChatbubble className="size-4" />
             </SettingIconBadge>
           }
-          label="Reminder message"
-          description="Text shown on your break screen"
+          label={t("reminderSettings.reminderMessage")}
+          description={t("reminderSettings.reminderMessageDesc")}
           controlClassName="flex w-full justify-end sm:min-w-[320px] sm:max-w-lg"
         >
           <Input
             type="text"
-            placeholder="Pause! Look into the distance, and walk if you can."
+            placeholder={t("reminderSettings.reminderMessagePlaceholder")}
             value={reminderText}
             onChange={(e) => setReminderText(e.target.value)}
             disabled={isLoading}
@@ -433,8 +435,8 @@ const ReminderSettings = () => {
               <IoStopwatch className="size-4" />
             </SettingIconBadge>
           }
-          label="Timer style"
-          description="How the countdown looks on your break screen"
+          label={t("reminderSettings.timerStyle")}
+          description={t("reminderSettings.timerStyleDesc")}
           controlClassName="flex w-full shrink-0 justify-end sm:w-auto"
         >
           <TimerStylePicker
@@ -450,12 +452,12 @@ const ReminderSettings = () => {
         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
           <Badge variant="secondary" className="gap-1.5 text-xs">
             <IoTimer className="size-3" />
-            Every {interval} min
+            {t("reminderSettings.everyMinutes", { minutes: interval })}
           </Badge>
           <span className="text-xs text-muted-foreground">→</span>
           <Badge variant="secondary" className="gap-1.5 text-xs">
             <IoHourglass className="size-3" />
-            {duration}s break
+            {t("reminderSettings.secondsBreak", { seconds: duration })}
           </Badge>
         </div>
 
@@ -467,7 +469,7 @@ const ReminderSettings = () => {
             className="flex-1 sm:flex-none"
           >
             <IoEye className="mr-2 size-4" />
-            Preview break
+            {t("reminderSettings.previewBreak")}
           </Button>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -475,15 +477,14 @@ const ReminderSettings = () => {
                 type="button"
                 variant="ghost"
                 size="icon"
-                aria-label="About preview"
+                aria-label={t("reminderSettings.aboutPreview")}
                 className="shrink-0 text-muted-foreground"
               >
                 <IoInformationCircleOutline className="size-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top">
-              Preview opens one window, even with Multi-Monitor selected. It does
-              not test scheduled breaks across all displays.
+              {t("reminderSettings.aboutPreviewTooltip")}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -491,10 +492,11 @@ const ReminderSettings = () => {
 
       <div className="space-y-2">
         <div className="px-1">
-          <h2 className="text-sm font-medium">Skip limits</h2>
+          <h2 className="text-sm font-medium">
+            {t("reminderSettings.skipLimits")}
+          </h2>
           <p className="text-xs text-muted-foreground">
-            Control how often you can skip a break and whether skipping is
-            allowed.
+            {t("reminderSettings.skipLimitsDesc")}
           </p>
         </div>
 
@@ -505,8 +507,8 @@ const ReminderSettings = () => {
                 <IoAlarm className="size-4" />
               </SettingIconBadge>
             }
-            label="Snoozes per session"
-            description="Skip clicks allowed until you restart the app (0 = unlimited)"
+            label={t("reminderSettings.snoozesPerSession")}
+            description={t("reminderSettings.snoozesPerSessionDesc")}
           >
             <Select
               value={String(snoozesPerSession)}
@@ -519,7 +521,7 @@ const ReminderSettings = () => {
               <SelectContent>
                 {SNOOZE_LIMIT_OPTIONS.map((opt) => (
                   <SelectItem key={opt} value={String(opt)}>
-                    {formatSnoozeLimit(opt)}
+                    {formatSnoozeLimit(opt, t)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -532,8 +534,8 @@ const ReminderSettings = () => {
                 <IoAlarm className="size-4" />
               </SettingIconBadge>
             }
-            label="Snoozes per day"
-            description="Skip clicks allowed per calendar day (0 = unlimited)"
+            label={t("reminderSettings.snoozesPerDay")}
+            description={t("reminderSettings.snoozesPerDayDesc")}
           >
             <Select
               value={String(snoozesPerDay)}
@@ -546,7 +548,7 @@ const ReminderSettings = () => {
               <SelectContent>
                 {SNOOZE_LIMIT_OPTIONS.map((opt) => (
                   <SelectItem key={opt} value={String(opt)}>
-                    {formatSnoozeLimit(opt)}
+                    {formatSnoozeLimit(opt, t)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -559,8 +561,8 @@ const ReminderSettings = () => {
                 <IoLockClosed className="size-4" />
               </SettingIconBadge>
             }
-            label="Strict mode"
-            description="Removes the Skip this time button during breaks"
+            label={t("reminderSettings.strictMode")}
+            description={t("reminderSettings.strictModeDesc")}
           >
             <Switch
               id="usingStrictMode"
@@ -580,7 +582,7 @@ const ReminderSettings = () => {
           style={{ backgroundColor: accentHex }}
         >
           <IoSave className="mr-2 size-4" />
-          {isSaving ? "Saving…" : "Save changes"}
+          {isSaving ? t("common.saving") : t("common.saveChanges")}
         </Button>
       )}
     </div>

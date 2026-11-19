@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -52,14 +53,16 @@ type TimeRange =
   | "365days"
   | "allTime";
 
-const timeRanges: { [key in TimeRange]: string } = {
-  today: "Today",
-  "7days": "Last 7 Days",
-  "30days": "Last 30 Days",
-  monthly: "Monthly",
-  "365days": "Last 365 Days",
-  allTime: "All Time",
+const TIME_RANGE_KEYS: { [key in TimeRange]: string } = {
+  today: "today",
+  "7days": "7days",
+  "30days": "30days",
+  monthly: "monthly",
+  "365days": "365days",
+  allTime: "allTime",
 };
+
+const TIME_RANGES = Object.keys(TIME_RANGE_KEYS) as TimeRange[];
 
 // Month selector component
 const MonthYearSelector: React.FC<{
@@ -161,6 +164,7 @@ const MonthYearSelector: React.FC<{
 };
 
 export default function UsageTimeChart() {
+  const { t } = useTranslation();
   const [selectedRange, setSelectedRange] = useState<TimeRange>("7days");
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const [timeData, setTimeData] = useState<TimeData | null>(null);
@@ -168,11 +172,11 @@ export default function UsageTimeChart() {
 
   const chartConfig: ChartConfig = {
     timeWithin: {
-      label: "Within 8 Hours",
+      label: t("usageTimeChart.withinLimit", { limit: usageTimeLimit }),
       color: "#22c55e",
     },
     timeExceeds: {
-      label: "Exceeds 8 Hours",
+      label: t("usageTimeChart.exceedsLimit", { limit: usageTimeLimit }),
       color: "#FE4C55",
     },
   };
@@ -252,7 +256,7 @@ export default function UsageTimeChart() {
   }, [timeData, selectedRange, selectedMonth]);
 
   const totalTime = useMemo(() => {
-    if (!processedData.length) return "0h 0m";
+    if (!processedData.length) return t("common.hoursMinutes", { hours: 0, minutes: 0 });
     const totalMilliseconds = processedData.reduce(
       (sum, { totalTime }) => sum + totalTime,
       0,
@@ -261,23 +265,22 @@ export default function UsageTimeChart() {
     const minutes = Math.floor(
       (totalMilliseconds % (60 * 60 * 1000)) / (60 * 1000),
     );
-    return `${hours}h ${minutes}m`;
-  }, [processedData]);
+    return t("common.hoursMinutes", { hours, minutes });
+  }, [processedData, t]);
 
   const formatTime = (milliseconds: number) => {
     const hours = Math.floor(milliseconds / (60 * 60 * 1000));
     const minutes = Math.floor((milliseconds % (60 * 60 * 1000)) / (60 * 1000));
-    return `${hours}h ${minutes}m`;
+    return t("common.hoursMinutes", { hours, minutes });
   };
 
   if (!timeData) {
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
+        <AlertTitle>{t("common.error")}</AlertTitle>
         <AlertDescription>
-          No time data available. Please check the data being passed to the
-          component.
+          {t("usageTimeChart.noDataMessage")}
         </AlertDescription>
       </Alert>
     );
@@ -290,12 +293,15 @@ export default function UsageTimeChart() {
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="space-y-2">
           <CardTitle className="font-heading tracking-wider">
-            Device Usage Time
+            {t("usageTimeChart.title")}
           </CardTitle>
           <CardDescription>
             {selectedRange === "monthly"
-              ? `${format(selectedMonth, "MMMM yyyy")} - Total: ${totalTime}`
-              : `Total time: ${totalTime}`}
+              ? t("usageTimeChart.monthlyTotal", {
+                  month: format(selectedMonth, "MMMM yyyy"),
+                  value: totalTime,
+                })
+              : t("usageTimeChart.totalTime", { value: totalTime })}
           </CardDescription>
         </div>
         <div className="mr-14">
@@ -311,11 +317,15 @@ export default function UsageTimeChart() {
         </div>
         <div className="flex flex-col items-end space-y-1">
           <div className="flex items-center">
-            <span className="text-sm mr-2">Within {usageTimeLimit} Hours</span>
+            <span className="text-sm mr-2">
+              {t("usageTimeChart.withinLimit", { limit: usageTimeLimit })}
+            </span>
             <div className="w-3 h-3 rounded-full bg-[#22c55e]"></div>
           </div>
           <div className="flex items-center">
-            <span className="text-sm mr-2">Exceeds {usageTimeLimit} Hours</span>
+            <span className="text-sm mr-2">
+              {t("usageTimeChart.exceedsLimit", { limit: usageTimeLimit })}
+            </span>
             <div className="w-3 h-3 rounded-full bg-[#FE4C55]"></div>
           </div>
         </div>
@@ -323,13 +333,13 @@ export default function UsageTimeChart() {
       <CardContent>
         <div className="flex flex-wrap items-center gap-2 mb-4">
           <div className="flex gap-2">
-            {Object.entries(timeRanges).map(([key, label]) => (
+            {TIME_RANGES.map((key) => (
               <Button
                 key={key}
                 variant={selectedRange === key ? "default" : "outline"}
-                onClick={() => setSelectedRange(key as TimeRange)}
+                onClick={() => setSelectedRange(key)}
               >
-                {label}
+                {t(`usageTimeChart.ranges.${TIME_RANGE_KEYS[key]}`)}
               </Button>
             ))}
           </div>
@@ -356,9 +366,11 @@ export default function UsageTimeChart() {
                           <p className="font-semibold">
                             {format(new Date(data.date), "MMMM dd, yyyy")}
                           </p>
-                          <p>{`Screen On Time: ${formatTime(
-                            data.totalTime,
-                          )}`}</p>
+                          <p>
+                            {t("usageTimeChart.screenOnTimeValue", {
+                              value: formatTime(data.totalTime),
+                            })}
+                          </p>
                         </div>
                       );
                     }
@@ -368,7 +380,7 @@ export default function UsageTimeChart() {
                 <ChartLegend content={<ChartLegendContent />} />
                 <Bar
                   dataKey="totalTime"
-                  name="Screen On Time"
+                  name={t("usageTimeChart.screenOnTime")}
                   radius={[8, 8, 0, 0]}
                 >
                   {processedData.map((entry) => (
@@ -389,14 +401,15 @@ export default function UsageTimeChart() {
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>
-              No Data for{" "}
-              {selectedRange === "monthly"
-                ? format(selectedMonth, "MMMM yyyy")
-                : timeRanges[selectedRange]}
+              {t("usageTimeChart.noDataTitle", {
+                range:
+                  selectedRange === "monthly"
+                    ? format(selectedMonth, "MMMM yyyy")
+                    : t(`usageTimeChart.ranges.${TIME_RANGE_KEYS[selectedRange]}`),
+              })}
             </AlertTitle>
             <AlertDescription>
-              No activity recorded for the selected time range. Please ensure
-              the app is tracking your activity.
+              {t("usageTimeChart.noDataDesc")}
             </AlertDescription>
           </Alert>
         )}

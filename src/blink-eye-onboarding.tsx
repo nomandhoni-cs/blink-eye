@@ -1,13 +1,17 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Screen Components
+import LanguageScreen from "./components/screens/language-screen";
 import WelcomeScreen from "./components/screens/welcome-screen";
 import BreakConfigScreen from "./components/screens/break-config-screen";
 import ThemePickerOnboarding from "./components/screens/theme-picker-onboarding";
 import TimerStyleScreen from "./components/screens/timer-style-screen";
+import TodoSetupScreen from "./components/screens/todo-setup-screen";
 import DoneScreen from "./components/screens/done-screen";
+import { changeLanguage } from "./i18n";
 
 // Types and Services
 import type { Screen } from "./types/onboarding";
@@ -23,12 +27,22 @@ import {
   saveTimerStyle,
   type TimerStyle,
 } from "./components/reminder/timerStyle";
+import {
+  createTask,
+  setTodoSetting,
+  TASK_REMINDERS_ENABLED_KEY,
+  toLocalDate,
+  toLocalDateTime,
+} from "./lib/todo-store";
 
 import { screenEmail } from "./lib/email-screening";
 
 export default function UserOnboarding() {
+  const { t } = useTranslation();
   // State Management
   const [currentScreen, setCurrentScreen] = useState(1);
+  // Default to English (US) until the user picks something else.
+  const [language, setLanguage] = useState("en");
   const [direction, setDirection] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -61,6 +75,15 @@ export default function UserOnboarding() {
     "Pause! Look into the distance, and best if you walk a bit.",
   );
   const [timerStyle, setTimerStyle] = useState<TimerStyle>("dial");
+  // To-dos are free: onboarding captures one required real first task and lets
+  // the user decide whether they want task pop-ups (the opt-in is optional).
+  const [firstTask, setFirstTask] = useState("");
+  const [todoTaskAdded, setTodoTaskAdded] = useState(false);
+  const [todoRequiredError, setTodoRequiredError] = useState(false);
+  const [firstTaskTime, setFirstTaskTime] = useState("");
+  // New users start with a useful default: remind 10 minutes before the task.
+  const [firstTaskLeadMinutes, setFirstTaskLeadMinutes] = useState(10);
+  const [remindersEnabled, setRemindersEnabled] = useState(true);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
   // Soft signal: plausible but unusual (`xx@`, `admin@`, numeric local).
@@ -74,25 +97,48 @@ export default function UserOnboarding() {
    */
   const emailWarningAcknowledgedRef = useRef(false);
 
+  // A task is required on the todo step. Editing after saving means the user
+  // is making a new decision, so the "added" confirmation is cleared.
+  const updateFirstTask = (value: string) => {
+    setFirstTask(value);
+    setTodoTaskAdded(false);
+    setTodoRequiredError(false);
+  };
+
+  const markFirstTaskAdded = () => {
+    setFirstTask("");
+    setTodoTaskAdded(true);
+    setTodoRequiredError(false);
+  };
+
   // Screen Configuration - Easy to add new screens!
   const screens: Screen[] = [
     {
       id: 1,
-      title: "Welcome",
-      component: WelcomeScreen,
-      onNext: OnboardingService.saveWelcomeData,
+      title: t("onboarding.steps.language"),
+      component: LanguageScreen,
+      onNext: async () => {
+        await changeLanguage(language);
+      },
     },
     {
       id: 2,
-      title: "Theme",
+      title: t("onboarding.steps.welcome"),
+      component: WelcomeScreen,
+      onNext: OnboardingService.saveWelcomeData,
+      validate: () => validateEmail(),
+    },
+    {
+      id: 3,
+      title: t("onboarding.steps.theme"),
       component: ThemePickerOnboarding,
       onNext: async () => {
         // Theme is already saved to DB by AccentColorContext.setAccentTheme
       },
     },
     {
-      id: 3,
-      title: "Break Settings",
+      id: 4,
+      title: t("onboarding.steps.breakSettings"),
       component: BreakConfigScreen,
       onNext: async () => {
         await OnboardingService.saveBreakConfiguration({
@@ -103,14 +149,44 @@ export default function UserOnboarding() {
       },
     },
     {
-      id: 4,
-      title: "Break Clock",
+      id: 5,
+      title: t("onboarding.steps.breakClock"),
       component: TimerStyleScreen,
       onNext: () => saveTimerStyle(timerStyle),
     },
     {
-      id: 5,
-      title: "Done",
+      id: 6,
+      title: t("onboarding.steps.todo"),
+      component: TodoSetupScreen,
+      validate: () => {
+        // One real task is required to start the feature; it is saved either
+        // by "Add task" or automatically when the user presses Next.
+        const hasTask = todoTaskAdded || firstTask.trim().length > 0;
+        setTodoRequiredError(!hasTask);
+        return hasTask;
+      },
+      onNext: async () => {
+        // Text left in the field when the user presses Next still becomes a
+        // task; the screen clears it when its own Add button was used.
+        if (!todoTaskAdded && firstTask.trim()) {
+          await createTask({
+            title: firstTask,
+            deadline: toLocalDate(new Date()),
+            reminderTime: firstTaskTime || null,
+            dueAt: toLocalDateTime(new Date(), firstTaskTime),
+            reminderLeadMinutes: firstTaskLeadMinutes,
+          });
+          markFirstTaskAdded();
+        }
+        await setTodoSetting(
+          TASK_REMINDERS_ENABLED_KEY,
+          remindersEnabled ? "true" : "false",
+        );
+      },
+    },
+    {
+      id: 7,
+      title: t("onboarding.steps.done"),
       component: DoneScreen,
       onNext: async () => {
         await OnboardingService.completeOnboarding({
@@ -171,7 +247,9 @@ export default function UserOnboarding() {
     const result = screenEmail(email);
 
     if (result.verdict === "blocked") {
-      setEmailError(result.message);
+      setEmailError(
+        result.messageKey ? t(`email.${result.messageKey}`) : result.message,
+      );
       setEmailWarning(null);
       return false;
     }
@@ -180,7 +258,9 @@ export default function UserOnboarding() {
       // Surface the question and pause; the same Next click continues once
       // the user has confirmed.
       setEmailError(null);
-      setEmailWarning(result.message);
+      setEmailWarning(
+        result.messageKey ? t(`email.${result.messageKey}`) : result.message,
+      );
       return false;
     }
 
@@ -190,7 +270,7 @@ export default function UserOnboarding() {
   };
 
   const goNext = async () => {
-    if (currentScreen === 1 && !validateEmail()) {
+    if (currentScreenConfig?.validate && !currentScreenConfig.validate()) {
       return;
     }
 
@@ -208,7 +288,7 @@ export default function UserOnboarding() {
       toast.error(
         error instanceof Error && error.message
           ? error.message
-          : "Oops! Something went wrong. Try again?",
+          : t("onboarding.setupFailed"),
       );
     } finally {
       setIsLoading(false);
@@ -240,6 +320,15 @@ export default function UserOnboarding() {
       switch (currentScreen) {
         case 1:
           return {
+            selected: language,
+            onSelect: (code: string) => {
+              setLanguage(code);
+              // Live preview: the rest of onboarding follows the choice.
+              void changeLanguage(code);
+            },
+          };
+        case 2:
+          return {
             email,
             setEmail: updateEmail,
             emailError,
@@ -247,10 +336,10 @@ export default function UserOnboarding() {
             emailWarningAcknowledged,
             onAcknowledgeWarning: acknowledgeEmailWarning,
           };
-        case 2:
+        case 3:
           // Theme picker - no props needed
           return {};
-        case 3:
+        case 4:
           return {
             breakInterval,
             setBreakInterval,
@@ -259,9 +348,23 @@ export default function UserOnboarding() {
             reminderText,
             setReminderText,
           };
-        case 4:
-          return { timerStyle, setTimerStyle };
         case 5:
+          return { timerStyle, setTimerStyle };
+        case 6:
+          return {
+            firstTask,
+            setFirstTask: updateFirstTask,
+            taskAdded: todoTaskAdded,
+            remindersEnabled,
+            setRemindersEnabled,
+            firstTaskTime,
+            setFirstTaskTime,
+            firstTaskLeadMinutes,
+            setFirstTaskLeadMinutes,
+            onTaskAdded: markFirstTaskAdded,
+            requiredError: todoRequiredError,
+          };
+        case 7:
           return {
             breakInterval,
             breakDuration,
@@ -326,8 +429,11 @@ export default function UserOnboarding() {
         <div className="space-y-1.5">
           <div className="flex justify-between text-xs text-foreground/50">
             <span className="font-medium">
-              Step {currentScreen} of {totalScreens} —{" "}
-              {currentScreenConfig?.title}
+              {t("onboarding.stepOf", {
+                current: currentScreen,
+                total: totalScreens,
+                title: currentScreenConfig?.title,
+              })}
             </span>
             <span>{Math.round(progress)}%</span>
           </div>
@@ -344,7 +450,7 @@ export default function UserOnboarding() {
             className="flex items-center space-x-2 bg-transparent"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span>Previous</span>
+            <span>{t("common.previous")}</span>
           </Button>
 
           {/* Screen Indicators */}
@@ -371,10 +477,10 @@ export default function UserOnboarding() {
           >
             <span>
               {isLoading
-                ? "Saving..."
+                ? t("common.saving")
                 : currentScreen === totalScreens
-                  ? "Complete"
-                  : "Next"}
+                  ? t("common.complete")
+                  : t("common.next")}
             </span>
             <ChevronRight className="w-4 h-4" />
           </Button>

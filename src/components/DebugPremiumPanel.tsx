@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 
 interface DebugInfo {
@@ -68,6 +69,7 @@ const DebugRow = ({
 );
 
 const DebugPremiumPanel: React.FC = () => {
+  const { t } = useTranslation();
   const [info, setInfo] = useState<DebugInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -207,7 +209,7 @@ const DebugPremiumPanel: React.FC = () => {
     window.location.reload();
   };
 
-  const simulate = async (action: string, payload?: Record<string, string>) => {
+  const simulate = async (action: string, payload?: Record<string, unknown>) => {
     try {
       await invoke(action, payload);
     } catch (e) {
@@ -215,135 +217,118 @@ const DebugPremiumPanel: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="p-4 text-sm">Loading debug info...</div>;
+  if (loading) return <div className="p-4 text-sm">{t("debug.loading")}</div>;
   if (!info) return null;
+
+  const simulatorButtons = [
+    { label: t("debug.previewWindow"), action: "debug_preview_nudge_window", payload: undefined },
+    {
+      label: t("debug.fireBreak"),
+      action: "maybe_show_premium_nudge",
+      payload: { trigger: "break_completed" },
+    },
+    {
+      label: t("debug.fireStats"),
+      action: "maybe_show_premium_nudge",
+      payload: { trigger: "stats_viewed" },
+    },
+    {
+      label: t("debug.recordSnoozed"),
+      action: "record_premium_nudge_event",
+      payload: { event: "snoozed" },
+    },
+  ];
 
   return (
     <div className="fixed bottom-4 right-4 w-96 max-h-[80vh] overflow-y-auto bg-black/90 text-white text-sm rounded-xl border border-white/20 p-4 z-50 font-sans">
-      <h3 className="font-heading text-lg mb-3 font-semibold">
-        Debug: All from Rust
-      </h3>
+      <h3 className="font-heading text-lg mb-3 font-semibold">{t("debug.title")}</h3>
 
       {info.clockManipulated && (
         <div className="bg-red-500/20 text-red-400 rounded-lg p-2 mb-3 text-xs">
-          CLOCK MANIPULATION DETECTED
+          {t("debug.clockWarning")}
         </div>
       )}
       {info.trialError && (
         <div className="bg-red-500/20 text-red-400 rounded-lg p-2 mb-3 text-xs">
-          Trial: {info.trialError}
+          {t("debug.trialError", { error: info.trialError })}
         </div>
       )}
       {info.licenseError && (
         <div className="bg-red-500/20 text-red-400 rounded-lg p-2 mb-3 text-xs">
-          License: {info.licenseError}
+          {t("debug.licenseError", { error: info.licenseError })}
         </div>
       )}
 
       <div className="mb-3">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          Trial (Rust get_trial_info)
-        </h4>
-        <DebugRow label="Install date" value={info.installDate} />
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.trialSection")}</h4>
+        <DebugRow label={t("debug.installDate")} value={info.installDate} />
         <DebugRow
-          label="Days remaining"
+          label={t("debug.daysRemaining")}
           value={info.trialDaysLeft}
           warn={info.trialActive === true}
         />
-        <DebugRow label="Trial active" value={info.trialActive} />
-        <DebugRow label="Clock manipulated" value={info.clockManipulated} />
+        <DebugRow label={t("debug.trialActive")} value={info.trialActive} />
+        <DebugRow label={t("debug.clockManipulated")} value={info.clockManipulated} />
       </div>
 
       <div className="mb-3">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          License (Rust get_license_info)
-        </h4>
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.licenseSection")}</h4>
         <DebugRow
-          label="Status"
+          label={t("debug.status")}
           value={info.licenseStatus}
           warn={info.isPaid === true}
         />
-        <DebugRow label="License key" value={info.licenseKey} />
-        <DebugRow label="Is paid" value={info.isPaid} />
+        <DebugRow label={t("debug.licenseKey")} value={info.licenseKey} />
+        <DebugRow label={t("debug.isPaid")} value={info.isPaid} />
       </div>
 
       <div className="mb-3">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          Premium (derived)
-        </h4>
-        <DebugRow label="Is premium" value={info.isPremium} warn={info.isPremium === true} />
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.premiumSection")}</h4>
+        <DebugRow
+          label={t("debug.isPremium")}
+          value={info.isPremium}
+          warn={info.isPremium === true}
+        />
       </div>
 
       <div className="mb-3">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          Reminder (Rust get_reminder_settings)
-        </h4>
-        <DebugRow label="Interval (mins)" value={info.intervalMins} />
-        <DebugRow label="Duration (secs)" value={info.durationSecs} />
-        <DebugRow label="Background style" value={info.backgroundStyle} />
-        <DebugRow label="Reminder text" value={info.reminderText} />
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.reminderSection")}</h4>
+        <DebugRow label={t("debug.intervalMins")} value={info.intervalMins} />
+        <DebugRow label={t("debug.durationSecs")} value={info.durationSecs} />
+        <DebugRow label={t("debug.backgroundStyle")} value={info.backgroundStyle} />
+        <DebugRow label={t("debug.reminderText")} value={info.reminderText} />
       </div>
 
       <div className="mb-3">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          Config (Rust get_config_bool)
-        </h4>
-        <DebugRow label="Multi-monitor" value={info.isMultiMonitor} />
-        <DebugRow label="Strict mode" value={info.isStrictMode} />
-        <DebugRow label="Workday enabled" value={info.isWorkdayEnabled} />
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.configSection")}</h4>
+        <DebugRow label={t("debug.multiMonitor")} value={info.isMultiMonitor} />
+        <DebugRow label={t("debug.strictMode")} value={info.isStrictMode} />
+        <DebugRow label={t("debug.workdayEnabled")} value={info.isWorkdayEnabled} />
       </div>
 
       <div className="mb-3">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          Nudge (Rust get_premium_nudge_state)
-        </h4>
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.nudgeSection")}</h4>
         {info.nudgeError && (
           <div className="bg-red-500/20 text-red-400 rounded-lg p-2 mb-2 text-xs">
-            Nudge: {info.nudgeError}
+            {t("debug.nudgeError", { error: info.nudgeError })}
           </div>
         )}
-        <DebugRow label="Eligible" value={info.nudgeEligible} />
-        <DebugRow label="Reason" value={info.nudgeReason} />
-        <DebugRow label="Variant" value={info.nudgeVariant} />
-        <DebugRow label="Last shown" value={info.nudgeLastShown} />
-        <DebugRow label="Shows 30d" value={info.nudgeCount30d} />
-        <DebugRow label="Shows lifetime" value={info.nudgeCountLifetime} />
-        <DebugRow label="Snoozed until" value={info.nudgeSnoozedUntil} />
+        <DebugRow label={t("debug.eligible")} value={info.nudgeEligible} />
+        <DebugRow label={t("debug.reason")} value={info.nudgeReason} />
+        <DebugRow label={t("debug.variant")} value={info.nudgeVariant} />
+        <DebugRow label={t("debug.lastShown")} value={info.nudgeLastShown} />
+        <DebugRow label={t("debug.shows30d")} value={info.nudgeCount30d} />
+        <DebugRow label={t("debug.showsLifetime")} value={info.nudgeCountLifetime} />
+        <DebugRow label={t("debug.snoozedUntil")} value={info.nudgeSnoozedUntil} />
       </div>
 
       <div className="mb-1">
-        <h4 className="text-xs uppercase text-gray-500 mb-1">
-          Nudge simulator
-        </h4>
-        <p className="text-[11px] text-gray-500 mb-2">
-          Preview opens instantly (dev only, bypasses eligibility and caps).
-          Trigger buttons test the real gated path.
-        </p>
+        <h4 className="text-xs uppercase text-gray-500 mb-1">{t("debug.simulator")}</h4>
+        <p className="text-[11px] text-gray-500 mb-2">{t("debug.simulatorHint")}</p>
         <div className="flex flex-wrap gap-1.5">
-          {[
-            {
-              label: "Preview nudge window",
-              action: "debug_preview_nudge_window",
-              payload: undefined,
-            },
-            {
-              label: "Fire break trigger",
-              action: "maybe_show_premium_nudge",
-              payload: { trigger: "break_completed" },
-            },
-            {
-              label: "Fire stats trigger",
-              action: "maybe_show_premium_nudge",
-              payload: { trigger: "stats_viewed" },
-            },
-            {
-              label: "Record snoozed",
-              action: "record_premium_nudge_event",
-              payload: { event: "snoozed" },
-            },
-          ].map(({ label, action, payload }) => (
+          {simulatorButtons.map(({ label, action, payload }) => (
             <button
-              key={label}
+              key={action}
               onClick={() => simulate(action, payload)}
               className="rounded-md border border-white/20 px-2 py-1 text-xs hover:bg-white/10"
             >
@@ -354,7 +339,7 @@ const DebugPremiumPanel: React.FC = () => {
             onClick={refresh}
             className="rounded-md border border-white/20 px-2 py-1 text-xs hover:bg-white/10"
           >
-            Refresh
+            {t("debug.refresh")}
           </button>
         </div>
       </div>

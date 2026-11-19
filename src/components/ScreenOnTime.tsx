@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface TimeCount {
   hours: number;
   minutes: number;
@@ -8,11 +10,12 @@ interface TimeDisplayProps {
 }
 
 const ScreenOnTime: React.FC<TimeDisplayProps> = ({ timeCount }) => {
+  const { t } = useTranslation();
   const { hours, minutes } = timeCount;
   return (
     <div className="text-xl ">
       <span className="">
-        Screen On Time: {hours}h {minutes}m
+        {t("common.screenOnTime", { hours, minutes })}
       </span>
     </div>
   );

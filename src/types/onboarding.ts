@@ -5,6 +5,8 @@ export interface Screen {
   title: string;
   component: React.ComponentType<any>;
   onNext?: () => Promise<void> | void;
+  /** Block advancing when this returns false (e.g. invalid email). */
+  validate?: () => boolean;
 }
 
 export interface OnboardingData {

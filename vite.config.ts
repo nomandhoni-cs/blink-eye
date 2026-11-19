@@ -26,6 +26,8 @@ export default defineConfig(async () => ({
       input: {
         main: "index.html",
         alert: "alert.html",
+        // Small top-center task reminder popup (spawned by task_reminders.rs).
+        "task-alert": "task-alert.html",
         // Standalone premium nudge window (spawned by premium_nudge.rs).
         "premium-nudge": "premium-nudge.html",
         // Per-background entries (each ships only its own background JS).
@@ -63,6 +65,9 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
+    // Allow the Arena preview host (and any other proxied host) so the web
+    // build can be opened outside the Tauri shell.
+    allowedHosts: true,
     hmr: host
       ? {
           protocol: "ws",

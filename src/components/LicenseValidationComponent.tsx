@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
@@ -7,6 +8,7 @@ import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 const LicenseValidationComponent: React.FC = () => {
+  const { t } = useTranslation();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const { licenseData, refreshLicenseData } = useLicenseKey();
   const { refreshPremiumFeatures } = usePremiumFeatures();
@@ -33,7 +35,7 @@ const LicenseValidationComponent: React.FC = () => {
     licenseKey: string
   ) => {
     if (!licenseKey) {
-      toast.error("Missing license key for validation.");
+      toast.error(t("license.missingKey"));
       return;
     }
 

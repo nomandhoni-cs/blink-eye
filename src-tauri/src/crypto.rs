@@ -1,8 +1,12 @@
+//! Encrypted install/license data and app configuration storage.
+
 use chrono::Local;
-use ring::{aead, pbkdf2, rand::SecureRandom};
+use ring::rand::SecureRandom;
+use ring::{aead, pbkdf2};
 use serde::{Deserialize, Serialize};
 use sqlx::{Pool, Sqlite};
-use std::{num::NonZeroU32, str::FromStr};
+use std::num::NonZeroU32;
+use std::str::FromStr;
 use tauri::{AppHandle, Manager};
 
 // PBKDF2 parameters — must match the WebCrypto parameters used by the frontend
@@ -19,6 +23,7 @@ const PASSWORD_LENGTH: usize = 21;
 
 /// Returns up to `max_chars` characters of a string for log output.
 /// Slicing by byte index would panic on multi-byte UTF-8 boundaries.
+#[must_use]
 fn log_preview(value: &str, max_chars: usize) -> &str {
     match value.char_indices().nth(max_chars) {
         Some((index, _)) => &value[..index],
@@ -108,9 +113,12 @@ pub fn encrypt_data(plain_text: &str, password: &str) -> Option<String> {
 pub fn decrypt_data(encrypted_text: &str, password: &str) -> Option<String> {
     let payload: EncryptedPayload = match serde_json::from_str(encrypted_text) {
         Ok(p) => p,
-        Err(e) => {
-            eprintln!("[Crypto] Failed to parse encrypted payload: {e}");
-            eprintln!("[Crypto] Input (first 100 chars): {}", log_preview(encrypted_text, 100));
+        Err(error) => {
+            eprintln!("[Crypto] Failed to parse encrypted payload: {error}");
+            eprintln!(
+                "[Crypto] Input (first 100 chars): {}",
+                log_preview(encrypted_text, 100)
+            );
             return None;
         }
     };
@@ -125,8 +133,11 @@ pub fn decrypt_data(encrypted_text: &str, password: &str) -> Option<String> {
 
     let nonce = match aead::Nonce::try_assume_unique_for_key(&payload.iv) {
         Ok(n) => n,
-        Err(e) => {
-            eprintln!("[Crypto] Invalid nonce (iv length: {}): {e}", payload.iv.len());
+        Err(error) => {
+            eprintln!(
+                "[Crypto] Invalid nonce (iv length: {}): {error}",
+                payload.iv.len()
+            );
             return None;
         }
     };
@@ -135,8 +146,8 @@ pub fn decrypt_data(encrypted_text: &str, password: &str) -> Option<String> {
 
     let plaintext = match key.open_in_place(nonce, aead::Aad::empty(), &mut in_out) {
         Ok(p) => p,
-        Err(e) => {
-            eprintln!("[Crypto] Decryption failed (wrong password or corrupted data): {e}");
+        Err(error) => {
+            eprintln!("[Crypto] Decryption failed (wrong password or corrupted data): {error}");
             return None;
         }
     };
@@ -175,7 +186,7 @@ async fn open_user_db(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String> {
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {e}"))?;
+        .map_err(|error| format!("Failed to get app data dir: {error}"))?;
 
     let db_path = app_data_dir.join("basicapplicationdata.db");
     let url = format!("sqlite://{}", db_path.display());
@@ -184,11 +195,11 @@ async fn open_user_db(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String> {
         .max_connections(2)
         .connect_with(
             sqlx::sqlite::SqliteConnectOptions::from_str(&url)
-                .map_err(|e| e.to_string())?
+                .map_err(|error| error.to_string())?
                 .create_if_missing(true),
         )
         .await
-        .map_err(|e| e.to_string())
+        .map_err(|error| error.to_string())
 }
 
 /// Ensure the `user_data` table exists and has an entry with `id = 1`.
@@ -217,13 +228,13 @@ pub async fn ensure_install_data(app_handle: AppHandle) -> Result<(), String> {
     )
     .execute(&pool)
     .await
-    .map_err(|e| e.to_string())?;
+    .map_err(|error| error.to_string())?;
 
     // Check if entry already exists
     let existing: Option<(i64,)> = sqlx::query_as("SELECT id FROM user_data WHERE id = 1")
         .fetch_optional(&pool)
         .await
-        .map_err(|e| e.to_string())?;
+        .map_err(|error| error.to_string())?;
 
     if existing.is_some() {
         return Ok(()); // Already initialized
@@ -242,7 +253,7 @@ pub async fn ensure_install_data(app_handle: AppHandle) -> Result<(), String> {
         .bind(&encrypted)
         .execute(&pool)
         .await
-        .map_err(|e| e.to_string())?;
+        .map_err(|error| error.to_string())?;
 
     println!("[Crypto] Install data initialized for {}", today);
     Ok(())
@@ -266,7 +277,7 @@ pub async fn get_install_date(app_handle: AppHandle) -> Result<Option<String>, S
         sqlx::query_as("SELECT unique_nano_id, data FROM user_data WHERE id = 1")
             .fetch_optional(&pool)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|error| error.to_string())?;
 
     let Some((password, encrypted_data)) = row else {
         return Ok(None);
@@ -298,7 +309,7 @@ async fn open_license_db(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String>
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {e}"))?;
+        .map_err(|error| format!("Failed to get app data dir: {error}"))?;
 
     let db_path = app_data_dir.join("blink_eye_license.db");
     let url = format!("sqlite://{}", db_path.display());
@@ -307,11 +318,11 @@ async fn open_license_db(app_handle: &AppHandle) -> Result<Pool<Sqlite>, String>
         .max_connections(2)
         .connect_with(
             sqlx::sqlite::SqliteConnectOptions::from_str(&url)
-                .map_err(|e| e.to_string())?
+                .map_err(|error| error.to_string())?
                 .create_if_missing(true),
         )
         .await
-        .map_err(|e| e.to_string())
+        .map_err(|error| error.to_string())
 }
 
 /// Ensure the `licenses` table exists.
@@ -339,7 +350,7 @@ async fn ensure_license_table(pool: &Pool<Sqlite>) -> Result<(), String> {
     )
     .execute(pool)
     .await
-    .map_err(|e| e.to_string())?;
+    .map_err(|error| error.to_string())?;
     Ok(())
 }
 
@@ -352,12 +363,11 @@ pub async fn get_license_info(app_handle: AppHandle) -> Result<LicenseInfo, Stri
     let pool = open_license_db(&app_handle).await?;
     ensure_license_table(&pool).await?;
 
-    let row: Option<(String, String, String)> = sqlx::query_as(
-        "SELECT license_key, status, last_validated FROM licenses LIMIT 1",
-    )
-    .fetch_optional(&pool)
-    .await
-    .map_err(|e| e.to_string())?;
+    let row: Option<(String, String, Option<String>)> =
+        sqlx::query_as("SELECT license_key, status, last_validated FROM licenses LIMIT 1")
+            .fetch_optional(&pool)
+            .await
+            .map_err(|error| error.to_string())?;
 
     let Some((encrypted_key, encrypted_status, encrypted_validated)) = row else {
         println!("[Crypto] No license row found in licenses table");
@@ -369,16 +379,13 @@ pub async fn get_license_info(app_handle: AppHandle) -> Result<LicenseInfo, Stri
         });
     };
 
-    println!("[Crypto] Raw license_key (first 80 chars): {}", log_preview(&encrypted_key, 80));
-    println!("[Crypto] Raw status (first 80 chars): {}", log_preview(&encrypted_status, 80));
-
     // Get the decryption password from basicapplicationdata.db
     let user_pool = open_user_db(&app_handle).await?;
     let password_row: Option<(String,)> =
         sqlx::query_as("SELECT unique_nano_id FROM user_data WHERE id = 1")
             .fetch_optional(&user_pool)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|error| error.to_string())?;
 
     let Some((password,)) = password_row else {
         println!("[Crypto] No password found in user_data");
@@ -390,11 +397,9 @@ pub async fn get_license_info(app_handle: AppHandle) -> Result<LicenseInfo, Stri
         });
     };
 
-    println!("[Crypto] Password (first 8 chars): {}", log_preview(&password, 8));
-
     let key = decrypt_data(&encrypted_key, &password);
     let status = decrypt_data(&encrypted_status, &password);
-    let last_validated = decrypt_data(&encrypted_validated, &password);
+    let last_validated = encrypted_validated.and_then(|value| decrypt_data(&value, &password));
 
     let is_paid = status.as_deref() == Some("active");
 
@@ -408,7 +413,10 @@ pub async fn get_license_info(app_handle: AppHandle) -> Result<LicenseInfo, Stri
 
 /// Store full license data (from API response) — encrypts all fields.
 #[tauri::command]
-pub async fn store_license_data(app_handle: AppHandle, data: serde_json::Value) -> Result<(), String> {
+pub async fn store_license_data(
+    app_handle: AppHandle,
+    data: serde_json::Value,
+) -> Result<(), String> {
     let pool = open_license_db(&app_handle).await?;
     ensure_license_table(&pool).await?;
 
@@ -418,7 +426,7 @@ pub async fn store_license_data(app_handle: AppHandle, data: serde_json::Value) 
         sqlx::query_as("SELECT unique_nano_id FROM user_data WHERE id = 1")
             .fetch_optional(&user_pool)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|error| error.to_string())?;
 
     let Some((password,)) = password_row else {
         return Err("No encryption password found in user_data".into());
@@ -476,7 +484,10 @@ pub async fn store_license_data(app_handle: AppHandle, data: serde_json::Value) 
     for field in &fields {
         query = query.bind(field.as_deref().unwrap_or(""));
     }
-    query.execute(&pool).await.map_err(|e| e.to_string())?;
+    query
+        .execute(&pool)
+        .await
+        .map_err(|error| error.to_string())?;
 
     println!("[Crypto] License data stored successfully");
     Ok(())
@@ -519,7 +530,7 @@ pub async fn update_license_fields(
         sqlx::query_as("SELECT unique_nano_id FROM user_data WHERE id = 1")
             .fetch_optional(&user_pool)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|error| error.to_string())?;
 
     let Some((password,)) = password_row else {
         return Err("No encryption password found in user_data".into());
@@ -544,7 +555,7 @@ pub async fn update_license_fields(
                 .bind(&encrypted)
                 .execute(&pool)
                 .await
-                .map_err(|e| e.to_string())?;
+                .map_err(|error| error.to_string())?;
         }
     }
 
@@ -562,7 +573,7 @@ pub(crate) async fn open_app_config_db(app_handle: &AppHandle) -> Result<Pool<Sq
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {e}"))?;
+        .map_err(|error| format!("Failed to get app data dir: {error}"))?;
 
     let db_path = app_data_dir.join("appconfig.db");
     let url = format!("sqlite://{}", db_path.display());
@@ -571,11 +582,11 @@ pub(crate) async fn open_app_config_db(app_handle: &AppHandle) -> Result<Pool<Sq
         .max_connections(2)
         .connect_with(
             sqlx::sqlite::SqliteConnectOptions::from_str(&url)
-                .map_err(|e| e.to_string())?
+                .map_err(|error| error.to_string())?
                 .create_if_missing(true),
         )
         .await
-        .map_err(|e| e.to_string())
+        .map_err(|error| error.to_string())
 }
 
 /// Read a boolean config value from the `config` table.
@@ -588,16 +599,15 @@ pub async fn get_config_bool(
     default_value: bool,
 ) -> Result<bool, String> {
     let pool = open_app_config_db(&app_handle).await?;
+    ensure_config_table(&pool).await?;
 
     let row: Option<(String,)> = sqlx::query_as("SELECT value FROM config WHERE key = ?")
         .bind(&key)
         .fetch_optional(&pool)
         .await
-        .map_err(|e| e.to_string())?;
+        .map_err(|error| error.to_string())?;
 
-    Ok(row
-        .map(|(value,)| value == "true")
-        .unwrap_or(default_value))
+    Ok(row.map(|(value,)| value == "true").unwrap_or(default_value))
 }
 
 /// Read a string config value from the `config` table.
@@ -609,12 +619,13 @@ pub async fn get_config_string(
     key: String,
 ) -> Result<Option<String>, String> {
     let pool = open_app_config_db(&app_handle).await?;
+    ensure_config_table(&pool).await?;
 
     let row: Option<(String,)> = sqlx::query_as("SELECT value FROM config WHERE key = ?")
         .bind(&key)
         .fetch_optional(&pool)
         .await
-        .map_err(|e| e.to_string())?;
+        .map_err(|error| error.to_string())?;
 
     Ok(row.map(|(value,)| value))
 }
@@ -627,9 +638,13 @@ pub async fn get_config_string(
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ReminderSettingsInfo {
+    /// Break interval in minutes.
     pub interval_mins: Option<u64>,
+    /// Break duration in seconds.
     pub duration_secs: Option<u64>,
+    /// Message shown on the break overlay.
     pub reminder_text: Option<String>,
+    /// Background style selected for the break overlay.
     pub background_style: Option<String>,
 }
 
@@ -638,6 +653,7 @@ pub struct ReminderSettingsInfo {
 #[tauri::command]
 pub async fn get_reminder_settings(app_handle: AppHandle) -> Result<ReminderSettingsInfo, String> {
     let pool = open_app_config_db(&app_handle).await?;
+    ensure_config_table(&pool).await?;
 
     let interval = read_config_string_pool(&pool, "blinkEyeReminderInterval")
         .await
@@ -667,6 +683,7 @@ pub async fn update_reminder_setting(
     value: String,
 ) -> Result<(), String> {
     let pool = open_app_config_db(&app_handle).await?;
+    ensure_config_table(&pool).await?;
 
     // Upsert: update if exists, insert otherwise
     sqlx::query(
@@ -677,8 +694,17 @@ pub async fn update_reminder_setting(
     .bind(&value)
     .execute(&pool)
     .await
-    .map_err(|e| e.to_string())?;
+    .map_err(|error| error.to_string())?;
 
+    Ok(())
+}
+
+/// Creates the `config` table lazily so commands work on a fresh install.
+async fn ensure_config_table(pool: &Pool<Sqlite>) -> Result<(), String> {
+    sqlx::query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
+        .execute(pool)
+        .await
+        .map_err(|error| error.to_string())?;
     Ok(())
 }
 
@@ -724,7 +750,7 @@ pub async fn get_trial_info(app_handle: AppHandle) -> Result<TrialInfo, String> 
     };
 
     let installed = chrono::NaiveDate::parse_from_str(date_str, "%Y-%m-%d")
-        .map_err(|e| format!("Invalid install date format: {e}"))?;
+        .map_err(|error| format!("Invalid install date format: {error}"))?;
 
     let today = Local::now().date_naive();
     let clock_manipulated = today < installed;

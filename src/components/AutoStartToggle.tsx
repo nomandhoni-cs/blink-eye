@@ -1,5 +1,6 @@
 // AutoStartToggle.tsx
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import { invoke } from "@tauri-apps/api/core";
 import { Label } from "./ui/label";
@@ -7,6 +8,7 @@ import { Switch } from "./ui/switch";
 import toast from "react-hot-toast";
 
 const AutoStartToggle = () => {
+  const { t } = useTranslation();
   const [isAutoStartEnabled, setIsAutoStartEnabled] = useState(false);
   useEffect(() => {
     const initializeAutoStart = async () => {
@@ -16,7 +18,7 @@ const AutoStartToggle = () => {
         if (!runOnStartUp || runOnStartUp === "false") {
           await enable();
           await invoke("update_reminder_setting", { key: "isRunOnStartUpEnabledByDefault", value: "true" });
-          toast.success("AutoStart Enabled by Default", {
+          toast.success(t("autostart.enabledByDefault"), {
             duration: 2000,
             position: "bottom-right",
           });
@@ -36,13 +38,13 @@ const AutoStartToggle = () => {
     try {
       if (checked) {
         await enable();
-        toast.success("Enabled Autostart", {
+        toast.success(t("autostart.enabled"), {
           duration: 2000,
           position: "bottom-right",
         });
       } else {
         await disable();
-        toast.success("Disabled Autostart", {
+        toast.success(t("autostart.disabled"), {
           duration: 2000,
           position: "bottom-right",
         });
@@ -60,10 +62,10 @@ const AutoStartToggle = () => {
           htmlFor="autostart"
           className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Run on Startup
+          {t("autostart.title")}
         </Label>
         <p className="text-sm text-muted-foreground">
-          Automatically start this app when your computer boots up
+          {t("autostart.description")}
         </p>
       </div>
       <Switch

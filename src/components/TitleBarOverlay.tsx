@@ -1,35 +1,39 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { platform } from "@tauri-apps/plugin-os";
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Minus, Square, Copy, X } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { ModeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "./LanguageToggle";
 import { cn } from "../lib/utils";
 import { AppIcon } from "./AppIcon";
 import { useAccentColor } from "../contexts/AccentColorContext";
+import { useLanguage } from "../i18n/useLanguage";
 
 const isMac = platform() === "macos";
 const OVERLAY_H = 32;
 
 const routeTitles: Record<string, string> = {
-  "/": "Dashboard",
-  "/reminderSettings": "Reminder Settings",
-  "/usageTime": "Usage Time",
-  "/reminderthemes": "Reminder Themes",
-  "/multimonitor": "Multi-Monitor",
-  "/todoList": "Todo List",
-  "/workday": "Workday Setup",
-  "/screenSavers": "Screen Savers",
-  "/allSettings": "Settings",
-  "/themePicker": "Theme Picker",
-  "/activatelicense": "Activate License",
-  "/about": "About",
+  "/": "nav.dashboard",
+  "/reminderSettings": "nav.reminderSettings",
+  "/usageTime": "nav.usageTime",
+  "/reminderthemes": "nav.reminderThemes",
+  "/multimonitor": "nav.multiMonitor",
+  "/todoList": "nav.todoList",
+  "/workday": "nav.workdaySetup",
+  "/screenSavers": "nav.screenSavers",
+  "/allSettings": "nav.settings",
+  "/themePicker": "nav.themePicker",
+  "/activatelicense": "nav.activateLicense",
+  "/about": "nav.about",
 };
 
 // ── Windows / Linux Caption Buttons ──────────────────────────────
 
 function WinCaptionButtons() {
+  const { t } = useTranslation();
   const appWindow = getCurrentWindow();
   const [isMaximized, setIsMaximized] = useState(false);
 
@@ -51,7 +55,7 @@ function WinCaptionButtons() {
 
       <button
         onClick={() => appWindow.minimize()}
-        aria-label="Minimize"
+        aria-label={t("common.minimize")}
         className={cn(BTN, "hover:bg-foreground/8 active:bg-foreground/12")}
       >
         <Minus size={14} strokeWidth={1.5} />
@@ -59,7 +63,9 @@ function WinCaptionButtons() {
 
       <button
         onClick={() => appWindow.toggleMaximize()}
-        aria-label={isMaximized ? "Restore Down" : "Maximize"}
+        aria-label={
+          isMaximized ? t("common.restoreDown") : t("common.maximize")
+        }
         className={cn(BTN, "hover:bg-foreground/8 active:bg-foreground/12")}
       >
         {isMaximized ? (
@@ -71,7 +77,7 @@ function WinCaptionButtons() {
 
       <button
         onClick={() => appWindow.close()}
-        aria-label="Close"
+        aria-label={t("common.close")}
         className={cn(
           BTN,
           "hover:bg-[#c42b1c] hover:text-white",
@@ -87,10 +93,12 @@ function WinCaptionButtons() {
 // ── Component ────────────────────────────────────────────────────
 
 export function TitleBarOverlay() {
+  const { t } = useTranslation();
   const appWindow = getCurrentWindow();
   const { pathname } = useLocation();
   const { accentHex } = useAccentColor();
-  const currentTitle = routeTitles[pathname] ?? "Blink Eye";
+  const { isRTL } = useLanguage();
+  const currentTitle = t(routeTitles[pathname] ?? "common.appName");
 
   useEffect(() => {
     if (isMac) return;
@@ -104,6 +112,7 @@ export function TitleBarOverlay() {
     return (
       <div
         data-tauri-drag-region
+        dir="ltr"
         className="fixed left-0 right-0 top-0 z-50 flex items-center h-[32px] select-none"
       >
         <div data-tauri-drag-region className="pl-[80px] h-full" />
@@ -122,13 +131,18 @@ export function TitleBarOverlay() {
 
         {/* Right half — title flows from center */}
         <div data-tauri-drag-region className="flex-1 h-full flex items-center">
-          <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none ml-1.5">
+          <span
+            dir={isRTL ? "rtl" : undefined}
+            className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none ml-1.5"
+          >
             {currentTitle}
           </span>
         </div>
 
-        {/* Right: theme toggle */}
-        <div className="flex items-center h-full shrink-0 pr-2">
+        {/* Right: language + theme toggles. The bar is pinned to LTR so this
+            cluster stays clear of the traffic lights in RTL locales too. */}
+        <div className="flex items-center gap-1.5 h-full shrink-0 pr-2">
+          <LanguageToggle />
           <ModeToggle />
         </div>
       </div>
@@ -139,7 +153,13 @@ export function TitleBarOverlay() {
   return (
     <div
       data-tauri-drag-region
-      className="fixed left-(--sidebar-width) right-0 top-0 z-50 flex items-center h-[32px] select-none bg-background border-b border-border/50"
+      dir="ltr"
+      className={cn(
+        "fixed top-0 z-50 flex items-center h-[32px] select-none bg-background border-b border-border/50",
+        isRTL
+          ? "right-(--sidebar-width) left-0"
+          : "left-(--sidebar-width) right-0"
+      )}
     >
       {/* Left-aligned: logo + brand + separator + title */}
       <div data-tauri-drag-region className="flex items-center gap-2.5 h-full shrink-0 pl-3">
@@ -151,7 +171,10 @@ export function TitleBarOverlay() {
           blinkeye
         </span>
         <Separator orientation="vertical" className="self-center bg-border/80 mx-0.5" />
-        <span className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none">
+        <span
+          dir={isRTL ? "rtl" : undefined}
+          className="text-[12px] font-medium tracking-wide text-muted-foreground pointer-events-none"
+        >
           {currentTitle}
         </span>
       </div>
@@ -159,8 +182,10 @@ export function TitleBarOverlay() {
       {/* Spacer */}
       <div data-tauri-drag-region className="flex-1 h-full" />
 
-      {/* Right: theme toggle + window controls */}
-      <div className="flex items-center h-full shrink-0">
+      {/* Right: language + theme toggles + window controls. The gap keeps the
+          toggles clear of the caption buttons. */}
+      <div className="flex items-center gap-1.5 h-full shrink-0">
+        <LanguageToggle />
         <ModeToggle />
         <WinCaptionButtons />
       </div>

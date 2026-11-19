@@ -1,9 +1,13 @@
-// src-tauri/src/screen_time_tracker/mod.rs
+//! Screen-on time tracking backed by SQLite.
+//!
+//! The tracker runs on Tauri's async runtime and records contiguous
+//! screen-on sessions; the frontend sums them for dashboards and break overlays.
+
 use chrono::Local;
 use sqlx::{Pool, Sqlite, SqlitePool};
-use std::sync::{Arc, Mutex};
+use std::sync::Mutex;
 use std::time::{Duration as StdDuration, Instant};
-use tauri::async_runtime::spawn;
+use tauri::async_runtime;
 use tokio::time::{interval, Duration, MissedTickBehavior};
 
 // How often we check if the screen is on and update the database.
@@ -45,7 +49,7 @@ const SCREEN_ON_CACHE_TTL: StdDuration = StdDuration::from_secs(5);
 /// The frontend sums `(second_timestamp - first_timestamp)` for all rows
 /// on a given date to compute total screen-on time.
 pub struct ScreenTimeTracker {
-    db_pool: Arc<Pool<Sqlite>>,
+    db_pool: Pool<Sqlite>,
 }
 
 /// Decision logic for whether to extend the current session or start a new one.
@@ -82,9 +86,7 @@ impl ScreenTimeTracker {
 
         println!("[DB] Database loaded and table ensured.");
 
-        Ok(Self {
-            db_pool: Arc::new(db_pool),
-        })
+        Ok(Self { db_pool })
     }
 
     /// Current date as `YYYY-MM-DD` in local timezone.
@@ -104,6 +106,7 @@ impl ScreenTimeTracker {
     ///    (clock went backwards — e.g., NTP sync or manual change)
     /// 2. The gap since `second_timestamp` exceeds `MAX_CONTIGUOUS_GAP_MS`
     ///    (screen was likely off — sleep, suspend, or locked for a while)
+    #[must_use]
     fn classify_time_data_update(
         timestamp: i64,
         first_timestamp: i64,
@@ -162,7 +165,7 @@ impl ScreenTimeTracker {
         .bind(date)
         .bind(timestamp)
         .bind(timestamp)
-        .execute(self.db_pool.as_ref())
+        .execute(&self.db_pool)
         .await?;
 
         println!(
@@ -181,11 +184,12 @@ impl ScreenTimeTracker {
     async fn update_last_time_data(&self, date: &str) -> Result<(), Box<dyn std::error::Error>> {
         let timestamp = Self::get_current_local_timestamp();
 
-        let result = sqlx::query_as::<_, (i64, i64, i64)>(
-            "SELECT id, first_timestamp, second_timestamp FROM time_data WHERE date = ? ORDER BY id DESC LIMIT 1",
-        )
+        let result = sqlx::query_as::<_, (i64, i64, i64)>(concat!(
+            "SELECT id, first_timestamp, second_timestamp FROM time_data ",
+            "WHERE date = ? ORDER BY id DESC LIMIT 1"
+        ))
         .bind(date)
-        .fetch_optional(self.db_pool.as_ref())
+        .fetch_optional(&self.db_pool)
         .await?;
 
         if let Some((id, first_timestamp, second_timestamp)) = result {
@@ -194,7 +198,7 @@ impl ScreenTimeTracker {
                     sqlx::query("UPDATE time_data SET second_timestamp = ? WHERE id = ?")
                         .bind(timestamp)
                         .bind(id)
-                        .execute(self.db_pool.as_ref())
+                        .execute(&self.db_pool)
                         .await?;
 
                     println!(
@@ -203,9 +207,7 @@ impl ScreenTimeTracker {
                     );
                 }
                 TimeDataUpdate::StartNewSession => {
-                    println!(
-                        "[updateLastTimeData] Session gap or clock change detected. Inserting new row."
-                    );
+                    println!("[updateLastTimeData] Session gap or clock change detected");
                     self.initialize_new_date(date).await?;
                 }
             }
@@ -225,13 +227,13 @@ impl ScreenTimeTracker {
     /// 2. If date rolled over (midnight), initialize a new date row
     /// 3. Otherwise, extend or start a new session for today
     pub fn start_tracking(self) {
-        spawn(async move {
+        async_runtime::spawn(async move {
             let current_date = Self::get_current_date();
 
             // Create the first row if screen is already on at startup
             if Self::is_screen_on() {
-                if let Err(e) = self.initialize_new_date(&current_date).await {
-                    eprintln!("[ScreenTimeTracker] Error initializing date: {}", e);
+                if let Err(error) = self.initialize_new_date(&current_date).await {
+                    eprintln!("[ScreenTimeTracker] Error initializing date: {error}");
                 }
             } else {
                 println!("[ScreenTimeTracker] Display is off. Waiting to start tracking.");
@@ -260,16 +262,16 @@ impl ScreenTimeTracker {
                         "[Interval] Date changed from {} to {}",
                         last_date, current_date
                     );
-                    if let Err(e) = self.initialize_new_date(&current_date).await {
-                        eprintln!("[ScreenTimeTracker] Error initializing new date: {}", e);
+                    if let Err(error) = self.initialize_new_date(&current_date).await {
+                        eprintln!("[ScreenTimeTracker] Error initializing new date: {error}");
                     }
                     last_date = current_date.clone();
                     continue;
                 }
 
                 // Normal tick — extend or start a new session
-                if let Err(e) = self.update_last_time_data(&current_date).await {
-                    eprintln!("[ScreenTimeTracker] Error updating time data: {}", e);
+                if let Err(error) = self.update_last_time_data(&current_date).await {
+                    eprintln!("[ScreenTimeTracker] Error updating time data: {error}");
                 }
             }
         });
@@ -299,8 +301,10 @@ mod platform {
 
     #[link(name = "CoreGraphics", kind = "framework")]
     extern "C" {
-        fn CGDisplayIsAsleep(display: CGDirectDisplayID) -> BooleanT;
-        fn CGGetActiveDisplayList(
+        #[link_name = "CGDisplayIsAsleep"]
+        fn cg_display_is_asleep(display: CGDirectDisplayID) -> BooleanT;
+        #[link_name = "CGGetActiveDisplayList"]
+        fn cg_get_active_display_list(
             max_displays: u32,
             active_displays: *mut CGDirectDisplayID,
             display_count: *mut u32,
@@ -332,8 +336,10 @@ mod platform {
     fn core_graphics_display_state() -> Option<bool> {
         // First call: get the number of active displays
         let mut display_count = 0;
+        // SAFETY: CoreGraphics accepts a null display list when `max_displays`
+        // is zero and only writes the count through the valid local pointer.
         let count_result =
-            unsafe { CGGetActiveDisplayList(0, std::ptr::null_mut(), &mut display_count) };
+            unsafe { cg_get_active_display_list(0, std::ptr::null_mut(), &mut display_count) };
 
         if count_result != 0 {
             return None;
@@ -345,8 +351,10 @@ mod platform {
 
         // Second call: get the actual display IDs
         let mut displays = vec![0; display_count as usize];
+        // SAFETY: `displays` holds at least `display_count` initialized slots,
+        // so the mutable buffer and count pointer are valid for this call.
         let list_result = unsafe {
-            CGGetActiveDisplayList(display_count, displays.as_mut_ptr(), &mut display_count)
+            cg_get_active_display_list(display_count, displays.as_mut_ptr(), &mut display_count)
         };
 
         if list_result != 0 {
@@ -358,7 +366,9 @@ mod platform {
             displays
                 .into_iter()
                 .take(display_count as usize)
-                .any(|display| unsafe { CGDisplayIsAsleep(display) == 0 }),
+                // SAFETY: the IDs came from the successful display-list call
+                // and are opaque values, not dereferenced pointers.
+                .any(|display| unsafe { cg_display_is_asleep(display) == 0 }),
         )
     }
 
@@ -400,7 +410,9 @@ mod platform {
 
 #[cfg(windows)]
 mod platform {
-    use std::{ffi::c_void, os::windows::process::CommandExt, process::Command};
+    use std::ffi::c_void;
+    use std::os::windows::process::CommandExt;
+    use std::process::Command;
 
     type Bool = i32;
     type Dword = u32;
@@ -415,17 +427,20 @@ mod platform {
 
     #[link(name = "kernel32")]
     extern "system" {
-        fn CloseHandle(hObject: Handle) -> Bool;
-        fn CreateFileW(
-            lpFileName: *const u16,
-            dwDesiredAccess: Dword,
-            dwShareMode: Dword,
-            lpSecurityAttributes: *mut c_void,
-            dwCreationDisposition: Dword,
-            dwFlagsAndAttributes: Dword,
-            hTemplateFile: Handle,
+        #[link_name = "CloseHandle"]
+        fn close_handle(handle: Handle) -> Bool;
+        #[link_name = "CreateFileW"]
+        fn create_file_w(
+            file_name: *const u16,
+            desired_access: Dword,
+            share_mode: Dword,
+            security_attributes: *mut c_void,
+            creation_disposition: Dword,
+            flags_and_attributes: Dword,
+            template_file: Handle,
         ) -> Handle;
-        fn GetDevicePowerState(hDevice: Handle, pfOn: *mut Bool) -> Bool;
+        #[link_name = "GetDevicePowerState"]
+        fn get_device_power_state(handle: Handle, is_on: *mut Bool) -> Bool;
     }
 
     /// Check if any connected display is powered on.
@@ -459,7 +474,10 @@ mod platform {
                 "-WindowStyle",
                 "Hidden",
                 "-Command",
-                "(Get-CimInstance -Namespace root\\wmi -ClassName WmiMonitorBasicDisplayParams).Active",
+                concat!(
+                    "(Get-CimInstance -Namespace root\\wmi ",
+                    "-ClassName WmiMonitorBasicDisplayParams).Active"
+                ),
             ])
             .creation_flags(CREATE_NO_WINDOW)
             .output()
@@ -511,8 +529,10 @@ mod platform {
                 .chain(std::iter::once(0))
                 .collect();
 
+            // SAFETY: the name is NUL-terminated and lives until the call
+            // returns; all pointer arguments are either valid or null.
             let handle = unsafe {
-                CreateFileW(
+                create_file_w(
                     wide_display_name.as_ptr(),
                     0,
                     FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -528,9 +548,12 @@ mod platform {
             }
 
             let mut is_on: Bool = 0;
-            let power_state_available = unsafe { GetDevicePowerState(handle, &mut is_on) != 0 };
+            // SAFETY: `handle` was returned by `create_file_w` and is still
+            // open; `is_on` points to a valid local value for the output.
+            let power_state_available = unsafe { get_device_power_state(handle, &mut is_on) != 0 };
+            // SAFETY: `handle` is owned by this call and closed exactly once.
             unsafe {
-                CloseHandle(handle);
+                close_handle(handle);
             }
 
             if !power_state_available {
@@ -549,7 +572,9 @@ mod platform {
 
 #[cfg(target_os = "linux")]
 mod platform {
-    use std::{env, fs, process::Command};
+    use std::env;
+    use std::fs;
+    use std::process::Command;
 
     /// Check if any connected display is powered on.
     ///
@@ -725,7 +750,8 @@ mod tests {
 
         assert_eq!(
             ScreenTimeTracker::classify_time_data_update(timestamp, 900_000, second_timestamp),
-            TimeDataUpdate::ExtendCurrentSession
+            TimeDataUpdate::ExtendCurrentSession,
+            "a gap exactly at the budget is still contiguous"
         );
     }
 
@@ -737,7 +763,8 @@ mod tests {
 
         assert_eq!(
             ScreenTimeTracker::classify_time_data_update(timestamp, 900_000, second_timestamp),
-            TimeDataUpdate::StartNewSession
+            TimeDataUpdate::StartNewSession,
+            "a gap beyond the budget starts a new session"
         );
     }
 
@@ -746,7 +773,8 @@ mod tests {
         // Current timestamp is before both stored timestamps — clock went back
         assert_eq!(
             ScreenTimeTracker::classify_time_data_update(1_000_000, 900_000, 1_100_000),
-            TimeDataUpdate::StartNewSession
+            TimeDataUpdate::StartNewSession,
+            "backwards clocks must not extend a session"
         );
     }
 
@@ -755,7 +783,11 @@ mod tests {
     fn parses_macos_ioreg_device_power_state() {
         let output = r#"    "DevicePowerState"=4"#;
 
-        assert_eq!(super::platform::parse_device_power_state(output), Some(4));
+        assert_eq!(
+            super::platform::parse_device_power_state(output),
+            Some(4),
+            "ioreg power state must be parsed"
+        );
     }
 
     #[cfg(windows)]

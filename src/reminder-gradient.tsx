@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import PlainGradientAnimation from "./components/backgrounds/PlainGradientAnimation";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -20,8 +21,10 @@ const ReminderPlainGradientAnimation: React.FC = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderPlainGradientAnimation />
   </React.StrictMode>,
-);
+  );
+});
