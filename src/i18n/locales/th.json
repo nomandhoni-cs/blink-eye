@@ -379,7 +379,20 @@
       "shootingmeteor": "อุกกาบาต",
       "plainGradientAnimation": "แอนิเมชันไล่สีเรียบง่าย",
       "polygonAnimation": "แอนิเมชันรูปหลายเหลี่ยม",
-      "canvasShapes": "ลูกบอลเด้ง"
+      "canvasShapes": "ลูกบอลเด้ง",
+      "iridescence": "โทนสีอรุณ",
+      "balatro": "Balatro",
+      "acidSquares": "สี่เหลี่ยมกรด",
+      "antigravity": "ต้านแรงโน้มถ่วง",
+      "ballpit": "บ่อบอล",
+      "crtWarp": "รูปผิด CRT",
+      "darkVeil": "ม่านดำ",
+      "dither": "ดิเธอร์",
+      "dotGrid": "ตารางจุด",
+      "faultyTerminal": "เทอร์มินัลเสีย",
+      "ferrofluid": "ของไหลแม่เหล็ก",
+      "floatingLines": "เส้นลอย",
+      "galaxy": "กาแล็กซี"
     },
     "freeNote": "บัญชีฟรีและการทดลองที่หมดอายุใช้หน้าจอเริ่มต้น ใบอนุญาตปลดล็อกทุกฉาก"
   },

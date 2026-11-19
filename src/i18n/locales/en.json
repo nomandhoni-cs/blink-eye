@@ -359,7 +359,20 @@
       "shootingmeteor": "Shooting Meteor",
       "plainGradientAnimation": "Plain Gradient Animation",
       "polygonAnimation": "Polygon Animation",
-      "canvasShapes": "Bouncy Balls"
+      "canvasShapes": "Bouncy Balls",
+      "iridescence": "Iridescence",
+      "balatro": "Balatro",
+      "acidSquares": "Acid Squares",
+      "antigravity": "Antigravity",
+      "ballpit": "Ballpit",
+      "crtWarp": "CRT Warp",
+      "darkVeil": "Dark Veil",
+      "dither": "Dither",
+      "dotGrid": "Dot Grid",
+      "faultyTerminal": "Faulty Terminal",
+      "ferrofluid": "Ferrofluid",
+      "floatingLines": "Floating Lines",
+      "galaxy": "Galaxy"
     }
   },
   "soon": {

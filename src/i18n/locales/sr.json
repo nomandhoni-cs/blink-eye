@@ -379,7 +379,20 @@
       "shootingmeteor": "Метеор",
       "plainGradientAnimation": "Проста анимација прелаза",
       "polygonAnimation": "Анимација полигона",
-      "canvasShapes": "Лопте које ске"
+      "canvasShapes": "Лопте које ске",
+      "iridescence": "Преливачко",
+      "balatro": "Balatro",
+      "acidSquares": "Киселина квадрати",
+      "antigravity": "Антигравитација",
+      "ballpit": "Базен са лоптама",
+      "crtWarp": "CRT искривљење",
+      "darkVeil": "Тамна завеса",
+      "dither": "Дитеринг",
+      "dotGrid": "Мрежа тачака",
+      "faultyTerminal": "Неисправан терминал",
+      "ferrofluid": "Феротечност",
+      "floatingLines": "Лебдеће линије",
+      "galaxy": "Галаксија"
     }
   },
   "soon": {

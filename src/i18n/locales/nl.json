@@ -379,7 +379,20 @@
       "shootingmeteor": "Vallende meteoor",
       "plainGradientAnimation": "Eenvoudige verloopanimatie",
       "polygonAnimation": "Polygoonanimatie",
-      "canvasShapes": "Stuiterende ballen"
+      "canvasShapes": "Stuiterende ballen",
+      "iridescence": "Iridescent",
+      "balatro": "Balatro",
+      "acidSquares": "Zure blokken",
+      "antigravity": "Antigravitatie",
+      "ballpit": "Ballenbak",
+      "crtWarp": "CRT-vervorming",
+      "darkVeil": "Donkere sluier",
+      "dither": "Dithering",
+      "dotGrid": "Puntenraster",
+      "faultyTerminal": "Defecte terminal",
+      "ferrofluid": "Ferrovloeistof",
+      "floatingLines": "Zwevende lijnen",
+      "galaxy": "Sterrenstelsel"
     },
     "freeNote": "Gratis accounts en verlopen proefperiodes gebruiken het standaardscherm. Een licentie ontgrendelt alle scènes."
   },

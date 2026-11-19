@@ -379,7 +379,20 @@
       "shootingmeteor": "Tähdenlento",
       "plainGradientAnimation": "Yksinkertainen liukuvärianimaatio",
       "polygonAnimation": "Polygonianimaatio",
-      "canvasShapes": "Pomppivat pallot"
+      "canvasShapes": "Pomppivat pallot",
+      "iridescence": "Sateenkaarinen",
+      "balatro": "Balatro",
+      "acidSquares": "Happoteliöt",
+      "antigravity": "Painovoimattomuus",
+      "ballpit": "Pallopuisto",
+      "crtWarp": "CRT-vääristymä",
+      "darkVeil": "Tumma harsoviivo",
+      "dither": "Ditteri",
+      "dotGrid": "Pisteruudukko",
+      "faultyTerminal": "Viallinen pääte",
+      "ferrofluid": "Ferroväski",
+      "floatingLines": "Kelluvat viivat",
+      "galaxy": "Galaksi"
     }
   },
   "soon": {

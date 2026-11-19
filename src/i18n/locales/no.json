@@ -379,7 +379,20 @@
       "shootingmeteor": "Stjerneskudd",
       "plainGradientAnimation": "Enkel gradientanimasjon",
       "polygonAnimation": "Polygoneanimasjon",
-      "canvasShapes": "Spretterende baller"
+      "canvasShapes": "Spretterende baller",
+      "iridescence": "Skimrende",
+      "balatro": "Balatro",
+      "acidSquares": "Syrekvarder",
+      "antigravity": "Antigravitasjon",
+      "ballpit": "Ballbasseng",
+      "crtWarp": "CRT-fortrekning",
+      "darkVeil": "Mørk slør",
+      "dither": "Dithering",
+      "dotGrid": "Punktgrid",
+      "faultyTerminal": "Defekt terminal",
+      "ferrofluid": "Ferrovæske",
+      "floatingLines": "Svevende linjer",
+      "galaxy": "Galakse"
     }
   },
   "soon": {

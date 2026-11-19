@@ -379,7 +379,20 @@
       "shootingmeteor": "Метеор",
       "plainGradientAnimation": "Простая градиентная анимация",
       "polygonAnimation": "Анимация полигонов",
-      "canvasShapes": "Прыгающие шарики"
+      "canvasShapes": "Прыгающие шарики",
+      "iridescence": "Переливы",
+      "balatro": "Balatro",
+      "acidSquares": "Кислотные квадраты",
+      "antigravity": "Антигравитация",
+      "ballpit": "Бассейн с шариками",
+      "crtWarp": "CRT-искажение",
+      "darkVeil": "Тёмная вуаль",
+      "dither": "Дизеринг",
+      "dotGrid": "Сетка точек",
+      "faultyTerminal": "Неисправный терминал",
+      "ferrofluid": "Ферромагнитная жидкость",
+      "floatingLines": "Плавающие линии",
+      "galaxy": "Галактика"
     },
     "freeNote": "Бесплатные аккаунты и истёкшие пробные периоды используют экран по умолчанию. Лицензия открывает все сцены."
   },

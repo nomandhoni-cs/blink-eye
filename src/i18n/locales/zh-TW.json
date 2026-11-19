@@ -382,7 +382,20 @@
       "shootingmeteor": "流星",
       "plainGradientAnimation": "简约渐变动画",
       "polygonAnimation": "多边形动画",
-      "canvasShapes": "弹跳小球"
+      "canvasShapes": "弹跳小球",
+      "iridescence": "虹彩",
+      "balatro": "Balatro",
+      "acidSquares": "酸性方塊",
+      "antigravity": "反重力",
+      "ballpit": "球池",
+      "crtWarp": "CRT 扭曲",
+      "darkVeil": "暗幕",
+      "dither": "抖動",
+      "dotGrid": "點陣",
+      "faultyTerminal": "故障終端機",
+      "ferrofluid": "鐵磁流體",
+      "floatingLines": "漂浮線條",
+      "galaxy": "星系"
     },
     "freeNote": "免费和试用已过期的账号使用空白默认屏幕。许可证解锁所有场景。"
   },

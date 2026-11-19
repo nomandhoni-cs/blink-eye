@@ -379,7 +379,20 @@
       "shootingmeteor": "Padající meteor",
       "plainGradientAnimation": "Prostá animace přechodu",
       "polygonAnimation": "Animace polygonů",
-      "canvasShapes": "Odražející se koule"
+      "canvasShapes": "Odražející se koule",
+      "iridescence": "Iridescence",
+      "balatro": "Balatro",
+      "acidSquares": "Kyselinové čtverce",
+      "antigravity": "Antigravitace",
+      "ballpit": "Koulodiště",
+      "crtWarp": "CRT zkreslení",
+      "darkVeil": "Temny závoj",
+      "dither": "Dithering",
+      "dotGrid": "Mřížka teček",
+      "faultyTerminal": "Vadný terminál",
+      "ferrofluid": "Ferrotekutina",
+      "floatingLines": "Plovoucí čáry",
+      "galaxy": "Galaxie"
     }
   },
   "soon": {

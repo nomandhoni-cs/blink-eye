@@ -379,7 +379,20 @@
       "shootingmeteor": "Метеор",
       "plainGradientAnimation": "Проста градієнтна анімація",
       "polygonAnimation": "Анімація полігонів",
-      "canvasShapes": "Стрибаючі м'ячі"
+      "canvasShapes": "Стрибаючі м'ячі",
+      "iridescence": "Переливи",
+      "balatro": "Balatro",
+      "acidSquares": "Кислотні квадрати",
+      "antigravity": "Антигравітація",
+      "ballpit": "Басейн з м'ячами",
+      "crtWarp": "CRT-викривлення",
+      "darkVeil": "Темна вуаль",
+      "dither": "Дизеринг",
+      "dotGrid": "Сітка крапок",
+      "faultyTerminal": "Несправний термінал",
+      "ferrofluid": "Феромагнітна рідина",
+      "floatingLines": "Плаваючі лінії",
+      "galaxy": "Галактика"
     }
   },
   "soon": {

@@ -379,7 +379,20 @@
       "shootingmeteor": "Étoile filante",
       "plainGradientAnimation": "Animation en dégradé simple",
       "polygonAnimation": "Animation polygonale",
-      "canvasShapes": "Balles rebondissantes"
+      "canvasShapes": "Balles rebondissantes",
+      "iridescence": "Iridescence",
+      "balatro": "Balatro",
+      "acidSquares": "Carrés acides",
+      "antigravity": "Antigravité",
+      "ballpit": "Fosse à balles",
+      "crtWarp": "Distorsion CRT",
+      "darkVeil": "Voile sombre",
+      "dither": "Trame",
+      "dotGrid": "Grille de points",
+      "faultyTerminal": "Terminal défectueux",
+      "ferrofluid": "Ferrofluide",
+      "floatingLines": "Lignes flottantes",
+      "galaxy": "Galaxie"
     },
     "freeNote": "Les comptes gratuits et essais expirés utilisent l'écran par défaut. Une licence débloque toutes les scènes."
   },

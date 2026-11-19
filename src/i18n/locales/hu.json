@@ -380,7 +380,20 @@
       "shootingmeteor": "Kőmeteor",
       "plainGradientAnimation": "Egyszerű színátmenet animáció",
       "polygonAnimation": "Poligon animáció",
-      "canvasShapes": "Ugráló labdák"
+      "canvasShapes": "Ugráló labdák",
+      "iridescence": "Szivárvány",
+      "balatro": "Balatro",
+      "acidSquares": "Sav-téglák",
+      "antigravity": "Anti gravitáció",
+      "ballpit": "Labdaház",
+      "crtWarp": "CRT torzítás",
+      "darkVeil": "Sötét fátyol",
+      "dither": "Dithering",
+      "dotGrid": "Pont rács",
+      "faultyTerminal": "Hibás terminál",
+      "ferrofluid": "Fero-folyadék",
+      "floatingLines": "Lebegő vonalak",
+      "galaxy": "Galaxis"
     }
   },
   "soon": {

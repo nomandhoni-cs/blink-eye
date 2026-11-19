@@ -6,6 +6,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { register, unregister } from "@tauri-apps/plugin-global-shortcut";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import HowToCloseScreenSaver from "../HowToCloseScreenSaver";
+import { ScreenSaverScene } from "../backgrounds/ScreenSaverScenes";
 
 // Escape button to exit fullscreen
 
@@ -86,6 +87,22 @@ const ScreenSaverWindow: React.FC = () => {
         return <StarryBackground />;
       case "shootingmeteor":
         return <ShootingMeteor number={40} />;
+      // The react-bits WebGL scenes — the same themes the break reminder can
+      // use, now selectable as screen savers too.
+      case "iridescence":
+      case "balatro":
+      case "acidSquares":
+      case "antigravity":
+      case "ballpit":
+      case "crtWarp":
+      case "darkVeil":
+      case "dither":
+      case "dotGrid":
+      case "faultyTerminal":
+      case "ferrofluid":
+      case "floatingLines":
+      case "galaxy":
+        return <ScreenSaverScene style={backgroundStyle} />;
       default:
         return <AuroraBackground />;
     }

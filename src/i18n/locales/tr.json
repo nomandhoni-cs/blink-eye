@@ -379,7 +379,20 @@
       "shootingmeteor": "Kayan meteor",
       "plainGradientAnimation": "Düz degrade animasyonu",
       "polygonAnimation": "Çokgen animasyonu",
-      "canvasShapes": "Zıplayan toplar"
+      "canvasShapes": "Zıplayan toplar",
+      "iridescence": "Yankılı",
+      "balatro": "Balatro",
+      "acidSquares": "Asit kareleri",
+      "antigravity": "Anti yerçekimi",
+      "ballpit": "Top havuzu",
+      "crtWarp": "CRT bükümü",
+      "darkVeil": "Karanlık örtü",
+      "dither": "Titreme",
+      "dotGrid": "Nokta ızgarası",
+      "faultyTerminal": "Arızalı terminal",
+      "ferrofluid": "Ferro sıvı",
+      "floatingLines": "Yüzen çizgiler",
+      "galaxy": "Galaksi"
     },
     "freeNote": "Ücretsiz ve süresi dolmuş hesaplar varsayılan ekranı kullanır. Lisans tüm sahneleri açar."
   },

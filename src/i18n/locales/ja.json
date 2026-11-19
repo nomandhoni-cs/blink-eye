@@ -379,7 +379,20 @@
       "shootingmeteor": "流れ星",
       "plainGradientAnimation": "シンプルグラデーションアニメ",
       "polygonAnimation": "ポリゴンアニメ",
-      "canvasShapes": "跳ねるボール"
+      "canvasShapes": "跳ねるボール",
+      "iridescence": "虹彩",
+      "balatro": "Balatro",
+      "acidSquares": "アシッドスクエア",
+      "antigravity": "アンチグラビティ",
+      "ballpit": "ボールピット",
+      "crtWarp": "CRT ワープ",
+      "darkVeil": "ダークベール",
+      "dither": "ディザ",
+      "dotGrid": "ドットグリッド",
+      "faultyTerminal": "故障ターミナル",
+      "ferrofluid": "フェロフルイド",
+      "floatingLines": "浮遊ライン",
+      "galaxy": "銀河"
     },
     "freeNote": "無料・期限切れアカウントは既定の画面です。ライセンスですべてのシーンを解放。"
   },

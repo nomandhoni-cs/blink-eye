@@ -379,7 +379,20 @@
       "shootingmeteor": "Sternschnuppe",
       "plainGradientAnimation": "Einfache Verlaufsanimation",
       "polygonAnimation": "Polygon-Animation",
-      "canvasShapes": "Hüpfende Bälle"
+      "canvasShapes": "Hüpfende Bälle",
+      "iridescence": "Schillernd",
+      "balatro": "Balatro",
+      "acidSquares": "Säure-Quadrate",
+      "antigravity": "Antigravitation",
+      "ballpit": "Bällebad",
+      "crtWarp": "CRT-Verzerrung",
+      "darkVeil": "Dunkler Schleier",
+      "dither": "Dithering",
+      "dotGrid": "Punktraster",
+      "faultyTerminal": "Defektes Terminal",
+      "ferrofluid": "Ferrofluid",
+      "floatingLines": "Schwebende Linien",
+      "galaxy": "Galaxie"
     },
     "freeNote": "Kostenlose Konten und abgelaufene Testphasen nutzen den leeren Standardbildschirm. Eine Lizenz schaltet alle Szenen frei."
   },

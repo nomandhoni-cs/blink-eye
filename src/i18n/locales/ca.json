@@ -379,7 +379,20 @@
       "shootingmeteor": "Meteor",
       "plainGradientAnimation": "Animació de degradat simple",
       "polygonAnimation": "Animació de polígons",
-      "canvasShapes": "Boles saltarines"
+      "canvasShapes": "Boles saltarines",
+      "iridescence": "Iridescència",
+      "balatro": "Balatro",
+      "acidSquares": "Quadrats àcids",
+      "antigravity": "Antigravetat",
+      "ballpit": "Piscina de boles",
+      "crtWarp": "Distorsió CRT",
+      "darkVeil": "Vel fosc",
+      "dither": "Tramat",
+      "dotGrid": "Graella de punts",
+      "faultyTerminal": "Terminal defectuós",
+      "ferrofluid": "Ferrofluid",
+      "floatingLines": "Línies flotants",
+      "galaxy": "Galàxia"
     }
   },
   "soon": {

@@ -379,7 +379,20 @@
       "shootingmeteor": "Meteoro",
       "plainGradientAnimation": "Animación de degradado simple",
       "polygonAnimation": "Animación de polígonos",
-      "canvasShapes": "Pelotas rebotonas"
+      "canvasShapes": "Pelotas rebotonas",
+      "iridescence": "Iridiscencia",
+      "balatro": "Balatro",
+      "acidSquares": "Cuadrados ácidos",
+      "antigravity": "Antigravedad",
+      "ballpit": "Piscina de bolas",
+      "crtWarp": "Distorsión CRT",
+      "darkVeil": "Velo oscuro",
+      "dither": "Trama",
+      "dotGrid": "Rejilla de puntos",
+      "faultyTerminal": "Terminal defectuoso",
+      "ferrofluid": "Ferrofluido",
+      "floatingLines": "Líneas flotantes",
+      "galaxy": "Galaxia"
     },
     "freeNote": "Las cuentas gratuitas y con prueba caducada usan la pantalla predeterminada. Una licencia desbloquea todas las escenas."
   },

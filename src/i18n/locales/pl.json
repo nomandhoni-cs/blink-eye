@@ -379,7 +379,20 @@
       "shootingmeteor": "Spadający meteor",
       "plainGradientAnimation": "Prosta animacja gradientu",
       "polygonAnimation": "Animacja wielokątów",
-      "canvasShapes": "Odbijające się kule"
+      "canvasShapes": "Odbijające się kule",
+      "iridescence": "Opalizacja",
+      "balatro": "Balatro",
+      "acidSquares": "Kwasy w kwadratach",
+      "antigravity": "Antygrawitacja",
+      "ballpit": "Basen z kulkami",
+      "crtWarp": "Zniekształcenie CRT",
+      "darkVeil": "Ciemna zasłona",
+      "dither": "Dithering",
+      "dotGrid": "Siatka kropek",
+      "faultyTerminal": "Wadliwy terminal",
+      "ferrofluid": "Ferrociecz",
+      "floatingLines": "Pływające linie",
+      "galaxy": "Galaktyka"
     },
     "freeNote": "Darmowe konta i wygasłe wersje próbne korzystają z domyślnego ekranu. Licencja odblokowuje wszystkie sceny."
   },

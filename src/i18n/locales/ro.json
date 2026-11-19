@@ -379,7 +379,20 @@
       "shootingmeteor": "Meteor",
       "plainGradientAnimation": "Animație de degrade simplu",
       "polygonAnimation": "Animație de poligoane",
-      "canvasShapes": "Minge săritoare"
+      "canvasShapes": "Minge săritoare",
+      "iridescence": "Iridescență",
+      "balatro": "Balatro",
+      "acidSquares": "Pătrate acide",
+      "antigravity": "Antigravitație",
+      "ballpit": "Piscină de mingi",
+      "crtWarp": "Distorsiune CRT",
+      "darkVeil": "Văl întunecat",
+      "dither": "Dithering",
+      "dotGrid": "Grilă de puncte",
+      "faultyTerminal": "Terminal defect",
+      "ferrofluid": "Ferofluid",
+      "floatingLines": "Linii plutitoare",
+      "galaxy": "Galaxie"
     }
   },
   "soon": {

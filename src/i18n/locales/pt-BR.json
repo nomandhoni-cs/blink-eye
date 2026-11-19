@@ -379,7 +379,20 @@
       "shootingmeteor": "Estrela cadente",
       "plainGradientAnimation": "Animação de gradiente simples",
       "polygonAnimation": "Animação de polígonos",
-      "canvasShapes": "Bolas saltitantes"
+      "canvasShapes": "Bolas saltitantes",
+      "iridescence": "Iridescência",
+      "balatro": "Balatro",
+      "acidSquares": "Quadrados ácidos",
+      "antigravity": "Antigravidade",
+      "ballpit": "Piscina de bolas",
+      "crtWarp": "Distorção CRT",
+      "darkVeil": "Véu escuro",
+      "dither": "Tremido",
+      "dotGrid": "Grade de pontos",
+      "faultyTerminal": "Terminal defeituoso",
+      "ferrofluid": "Ferrofluido",
+      "floatingLines": "Linhas flutuantes",
+      "galaxy": "Galáxia"
     },
     "freeNote": "Contas gratuitas e avaliações expiradas usam a tela padrão. Uma licença desbloqueia todas as cenas."
   },

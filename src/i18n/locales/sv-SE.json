@@ -379,7 +379,20 @@
       "shootingmeteor": "Fallande meteor",
       "plainGradientAnimation": "Enkel gradientanimation",
       "polygonAnimation": "Polygonanimation",
-      "canvasShapes": "Studsande bollar"
+      "canvasShapes": "Studsande bollar",
+      "iridescence": "Skimrande",
+      "balatro": "Balatro",
+      "acidSquares": "Syrakvadrat",
+      "antigravity": "Antigravitation",
+      "ballpit": "Bollhav",
+      "crtWarp": "CRT-förvrängning",
+      "darkVeil": "Mörk slöja",
+      "dither": "Dithering",
+      "dotGrid": "Prickrutnät",
+      "faultyTerminal": "Defekt terminal",
+      "ferrofluid": "Ferrovätska",
+      "floatingLines": "Flytande linjer",
+      "galaxy": "Galax"
     }
   },
   "soon": {

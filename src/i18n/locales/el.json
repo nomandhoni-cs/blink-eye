@@ -379,7 +379,20 @@
       "shootingmeteor": "Πεσμένος μετέωρος",
       "plainGradientAnimation": "Απλή κινούμενη διαβάθμιση",
       "polygonAnimation": "Κινούμενα πολύγωνα",
-      "canvasShapes": "Αναπηδώντας μπαλάκια"
+      "canvasShapes": "Αναπηδώντας μπαλάκια",
+      "iridescence": "Ιριδίζον",
+      "balatro": "Balatro",
+      "acidSquares": "Οξύ τετράγωνα",
+      "antigravity": "Αντιβαρύτητα",
+      "ballpit": "Δεξαμενή μπαλών",
+      "crtWarp": "Παραμόρφωση CRT",
+      "darkVeil": "Σκούρο πέπλο",
+      "dither": "Dithering",
+      "dotGrid": "Πλέγμα σημείων",
+      "faultyTerminal": "Ελατωμένο τερματικό",
+      "ferrofluid": "Σιδηρορρευστό",
+      "floatingLines": "Πλωτές γραμμές",
+      "galaxy": "Γαλαξίας"
     }
   },
   "soon": {

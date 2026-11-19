@@ -379,7 +379,20 @@
       "shootingmeteor": "유성",
       "plainGradientAnimation": "단순 그라데이션 애니메이션",
       "polygonAnimation": "폴리곤 애니메이션",
-      "canvasShapes": "통통 튀는 공"
+      "canvasShapes": "통통 튀는 공",
+      "iridescence": "무지개빛",
+      "balatro": "Balatro",
+      "acidSquares": "애시드 스퀘어",
+      "antigravity": "반중력",
+      "ballpit": "볼핏",
+      "crtWarp": "CRT 왜곡",
+      "darkVeil": "다크 베일",
+      "dither": "디더",
+      "dotGrid": "도트 그리드",
+      "faultyTerminal": "고장 난 터미널",
+      "ferrofluid": "자성 유체",
+      "floatingLines": "떠다니는 선",
+      "galaxy": "은하"
     },
     "freeNote": "무료 계정과 만료된 평가판은 기본 화면을 사용합니다. 라이선스로 모든 장면을 해제하세요."
   },
