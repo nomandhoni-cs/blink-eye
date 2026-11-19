@@ -241,8 +241,26 @@
       "theme": "Тема",
       "breakSettings": "Подешавања пауза",
       "breakClock": "Сат",
-      "done": "Готово"
-    }
+      "done": "Готово",
+      "todo": "Vaši zadaci"
+    },
+    "todoRequired": "Dodajte barem jedan zadatak da biste nastavili. Možete ga kasnije izmeniti.",
+    "todoSetupAdded": "Dodato u listu — možete promeniti bilo kada.",
+    "todoSetupFree": "Licenca nije potrebna",
+    "todoSetupPlaceholder": "Upishite prvi zadatak (obavezno za nastavak)",
+    "todoSetupRemindersDesc": "Mali iskačući prozor pojaviće se u izabrano vreme ili malo pre, plus jedno blago podsećanje dnevno. Tihi sati su 22:00–08:00 i možete isključiti bilo kada.",
+    "todoSetupRemindersTitle": "Podsećaj me na moje zadatke",
+    "todoSetupSubtitle": "Držite jedan mali zadatak u mislima. Otvorite ga sa kontrolne table ili direktno iz pauze.",
+    "todoSetupTimeHint": "Izaberite vreme i koliko rano da vas podsećamo. Bez vremena i dalje dobijate jedno blago dnevno podsećanje.",
+    "todoSetupTitle": "Vaši zadaci, uvek besplatno",
+    "todoSetupExamples": [
+      "Platite račun za struju",
+      "Odgovorite prijatelju",
+      "Pročitajte beleške za sutrašnji sastanak",
+      "Zakažite termin kod lekara",
+      "Izbacite smeće"
+    ],
+    "todoSetupRemindersShort": "Mali prozor u izabrano vreme. Možete ga isključiti bilo kada."
   },
   "dashboard": {
     "title": "Контролна табла",
@@ -310,7 +328,41 @@
     "showCompleted": "Прикажи завршене",
     "hideCompleted": "Сакриј завршене",
     "unlockTodoTitle": "Надогради на Premium",
-    "unlockTodoText": "И откључај листу задатака"
+    "unlockTodoText": "И откључај листу задатака",
+    "addedToast": "Zadatak dodat",
+    "all": "Svi",
+    "completeToast": "Zadatak završen",
+    "couldNotLoad": "Nije moguće učitati zadatke. Pokušajte ponovo.",
+    "couldNotSave": "Nije moguće sačuvati zadatak. Pokušajte ponovo.",
+    "deleteTask": "Obriši {{title}}",
+    "deletedToast": "Zadatak obrisan",
+    "done": "Gotovo",
+    "dueTime": "Ističe u {{time}}",
+    "editTask": "Uredi {{title}}",
+    "filterLabel": "Filtriraj zadatke",
+    "minutesBefore": "{{minutes}} min ranije",
+    "noDoneHint": "Završeni zadaci ostaju ovde da vidite napredak.",
+    "noDoneTitle": "Još nema završenih zadataka",
+    "noTasksHint": "Dodajte mali zadatak iznad — traje samo sekundu.",
+    "noTasksTitle": "Još nema zadataka na listi",
+    "noUpcomingHint": "Izaberite datum novom zadatku i pojaviće se ovde.",
+    "noUpcomingTitle": "Ništa uskoro",
+    "previewReminder": "Pogledaj prozor",
+    "progress": "{{done}} od {{total}} završeno",
+    "quietHours": "Tihi sati",
+    "quietHoursDesc": "Nema prozora sa zadacima između {{start}} i {{end}}.",
+    "remindAtTime": "U odabrano vreme",
+    "remindBefore": "Podseti ranije",
+    "remindersAlwaysFree": "Zauvek besplatno — licenca nije potrebna.",
+    "restoredToast": "Zadatak obnovljen",
+    "subtitle": "Besplatna, privatna lista koju otvarate iz pauze i kontrolne table.",
+    "taskRemindersDesc": "Mali prozor u izabrano vreme ili malo pre, plus blago podsećanje za nedovršene zadatke. Nikad tokom pauza ili tihih sati.",
+    "taskRemindersTitle": "Podsećanja na zadatke",
+    "today": "Danas",
+    "undo": "Poništi",
+    "upcoming": "Predstojeći",
+    "quickAddHint": "Напиши једну ствар коју желиш да урадиш. Притисни Enter да додаш.",
+    "markDone": "Означи {{title}} као готово"
   },
   "workday": {
     "title": "Радни дани",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "USKORO",
+    "beforeMessage": "Pažnja — {{title}} počinje za {{minutes}} min.",
+    "dismiss": "Zatvori podsećanje",
+    "doneEyebrow": "GOTOVO",
+    "doneMessage": "Odličan posao — jedna stvar manje za pamćenje.",
+    "dueEyebrow": "ZADATAK ISTIČE",
+    "dueMessage": "Da li ste završili ovaj zadatak?",
+    "markDone": "Gotovo",
+    "nudgeEyebrow": "DNEVNO PODSEĆANJE",
+    "nudgeMessageA": "Da li ste završili ovaj zadatak? Brza provera traje sekundu.",
+    "nudgeMessageB": "Još u mislima? Označite kao gotovo ili otvorite listu.",
+    "nudgeMessageC": "Mali korak sada, manje posla kasnije. Kako ide ovaj zadatak?",
+    "openList": "Otvori listu",
+    "previewEyebrow": "PREGLED PODSEĆANJA"
+  }
 }

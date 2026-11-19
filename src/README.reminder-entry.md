@@ -10,12 +10,20 @@ Break reminders are **not** part of the main React app router. Rust spawns stand
 |-------|----------|------|
 | Scheduler | `src-tauri/src/reminder_scheduler.rs` | 1s tick loop, reads `appconfig.db`, spawns windows, tray countdown |
 | Pre-break alert | `alert.html` → `src/alert.tsx` | "Break soon" popup ~15s before |
+| Task reminder | `task-alert.html` → `src/task-alert.tsx` | Small top-center "Did you finish this task?" popup |
 | Background entries | `reminder-*.html` → `src/reminder-*.tsx` | One bundle per theme; background paints first |
 | Overlay | `src/components/reminder/ReminderOverlay.tsx` | Timer, skip, todos (primary monitor only) |
 | Deferred mount | `src/components/reminder/DeferredReminderOverlay.tsx` | Lazy-loads overlay after background paints |
 | Style registry | `src/backgrounds/registry.ts` | Maps style key → HTML entry filename |
 
-There is **no** TypeScript scheduler (`ReminderHandler` was removed). Do not mount a TS scheduler in `main.tsx` — reminders would fire twice.
+There is **no** TypeScript scheduler for *breaks* (`ReminderHandler` was removed). Do not mount a break scheduler in `main.tsx` — breaks would fire twice.
+
+**Task** reminders are separate and do not use the break scheduler. Following
+the tray-first pattern of `premium_nudge.rs`, all evaluation, de-duplication and
+spawning live in `src-tauri/src/task_reminders.rs`; the 30s tick loop is started
+from `lib.rs`. React only writes tasks/settings, translates the i18n keys in
+`task-alert.html`, and refreshes on the `todo-updated` event. See
+`docs/task-reminders.md` for the full flow and the user-control rules.
 
 ---
 

@@ -241,8 +241,26 @@
       "theme": "Thema",
       "breakSettings": "Pauze-instellingen",
       "breakClock": "Klok",
-      "done": "Klaar"
-    }
+      "done": "Klaar",
+      "todo": "Jouw taken"
+    },
+    "todoRequired": "Voeg minimaal één taak toe om verder te gaan. Je kunt deze later aanpassen.",
+    "todoSetupAdded": "Toegevoegd aan de lijst — je kunt het altijd wijzigen.",
+    "todoSetupFree": "Geen licentie nodig",
+    "todoSetupPlaceholder": "Schrijf je eerste taak (verplicht om verder te gaan)",
+    "todoSetupRemindersDesc": "Een kleine melding verschijnt op het gekozen tijdstip of kort ervoor, plus één zachte herinnering per dag. Stilte is van 22:00 tot 08:00; je kunt dit altijd uitzetten.",
+    "todoSetupRemindersTitle": "Herinner mij aan mijn taken",
+    "todoSetupSubtitle": "Houd één kleine taak in gedachten. Open deze vanuit het dashboard of direct vanuit een pauze.",
+    "todoSetupTimeHint": "Kies een tijd en hoe vroeg we je willen herinneren. Zonder tijd krijg je toch één zachte dagelijkse herinnering.",
+    "todoSetupTitle": "Jouw taken, altijd gratis",
+    "todoSetupExamples": [
+      "De stroomrechnung betalen",
+      "Een vriend terugberichten",
+      "Notities voor de vergadering van morgen lezen",
+      "Een doktersafspraak maken",
+      "De vuilnis buiten zetten"
+    ],
+    "todoSetupRemindersShort": "Een kleine melding op het gekozen tijdstip. Altijd uit te zetten."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -310,7 +328,41 @@
     "showCompleted": "Voltooide tonen",
     "hideCompleted": "Voltooide verbergen",
     "unlockTodoTitle": "Upgraden naar Premium",
-    "unlockTodoText": "En de takenlijst ontgrendelen"
+    "unlockTodoText": "En de takenlijst ontgrendelen",
+    "addedToast": "Taak toegevoegd",
+    "all": "Alle",
+    "completeToast": "Taak afgerond",
+    "couldNotLoad": "Konen de taken niet laden. Probeer het opnieuw.",
+    "couldNotSave": "Kon de taak niet opslaan. Probeer het opnieuw.",
+    "deleteTask": "{{title}} verwijderen",
+    "deletedToast": "Taak verwijderd",
+    "done": "Klaar",
+    "dueTime": "Vervalt om {{time}}",
+    "editTask": "{{title}} aanpassen",
+    "filterLabel": "Taken filteren",
+    "minutesBefore": "{{minutes}} min eerder",
+    "noDoneHint": "Afgeronde taken blijven hier zodat je je voortgang ziet.",
+    "noDoneTitle": "Nog geen afgeronde taken",
+    "noTasksHint": "Voeg hierboven een kleine taak toe — kost maar een seconde.",
+    "noTasksTitle": "Nog geen taken in de lijst",
+    "noUpcomingHint": "Kies een datum bij een nieuwe taak en deze verschijnt hier.",
+    "noUpcomingTitle": "Niets binnenkort",
+    "previewReminder": "Melding bekijken",
+    "progress": "{{done}} van {{total}} afgerond",
+    "quietHours": "Stilteperiodes",
+    "quietHoursDesc": "Geen taakmeldingen tussen {{start}} en {{end}}.",
+    "remindAtTime": "Op het tijdstip",
+    "remindBefore": "Eerder herinneren",
+    "remindersAlwaysFree": "Voor altijd gratis — geen licentie nodig.",
+    "restoredToast": "Taak hersteld",
+    "subtitle": "Een gratis, privélijst die je vanuit een pauze en het dashboard kunt openen.",
+    "taskRemindersDesc": "Een kleine melding op het gekozen tijdstip of kort ervoor, plus een zachte herinnering voor openstaande taken. Nooit tijdens pauzes of stilteperiodes.",
+    "taskRemindersTitle": "Taakherinneringen",
+    "today": "Vandaag",
+    "undo": "Ongedaan maken",
+    "upcoming": "Binnenkort",
+    "quickAddHint": "Schrijf één ding op dat je wilt afmaken. Druk op Enter om toe te voegen.",
+    "markDone": "Markeer {{title}} als klaar"
   },
   "workday": {
     "title": "Werkdagen",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "BINNENKORT",
+    "beforeMessage": "Let op — {{title}} begint over {{minutes}} minuten.",
+    "dismiss": "Herinnering sluiten",
+    "doneEyebrow": "KLAAR",
+    "doneMessage": "Goed bezig — één ding minder om te onthouden.",
+    "dueEyebrow": "TAAK VERSCHULDIGD",
+    "dueMessage": "Heb je deze taak afgerond?",
+    "markDone": "Klaar",
+    "nudgeEyebrow": "DAGELIJKSE HERINNERING",
+    "nudgeMessageA": "Heb je deze taak afgerond? Een snelle check kost een seconde.",
+    "nudgeMessageB": "Nog in je gedachten? Markeer als klaar of open de lijst.",
+    "nudgeMessageC": "Een kleine stap nu, minder later. Hoe gaat het met deze taak?",
+    "openList": "Lijst openen",
+    "previewEyebrow": "VOORBEELD HERINNERING"
+  }
 }

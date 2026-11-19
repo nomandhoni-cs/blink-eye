@@ -231,7 +231,10 @@ export function AppSidebar() {
                         </span>
                       </Link>
                     </SidebarMenuButton>
-                    <ProBadge isPaidUser={isPaidUser} />
+                    {/* To-dos are free; never show a lock/flame gate here. */}
+                    {item.url !== "/todoList" && (
+                      <ProBadge isPaidUser={isPaidUser} />
+                    )}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>

@@ -1,16 +1,17 @@
+//! Tray-first break reminder scheduler and overlay window spawning.
+
 use chrono::{Datelike, Local, NaiveTime};
 use ring::{aead, pbkdf2};
 use serde::{Deserialize, Serialize};
-use sqlx::{
-    sqlite::{SqliteConnectOptions, SqlitePoolOptions},
-    Pool, Sqlite,
-};
-use std::{collections::HashMap, num::NonZeroU32, path::PathBuf, str::FromStr, sync::Arc};
+use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
+use sqlx::{Pool, Sqlite};
+use std::collections::HashMap;
+use std::num::NonZeroU32;
+use std::path::PathBuf;
+use std::sync::Arc;
 use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
-use tokio::{
-    sync::{mpsc, Mutex},
-    time::{interval, Duration, MissedTickBehavior},
-};
+use tokio::sync::{mpsc, Mutex};
+use tokio::time::{interval, Duration, MissedTickBehavior};
 
 use crate::screen_time_tracker::ScreenTimeTracker;
 
@@ -193,7 +194,8 @@ impl ReminderScheduler {
         *count += 1;
     }
 
-    /// Spawns the scheduler's tick loop as an async task. Loads initial settings then ticks every `SCHEDULER_TICK_SECS`.
+    /// Spawns the scheduler's tick loop as an async task. Loads initial settings,
+    /// then ticks every `SCHEDULER_TICK_SECS`.
     pub fn start(self: Arc<Self>, app_handle: AppHandle) {
         tauri::async_runtime::spawn(async move {
             if let Err(error) = self.refresh_settings().await {
@@ -221,7 +223,8 @@ impl ReminderScheduler {
         Ok(())
     }
 
-    /// Closes all reminder windows, resets break state, and sends tray update with remaining interval.
+    /// Closes reminder windows, resets break state, and sends a tray update
+    /// with the remaining interval.
     pub async fn finish_break(&self, app_handle: &AppHandle) {
         close_all_reminder_windows(app_handle);
 
@@ -235,7 +238,8 @@ impl ReminderScheduler {
         self.send_tray_update(TrayUpdate {
             remaining_secs: interval,
             is_on_break: false,
-        }).await;
+        })
+        .await;
     }
 
     /// Force-refreshes settings and immediately starts a break (used for debug/testing).
@@ -271,7 +275,8 @@ impl ReminderScheduler {
         }
     }
 
-    /// Runs one tick: refreshes settings periodically, advances the counter, sends tray updates, and triggers breaks or alerts.
+    /// Runs one tick: refreshes settings, advances the counter, sends tray
+    /// updates, and triggers breaks or alerts.
     async fn tick(&self, app_handle: &AppHandle) -> Result<(), String> {
         if !ScreenTimeTracker::is_screen_on() {
             return Ok(());
@@ -363,7 +368,8 @@ impl ReminderScheduler {
         }
     }
 
-    /// Closes any pre-alert, builds window config with current state and screen time, then spawns reminder overlay windows.
+    /// Closes any pre-alert, builds window config with current state and
+    /// screen time, then spawns reminder overlay windows.
     async fn start_break(&self, app_handle: &AppHandle) -> Result<(), String> {
         close_before_alert(app_handle);
         close_all_reminder_windows(app_handle);
@@ -507,9 +513,13 @@ impl ReminderScheduler {
             .is_some_and(|status| status == "active")
     }
 
-    /// Checks if a 7-day trial is still active based on the install date stored in `basicapplicationdata.db`.
+    /// Checks whether the 7-day trial is still active from the install date
+    /// stored in `basicapplicationdata.db`.
     async fn is_trial_active(&self) -> bool {
-        let Ok(pool) = self.open_sqlite_pool("basicapplicationdata.db", false).await else {
+        let Ok(pool) = self
+            .open_sqlite_pool("basicapplicationdata.db", false)
+            .await
+        else {
             return false;
         };
 
@@ -542,7 +552,10 @@ impl ReminderScheduler {
 
     /// Retrieves the encryption password (`unique_nano_id`) from `basicapplicationdata.db`.
     async fn encryption_password(&self) -> Option<String> {
-        let pool = self.open_sqlite_pool("basicapplicationdata.db", false).await.ok()?;
+        let pool = self
+            .open_sqlite_pool("basicapplicationdata.db", false)
+            .await
+            .ok()?;
         let (password,) =
             sqlx::query_as::<_, (String,)>("SELECT unique_nano_id FROM user_data WHERE id = 1")
                 .fetch_optional(&pool)
@@ -562,6 +575,8 @@ impl ReminderScheduler {
         file_name: &str,
         create_if_missing: bool,
     ) -> Result<Pool<Sqlite>, String> {
+        use std::str::FromStr;
+
         let db_path = self.app_data_dir.join(file_name);
         let connection_url = format!("sqlite://{}", db_path.display());
         let options = SqliteConnectOptions::from_str(&connection_url)
@@ -619,8 +634,7 @@ fn spawn_before_alert(app_handle: &AppHandle) {
             let position = monitor.position();
             let size = monitor.size();
             (
-                position.x as f64 / scale
-                    + ((size.width as f64 / scale - 320.0) / 2.0).max(0.0),
+                position.x as f64 / scale + ((size.width as f64 / scale - 320.0) / 2.0).max(0.0),
                 position.y as f64 / scale + 80.0,
             )
         })
@@ -763,9 +777,7 @@ fn raise_window_above_menu_bar(window: &tauri::WebviewWindow, label: &str) {
         use objc2_app_kit::{NSWindow, NSWindowCollectionBehavior};
 
         let Ok(handle) = closure_window.ns_window() else {
-            eprintln!(
-                "[ReminderScheduler] No NSWindow handle for {closure_label}; window level not raised"
-            );
+            eprintln!("[ReminderScheduler] No NSWindow handle for {closure_label}");
             return;
         };
 
@@ -828,28 +840,28 @@ fn reminder_url(
 /// Mapping of background style key → Vite entry filename. Must mirror
 /// `ENTRY_NAME` in `src/backgrounds/registry.ts`.
 const BACKGROUND_STYLE_TO_ENTRY: &[(&str, &str)] = &[
-    ("default",                "reminder-default.html"),
-    ("aurora",                 "reminder-aurora.html"),
-    ("freesprit",              "reminder-freesprit.html"),
-    ("beamoflife",             "reminder-beamoflife.html"),
-    ("particleBackground",     "reminder-particles.html"),
-    ("starryBackground",       "reminder-starry.html"),
-    ("shootingmeteor",         "reminder-meteor.html"),
+    ("default", "reminder-default.html"),
+    ("aurora", "reminder-aurora.html"),
+    ("freesprit", "reminder-freesprit.html"),
+    ("beamoflife", "reminder-beamoflife.html"),
+    ("particleBackground", "reminder-particles.html"),
+    ("starryBackground", "reminder-starry.html"),
+    ("shootingmeteor", "reminder-meteor.html"),
     ("plainGradientAnimation", "reminder-gradient.html"),
-    ("canvasShapes",           "reminder-canvas.html"),
-    ("iridescence",             "reminder-iridescence.html"),
-    ("balatro",                 "reminder-balatro.html"),
-    ("acidSquares",              "reminder-acidsquares.html"),
-    ("antigravity",              "reminder-antigravity.html"),
-    ("ballpit",                  "reminder-ballpit.html"),
-    ("crtWarp",                  "reminder-crtwarp.html"),
-    ("darkVeil",                 "reminder-darkveil.html"),
-    ("dither",                   "reminder-dither.html"),
-    ("dotGrid",                  "reminder-dotgrid.html"),
-    ("faultyTerminal",           "reminder-faultyterminal.html"),
-    ("ferrofluid",               "reminder-ferrofluid.html"),
-    ("floatingLines",            "reminder-floatinglines.html"),
-    ("galaxy",                   "reminder-galaxy.html"),
+    ("canvasShapes", "reminder-canvas.html"),
+    ("iridescence", "reminder-iridescence.html"),
+    ("balatro", "reminder-balatro.html"),
+    ("acidSquares", "reminder-acidsquares.html"),
+    ("antigravity", "reminder-antigravity.html"),
+    ("ballpit", "reminder-ballpit.html"),
+    ("crtWarp", "reminder-crtwarp.html"),
+    ("darkVeil", "reminder-darkveil.html"),
+    ("dither", "reminder-dither.html"),
+    ("dotGrid", "reminder-dotgrid.html"),
+    ("faultyTerminal", "reminder-faultyterminal.html"),
+    ("ferrofluid", "reminder-ferrofluid.html"),
+    ("floatingLines", "reminder-floatinglines.html"),
+    ("galaxy", "reminder-galaxy.html"),
 ];
 
 /// Creates the `config` table in `appconfig.db` and inserts default values if missing.
@@ -859,8 +871,8 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
         .await
         .map_err(|error| error.to_string())?;
 
-    let default_workday = serde_json::to_string(&default_workday_config())
-        .map_err(|error| error.to_string())?;
+    let default_workday =
+        serde_json::to_string(&default_workday_config()).map_err(|error| error.to_string())?;
     let defaults = [
         ("blinkEyeWorkday", default_workday.as_str()),
         ("isWorkdayEnabled", "false"),
@@ -871,7 +883,10 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
         ("isMultiMonitorEnabled", "false"),
         ("blinkEyeReminderInterval", "20"),
         ("blinkEyeReminderDuration", "20"),
-        ("blinkEyeReminderScreenText", "Pause! Look into the distance, and best if you walk a bit."),
+        (
+            "blinkEyeReminderScreenText",
+            "Pause! Look into the distance, and best if you walk a bit.",
+        ),
         // New installs land on `shuffle`: every break shows a different
         // animated scene, which reveals the gallery without asking the user
         // to go find it. Free and expired-trial users still get the blank
@@ -975,6 +990,7 @@ async fn read_config_string(pool: &Pool<Sqlite>, key: &str) -> Option<String> {
 }
 
 /// Returns true if the current time falls within the configured workday hours for today.
+#[must_use]
 fn is_inside_workday_window(settings: &ReminderSettings) -> bool {
     if !settings.is_premium || !settings.is_workday_enabled {
         return true;
@@ -1203,7 +1219,12 @@ pub async fn skip_reminder(
     // re-check before opening anything.
     {
         let handle = app_handle.clone();
-        let trigger = if completed { "break_completed" } else { "break_dismissed" }.to_string();
+        let trigger = if completed {
+            "break_completed"
+        } else {
+            "break_dismissed"
+        }
+        .to_string();
         tauri::async_runtime::spawn(async move {
             crate::premium_nudge::handle_post_break_trigger(handle, trigger).await;
         });
@@ -1288,9 +1309,9 @@ pub async fn get_next_reminder_info(
 #[cfg(test)]
 mod tests {
     use super::{
-        is_inside_workday_window, pick_shuffled_style, resolve_background_style,
-        ReminderSettings, SchedulerState, WorkdayHours, BACKGROUND_STYLE_TO_ENTRY,
-        DEFAULT_BACKGROUND_STYLE, SHUFFLE_BACKGROUND_STYLE,
+        is_inside_workday_window, pick_shuffled_style, resolve_background_style, ReminderSettings,
+        SchedulerState, WorkdayHours, BACKGROUND_STYLE_TO_ENTRY, DEFAULT_BACKGROUND_STYLE,
+        SHUFFLE_BACKGROUND_STYLE,
     };
     use std::collections::HashMap;
 
@@ -1308,22 +1329,35 @@ mod tests {
 
     #[test]
     fn url_encoding_preserves_safe_characters() {
-        assert_eq!(super::url_encode("a b&c"), "a%20b%26c");
+        assert_eq!(
+            super::url_encode("a b&c"),
+            "a%20b%26c",
+            "spaces and ampersands must be percent-encoded"
+        );
     }
 
     #[test]
     fn encrypted_payload_shape_can_be_parsed() {
         let parsed: super::EncryptedPayload =
-            serde_json::from_str(r#"{"iv":[1,2,3],"data":[4,5,6]}"#).unwrap();
+            serde_json::from_str(r#"{"iv":[1,2,3],"data":[4,5,6]}"#)
+                .expect("test payload must be valid JSON");
 
-        assert_eq!(parsed.iv, vec![1, 2, 3]);
-        assert_eq!(parsed.data, vec![4, 5, 6]);
+        assert_eq!(parsed.iv, vec![1, 2, 3], "IV must be decoded from JSON");
+        assert_eq!(
+            parsed.data,
+            vec![4, 5, 6],
+            "ciphertext must be decoded from JSON"
+        );
     }
 
     #[test]
     fn shuffle_never_picks_the_blank_default_scene() {
         for _ in 0..200 {
-            assert_ne!(pick_shuffled_style(None), DEFAULT_BACKGROUND_STYLE);
+            assert_ne!(
+                pick_shuffled_style(None),
+                DEFAULT_BACKGROUND_STYLE,
+                "shuffle must never choose the blank scene"
+            );
         }
     }
 
@@ -1334,7 +1368,11 @@ mod tests {
                 continue;
             }
             for _ in 0..20 {
-                assert_ne!(pick_shuffled_style(Some(style)), style);
+                assert_ne!(
+                    pick_shuffled_style(Some(style)),
+                    style,
+                    "shuffle must not repeat the previous style: {style}"
+                );
             }
         }
     }
@@ -1351,7 +1389,11 @@ mod tests {
     fn fixed_styles_are_passed_through_untouched() {
         let mut state = SchedulerState::default();
 
-        assert_eq!(resolve_background_style("galaxy", &mut state), "galaxy");
+        assert_eq!(
+            resolve_background_style("galaxy", &mut state),
+            "galaxy",
+            "explicit styles must be passed through"
+        );
         assert_eq!(state.last_shuffled_style, None);
     }
 
@@ -1359,7 +1401,10 @@ mod tests {
     fn shuffle_style_key_matches_the_frontend_registry() {
         // `SHUFFLE_STYLE` in src/backgrounds/registry.ts and the Style key the
         // ReminderStyles picker writes must be exactly this string.
-        assert_eq!(SHUFFLE_BACKGROUND_STYLE, "shuffle");
+        assert_eq!(
+            SHUFFLE_BACKGROUND_STYLE, "shuffle",
+            "the frontend registry key must stay in sync"
+        );
         assert!(!BACKGROUND_STYLE_TO_ENTRY
             .iter()
             .any(|&(style, _)| style == SHUFFLE_BACKGROUND_STYLE));
@@ -1370,11 +1415,18 @@ mod tests {
         let mut state = SchedulerState::default();
 
         let first = resolve_background_style(SHUFFLE_BACKGROUND_STYLE, &mut state);
-        assert_ne!(first, DEFAULT_BACKGROUND_STYLE);
-        assert_eq!(state.last_shuffled_style.as_deref(), Some(first.as_str()));
+        assert_ne!(
+            first, DEFAULT_BACKGROUND_STYLE,
+            "shuffle must resolve to an animated scene"
+        );
+        assert_eq!(
+            state.last_shuffled_style.as_deref(),
+            Some(first.as_str()),
+            "the first scene must be remembered"
+        );
 
         let second = resolve_background_style(SHUFFLE_BACKGROUND_STYLE, &mut state);
-        assert_ne!(second, first);
+        assert_ne!(second, first, "consecutive shuffle scenes must differ");
         assert_eq!(state.last_shuffled_style.as_deref(), Some(second.as_str()));
     }
 

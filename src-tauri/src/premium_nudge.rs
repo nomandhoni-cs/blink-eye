@@ -1,8 +1,10 @@
+//! Eligibility and display of the post-activity premium nudge.
+
 use chrono::{Local, NaiveDate};
 use serde::Serialize;
 use sqlx::{Pool, Sqlite};
 use std::sync::atomic::{AtomicBool, Ordering};
-use tauri::{AppHandle, Emitter, Manager, WebviewUrl, WebviewWindowBuilder};
+use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
 
 use crate::crypto::{get_license_info, get_trial_info};
 
@@ -64,12 +66,19 @@ static SESSION_SHOWN: AtomicBool = AtomicBool::new(false);
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PremiumNudgeState {
+    /// Whether a nudge may be shown right now.
     pub eligible: bool,
+    /// Suppression reason or `eligible`.
     pub reason: String,
+    /// Copy variant to show when eligible.
     pub variant: Option<String>,
+    /// Date of the last shown nudge.
     pub last_shown: Option<String>,
+    /// Shows in the trailing 30 days.
     pub show_count_30d: u32,
+    /// Shows over the install lifetime.
     pub show_count_lifetime: u32,
+    /// End date of an active snooze.
     pub snoozed_until: Option<String>,
 }
 
@@ -81,82 +90,154 @@ pub struct PremiumNudgeState {
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct NudgeTriggerResult {
+    /// Whether a delayed spawn was scheduled.
     pub accepted: bool,
+    /// Why the trigger was accepted or dropped.
     pub reason: String,
 }
 
 /// Pure eligibility inputs (DB-free so the matrix is unit-testable).
 #[derive(Debug, Clone)]
 pub struct NudgeInputs {
+    /// Whether the nudge feature is enabled.
     pub kill_switch_on: bool,
+    /// Whether the user has an active paid license.
     pub is_paid: bool,
+    /// Decrypted license status, if any.
     pub license_status: Option<String>,
+    /// Whether the system clock is behind the install date.
     pub clock_manipulated: bool,
+    /// Whether onboarding has finished.
     pub onboarded: bool,
+    /// Whether an install date is known.
     pub has_install_date: bool,
+    /// Whether the trial is still running.
     pub trial_active: bool,
+    /// Trial days left.
     pub days_remaining: i64,
+    /// End date of an active snooze.
     pub snoozed_until: Option<NaiveDate>,
+    /// Whether a nudge was already shown this session.
     pub session_shown: bool,
+    /// Date of the last show.
     pub last_shown: Option<NaiveDate>,
+    /// All recorded show dates.
     pub show_dates: Vec<NaiveDate>,
+    /// Current local date.
     pub today: NaiveDate,
 }
 
 /// Pure eligibility decision.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct NudgeDecision {
+    /// Whether the inputs pass every eligibility rule.
     pub eligible: bool,
+    /// Stable suppression reason or `eligible`.
     pub reason: &'static str,
+    /// Copy variant for an eligible user.
     pub variant: Option<&'static str>,
 }
 
 /// Evaluate the eligibility matrix. First matching rule wins.
+#[must_use]
 pub fn evaluate(inputs: &NudgeInputs) -> NudgeDecision {
     // With a 7-day trial, `days_remaining <= TRIAL_ENDING_THRESHOLD` implies
     // install age >= GRACE_DAYS, so the threshold check below doubles as the
     // grace floor (expired trials are older still).
     debug_assert_eq!(GRACE_DAYS, 7 - TRIAL_ENDING_THRESHOLD);
     if !inputs.kill_switch_on {
-        return NudgeDecision { eligible: false, reason: "disabled", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "disabled",
+            variant: None,
+        };
     }
     if inputs.is_paid {
-        return NudgeDecision { eligible: false, reason: "paid_user", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "paid_user",
+            variant: None,
+        };
     }
     if inputs.clock_manipulated {
-        return NudgeDecision { eligible: false, reason: "clock_skew", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "clock_skew",
+            variant: None,
+        };
     }
     if !inputs.onboarded {
-        return NudgeDecision { eligible: false, reason: "onboarding", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "onboarding",
+            variant: None,
+        };
     }
     if !inputs.has_install_date {
-        return NudgeDecision { eligible: false, reason: "unknown_date", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "unknown_date",
+            variant: None,
+        };
     }
     if inputs.trial_active && inputs.days_remaining > TRIAL_ENDING_THRESHOLD {
-        return NudgeDecision { eligible: false, reason: "trial_too_early", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "trial_too_early",
+            variant: None,
+        };
     }
-    if inputs.snoozed_until.map(|d| d > inputs.today).unwrap_or(false) {
-        return NudgeDecision { eligible: false, reason: "snoozed", variant: None };
+    if inputs
+        .snoozed_until
+        .map(|d| d > inputs.today)
+        .unwrap_or(false)
+    {
+        return NudgeDecision {
+            eligible: false,
+            reason: "snoozed",
+            variant: None,
+        };
     }
     if inputs.session_shown {
-        return NudgeDecision { eligible: false, reason: "session_cap", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "session_cap",
+            variant: None,
+        };
     }
     if let Some(last) = inputs.last_shown {
         if last <= inputs.today && (inputs.today - last).num_days() < COOLDOWN_DAYS {
-            return NudgeDecision { eligible: false, reason: "cooldown", variant: None };
+            return NudgeDecision {
+                eligible: false,
+                reason: "cooldown",
+                variant: None,
+            };
         }
     }
     if count_last_30_days(&inputs.show_dates, inputs.today) >= MONTHLY_CAP {
-        return NudgeDecision { eligible: false, reason: "monthly_cap", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "monthly_cap",
+            variant: None,
+        };
     }
     if inputs.show_dates.len() >= LIFETIME_CAP {
-        return NudgeDecision { eligible: false, reason: "lifetime_cap", variant: None };
+        return NudgeDecision {
+            eligible: false,
+            reason: "lifetime_cap",
+            variant: None,
+        };
     }
 
-    NudgeDecision { eligible: true, reason: "eligible", variant: Some(variant_for(inputs)) }
+    NudgeDecision {
+        eligible: true,
+        reason: "eligible",
+        variant: Some(variant_for(inputs)),
+    }
 }
 
 /// Copy variant for a user, independent of caps (also used by the dev preview).
+#[must_use]
 fn variant_for(inputs: &NudgeInputs) -> &'static str {
     if inputs.trial_active {
         "trial_ending"
@@ -173,6 +254,7 @@ fn variant_for(inputs: &NudgeInputs) -> &'static str {
 }
 
 /// Count show dates within the trailing 30 days (inclusive, never future).
+#[must_use]
 fn count_last_30_days(dates: &[NaiveDate], today: NaiveDate) -> usize {
     dates
         .iter()
@@ -181,17 +263,20 @@ fn count_last_30_days(dates: &[NaiveDate], today: NaiveDate) -> usize {
 }
 
 /// Whether any open window conflicts with the nudge (pure, testable).
-pub fn labels_conflict<'a>(mut labels: impl Iterator<Item = &'a str>) -> bool {
+#[must_use]
+pub fn labels_conflict<'label>(mut labels: impl Iterator<Item = &'label str>) -> bool {
     labels.any(|label| {
         label.starts_with("reminder_monitor_")
             || label == "before_alert"
             || label == "premium_nudge"
+            || label == "task_alert"
             // The support popup is its own ask — never stack two asks.
             || label == "support_reminder"
     })
 }
 
 /// Check live windows for conflicts with the nudge.
+#[must_use]
 fn has_conflicting_window(app_handle: &AppHandle) -> bool {
     labels_conflict(app_handle.webview_windows().keys().map(String::as_str))
 }
@@ -241,7 +326,10 @@ async fn load_inputs(app_handle: &AppHandle) -> Result<NudgeInputs, String> {
         .and_then(|s| NaiveDate::parse_from_str(&s, "%Y-%m-%d").ok());
 
     Ok(NudgeInputs {
-        kill_switch_on: read_key(&pool, KEY_ENABLED).await.map(|v| v != "false").unwrap_or(true),
+        kill_switch_on: read_key(&pool, KEY_ENABLED)
+            .await
+            .map(|v| v != "false")
+            .unwrap_or(true),
         is_paid: license.is_paid,
         license_status: license.status,
         clock_manipulated: trial.clock_manipulated,
@@ -268,7 +356,10 @@ async fn load_inputs(app_handle: &AppHandle) -> Result<NudgeInputs, String> {
 /// # Returns
 /// `()` on success, or error string on failure (including unknown events).
 #[tauri::command]
-pub async fn record_premium_nudge_event(app_handle: AppHandle, event: String) -> Result<(), String> {
+pub async fn record_premium_nudge_event(
+    app_handle: AppHandle,
+    event: String,
+) -> Result<(), String> {
     let pool = crate::crypto::open_app_config_db(&app_handle).await?;
     let today = Local::now().date_naive();
     match event.as_str() {
@@ -283,10 +374,9 @@ pub async fn record_premium_nudge_event(app_handle: AppHandle, event: String) ->
             if dates.len() > 60 {
                 dates = dates.split_off(dates.len() - 60);
             }
-            let serialized = serde_json::to_string(
-                &dates.iter().map(|d| d.to_string()).collect::<Vec<_>>(),
-            )
-            .map_err(|e| e.to_string())?;
+            let serialized =
+                serde_json::to_string(&dates.iter().map(|d| d.to_string()).collect::<Vec<_>>())
+                    .map_err(|error| error.to_string())?;
             write_key(&pool, KEY_SHOW_DATES, &serialized).await?;
         }
         "dismissed" | "converted_intent" => {
@@ -321,7 +411,10 @@ pub async fn maybe_show_premium_nudge(
 ) -> Result<NudgeTriggerResult, String> {
     let state = get_premium_nudge_state(app_handle.clone()).await?;
     if !state.eligible {
-        return Ok(NudgeTriggerResult { accepted: false, reason: state.reason });
+        return Ok(NudgeTriggerResult {
+            accepted: false,
+            reason: state.reason,
+        });
     }
     let recheck = has_conflicting_window(&app_handle);
     let handle = app_handle.clone();
@@ -330,7 +423,11 @@ pub async fn maybe_show_premium_nudge(
     });
     Ok(NudgeTriggerResult {
         accepted: true,
-        reason: if recheck { "recheck_scheduled".to_string() } else { "scheduled".to_string() },
+        reason: if recheck {
+            "recheck_scheduled".to_string()
+        } else {
+            "scheduled".to_string()
+        },
     })
 }
 
@@ -361,8 +458,8 @@ async fn delayed_spawn(app_handle: AppHandle, allow_recheck: bool) {
 async fn spawn_if_clear(app_handle: &AppHandle) -> bool {
     let state = match get_premium_nudge_state(app_handle.clone()).await {
         Ok(state) => state,
-        Err(e) => {
-            eprintln!("[PremiumNudge] State check failed: {e}");
+        Err(error) => {
+            eprintln!("[PremiumNudge] State check failed: {error}");
             return false;
         }
     };
@@ -380,13 +477,13 @@ async fn spawn_if_clear(app_handle: &AppHandle) -> bool {
     {
         return false;
     }
-    if let Err(e) = spawn_nudge_window(app_handle, &variant) {
-        eprintln!("[PremiumNudge] Failed to spawn window: {e}");
+    if let Err(error) = spawn_nudge_window(app_handle, &variant) {
+        eprintln!("[PremiumNudge] Failed to spawn window: {error}");
         SESSION_SHOWN.store(false, Ordering::SeqCst);
         return false;
     }
-    if let Err(e) = record_premium_nudge_event(app_handle.clone(), "shown".to_string()).await {
-        eprintln!("[PremiumNudge] Failed to record show: {e}");
+    if let Err(error) = record_premium_nudge_event(app_handle.clone(), "shown".to_string()).await {
+        eprintln!("[PremiumNudge] Failed to record show: {error}");
     }
     true
 }
@@ -440,7 +537,10 @@ fn spawn_nudge_window(app_handle: &AppHandle, variant: &str) -> Result<(), Strin
         .title_bar_style(tauri::TitleBarStyle::Overlay)
         .hidden_title(true);
 
-    builder.build().map(|_| ()).map_err(|e| e.to_string())
+    builder
+        .build()
+        .map(|_| ())
+        .map_err(|error| error.to_string())
 }
 
 /// Record a nudge-window button event and close the nudge window.
@@ -481,6 +581,8 @@ pub fn close_for_break(app_handle: &AppHandle) {
 /// `()` on success, or error string on failure.
 #[tauri::command]
 pub async fn open_activate_license(app_handle: AppHandle) -> Result<(), String> {
+    use tauri::Emitter;
+
     record_premium_nudge_event(app_handle.clone(), "converted_intent".to_string()).await?;
     if let Some(window) = app_handle.get_webview_window("premium_nudge") {
         let _ = window.close();
@@ -493,7 +595,7 @@ pub async fn open_activate_license(app_handle: AppHandle) -> Result<(), String> 
     }
     app_handle
         .emit("open-activate-license", ())
-        .map_err(|e| e.to_string())?;
+        .map_err(|error| error.to_string())?;
     Ok(())
 }
 
@@ -542,7 +644,7 @@ async fn write_key(pool: &Pool<Sqlite>, key: &str, value: &str) -> Result<(), St
     .bind(value)
     .execute(pool)
     .await
-    .map_err(|e| e.to_string())?;
+    .map_err(|error| error.to_string())?;
     Ok(())
 }
 
@@ -564,7 +666,7 @@ mod tests {
     use super::*;
 
     fn base_inputs() -> NudgeInputs {
-        let today = NaiveDate::from_ymd_opt(2026, 9, 3).unwrap();
+        let today = NaiveDate::from_ymd_opt(2026, 9, 3).expect("test date must be valid");
         NudgeInputs {
             kill_switch_on: true,
             is_paid: false,
@@ -683,7 +785,7 @@ mod tests {
 
     #[test]
     fn active_snooze_suppresses_but_expired_snooze_does_not() {
-        let today = NaiveDate::from_ymd_opt(2026, 9, 3).unwrap();
+        let today = NaiveDate::from_ymd_opt(2026, 9, 3).expect("test date must be valid");
         let mut inputs = base_inputs();
         inputs.snoozed_until = Some(today + chrono::Duration::days(2));
         assert_eq!(evaluate(&inputs).reason, "snoozed");
@@ -703,7 +805,7 @@ mod tests {
 
     #[test]
     fn cooldown_boundary_is_72_hours() {
-        let today = NaiveDate::from_ymd_opt(2026, 9, 3).unwrap();
+        let today = NaiveDate::from_ymd_opt(2026, 9, 3).expect("test date must be valid");
         let mut inputs = base_inputs();
         inputs.last_shown = Some(today - chrono::Duration::days(2));
         assert_eq!(evaluate(&inputs).reason, "cooldown");
@@ -714,7 +816,7 @@ mod tests {
 
     #[test]
     fn monthly_cap_counts_trailing_30_days_only() {
-        let today = NaiveDate::from_ymd_opt(2026, 9, 3).unwrap();
+        let today = NaiveDate::from_ymd_opt(2026, 9, 3).expect("test date must be valid");
         let day = |n: i64| today - chrono::Duration::days(n);
         // 2 recent + 5 stale shows → eligible (stale ones don't count).
         let mut inputs = base_inputs();
@@ -730,9 +832,11 @@ mod tests {
 
     #[test]
     fn lifetime_cap_is_ten() {
-        let today = NaiveDate::from_ymd_opt(2026, 9, 3).unwrap();
+        let today = NaiveDate::from_ymd_opt(2026, 9, 3).expect("test date must be valid");
         let mut inputs = base_inputs();
-        inputs.show_dates = (100..109).map(|n| today - chrono::Duration::days(n)).collect();
+        inputs.show_dates = (100..109)
+            .map(|n| today - chrono::Duration::days(n))
+            .collect();
         inputs.show_dates.sort();
         assert!(evaluate(&inputs).eligible);
 
@@ -754,6 +858,7 @@ mod tests {
         assert!(labels_conflict(["main", "reminder_monitor_0"].into_iter()));
         assert!(labels_conflict(["before_alert"].into_iter()));
         assert!(labels_conflict(["premium_nudge"].into_iter()));
+        assert!(labels_conflict(["task_alert"].into_iter()));
         assert!(labels_conflict(["support_reminder"].into_iter()));
         assert!(!labels_conflict(["main"].into_iter()));
         assert!(!labels_conflict([].into_iter()));

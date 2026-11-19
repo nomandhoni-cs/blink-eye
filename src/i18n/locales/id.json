@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Pengaturan jeda",
       "breakClock": "Jam",
-      "done": "Selesai"
-    }
+      "done": "Selesai",
+      "todo": "Tugas Anda"
+    },
+    "todoRequired": "Tambahkan setidaknya satu tugas untuk melanjutkan. Anda dapat mengubahnya nanti.",
+    "todoSetupAdded": "Ditambahkan ke daftar — Anda dapat mengubahnya kapan saja.",
+    "todoSetupFree": "Tidak perlu lisensi",
+    "todoSetupPlaceholder": "Tulis tugas pertama Anda (wajib untuk melanjutkan)",
+    "todoSetupRemindersDesc": "Pemberitahuan kecil muncul pada waktu yang dipilih atau sedikit sebelumnya, plus satu pengingat lembut per hari. Jam tenang 22.00–08.00 dan dapat dimatikan kapan saja.",
+    "todoSetupRemindersTitle": "Ingatkan saya tentang tugas saya",
+    "todoSetupSubtitle": "Simpan satu tugas kecil di pikiran. Buka dari dasbor atau langsung dari jeda.",
+    "todoSetupTimeHint": "Pilih waktu dan seberapa awal kami mengingatkan. Tanpa waktu, Anda tetap mendapat satu pengingat harian yang lembut.",
+    "todoSetupTitle": "Tugas Anda, selalu gratis",
+    "todoSetupExamples": [
+      "Bayar tagihan listrik",
+      "Balas pesan teman",
+      "Baca catatan rapat besok",
+      "Buat janji dengan dokter",
+      "Buang sampah"
+    ],
+    "todoSetupRemindersShort": "Pemberitahuan kecil pada waktu yang dipilih. Dapat dimatikan kapan saja."
   },
   "dashboard": {
     "title": "Dasbor",
@@ -310,7 +328,41 @@
     "showCompleted": "Tampilkan selesai",
     "hideCompleted": "Sembunyikan selesai",
     "unlockTodoTitle": "Tingkatkan ke Premium",
-    "unlockTodoText": "Dan buka Daftar Tugas"
+    "unlockTodoText": "Dan buka Daftar Tugas",
+    "addedToast": "Tugas ditambahkan",
+    "all": "Semua",
+    "completeToast": "Tugas selesai",
+    "couldNotLoad": "Gagal memuat tugas. Coba lagi.",
+    "couldNotSave": "Gagal menyimpan tugas. Coba lagi.",
+    "deleteTask": "Hapus {{title}}",
+    "deletedToast": "Tugas dihapus",
+    "done": "Selesai",
+    "dueTime": "Jatuh tempo pukul {{time}}",
+    "editTask": "Ubah {{title}}",
+    "filterLabel": "Saring tugas",
+    "minutesBefore": "{{minutes}} menit sebelumnya",
+    "noDoneHint": "Tugas yang selesai tetap di sini agar Anda melihat kemajuan.",
+    "noDoneTitle": "Belum ada tugas selesai",
+    "noTasksHint": "Tambahkan tugas kecil di atas — hanya butuh satu detik.",
+    "noTasksTitle": "Belum ada tugas dalam daftar",
+    "noUpcomingHint": "Pilih tanggal pada tugas baru dan tugas akan muncul di sini.",
+    "noUpcomingTitle": "Tidak ada yang akan datang",
+    "previewReminder": "Lihat pemberitahuan",
+    "progress": "{{done}} dari {{total}} selesai",
+    "quietHours": "Jam tenang",
+    "quietHoursDesc": "Tidak ada pemberitahuan tugas antara {{start}} dan {{end}}.",
+    "remindAtTime": "Pada waktunya",
+    "remindBefore": "Ingatkan lebih awal",
+    "remindersAlwaysFree": "Gratis selamanya — tidak perlu lisensi.",
+    "restoredToast": "Tugas dipulihkan",
+    "subtitle": "Daftar gratis dan pribadi yang dapat dibuka dari jeda dan dasbor.",
+    "taskRemindersDesc": "Pemberitahuan kecil pada waktu yang dipilih atau sedikit sebelumnya, plus pengingat lembut untuk tugas yang belum selesai. Tidak pernah saat jeda atau jam tenang.",
+    "taskRemindersTitle": "Pengingat tugas",
+    "today": "Hari ini",
+    "undo": "Urungkan",
+    "upcoming": "Akan datang",
+    "quickAddHint": "Tulis satu hal yang ingin Anda selesaikan. Tekan Enter untuk menambahkannya.",
+    "markDone": "Tandai {{title}} selesai"
   },
   "workday": {
     "title": "Hari kerja",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "AKAN DATANG",
+    "beforeMessage": "Perhatian — {{title}} dimulai dalam {{minutes}} menit.",
+    "dismiss": "Tutup pengingat",
+    "doneEyebrow": "SELESAI",
+    "doneMessage": "Kerja bagus — satu hal lebih sedikit untuk diingat.",
+    "dueEyebrow": "TUGAS JATUH TEMPO",
+    "dueMessage": "Apakah tugas ini selesai?",
+    "markDone": "Selesai",
+    "nudgeEyebrow": "PENGINGAT HARIAN",
+    "nudgeMessageA": "Apakah tugas ini selesai? Pemeriksaan cepat hanya butuh satu detik.",
+    "nudgeMessageB": "Masih terpikir? Tandai selesai atau buka daftar.",
+    "nudgeMessageC": "Selangkah kecil sekarang, lebih ringan nanti. Bagaimana tugas ini berjalan?",
+    "openList": "Buka daftar",
+    "previewEyebrow": "PRATINJAU PENGINGAT"
+  }
 }

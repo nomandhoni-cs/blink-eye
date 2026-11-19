@@ -241,8 +241,26 @@
       "theme": "Motiv",
       "breakSettings": "Nastavení přestávek",
       "breakClock": "Hodiny",
-      "done": "Hotovo"
-    }
+      "done": "Hotovo",
+      "todo": "Vaše úkoly"
+    },
+    "todoRequired": "Přidejte alespoň jeden úkol, abyste mohli pokračovat. Později ho můžete upravit.",
+    "todoSetupAdded": "Přidáno do seznamu — kdykoli to můžete změnit.",
+    "todoSetupFree": "Bez licence",
+    "todoSetupPlaceholder": "Napište svůj první úkol (pro pokračování povinné)",
+    "todoSetupRemindersDesc": "Malé okno se objeví ve zvolený čas nebo krátce před ním, plus jeden jemný připomínací denně. Tiché hodiny jsou 22:00–08:00 a můžete to kdykoli vypnout.",
+    "todoSetupRemindersTitle": "Připomenout mi mé úkoly",
+    "todoSetupSubtitle": "Mějte v paměti jeden malý úkol. Otevřete ho z přehledu nebo přímo z přestávky.",
+    "todoSetupTimeHint": "Vyberte čas a jak brzy máme připomenout. Bez času dostanete přesto jednu jemnou denní připomínku.",
+    "todoSetupTitle": "Vaše úkoly, vždy zdarma",
+    "todoSetupExamples": [
+      "Zaplatit účt za elektřinu",
+      "Odpovědět kamarádovi",
+      "Přečíst poznámky k zítřejší poradě",
+      "Objednat se k lékaři",
+      "Vynést odpadky"
+    ],
+    "todoSetupRemindersShort": "Malé okno ve zvolený čas. Kdykoli jej můžete vypnout."
   },
   "dashboard": {
     "title": "Přehled",
@@ -310,7 +328,41 @@
     "showCompleted": "Zobrazit hotové",
     "hideCompleted": "Skrýt hotové",
     "unlockTodoTitle": "Přejít na Premium",
-    "unlockTodoText": "A odemknout seznam úkolů"
+    "unlockTodoText": "A odemknout seznam úkolů",
+    "addedToast": "Úkol přidán",
+    "all": "Vše",
+    "completeToast": "Úkol dokončen",
+    "couldNotLoad": "Úkoly se nepodařilo načíst. Zkuste to znovu.",
+    "couldNotSave": "Úkol se nepodařilo uložit. Zkuste to znovu.",
+    "deleteTask": "Smazat {{title}}",
+    "deletedToast": "Úkol smazán",
+    "done": "Hotovo",
+    "dueTime": "Termín {{time}}",
+    "editTask": "Upravit {{title}}",
+    "filterLabel": "Filtrovat úkoly",
+    "minutesBefore": "{{minutes}} min předem",
+    "noDoneHint": "Dokončené úkoly zůstávají zde, abyste viděli pokrok.",
+    "noDoneTitle": "Zatím žádné dokončené úkoly",
+    "noTasksHint": "Přidejte výše malý úkol — trvá to jen vteřinu.",
+    "noTasksTitle": "Zatím žádné úkoly v seznamu",
+    "noUpcomingHint": "U nového úkolu vyberte datum a objeví se zde.",
+    "noUpcomingTitle": "Nic naplánováno",
+    "previewReminder": "Zobrazit okno",
+    "progress": "{{done}} z {{total}} dokončeno",
+    "quietHours": "Tiché hodiny",
+    "quietHoursDesc": "Žádná okna s úkoly mezi {{start}} a {{end}}.",
+    "remindAtTime": "V čase",
+    "remindBefore": "Připomenout předem",
+    "remindersAlwaysFree": "Navždy zdarma — bez licence.",
+    "restoredToast": "Úkol obnoven",
+    "subtitle": "Bezplatný soukromý seznam, který otevřete z přestávky i z přehledu.",
+    "taskRemindersDesc": "Malé okno ve zvolený čas nebo krátce před ním, plus jemná připomínka pro nedokončené úkoly. Nikdy během přestávek či tichých hodin.",
+    "taskRemindersTitle": "Připomínky úkolů",
+    "today": "Dnes",
+    "undo": "Vrátit zpět",
+    "upcoming": "Nadcházející",
+    "quickAddHint": "Napište jednu věc, kterou chcete udělat. Stiskněte Enter pro přidání.",
+    "markDone": "Označit {{title}} jako hotové"
   },
   "workday": {
     "title": "Pracovní dny",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "BRZY",
+    "beforeMessage": "Pozor — {{title}} začíná za {{minutes}} minut.",
+    "dismiss": "Zavřít připomínku",
+    "doneEyebrow": "HOTOVO",
+    "doneMessage": "Skvělá práce — jedna věc méně k pamatování.",
+    "dueEyebrow": "ÚKOL VYPRŠÍ",
+    "dueMessage": "Dokončili jste tento úkol?",
+    "markDone": "Hotovo",
+    "nudgeEyebrow": "DENNÍ PŘIPOMÍNKA",
+    "nudgeMessageA": "Dokončili jste tento úkol? Rychlá kontrola trvá vteřinu.",
+    "nudgeMessageB": "Stále v paměti? Označte jako hotové nebo otevřete seznam.",
+    "nudgeMessageC": "Malý krok teď, méně starostí později. Jak se tento úkol daří?",
+    "openList": "Otevřít seznam",
+    "previewEyebrow": "NÁHLED PŘIPOMÍNKY"
+  }
 }

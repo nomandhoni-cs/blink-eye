@@ -241,8 +241,26 @@
       "theme": "Teema",
       "breakSettings": "Taukoasetukset",
       "breakClock": "Kello",
-      "done": "Valmis"
-    }
+      "done": "Valmis",
+      "todo": "Tehtäväsi"
+    },
+    "todoRequired": "Lisää vähintään yksi tehtävä jatkaaksesi. Voit muokata sitä myöhemmin.",
+    "todoSetupAdded": "Lisätty listaan — voit muuttaa sitä milloin tahansa.",
+    "todoSetupFree": "Ei lisenssiä tarvita",
+    "todoSetupPlaceholder": "Kirjoita ensimmäinen tehtäväsi (pakollinen jatkamiseksi)",
+    "todoSetupRemindersDesc": "Pieni ilmoitus näkyy valittuna ajankohtana tai hieman ennen, sekä yksi hellävarainen muistutus päivässä. Hiljaiset ajat ovat 22–08, ja voit sulkea muistutukset milloin tahansa.",
+    "todoSetupRemindersTitle": "Muistuta minua tehtävistäni",
+    "todoSetupSubtitle": "Pidä yksi pieni tehtävä mielessä. Avaa se työpöydältä tai suoraan tauolta.",
+    "todoSetupTimeHint": "Valitse aika ja kuinka aikaisin haluat muistutuksen. Ilman aikaa saat silti yhden hellävaraisen päivittäisen muistutuksen.",
+    "todoSetupTitle": "Tehtäväsi, aina ilmaisia",
+    "todoSetupExamples": [
+      "Maksa sähkölasku",
+      "Vastaa ystävälle",
+      "Lue huomisen palaverin muistiinpanot",
+      "Varaa aika lääkärille",
+      "Vie roskat ulos"
+    ],
+    "todoSetupRemindersShort": "Pieni ilmoitus valittuna ajankohtana. Voit sulkea sen milloin tahansa."
   },
   "dashboard": {
     "title": "Kojelauta",
@@ -310,7 +328,41 @@
     "showCompleted": "Näytä valmiit",
     "hideCompleted": "Piilota valmiit",
     "unlockTodoTitle": "Päivitä Premiumiin",
-    "unlockTodoText": "ja avaa Tehtävälista"
+    "unlockTodoText": "ja avaa Tehtävälista",
+    "addedToast": "Tehtävä lisätty",
+    "all": "Kaikki",
+    "completeToast": "Tehtävä valmis",
+    "couldNotLoad": "Tehtäviä ei voitu ladata. Yritä uudelleen.",
+    "couldNotSave": "Tehtävää ei voitu tallentaa. Yritä uudelleen.",
+    "deleteTask": "Poista {{title}}",
+    "deletedToast": "Tehtävä poistettu",
+    "done": "Valmis",
+    "dueTime": "Erääntyy klo {{time}}",
+    "editTask": "Muokkaa {{title}}",
+    "filterLabel": "Suodata tehtävät",
+    "minutesBefore": "{{minutes}} min ennen",
+    "noDoneHint": "Valmiit tehtävät säilyvät täällä, jotta näet edistymisesi.",
+    "noDoneTitle": "Ei vielä valmiita tehtäviä",
+    "noTasksHint": "Lisää yksi pieni tehtävä yllä — se kestää sekunnin.",
+    "noTasksTitle": "Listalla ei ole vielä tehtäviä",
+    "noUpcomingHint": "Valitse päivämäärä uudelle tehtävälle, niin se näkyy täällä.",
+    "noUpcomingTitle": "Ei tulossa olevia",
+    "previewReminder": "Näytä ilmoitus",
+    "progress": "{{done}} / {{total}} valmista",
+    "quietHours": "Hiljaiset ajat",
+    "quietHoursDesc": "Ei tehtäväilmoituksia välillä {{start}}–{{end}}.",
+    "remindAtTime": "Ajankohtana",
+    "remindBefore": "Muistuta ennen",
+    "remindersAlwaysFree": "Ilmainen ikuisesti — ei lisenssiä.",
+    "restoredToast": "Tehtävä palautettu",
+    "subtitle": "Ilmainen, yksityinen lista, jonka voit avata tauolta ja työpöydältä.",
+    "taskRemindersDesc": "Pieni ilmoitus valittuna ajankohtana tai hieman ennen, sekä hellävarainen muistutus keskeneräisistä tehtävistä. Ei koskaan taukojen tai hiljaisten aikojen aikana.",
+    "taskRemindersTitle": "Tehtävämuistutukset",
+    "today": "Tänään",
+    "undo": "Kumoa",
+    "upcoming": "Tulevat",
+    "quickAddHint": "Kirjoita yksi asia, jonka haluat tehdä. Paina Enter lisätäksesi sen.",
+    "markDone": "Merkitse {{title}} tehdyksi"
   },
   "workday": {
     "title": "Työpäivät",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "TULOSSA",
+    "beforeMessage": "Huomio — {{title}} alkaa {{minutes}} minuutin kuluttua.",
+    "dismiss": "Sulje muistutus",
+    "doneEyebrow": "VALMIS",
+    "doneMessage": "Hienoa — yksi asia vähemmän mielessä.",
+    "dueEyebrow": "TEHTÄVÄ ERÄÄNTYY",
+    "dueMessage": "Saatko tehtävän valmiiksi?",
+    "markDone": "Valmis",
+    "nudgeEyebrow": "PÄIVITTÄINEN MUISTUTUS",
+    "nudgeMessageA": "Saatko tehtävän valmiiksi? Nopea tarkistus kestää sekunnin.",
+    "nudgeMessageB": "Onko se vielä mielessä? Merkitse valmiiksi tai avaa lista.",
+    "nudgeMessageC": "Pieni askel nyt, vähemmän myöhemmin. Miten tämä tehtävä sujuu?",
+    "openList": "Avaa lista",
+    "previewEyebrow": "MUISTUTUKSEN ESIKATSELU"
+  }
 }

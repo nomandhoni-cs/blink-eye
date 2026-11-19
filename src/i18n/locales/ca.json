@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Configuració de descansos",
       "breakClock": "Rellotge",
-      "done": "Fet"
-    }
+      "done": "Fet",
+      "todo": "Les teves tasques"
+    },
+    "todoRequired": "Afegeix almenys una tasca per continuar. La podràs editar després.",
+    "todoSetupAdded": "Afegida a la llista — la pots canviar quan vulguis.",
+    "todoSetupFree": "No cal llicència",
+    "todoSetupPlaceholder": "Escriu la teva primera tasca (obligatòria per continuar)",
+    "todoSetupRemindersDesc": "Una petita notificació apareix a l’hora triada o una mica abans, a més d’un recordatori suau al dia. Les hores de silenci són de 22:00 a 08:00 i ho pots desactivar quan vulguis.",
+    "todoSetupRemindersTitle": "Recorda’m les meves tasques",
+    "todoSetupSubtitle": "Tingues una tasca petita al cap. Obre-la des del tauler o directament des d’una pausa.",
+    "todoSetupTimeHint": "Tria una hora i quant aviat volem recordar-t’ho. Sense hora, rebràs igualment un recordatori diari suau.",
+    "todoSetupTitle": "Les teves tasques, sempre gratis",
+    "todoSetupExamples": [
+      "Paga la factura de la llum",
+      "Respon un amic",
+      "Llegeix les notes de la reunió de demà",
+      "Demanar cita amb el metge",
+      "Treu les escombraries"
+    ],
+    "todoSetupRemindersShort": "Una petita notificació a l’hora triada. La pots desactivar quan vulguis."
   },
   "dashboard": {
     "title": "Tauler",
@@ -310,7 +328,41 @@
     "showCompleted": "Mostra completades",
     "hideCompleted": "Amaga completades",
     "unlockTodoTitle": "Passa a Premium",
-    "unlockTodoText": "I desbloqueja la llista de tasques"
+    "unlockTodoText": "I desbloqueja la llista de tasques",
+    "addedToast": "Tasca afegida",
+    "all": "Totes",
+    "completeToast": "Tasca completada",
+    "couldNotLoad": "No s’han pogut carregar les tasques. Torna-ho a provar.",
+    "couldNotSave": "No s’ha pogut desar la tasca. Torna-ho a provar.",
+    "deleteTask": "Suprimeix {{title}}",
+    "deletedToast": "Tasca suprimida",
+    "done": "Fet",
+    "dueTime": "Venciment a les {{time}}",
+    "editTask": "Edita {{title}}",
+    "filterLabel": "Filtra tasques",
+    "minutesBefore": "{{minutes}} min abans",
+    "noDoneHint": "Les tasques acabades es queden aquí perquè vegis el progrés.",
+    "noDoneTitle": "Encara no hi ha tasques acabades",
+    "noTasksHint": "Afegeix una tasca petita a dalt — només costa un segon.",
+    "noTasksTitle": "Encara no hi ha tasques a la llista",
+    "noUpcomingHint": "Tria una data per a una tasca nova i apareixerà aquí.",
+    "noUpcomingTitle": "Res de previst",
+    "previewReminder": "Mostra la notificació",
+    "progress": "{{done}} de {{total}} acabades",
+    "quietHours": "Hores de silenci",
+    "quietHoursDesc": "Cap notificació de tasques entre {{start}} i {{end}}.",
+    "remindAtTime": "A l’hora",
+    "remindBefore": "Recorda abans",
+    "remindersAlwaysFree": "Gratis per sempre — no cal llicència.",
+    "restoredToast": "Tasca restaurada",
+    "subtitle": "Una llista gratuïta i privada que pots obrir des d’una pausa i del tauler.",
+    "taskRemindersDesc": "Una petita notificació a l’hora triada o una mica abans, més un recordatori suau per a les tasques pendents. Mai durant pauses ni hores de silenci.",
+    "taskRemindersTitle": "Recordatoris de tasques",
+    "today": "Avui",
+    "undo": "Desfés",
+    "upcoming": "Properes",
+    "quickAddHint": "Escriu una cosa que vulguis fer. Pulsa Enter per afegir-la.",
+    "markDone": "Marca {{title}} com a feta"
   },
   "workday": {
     "title": "Dies laborables",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "AVIAT",
+    "beforeMessage": "Atenció — {{title}} comença en {{minutes}} minuts.",
+    "dismiss": "Tanca el recordatori",
+    "doneEyebrow": "FET",
+    "doneMessage": "Bona feina — una cosa menys per recordar.",
+    "dueEyebrow": "TASCA VENÇUDA",
+    "dueMessage": "Has acabat aquesta tasca?",
+    "markDone": "Fet",
+    "nudgeEyebrow": "RECORDATORI DIARI",
+    "nudgeMessageA": "Has acabat aquesta tasca? Una comprovació ràpida només costa un segon.",
+    "nudgeMessageB": "Encara al cap? Marca-la com a feta o obre la llista.",
+    "nudgeMessageC": "Un petit pas ara, menys feina després. Com va aquesta tasca?",
+    "openList": "Obre la llista",
+    "previewEyebrow": "PREVISUALITZACIÓ DEL RECORDATORI"
+  }
 }

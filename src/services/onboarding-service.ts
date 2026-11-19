@@ -99,10 +99,16 @@ export class OnboardingService {
         position: "bottom-right",
       });
     } finally {
-      await invoke("update_reminder_setting", {
-        key: "isUserOnboarded",
-        value: "true",
-      });
+      localStorage.setItem("blink-eye-onboarded", "true");
+      try {
+        await invoke("update_reminder_setting", {
+          key: "isUserOnboarded",
+          value: "true",
+        });
+      } catch (error) {
+        // Web preview has no Tauri DB; setup is still complete.
+        console.warn("Could not persist onboarding flag natively:", error);
+      }
       window.location.href = "/";
     }
   }

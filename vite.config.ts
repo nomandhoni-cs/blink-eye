@@ -26,6 +26,8 @@ export default defineConfig(async () => ({
       input: {
         main: "index.html",
         alert: "alert.html",
+        // Small top-center task reminder popup (spawned by task_reminders.rs).
+        "task-alert": "task-alert.html",
         // Standalone premium nudge window (spawned by premium_nudge.rs).
         "premium-nudge": "premium-nudge.html",
         // Per-background entries (each ships only its own background JS).

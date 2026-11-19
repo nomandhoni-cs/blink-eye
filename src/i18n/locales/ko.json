@@ -241,8 +241,26 @@
       "theme": "테마",
       "breakSettings": "휴식 설정",
       "breakClock": "시계",
-      "done": "완료"
-    }
+      "done": "완료",
+      "todo": "할 일"
+    },
+    "todoRequired": "계속하려면 작업을 하나 이상 추가하세요. 나중에 수정할 수 있습니다.",
+    "todoSetupAdded": "목록에 추가했습니다 — 언제든 변경할 수 있습니다.",
+    "todoSetupFree": "라이선스 필요 없음",
+    "todoSetupPlaceholder": "첫 번째 작업을 적어 주세요(계속하려면 필수)",
+    "todoSetupRemindersDesc": "선택한 시간이나 조금 전에 작은 알림이 표시되고, 하루에 한 번 부드러운 리마인더가 있습니다. 조용한 시간은 22:00~08:00이며 언제든 끌 수 있습니다.",
+    "todoSetupRemindersTitle": "내 작업을 알려 주세요",
+    "todoSetupSubtitle": "작은 작업 하나를 마음에 두세요. 대시보드나 휴식 화면에서 바로 열 수 있습니다.",
+    "todoSetupTimeHint": "시간과 미리 알려 줄 시점을 선택하세요. 시간을 선택하지 않아도 하루에 한 번 부드러운 알림을 받습니다.",
+    "todoSetupTitle": "내 작업, 항상 무료",
+    "todoSetupExamples": [
+      "전기 요금 내기",
+      "친구에게 답장하기",
+      "내일 회의 메모 읽기",
+      "의사 예약 잡기",
+      "쓰레기 내버리기"
+    ],
+    "todoSetupRemindersShort": "선택한 시간에 작은 알림이 표시됩니다. 언제든 끌 수 있습니다."
   },
   "dashboard": {
     "title": "대시보드",
@@ -310,7 +328,41 @@
     "showCompleted": "완료 항목 표시",
     "hideCompleted": "완료 항목 숨기기",
     "unlockTodoTitle": "프리미엄으로 업그레이드",
-    "unlockTodoText": "할 일 목록도 해제"
+    "unlockTodoText": "할 일 목록도 해제",
+    "addedToast": "작업 추가됨",
+    "all": "모두",
+    "completeToast": "작업 완료",
+    "couldNotLoad": "작업을 불러올 수 없습니다. 다시 시도해 주세요.",
+    "couldNotSave": "작업을 저장할 수 없습니다. 다시 시도해 주세요.",
+    "deleteTask": "{{title}} 삭제",
+    "deletedToast": "작업 삭제됨",
+    "done": "완료",
+    "dueTime": "{{time}}에 마감",
+    "editTask": "{{title}} 수정",
+    "filterLabel": "작업 필터",
+    "minutesBefore": "{{minutes}}분 전",
+    "noDoneHint": "완료한 작업은 진행 상황을 볼 수 있도록 여기에 남습니다.",
+    "noDoneTitle": "아직 완료한 작업이 없습니다",
+    "noTasksHint": "위에 작은 작업을 추가해 보세요 — 1초면 됩니다.",
+    "noTasksTitle": "목록에 아직 작업이 없습니다",
+    "noUpcomingHint": "새 작업에 날짜를 선택하면 여기에 표시됩니다.",
+    "noUpcomingTitle": "다가오는 일 없음",
+    "previewReminder": "팝업 보기",
+    "progress": "{{total}}개 중 {{done}}개 완료",
+    "quietHours": "조용한 시간",
+    "quietHoursDesc": "{{start}}~{{end}} 사이에는 작업 팝업이 표시되지 않습니다.",
+    "remindAtTime": "지정한 시간에",
+    "remindBefore": "미리 알리기",
+    "remindersAlwaysFree": "영원히 무료 — 라이선스가 필요 없습니다.",
+    "restoredToast": "작업 복원됨",
+    "subtitle": "휴식 화면과 대시보드에서 열 수 있는 무료 비공개 목록입니다.",
+    "taskRemindersDesc": "선택한 시간이나 조금 전에 작은 알림이 표시되고, 끝나지 않은 작업에 부드러운 리마인더가 있습니다. 휴식이나 조용한 시간에는 절대 표시하지 않습니다.",
+    "taskRemindersTitle": "작업 리마인더",
+    "today": "오늘",
+    "undo": "실행 취소",
+    "upcoming": "예정",
+    "quickAddHint": "할 일을 하나 적으세요. Enter를 눌러 추가합니다.",
+    "markDone": "{{title}}을(를) 완료로 표시"
   },
   "workday": {
     "title": "근무일",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "곧",
+    "beforeMessage": "알림 — {{title}} 이(가) {{minutes}}분 후 시작됩니다.",
+    "dismiss": "리마인더 닫기",
+    "doneEyebrow": "완료",
+    "doneMessage": "잘하셨어요 — 기억할 것이 하나 줄었습니다.",
+    "dueEyebrow": "작업 기한",
+    "dueMessage": "이 작업을 완료했나요?",
+    "markDone": "완료",
+    "nudgeEyebrow": "매일 리마인더",
+    "nudgeMessageA": "이 작업을 완료했나요? 빠른 확인은 1초면 됩니다.",
+    "nudgeMessageB": "아직 마음에 남아 있나요? 완료로 표시하거나 목록을 여세요.",
+    "nudgeMessageC": "지금 작은 한 걸음이 나중의 부담을 줄입니다. 이 작업은 잘 진행되나요?",
+    "openList": "목록 열기",
+    "previewEyebrow": "리마인더 미리 보기"
+  }
 }

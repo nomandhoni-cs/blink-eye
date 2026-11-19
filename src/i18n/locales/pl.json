@@ -241,8 +241,26 @@
       "theme": "Motyw",
       "breakSettings": "Ustawienia przerw",
       "breakClock": "Zegar",
-      "done": "Gotowe"
-    }
+      "done": "Gotowe",
+      "todo": "Twoje zadania"
+    },
+    "todoRequired": "Dodaj co najmniej jedno zadanie, aby kontynuować. Możesz je później edytować.",
+    "todoSetupAdded": "Dodane do listy — możesz zmienić w dowolnym momencie.",
+    "todoSetupFree": "Bez licencji",
+    "todoSetupPlaceholder": "Wpisz swoje pierwsze zadanie (wymagane, aby kontynuować)",
+    "todoSetupRemindersDesc": "Małe okno pojawi się w wybranym czasie lub krótko przed nim, a także jedno delikatne przypomnienie dziennie. Cisza obowiązuje od 22:00 do 08:00 i możesz to wyłączyć w dowolnym momencie.",
+    "todoSetupRemindersTitle": "Przypominaj mi o moich zadaniach",
+    "todoSetupSubtitle": "Trzymaj w głowie jedno małe zadanie. Otwórz je z panelu lub bezpośrednio z przerwy.",
+    "todoSetupTimeHint": "Wybierz godzinę i jak wcześnie mamy przypomnieć. Bez godziny nadal otrzymasz jedno delikatne dzienne przypomnienie.",
+    "todoSetupTitle": "Twoje zadania, zawsze za darmo",
+    "todoSetupExamples": [
+      "Zapłać rachunek za prąd",
+      "Odpowiedz znajomemu",
+      "Przeczytaj notatki na jutrzejsze spotkanie",
+      "Umów wizytę u lekarza",
+      "Wyrzuć śmieci"
+    ],
+    "todoSetupRemindersShort": "Małe okno o wybranej godzinie. Możesz je wyłączyć w dowolnym momencie."
   },
   "dashboard": {
     "title": "Pulpit",
@@ -310,7 +328,41 @@
     "showCompleted": "Pokaż ukończone",
     "hideCompleted": "Ukryj ukończone",
     "unlockTodoTitle": "Przejdź na Premium",
-    "unlockTodoText": "i odblokuj listę zadań"
+    "unlockTodoText": "i odblokuj listę zadań",
+    "addedToast": "Zadanie dodane",
+    "all": "Wszystkie",
+    "completeToast": "Zadanie ukończone",
+    "couldNotLoad": "Nie udało się wczytać zadań. Spróbuj ponownie.",
+    "couldNotSave": "Nie udało się zapisać zadania. Spróbuj ponownie.",
+    "deleteTask": "Usuń {{title}}",
+    "deletedToast": "Zadanie usunięte",
+    "done": "Gotowe",
+    "dueTime": "Termin o {{time}}",
+    "editTask": "Edytuj {{title}}",
+    "filterLabel": "Filtruj zadania",
+    "minutesBefore": "{{minutes}} min wcześniej",
+    "noDoneHint": "Ukończone zadania zostają tutaj, by pokazać Twój postęp.",
+    "noDoneTitle": "Nie ma jeszcze ukończonych zadań",
+    "noTasksHint": "Dodaj powyżej małe zadanie — zajmie to sekundę.",
+    "noTasksTitle": "Nie ma jeszcze zadań na liście",
+    "noUpcomingHint": "Wybierz datę nowego zadania, a pojawi się tutaj.",
+    "noUpcomingTitle": "Nic nadchodzącego",
+    "previewReminder": "Pokaż okno",
+    "progress": "{{done}} z {{total}} ukończonych",
+    "quietHours": "Cisza",
+    "quietHoursDesc": "Brak okien z zadaniami między {{start}} a {{end}}.",
+    "remindAtTime": "O wyznaczonej godzinie",
+    "remindBefore": "Przypomnij wcześniej",
+    "remindersAlwaysFree": "Za darmo na zawsze — bez licencji.",
+    "restoredToast": "Zadanie przywrócone",
+    "subtitle": "Bezpłatna, prywatna lista, którą otworzysz z przerwy i panelu.",
+    "taskRemindersDesc": "Małe okno o wybranej godzinie lub krótko przed nią, plus delikatne przypomnienie o nieukończonych zadaniach. Nigdy w trakcie przerw i ciszy.",
+    "taskRemindersTitle": "Przypomnienia o zadaniach",
+    "today": "Dziś",
+    "undo": "Cofnij",
+    "upcoming": "Nadchodzące",
+    "quickAddHint": "Wpisz jedną rzecz do zrobienia. Naciśnij Enter, aby dodać.",
+    "markDone": "Oznacz {{title}} jako wykonane"
   },
   "workday": {
     "title": "Dni robocze",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "WKRÓTCE",
+    "beforeMessage": "Uwaga — {{title}} zaczyna się za {{minutes}} minut.",
+    "dismiss": "Zamknij przypomnienie",
+    "doneEyebrow": "GOTOWE",
+    "doneMessage": "Dobra robota — jedna rzecz mniej do zapamiętania.",
+    "dueEyebrow": "ZADANIE DO TERMINU",
+    "dueMessage": "Czy ukończyłeś to zadanie?",
+    "markDone": "Gotowe",
+    "nudgeEyebrow": "CODIENNE PRZYPOMNIENIE",
+    "nudgeMessageA": "Czy ukończyłeś to zadanie? Szybkie sprawdzenie zajmuje sekundę.",
+    "nudgeMessageB": "Nadal w głowie? Oznacz jako gotowe lub otwórz listę.",
+    "nudgeMessageC": "Mały krok teraz, mniej później. Jak idzie to zadanie?",
+    "openList": "Otwórz listę",
+    "previewEyebrow": "PODGLĄD PRZYPOMNIENIA"
+  }
 }

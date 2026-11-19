@@ -241,8 +241,26 @@
       "theme": "Tema",
       "breakSettings": "Pausas",
       "breakClock": "Relógio",
-      "done": "Pronto"
-    }
+      "done": "Pronto",
+      "todo": "Suas tarefas"
+    },
+    "todoRequired": "Adicione pelo menos uma tarefa para continuar. Você pode editá-la depois.",
+    "todoSetupAdded": "Adicionada à lista — você pode alterá-la quando quiser.",
+    "todoSetupFree": "Sem licença necessária",
+    "todoSetupPlaceholder": "Escreva sua primeira tarefa (obrigatório para continuar)",
+    "todoSetupRemindersDesc": "Uma pequena notificação aparece na hora escolhida ou pouco antes, além de um lembrete gentil por dia. O período de silêncio é das 22h às 8h e você pode desativar quando quiser.",
+    "todoSetupRemindersTitle": "Lembre-me das minhas tarefas",
+    "todoSetupSubtitle": "Mantenha uma pequena tarefa em mente. Abra-a no painel ou diretamente de uma pausa.",
+    "todoSetupTimeHint": "Escolha um horário e com que antecedência devemos lembrar. Sem horário, você ainda recebe um lembrete diário gentil.",
+    "todoSetupTitle": "Suas tarefas, sempre grátis",
+    "todoSetupExamples": [
+      "Pagar a conta de luz",
+      "Responder a um amigo",
+      "Ler as notas da reunião de amanhã",
+      "Marcar consulta médica",
+      "Levar o lixo para fora"
+    ],
+    "todoSetupRemindersShort": "Uma pequena notificação na hora escolhida. Pode ser desativada quando quiser."
   },
   "dashboard": {
     "title": "Painel",
@@ -310,7 +328,41 @@
     "showCompleted": "Mostrar concluídas",
     "hideCompleted": "Ocultar concluídas",
     "unlockTodoTitle": "Mudar para Premium",
-    "unlockTodoText": "E desbloquear a Lista de tarefas"
+    "unlockTodoText": "E desbloquear a Lista de tarefas",
+    "addedToast": "Tarefa adicionada",
+    "all": "Todas",
+    "completeToast": "Tarefa concluída",
+    "couldNotLoad": "Não foi possível carregar as tarefas. Tente novamente.",
+    "couldNotSave": "Não foi possível salvar a tarefa. Tente novamente.",
+    "deleteTask": "Excluir {{title}}",
+    "deletedToast": "Tarefa excluída",
+    "done": "Concluído",
+    "dueTime": "Vence às {{time}}",
+    "editTask": "Editar {{title}}",
+    "filterLabel": "Filtrar tarefas",
+    "minutesBefore": "{{minutes}} min antes",
+    "noDoneHint": "As tarefas concluídas ficam aqui para você ver seu progresso.",
+    "noDoneTitle": "Ainda não há tarefas concluídas",
+    "noTasksHint": "Adicione uma pequena tarefa acima — leva só um segundo.",
+    "noTasksTitle": "Ainda não há tarefas na lista",
+    "noUpcomingHint": "Escolha uma data em uma nova tarefa e ela aparecerá aqui.",
+    "noUpcomingTitle": "Nada a seguir",
+    "previewReminder": "Ver notificação",
+    "progress": "{{done}} de {{total}} concluídas",
+    "quietHours": "Período de silêncio",
+    "quietHoursDesc": "Sem notificações de tarefas entre {{start}} e {{end}}.",
+    "remindAtTime": "No horário marcado",
+    "remindBefore": "Lembrar antes",
+    "remindersAlwaysFree": "Grátis para sempre — sem licença.",
+    "restoredToast": "Tarefa restaurada",
+    "subtitle": "Uma lista gratuita e privada que você pode abrir de uma pausa e do painel.",
+    "taskRemindersDesc": "Uma pequena notificação na hora escolhida ou pouco antes, além de um lembrete gentil para tarefas incompletas. Nunca durante pausas ou períodos de silêncio.",
+    "taskRemindersTitle": "Lembretes de tarefas",
+    "today": "Hoje",
+    "undo": "Desfazer",
+    "upcoming": "Próximas",
+    "quickAddHint": "Escreva uma coisa que você quer concluir. Pressione Enter para adicionar.",
+    "markDone": "Marcar {{title}} como concluída"
   },
   "workday": {
     "title": "Dias úteis",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "EM BREVE",
+    "beforeMessage": "Atenção — {{title}} começa em {{minutes}} minutos.",
+    "dismiss": "Fechar lembrete",
+    "doneEyebrow": "CONCLUÍDO",
+    "doneMessage": "Ótimo trabalho — uma coisa a menos para lembrar.",
+    "dueEyebrow": "TAREFA VENCIDA",
+    "dueMessage": "Você concluiu esta tarefa?",
+    "markDone": "Concluído",
+    "nudgeEyebrow": "LEMBRETE DIÁRIO",
+    "nudgeMessageA": "Você concluiu esta tarefa? Uma verificação rápida leva um segundo.",
+    "nudgeMessageB": "Ainda na sua mente? Marque como concluída ou abra a lista.",
+    "nudgeMessageC": "Um pequeno passo agora, menos trabalho depois. Como está esta tarefa?",
+    "openList": "Abrir lista",
+    "previewEyebrow": "PRÉVIA DO LEMBRETE"
+  }
 }

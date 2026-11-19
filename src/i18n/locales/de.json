@@ -241,8 +241,26 @@
       "theme": "Design",
       "breakSettings": "Pausen",
       "breakClock": "Uhr",
-      "done": "Fertig"
-    }
+      "done": "Fertig",
+      "todo": "Deine Aufgaben"
+    },
+    "todoRequired": "Füge mindestens eine Aufgabe hinzu, um fortzufahren. Du kannst sie später bearbeiten.",
+    "todoSetupAdded": "Zur Liste hinzugefügt — du kannst es jederzeit ändern.",
+    "todoSetupFree": "Keine Lizenz nötig",
+    "todoSetupPlaceholder": "Schreibe deine erste Aufgabe (zum Fortfahren erforderlich)",
+    "todoSetupRemindersDesc": "Eine kleine Benachrichtigung erscheint zum festgelegten Zeitpunkt oder kurz davor, plus eine sanfte Erinnerung pro Tag. Stille Zeiten sind 22–8 Uhr; du kannst sie jederzeit deaktivieren.",
+    "todoSetupRemindersTitle": "Mich an meine Aufgaben erinnern",
+    "todoSetupSubtitle": "Behalte eine kleine Aufgabe im Blick. Öffne sie im Dashboard oder direkt in einer Pause.",
+    "todoSetupTimeHint": "Wähle eine Uhrzeit und wie früh wir dich erinnern sollen. Ohne Uhrzeit erhältst du trotzdem eine sanfte tägliche Erinnerung.",
+    "todoSetupTitle": "Deine Aufgaben, immer kostenlos",
+    "todoSetupExamples": [
+      "Stromrechnung bezahlen",
+      "Einem Freund zurückschreiben",
+      "Notizen für das morgige Meeting lesen",
+      "Arzttermin vereinbaren",
+      "Müll rausbringen"
+    ],
+    "todoSetupRemindersShort": "Eine kleine Benachrichtigung zum gewählten Zeitpunkt. Jederzeit deaktivierbar."
   },
   "dashboard": {
     "title": "Übersicht",
@@ -310,7 +328,41 @@
     "showCompleted": "Erledigte anzeigen",
     "hideCompleted": "Erledigte ausblenden",
     "unlockTodoTitle": "Wechsle zu Premium",
-    "unlockTodoText": "Und schalte die Aufgabenliste frei"
+    "unlockTodoText": "Und schalte die Aufgabenliste frei",
+    "addedToast": "Aufgabe hinzugefügt",
+    "all": "Alle",
+    "completeToast": "Aufgabe abgeschlossen",
+    "couldNotLoad": "Aufgaben konnten nicht geladen werden. Bitte versuche es erneut.",
+    "couldNotSave": "Aufgabe konnte nicht gespeichert werden. Bitte versuche es erneut.",
+    "deleteTask": "{{title}} löschen",
+    "deletedToast": "Aufgabe gelöscht",
+    "done": "Erledigt",
+    "dueTime": "Fällig um {{time}}",
+    "editTask": "{{title}} bearbeiten",
+    "filterLabel": "Aufgaben filtern",
+    "minutesBefore": "{{minutes}} Min. vorher",
+    "noDoneHint": "Abgeschlossene Aufgaben bleiben hier, damit du deinen Fortschritt siehst.",
+    "noDoneTitle": "Noch keine abgeschlossenen Aufgaben",
+    "noTasksHint": "Füge oben eine kleine Aufgabe hinzu — dauert nur eine Sekunde.",
+    "noTasksTitle": "Noch keine Aufgaben auf der Liste",
+    "noUpcomingHint": "Wähle ein Datum für eine neue Aufgabe, dann erscheint sie hier.",
+    "noUpcomingTitle": "Nichts in Kürze",
+    "previewReminder": "Popup ansehen",
+    "progress": "{{done}} von {{total}} abgeschlossen",
+    "quietHours": "Stille Zeiten",
+    "quietHoursDesc": "Keine Aufgaben-Popups zwischen {{start}} und {{end}}.",
+    "remindAtTime": "Zum Zeitpunkt",
+    "remindBefore": "Vorher erinnern",
+    "remindersAlwaysFree": "Für immer kostenlos — keine Lizenz nötig.",
+    "restoredToast": "Aufgabe wiederhergestellt",
+    "subtitle": "Eine kostenlose, private Liste, die du in der Pause und im Dashboard öffnen kannst.",
+    "taskRemindersDesc": "Eine kleine Benachrichtigung zum gewählten Zeitpunkt oder kurz davor, plus eine sanfte Erinnerung für offene Aufgaben. Nie während Pausen oder stiller Zeiten.",
+    "taskRemindersTitle": "Aufgaben-Erinnerungen",
+    "today": "Heute",
+    "undo": "Rückgängig",
+    "upcoming": "Kommende",
+    "quickAddHint": "Schreibe eine Sache auf, die du erledigen möchtest. Drücke Enter, um sie hinzuzufügen.",
+    "markDone": "{{title}} als erledigt markieren"
   },
   "workday": {
     "title": "Werktage",
@@ -904,5 +956,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "DEMNÄCHST",
+    "beforeMessage": "Achtung — {{title}} beginnt in {{minutes}} Minuten.",
+    "dismiss": "Erinnerung schließen",
+    "doneEyebrow": "ERLEDIGT",
+    "doneMessage": "Gut gemacht — eine Sache weniger im Kopf.",
+    "dueEyebrow": "AUFGABE FÄLLIG",
+    "dueMessage": "Hast du diese Aufgabe abgeschlossen?",
+    "markDone": "Erledigt",
+    "nudgeEyebrow": "TÄGLICHE ERINNERUNG",
+    "nudgeMessageA": "Hast du diese Aufgabe abgeschlossen? Ein kurzer Check dauert eine Sekunde.",
+    "nudgeMessageB": "Noch im Kopf? Markiere sie als erledigt oder öffne die Liste.",
+    "nudgeMessageC": "Ein kleiner Schritt jetzt, weniger später. Wie läuft diese Aufgabe?",
+    "openList": "Liste öffnen",
+    "previewEyebrow": "ERINNERUNGSVORSCHAU"
+  }
 }

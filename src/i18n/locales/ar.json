@@ -241,8 +241,26 @@
       "theme": "السمة",
       "breakSettings": "إعدادات الراحة",
       "breakClock": "الساعة",
-      "done": "تم"
-    }
+      "done": "تم",
+      "todo": "مهامك"
+    },
+    "todoRequired": "أضف مهمة واحدة على الأقل للمتابعة. يمكنك تعديلها لاحقًا.",
+    "todoSetupAdded": "أُضيفت إلى القائمة — يمكنك تغييرها في أي وقت.",
+    "todoSetupFree": "لا يلزم ترخيص",
+    "todoSetupPlaceholder": "اكتب أول مهمة لديك (مطلوبة للمتابعة)",
+    "todoSetupRemindersDesc": "تظهر نافذة صغيرة في الوقت المحدد أو قبله بقليل، مع تذكير لطيف واحد يوميًا. أوقات الهدوء من ٢٢:٠٠ إلى ٠٨:٠٠، ويمكنك إيقاف ذلك في أي وقت.",
+    "todoSetupRemindersTitle": "ذكّرني بمهامي",
+    "todoSetupSubtitle": "احتفظ بمهمة صغيرة في ذهنك. افتحها من لوحة التحكم أو مباشرة من استراحة.",
+    "todoSetupTimeHint": "اختر وقتًا ومدى تبكير التذكير. بدون وقت ستحصل على تذكير يومي لطيف على أي حال.",
+    "todoSetupTitle": "مهامك، مجانًا دائمًا",
+    "todoSetupExamples": [
+      "دفع فاتورة الكهرباء",
+      "الرد على صديق",
+      "قراءة ملاحظات اجتماع الغد",
+      "حجز موعد مع الطبيب",
+      "إخراج القمامة"
+    ],
+    "todoSetupRemindersShort": "نافذة صغيرة في الوقت المحدد. يمكن إيقافها في أي وقت."
   },
   "dashboard": {
     "title": "لوحة التحكم",
@@ -310,7 +328,41 @@
     "showCompleted": "إظهار المكتملة",
     "hideCompleted": "إخفاء المكتملة",
     "unlockTodoTitle": "الترقية إلى الميزات المميزة",
-    "unlockTodoText": "وافتح قائمة المهام"
+    "unlockTodoText": "وافتح قائمة المهام",
+    "addedToast": "تمت إضافة المهمة",
+    "all": "الكل",
+    "completeToast": "اكتملت المهمة",
+    "couldNotLoad": "تعذر تحميل المهام. يرجى المحاولة مرة أخرى.",
+    "couldNotSave": "تعذر حفظ المهمة. يرجى المحاولة مرة أخرى.",
+    "deleteTask": "حذف {{title}}",
+    "deletedToast": "تم حذف المهمة",
+    "done": "تم",
+    "dueTime": "مستحقة عند {{time}}",
+    "editTask": "تعديل {{title}}",
+    "filterLabel": "تصفية المهام",
+    "minutesBefore": "قبل {{minutes}} دقيقة",
+    "noDoneHint": "تبقى المهام المكتملة هنا لترى تقدمك.",
+    "noDoneTitle": "لا توجد مهام مكتملة بعد",
+    "noTasksHint": "أضف مهمة صغيرة أعلاه — لا تستغرق سوى ثانية.",
+    "noTasksTitle": "لا توجد مهام في القائمة بعد",
+    "noUpcomingHint": "اختر تاريخًا لمهمة جديدة وستظهر هنا.",
+    "noUpcomingTitle": "لا شيء قادم",
+    "previewReminder": "عرض الإشعار",
+    "progress": "{{done}} من {{total}} مكتملة",
+    "quietHours": "أوقات الهدوء",
+    "quietHoursDesc": "لا توجد إشعارات مهام بين {{start}} و{{end}}.",
+    "remindAtTime": "في الوقت المحدد",
+    "remindBefore": "تذكير قبل الموعد",
+    "remindersAlwaysFree": "مجاني إلى الأبد — لا يلزم ترخيص.",
+    "restoredToast": "تمت استعادة المهمة",
+    "subtitle": "قائمة مجانية وخاصة يمكنك فتحها من الاستراحة ولوحة التحكم.",
+    "taskRemindersDesc": "نافذة صغيرة في الوقت المحدد أو قبله بقليل، مع تذكير لطيف للمهام غير المكتملة. أبدًا أثناء الاستراحات أو أوقات الهدوء.",
+    "taskRemindersTitle": "تذكيرات المهام",
+    "today": "اليوم",
+    "undo": "تراجع",
+    "upcoming": "القادمة",
+    "quickAddHint": "اكتب شيئًا واحدًا تريد إنجازه. اضغط Enter لإضافته.",
+    "markDone": "حدد {{title}} كمكتمل"
   },
   "workday": {
     "title": "أيام العمل",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "قريبًا",
+    "beforeMessage": "تنبيه — تبدأ {{title}} بعد {{minutes}} دقيقة.",
+    "dismiss": "إغلاق التذكير",
+    "doneEyebrow": "تم",
+    "doneMessage": "عمل رائع — شيء أقل لتتذكره.",
+    "dueEyebrow": "المهمة مستحقة",
+    "dueMessage": "هل أنهيت هذه المهمة؟",
+    "markDone": "تم",
+    "nudgeEyebrow": "تذكير يومي",
+    "nudgeMessageA": "هل أنهيت هذه المهمة؟ يستغرق التحقيق السريع ثانية واحدة.",
+    "nudgeMessageB": "ما زالت في ذهنك؟ صنّفها كمكتملة أو افتح القائمة.",
+    "nudgeMessageC": "خطوة صغيرة الآن، عبء أقل لاحقًا. كيف تسير هذه المهمة؟",
+    "openList": "فتح القائمة",
+    "previewEyebrow": "معاينة التذكير"
+  }
 }

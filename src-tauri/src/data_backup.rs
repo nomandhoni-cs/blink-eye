@@ -1,9 +1,11 @@
+//! User-data export and import as a validated zip archive.
+
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::fs::{self, File};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
 use zip::write::SimpleFileOptions;
 use zip::{ZipArchive, ZipWriter};
 
@@ -11,11 +13,7 @@ use zip::{ZipArchive, ZipWriter};
 const BACKUP_FORMAT_VERSION: u32 = 1;
 
 /// User-facing data only. License, install identity, and legacy JSON stores stay on this device.
-const BACKUP_FILES: &[&str] = &[
-    "appconfig.db",
-    "UserScreenTime.db",
-    "UserLocalTodoList.db",
-];
+const BACKUP_FILES: &[&str] = &["appconfig.db", "UserScreenTime.db", "UserLocalTodoList.db"];
 
 const REQUIRED_IMPORT_FILES: &[&str] = &["appconfig.db"];
 
@@ -27,28 +25,36 @@ struct BackupManifest {
     files: Vec<String>,
 }
 
+/// Result of a user-data export.
 #[derive(Debug, Serialize)]
 pub struct ExportUserDataResult {
+    /// Absolute path of the created archive.
     pub path: String,
+    /// Number of user-data files written to the archive.
     pub file_count: usize,
 }
 
+/// Result of a user-data import.
 #[derive(Debug, Serialize)]
 pub struct ImportUserDataResult {
+    /// Number of files restored from the archive.
     pub file_count: usize,
+    /// Directory holding the pre-import copy of the previous data.
     pub backup_dir: String,
 }
 
 fn app_data_dir(app: &AppHandle) -> Result<PathBuf, String> {
-    app.path()
-        .app_data_dir()
-        .map_err(|error| error.to_string())
+    use tauri::Manager;
+
+    app.path().app_data_dir().map_err(|error| error.to_string())
 }
 
+#[must_use]
 fn is_allowed_backup_file(name: &str) -> bool {
     BACKUP_FILES.contains(&name)
 }
 
+#[must_use]
 fn normalize_zip_entry_name(name: &str) -> Option<String> {
     let path = Path::new(name);
     let file_name = path.file_name()?.to_str()?;
@@ -83,8 +89,7 @@ pub fn export_user_data(
 
     let file = File::create(&dest).map_err(|error| error.to_string())?;
     let mut zip = ZipWriter::new(file);
-    let options = SimpleFileOptions::default()
-        .compression_method(zip::CompressionMethod::Deflated);
+    let options = SimpleFileOptions::default().compression_method(zip::CompressionMethod::Deflated);
 
     let mut exported_files: Vec<String> = Vec::new();
 
@@ -94,9 +99,8 @@ pub fn export_user_data(
             continue;
         }
 
-        let bytes = fs::read(&source).map_err(|error| {
-            format!("Failed to read {name} for export: {error}")
-        })?;
+        let bytes = fs::read(&source)
+            .map_err(|error| format!("Failed to read {name} for export: {error}"))?;
 
         zip.start_file(*name, options)
             .map_err(|error| format!("Failed to add {name} to archive: {error}"))?;
@@ -156,9 +160,8 @@ pub fn import_user_data(
     }
 
     let file = File::open(&source).map_err(|error| error.to_string())?;
-    let mut archive = ZipArchive::new(file).map_err(|error| {
-        format!("Invalid backup archive: {error}")
-    })?;
+    let mut archive =
+        ZipArchive::new(file).map_err(|error| format!("Invalid backup archive: {error}"))?;
 
     let manifest: BackupManifest = {
         let mut manifest_file = archive
@@ -193,9 +196,8 @@ pub fn import_user_data(
         let current = data_dir.join(name);
         if current.is_file() {
             let backup_target = pre_import_dir.join(name);
-            fs::copy(&current, &backup_target).map_err(|error| {
-                format!("Failed to back up current {name}: {error}")
-            })?;
+            fs::copy(&current, &backup_target)
+                .map_err(|error| format!("Failed to back up current {name}: {error}"))?;
         }
     }
 
@@ -227,9 +229,8 @@ pub fn import_user_data(
             .map_err(|error| format!("Failed to read {file_name} from archive: {error}"))?;
 
         let destination = data_dir.join(&file_name);
-        fs::write(&destination, bytes).map_err(|error| {
-            format!("Failed to write restored {file_name}: {error}")
-        })?;
+        fs::write(&destination, bytes)
+            .map_err(|error| format!("Failed to write restored {file_name}: {error}"))?;
 
         restored_count += 1;
     }

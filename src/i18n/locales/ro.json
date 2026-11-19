@@ -241,8 +241,26 @@
       "theme": "Temă",
       "breakSettings": "Setări pauze",
       "breakClock": "Ceas",
-      "done": "Gata"
-    }
+      "done": "Gata",
+      "todo": "Sarcinile tale"
+    },
+    "todoRequired": "Adaugă cel puțin o sarcină pentru a continua. O poți edita mai târziu.",
+    "todoSetupAdded": "Adăugată în listă — o poți schimba oricând.",
+    "todoSetupFree": "Fără licență",
+    "todoSetupPlaceholder": "Scrie prima ta sarcină (obligatorie pentru a continua)",
+    "todoSetupRemindersDesc": "Un mic mesaj apare la ora aleasă sau puțin înainte, plus o reamintire blândă pe zi. Orele liniștite sunt 22:00–08:00 și poți dezactiva oricând.",
+    "todoSetupRemindersTitle": "Reamintește-mi sarcinile",
+    "todoSetupSubtitle": "Ține minte o sarcină mică. Deschide-o din panou sau direct dintr-o pauză.",
+    "todoSetupTimeHint": "Alege o oră și când vrei să-ți reamintim. Fără oră, primești totuși o reamintire zilnică blândă.",
+    "todoSetupTitle": "Sarcinile tale, mereu gratuite",
+    "todoSetupExamples": [
+      "Plătește factura de curent",
+      "Răspunde unui prieten",
+      "Citește notițele de la întâlnirea de mâine",
+      "Programează o vizită la medic",
+      "Scoate gunoiul"
+    ],
+    "todoSetupRemindersShort": "Un mic mesaj la ora aleasă. Îl poți dezactiva oricând."
   },
   "dashboard": {
     "title": "Panou",
@@ -310,7 +328,41 @@
     "showCompleted": "Arată finalizate",
     "hideCompleted": "Ascunde finalizate",
     "unlockTodoTitle": "Treci la Premium",
-    "unlockTodoText": "Și deblochează lista de sarcini"
+    "unlockTodoText": "Și deblochează lista de sarcini",
+    "addedToast": "Sarcină adăugată",
+    "all": "Toate",
+    "completeToast": "Sarcină finalizată",
+    "couldNotLoad": "Nu s-au putut încărca sarcinile. Încearcă din nou.",
+    "couldNotSave": "Nu s-a putut salva sarcina. Încearcă din nou.",
+    "deleteTask": "Șterge {{title}}",
+    "deletedToast": "Sarcină ștearsă",
+    "done": "Gata",
+    "dueTime": "Scadentă la {{time}}",
+    "editTask": "Editează {{title}}",
+    "filterLabel": "Filtrează sarcinile",
+    "minutesBefore": "{{minutes}} min înainte",
+    "noDoneHint": "Sarcinile finalizate rămân aici ca să vezi progresul.",
+    "noDoneTitle": "Încă nicio sarcină finalizată",
+    "noTasksHint": "Adaugă o sarcină mică mai sus — durează o secundă.",
+    "noTasksTitle": "Încă nicio sarcină în listă",
+    "noUpcomingHint": "Alege o dată pentru o sarcină nouă și va apărea aici.",
+    "noUpcomingTitle": "Nimic în viitor",
+    "previewReminder": "Vezi mesajul",
+    "progress": "{{done}} din {{total}} finalizate",
+    "quietHours": "Ore liniștite",
+    "quietHoursDesc": "Fără mesaje de sarcini între {{start}} și {{end}}.",
+    "remindAtTime": "La ora respectivă",
+    "remindBefore": "Reamindește înainte",
+    "remindersAlwaysFree": "Gratuit pentru totdeauna — fără licență.",
+    "restoredToast": "Sarcină restaurată",
+    "subtitle": "O listă gratuită și privată, pe care o poți deschide dintr-o pauză și din panou.",
+    "taskRemindersDesc": "Un mic mesaj la ora aleasă sau puțin înainte, plus o reamintire blândă pentru sarcinile neterminate. Niciodată în pauze sau ore liniștite.",
+    "taskRemindersTitle": "Reamintiri pentru sarcini",
+    "today": "Astăzi",
+    "undo": "Anulează",
+    "upcoming": "Viitoare",
+    "quickAddHint": "Scrie un lucru pe care vrei să îl termini. Apasă Enter pentru a-l adăuga.",
+    "markDone": "Marchează {{title}} ca făcut"
   },
   "workday": {
     "title": "Zile lucrătoare",
@@ -895,5 +947,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "ÎN CURÂND",
+    "beforeMessage": "Atenție — {{title}} începe peste {{minutes}} minute.",
+    "dismiss": "Închide reamintirea",
+    "doneEyebrow": "GATA",
+    "doneMessage": "Bună treabă — încă un lucru mai puțin de ținut minte.",
+    "dueEyebrow": "SARCINĂ SCADENTĂ",
+    "dueMessage": "Ai terminat această sarcină?",
+    "markDone": "Gata",
+    "nudgeEyebrow": "REAMINTIRE ZILNICĂ",
+    "nudgeMessageA": "Ai terminat această sarcină? O verificare rapidă durează o secundă.",
+    "nudgeMessageB": "Încă în minte? Marchează ca făcută sau deschide lista.",
+    "nudgeMessageC": "Un mic pas acum, mai puțin mai târziu. Cum merge această sarcină?",
+    "openList": "Deschide lista",
+    "previewEyebrow": "PREVIZUALIZARE REAMINTIRE"
+  }
 }

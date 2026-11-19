@@ -241,8 +241,26 @@
       "theme": "テーマ",
       "breakSettings": "休憩設定",
       "breakClock": "時計",
-      "done": "完了"
-    }
+      "done": "完了",
+      "todo": "やることリスト"
+    },
+    "todoRequired": "続行するにはタスクを1つ以上追加してください。後から編集できます。",
+    "todoSetupAdded": "リストに追加しました — いつでも変更できます。",
+    "todoSetupFree": "ライセンス不要",
+    "todoSetupPlaceholder": "最初のタスクを書いてください（続行に必須）",
+    "todoSetupRemindersDesc": "選択した時刻、または少し前に小さな通知が表示され、1日1回やさしいリマインダーが届きます。静かな時間は22:00〜08:00で、いつでもオフにできます。",
+    "todoSetupRemindersTitle": "タスクをリマインドして",
+    "todoSetupSubtitle": "小さなタスクを1つ心に留めておきましょう。ダッシュボードや休憩から直接開けます。",
+    "todoSetupTimeHint": "時刻と、何分前に知らせるかを選びます。時刻を選ばなくても、1日1回やさしいリマインダーが届きます。",
+    "todoSetupTitle": "あなたのタスク、いつでも無料",
+    "todoSetupExamples": [
+      "電気代を支払う",
+      "友達に返信する",
+      "明日の会議のメモを読む",
+      "医者の予約を取る",
+      "ゴミを出す"
+    ],
+    "todoSetupRemindersShort": "選択した時刻に小さな通知が表示されます。いつでもオフにできます。"
   },
   "dashboard": {
     "title": "ダッシュボード",
@@ -310,7 +328,41 @@
     "showCompleted": "完了を表示",
     "hideCompleted": "完了を隠す",
     "unlockTodoTitle": "プレミアムにアップグレード",
-    "unlockTodoText": "ToDo リストも解除"
+    "unlockTodoText": "ToDo リストも解除",
+    "addedToast": "タスクを追加しました",
+    "all": "すべて",
+    "completeToast": "タスクを完了しました",
+    "couldNotLoad": "タスクを読み込めませんでした。もう一度お試しください。",
+    "couldNotSave": "タスクを保存できませんでした。もう一度お試しください。",
+    "deleteTask": "{{title}} を削除",
+    "deletedToast": "タスクを削除しました",
+    "done": "完了",
+    "dueTime": "{{time}} に期限",
+    "editTask": "{{title}} を編集",
+    "filterLabel": "タスクを絞り込む",
+    "minutesBefore": "{{minutes}} 分前",
+    "noDoneHint": "完了したタスクは進捗が見えるようここに残ります。",
+    "noDoneTitle": "完了したタスクはまだありません",
+    "noTasksHint": "上に小さなタスクを追加してください — 1秒で済みます。",
+    "noTasksTitle": "リストにはまだタスクがありません",
+    "noUpcomingHint": "新しいタスクに日付を選ぶと、ここに表示されます。",
+    "noUpcomingTitle": "予定はありません",
+    "previewReminder": "ポップアップを見る",
+    "progress": "{{total}} 件中 {{done}} 件完了",
+    "quietHours": "静かな時間",
+    "quietHoursDesc": "{{start}} から {{end}} の間はタスクのポップアップを表示しません。",
+    "remindAtTime": "指定した時刻に",
+    "remindBefore": "前にリマインド",
+    "remindersAlwaysFree": "ずっと無料 — ライセンス不要です。",
+    "restoredToast": "タスクを復元しました",
+    "subtitle": "休憩やダッシュボードから開ける、無料でプライベートなリストです。",
+    "taskRemindersDesc": "選択した時刻、または少し前に小さな通知が表示され、未完了のタスクにはやさしいリマインダーが届きます。休憩中や静かな時間には表示しません。",
+    "taskRemindersTitle": "タスクのリマインダー",
+    "today": "今日",
+    "undo": "元に戻す",
+    "upcoming": "今後の予定",
+    "quickAddHint": "やりたいことを1つ書いてください。Enter で追加できます。",
+    "markDone": "{{title}} を完了にする"
   },
   "workday": {
     "title": "稼働日",
@@ -903,5 +955,21 @@
     "refresh": "Refresh",
     "loading": "Loading debug info..."
   },
-  "appName": "Blink Eye"
+  "appName": "Blink Eye",
+  "taskAlert": {
+    "beforeEyebrow": "まもなく",
+    "beforeMessage": "お知らせ — {{title}} は {{minutes}} 分後に始まります。",
+    "dismiss": "リマインダーを閉じる",
+    "doneEyebrow": "完了",
+    "doneMessage": "よくできました — 覚えておくことが1つ減りました。",
+    "dueEyebrow": "タスクの期限",
+    "dueMessage": "このタスクは完了しましたか？",
+    "markDone": "完了",
+    "nudgeEyebrow": "毎日のリマインダー",
+    "nudgeMessageA": "このタスクは完了しましたか？確認は1秒で済みます。",
+    "nudgeMessageB": "まだ心に残っていますか？完了にするか、リストを開いてください。",
+    "nudgeMessageC": "今の小さな一歩が、後の負担を減らします。このタスクはどうですか？",
+    "openList": "リストを開く",
+    "previewEyebrow": "リマインダーのプレビュー"
+  }
 }
