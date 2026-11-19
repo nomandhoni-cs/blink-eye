@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, useReducedMotion } from "framer-motion";
 import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import {
@@ -43,6 +44,14 @@ interface ReminderSettings {
 
 const BAG_KEY = "premiumNudgeMessageBag";
 const VARIANTS: NudgeVariant[] = ["trial_ending", "expired", "winback"];
+
+// The same short, physical overshoot used by the task and pre-break pop-ups.
+const SPRING = { type: "spring" as const, stiffness: 420, damping: 28, mass: 0.75 };
+
+/** Spring transition with an optional stagger, or an instant one when reduced. */
+function springFor(reduceMotion: boolean | null, delay = 0) {
+  return reduceMotion ? { duration: 0 } : { ...SPRING, delay };
+}
 
 const TILE_ICONS: Record<NudgeTileKind, typeof FlameIcon> = {
   streak: FlameIcon,
@@ -107,6 +116,7 @@ const HeroNumber = ({ value }: { value: number }) => {
 
 const PremiumNudgeWindow = () => {
   const { t } = useTranslation();
+  const reduceMotion = useReducedMotion();
   const [message, setMessage] = useState<ComposedMessage | null>(null);
   const [highlights, setHighlights] = useState<NudgeHighlights | null>(null);
   const [busy, setBusy] = useState(false);
@@ -211,14 +221,28 @@ const PremiumNudgeWindow = () => {
       />
       <div data-tauri-drag-region className="relative h-9 shrink-0" />
 
-      <main
-        className={`relative flex flex-1 flex-col px-7 pb-6 transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}
+      <motion.main
+        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 18, scale: 0.98 }}
+        animate={
+          ready
+            ? reduceMotion
+              ? { opacity: 1 }
+              : { opacity: 1, y: 0, scale: 1 }
+            : reduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: 18, scale: 0.98 }
+        }
+        transition={springFor(reduceMotion)}
+        className="relative flex flex-1 flex-col px-7 pb-6"
       >
         <div className="flex items-center gap-2.5">
-          <img
+          <motion.img
             src={logo}
             alt=""
             className="nudge-blink size-9 drop-shadow-sm"
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.6 }}
+            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            transition={springFor(reduceMotion)}
           />
           <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
             {t("nudge.storyLabel")}
@@ -226,7 +250,13 @@ const PremiumNudgeWindow = () => {
         </div>
 
         {hero ? (
-          <section className="mt-6" aria-label={t("nudge.progressLabel")}>
+          <motion.section
+            className="mt-6"
+            aria-label={t("nudge.progressLabel")}
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
+            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            transition={springFor(reduceMotion, 0.04)}
+          >
             <HeroNumber value={hero.value} />
             <p className="mt-2 text-sm font-medium text-foreground/80">
               {hero.label}
@@ -236,19 +266,22 @@ const PremiumNudgeWindow = () => {
                 {hero.caption}
               </p>
             )}
-          </section>
+          </motion.section>
         ) : (
           <div className="mt-6 h-2" />
         )}
 
         {tiles.length > 0 && (
           <ul className="mt-5 grid grid-cols-3 gap-2">
-            {tiles.map((tile) => {
+            {tiles.map((tile, index) => {
               const Icon = TILE_ICONS[tile.kind];
               return (
-                <li
+                <motion.li
                   key={tile.kind}
                   className="rounded-xl border border-border bg-card px-3 py-2.5"
+                  initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.96 }}
+                  animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+                  transition={springFor(reduceMotion, 0.06 + index * 0.04)}
                 >
                   <Icon className="size-4 text-primary" aria-hidden />
                   <div className="mt-1.5 text-lg font-semibold leading-none tabular-nums">
@@ -257,22 +290,32 @@ const PremiumNudgeWindow = () => {
                   <div className="mt-1 text-[11px] leading-tight text-muted-foreground">
                     {tile.label}
                   </div>
-                </li>
+                </motion.li>
               );
             })}
           </ul>
         )}
 
-        <div className="mt-7">
+        <motion.div
+          className="mt-7"
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
+          animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          transition={springFor(reduceMotion, 0.08)}
+        >
           <h1 className="font-heading text-xl font-semibold leading-snug">
             {message?.headline}
           </h1>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
             {message?.body}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mt-auto pt-5">
+        <motion.div
+          className="mt-auto pt-5"
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
+          animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          transition={springFor(reduceMotion, 0.12)}
+        >
           <Button
             onClick={viewPremium}
             disabled={busy || !ready}
@@ -299,8 +342,8 @@ const PremiumNudgeWindow = () => {
               {t("nudge.notNow")}
             </Button>
           </div>
-        </div>
-      </main>
+        </motion.div>
+      </motion.main>
     </div>
   );
 };

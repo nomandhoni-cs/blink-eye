@@ -74,7 +74,9 @@ Spring motion (stiffness ~400–460, damping ~27–28, mass ~0.7–0.8) is used 
 - the pill's drop-in, morph to the "done" state and icon pop,
 - the progress line, whose width is a Framer Motion spring (inspired by the
   momentum-preserving solvers in `YusufCeng1z/ding`),
-- list completion, checkbox rows and the pre-break alert itself.
+- list completion and checkbox rows,
+- every reminder pop-up: the pre-break alert, the task reminder and the premium
+  nudge's staggered recap content.
 
 `prefers-reduced-motion` disables the springs and uses plain opacity changes.
 Essential information (title, message, buttons) is never carried by animation
