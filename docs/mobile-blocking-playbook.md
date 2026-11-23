@@ -293,9 +293,84 @@ Bottom line: **one sentence.** On iOS you cannot take over the screen — you ta
 
 ---
 
+## 7. Will it get approved? (iOS + Android review risk)
+
+Short answer: **yes, this category is demonstrably approvable — but iOS has two gates, not one, and the first one is not a review at all.** Plan the entitlement timeline first; everything else is ordinary review work.
+
+### Gate 1 (iOS, before review): Family Controls (Distribution) entitlement
+
+This is the real bottleneck, and it has **no SLA and no published criteria**. Real developer reports from the Apple forums, 2023–2026:
+
+| Outcome | Reported times |
+| --- | --- |
+| Fastest | 2 days (main app), ~1 week |
+| Typical | 2–3 weeks |
+| Slow | 4.5 weeks, 6 weeks |
+| Worst reported | 2+ months, no response, no status |
+| Declined, then approved on re-application with more detail | ~2 weeks each way |
+
+Hard facts to plan around:
+
+- **One request per bundle ID.** That's 4 for Bloka-style apps (main + `DeviceActivityMonitor` + `ShieldAction` + `ShieldConfiguration`). Multiple developers report the main app approved in 2 days and then 10+ days stuck on the extensions. **Submit all four on day one.**
+- **Only the Account Holder can submit** — an Admin cannot. It arrives by email to the Account Holder.
+- **No status tracking.** Support cannot see progress; they tell you there are no SLAs. One team reported asking weekly for two months.
+- **An app transfer loses the entitlement** — you re-apply and queue again.
+- After approval you must **also** enable Family Controls under App Store Connect → Identifiers → Additional Capabilities, or the build still fails provisioning.
+- Development builds work the whole time via **Family Controls (Development)**; only TestFlight/App Store need Distribution.
+
+**Practical plan:** submit the four requests as the very first action of the project, and build the notification-first MVP (Tier 1) while waiting. If Distribution is refused, you have a shippable product anyway.
+
+### Gate 2 (iOS): App Review — the real risk here is Guideline 4.3, not 2.5
+
+The saturated-category clause names *"simple timer"* apps explicitly, and as of **June 2026 it also lets Apple remove apps already live** if they're not updated, improved or attracting customers. An eye-break 20-20-20 timer is, on its face, squarely in that zone.
+
+What actually separates an approval from a 4.3 rejection in this category:
+
+| Weak (likely 4.3) | Strong (approvable) |
+| --- | --- |
+| Splash → timer → notification settings | Break Shield that actually blocks the apps |
+| Looks like the 50 other 20-20-20 apps | Distinct visual identity, real content (27 scenes = content) |
+| "Reminds you to look away" | "Blocks doomscrolling until your eyes rest" — a mechanism, not a nudge |
+
+Live proof the category passes: **Opal, one sec, Jomo, ScreenZen, Hardcore Focus, Brick, AppBlock** are all on the store using these exact APIs. Jomo even ships "Strict Mode" that blocks *editing, deleting, and the Settings app* during a session — stricter than anything Blink Eye needs. The gate is "is this meaningfully different," not "is this allowed."
+
+Also expect automated **Guideline 2.5.1** messages when you use the Screen Time API without the entitlement attached to every target — those are machine checks, not human rejections, and they stall review until fixed. Retail pack: a wellness claim may additionally draw a medical-claims note; keep the copy to "eye strain and screen fatigue," never "treats" or "prevents" anything.
+
+### Google Play: the accessibility declaration is a real gate, but passable
+
+- **Permissions Declaration Form for AccessibilityService** — required, reviewed, and it must match your binary. A blocker is **not** an accessibility tool: do **not** set `isAccessibilityTool=true`. You need the prominent in-app disclosure, affirmative consent *before* the system dialog, and a **screen-recorded video** of that flow.
+- **Automation is the banned use case.** "Autonomous action" (clickbots, self-driving UI) is prohibited. Blink Eye only *observes* scroll/window events and *draws an overlay* — that is the same declared use as Opal, one sec, ScreenZen and AppBlock. State it exactly that way and never let a feature auto-click or auto-navigate on the user's behalf.
+- **Rejection loops happen.** Play reviews for sensitive permissions commonly take **4–7 days** and sometimes repeat; budget 2–3 submission cycles, and do not book a launch date on review day. Some apps get extended review of up to 7+ days.
+- **Data safety form must match the binary.** A library silently adding a permission (e.g. `ACTIVITY_RECOGNITION`) has caused health-declaration mismatches and upload errors for other teams — audit the merged manifest.
+- **Foreground services need a declared `foregroundServiceType`** (Android 14+), and Android 13+ blocks enabling accessibility for sideloaded APKs — so test through Play internal testing, not raw APKs.
+
+### Risk table
+
+| Risk | Platform | Likelihood | Mitigation |
+| --- | --- | --- | --- |
+| Family Controls Distribution delayed weeks | iOS | **High** | Submit all 4 on day 1; build in development entitlement; ship notification MVP meanwhile |
+| Family Controls Distribution declined | iOS | Low–medium | Re-apply with a detailed, honest use-case description; forums show approval on second attempt |
+| Guideline 4.3 "simple timer" | iOS | **Medium** | Lead with the Break Shield, differentiated UI and real content; name the differentiation in review notes |
+| Guideline 2.5.1 automated stall | iOS | Medium | Entitlement on all 4 targets; verify with `codesign -d --entitlements` on every executable in the IPA |
+| Medical-claims flag (eye health) | iOS | Low | "Eye strain / screen fatigue," never "treats" or "prevents" |
+| Accessibility declaration rejected | Android | Medium | Narrow declared use, matching disclosure, video of the flow, no automation |
+| Android 17 Advanced Protection revokes a11y | Android | Medium (growing) | Ship the UsageStats + overlay fallback path |
+| 12 testers / 14 days (new personal Play account) | Android | Medium | Use an organisation account, or start the closed test on day 1 |
+
+**Bottom line:** the blocking design is not what puts you at risk — the entitlement queue and the "is this just another timer?" judgment are. Both are manageable if you start the entitlement paperwork before writing code and make the shield, not the countdown, the headline feature.
+
+---
+
 ## Sources
 
 - How app blockers actually work on iPhone (FamilyControls / ManagedSettings / DeviceActivity, opaque tokens): https://lagerland-apps.github.io/journal/what-an-iphone-app-can-actually-block/
+- Family Controls (Distribution) real-world wait times, per-bundle-ID requests, declined-then-approved, transfer losing entitlement: https://developer.apple.com/forums/thread/725036 and https://developer.apple.com/forums/thread/744094 and https://developer.apple.com/forums/tags/family-controls
+- Main app approved but Shield extension stuck 2+ weeks (entitlement is per target): https://developer.apple.com/forums/thread/809208
+- Screen Time API apps hitting automated Guideline 2.5.1 entitlement checks at review: https://developer.apple.com/forums/tags/screen-time
+- Guideline 4.3(b) saturation, "simple timer" named category, and the June 2026 revision allowing removal of live apps: https://www.kindacode.com/article/why-does-apple-reject-your-ios-apps-for-spam-guideline-4-3 and https://support-url-generator.com/blog/apple-4-3b-spam-crackdown-2026
+- Current iOS blockers built on the Screen Time API, incl. Jomo Strict Mode blocking Settings: https://www.hardcorefocus.com/blog/best-app-blockers-iphone-2026/
+- Play review timelines (4–7 days, rejection loops) and permission-declaration requirements: https://www.forasoft.com/blog/article/how-to-get-you-app-approved-on-google-play-and-app-store
+- Declaration/binary mismatch causing upload errors (merged-manifest permissions): https://sahha.ai/blog/health-connect-play-store-rejection/
 - Building an iOS blocker with the Screen Time API in Expo — entitlement, App Group, shield-can't-open-app: https://dev.to/yarmolenkod/building-an-ios-app-blocker-with-the-screen-time-api-familycontrols-in-expo-what-the-docs-dont-2emi
 - Apple's Screen Time API in practice — three independent blockers, 15/30/44-minute chaining: https://habitdoom.com/blog/apple-screen-time-api-guide
 - DeviceActivity usage thresholds (`eventDidReachThreshold`, `warningTime`): https://crunchybagel.com/monitoring-app-usage-using-the-screen-time-api/
