@@ -24,6 +24,22 @@ Background paints first → DeferredReminderOverlay loads later (primary only)
 **Style key** (e.g. `sunset`) is the stable ID stored in the database.  
 **Entry file** (e.g. `reminder-sunset.html`) is what Vite builds and Rust opens.
 
+### The `shuffle` key
+
+`shuffle` is a style key with **no entry file**. It means "show a different
+animated scene on every break":
+
+- New installs default to it, so a first-time user sees the gallery of scenes
+  before settling on one.
+- `reminder_scheduler.rs` resolves it per break via `resolve_background_style()`
+  → `pick_shuffled_style()`, which draws from `BACKGROUND_STYLE_TO_ENTRY`,
+  never picks `default`, and never repeats the previous break's scene.
+- It is premium-gated like any other non-`default` scene: free users and
+  expired trials always get `default` (blank screen) because `start_break()`
+  checks `is_premium` before resolving.
+- New backgrounds added to both maps join the shuffle pool automatically —
+  there is nothing extra to register.
+
 ---
 
 ## Checklist
@@ -37,10 +53,14 @@ Background paints first → DeferredReminderOverlay loads later (primary only)
 | 5 | `vite.config.ts` → `build.rollupOptions.input` | Yes |
 | 6 | `src-tauri/src/reminder_scheduler.rs` → `BACKGROUND_STYLE_TO_ENTRY` | Yes |
 | 7 | `src/components/ReminderStyles.tsx` | Yes (theme picker UI) |
-| 8 | `src/assets/thumbnails/{styleKey}.png` | Yes (picker thumbnail) |
+| 8 | `src/assets/thumbnails/{styleKey}.{png,svg,webp}` | Yes (picker preview image; use paired light/dark WebP previews when available) |
 | 9 | — | Theme preview uses `entryForStyle()` in Reminder Themes / Settings |
 
 Steps 1–8 are enough for real breaks fired by the Rust scheduler.
+
+### Thumbnail capture
+
+Capture previews from the actual reminder entry at **640 × 360** and use `?minimal=true` so `DeferredReminderOverlay` (timer, text, and controls) is not mounted. Set `localStorage["vite-ui-theme"]` to `dark` or `light` before loading when a style has theme-specific frames. Wait for the background to paint, capture only the viewport, and export a compressed WebP. Thumbnails should be artwork-only: no reminder UI, clock, counter, labels, or diagonal theme divider.
 
 ---
 

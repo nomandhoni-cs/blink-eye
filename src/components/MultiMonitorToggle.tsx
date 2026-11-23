@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Card } from "./ui/card";
 import { Label } from "./ui/label";
-import Database from "@tauri-apps/plugin-sql";
+import { invoke } from "@tauri-apps/api/core";
 import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import toast from "react-hot-toast";
 import { PiMonitorFill } from "react-icons/pi";
 import { IoSparkles } from "react-icons/io5";
 import { motion } from "framer-motion";
-
-interface ConfigRow {
-    value: string;
-}
+import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
+import { getEffectiveMonitorMode } from "../lib/premium-entitlement";
 
 // Multiple monitors icon component using PiMonitorFill
 function MultiMonitorIcon({ className }: { className?: string }) {
@@ -36,26 +36,53 @@ function MultiMonitorIcon({ className }: { className?: string }) {
 }
 
 const MultiMonitorToggle = () => {
-    const { canAccessPremiumFeatures } = usePremiumFeatures();
+    const { t } = useTranslation();
+    const {
+        canAccessPremiumFeatures,
+        trialInfo,
+        trialError,
+        licenseError,
+        isLoading: entitlementLoading,
+        isRefreshing,
+        refreshPremiumFeatures,
+    } = usePremiumFeatures();
     const [isMultiMonitorEnabled, setIsMultiMonitorEnabled] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const saving = useRef(false);
+    // Only the first status read hides the selection; later checks keep the last known state.
+    const isPending = entitlementLoading;
+    const isBusy = isLoading || isPending || isRefreshing || isSaving;
+    const effectiveMode = getEffectiveMonitorMode(isMultiMonitorEnabled, canAccessPremiumFeatures);
+    // A saved primary choice is the effective mode whatever the entitlement status.
+    const isModeKnown = !isPending && (!isMultiMonitorEnabled || canAccessPremiumFeatures ||
+        (!trialError && !licenseError && !!trialInfo?.install_date && !trialInfo.clock_manipulated));
+    const primarySelected = isModeKnown && effectiveMode === "primary";
+    const allSelected = !isPending && effectiveMode === "all";
+    const allAvailable = !isPending && canAccessPremiumFeatures;
+    // Premium users need no explanation; the status row is only for checking or locked states.
+    const showStatus = isPending || !canAccessPremiumFeatures;
+    const isStatusUnconfirmed = trialError || licenseError || !trialInfo?.install_date || !!trialInfo?.clock_manipulated;
+    const statusReason = isPending || isRefreshing
+        ? t("multiMonitor.status.checking")
+        : isSaving
+            ? t("multiMonitor.status.saving")
+            : trialError || licenseError
+                    ? t("multiMonitor.status.unableToConfirm")
+                    : trialInfo?.clock_manipulated
+                        ? t("multiMonitor.status.clockManipulated")
+                        : !trialInfo?.install_date
+                            ? t("multiMonitor.status.trialUnavailable")
+                            : t("multiMonitor.status.trialExpired");
 
     useEffect(() => {
         const initializeMultiMonitor = async () => {
             try {
-                const db = await Database.load("sqlite:appconfig.db");
-
-                // Retrieve the 'isMultiMonitorEnabled' value from the config table
-                const result: ConfigRow[] = await db.select(
-                    "SELECT value FROM config WHERE key = 'isMultiMonitorEnabled';"
-                );
-
-                if (result.length > 0) {
-                    setIsMultiMonitorEnabled(result[0].value === "true");
-                } else {
-                    // Default to false (Primary Monitor only)
-                    setIsMultiMonitorEnabled(false);
-                }
+                // Read through Rust so the UI shows the value the reminder scheduler uses.
+                setIsMultiMonitorEnabled(await invoke<boolean>("get_config_bool", {
+                    key: "isMultiMonitorEnabled",
+                    defaultValue: false,
+                }));
             } catch (error) {
                 console.error("Failed to initialize multi-monitor setting:", error);
             } finally {
@@ -66,33 +93,34 @@ const MultiMonitorToggle = () => {
     }, []);
 
     const handleSelectionChange = async (enableMultiMonitor: boolean) => {
-        // Check if user has premium access
-        if (enableMultiMonitor && !canAccessPremiumFeatures) {
-            toast.error("Multi-monitor support is a premium feature!", {
-                duration: 3000,
-                position: "bottom-right",
-            });
-            return;
-        }
+        if (saving.current || isBusy || (enableMultiMonitor && !allAvailable)) return;
+        saving.current = true;
+        setIsSaving(true);
 
         try {
-            const db = await Database.load("sqlite:appconfig.db");
+            if (enableMultiMonitor) {
+                const snapshot = await refreshPremiumFeatures();
+                if (!snapshot.canAccessPremiumFeatures) {
+                    toast.error(t("multiMonitor.premiumNotConfirmed"), {
+                        duration: 3000,
+                        position: "bottom-right",
+                    });
+                    return;
+                }
+            }
 
-            // Update the database
-            await db.execute(
-                `
-        INSERT INTO config (key, value) VALUES ('isMultiMonitorEnabled', ?)
-        ON CONFLICT(key) DO UPDATE SET value = excluded.value;
-      `,
-                [enableMultiMonitor ? "true" : "false"]
-            );
+            await invoke("update_reminder_setting", {
+                key: "isMultiMonitorEnabled",
+                value: String(enableMultiMonitor),
+            });
+            await invoke("refresh_reminder_scheduler_settings");
 
             setIsMultiMonitorEnabled(enableMultiMonitor);
 
             toast.success(
                 enableMultiMonitor
-                    ? "Backgrounds on all displays; controls on primary."
-                    : "Break reminders on primary display only.",
+                    ? t("multiMonitor.enabled")
+                    : t("multiMonitor.disabled"),
                 {
                     duration: 2000,
                     position: "bottom-right",
@@ -100,10 +128,13 @@ const MultiMonitorToggle = () => {
             );
         } catch (error) {
             console.error("Failed to update multi-monitor setting:", error);
-            toast.error("Failed to save setting. Please try again.", {
+            toast.error(t("common.saveFailed"), {
                 duration: 2000,
                 position: "bottom-right",
             });
+        } finally {
+            saving.current = false;
+            setIsSaving(false);
         }
     };
 
@@ -121,24 +152,31 @@ const MultiMonitorToggle = () => {
     return (
         <div className="rounded-lg border border-muted p-6 space-y-4">
             <div>
-                <Label className="text-base font-semibold">Monitor display mode</Label>
+                <Label className="text-base font-semibold">{t("multiMonitor.title")}</Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                    Choose whether the break background fills one screen or every screen
+                    {t("multiMonitor.description")}
                 </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Primary Monitor Option */}
                 <Card
-                    className={`relative cursor-pointer transition-all duration-200 ${!isMultiMonitorEnabled
+                    className={`relative py-0 transition-all duration-200 ${primarySelected
                         ? "border-primary border-2 bg-primary/5"
                         : "border-muted hover:border-primary/50"
                         }`}
-                    onClick={() => handleSelectionChange(false)}
                 >
+                    <button
+                        type="button"
+                        disabled={isBusy}
+                        aria-pressed={primarySelected}
+                        aria-describedby={showStatus ? "monitor-entitlement-status" : undefined}
+                        onClick={() => void handleSelectionChange(false)}
+                        className="block w-full cursor-pointer py-6 text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
+                    >
                     <div className="p-6 flex flex-col items-center text-center space-y-3">
                         <div
-                            className={`p-4 rounded-full ${!isMultiMonitorEnabled
+                            className={`p-4 rounded-full ${primarySelected
                                 ? "bg-primary/10 text-primary"
                                 : "bg-muted text-muted-foreground"
                                 }`}
@@ -146,12 +184,12 @@ const MultiMonitorToggle = () => {
                             <PiMonitorFill size={40} />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-lg">Primary monitor</h3>
+                            <h3 className="font-semibold text-lg">{t("multiMonitor.primaryTitle")}</h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Background and controls on your main display only
+                                {t("multiMonitor.primaryDesc")}
                             </p>
                         </div>
-                        {!isMultiMonitorEnabled && (
+                        {primarySelected && (
                             <div className="absolute top-3 right-3">
                                 <div className="bg-primary text-primary-foreground rounded-full p-1">
                                     <svg
@@ -170,17 +208,28 @@ const MultiMonitorToggle = () => {
                             </div>
                         )}
                     </div>
+                    </button>
                 </Card>
 
-                {/* Multi-Monitor Option - Always shines */}
+                {/* Multi-Monitor Option */}
                 <Card
-                    className={`relative overflow-hidden cursor-pointer transition-all duration-200 ${isMultiMonitorEnabled
+                    className={`relative overflow-hidden py-0 transition-all duration-200 ${!allAvailable
+                        ? "border-muted bg-muted/20"
+                        : allSelected
                         ? "border-primary border-2 bg-primary/5"
                         : "border-amber-500/25 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:border-amber-500/50 dark:hover:border-amber-400/35"
                         }`}
-                    onClick={() => handleSelectionChange(true)}
                 >
-                    {/* Animated gradient sweep - always visible */}
+                    <button
+                        type="button"
+                        disabled={isBusy || !allAvailable}
+                        aria-pressed={allSelected}
+                        aria-describedby={showStatus ? "monitor-entitlement-status" : undefined}
+                        onClick={() => void handleSelectionChange(true)}
+                        className="block w-full cursor-pointer py-6 text-inherit rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed"
+                    >
+                    {allAvailable && <>
+                    {/* Animated gradient sweep */}
                     <motion.div
                         className="absolute inset-0 z-0 pointer-events-none"
                         style={{
@@ -212,10 +261,13 @@ const MultiMonitorToggle = () => {
                             delay: 0.6,
                         }}
                     />
+                    </>}
 
                     <div className="relative z-10 p-6 flex flex-col items-center text-center space-y-3">
                         <div
-                            className={`p-4 rounded-full ${isMultiMonitorEnabled
+                            className={`p-4 rounded-full ${!allAvailable
+                                ? "bg-muted text-muted-foreground"
+                                : allSelected
                                 ? "bg-primary/10 text-primary"
                                 : "bg-amber-500/10 dark:bg-amber-400/10 text-amber-600 dark:text-amber-400"
                                 }`}
@@ -224,14 +276,14 @@ const MultiMonitorToggle = () => {
                         </div>
                         <div>
                             <h3 className="font-semibold text-lg flex items-center justify-center gap-2">
-                                Multi-Monitor
-                                <IoSparkles
+                                {t("multiMonitor.multiTitle")}
+                                {allAvailable && <IoSparkles
                                     className="text-amber-500 dark:text-amber-400 drop-shadow-[0_0_4px_rgba(245,158,11,0.5)]"
                                     size={18}
-                                />
+                                />}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Background on every display; timer and skip on primary only
+                                {t("multiMonitor.multiDesc")}
                             </p>
                             {!canAccessPremiumFeatures && (
                                 <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/20">
@@ -240,12 +292,12 @@ const MultiMonitorToggle = () => {
                                         size={12}
                                     />
                                     <span className="text-xs font-bold text-amber-700 dark:text-amber-400 tracking-wide">
-                                        PREMIUM
+                                        {t("common.premium").toUpperCase()}
                                     </span>
                                 </div>
                             )}
                         </div>
-                        {isMultiMonitorEnabled && (
+                        {allSelected && (
                             <div className="absolute top-3 right-3">
                                 <div className="bg-primary text-primary-foreground rounded-full p-1">
                                     <svg
@@ -264,8 +316,30 @@ const MultiMonitorToggle = () => {
                             </div>
                         )}
                     </div>
+                    </button>
                 </Card>
             </div>
+            {showStatus && (
+                <div className="space-y-2">
+                    <p id="monitor-entitlement-status" role="status" className="text-sm text-muted-foreground">
+                        {statusReason}
+                        {isModeKnown && !canAccessPremiumFeatures && isMultiMonitorEnabled &&
+                            t("multiMonitor.preferenceRetained")}
+                    </p>
+                    {!isPending && (
+                        <div className="flex flex-wrap gap-2">
+                            {isStatusUnconfirmed && (
+                                <Button type="button" size="sm" variant="secondary" disabled={isBusy} onClick={() => void refreshPremiumFeatures()}>
+                                    {isRefreshing ? t("common.checking") : t("common.retryStatus")}
+                                </Button>
+                            )}
+                            <Button size="sm" variant="outline" asChild>
+                                <Link to="/activatelicense">{t("common.checkOrActivateLicense")}</Link>
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

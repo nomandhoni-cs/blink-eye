@@ -4,6 +4,70 @@
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/outfit";
+/* Rounded face for the break countdown digits. */
+@import "@fontsource-variable/quicksand";
+/* Bengali ships a serif face so the script renders with its proper style. */
+@import "@fontsource-variable/noto-serif-bengali";
+/* Bundled script faces. `local()` alone is not enough: the family name has to
+   match whatever the OS happens to ship, so these guarantee the correct,
+   professional face for every supported language. */
+@import "@fontsource-variable/noto-sans-devanagari";
+@import "@fontsource-variable/noto-naskh-arabic";
+@import "@fontsource-variable/noto-sans-hebrew";
+@import "@fontsource-variable/noto-sans-thai";
+
+/* ── Per-script font faces ──────────────────────────────────────────────────
+   Latin ships with Inter/Geist. Every other script falls back to a font with
+   real coverage for that writing system, resolved at runtime from the active
+   locale (see `html[lang]` rules in the base layer). Variable/system faces are
+   used where possible so no extra network weight is added. */
+@font-face {
+    font-family: "Noto Sans Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans"), local("NotoSans");
+}
+/* Bengali uses Noto Serif Bengali (bundled above) for its proper style, with
+   the system sans as a fallback when the bundled face is unavailable. */
+/* Devanagari, Arabic, Hebrew and Thai are bundled (see the imports above);
+   only the CJK faces below rely on system fonts, because a bundled CJK
+   variable font is several MB per weight. */
+@font-face {
+    font-family: "Noto Sans JP Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans JP"), local("NotoSansJP"), local("Noto Sans CJK JP");
+}
+@font-face {
+    font-family: "Noto Sans KR Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans KR"), local("NotoSansKR"), local("Noto Sans CJK KR");
+}
+@font-face {
+    font-family: "Noto Sans SC Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans SC"), local("NotoSansSC"), local("Noto Sans CJK SC");
+}
+@font-face {
+    font-family: "Noto Sans TC Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans TC"), local("NotoSansTC"), local("Noto Sans CJK TC");
+}
+@font-face {
+    font-family: "Noto Sans Ethiopic Variable";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local("Noto Sans Ethiopic"), local("NotoSansEthiopic");
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -159,6 +223,112 @@
     html {
         @apply font-sans;
     }
+
+    /* Per-script font stacks, switched by the `<html lang>` attribute that
+       `initI18n` keeps in sync. Scripts not listed keep the default stack. */
+    html[lang="bn"] body,
+    html[lang="bn"] button,
+    html[lang="bn"] input,
+    html[lang="bn"] select,
+    html[lang="bn"] textarea {
+        font-family: "Noto Serif Bengali Variable", "Noto Serif Bengali", "Noto Sans Bengali Variable", "Noto Sans Bengali", "Hind Siliguri", var(--font-sans);
+    }
+    html[lang="hi"] body,
+    html[lang="hi"] button,
+    html[lang="hi"] input,
+    html[lang="hi"] select,
+    html[lang="hi"] textarea {
+        font-family: "Noto Sans Devanagari Variable", "Noto Sans Devanagari", "Nirmala UI", "Mangal", "Kokila", var(--font-sans);
+    }
+    html[lang="ar"] body,
+    html[lang="ar"] button,
+    html[lang="ar"] input,
+    html[lang="ar"] select,
+    html[lang="ar"] textarea,
+    html[lang="ur"] body,
+    html[lang="ur"] button,
+    html[lang="ur"] input,
+    html[lang="ur"] select,
+    html[lang="ur"] textarea,
+    html[lang="fa"] body,
+    html[lang="fa"] button,
+    html[lang="fa"] input,
+    html[lang="fa"] select,
+    html[lang="fa"] textarea {
+        font-family: "Noto Naskh Arabic Variable", "Noto Naskh Arabic", "Noto Sans Arabic", "Geeza Pro", "Traditional Arabic", var(--font-sans);
+    }
+    html[lang="he"] body,
+    html[lang="he"] button,
+    html[lang="he"] input,
+    html[lang="he"] select,
+    html[lang="he"] textarea {
+        font-family: "Noto Sans Hebrew Variable", "Noto Sans Hebrew", "David Libre", "Segoe UI", var(--font-sans);
+    }
+    html[lang="th"] body,
+    html[lang="th"] button,
+    html[lang="th"] input,
+    html[lang="th"] select,
+    html[lang="th"] textarea {
+        font-family: "Noto Sans Thai Variable", "Noto Sans Thai", "Sarabun", "Leelawadee UI", "Thonburi", var(--font-sans);
+    }
+    html[lang="ja"] body,
+    html[lang="ja"] button,
+    html[lang="ja"] input,
+    html[lang="ja"] select,
+    html[lang="ja"] textarea {
+        font-family: "Noto Sans JP Variable", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", var(--font-sans);
+    }
+    html[lang="ko"] body,
+    html[lang="ko"] button,
+    html[lang="ko"] input,
+    html[lang="ko"] select,
+    html[lang="ko"] textarea {
+        font-family: "Noto Sans KR Variable", "Noto Sans KR", "Malgun Gothic", "Apple Gothic", "Nanum Gothic", var(--font-sans);
+    }
+    html[lang="zh"] body,
+    html[lang="zh"] button,
+    html[lang="zh"] input,
+    html[lang="zh"] select,
+    html[lang="zh"] textarea,
+    html[lang="zh-CN"] body,
+    html[lang="zh-CN"] button,
+    html[lang="zh-CN"] input,
+    html[lang="zh-CN"] select,
+    html[lang="zh-CN"] textarea {
+        font-family: "Noto Sans SC Variable", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", var(--font-sans);
+    }
+    html[lang="zh-TW"] body,
+    html[lang="zh-TW"] button,
+    html[lang="zh-TW"] input,
+    html[lang="zh-TW"] select,
+    html[lang="zh-TW"] textarea {
+        font-family: "Noto Sans TC Variable", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Source Han Sans TC", var(--font-sans);
+    }
+    /* Cyrillic and Greek. Geist has no coverage for either script, so these
+       locales use Inter — the same face as the Latin default, which keeps the
+       app visually consistent across the Slavic and Hellenic locales. */
+    html[lang="ru"] body,
+    html[lang="ru"] button,
+    html[lang="ru"] input,
+    html[lang="ru"] select,
+    html[lang="ru"] textarea,
+    html[lang="uk"] body,
+    html[lang="uk"] button,
+    html[lang="uk"] input,
+    html[lang="uk"] select,
+    html[lang="uk"] textarea,
+    html[lang="sr"] body,
+    html[lang="sr"] button,
+    html[lang="sr"] input,
+    html[lang="sr"] select,
+    html[lang="sr"] textarea,
+    html[lang="el"] body,
+    html[lang="el"] button,
+    html[lang="el"] input,
+    html[lang="el"] select,
+    html[lang="el"] textarea {
+        font-family: "Inter Variable", "Noto Sans Variable", "Noto Sans", "Roboto", var(--font-sans);
+    }
     input, textarea {
         user-select: text;
         -webkit-user-select: text;
@@ -228,6 +398,51 @@
 }
 
 /*Custom css end*/
+
+/* Break countdown digits. Quicksand's rounded forms match the timer's soft
+   geometry, at a semibold weight so the digits stay legible at large sizes. */
+.countdown-numerals {
+  font-family: "Quicksand Variable", "Quicksand", "Outfit Variable", sans-serif;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  /* The SVG preview in the timer-style picker renders a plain text run. */
+  letter-spacing: -0.04em;
+}
+/* Quicksand's digits carry wide sidebearings, which reads as loose tracking
+   across a counter. Tighten each glyph so the digits sit close together.
+   (The counter is a flex row, so spacing has to be applied per digit —
+   `letter-spacing` on the row itself would not reach the flex items.) */
+.countdown-numerals > span {
+  letter-spacing: normal;
+}
+.countdown-digit {
+  letter-spacing: -0.06em;
+}
+
+@keyframes countdown-digit-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3em) scale(0.9);
+    filter: blur(0.05em);
+  }
+}
+@keyframes countdown-digit-out {
+  to {
+    opacity: 0;
+    transform: translateY(0.3em) scale(0.9);
+    filter: blur(0.05em);
+  }
+}
+.countdown-digit-in {
+  animation: countdown-digit-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.countdown-digit-out {
+  animation: countdown-digit-out 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .countdown-digit-in { animation: none; }
+  .countdown-digit-out { display: none; }
+}
 
 /* Premium nudge: the logo blinks now and then. */
 @keyframes nudge-blink {

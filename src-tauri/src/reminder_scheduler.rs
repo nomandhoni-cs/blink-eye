@@ -1,16 +1,17 @@
+//! Tray-first break reminder scheduler and overlay window spawning.
+
 use chrono::{Datelike, Local, NaiveTime};
 use ring::{aead, pbkdf2};
 use serde::{Deserialize, Serialize};
-use sqlx::{
-    sqlite::{SqliteConnectOptions, SqlitePoolOptions},
-    Pool, Sqlite,
-};
-use std::{collections::HashMap, num::NonZeroU32, path::PathBuf, str::FromStr, sync::Arc};
+use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
+use sqlx::{Pool, Sqlite};
+use std::collections::HashMap;
+use std::num::NonZeroU32;
+use std::path::PathBuf;
+use std::sync::Arc;
 use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
-use tokio::{
-    sync::{mpsc, Mutex},
-    time::{interval, Duration, MissedTickBehavior},
-};
+use tokio::sync::{mpsc, Mutex};
+use tokio::time::{interval, Duration, MissedTickBehavior};
 
 use crate::screen_time_tracker::ScreenTimeTracker;
 
@@ -37,6 +38,14 @@ const DEFAULT_DURATION_SECS: u64 = 20;
 const DEFAULT_REMINDER_TEXT: &str = "Pause! Look into the distance, and best if you walk a bit.";
 /// Default background style for the reminder overlay.
 const DEFAULT_BACKGROUND_STYLE: &str = "default";
+/// Style key meaning "show a different animated scene on every break".
+///
+/// It resolves to one concrete scene at break time, so it never reaches
+/// `BACKGROUND_STYLE_TO_ENTRY`. Must match `SHUFFLE_STYLE` in
+/// `src/backgrounds/registry.ts`.
+const SHUFFLE_BACKGROUND_STYLE: &str = "shuffle";
+/// Countdown styles the reminder overlay knows how to draw.
+const TIMER_STYLES: &[&str] = &["circle", "bar", "dial", "vertical"];
 
 /// Configuration passed to the reminder overlay webview as query params.
 #[derive(Debug, Clone, Serialize)]
@@ -50,8 +59,8 @@ pub struct ReminderWindowConfig {
     pub is_premium: bool,
     /// Whether strict mode is enabled (blocks skipping).
     pub is_strict_mode: bool,
-    /// Whether to use circle progress timer instead of bar.
-    pub use_circle_timer: bool,
+    /// Countdown style: `circle`, `bar`, `dial`, or `vertical`.
+    pub timer_style: String,
     /// Break duration in seconds.
     pub duration_secs: u64,
     /// Today's total screen time, hours part.
@@ -77,8 +86,8 @@ struct ReminderSettings {
     is_multi_monitor_enabled: bool,
     /// Whether strict mode is enabled (blocks skipping).
     is_strict_mode: bool,
-    /// Whether to use circle progress timer instead of bar.
-    use_circle_timer: bool,
+    /// Countdown style: `circle`, `bar`, `dial`, or `vertical`.
+    timer_style: String,
     /// Whether an app update is available.
     is_update_available: bool,
     /// Whether workday-based scheduling is enabled (premium only).
@@ -98,7 +107,7 @@ impl Default for ReminderSettings {
             reminder_text: DEFAULT_REMINDER_TEXT.to_string(),
             is_multi_monitor_enabled: false,
             is_strict_mode: false,
-            use_circle_timer: true,
+            timer_style: "circle".to_string(),
             is_update_available: false,
             is_workday_enabled: false,
             workday: default_workday_config(),
@@ -114,6 +123,9 @@ struct SchedulerState {
     seconds_since_last_break: u64,
     /// Whether the user is currently on a break.
     is_on_break: bool,
+    /// Scene shown by the last break while in `shuffle` mode, so the next
+    /// shuffle break picks a different one.
+    last_shuffled_style: Option<String>,
     /// Active settings snapshot.
     settings: ReminderSettings,
 }
@@ -123,6 +135,7 @@ impl Default for SchedulerState {
         Self {
             seconds_since_last_break: 0,
             is_on_break: false,
+            last_shuffled_style: None,
             settings: ReminderSettings::default(),
         }
     }
@@ -181,7 +194,8 @@ impl ReminderScheduler {
         *count += 1;
     }
 
-    /// Spawns the scheduler's tick loop as an async task. Loads initial settings then ticks every `SCHEDULER_TICK_SECS`.
+    /// Spawns the scheduler's tick loop as an async task. Loads initial settings,
+    /// then ticks every `SCHEDULER_TICK_SECS`.
     pub fn start(self: Arc<Self>, app_handle: AppHandle) {
         tauri::async_runtime::spawn(async move {
             if let Err(error) = self.refresh_settings().await {
@@ -209,7 +223,8 @@ impl ReminderScheduler {
         Ok(())
     }
 
-    /// Closes all reminder windows, resets break state, and sends tray update with remaining interval.
+    /// Closes reminder windows, resets break state, and sends a tray update
+    /// with the remaining interval.
     pub async fn finish_break(&self, app_handle: &AppHandle) {
         close_all_reminder_windows(app_handle);
 
@@ -223,7 +238,8 @@ impl ReminderScheduler {
         self.send_tray_update(TrayUpdate {
             remaining_secs: interval,
             is_on_break: false,
-        }).await;
+        })
+        .await;
     }
 
     /// Force-refreshes settings and immediately starts a break (used for debug/testing).
@@ -259,7 +275,8 @@ impl ReminderScheduler {
         }
     }
 
-    /// Runs one tick: refreshes settings periodically, advances the counter, sends tray updates, and triggers breaks or alerts.
+    /// Runs one tick: refreshes settings, advances the counter, sends tray
+    /// updates, and triggers breaks or alerts.
     async fn tick(&self, app_handle: &AppHandle) -> Result<(), String> {
         if !ScreenTimeTracker::is_screen_on() {
             return Ok(());
@@ -351,32 +368,38 @@ impl ReminderScheduler {
         }
     }
 
-    /// Closes any pre-alert, builds window config with current state and screen time, then spawns reminder overlay windows.
+    /// Closes any pre-alert, builds window config with current state and
+    /// screen time, then spawns reminder overlay windows.
     async fn start_break(&self, app_handle: &AppHandle) -> Result<(), String> {
         close_before_alert(app_handle);
         close_all_reminder_windows(app_handle);
         // The break always wins over an open premium nudge.
         crate::premium_nudge::close_for_break(app_handle);
 
-        let (settings, screen_time_hours, screen_time_minutes) = {
-            let state = self.state.lock().await;
+        let (settings, background_style, screen_time_hours, screen_time_minutes) = {
+            let mut state = self.state.lock().await;
             let settings = state.settings.clone();
+
+            // Premium users keep the style they picked; everyone else (free,
+            // expired trial) always gets the blank default scene. `shuffle`
+            // resolves to a concrete scene here, a different one each break.
+            let background_style = if settings.is_premium {
+                resolve_background_style(&settings.background_style, &mut state)
+            } else {
+                DEFAULT_BACKGROUND_STYLE.to_string()
+            };
             drop(state);
 
             let (hours, minutes) = self.today_screen_time().await.unwrap_or((0, 0));
-            (settings, hours, minutes)
+            (settings, background_style, hours, minutes)
         };
 
         let config = ReminderWindowConfig {
-            background_style: if settings.is_premium {
-                settings.background_style
-            } else {
-                DEFAULT_BACKGROUND_STYLE.to_string()
-            },
+            background_style,
             reminder_text: settings.reminder_text,
             is_premium: settings.is_premium,
             is_strict_mode: settings.is_strict_mode,
-            use_circle_timer: settings.use_circle_timer,
+            timer_style: settings.timer_style,
             duration_secs: settings.duration_secs.max(1),
             screen_time_hours,
             screen_time_minutes,
@@ -426,8 +449,7 @@ impl ReminderScheduler {
         settings.is_multi_monitor_enabled =
             read_config_bool(&app_pool, "isMultiMonitorEnabled", false).await;
         settings.is_strict_mode = read_config_bool(&app_pool, "usingStrictMode", false).await;
-        settings.use_circle_timer =
-            read_config_bool(&app_pool, "useCircleProgressTimerStyle", true).await;
+        settings.timer_style = read_timer_style(&app_pool).await;
         settings.is_update_available =
             read_config_bool(&app_pool, "isUpdateAvailable", false).await;
         settings.is_workday_enabled = read_config_bool(&app_pool, "isWorkdayEnabled", false).await;
@@ -491,9 +513,13 @@ impl ReminderScheduler {
             .is_some_and(|status| status == "active")
     }
 
-    /// Checks if a 7-day trial is still active based on the install date stored in `basicapplicationdata.db`.
+    /// Checks whether the 7-day trial is still active from the install date
+    /// stored in `basicapplicationdata.db`.
     async fn is_trial_active(&self) -> bool {
-        let Ok(pool) = self.open_sqlite_pool("basicapplicationdata.db", false).await else {
+        let Ok(pool) = self
+            .open_sqlite_pool("basicapplicationdata.db", false)
+            .await
+        else {
             return false;
         };
 
@@ -526,7 +552,10 @@ impl ReminderScheduler {
 
     /// Retrieves the encryption password (`unique_nano_id`) from `basicapplicationdata.db`.
     async fn encryption_password(&self) -> Option<String> {
-        let pool = self.open_sqlite_pool("basicapplicationdata.db", false).await.ok()?;
+        let pool = self
+            .open_sqlite_pool("basicapplicationdata.db", false)
+            .await
+            .ok()?;
         let (password,) =
             sqlx::query_as::<_, (String,)>("SELECT unique_nano_id FROM user_data WHERE id = 1")
                 .fetch_optional(&pool)
@@ -546,6 +575,8 @@ impl ReminderScheduler {
         file_name: &str,
         create_if_missing: bool,
     ) -> Result<Pool<Sqlite>, String> {
+        use std::str::FromStr;
+
         let db_path = self.app_data_dir.join(file_name);
         let connection_url = format!("sqlite://{}", db_path.display());
         let options = SqliteConnectOptions::from_str(&connection_url)
@@ -603,8 +634,7 @@ fn spawn_before_alert(app_handle: &AppHandle) {
             let position = monitor.position();
             let size = monitor.size();
             (
-                position.x as f64 / scale
-                    + ((size.width as f64 / scale - 320.0) / 2.0).max(0.0),
+                position.x as f64 / scale + ((size.width as f64 / scale - 320.0) / 2.0).max(0.0),
                 position.y as f64 / scale + 80.0,
             )
         })
@@ -747,9 +777,7 @@ fn raise_window_above_menu_bar(window: &tauri::WebviewWindow, label: &str) {
         use objc2_app_kit::{NSWindow, NSWindowCollectionBehavior};
 
         let Ok(handle) = closure_window.ns_window() else {
-            eprintln!(
-                "[ReminderScheduler] No NSWindow handle for {closure_label}; window level not raised"
-            );
+            eprintln!("[ReminderScheduler] No NSWindow handle for {closure_label}");
             return;
         };
 
@@ -812,15 +840,28 @@ fn reminder_url(
 /// Mapping of background style key → Vite entry filename. Must mirror
 /// `ENTRY_NAME` in `src/backgrounds/registry.ts`.
 const BACKGROUND_STYLE_TO_ENTRY: &[(&str, &str)] = &[
-    ("default",                "reminder-default.html"),
-    ("aurora",                 "reminder-aurora.html"),
-    ("freesprit",              "reminder-freesprit.html"),
-    ("beamoflife",             "reminder-beamoflife.html"),
-    ("particleBackground",     "reminder-particles.html"),
-    ("starryBackground",       "reminder-starry.html"),
-    ("shootingmeteor",         "reminder-meteor.html"),
+    ("default", "reminder-default.html"),
+    ("aurora", "reminder-aurora.html"),
+    ("freesprit", "reminder-freesprit.html"),
+    ("beamoflife", "reminder-beamoflife.html"),
+    ("particleBackground", "reminder-particles.html"),
+    ("starryBackground", "reminder-starry.html"),
+    ("shootingmeteor", "reminder-meteor.html"),
     ("plainGradientAnimation", "reminder-gradient.html"),
-    ("canvasShapes",           "reminder-canvas.html"),
+    ("canvasShapes", "reminder-canvas.html"),
+    ("iridescence", "reminder-iridescence.html"),
+    ("balatro", "reminder-balatro.html"),
+    ("acidSquares", "reminder-acidsquares.html"),
+    ("antigravity", "reminder-antigravity.html"),
+    ("ballpit", "reminder-ballpit.html"),
+    ("crtWarp", "reminder-crtwarp.html"),
+    ("darkVeil", "reminder-darkveil.html"),
+    ("dither", "reminder-dither.html"),
+    ("dotGrid", "reminder-dotgrid.html"),
+    ("faultyTerminal", "reminder-faultyterminal.html"),
+    ("ferrofluid", "reminder-ferrofluid.html"),
+    ("floatingLines", "reminder-floatinglines.html"),
+    ("galaxy", "reminder-galaxy.html"),
 ];
 
 /// Creates the `config` table in `appconfig.db` and inserts default values if missing.
@@ -830,8 +871,8 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
         .await
         .map_err(|error| error.to_string())?;
 
-    let default_workday = serde_json::to_string(&default_workday_config())
-        .map_err(|error| error.to_string())?;
+    let default_workday =
+        serde_json::to_string(&default_workday_config()).map_err(|error| error.to_string())?;
     let defaults = [
         ("blinkEyeWorkday", default_workday.as_str()),
         ("isWorkdayEnabled", "false"),
@@ -842,9 +883,16 @@ async fn ensure_app_config_defaults(pool: &Pool<Sqlite>) -> Result<(), String> {
         ("isMultiMonitorEnabled", "false"),
         ("blinkEyeReminderInterval", "20"),
         ("blinkEyeReminderDuration", "20"),
-        ("blinkEyeReminderScreenText", "Pause! Look into the distance, and best if you walk a bit."),
-        ("reminderBackgroundStyle", "default"),
-        ("reminderBackgroundStylePreview", "default"),
+        (
+            "blinkEyeReminderScreenText",
+            "Pause! Look into the distance, and best if you walk a bit.",
+        ),
+        // New installs land on `shuffle`: every break shows a different
+        // animated scene, which reveals the gallery without asking the user
+        // to go find it. Free and expired-trial users still get the blank
+        // default scene — `start_break` gates on premium before resolving.
+        ("reminderBackgroundStyle", "shuffle"),
+        ("reminderBackgroundStylePreview", "shuffle"),
         ("screenSaverBackgroundStyle", "freesprit"),
         ("isRunOnStartUpEnabledByDefault", "true"),
         ("usageTimeLimit", "8"),
@@ -908,6 +956,19 @@ async fn read_config_bool(pool: &Pool<Sqlite>, key: &str, default_value: bool) -
         .unwrap_or(default_value)
 }
 
+/// Reads `reminderTimerStyle`, falling back to the legacy `useCircleProgressTimerStyle`
+/// switch for installs that have not picked a style yet.
+async fn read_timer_style(pool: &Pool<Sqlite>) -> String {
+    if let Some(style) = read_config_string(pool, "reminderTimerStyle").await {
+        if TIMER_STYLES.contains(&style.as_str()) {
+            return style;
+        }
+    }
+
+    let use_circle = read_config_bool(pool, "useCircleProgressTimerStyle", true).await;
+    if use_circle { "circle" } else { "bar" }.to_string()
+}
+
 /// Reads and deserializes a JSON config value from `appconfig.db`.
 async fn read_config_json<T>(pool: &Pool<Sqlite>, key: &str) -> Option<T>
 where
@@ -929,6 +990,7 @@ async fn read_config_string(pool: &Pool<Sqlite>, key: &str) -> Option<String> {
 }
 
 /// Returns true if the current time falls within the configured workday hours for today.
+#[must_use]
 fn is_inside_workday_window(settings: &ReminderSettings) -> bool {
     if !settings.is_premium || !settings.is_workday_enabled {
         return true;
@@ -1043,6 +1105,74 @@ fn decrypt_webcrypto_aes_gcm(encrypted_text: &str, password: &str) -> Option<Str
     String::from_utf8(decrypted.to_vec()).ok()
 }
 
+/// Resolves the style key to use for the next break.
+///
+/// `shuffle` means "show a random animated scene on every break". The picked
+/// scene is remembered in `state.last_shuffled_style` so the following shuffle
+/// break never repeats it — that is what makes the mode feel like a shuffle
+/// rather than a coin flip.
+///
+/// # Parameters
+/// - `style` — Saved `reminderBackgroundStyle` value (premium gate applied by caller).
+/// - `state` — Scheduler state holding the last shuffled scene; updated in place.
+///
+/// # Returns
+/// A style key present in `BACKGROUND_STYLE_TO_ENTRY`.
+fn resolve_background_style(style: &str, state: &mut SchedulerState) -> String {
+    if style != SHUFFLE_BACKGROUND_STYLE {
+        return style.to_string();
+    }
+
+    let scene = pick_shuffled_style(state.last_shuffled_style.as_deref());
+    state.last_shuffled_style = Some(scene.clone());
+    scene
+}
+
+/// Picks a random animated scene, never the one in `previous`.
+///
+/// Mirrors `pickShuffleStyle()` in `src/backgrounds/registry.ts`: only scenes
+/// that map to a real entry are candidates, and `default` (the blank screen) is
+/// never shuffled in.
+fn pick_shuffled_style(previous: Option<&str>) -> String {
+    let candidates: Vec<&str> = BACKGROUND_STYLE_TO_ENTRY
+        .iter()
+        .map(|(style, _)| *style)
+        .filter(|style| *style != DEFAULT_BACKGROUND_STYLE)
+        .filter(|style| Some(*style) != previous)
+        .collect();
+
+    if candidates.is_empty() {
+        return DEFAULT_BACKGROUND_STYLE.to_string();
+    }
+
+    candidates[random_below(candidates.len())].to_string()
+}
+
+/// Uniform random index in `0..bound`, seeded from the OS entropy source.
+///
+/// The scheduler needs one draw per break, so this avoids pulling in `rand` as
+/// a dependency.
+fn random_below(bound: usize) -> usize {
+    use ring::rand::{SecureRandom, SystemRandom};
+
+    if bound <= 1 {
+        return 0;
+    }
+
+    let mut bytes = [0u8; 8];
+    let drawn = SystemRandom::new().fill(&mut bytes).is_ok();
+    let value = if drawn {
+        u64::from_le_bytes(bytes)
+    } else {
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|elapsed| elapsed.as_nanos() as u64)
+            .unwrap_or(0)
+    };
+
+    (value % bound as u64) as usize
+}
+
 fn url_encode(value: &str) -> String {
     let mut encoded = String::new();
 
@@ -1089,7 +1219,12 @@ pub async fn skip_reminder(
     // re-check before opening anything.
     {
         let handle = app_handle.clone();
-        let trigger = if completed { "break_completed" } else { "break_dismissed" }.to_string();
+        let trigger = if completed {
+            "break_completed"
+        } else {
+            "break_dismissed"
+        }
+        .to_string();
         tauri::async_runtime::spawn(async move {
             crate::premium_nudge::handle_post_break_trigger(handle, trigger).await;
         });
@@ -1173,7 +1308,11 @@ pub async fn get_next_reminder_info(
 
 #[cfg(test)]
 mod tests {
-    use super::{is_inside_workday_window, ReminderSettings, WorkdayHours};
+    use super::{
+        is_inside_workday_window, pick_shuffled_style, resolve_background_style, ReminderSettings,
+        SchedulerState, WorkdayHours, BACKGROUND_STYLE_TO_ENTRY, DEFAULT_BACKGROUND_STYLE,
+        SHUFFLE_BACKGROUND_STYLE,
+    };
     use std::collections::HashMap;
 
     #[test]
@@ -1190,16 +1329,105 @@ mod tests {
 
     #[test]
     fn url_encoding_preserves_safe_characters() {
-        assert_eq!(super::url_encode("a b&c"), "a%20b%26c");
+        assert_eq!(
+            super::url_encode("a b&c"),
+            "a%20b%26c",
+            "spaces and ampersands must be percent-encoded"
+        );
     }
 
     #[test]
     fn encrypted_payload_shape_can_be_parsed() {
         let parsed: super::EncryptedPayload =
-            serde_json::from_str(r#"{"iv":[1,2,3],"data":[4,5,6]}"#).unwrap();
+            serde_json::from_str(r#"{"iv":[1,2,3],"data":[4,5,6]}"#)
+                .expect("test payload must be valid JSON");
 
-        assert_eq!(parsed.iv, vec![1, 2, 3]);
-        assert_eq!(parsed.data, vec![4, 5, 6]);
+        assert_eq!(parsed.iv, vec![1, 2, 3], "IV must be decoded from JSON");
+        assert_eq!(
+            parsed.data,
+            vec![4, 5, 6],
+            "ciphertext must be decoded from JSON"
+        );
+    }
+
+    #[test]
+    fn shuffle_never_picks_the_blank_default_scene() {
+        for _ in 0..200 {
+            assert_ne!(
+                pick_shuffled_style(None),
+                DEFAULT_BACKGROUND_STYLE,
+                "shuffle must never choose the blank scene"
+            );
+        }
+    }
+
+    #[test]
+    fn shuffle_never_repeats_the_previous_scene() {
+        for &(style, _) in BACKGROUND_STYLE_TO_ENTRY {
+            if style == DEFAULT_BACKGROUND_STYLE {
+                continue;
+            }
+            for _ in 0..20 {
+                assert_ne!(
+                    pick_shuffled_style(Some(style)),
+                    style,
+                    "shuffle must not repeat the previous style: {style}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn shuffle_returns_a_real_registered_entry() {
+        let picked = pick_shuffled_style(None);
+        assert!(BACKGROUND_STYLE_TO_ENTRY
+            .iter()
+            .any(|&(style, _)| style == picked.as_str()));
+    }
+
+    #[test]
+    fn fixed_styles_are_passed_through_untouched() {
+        let mut state = SchedulerState::default();
+
+        assert_eq!(
+            resolve_background_style("galaxy", &mut state),
+            "galaxy",
+            "explicit styles must be passed through"
+        );
+        assert_eq!(state.last_shuffled_style, None);
+    }
+
+    #[test]
+    fn shuffle_style_key_matches_the_frontend_registry() {
+        // `SHUFFLE_STYLE` in src/backgrounds/registry.ts and the Style key the
+        // ReminderStyles picker writes must be exactly this string.
+        assert_eq!(
+            SHUFFLE_BACKGROUND_STYLE, "shuffle",
+            "the frontend registry key must stay in sync"
+        );
+        assert!(!BACKGROUND_STYLE_TO_ENTRY
+            .iter()
+            .any(|&(style, _)| style == SHUFFLE_BACKGROUND_STYLE));
+    }
+
+    #[test]
+    fn shuffle_resolves_to_a_scene_and_remembers_it() {
+        let mut state = SchedulerState::default();
+
+        let first = resolve_background_style(SHUFFLE_BACKGROUND_STYLE, &mut state);
+        assert_ne!(
+            first, DEFAULT_BACKGROUND_STYLE,
+            "shuffle must resolve to an animated scene"
+        );
+        assert_eq!(
+            state.last_shuffled_style.as_deref(),
+            Some(first.as_str()),
+            "the first scene must be remembered"
+        );
+
+        let second = resolve_background_style(SHUFFLE_BACKGROUND_STYLE, &mut state);
+        assert_ne!(second, first, "consecutive shuffle scenes must differ");
+        assert_eq!(state.last_shuffled_style.as_deref(), Some(second.as_str()));
     }
 
     #[test]

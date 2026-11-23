@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TrayIcon } from "@tauri-apps/api/tray";
 import { Menu } from "@tauri-apps/api/menu";
 import { defaultWindowIcon } from "@tauri-apps/api/app";
@@ -6,6 +7,7 @@ import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { exit, relaunch } from "@tauri-apps/plugin-process";
 
 const TrayIconComponent: React.FC = () => {
+  const { t } = useTranslation();
   const [isTrayIconCreated, setIsTrayIconCreated] = useState(false);
 
   useEffect(() => {
@@ -15,12 +17,12 @@ const TrayIconComponent: React.FC = () => {
           items: [
             {
               id: "dashboard",
-              text: "Dashboard",
+              text: t("tray.dashboard"),
               action: () => {
                 console.log("Dashboard pressed");
                 const webview = new WebviewWindow("DashboardWindow", {
                   url: "/home",
-                  title: "Take A Break Reminder - Blink Eye",
+                  title: t("reminderSettings.windowTitle"),
                   width: 400,
                   height: 600,
                 });
@@ -34,14 +36,14 @@ const TrayIconComponent: React.FC = () => {
             },
             {
               id: "relaunch",
-              text: "Relaunch",
+              text: t("tray.relaunch"),
               action: () => {
                 relaunch();
               },
             },
             {
               id: "quit",
-              text: "Quit",
+              text: t("tray.quit"),
               action: async () => {
                 await exit(0);
               },
@@ -53,7 +55,7 @@ const TrayIconComponent: React.FC = () => {
         const options = {
           menu,
           menuOnLeftClick: true,
-          tooltip: "Blink Eye",
+          tooltip: t("appName"),
         };
 
         const trayIcon = await TrayIcon.new(options);
@@ -63,7 +65,7 @@ const TrayIconComponent: React.FC = () => {
     };
 
     initializeTray();
-  }, [isTrayIconCreated]);
+  }, [isTrayIconCreated, t]);
 
   return null;
 };

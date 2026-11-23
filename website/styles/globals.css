@@ -296,3 +296,41 @@
 .font-bn h6 {
   font-family: var(--heading-font);
 }
+/* Timer demo countdown: SF Pro condensed on Apple devices (like the iPhone
+   timer), Inter everywhere else. The width axis only exists in SF Pro, so
+   other fonts ignore it. */
+.countdown-numerals {
+  font-family: -apple-system, BlinkMacSystemFont, var(--font-sans), sans-serif;
+  font-variation-settings: "wdth" 56;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes countdown-digit-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3em) scale(0.9);
+    filter: blur(0.05em);
+  }
+}
+
+@keyframes countdown-digit-out {
+  to {
+    opacity: 0;
+    transform: translateY(0.3em) scale(0.9);
+    filter: blur(0.05em);
+  }
+}
+
+.countdown-digit-in {
+  animation: countdown-digit-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.countdown-digit-out {
+  animation: countdown-digit-out 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown-digit-in { animation: none; }
+  .countdown-digit-out { display: none; }
+}

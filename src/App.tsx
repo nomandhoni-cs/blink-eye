@@ -1,5 +1,6 @@
 import { Routes, Route, BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { Suspense, lazy, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./index.css";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
@@ -8,6 +9,7 @@ import { LoadingSpinner } from "./components/LoadingSpinner";
 import TimeCountProvider from "./contexts/TimeCountContext";
 import UserOnboarding from "./blink-eye-onboarding";
 import DebugPremiumPanel from "./components/DebugPremiumPanel";
+import { initI18n } from "./i18n";
 
 
 
@@ -65,8 +67,23 @@ function DeepLinkHandler() {
       .catch((err) => {
         console.error("Failed to listen for deep links:", err);
       });
+
+    // "Open list" in a task reminder popup: the Rust command has already
+    // shown and focused the main window; here we only route to the list.
+    let unlistenTodo: (() => void) | undefined;
+    listen("open-todo-list", () => {
+      navigate("/todoList");
+    })
+      .then((fn) => {
+        unlistenTodo = fn;
+      })
+      .catch((err) => {
+        console.error("Failed to listen for task reminders:", err);
+      });
+
     return () => {
       unlisten?.();
+      unlistenTodo?.();
     };
   }, [navigate]);
 
@@ -74,9 +91,23 @@ function DeepLinkHandler() {
 }
 
 function App() {
+  const { t } = useTranslation();
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isI18nReady, setIsI18nReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    initI18n()
+      .catch((err) => console.error("Failed to initialise i18n:", err))
+      .finally(() => {
+        if (!cancelled) setIsI18nReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const checkOnboardingStatus = async () => {
@@ -86,8 +117,14 @@ function App() {
         });
         setHasCompletedOnboarding(value === "true");
       } catch (err) {
+        // Web preview has no Tauri config DB; a local mirror keeps the flow
+        // demonstrable without changing the native source of truth.
         console.error("Error checking onboarding status:", err);
-        setError("Failed to load app configuration. Please try again.");
+        if (localStorage.getItem("blink-eye-onboarded") === "true") {
+          setHasCompletedOnboarding(true);
+        } else {
+          setError(t("app.configLoadFailed"));
+        }
       } finally {
         setIsLoading(false);
       }
@@ -105,7 +142,7 @@ function App() {
     );
   }
 
-  if (isLoading) {
+  if (!isI18nReady || isLoading) {
     return <LoadingSpinner />;
   }
 

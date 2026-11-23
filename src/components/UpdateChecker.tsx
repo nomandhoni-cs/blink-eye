@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   FaCheckCircle,
   FaSyncAlt,
@@ -13,6 +14,7 @@ import {
 import { useUpdate } from "../contexts/UpdateContext";
 
 export function UpdateChecker() {
+  const { t } = useTranslation();
   const {
     version,
     latestVersion,
@@ -35,7 +37,7 @@ export function UpdateChecker() {
         {/* Version pill */}
         <SidebarMenuItem>
           <SidebarMenuButton
-            tooltip={`Version ${version} — click to check for updates`}
+            tooltip={t("update.versionTooltip", { version })}
             onClick={() => checkForUpdates(false)}
             disabled={isChecking}
             className="flex items-center justify-center"
@@ -54,8 +56,8 @@ export function UpdateChecker() {
             <SidebarMenuButton
               tooltip={
                 isDownloading
-                  ? `Downloading… ${downloadProgress}%`
-                  : `Install update v${latestVersion}`
+                  ? t("update.downloading", { progress: downloadProgress })
+                  : t("update.installUpdate", { version: latestVersion })
               }
               onClick={downloadAndInstall}
               disabled={isDownloading}
@@ -86,12 +88,14 @@ export function UpdateChecker() {
           onClick={() => checkForUpdates(false)}
           disabled={isChecking}
           className="font-heading font-medium hover:text-primary transition-colors disabled:opacity-50 flex items-center gap-1"
-          aria-label="Check for updates"
+          aria-label={t("update.checkForUpdates")}
         >
           <FaSyncAlt
             className={`text-[11px] ${isChecking ? "animate-spin" : ""}`}
           />
-          {isChecking ? "Checking…" : "Check for updates"}
+          {isChecking
+            ? t("update.checking")
+            : t("update.checkForUpdates")}
         </button>
       </div>
 
@@ -100,19 +104,19 @@ export function UpdateChecker() {
           onClick={downloadAndInstall}
           disabled={isDownloading}
           className="w-full flex items-center justify-center gap-1.5 text-[10px] font-heading font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors disabled:opacity-50"
-          aria-label={`Install update version ${latestVersion}`}
+          aria-label={t("update.installUpdateAria", { version: latestVersion })}
         >
           {isDownloading ? (
             <>
               <FaCloudDownloadAlt className="text-[11px]" />
               {downloadProgress > 0
-                ? `Downloading… ${downloadProgress}%`
-                : "Preparing update…"}
+                ? t("update.downloading", { progress: downloadProgress })
+                : t("update.preparing")}
             </>
           ) : (
             <>
               <FaRocket className="text-[11px]" />
-              {`Install update (v${latestVersion})`}
+              {t("update.installUpdate", { version: latestVersion })}
             </>
           )}
         </button>

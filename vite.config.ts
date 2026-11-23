@@ -26,6 +26,8 @@ export default defineConfig(async () => ({
       input: {
         main: "index.html",
         alert: "alert.html",
+        // Small top-center task reminder popup (spawned by task_reminders.rs).
+        "task-alert": "task-alert.html",
         // Standalone premium nudge window (spawned by premium_nudge.rs).
         "premium-nudge": "premium-nudge.html",
         // Per-background entries (each ships only its own background JS).
@@ -40,6 +42,19 @@ export default defineConfig(async () => ({
         "reminder-meteor": "reminder-meteor.html",
         "reminder-gradient": "reminder-gradient.html",
         "reminder-canvas": "reminder-canvas.html",
+        "reminder-iridescence": "reminder-iridescence.html",
+        "reminder-balatro": "reminder-balatro.html",
+        "reminder-acidsquares": "reminder-acidsquares.html",
+        "reminder-antigravity": "reminder-antigravity.html",
+        "reminder-ballpit": "reminder-ballpit.html",
+        "reminder-crtwarp": "reminder-crtwarp.html",
+        "reminder-darkveil": "reminder-darkveil.html",
+        "reminder-dither": "reminder-dither.html",
+        "reminder-dotgrid": "reminder-dotgrid.html",
+        "reminder-faultyterminal": "reminder-faultyterminal.html",
+        "reminder-ferrofluid": "reminder-ferrofluid.html",
+        "reminder-floatinglines": "reminder-floatinglines.html",
+        "reminder-galaxy": "reminder-galaxy.html",
       },
     },
   },
@@ -50,6 +65,9 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
+    // Allow the Arena preview host (and any other proxied host) so the web
+    // build can be opened outside the Tauri shell.
+    allowedHosts: true,
     hmr: host
       ? {
           protocol: "ws",

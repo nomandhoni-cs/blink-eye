@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import toast from "react-hot-toast";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { useLicenseKey } from "../hooks/useLicenseKey";
+import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 const handshakePassword = import.meta.env.VITE_HANDSHAKE_PASSWORD;
 
 const LicenseValidationComponent: React.FC = () => {
+  const { t } = useTranslation();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const { licenseData, refreshLicenseData } = useLicenseKey();
+  const { refreshPremiumFeatures } = usePremiumFeatures();
 
   const isNotToday = (dateString: string): boolean => {
     const today = new Date();
@@ -31,7 +35,7 @@ const LicenseValidationComponent: React.FC = () => {
     licenseKey: string
   ) => {
     if (!licenseKey) {
-      toast.error("Missing license key for validation.");
+      toast.error(t("license.missingKey"));
       return;
     }
 
@@ -65,6 +69,7 @@ const LicenseValidationComponent: React.FC = () => {
             last_validated: today,
           },
         });
+        await refreshPremiumFeatures();
       } else if (
         (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) &&
         !data.valid
@@ -74,6 +79,7 @@ const LicenseValidationComponent: React.FC = () => {
           await invoke("update_license_fields", {
             fields: { status: data.license_key.status },
           });
+          await refreshPremiumFeatures();
         } else {
           return;
         }
@@ -91,6 +97,7 @@ const LicenseValidationComponent: React.FC = () => {
           await invoke("update_license_fields", {
             fields: { status: "disabled" },
           });
+          await refreshPremiumFeatures();
         }
         return;
       }

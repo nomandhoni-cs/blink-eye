@@ -1,7 +1,9 @@
 // src/components/TrialRemaining.tsx
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { invoke } from "@tauri-apps/api/core";
+import { PRICING_URL } from "../lib/links";
+import { usePremiumFeatures } from "../contexts/PremiumFeaturesContext";
 import { Button } from "./ui/button";
 import { fetch } from "@tauri-apps/plugin-http";
 import {
@@ -25,6 +27,7 @@ interface DiscountData {
 
 // ── Countdown hook ────────────────────────────────────────────────────────────
 function useCountdown(endDate: string | null) {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
@@ -33,7 +36,7 @@ function useCountdown(endDate: string | null) {
     const calculate = () => {
       const diff = new Date(endDate).getTime() - Date.now();
       if (diff <= 0) {
-        setTimeLeft("Expired");
+        setTimeLeft(t("common.expired"));
         return;
       }
       const d = Math.floor(diff / 864e5);
@@ -46,44 +49,32 @@ function useCountdown(endDate: string | null) {
     calculate();
     const id = setInterval(calculate, 1000);
     return () => clearInterval(id);
-  }, [endDate]);
+  }, [endDate, t]);
 
   return timeLeft;
 }
 
-interface TrialInfo {
-  install_date: string | null;
-  days_remaining: number;
-  is_active: boolean;
-  clock_manipulated: boolean;
-}
-
 // ── Main Component ────────────────────────────────────────────────────────────
 const TrialRemaining: React.FC = () => {
-  const [trialInfo, setTrialInfo] = useState<TrialInfo | null>(null);
+  const { t } = useTranslation();
+  const {
+    trialInfo,
+    trialError,
+    licenseError,
+    isPaidUser,
+    isLoading,
+    isRefreshing,
+    refreshPremiumFeatures,
+  } = usePremiumFeatures();
   const [discount, setDiscount] = useState<DiscountData | null>(null);
   const [discountLoading, setDiscountLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    const loadTrial = async () => {
-      try {
-        const info: TrialInfo = await invoke("get_trial_info");
-        setTrialInfo(info);
-      } catch (err) {
-        console.error("[TrialRemaining] Failed to get trial info:", err);
-      }
-    };
-    loadTrial();
-  }, []);
-
-  const isTrialOn = trialInfo?.is_active ?? false;
   const remainingDays = trialInfo?.days_remaining ?? null;
 
   const countdown = useCountdown(discount?.endDate ?? null);
 
-  const isExpired =
-    !isTrialOn || (remainingDays !== null && remainingDays <= 0);
+  const isExpired = trialInfo?.is_active === false;
   const isUrgent =
     remainingDays !== null && remainingDays <= 3 && remainingDays > 0;
 
@@ -111,15 +102,37 @@ const TrialRemaining: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // ── Loading state ──
-  if (remainingDays === null) {
+  // The first local read takes milliseconds; rendering nothing until it settles
+  // avoids flashing a trial banner at paid users on every launch.
+  if (isPaidUser || isLoading) return null;
+
+  if (
+    trialError ||
+    !trialInfo?.install_date ||
+    trialInfo.clock_manipulated ||
+    remainingDays === null
+  ) {
     return (
-      <div className="w-full rounded-2xl border border-foreground/10 bg-foreground/5 px-5 py-4 mb-4">
-        <div className="flex items-center space-x-2 text-foreground/40">
-          <div className="w-4 h-4 rounded-full border-2 border-foreground/20 border-t-primary animate-spin" />
-          <p className="text-sm">
-            Trial info loading… probably lost in a wormhole 🌌 Hang tight!
-          </p>
+      <div role="status" className="w-full rounded-2xl border border-foreground/10 bg-foreground/5 px-5 py-4 mb-4 space-y-2">
+        <p className="text-sm font-semibold">
+          {trialError
+            ? t("trial.unableToCheck")
+            : trialInfo?.clock_manipulated
+              ? t("trial.clockManipulated")
+              : t("trial.unavailable")}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {trialInfo?.clock_manipulated
+            ? t("trial.clockHint")
+            : t("trial.unavailableHint")}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button size="sm" variant="secondary" disabled={isRefreshing} onClick={() => void refreshPremiumFeatures()}>
+            {isRefreshing ? t("common.checking") : t("common.retry")}
+          </Button>
+          <Button size="sm" variant="outline" asChild>
+            <Link to="/activatelicense">{t("common.checkOrActivateLicense")}</Link>
+          </Button>
         </div>
       </div>
     );
@@ -129,6 +142,7 @@ const TrialRemaining: React.FC = () => {
     <div className="w-full mb-4 space-y-2">
       {/* ── Trial Status Card ── */}
       <div
+        role="status"
         className={[
           "w-full rounded-2xl border p-4 space-y-3 relative overflow-hidden transition-all",
           isExpired
@@ -179,16 +193,28 @@ const TrialRemaining: React.FC = () => {
                 ].join(" ")}
               >
                 {isExpired
-                  ? "Your trial has expired"
+                  ? t("trial.expired")
                   : isUrgent
-                    ? `⚡ Only ${remainingDays} day${remainingDays > 1 ? "s" : ""} left!`
-                    : `${remainingDays} day${remainingDays !== 1 ? "s" : ""} remaining in your trial`}
+                    ? t("trial.urgent", {
+                        count: remainingDays,
+                        day: remainingDays > 1 ? t("common.days") : t("common.day"),
+                      })
+                    : t("trial.remaining", {
+                        count: remainingDays,
+                        day: remainingDays !== 1 ? t("common.days") : t("common.day"),
+                      })}
               </p>
               <p className="text-xs text-foreground/50 mt-0.5 leading-relaxed">
-                {isExpired
-                  ? "Purchase a license to keep using all features and support the developer."
-                  : "Unlock all features forever with a one-time license purchase."}
+                {isExpired ? t("trial.expiredHint") : t("trial.activeHint")}
               </p>
+              {licenseError && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  {t("trial.licenseError")}
+                  {trialInfo.is_active
+                    ? t("trial.licenseErrorActive")
+                    : t("trial.licenseErrorInactive")}
+                </p>
+              )}
             </div>
           </div>
 
@@ -199,12 +225,27 @@ const TrialRemaining: React.FC = () => {
             className="shrink-0 text-xs font-semibold"
             variant={isExpired ? "destructive" : "default"}
           >
-            <Link to="https://blinkeye.app/en/pricing" target="_blank">
+            <Link to={PRICING_URL} target="_blank">
               <RiExternalLinkFill className="w-3 h-3 mr-1.5" />
-              Get License
+              {t("common.getLicense")}
             </Link>
           </Button>
         </div>
+
+        {(licenseError || isExpired) && <div className="relative flex flex-wrap gap-2">
+          {licenseError && (
+            <Button size="sm" variant="secondary" disabled={isRefreshing} onClick={() => void refreshPremiumFeatures()}>
+              {isRefreshing ? "Checking..." : "Retry status"}
+            </Button>
+          )}
+          {isExpired && (
+            <Button size="sm" variant="outline" asChild>
+              <Link to="/activatelicense">
+                {t("common.checkOrActivateLicense")}
+              </Link>
+            </Button>
+          )}
+        </div>}
 
         {/* ── Urgency progress bar (only when trial active) ── */}
         {!isExpired && remainingDays !== null && (
@@ -221,7 +262,7 @@ const TrialRemaining: React.FC = () => {
               />
             </div>
             <p className="text-[10px] text-foreground/35 text-right">
-              of 7-day trial
+              {t("trial.ofTrial")}
             </p>
           </div>
         )}
@@ -245,14 +286,15 @@ const TrialRemaining: React.FC = () => {
                     {discount.title}
                   </span>
                   <span className="bg-primary text-primary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-full shrink-0">
-                    {discount.percentage}% OFF
+                    {discount.percentage}
+                    {t("common.offPercent")}
                   </span>
                 </div>
                 {/* Countdown */}
                 <div className="flex items-center space-x-1 mt-0.5">
                   <RiTimeFill className="w-3 h-3 text-foreground/40 shrink-0" />
                   <span className="text-[10px] text-foreground/40">
-                    Ends in{" "}
+                    {t("common.endsIn")}{" "}
                   </span>
                   <span className="text-[10px] font-mono font-bold text-primary/80">
                     {countdown}
@@ -271,7 +313,7 @@ const TrialRemaining: React.FC = () => {
                 {discount.couponCode}
               </span>
               <span className="text-[10px] text-foreground/40 group-hover:text-primary transition-colors">
-                {copied ? "✓ Copied!" : "copy"}
+                {copied ? t("common.copiedCheck") : t("common.copy")}
               </span>
             </button>
           </div>

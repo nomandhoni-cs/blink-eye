@@ -1,59 +1,32 @@
-// use tauri_plugin_autostart::MacosLauncher;
+//! Tauri application wiring: tray, plugins, commands, and owned schedulers.
+
 use std::sync::Arc;
+use tauri::menu::{Menu, MenuItem};
+use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::Manager;
-use tauri::{
-    menu::{Menu, MenuItem},
-    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-};
 use tokio::sync::mpsc;
 
+mod app_commands;
 mod crypto;
 mod data_backup;
 mod premium_nudge;
 mod reminder_scheduler;
 mod screen_time_tracker;
 mod snooze_tracker;
+mod task_reminders;
 use crypto::{
-    ensure_install_data, get_config_bool, get_config_string, get_install_date,
-    get_license_info, get_reminder_settings, get_trial_info,
-    store_license_data, update_license_fields, update_reminder_setting,
+    ensure_install_data, get_config_bool, get_config_string, get_install_date, get_license_info,
+    get_reminder_settings, get_trial_info, store_license_data, update_license_fields,
+    update_reminder_setting,
 };
 use data_backup::{export_user_data, import_user_data};
 use premium_nudge::{
     close_premium_nudge, debug_preview_nudge_window, get_premium_nudge_state,
     maybe_show_premium_nudge, open_activate_license, record_premium_nudge_event,
 };
-use snooze_tracker::{get_break_stats, get_weekly_break_report};
 use reminder_scheduler::{ReminderScheduler, TrayUpdate};
 use screen_time_tracker::ScreenTimeTracker;
-
-/// Simple greeting command for testing Tauri IPC.
-///
-/// # Parameters
-/// - `name` — Name to greet
-///
-/// # Returns
-/// Greeting string.
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
-/// Check if the app was launched with `--minimized` argument.
-///
-/// Used by the frontend to decide whether to show the main window
-/// or start minimized to tray.
-///
-/// # Returns
-/// `"minimized"` or `"fullScreen"`.
-#[tauri::command]
-fn check_minimized_argument() -> String {
-    if std::env::args().any(|arg| arg == "--minimized") {
-        "minimized".to_string()
-    } else {
-        "fullScreen".to_string()
-    }
-}
+use snooze_tracker::{get_break_stats, get_weekly_break_report};
 
 /// Build the tray menu with the timer display.
 fn build_tray_menu(
@@ -65,12 +38,36 @@ fn build_tray_menu(
     let dashboard_i = MenuItem::with_id(app, "dashboard", "Dashboard", true, None::<&str>)?;
     let relaunch_i = MenuItem::with_id(app, "relaunch", "Relaunch", true, None::<&str>)?;
     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-    Menu::with_items(app, &[&timer_i, &separator, &dashboard_i, &relaunch_i, &quit_i])
+    Menu::with_items(
+        app,
+        &[&timer_i, &separator, &dashboard_i, &relaunch_i, &quit_i],
+    )
 }
 
+/// Builds and runs the Tauri application, including tray-owned schedulers.
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Keep the session bus connected before AppIndicator discovers the tray host.
+    #[cfg(target_os = "linux")]
+    let _session_bus = match gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) {
+        Ok(connection) => Some(connection),
+        Err(error) => {
+            eprintln!("[Tray] Failed to initialize session bus: {error}");
+            None
+        }
+    };
+
     tauri::Builder::default()
+        .on_window_event(|window, event| {
+            if window.label() == "main" {
+                if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                    api.prevent_close();
+                    if let Err(error) = window.hide() {
+                        eprintln!("[Window] Failed to hide dashboard: {error}");
+                    }
+                }
+            }
+        })
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
@@ -81,30 +78,28 @@ pub fn run() {
         .setup(|app| {
             #[cfg(desktop)]
             {
-                app.handle()
-                    .plugin(tauri_plugin_autostart::init(
-                        tauri_plugin_autostart::MacosLauncher::LaunchAgent,
-                        Some(vec!["--minimized"]),
-                    ))
-                    .expect("Failed to initialize autostart plugin");
+                app.handle().plugin(tauri_plugin_autostart::init(
+                    tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+                    Some(vec!["--minimized"]),
+                ))?;
             }
             #[cfg(desktop)]
             {
-              let _ = app.handle().plugin(tauri_plugin_global_shortcut::Builder::new().build());
+                let _ = app
+                    .handle()
+                    .plugin(tauri_plugin_global_shortcut::Builder::new().build());
             }
-            #[cfg(desktop)]
-            let _ = app.handle().plugin(tauri_plugin_updater::Builder::new().build());
-
             // Initialize Screen Time Tracker
             let app_handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
-                let app_data_dir = app_handle
-                    .path()
-                    .app_data_dir()
-                    .expect("Failed to get app data directory");
-
-                std::fs::create_dir_all(&app_data_dir)
-                    .expect("Failed to create app data directory");
+                let Ok(app_data_dir) = app_handle.path().app_data_dir() else {
+                    eprintln!("[ScreenTimeTracker] Cannot resolve app data directory");
+                    return;
+                };
+                if let Err(error) = std::fs::create_dir_all(&app_data_dir) {
+                    eprintln!("[ScreenTimeTracker] Cannot create app data directory: {error}");
+                    return;
+                }
 
                 let db_path = app_data_dir.join("UserScreenTime.db");
                 let db_url = format!("sqlite://{}", db_path.display());
@@ -114,28 +109,29 @@ pub fn run() {
                         println!("[ScreenTimeTracker] Initialized successfully");
                         tracker.start_tracking();
                     }
-                    Err(e) => {
-                        eprintln!("[ScreenTimeTracker] Failed to initialize: {}", e);
+                    Err(error) => {
+                        eprintln!("[ScreenTimeTracker] Failed to initialize: {error}");
                     }
                 }
             });
 
             // Initialize Reminder Scheduler
-            let app_data_dir = app
-                .path()
-                .app_data_dir()
-                .expect("Failed to get app data directory");
-            std::fs::create_dir_all(&app_data_dir).expect("Failed to create app data directory");
+            let app_data_dir = app.path().app_data_dir()?;
+            std::fs::create_dir_all(&app_data_dir)?;
 
             // Ensure install data exists (first-time setup: encrypts install date)
             {
                 let handle = app.handle().clone();
                 tauri::async_runtime::spawn(async move {
-                    if let Err(e) = crypto::ensure_install_data(handle).await {
-                        eprintln!("[Setup] Failed to ensure install data: {e}");
+                    if let Err(error) = crypto::ensure_install_data(handle).await {
+                        eprintln!("[Setup] Failed to ensure install data: {error}");
                     }
                 });
             }
+
+            // Task reminders own their own tick loop in Rust (tray-first app).
+            task_reminders::TaskReminderScheduler::new(app_data_dir.clone())
+                .start(app.handle().clone());
 
             // Create timer channel and scheduler
             let (tray_tx, mut tray_rx) = mpsc::channel::<TrayUpdate>(32);
@@ -145,22 +141,29 @@ pub fn run() {
 
             // Send Notification
             use tauri_plugin_notification::NotificationExt;
-            if let Err(e) = app
+            if let Err(error) = app
                 .notification()
                 .builder()
                 .icon("icons/icon.png")
                 .large_icon("icons/icon.png")
                 .title("Blink Eye")
-                .body("Blink Eye has started running in the background and can be found on the system tray.")
+                .body(concat!(
+                    "Blink Eye has started running in the background ",
+                    "and can be found on the system tray."
+                ))
                 .show()
             {
-                eprintln!("[Setup] Failed to show startup notification: {e}");
+                eprintln!("[Setup] Failed to show startup notification: {error}");
             }
 
             // Create Tray Icon with menu
             let initial_menu = build_tray_menu(app.handle(), "Next break in -- sec")?;
             let tray = TrayIconBuilder::with_id("main")
-                .icon(app.default_window_icon().unwrap().clone())
+                .icon(
+                    app.default_window_icon()
+                        .expect("Tauri app must have a default window icon")
+                        .clone(),
+                )
                 .on_tray_icon_event(|tray, event| match event {
                     TrayIconEvent::Click {
                         button: MouseButton::Left,
@@ -170,6 +173,9 @@ pub fn run() {
                         // Focus the main window on left click
                         let app_handle = tray.app_handle();
                         if let Some(window) = app_handle.get_webview_window("main") {
+                            if let Err(error) = window.show() {
+                                eprintln!("[Tray] Failed to show dashboard: {error}");
+                            }
                             let _ = window.unminimize();
                             let _ = window.set_skip_taskbar(false);
                             let _ = window.set_focus();
@@ -188,6 +194,9 @@ pub fn run() {
                     }
                     "dashboard" => {
                         if let Some(window) = app.get_webview_window("main") {
+                            if let Err(error) = window.show() {
+                                eprintln!("[Tray] Failed to show dashboard: {error}");
+                            }
                             let _ = window.unminimize();
                             let _ = window.set_skip_taskbar(false);
                             let _ = window.set_focus();
@@ -238,12 +247,20 @@ pub fn run() {
                 }
             });
 
+            if app_commands::check_minimized_argument() != "minimized" {
+                if let Some(window) = app.get_webview_window("main") {
+                    if let Err(error) = window.show() {
+                        eprintln!("[Setup] Failed to show dashboard: {error}");
+                    }
+                }
+            }
+
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
-            greet,
-            check_minimized_argument,
+            app_commands::greet,
+            app_commands::check_minimized_argument,
             reminder_scheduler::skip_reminder,
             reminder_scheduler::refresh_reminder_scheduler_settings,
             reminder_scheduler::show_reminder_now,
@@ -268,10 +285,31 @@ pub fn run() {
             close_premium_nudge,
             open_activate_license,
             debug_preview_nudge_window,
+            task_reminders::show_task_reminder,
+            task_reminders::preview_task_reminder,
+            task_reminders::open_todo_from_alert,
+            task_reminders::complete_task_from_alert,
         ])
         .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_process::init())
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while building tauri application")
+        .run(|_app, _event| {
+            #[cfg(target_os = "macos")]
+            if let tauri::RunEvent::Reopen {
+                has_visible_windows: false,
+                ..
+            } = _event
+            {
+                if let Some(window) = _app.get_webview_window("main") {
+                    if let Err(error) = window
+                        .show()
+                        .and_then(|_| window.unminimize())
+                        .and_then(|_| window.set_focus())
+                    {
+                        eprintln!("[Window] Dock restoration failed: {error}");
+                    }
+                }
+            }
+        });
 }

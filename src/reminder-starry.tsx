@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import StarryBackground from "./components/backgrounds/StarryBackground";
+import { initI18n } from "./i18n";
 import {
   DeferredReminderOverlay,
   parseReminderWindowConfig,
@@ -20,8 +21,10 @@ const ReminderStarryBackground: React.FC = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+initI18n().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ReminderStarryBackground />
   </React.StrictMode>,
-);
+  );
+});

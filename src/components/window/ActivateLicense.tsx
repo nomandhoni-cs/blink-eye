@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import toast from "react-hot-toast";
@@ -14,6 +15,7 @@ import { generatePhrase } from "../../lib/namegenerator";
 import { Loader2Icon } from "lucide-react";
 import { useLicenseKey } from "../../hooks/useLicenseKey";
 import { useAccentColor } from "../../contexts/AccentColorContext";
+import { usePremiumFeatures } from "../../contexts/PremiumFeaturesContext";
 import {
   IoShieldCheckmark,
   IoKey,
@@ -90,6 +92,7 @@ function SettingRow({
 }
 
 const ActivateLicense = () => {
+  const { t } = useTranslation();
   const { accentHex } = useAccentColor();
   const [activationKey, setActivationKey] = useState("");
   const [userName, setUserName] = useState("");
@@ -99,14 +102,20 @@ const ActivateLicense = () => {
     validation: false,
   });
 
-  const { licenseData, refreshLicenseData } = useLicenseKey();
+  const {
+    licenseData,
+    loading: licenseLoading,
+    error: licenseError,
+    refreshLicenseData,
+  } = useLicenseKey();
+  const { refreshPremiumFeatures, isRefreshing } = usePremiumFeatures();
 
   const handleActivate = async (e: React.FormEvent) => {
     const instanceName = generatePhrase();
     e.preventDefault();
 
     if (!activationKey.trim()) {
-      toast.error("Please enter a license key");
+      toast.error(t("license.enterKey"));
       return;
     }
 
@@ -135,9 +144,10 @@ const ActivateLicense = () => {
 
       if (data.meta?.store_id === 134128 || data.meta?.store_id === 132851) {
         await storeLicenseData(data);
+        await refreshPremiumFeatures();
         console.log("License data stored successfully");
         refreshLicenseData();
-        toast.success("License activated successfully!", {
+        toast.success(t("license.activated"), {
           duration: 2000,
           position: "bottom-right",
         });
@@ -153,7 +163,7 @@ const ActivateLicense = () => {
       }
     } catch (error) {
       console.error("Activation error:", error);
-      toast.error("Failed to activate license. Please try again.", {
+      toast.error(t("license.failed"), {
         duration: 2000,
         position: "bottom-right",
       });
@@ -163,7 +173,7 @@ const ActivateLicense = () => {
   };
 
   const maskLicenseKey = (licenseKey: string): string => {
-    if (!licenseKey) return "No license found";
+    if (!licenseKey) return t("license.noLicenseFound");
     const segments = licenseKey.split("-");
     return segments
       .map((segment, index) => (index >= 1 && index <= 3 ? "XXXX" : segment))
@@ -176,13 +186,13 @@ const ActivateLicense = () => {
         await navigator.clipboard.writeText(licenseKey);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-        toast.success("License key copied!", {
+        toast.success(t("license.copied"), {
           duration: 2000,
           position: "bottom-right",
         });
       } catch (err) {
         console.error("Failed to copy text: ", err);
-        toast.error("Failed to copy license key to clipboard", {
+        toast.error(t("license.copyFailed"), {
           duration: 2000,
           position: "bottom-right",
         });
@@ -192,7 +202,9 @@ const ActivateLicense = () => {
 
   const isLicenseActive = licenseData?.status === "active";
   const isLicenseInactive =
-    licenseData?.status === "disabled" || licenseData?.status === "inactive";
+    licenseData?.status === "disabled" ||
+    licenseData?.status === "inactive" ||
+    licenseData?.status === "expired";
 
   return (
     <div className="space-y-5 p-2">
@@ -203,25 +215,52 @@ const ActivateLicense = () => {
               <IoShieldCheckmark className="size-4" />
             </SettingIconBadge>
           }
-          label="License status"
-          description="Your current Blink Eye license"
+          label={t("license.status")}
+          description={t("license.statusDesc")}
         >
-          {isLicenseActive ? (
+          <div role="status" className="flex flex-wrap items-center justify-end gap-2">
+          {licenseLoading ? (
+            <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+              <Loader2Icon className="size-3 animate-spin" />
+              {t("license.checking")}
+            </span>
+          ) : licenseError ? (
+            <>
+              <span className="text-xs text-muted-foreground">
+                {t("license.unableToCheck")}
+              </span>
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                disabled={isRefreshing}
+                onClick={() =>
+                  void Promise.all([refreshLicenseData(), refreshPremiumFeatures()])
+                }
+              >
+                {t("common.retry")}
+              </Button>
+            </>
+          ) : isLicenseActive ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-500">
               <IoShieldCheckmark className="size-3" />
-              ACTIVE
+              {t("license.active")}
             </span>
           ) : isLicenseInactive ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-xs font-semibold text-red-500">
               <IoWarning className="size-3" />
-              {licenseData?.status?.toUpperCase()}
+              {licenseData?.status === "expired"
+                ? t("license.expired")
+                : licenseData?.status === "disabled"
+                  ? t("license.disabled")
+                  : t("license.inactive")}
             </span>
           ) : (
             <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2.5 py-1 text-xs font-semibold text-muted-foreground">
-              <Loader2Icon className="size-3 animate-spin" />
-              CHECKING
+              {licenseData ? t("license.inactive") : t("license.noLicense")}
             </span>
           )}
+          </div>
         </SettingRow>
 
         <SettingRow
@@ -230,8 +269,8 @@ const ActivateLicense = () => {
               <IoKey className="size-4" />
             </SettingIconBadge>
           }
-          label="License key"
-          description="Click to copy your full key"
+          label={t("license.licenseKey")}
+          description={t("license.licenseKeyDesc")}
           controlClassName="flex w-full justify-end sm:min-w-[280px] sm:max-w-md"
         >
           <TooltipProvider>
@@ -246,7 +285,7 @@ const ActivateLicense = () => {
                   <span className="truncate font-mono text-xs font-medium">
                     {licenseData?.license_key
                       ? maskLicenseKey(licenseData.license_key)
-                      : "No license found"}
+                      : t("license.noLicenseFound")}
                   </span>
                   {licenseData?.license_key && (
                     <span className="shrink-0">
@@ -260,7 +299,7 @@ const ActivateLicense = () => {
                 </button>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="text-xs">
-                {copied ? "Copied!" : "Click to copy full key"}
+                {copied ? t("common.copied") : t("license.clickToCopy")}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -275,8 +314,8 @@ const ActivateLicense = () => {
                 <IoKey className="size-4" />
               </SettingIconBadge>
             }
-            label="Activate license"
-            description="Enter the key from your purchase email"
+            label={t("license.activateTitle")}
+            description={t("license.activateDesc")}
             controlClassName="flex w-full justify-end sm:min-w-[280px] sm:max-w-md"
           >
             <Input
@@ -284,7 +323,7 @@ const ActivateLicense = () => {
               id="activationKey"
               value={activationKey}
               onChange={(e) => setActivationKey(e.target.value)}
-              placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+              placeholder={t("license.keyPlaceholder")}
               disabled={loading.activation}
               className="bg-background/50 font-mono text-base"
             />
@@ -296,8 +335,8 @@ const ActivateLicense = () => {
                 <IoPerson className="size-4" />
               </SettingIconBadge>
             }
-            label="Your name"
-            description="Optional label for this device"
+            label={t("license.yourName")}
+            description={t("license.yourNameDesc")}
             controlClassName="flex w-full justify-end sm:min-w-[280px] sm:max-w-md"
           >
             <Input
@@ -305,7 +344,7 @@ const ActivateLicense = () => {
               id="userName"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              placeholder="John Doe"
+              placeholder={t("license.namePlaceholder")}
               disabled={loading.activation}
               className="bg-background/50 text-base"
             />
@@ -322,12 +361,12 @@ const ActivateLicense = () => {
             {loading.activation ? (
               <>
                 <Loader2Icon className="size-4 animate-spin" />
-                Activating...
+                {t("license.activating")}
               </>
             ) : (
               <>
                 <IoKey className="size-4" />
-                Activate license
+                {t("license.activateTitle")}
               </>
             )}
           </Button>
@@ -341,8 +380,8 @@ const ActivateLicense = () => {
               <IoBagHandle className="size-4" />
             </SettingIconBadge>
           }
-          label="My orders"
-          description="View purchases and retrieve lost license keys"
+          label={t("license.myOrders")}
+          description={t("license.myOrdersDesc")}
         >
           <Button asChild variant="secondary" size="sm" className="w-full sm:w-auto">
             <a
@@ -350,7 +389,7 @@ const ActivateLicense = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open
+              {t("license.open")}
               <IoOpenOutline className="ml-2 size-4" />
             </a>
           </Button>
@@ -362,8 +401,8 @@ const ActivateLicense = () => {
               <IoCard className="size-4" />
             </SettingIconBadge>
           }
-          label="Billing portal"
-          description="Manage subscriptions, invoices, and payments"
+          label={t("license.billingPortal")}
+          description={t("license.billingPortalDesc")}
         >
           <Button asChild variant="secondary" size="sm" className="w-full sm:w-auto">
             <a
@@ -371,7 +410,7 @@ const ActivateLicense = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open
+              {t("license.open")}
               <IoOpenOutline className="ml-2 size-4" />
             </a>
           </Button>

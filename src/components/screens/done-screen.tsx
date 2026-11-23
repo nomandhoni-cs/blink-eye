@@ -1,5 +1,6 @@
 // src/components/screens/done-screen.tsx
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   RiTimerFill,
   RiAlarmFill,
@@ -20,6 +21,7 @@ import { Badge } from "../ui/badge";
 import { enable, disable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { invoke } from "@tauri-apps/api/core";
 import { fetch } from "@tauri-apps/plugin-http";
+import { PRICING_URL } from "../../lib/links";
 
 interface DoneScreenProps {
   breakInterval: number;
@@ -37,32 +39,33 @@ interface DiscountData {
   description: string;
 }
 
-const features = [
-  {
-    icon: <RiCheckboxCircleFill className="w-4 h-4 text-primary" />,
-    title: "Todo List",
-    text: "Plan your day right from the break overlay.",
-  },
-  {
-    icon: <RiComputerFill className="w-4 h-4 text-primary" />,
-    title: "Screen Time",
-    text: "Track how long you've been at your screen.",
-  },
-  {
-    icon: <RiSparkling2Fill className="w-4 h-4 text-primary" />,
-    title: "Premium",
-    text: "Custom backgrounds, workday hours, and more.",
-  },
-];
-
 export default function DoneScreen({
   breakInterval,
   breakDuration,
   reminderText,
 }: DoneScreenProps) {
+  const { t } = useTranslation();
   const [autoStart, setAutoStart] = useState(true);
   const [discount, setDiscount] = useState<DiscountData | null>(null);
   const [discountLoading, setDiscountLoading] = useState(true);
+
+  const features = [
+    {
+      icon: <RiCheckboxCircleFill className="w-4 h-4 text-primary" />,
+      title: t("onboarding.featureTodoTitle"),
+      text: t("onboarding.featureTodoText"),
+    },
+    {
+      icon: <RiComputerFill className="w-4 h-4 text-primary" />,
+      title: t("onboarding.featureScreenTimeTitle"),
+      text: t("onboarding.featureScreenTimeText"),
+    },
+    {
+      icon: <RiSparkling2Fill className="w-4 h-4 text-primary" />,
+      title: t("onboarding.featurePremiumTitle"),
+      text: t("onboarding.featurePremiumText"),
+    },
+  ];
 
   // Default-on autostart: enable unless already enabled, user can opt out.
   useEffect(() => {
@@ -121,11 +124,10 @@ export default function DoneScreen({
         {/* Header */}
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-bold font-heading">
-            You're all set!
+            {t("onboarding.allSetTitle")}
           </h2>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Here's what Blink Eye will do for you — everything can be changed
-            later in Settings.
+            {t("onboarding.allSetSubtitle")}
           </p>
         </div>
 
@@ -133,17 +135,19 @@ export default function DoneScreen({
         <div className="flex items-center justify-center gap-2 flex-wrap">
           <Badge variant="secondary" className="gap-1.5">
             <RiTimerFill className="w-3 h-3" />
-            Every {breakInterval} min
+            {t("onboarding.everyMinutes", { minutes: breakInterval })}
           </Badge>
           <span className="text-muted-foreground text-xs">→</span>
           <Badge variant="secondary" className="gap-1.5">
             <RiAlarmFill className="w-3 h-3" />
-            {breakDuration} sec break
+            {t("onboarding.secondsBreak", { seconds: breakDuration })}
           </Badge>
           <span className="text-muted-foreground text-xs">→</span>
           <Badge variant="outline" className="gap-1.5 max-w-[200px]">
             <RiMessage2Fill className="w-3 h-3 shrink-0" />
-            <span className="truncate">{reminderText || "No message set"}</span>
+            <span className="truncate">
+              {reminderText || t("common.noMessageSet")}
+            </span>
           </Badge>
         </div>
 
@@ -178,10 +182,10 @@ export default function DoneScreen({
                 htmlFor="onboarding-autostart"
                 className="text-sm font-bold font-heading leading-none"
               >
-                Launch on startup
+                {t("onboarding.launchOnStartup")}
               </Label>
               <p className="text-xs text-muted-foreground">
-                Start Blink Eye automatically when you log in.
+                {t("onboarding.launchOnStartupDesc")}
               </p>
             </div>
           </div>
@@ -203,24 +207,23 @@ export default function DoneScreen({
               <div className="flex items-center space-x-2">
                 <RiHeartFill className="w-4 h-4 text-primary" />
                 <p className="text-xs text-foreground/70">
-                  Blink Eye is built by an indie developer. A license unlocks
-                  premium features forever.
+                  {t("onboarding.licenseUpsell")}
                 </p>
               </div>
               <a
-                href="https://blinkeye.app/en/pricing"
+                href={PRICING_URL}
                 target="_blank"
                 rel="noreferrer"
               >
                 <Button variant="outline" size="sm" className="shrink-0">
                   <RiExternalLinkFill className="w-3.5 h-3.5 mr-1.5" />
-                  Get License
+                  {t("common.getLicense")}
                 </Button>
               </a>
             </div>
           )}
           <p className="text-[11px] text-center text-foreground/40">
-            Already have a license key? Activate it inside the app after setup.
+            {t("onboarding.alreadyHaveLicense")}
           </p>
         </div>
       </div>
@@ -231,13 +234,14 @@ export default function DoneScreen({
 // ── Sub-components ────────────────────────────────────────────────────────────
 
 function CountdownTimer({ endDate }: { endDate: string }) {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
     const calculate = () => {
       const diff = new Date(endDate).getTime() - Date.now();
       if (diff <= 0) {
-        setTimeLeft("Expired");
+        setTimeLeft(t("common.expired"));
         return;
       }
       const d = Math.floor(diff / 864e5);
@@ -249,12 +253,13 @@ function CountdownTimer({ endDate }: { endDate: string }) {
     calculate();
     const id = setInterval(calculate, 1000);
     return () => clearInterval(id);
-  }, [endDate]);
+  }, [endDate, t]);
 
   return <span className="font-mono font-bold tabular-nums">{timeLeft}</span>;
 }
 
 function DiscountBanner({ discount }: { discount: DiscountData }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -272,11 +277,12 @@ function DiscountBanner({ discount }: { discount: DiscountData }) {
           <div className="flex items-center space-x-1.5">
             <RiSparkling2Fill className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary font-heading uppercase tracking-wide">
-              Limited Offer
+              {t("common.limitedOffer")}
             </span>
           </div>
           <div className="bg-primary text-primary-foreground text-xs font-black px-2 py-0.5 rounded-full font-heading">
-            {discount.percentage}% OFF
+            {discount.percentage}
+            {t("common.offPercent")}
           </div>
         </div>
 
@@ -294,26 +300,26 @@ function DiscountBanner({ discount }: { discount: DiscountData }) {
               {discount.couponCode}
             </span>
             <span className="text-[10px] text-foreground/50 group-hover:text-primary transition-colors">
-              {copied ? "✓ Copied!" : "tap to copy"}
+              {copied ? t("common.copiedCheck") : t("common.tapToCopy")}
             </span>
           </button>
 
           <div className="flex items-center space-x-1 text-foreground/60">
             <RiTimeFill className="w-3 h-3 text-primary shrink-0" />
-            <span className="text-[10px]">Ends in </span>
+            <span className="text-[10px]">{t("common.endsIn")} </span>
             <span className="text-[10px] text-primary">
               <CountdownTimer endDate={discount.endDate} />
             </span>
           </div>
 
           <a
-            href="https://blinkeye.app/en/pricing"
+            href={PRICING_URL}
             target="_blank"
             rel="noreferrer"
           >
             <Button size="sm" className="shrink-0">
               <RiExternalLinkFill className="w-3.5 h-3.5 mr-1.5" />
-              Get License
+              {t("common.getLicense")}
             </Button>
           </a>
         </div>

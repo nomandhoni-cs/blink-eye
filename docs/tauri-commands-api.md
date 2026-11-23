@@ -6,7 +6,7 @@ All commands are invoked from the frontend via `invoke("command_name", { ...args
 
 ## Architecture Overview
 
-The app has four Rust modules that expose Tauri commands:
+The app has seven Rust modules that expose Tauri commands:
 
 | Module | Responsibility | Commands |
 |--------|---------------|----------|
@@ -16,6 +16,7 @@ The app has four Rust modules that expose Tauri commands:
 | `data_backup.rs` | Export/import user data zip archives | 2 commands |
 | `snooze_tracker.rs` | Break streak and snooze limits | 2 commands |
 | `premium_nudge.rs` | Premium nudge eligibility, window spawning | 6 commands |
+| `task_reminders.rs` | Free task reminder scheduler, popup, todo navigation | 4 commands |
 
 **Data flow:**
 
@@ -28,7 +29,8 @@ Tauri IPC Bridge
   ▼
 Rust Commands
   ├── crypto.rs: encrypts/decrypts data, reads SQLite
-  ├── reminder_scheduler.rs: runs 1s tick loop, spawns windows
+  ├── reminder_scheduler.rs: runs 1s tick loop, spawns break windows
+  ├── task_reminders.rs: runs 30s tick loop, spawns task popups
   ├── data_backup.rs: zips/restores app data directory files
   └── lib.rs: manages tray menu, app lifecycle
 ```
@@ -86,6 +88,11 @@ reminder_scheduler.rs (tokio async loop, 1s tick)
   - [close_premium_nudge](#close_premium_nudge)
   - [open_activate_license](#open_activate_license)
   - [debug_preview_nudge_window](#debug_preview_nudge_window)
+- [task_reminders.rs](#task_remindersrs)
+  - [show_task_reminder](#show_task_reminder)
+  - [preview_task_reminder](#preview_task_reminder)
+  - [open_todo_from_alert](#open_todo_from_alert)
+  - [complete_task_from_alert](#complete_task_from_alert)
 
 ---
 
@@ -722,6 +729,84 @@ if (path && !Array.isArray(path)) {
 
 ---
 
+## task_reminders.rs
+
+All four commands are available to free users — to-dos and their reminders are
+not license-gated. `TaskReminderScheduler` owns the 30-second tick loop and all
+eligibility/de-duplication rules in Rust; React only persists tasks/settings,
+renders the popup and listens for `todo-updated`.
+
+### `show_task_reminder`
+
+```ts
+invoke("show_task_reminder", {
+  payload: {
+    taskId: number,
+    title: string,
+    messageKey: string,
+    kind: "due" | "before" | "nudge" | "preview",
+    dueAt?: string | null,
+    leadMinutes?: number | null,
+  },
+}) → void
+```
+
+`messageKey` is an i18n key (`taskAlert.dueMessage`, `taskAlert.beforeMessage`,
+`taskAlert.nudgeMessageA` …) resolved by the popup, so reminders follow the
+app's selected language. `leadMinutes` supplies the {{minutes}} interpolation
+for a "coming up" popup.
+
+Shows one transparent pill on the primary monitor, skipping when a break or
+pre-break alert is already open. An older task popup is replaced, never stacked.
+
+**Returns:** `void` on success, or error string on failure.
+
+---
+
+### `preview_task_reminder`
+
+```ts
+invoke("preview_task_reminder") → void
+```
+
+Shows the same popup with sample content, used by the "Preview pop-up" button
+in the Todo List so the reminder style can be checked before a task is due.
+
+**Returns:** `void` on success, or error string on failure.
+
+---
+
+### `open_todo_from_alert`
+
+```ts
+invoke("open_todo_from_alert") → void
+```
+
+Closes the popup, shows and focuses the main window, then emits
+`open-todo-list` so the router navigates to `/todoList`.
+
+**Returns:** `void` on success, or error string on failure.
+
+---
+
+### `complete_task_from_alert`
+
+```ts
+invoke("complete_task_from_alert", { taskId: number }) → void
+```
+
+Marks the task done in `UserLocalTodoList.db`, closes the popup, and emits
+`todo-updated` so the dashboard, list and break overlay refresh. It returns an
+error if the row no longer exists, so a stale popup cannot create a new task.
+
+**Parameters:**
+
+- `taskId` — id of the task to complete
+
+**Returns:** `void` on success, or error string on failure.
+
+---
+
 ## Database Schema
 
 ### `basicapplicationdata.db` → `user_data`
@@ -773,14 +858,15 @@ Generic key/value store for all app settings. Replaces the legacy Tauri `store.j
 | `previousblinkEyeReminderDuration` | number | `20` | Saved duration before Pomodoro |
 | `previousblinkEyeReminderInterval` | number | `20` | Saved interval before Pomodoro |
 | `pomodoroStyleBreak` | bool | `"false"` | Pomodoro mode flag |
-| `reminderBackgroundStyle` | string | `"default"` | Selected reminder background |
-| `reminderBackgroundStylePreview` | string | `"default"` | Preview-only reminder style |
+| `reminderBackgroundStyle` | string | `"shuffle"` | Selected reminder background. `shuffle` picks a different animated scene on every break (premium only; free/expired users always get `default`) |
+| `reminderBackgroundStylePreview` | string | `"shuffle"` | Preview-only reminder style, saved when a free user taps a theme card |
 | `screenSaverBackgroundStyle` | string | `"freesprit"` | Selected screensaver style |
 | `isRunOnStartUpEnabledByDefault` | bool | `"true"` | AutoStart once-enabled flag |
 | `usageTimeLimit` | number | `8` | Daily usage limit (hours) |
 | `screenOnTimeLimit` | number | `8` | Daily screen-on limit (hours) |
 | `usingStrictMode` | bool | `"false"` | Hide Skip button during break |
-| `useCircleProgressTimerStyle` | bool | `"true"` | Circular vs linear timer |
+| `reminderTimerStyle` | string | — (absent = from `useCircleProgressTimerStyle`) | Break countdown style: `circle`, `bar`, `dial`, or `vertical` |
+| `useCircleProgressTimerStyle` | bool | `"true"` | Legacy circle/bar switch; fallback when `reminderTimerStyle` is unset, kept in sync when the style is picked |
 | `isMultiMonitorEnabled` | bool | `"false"` | Show breaks on all monitors |
 | `isWorkdayEnabled` | bool | `"false"` | Restrict breaks to workday |
 | `isUpdateAvailable` | bool | `"false"` | Update available toast flag |
@@ -791,6 +877,39 @@ Generic key/value store for all app settings. Replaces the legacy Tauri `store.j
 | `premiumNudgeLastShownAt` | date | — | Last nudge show (YYYY-MM-DD) |
 | `premiumNudgeShowDates` | JSON | `[]` | Show-date history (YYYY-MM-DD array) |
 | `premiumNudgeSnoozedUntil` | date | — | Snooze end (YYYY-MM-DD) |
+| `todoTaskRemindersEnabled` | bool | `"true"` (absent = on) | Free task pop-ups kill-switch |
+| `todoQuietStartHour` | number | `22` | Quiet-hours start (inclusive, 0–23) |
+| `todoQuietEndHour` | number | `8` | Quiet-hours end (exclusive, 0–23) |
+
+### `UserLocalTodoList.db` → `todos`
+
+To-dos are free and local-only. `deadline` kept its legacy locale-string format
+for old rows; new rows store `YYYY-MM-DD`. `due_at` is the combined local
+datetime (`YYYY-MM-DDTHH:mm`) used by the reminder engine.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | `INTEGER` (PRIMARY KEY) | Task id |
+| `title` | `TEXT` | Task title |
+| `details` | `TEXT` | Optional notes |
+| `deadline` | `TEXT` | Optional due day |
+| `reminder_time` | `TEXT` | Optional `HH:mm` due time |
+| `due_at` | `TEXT` | Optional local ISO datetime for the reminder |
+| `status` | `TEXT` | `pending` or `done` |
+| `created_at` | `TEXT` | Creation timestamp |
+
+### `UserLocalTodoList.db` → `task_reminder_events`
+
+One row per task/kind/day. The primary key is the de-duplication guarantee for
+"never show the same reminder twice".
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `task_id` | `INTEGER` | Task id |
+| `kind` | `TEXT` | `due` or `nudge` |
+| `day` | `TEXT` | Local `YYYY-MM-DD` |
+| `action_key` | `TEXT` | `due_at|lead_minutes` for a scheduled popup, empty for a daily nudge; `kind` is `due:<action_key>` to keep occurrences distinct under the existing primary key |
+| `created_at` | `TEXT` | Timestamp |
 
 ---
 

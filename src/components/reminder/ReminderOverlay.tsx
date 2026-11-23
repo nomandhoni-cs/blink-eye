@@ -1,8 +1,7 @@
 import React, { lazy, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getCurrentWebviewWindow, WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import toast, { Toaster } from "react-hot-toast";
-import { Ticker } from "@tombcato/smart-ticker";
-import "@tombcato/smart-ticker/style.css";
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import * as path from "@tauri-apps/api/path";
 import { Progress } from "../ui/progress";
@@ -10,6 +9,24 @@ import CurrentTime from "../CurrentTime";
 import ScreenOnTime from "../ScreenOnTime";
 import { Button } from "../ui/button";
 import { ChevronsRight, CloudDownload } from "lucide-react";
+import { CountdownNumerals } from "./CountdownNumerals";
+import { EdgeDialTimer } from "./EdgeDialTimer";
+import { VerticalBarTimer } from "./VerticalBarTimer";
+import {
+  barDigitSize,
+  circleDigitSize,
+  dialDigitSize,
+  messageSize,
+  splashSize,
+  verticalDigitSize,
+} from "./timerLayout";
+import {
+  formatClock,
+  isTimerStyle,
+  loadTimerStyle,
+  useViewportSize,
+  type TimerStyle,
+} from "./timerStyle";
 
 const TodayTodoTasks = lazy(() =>
   import("../TodayTodoTasks").then((module) => ({
@@ -20,7 +37,7 @@ const TodayTodoTasks = lazy(() =>
 type WindowConfig = {
   reminderText?: string;
   isStrictMode?: boolean;
-  useCircleTimer?: boolean;
+  timerStyle?: string;
   durationSecs?: number;
   screenTimeHours?: number;
   screenTimeMinutes?: number;
@@ -43,15 +60,17 @@ function parseWindowConfig(): WindowConfig {
  * Scheduling lives in Rust (`skip_reminder`, etc.).
  */
 const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState<number>(20);
   const [reminderDuration, setReminderDuration] = useState<number>(20);
   const [reminderText, setReminderText] = useState<string>("");
   const [isStrictMode, setIsStrictMode] = useState<boolean>(false);
-  const [useCircleTimer, setUseCircleTimer] = useState<boolean>(false);
+  const [timerStyle, setTimerStyle] = useState<TimerStyle>("circle");
   const [screenTime, setScreenTime] = useState({ hours: 0, minutes: 0 });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [countdownStarted, setCountdownStarted] = useState<boolean>(false);
   const [canSnooze, setCanSnooze] = useState(true);
+  const { width: vw, height: vh } = useViewportSize();
 
   const finishBreak = async (snoozed: boolean) => {
     const currentWin = getCurrentWebviewWindow();
@@ -61,7 +80,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
     } catch (error) {
       console.error("[ReminderOverlay] skip_reminder failed:", error);
       if (snoozed) {
-        toast.error("Snooze limit reached for this session or today.", {
+        toast.error(t("reminderOverlay.snoozeLimit"), {
           duration: 2500,
           position: "bottom-right",
         });
@@ -119,20 +138,17 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
           "";
         setReminderText(text);
 
-        const [strict, circle] = await Promise.all([
+        const [strict, style] = await Promise.all([
           urlConfig.isStrictMode ??
             invoke<boolean>("get_config_bool", {
               key: "usingStrictMode",
               defaultValue: false,
             }),
-          urlConfig.useCircleTimer ??
-            invoke<boolean>("get_config_bool", {
-              key: "useCircleProgressTimerStyle",
-              defaultValue: true,
-            }),
+          // Previews don't pass a style in the URL; read the saved one.
+          urlConfig.timerStyle ?? loadTimerStyle(),
         ]);
         setIsStrictMode(strict);
-        setUseCircleTimer(circle);
+        setTimerStyle(isTimerStyle(style) ? style : "circle");
 
         setScreenTime({
           hours: urlConfig.screenTimeHours ?? 0,
@@ -147,7 +163,7 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
           }));
 
         if (updateAvailable) {
-          toast.success("Update available!", {
+          toast.success(t("reminderOverlay.updateAvailable"), {
             duration: 2000,
             position: "bottom-right",
             icon: <CloudDownload />,
@@ -206,44 +222,81 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
   const progressPercentage =
     reminderDuration > 0 ? (timeLeft / reminderDuration) * 100 : 0;
   const displayText =
-    reminderText || "Pause! Look into the distance, and best if you walk a bit.";
+    reminderText || t("reminderOverlay.defaultMessage");
+  // The value one second ago, so changed digits can roll out.
+  const lastSecond =
+    countdownStarted && timeLeft < reminderDuration ? timeLeft + 1 : undefined;
   const paddedTime = String(timeLeft).padStart(2, "0");
+  const paddedLastSecond =
+    lastSecond === undefined ? undefined : String(lastSecond).padStart(2, "0");
+  const clockTime = formatClock(timeLeft);
+  const clockLastSecond =
+    lastSecond === undefined ? undefined : formatClock(lastSecond);
 
-  return (
-    <div className="absolute inset-0 z-10">
-      <div className="relative flex h-full w-full flex-col items-center justify-center px-4">
-        {isLoading ? (
-          <div className="text-[12rem] font-heading font-semibold tracking-wide">
-            Ready?
-          </div>
-        ) : !useCircleTimer ? (
-          <div className="flex h-full w-full flex-col items-center">
-            <div className="absolute top-[40%] flex -translate-y-1/2 transform flex-col items-center animate-in">
-              <div className="flex items-end font-heading text-[240px] leading-none">
-                <Ticker
+  const glassSkipButton = !isStrictMode && canSnooze && (
+    <Button
+      onClick={handleSnooze}
+      variant="outline"
+      className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
+    >
+      <ChevronsRight className="mr-1 h-5 w-5" />
+      {t("reminderOverlay.skipThisTime")}
+    </Button>
+  );
+
+  // Every countdown size is derived from the live viewport, so the same
+  // overlay fits a 1366x768 laptop, a scaled-down window, or a 4K display.
+  // Seconds-based timers show `20` or `300`; clock timers always show `MM:SS`.
+  const secondsGlyphs = paddedTime.length;
+  const digitSize = {
+    bar: barDigitSize(vw, vh, secondsGlyphs),
+    circle: circleDigitSize(vw, vh, secondsGlyphs),
+    dial: dialDigitSize(vw, vh),
+    vertical: verticalDigitSize(vw, vh),
+  };
+  const messageFontSize = messageSize(vw, vh);
+  const splashFontSize = splashSize(vw, vh);
+  const vmin = Math.min(vw, vh);
+  // Ring diameter for the circle timer: a fraction of the short side, capped
+  // so it always leaves room for the message and the skip button.
+  const ringSize = Math.round(Math.min(vmin * 0.62, 480));
+
+  const renderTimer = () => {
+    switch (timerStyle) {
+      case "bar":
+        return (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-[6vh]">
+            <div className="animate-in flex flex-col items-center">
+              <div
+                className="flex items-end leading-none"
+                style={{ fontSize: digitSize.bar }}
+              >
+                <CountdownNumerals
                   value={paddedTime}
-                  duration={700}
-                  easing="easeInOut"
-                  characterLists={["0123456789"]}
-                  charWidth={0.8}
-                  className="!font-heading tabular-nums"
+                  previous={paddedLastSecond}
                 />
-                <span className="mb-8 ml-2 font-sans text-5xl font-medium opacity-70">
+                <span
+                  className="ml-[0.08em] font-sans font-medium opacity-70"
+                  style={{ fontSize: "0.24em", marginBottom: "0.34em" }}
+                >
                   s
                 </span>
               </div>
-              <div className="mt-2 w-96">
+              <div className="mt-2 w-[min(24rem,60vw)]">
                 <Progress value={progressPercentage} />
               </div>
             </div>
 
-            <div className="absolute top-[70%] flex -translate-y-1/2 transform flex-col items-center space-y-4 animate-in">
+            <div className="animate-in flex flex-col items-center space-y-4">
               <div className="flex items-center justify-center space-x-4 font-sans text-lg font-medium opacity-80">
                 <CurrentTime />
                 <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
                 <ScreenOnTime timeCount={screenTime} />
               </div>
-              <div className="max-w-screen-md px-4 pb-4 text-center text-5xl font-heading font-medium">
+              <div
+                className="max-w-screen-md px-4 pb-4 text-center font-heading font-medium"
+                style={{ fontSize: messageFontSize }}
+              >
                 {displayText}
               </div>
               <div className="flex space-x-4">
@@ -252,7 +305,9 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                     onClick={handleSnooze}
                     className="flex transform items-center space-x-2 rounded-full bg-[#FE4C55] px-6 font-sans text-base transition-transform hover:scale-105 hover:bg-[#e9464e]"
                   >
-                    <span className="text-base font-medium">Skip this Time</span>
+                    <span className="text-base font-medium">
+                      {t("reminderOverlay.skipThisTime")}
+                    </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -266,9 +321,79 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               </div>
             </div>
           </div>
-        ) : (
+        );
+
+      case "dial":
+        return (
+          <>
+            <EdgeDialTimer
+              timeLeft={timeLeft}
+              duration={reminderDuration}
+              running={countdownStarted}
+            />
+            <div className="relative flex max-w-[80vw] flex-col items-center text-center animate-in fade-in">
+              <CountdownNumerals
+                value={clockTime}
+                previous={clockLastSecond}
+                className="leading-[0.8]"
+                style={{ fontSize: digitSize.dial }}
+              />
+              <p
+                className="mt-[4vh] max-w-[60vw] text-balance font-heading font-semibold leading-tight tracking-tight"
+                style={{ fontSize: messageFontSize }}
+              >
+                {displayText}
+              </p>
+              <div className="mt-[2.5vh] mb-[3.5vh] flex items-center justify-center space-x-4 font-sans text-lg font-medium opacity-60">
+                <CurrentTime />
+                <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
+                <ScreenOnTime timeCount={screenTime} />
+              </div>
+              {glassSkipButton}
+            </div>
+          </>
+        );
+
+      case "vertical":
+        return (
+          <div className="grid h-full w-full grid-cols-[1fr_auto_1fr] items-center gap-[7vmin] animate-in fade-in">
+            <div className="flex justify-end">
+              <CountdownNumerals
+                value={clockTime}
+                previous={clockLastSecond}
+                className="leading-[0.8]"
+                style={{ fontSize: digitSize.vertical }}
+              />
+            </div>
+            <VerticalBarTimer
+              timeLeft={timeLeft}
+              duration={reminderDuration}
+              running={countdownStarted}
+            />
+            <div className="flex max-w-[34vw] flex-col items-start">
+              <p
+                className="text-balance font-heading font-semibold leading-tight tracking-tight"
+                style={{ fontSize: messageFontSize }}
+              >
+                {displayText}
+              </p>
+              <div className="mt-[2.5vh] mb-[3.5vh] flex flex-wrap items-center gap-x-4 gap-y-1 font-sans text-lg font-medium opacity-60">
+                <CurrentTime />
+                <div className="h-1.5 w-1.5 rounded-full bg-black/40 dark:bg-white/40" />
+                <ScreenOnTime timeCount={screenTime} />
+              </div>
+              {glassSkipButton}
+            </div>
+          </div>
+        );
+
+      default:
+        return (
           <div className="flex min-h-screen flex-col items-center justify-center p-4">
-            <div className="relative mb-8 h-96 w-96">
+            <div
+              className="relative mb-[4vh]"
+              style={{ height: ringSize, width: ringSize }}
+            >
               <svg className="h-full w-full -rotate-90" viewBox="0 0 110 110">
                 <circle
                   className="stroke-black/10 transition-colors dark:stroke-white/10"
@@ -292,19 +417,21 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
                   cy="55"
                 />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-[160px] leading-none">
-                <Ticker
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center leading-none"
+                style={{ fontSize: digitSize.circle }}
+              >
+                <CountdownNumerals
                   value={paddedTime}
-                  duration={700}
-                  easing="easeInOut"
-                  characterLists={["0123456789"]}
-                  charWidth={0.8}
-                  className="!font-heading tabular-nums"
+                  previous={paddedLastSecond}
                 />
               </div>
             </div>
 
-            <div className="mb-6 w-full max-w-screen-2xl text-center text-6xl font-heading font-semibold">
+            <div
+              className="mb-6 w-full max-w-screen-2xl text-center font-heading font-semibold"
+              style={{ fontSize: messageFontSize }}
+            >
               {displayText}
             </div>
 
@@ -314,21 +441,35 @@ const ReminderOverlay: React.FC<{ isPremium: boolean }> = ({ isPremium }) => {
               <ScreenOnTime timeCount={screenTime} />
             </div>
 
-            {!isStrictMode && canSnooze && (
-              <Button
-                onClick={handleSnooze}
-                variant="outline"
-                className="rounded-full border border-white/20 bg-white/5 font-sans font-medium opacity-90 shadow-lg backdrop-blur-2xl transition-all hover:scale-105 hover:bg-white/10"
-              >
-                <ChevronsRight className="mr-1 h-5 w-5" />
-                Skip this time
-              </Button>
-            )}
+            {glassSkipButton}
           </div>
+        );
+    }
+  };
+
+  return (
+    <div className="absolute inset-0 z-10">
+      <div className="relative flex h-full w-full flex-col items-center justify-center px-4">
+        {isLoading ? (
+          <div
+            className="font-heading font-semibold tracking-wide"
+            style={{ fontSize: splashFontSize }}
+          >
+            Ready?
+          </div>
+        ) : (
+          renderTimer()
         )}
       </div>
 
-      {isPremium && !isLoading && <TodayTodoTasks />}
+      {/* To-dos are free for everyone, including the break overlay. */}
+      {!isLoading && (
+        <TodayTodoTasks
+          className={
+            timerStyle === "dial" ? "bottom-[8vmin] right-[8vmin]" : undefined
+          }
+        />
+      )}
       <Toaster />
     </div>
   );
