@@ -396,6 +396,9 @@ Exact alarm + full-screen intent / `SYSTEM_ALERT_WINDOW` overlay + foreground
 service with persistent notification. Off by default, clear disclosure, separate
 Play declaration. Never gate the MVP on it.
 
+> **Start here instead:** [`mobile-blink-eye-master-plan.md`](./mobile-blink-eye-master-plan.md)
+> — the consolidated plan, knowledge graph and decision log.
+>
 > **See also:** [`mobile-blocking-playbook.md`](./mobile-blocking-playbook.md) — the
 > full breakdown of every blocking mechanism on iOS and Android, how Opal does it,
 > and the escalation ladder from notification to OS-level shield.

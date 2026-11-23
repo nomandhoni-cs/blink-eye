@@ -1,5 +1,6 @@
 # How to Actually Stop the User — The Complete Mobile Blocking Playbook
 
+**Start here instead:** [`mobile-blink-eye-master-plan.md`](./mobile-blink-eye-master-plan.md) — the consolidated plan and knowledge graph.
 **Companion to:** [`mobile-expo-feasibility.md`](./mobile-expo-feasibility.md)
 **Question answered:** *"How do I design a mobile app that blocks the user from scrolling and reminds them to take a break? What are all the ways? And how does Opal do it?"*
 
