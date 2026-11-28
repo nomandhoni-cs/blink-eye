@@ -96,7 +96,7 @@ export function TableOfContents({ entries, mobile = false }: Props) {
   }
 
   return (
-    <nav className="sticky top-24">
+    <nav>
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 px-3">
         On this page
       </p>
