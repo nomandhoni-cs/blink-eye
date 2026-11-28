@@ -45,17 +45,11 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: Omit<Props, "children">) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  const rawKeywords = t.raw("keywords");
-  const keywords = Array.isArray(rawKeywords)
-    ? rawKeywords.join(", ")
-    : rawKeywords;
-
   return {
     title: t("appName") + " - " + t("title"),
     metadataBase: new URL(SEO.url),
     applicationName: t("appName"),
     description: t("description"),
-    keywords,
     manifest: `${SEO.url}/site.webmanifest`,
     openGraph: {
       locale: locale,

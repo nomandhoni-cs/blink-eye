@@ -14,6 +14,24 @@ import { extractToc } from "@/lib/toc";
 import { TableOfContents } from "@/app/_components/table-of-contents";
 import { SidebarPromotion } from "@/app/_components/sidebar-promotion";
 
+function removeLeadingH1(markdown: string) {
+  const lines = markdown.split(/\r?\n/);
+  let firstContentLine = 0;
+
+  while (firstContentLine < lines.length && !lines[firstContentLine].trim()) {
+    firstContentLine += 1;
+  }
+
+  if (/^#\s+/.test(lines[firstContentLine] || "")) {
+    lines.splice(firstContentLine, 1);
+    while (firstContentLine < lines.length && !lines[firstContentLine].trim()) {
+      lines.splice(firstContentLine, 1);
+    }
+  }
+
+  return lines.join("\n");
+}
+
 export default async function Post(props: Params) {
   const params = await props.params;
   const { locale, slug } = params;
@@ -24,30 +42,50 @@ export default async function Post(props: Params) {
     return notFound();
   }
 
-  const content = await markdownToHtml(post.content || "");
-  const stats = readingTime(post.content || "");
-  const toc = extractToc(post.content || "");
+  // The page title is already rendered as the article's H1. Remove an optional
+  // leading Markdown H1 from the body so the document has one clear main title.
+  const articleMarkdown = removeLeadingH1(post.content || "");
+  const content = await markdownToHtml(articleMarkdown);
+  const stats = readingTime(articleMarkdown);
+  const toc = extractToc(articleMarkdown);
+  const canonicalUrl = `${SEO.url}/en/posts/${post.slug}`;
 
-  // JSON-LD structured data for SEO
+  // BlogPosting data mirrors the visible article and helps crawlers identify
+  // the canonical URL, author, publisher, publication date, and lead image.
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
     headline: post.title,
     description: post.excerpt,
-    image: post.ogImage.url,
+    image: [post.ogImage.url],
     datePublished: post.date,
+    ...(post.dateModified ? { dateModified: post.dateModified } : {}),
     author: {
       "@type": "Person",
       name: post.author.name,
       image: post.author.picture,
     },
+    publisher: {
+      "@type": "Organization",
+      name: "Blink Eye",
+      url: SEO.url,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SEO.url}/logo.png`,
+      },
+    },
   };
+  const jsonLdText = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 
   return (
     <main className="min-h-screen">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdText }}
       />
 
       <Container>
@@ -106,16 +144,30 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     namespace: "Metadata",
   });
   const title = `${post.title} | ${t("appName")}`;
+  const canonicalUrl = `${SEO.url}/en/posts/${post.slug}`;
 
   return {
     title,
     description: post.excerpt,
-    keywords: post.keywords,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
+      type: "article",
       title,
-      images: [post.ogImage.url],
+      description: post.excerpt,
+      images: [{ url: post.ogImage.url, alt: post.title }],
       siteName: t("appName"),
-      url: SEO.url,
+      url: canonicalUrl,
+      publishedTime: post.date,
+      ...(post.dateModified ? { modifiedTime: post.dateModified } : {}),
+      authors: [post.author.name],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: post.excerpt,
+      images: [post.ogImage.url],
     },
   };
 }

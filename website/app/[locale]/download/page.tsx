@@ -61,7 +61,6 @@ export const generateMetadata = async ({
       description:
         "Download Break Reminder, Eye Care Reminder app for Linux, MacOS, Windows",
       applicationName: SEO.title,
-      keywords: SEO.keywords,
       openGraph: {
         title: "Download",
         description:

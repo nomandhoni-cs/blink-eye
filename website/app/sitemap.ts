@@ -1,5 +1,5 @@
 import { routing } from "@/i18n/routing";
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import { SEO } from "@/configs/seo";
 import { getAllPosts } from "@/lib/api";
 import { getReleases } from "@/lib/releases";
@@ -22,45 +22,42 @@ const localizedRoutes = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const releases = await getReleases();
-  const posts = getAllPosts();
+  const [releases, posts] = await Promise.all([getReleases(), getAllPosts()]);
 
-  const localizedPages = routing.locales.flatMap((locale) =>
+  const localizedPages: MetadataRoute.Sitemap = routing.locales.flatMap((locale) =>
     localizedRoutes.map((route) => ({
       url: `${SEO.url}/${locale}${route}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: route === "" ? 1 : 0.9,
     })),
   );
+
+  const latestPostDate = posts.reduce<Date | undefined>((latest, post) => {
+    const modified = new Date(post.dateModified || post.date);
+    return !latest || modified > latest ? modified : latest;
+  }, undefined);
+  const latestReleaseDate = releases.reduce<Date | undefined>((latest, release) => {
+    const published = new Date(release.published_at);
+    return !latest || published > latest ? published : latest;
+  }, undefined);
 
   const englishContentPages: MetadataRoute.Sitemap = [
     {
       url: `${SEO.url}/en/blogs`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
+      ...(latestPostDate ? { lastModified: latestPostDate } : {}),
     },
     {
       url: `${SEO.url}/en/changelog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
+      ...(latestReleaseDate ? { lastModified: latestReleaseDate } : {}),
     },
   ];
 
   const postRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${SEO.url}/en/posts/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: "weekly",
-    priority: 0.8,
+    lastModified: new Date(post.dateModified || post.date),
   }));
 
   const releaseRoutes: MetadataRoute.Sitemap = releases.map((release) => ({
     url: `${SEO.url}/en/changelog/release/${release.tag_name}`,
     lastModified: new Date(release.published_at),
-    changeFrequency: "weekly",
-    priority: 0.8,
   }));
 
   return [...localizedPages, ...englishContentPages, ...postRoutes, ...releaseRoutes];

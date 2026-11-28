@@ -3,10 +3,21 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getReleases } from "@/lib/releases";
+import { SEO } from "@/configs/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations({ locale: "en", namespace: "Metadata" });
-  return { title: `Changelog - ${t("appName")}` };
+  const title = `Changelog - ${t("appName")}`;
+  return {
+    title,
+    alternates: { canonical: `${SEO.url}/en/changelog` },
+    openGraph: {
+      title,
+      url: `${SEO.url}/en/changelog`,
+      siteName: t("appName"),
+      type: "website",
+    },
+  };
 }
 
 // Release notes are published in English; generate only the canonical English route.

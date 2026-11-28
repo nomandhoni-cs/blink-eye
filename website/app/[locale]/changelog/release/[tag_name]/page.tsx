@@ -14,6 +14,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getRelease, getReleases } from "@/lib/releases";
+import { SEO } from "@/configs/seo";
 
 // Release notes are English-only; generate one static page per release.
 export async function generateStaticParams() {
@@ -33,10 +34,20 @@ export async function generateMetadata({
   setRequestLocale("en");
   const release = await getRelease(tag_name);
   const t = await getTranslations({ locale: "en", namespace: "ReleaseInfo" });
+  const canonicalUrl = `${SEO.url}/en/changelog/release/${release.tag_name}`;
+  const title = t("metaTitle", { tag: release.tag_name });
+  const description = release.body?.slice(0, 160);
 
   return {
-    title: t("metaTitle", { tag: release.tag_name }),
-    description: release.body?.slice(0, 160),
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: "article",
+    },
   };
 }
 

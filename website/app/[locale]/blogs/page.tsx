@@ -1,6 +1,7 @@
 import Blogs from "@/components/Blogs";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { SEO } from "@/configs/seo";
 
 // Blog index content is English-only; do not emit duplicate locale routes.
 export function generateStaticParams() {
@@ -23,11 +24,13 @@ export const generateMetadata = async ({
 
     return {
       title: t("title") + " | " + appInfo("appName"),
+      alternates: { canonical: `${SEO.url}/en/blogs` },
       description: t("description"),
       openGraph: {
         title: t("title") + " | " + appInfo("appName"),
         description: t("description"),
         type: "website",
+        url: `${SEO.url}/en/blogs`,
       },
     };
   } catch (e) {
@@ -35,6 +38,7 @@ export const generateMetadata = async ({
     return {
       title: "Blogs - Blink Eye",
       description: "Read the latest news and updates from the Blink Eye team.",
+      alternates: { canonical: `${SEO.url}/en/blogs` },
       openGraph: {
         title: "Blogs - Blink Eye",
         description:
