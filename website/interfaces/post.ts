@@ -4,7 +4,8 @@ export type Post = {
   slug: string;
   title: string;
   date: string;
-  keywords: string[];
+  dateModified?: string;
+  keywords: string | string[];
   coverImage: string;
   author: Author;
   excerpt: string;
@@ -13,4 +14,10 @@ export type Post = {
   };
   content: string;
   preview?: boolean;
+  promotion?: false | {
+    title?: string;
+    description?: string;
+    buttonText?: string;
+    buttonHref?: string;
+  };
 };

@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
 
 interface CommandProps {
   children?: React.ReactNode;
@@ -65,7 +65,7 @@ export default function Command({
             )}
             <span className="text-gray-300 dark:text-zinc-600">|</span>
             <Link
-              href="/changelog"
+              href="/en/changelog"
               className="text-gray-500 dark:text-zinc-400 hover:text-[#FE4C55] dark:hover:text-[#FE4C55] font-medium transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-zinc-600 hover:decoration-[#FE4C55]"
             >
               Release Notes

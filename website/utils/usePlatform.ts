@@ -11,7 +11,13 @@ export function usePlatform(): Platform {
     const ua = navigator.userAgent.toLowerCase();
     const plat = navigator.platform?.toLowerCase() || "";
 
-    if (plat.includes("mac") || ua.includes("mac")) {
+    const isMobileDevice =
+      /android|iphone|ipad|ipod/.test(ua) ||
+      (plat === "macintel" && navigator.maxTouchPoints > 1);
+
+    if (isMobileDevice) {
+      setPlatform("unknown");
+    } else if (plat.includes("mac") || ua.includes("mac")) {
       setPlatform("mac");
     } else if (plat.includes("win") || ua.includes("win")) {
       setPlatform("windows");

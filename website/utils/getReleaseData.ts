@@ -1,7 +1,12 @@
 //utils/getReleaseData.ts
 import { ReleaseData } from "./github-fetch-types";
 
-export const getDownloadLinks = (assets: ReleaseData["assets"]) => {
+type DownloadAsset = Pick<
+  ReleaseData["assets"][number],
+  "name" | "browser_download_url"
+>;
+
+export const getDownloadLinks = (assets: DownloadAsset[]) => {
   return {
     windowsSetup:
       assets.find(

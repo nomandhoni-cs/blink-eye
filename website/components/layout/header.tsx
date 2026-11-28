@@ -47,13 +47,13 @@ export const Header = () => {
               { href: "/features", label: t("features") },
               { href: "/about", label: t("about") },
               { href: "/pricing", label: t("pricing") },
-              { href: "/changelog", label: t("release") },
-              { href: "/posts/contribute", label: t("contribute") },
-              { href: "/blogs", label: t("blogs") },
+              { href: "/en/changelog", label: t("release") },
+              { href: "/en/posts/contribute", label: t("contribute") },
+              { href: "/en/blogs", label: t("blogs") },
             ].map(({ href, label }) => (
               <Link
                 key={label}
-                href={!href ? "#" : `/${locale}${href}`}
+                href={href.startsWith("/en/") ? href : `/${locale}${href}`}
                 className="px-3 py-2 text-sm font-medium transition-colors hover:text-foreground/80"
               >
                 {label}
@@ -93,13 +93,13 @@ export const Header = () => {
               { href: "/features", label: t("features") },
               { href: "/about", label: t("about") },
               { href: "/pricing", label: t("pricing") },
-              { href: "/changelog", label: t("release") },
-              { href: "/posts/contribute", label: t("contribute") },
-              { href: "/blogs", label: t("blogs") },
+              { href: "/en/changelog", label: t("release") },
+              { href: "/en/posts/contribute", label: t("contribute") },
+              { href: "/en/blogs", label: t("blogs") },
             ].map(({ href, label }) => (
               <Link
                 key={label}
-                href={!href ? "#" : `/${locale}${href}`}
+                href={href.startsWith("/en/") ? href : `/${locale}${href}`}
                 className="text-sm font-medium transition-colors hover:text-foreground/80"
               >
                 {label}

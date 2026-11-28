@@ -31,6 +31,12 @@ const navigation = {
   ],
 };
 
+function getNavigationHref(locale: string, path: string) {
+  return path === "changelog" || path.startsWith("posts/")
+    ? `/en/${path}`
+    : `/${locale}/${path}`;
+}
+
 export const Footer = () => {
   const locale = useLocale();
   const currentYear = getCurrentYear();
@@ -117,7 +123,7 @@ export const Footer = () => {
               {navigation.product.map((item) => (
                 <li key={item.link}>
                   <Link
-                    href={`/${locale}/${item.link}`}
+                    href={getNavigationHref(locale, item.link)}
                     className="text-sm text-muted-foreground hover:text-[#FE4C55] transition-colors"
                   >
                     {item.name}
@@ -133,7 +139,7 @@ export const Footer = () => {
               {navigation.resources.map((item) => (
                 <li key={item.link}>
                   <Link
-                    href={`/${locale}/${item.link}`}
+                    href={getNavigationHref(locale, item.link)}
                     className="text-sm text-muted-foreground hover:text-[#FE4C55] transition-colors"
                   >
                     {item.name}
@@ -149,7 +155,7 @@ export const Footer = () => {
               {navigation.company.map((item) => (
                 <li key={item.link}>
                   <Link
-                    href={`/${locale}/${item.link}`}
+                    href={getNavigationHref(locale, item.link)}
                     className="text-sm text-muted-foreground hover:text-[#FE4C55] transition-colors"
                   >
                     {item.name}

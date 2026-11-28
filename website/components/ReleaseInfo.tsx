@@ -1,5 +1,5 @@
 
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
 import VersionTolatDownloads from "./VersionTolatDownloads";
 
 interface ReleaseInfoProps {
@@ -13,7 +13,7 @@ const ReleaseInfo = ({ tagName, totalDownloads }: ReleaseInfoProps) => {
             <div className="flex items-center gap-4 mb-6">
                 <div className="h-px flex-1 bg-linear-to-r from-transparent via-gray-300 dark:via-zinc-700 to-gray-300 dark:to-zinc-700"></div>
                 <Link
-                    href="/changelog"
+                    href="/en/changelog"
                     className="shrink-0 text-gray-800 dark:text-zinc-200 font-semibold hover:text-[#FE4C55] dark:hover:text-[#FE4C55] transition-colors duration-300"
                 >
                     Release Notes

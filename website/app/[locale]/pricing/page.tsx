@@ -37,7 +37,6 @@ export const generateMetadata = async ({
       title: "Pricing",
       description: "See which plan is right for you and start using.",
       applicationName: SEO.title,
-      keywords: SEO.keywords,
       openGraph: {
         locale: "en",
         title: "Pricing",

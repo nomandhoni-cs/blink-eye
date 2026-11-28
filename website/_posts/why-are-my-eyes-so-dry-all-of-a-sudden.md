@@ -9,6 +9,11 @@ author:
   picture: "https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdZT8ddjm1DAJj4rLcIU0t8PKSXMxTZOyQYdbC"
 ogImage:
   url: "https://p2myfh92qq.ufs.sh/f/93hqarYp4cDdeYuyUwAGUrMQKVoXBI75tih4E9gWPzmLdf16"
+promotion:
+  title: "Make screen breaks part of your routine"
+  description: "Blink Eye can remind you to step away regularly and practice the 20-20-20 rule while you work."
+  buttonText: "Download Blink Eye for free"
+  buttonHref: "/en/download"
 ---
   
 # Why I Feel My Eyes Are Dry Lately?

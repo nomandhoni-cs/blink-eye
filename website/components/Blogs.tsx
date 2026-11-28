@@ -7,6 +7,8 @@ export default function Blogs() {
 
   const heroPost = allPosts[0];
 
+  if (!heroPost) return null;
+
   const morePosts = allPosts.slice(1);
   return (
     <section className="px-4 py-16 mx-auto max-w-7xl">
