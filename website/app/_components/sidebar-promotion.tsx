@@ -33,6 +33,23 @@ export function SidebarPromotion() {
           rel="noopener noreferrer"
           className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#205d49] transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#28745b]"
         >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 48 48"
+            className="h-5 w-5 shrink-0"
+          >
+            <circle cx="24" cy="24" r="22" fill="#FBBC05" />
+            <path
+              fill="#EA4335"
+              d="M24 24 4.95 13A22 22 0 0 1 43.05 13H24a11 11 0 0 0-9.53 5.5L24 24Z"
+            />
+            <path
+              fill="#34A853"
+              d="M24 24 13 43A22 22 0 0 1 4.95 13l9.52 16.5A11 11 0 0 0 24 35V24Z"
+            />
+            <circle cx="24" cy="24" r="11" fill="white" />
+            <circle cx="24" cy="24" r="8.5" fill="#4285F4" />
+          </svg>
           Add to Chrome <ArrowUpRight className="h-4 w-4" />
         </a>
         <p className="mt-2 text-center text-xs text-white/75">

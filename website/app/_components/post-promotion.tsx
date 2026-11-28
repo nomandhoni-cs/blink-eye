@@ -1,7 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Download } from "lucide-react";
 import type { Post } from "@/interfaces/post";
+import {
+  PlatformDownloadButton,
+  type PlatformDownloads,
+} from "@/app/_components/platform-download-button";
 
 const defaultPromotion = {
   title: "Give your eyes a healthier screen-time routine",
@@ -11,7 +13,13 @@ const defaultPromotion = {
   buttonHref: "/en/download",
 };
 
-export function PostPromotion({ promotion }: { promotion: Post["promotion"] }) {
+export function PostPromotion({
+  promotion,
+  downloads,
+}: {
+  promotion: Post["promotion"];
+  downloads: PlatformDownloads;
+}) {
   if (promotion === false) return null;
 
   const content = { ...defaultPromotion, ...promotion };
@@ -46,13 +54,11 @@ export function PostPromotion({ promotion }: { promotion: Post["promotion"] }) {
           </div>
         </div>
 
-        <Link
-          href={content.buttonHref}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#FE4C55] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e83b45] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FE4C55] focus-visible:ring-offset-2"
-        >
-          <Download aria-hidden="true" className="h-4 w-4" />
-          {content.buttonText}
-        </Link>
+        <PlatformDownloadButton
+          downloads={downloads}
+          fallbackHref={content.buttonHref}
+          buttonText={content.buttonText}
+        />
       </div>
     </aside>
   );

@@ -13,6 +13,8 @@ import readingTime from "reading-time";
 import { extractToc } from "@/lib/toc";
 import { TableOfContents } from "@/app/_components/table-of-contents";
 import { SidebarPromotion } from "@/app/_components/sidebar-promotion";
+import { getReleases } from "@/lib/releases";
+import { getDownloadLinks } from "@/utils/getReleaseData";
 
 function removeLeadingH1(markdown: string) {
   const lines = markdown.split(/\r?\n/);
@@ -41,6 +43,9 @@ export default async function Post(props: Params) {
   if (!post) {
     return notFound();
   }
+
+  const latestRelease = (await getReleases())[0];
+  const downloadLinks = getDownloadLinks(latestRelease?.assets ?? []);
 
   // The page title is already rendered as the article's H1. Remove an optional
   // leading Markdown H1 from the body so the document has one clear main title.
@@ -108,7 +113,7 @@ export default async function Post(props: Params) {
             </div>
 
             <PostBody content={content} />
-            <PostPromotion promotion={post.promotion} />
+            <PostPromotion promotion={post.promotion} downloads={downloadLinks} />
           </article>
 
           {/* Desktop TOC: sticky sidebar */}
