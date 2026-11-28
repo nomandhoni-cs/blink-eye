@@ -30,8 +30,8 @@ export function PostPromotion({
         aria-hidden="true"
         className="pointer-events-none absolute -right-14 -top-20 h-64 w-64 rounded-full bg-[#FE4C55]/10 blur-3xl"
       />
-      <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-        <div className="flex items-start gap-4 sm:items-center">
+      <div className="relative grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,1fr)_250px] md:items-center md:gap-8">
+        <div className="flex min-w-0 items-start gap-4 md:items-center">
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/80 shadow-sm">
             <Image
               src="/newlogo.svg"
