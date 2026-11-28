@@ -8,10 +8,11 @@ import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SEO } from "@/configs/seo";
-import { routing } from "@/i18n/routing";
+import { PostPromotion } from "@/app/_components/post-promotion";
 import readingTime from "reading-time";
 import { extractToc } from "@/lib/toc";
 import { TableOfContents } from "@/app/_components/table-of-contents";
+import { SidebarPromotion } from "@/app/_components/sidebar-promotion";
 
 export default async function Post(props: Params) {
   const params = await props.params;
@@ -69,11 +70,15 @@ export default async function Post(props: Params) {
             </div>
 
             <PostBody content={content} />
+            <PostPromotion promotion={post.promotion} />
           </article>
 
           {/* Desktop TOC: sticky sidebar */}
-          <aside className="hidden xl:block w-64 shrink-0">
-            <TableOfContents entries={toc} />
+          <aside className="hidden xl:block w-72 shrink-0">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1">
+              <TableOfContents entries={toc} />
+              <SidebarPromotion />
+            </div>
           </aside>
         </div>
       </Container>
@@ -97,7 +102,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
   }
 
   const t = await getTranslations({
-    locale: params.locale,
+    locale: "en",
     namespace: "Metadata",
   });
   const title = `${post.title} | ${t("appName")}`;
@@ -115,15 +120,12 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
   };
 }
 
+// Blog content is authored in English, so create one canonical route per post.
 export async function generateStaticParams() {
-  const posts = getAllPosts();
-
-  return posts.flatMap((post) =>
-    routing.locales.map((locale) => ({
-      locale,
-      slug: post.slug,
-    }))
-  );
+  return getAllPosts().map((post) => ({
+    locale: "en",
+    slug: post.slug,
+  }));
 }
 
 export const dynamic = "force-static";

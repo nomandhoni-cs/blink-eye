@@ -24,8 +24,12 @@ export function LocaleToggle() {
 
     // Get the current path segments after the locale
     const pathSegments = pathname.split("/").slice(2);
-    // Create new path with the selected locale and the rest of the path
-    const newPath = `/${newLocale}/${pathSegments.join("/")}`;
+    // Blog posts and release notes exist only in English. Switching locales
+    // from one of these routes returns to the selected locale's home page.
+    const englishOnlySections = ["blogs", "posts", "changelog"];
+    const newPath = englishOnlySections.includes(pathSegments[0])
+      ? `/${newLocale}`
+      : `/${newLocale}/${pathSegments.join("/")}`;
     router.push(newPath);
   };
 

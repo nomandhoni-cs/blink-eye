@@ -40,10 +40,8 @@ type Props = {
 export const dynamic = "force-static";
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
-
+// Keep locale generation at the page level. This lets English-only content
+// opt into a single locale instead of inheriting a locale-wide static matrix.
 export async function generateMetadata({ params }: Omit<Props, "children">) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });

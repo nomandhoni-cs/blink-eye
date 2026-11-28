@@ -2,35 +2,13 @@ import { routing } from "@/i18n/routing";
 import { MetadataRoute } from "next";
 import { SEO } from "@/configs/seo";
 import { getAllPosts } from "@/lib/api";
+import { getReleases } from "@/lib/releases";
 
 export const dynamic = "force-static";
 
-interface Release {
-  tag_name: string;
-}
-
-// Fetch releases from GitHub API
-async function fetchReleases(): Promise<Release[]> {
-  const res = await fetch(
-    "https://api.github.com/repos/nomandhoni-cs/blink-eye/releases",
-    {
-      cache: "force-cache",
-      headers: {
-        Authorization: `Bearer ${process.env.BLINK_EYE_WEBSITE_TOKEN}`,
-      },
-    },
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch releases");
-  }
-
-  const data = await res.json();
-  return data;
-}
-
-// Predefined routes
-const routes = [
+// Routes with locale-specific copy. Blog and release notes are intentionally
+// excluded here because their source content is English-only.
+const localizedRoutes = [
   "",
   "/goodbye",
   "/about",
@@ -40,48 +18,50 @@ const routes = [
   "/contribute",
   "/privacy",
   "/pricing",
-  "/changelog",
   "/howblinkeyehelps",
-  "/blogs",
 ];
 
-// Sitemap generation function
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = SEO.url;
-  const releases = await fetchReleases();
+  const releases = await getReleases();
   const posts = getAllPosts();
-  const postRoutes = posts.flatMap((post) =>
-    routing.locales.map((locale) => ({
-      url: `${SEO.url}/${locale}/posts/${post.slug}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })),
-  );
 
-  // Generate release-specific routes
-  const releaseRoutes = releases.flatMap((release) =>
-    routing.locales.map((locale) => ({
-      url: `${SEO.url}/${locale}/changelog/release/${release.tag_name}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })),
-  );
-
-  // Generate routes for all locales
-  const localeRoutes = routing.locales.flatMap((locale) =>
-    routes.map((route) => ({
-      url: `${baseUrl}/${locale}${route}`,
+  const localizedPages = routing.locales.flatMap((locale) =>
+    localizedRoutes.map((route) => ({
+      url: `${SEO.url}/${locale}${route}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: route === "" ? 1 : 0.9,
     })),
   );
 
-  return [
-    ...localeRoutes, // Include all routes for all locales
-    ...releaseRoutes,
-    ...postRoutes,
+  const englishContentPages: MetadataRoute.Sitemap = [
+    {
+      url: `${SEO.url}/en/blogs`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SEO.url}/en/changelog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
   ];
+
+  const postRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${SEO.url}/en/posts/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  const releaseRoutes: MetadataRoute.Sitemap = releases.map((release) => ({
+    url: `${SEO.url}/en/changelog/release/${release.tag_name}`,
+    lastModified: new Date(release.published_at),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...localizedPages, ...englishContentPages, ...postRoutes, ...releaseRoutes];
 }

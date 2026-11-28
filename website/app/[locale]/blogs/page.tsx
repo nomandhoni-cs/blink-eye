@@ -1,10 +1,10 @@
 import Blogs from "@/components/Blogs";
-import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+// Blog index content is English-only; do not emit duplicate locale routes.
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return [{ locale: "en" }];
 }
 
 export const dynamic = "force-static";

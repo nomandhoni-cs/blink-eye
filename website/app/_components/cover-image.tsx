@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 
@@ -23,7 +23,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
   return (
     <div className="sm:mx-0">
       {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
+        <Link href={`/en/posts/${slug}`} aria-label={title}>
           {image}
         </Link>
       ) : (

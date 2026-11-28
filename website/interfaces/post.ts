@@ -13,4 +13,10 @@ export type Post = {
   };
   content: string;
   preview?: boolean;
+  promotion?: false | {
+    title?: string;
+    description?: string;
+    buttonText?: string;
+    buttonHref?: string;
+  };
 };
